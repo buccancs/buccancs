@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/resolver/NoopAddressResolverGroup.java
+// Size: 674 bytes
+// Modified: 2025-10-21 16:32:07.065732200 +0100
+
+package io.grpc.netty.shaded.io.netty.resolver;
+
+import io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutor;
+import java.net.SocketAddress;
+
+/* loaded from: classes3.dex */
+public final class NoopAddressResolverGroup extends AddressResolverGroup<SocketAddress> {
+    public static final NoopAddressResolverGroup INSTANCE = new NoopAddressResolverGroup();
+
+    private NoopAddressResolverGroup() {
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.resolver.AddressResolverGroup
+    protected AddressResolver<SocketAddress> newResolver(EventExecutor eventExecutor) throws Exception {
+        return new NoopAddressResolver(eventExecutor);
+    }
+}

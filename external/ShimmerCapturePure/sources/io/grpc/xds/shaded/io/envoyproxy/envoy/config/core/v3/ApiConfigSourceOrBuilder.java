@@ -1,0 +1,59 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ApiConfigSource;
+
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public interface ApiConfigSourceOrBuilder extends MessageOrBuilder {
+    ApiConfigSource.ApiType getApiType();
+
+    int getApiTypeValue();
+
+    String getClusterNames(int i);
+
+    ByteString getClusterNamesBytes(int i);
+
+    int getClusterNamesCount();
+
+    /* renamed from: getClusterNamesList */
+    List<String> mo21515getClusterNamesList();
+
+    GrpcService getGrpcServices(int i);
+
+    int getGrpcServicesCount();
+
+    List<GrpcService> getGrpcServicesList();
+
+    GrpcServiceOrBuilder getGrpcServicesOrBuilder(int i);
+
+    List<? extends GrpcServiceOrBuilder> getGrpcServicesOrBuilderList();
+
+    RateLimitSettings getRateLimitSettings();
+
+    RateLimitSettingsOrBuilder getRateLimitSettingsOrBuilder();
+
+    Duration getRefreshDelay();
+
+    DurationOrBuilder getRefreshDelayOrBuilder();
+
+    Duration getRequestTimeout();
+
+    DurationOrBuilder getRequestTimeoutOrBuilder();
+
+    boolean getSetNodeOnFirstMessageOnly();
+
+    ApiVersion getTransportApiVersion();
+
+    int getTransportApiVersionValue();
+
+    boolean hasRateLimitSettings();
+
+    boolean hasRefreshDelay();
+
+    boolean hasRequestTimeout();
+}

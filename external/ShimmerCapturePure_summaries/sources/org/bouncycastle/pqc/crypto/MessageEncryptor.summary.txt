@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/MessageEncryptor.java
+// Size: 407 bytes
+// Modified: 2025-10-21 16:32:01.030769300 +0100
+
+package org.bouncycastle.pqc.crypto;
+
+import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.InvalidCipherTextException;
+
+/* loaded from: classes5.dex */
+public interface MessageEncryptor {
+    void init(boolean z, CipherParameters cipherParameters);
+
+    byte[] messageDecrypt(byte[] bArr) throws InvalidCipherTextException;
+
+    byte[] messageEncrypt(byte[] bArr);
+}

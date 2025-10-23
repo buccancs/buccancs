@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/math/ec/WTauNafPreCompInfo.java
+// Size: 433 bytes
+// Modified: 2025-10-21 16:32:05.008853300 +0100
+
+package org.bouncycastle.math.ec;
+
+import org.bouncycastle.math.ec.ECPoint;
+
+/* loaded from: classes5.dex */
+public class WTauNafPreCompInfo implements PreCompInfo {
+    protected ECPoint.AbstractF2m[] preComp = null;
+
+    public ECPoint.AbstractF2m[] getPreComp() {
+        return this.preComp;
+    }
+
+    public void setPreComp(ECPoint.AbstractF2m[] abstractF2mArr) {
+        this.preComp = abstractF2mArr;
+    }
+}

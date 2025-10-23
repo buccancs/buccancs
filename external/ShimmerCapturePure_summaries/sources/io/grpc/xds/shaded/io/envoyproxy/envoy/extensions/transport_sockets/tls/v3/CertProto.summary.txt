@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/extensions/transport_sockets/tls/v3/CertProto.java
+// Size: 1620 bytes
+// Modified: 2025-10-21 16:32:07.838761500 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import udpa.annotations.Status;
+
+/* loaded from: classes4.dex */
+public final class CertProto {
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n4envoy/extensions/transport_sockets/tls/v3/cert.proto\u0012)envoy.extensions.transport_sockets.tls.v3\u001a\u001dudpa/annotations/status.proto\u001a6envoy/extensions/transport_sockets/tls/v3/common.proto\u001a6envoy/extensions/transport_sockets/tls/v3/secret.proto\u001a3envoy/extensions/transport_sockets/tls/v3/tls.protoBF\n7io.envoyproxy.envoy.extensions.transport_sockets.tls.v3B\tCertProtoP\u0001P\u0001P\u0002P\u0003b\u0006proto3"}, new Descriptors.FileDescriptor[]{Status.getDescriptor(), CommonProto.getDescriptor(), SecretProto.getDescriptor(), TlsProto.getDescriptor()});
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    private CertProto() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        Status.getDescriptor();
+        CommonProto.getDescriptor();
+        SecretProto.getDescriptor();
+        TlsProto.getDescriptor();
+    }
+}

@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/ocsp/jcajce/JcaBasicOCSPRespBuilder.java
+// Size: 616 bytes
+// Modified: 2025-10-21 16:32:10.012405300 +0100
+
+package org.bouncycastle.cert.ocsp.jcajce;
+
+import java.security.PublicKey;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
+import org.bouncycastle.cert.ocsp.BasicOCSPRespBuilder;
+import org.bouncycastle.cert.ocsp.OCSPException;
+import org.bouncycastle.operator.DigestCalculator;
+
+/* loaded from: classes5.dex */
+public class JcaBasicOCSPRespBuilder extends BasicOCSPRespBuilder {
+    public JcaBasicOCSPRespBuilder(PublicKey publicKey, DigestCalculator digestCalculator) throws OCSPException {
+        super(SubjectPublicKeyInfo.getInstance(publicKey.getEncoded()), digestCalculator);
+    }
+}

@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/io/JsonEOFException.java
+// Size: 627 bytes
+// Modified: 2025-10-21 16:32:07.261016100 +0100
+
+package com.fasterxml.jackson.core.io;
+
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.core.JsonToken;
+
+/* loaded from: classes.dex */
+public class JsonEOFException extends JsonParseException {
+    private static final long serialVersionUID = 1;
+    protected final JsonToken _token;
+
+    public JsonToken getTokenBeingDecoded() {
+        return this._token;
+    }
+
+    public JsonEOFException(JsonParser jsonParser, JsonToken jsonToken, String str) {
+        super(jsonParser, str);
+        this._token = jsonToken;
+    }
+}

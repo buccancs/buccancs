@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/ClientTransport.java
+// Size: 662 bytes
+// Modified: 2025-10-21 16:32:04.914088000 +0100
+
+package io.grpc.internal;
+
+import io.grpc.CallOptions;
+import io.grpc.InternalChannelz;
+import io.grpc.InternalInstrumented;
+import io.grpc.Metadata;
+import io.grpc.MethodDescriptor;
+import java.util.concurrent.Executor;
+
+/* loaded from: classes2.dex */
+public interface ClientTransport extends InternalInstrumented<InternalChannelz.SocketStats> {
+
+    public interface PingCallback {
+        void onFailure(Throwable th);
+
+        void onSuccess(long j);
+    }
+
+    ClientStream newStream(MethodDescriptor<?, ?> methodDescriptor, Metadata metadata, CallOptions callOptions);
+
+    void ping(PingCallback pingCallback, Executor executor);
+}

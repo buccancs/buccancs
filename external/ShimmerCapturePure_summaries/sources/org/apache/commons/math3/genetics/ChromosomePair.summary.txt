@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/genetics/ChromosomePair.java
+// Size: 599 bytes
+// Modified: 2025-10-21 16:32:02.895692200 +0100
+
+package org.apache.commons.math3.genetics;
+
+/* loaded from: classes5.dex */
+public class ChromosomePair {
+    private final Chromosome first;
+    private final Chromosome second;
+
+    public Chromosome getFirst() {
+        return this.first;
+    }
+
+    public Chromosome getSecond() {
+        return this.second;
+    }
+
+    public ChromosomePair(Chromosome chromosome, Chromosome chromosome2) {
+        this.first = chromosome;
+        this.second = chromosome2;
+    }
+
+    public String toString() {
+        return String.format("(%s,%s)", getFirst(), getSecond());
+    }
+}

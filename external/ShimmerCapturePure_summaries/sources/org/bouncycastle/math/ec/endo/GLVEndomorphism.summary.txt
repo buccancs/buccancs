@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/math/ec/endo/GLVEndomorphism.java
+// Size: 227 bytes
+// Modified: 2025-10-21 16:32:01.867825900 +0100
+
+package org.bouncycastle.math.ec.endo;
+
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public interface GLVEndomorphism extends ECEndomorphism {
+    BigInteger[] decomposeScalar(BigInteger bigInteger);
+}

@@ -1,0 +1,128 @@
+package com.shimmerresearch.driver.calibration;
+
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
+
+/* loaded from: classes2.dex */
+public class CalibArraysKinematic implements Serializable {
+    private static final long serialVersionUID = -6799425106976911611L;
+    public double[][] mOffsetVector = null;
+    public double[][] mSensitivityMatrix = null;
+    public double[][] mAlignmentMatrix = null;
+    public double[][] mMatrixMultipliedInverseAMSM = null;
+    private long mCalibTime = 0;
+    private double[][] mMatrixInverseAlignmentMatrix = null;
+    private double[][] mMatrixInverseSensitivityMatrix = null;
+
+    public CalibArraysKinematic() {
+    }
+
+    public CalibArraysKinematic(double[][] dArr, double[][] dArr2, double[][] dArr3) {
+        setValues(dArr, dArr2, dArr3);
+    }
+
+    public long getCalibTime() {
+        return this.mCalibTime;
+    }
+
+    public void setCalibTime(long j) {
+        this.mCalibTime = j;
+    }
+
+    public boolean isCurrentValuesSet() {
+        return (this.mAlignmentMatrix == null || this.mSensitivityMatrix == null || this.mOffsetVector == null) ? false : true;
+    }
+
+    public boolean isOffsetVectorValid() {
+        return true;
+    }
+
+    public void setOffsetVector(double[][] dArr) {
+        this.mOffsetVector = dArr;
+    }
+
+    public void updateOffsetVector(double d, double d2, double d3) {
+        double[][] dArr = (double[][]) Array.newInstance((Class<?>) Double.TYPE, 3, 1);
+        dArr[0][0] = d;
+        dArr[1][0] = d2;
+        dArr[2][0] = d3;
+        setOffsetVector(dArr);
+    }
+
+    public void updateSensitivityMatrix(double d, double d2, double d3) {
+        double[][] dArr = (double[][]) Array.newInstance((Class<?>) Double.TYPE, 3, 3);
+        dArr[0][0] = d;
+        dArr[1][1] = d2;
+        dArr[2][2] = d3;
+        setSensitivityMatrix(dArr);
+    }
+
+    public void updateAlignmentMatrix(double d, double d2, double d3, double d4, double d5, double d6, double d7, double d8, double d9) {
+        double[][] dArr = (double[][]) Array.newInstance((Class<?>) Double.TYPE, 3, 3);
+        double[] dArr2 = dArr[0];
+        dArr2[0] = d;
+        dArr2[1] = d2;
+        dArr2[2] = d3;
+        double[] dArr3 = dArr[1];
+        dArr3[0] = d4;
+        dArr3[1] = d5;
+        dArr3[2] = d6;
+        double[] dArr4 = dArr[2];
+        dArr4[0] = d7;
+        dArr4[1] = d8;
+        dArr4[2] = d9;
+        setAlignmentMatrix(dArr);
+    }
+
+    public void setValues(double[][] dArr, double[][] dArr2, double[][] dArr3) {
+        setOffsetVector(dArr);
+        setSensitivityMatrix(dArr2);
+        setAlignmentMatrix(dArr3);
+    }
+
+    public void setSensitivityMatrix(double[][] dArr) {
+        this.mSensitivityMatrix = dArr;
+        double[][] dArrMatrixInverse3x3 = UtilCalibration.matrixInverse3x3(dArr);
+        this.mMatrixInverseSensitivityMatrix = dArrMatrixInverse3x3;
+        this.mMatrixMultipliedInverseAMSM = UtilCalibration.matrixMultiplication(this.mMatrixInverseAlignmentMatrix, dArrMatrixInverse3x3);
+    }
+
+    public void setAlignmentMatrix(double[][] dArr) {
+        this.mAlignmentMatrix = dArr;
+        double[][] dArrMatrixInverse3x3 = UtilCalibration.matrixInverse3x3(dArr);
+        this.mMatrixInverseAlignmentMatrix = dArrMatrixInverse3x3;
+        this.mMatrixMultipliedInverseAMSM = UtilCalibration.matrixMultiplication(dArrMatrixInverse3x3, this.mMatrixInverseSensitivityMatrix);
+    }
+
+    public boolean isAlignmentValid() {
+        return (UtilShimmer.isAllZeros(this.mAlignmentMatrix) || UtilShimmer.isAnyValueOutsideRange(this.mAlignmentMatrix, 1)) ? false : true;
+    }
+
+    public boolean isSensitivityValid() {
+        return isDiagonalFilled(this.mSensitivityMatrix);
+    }
+
+    public boolean isDiagonalFilled(double[][] dArr) {
+        if (dArr == null) {
+            return false;
+        }
+        int i = 0;
+        boolean z = true;
+        while (true) {
+            double[] dArr2 = dArr[1];
+            if (i >= dArr2.length) {
+                return z;
+            }
+            if (dArr[0][i] == 0.0d && dArr2[i] == 0.0d && dArr[2][i] == 0.0d) {
+                z = false;
+            }
+            i++;
+        }
+    }
+
+    public boolean isAllCalibrationValid() {
+        return isAlignmentValid() && isSensitivityValid() && isOffsetVectorValid();
+    }
+}

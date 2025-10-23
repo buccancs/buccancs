@@ -1,0 +1,146 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/testing/TestUtils.java
+// Size: 6000 bytes
+// Modified: 2025-10-21 16:32:03.146730100 +0100
+
+package io.grpc.internal.testing;
+
+import com.google.common.base.Throwables;
+import io.grpc.internal.ConscryptLoader;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.UnknownHostException;
+import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+import java.security.Provider;
+import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
+
+/* loaded from: classes2.dex */
+public class TestUtils {
+    public static final String TEST_SERVER_HOST = "foo.test.google.fr";
+    private static boolean conscryptInstallAttempted;
+
+    public static InetSocketAddress testServerAddress(String str, int i) {
+        try {
+            return new InetSocketAddress(InetAddress.getByAddress(TEST_SERVER_HOST, InetAddress.getByName(str).getAddress()), i);
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static InetSocketAddress testServerAddress(InetSocketAddress inetSocketAddress) {
+        try {
+            return new InetSocketAddress(InetAddress.getByAddress(TEST_SERVER_HOST, InetAddress.getByName("localhost").getAddress()), inetSocketAddress.getPort());
+        } catch (UnknownHostException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static List<String> preferredTestCiphers() {
+        try {
+            String[] cipherSuites = SSLContext.getDefault().getDefaultSSLParameters().getCipherSuites();
+            ArrayList arrayList = new ArrayList();
+            for (String str : cipherSuites) {
+                if (!str.contains("_GCM_")) {
+                    arrayList.add(str);
+                }
+            }
+            return Collections.unmodifiableList(arrayList);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public static File loadCert(String str) throws IOException {
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(TestUtils.class.getResourceAsStream("/certs/" + str));
+        File fileCreateTempFile = File.createTempFile(str, "");
+        fileCreateTempFile.deleteOnExit();
+        BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(new FileOutputStream(fileCreateTempFile));
+        while (true) {
+            try {
+                int i = bufferedInputStream.read();
+                if (i != -1) {
+                    bufferedOutputStream.write(i);
+                } else {
+                    bufferedOutputStream.flush();
+                    return fileCreateTempFile;
+                }
+            } finally {
+                bufferedInputStream.close();
+                bufferedOutputStream.close();
+            }
+        }
+    }
+
+    public static X509Certificate loadX509Cert(String str) throws IOException, CertificateException {
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+        InputStream resourceAsStream = TestUtils.class.getResourceAsStream("/certs/" + str);
+        try {
+            return (X509Certificate) certificateFactory.generateCertificate(resourceAsStream);
+        } finally {
+            resourceAsStream.close();
+        }
+    }
+
+    public static void installConscryptIfAvailable() {
+        if (conscryptInstallAttempted) {
+            return;
+        }
+        if (System.mapLibraryName("test").endsWith(".dll")) {
+            conscryptInstallAttempted = true;
+            return;
+        }
+        if (!ConscryptLoader.isPresent()) {
+            conscryptInstallAttempted = true;
+            return;
+        }
+        try {
+            Security.addProvider(ConscryptLoader.newProvider());
+            conscryptInstallAttempted = true;
+        } catch (Throwable th) {
+            Throwable rootCause = Throwables.getRootCause(th);
+            if (!(rootCause instanceof UnsatisfiedLinkError) || rootCause.getMessage() == null || !rootCause.getMessage().contains("GLIBC_2.14")) {
+                throw new RuntimeException("Could not create Conscrypt provider", th);
+            }
+            conscryptInstallAttempted = true;
+        }
+    }
+
+    public static SSLSocketFactory newSslSocketFactoryForCa(Provider provider, File file) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        keyStore.load(null, null);
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
+        try {
+            X509Certificate x509Certificate = (X509Certificate) certificateFactory.generateCertificate(bufferedInputStream);
+            keyStore.setCertificateEntry(x509Certificate.getSubjectX500Principal().getName("RFC2253"), x509Certificate);
+            bufferedInputStream.close();
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            SSLContext sSLContext = SSLContext.getInstance("TLS", provider);
+            sSLContext.init(null, trustManagerFactory.getTrustManagers(), null);
+            return sSLContext.getSocketFactory();
+        } catch (Throwable th) {
+            bufferedInputStream.close();
+            throw th;
+        }
+    }
+
+    private TestUtils() {
+    }
+}

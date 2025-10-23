@@ -1,0 +1,19 @@
+package org.apache.commons.math3.stat.interval;
+
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class AgrestiCoullInterval implements BinomialConfidenceInterval {
+    @Override // org.apache.commons.math3.stat.interval.BinomialConfidenceInterval
+    public ConfidenceInterval createInterval(int i, int i2, double d) throws OutOfRangeException {
+        IntervalUtils.checkParameters(i, i2, d);
+        double dInverseCumulativeProbability = new NormalDistribution().inverseCumulativeProbability(1.0d - ((1.0d - d) / 2.0d));
+        double dPow = FastMath.pow(dInverseCumulativeProbability, 2);
+        double d2 = 1.0d / (i + dPow);
+        double d3 = (i2 + (dPow * 0.5d)) * d2;
+        double dSqrt = dInverseCumulativeProbability * FastMath.sqrt(d2 * d3 * (1.0d - d3));
+        return new ConfidenceInterval(d3 - dSqrt, d3 + dSqrt, d);
+    }
+}

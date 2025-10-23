@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/ConscryptCertStore.java
+// Size: 317 bytes
+// Modified: 2025-10-21 16:32:00.667855000 +0100
+
+package org.conscrypt;
+
+import java.security.cert.X509Certificate;
+import java.util.Set;
+
+/* loaded from: classes5.dex */
+public interface ConscryptCertStore {
+    Set<X509Certificate> findAllIssuers(X509Certificate x509Certificate);
+
+    X509Certificate getTrustAnchor(X509Certificate x509Certificate);
+}

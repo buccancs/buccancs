@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/protocol/SyncBasicHttpContext.java
+// Size: 1058 bytes
+// Modified: 2025-10-21 16:32:03.295025400 +0100
+
+package org.apache.http.protocol;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class SyncBasicHttpContext extends BasicHttpContext {
+    public SyncBasicHttpContext(HttpContext httpContext) {
+        super(httpContext);
+    }
+
+    public SyncBasicHttpContext() {
+    }
+
+    @Override // org.apache.http.protocol.BasicHttpContext, org.apache.http.protocol.HttpContext
+    public synchronized Object getAttribute(String str) {
+        return super.getAttribute(str);
+    }
+
+    @Override // org.apache.http.protocol.BasicHttpContext, org.apache.http.protocol.HttpContext
+    public synchronized void setAttribute(String str, Object obj) {
+        super.setAttribute(str, obj);
+    }
+
+    @Override // org.apache.http.protocol.BasicHttpContext, org.apache.http.protocol.HttpContext
+    public synchronized Object removeAttribute(String str) {
+        return super.removeAttribute(str);
+    }
+
+    @Override // org.apache.http.protocol.BasicHttpContext
+    public synchronized void clear() {
+        super.clear();
+    }
+}

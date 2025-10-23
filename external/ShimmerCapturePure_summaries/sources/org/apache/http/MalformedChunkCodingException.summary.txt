@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/MalformedChunkCodingException.java
+// Size: 374 bytes
+// Modified: 2025-10-21 16:32:00.691135900 +0100
+
+package org.apache.http;
+
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public class MalformedChunkCodingException extends IOException {
+    private static final long serialVersionUID = 2158560246948994524L;
+
+    public MalformedChunkCodingException() {
+    }
+
+    public MalformedChunkCodingException(String str) {
+        super(str);
+    }
+}

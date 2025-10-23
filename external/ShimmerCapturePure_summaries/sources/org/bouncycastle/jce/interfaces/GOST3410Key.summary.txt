@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/interfaces/GOST3410Key.java
+// Size: 149 bytes
+// Modified: 2025-10-21 16:32:01.861305900 +0100
+
+package org.bouncycastle.jce.interfaces;
+
+/* loaded from: classes5.dex */
+public interface GOST3410Key {
+    GOST3410Params getParameters();
+}

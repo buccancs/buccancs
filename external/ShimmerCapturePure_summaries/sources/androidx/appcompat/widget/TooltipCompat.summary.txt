@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/widget/TooltipCompat.java
+// Size: 704 bytes
+// Modified: 2025-10-21 16:32:03.654627700 +0100
+
+package androidx.appcompat.widget;
+
+import android.os.Build;
+import android.view.View;
+
+/* loaded from: classes.dex */
+public class TooltipCompat {
+    public static void setTooltipText(View view, CharSequence charSequence) {
+        if (Build.VERSION.SDK_INT >= 26) {
+            Api26Impl.setTooltipText(view, charSequence);
+        } else {
+            TooltipCompatHandler.setTooltipText(view, charSequence);
+        }
+    }
+
+    private TooltipCompat() {
+    }
+
+    static class Api26Impl {
+        private Api26Impl() {
+        }
+
+        static void setTooltipText(View view, CharSequence charSequence) {
+            view.setTooltipText(charSequence);
+        }
+    }
+}

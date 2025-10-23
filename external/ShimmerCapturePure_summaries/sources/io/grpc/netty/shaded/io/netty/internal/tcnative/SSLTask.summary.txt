@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/internal/tcnative/SSLTask.java
+// Size: 561 bytes
+// Modified: 2025-10-21 16:32:00.238149200 +0100
+
+package io.grpc.netty.shaded.io.netty.internal.tcnative;
+
+/* loaded from: classes3.dex */
+abstract class SSLTask implements Runnable {
+    private boolean complete;
+    private int returnValue;
+    private final long ssl;
+
+    protected abstract int runTask(long j);
+
+    protected SSLTask(long j) {
+        this.ssl = j;
+    }
+
+    @Override // java.lang.Runnable
+    public final void run() {
+        if (this.complete) {
+            return;
+        }
+        this.complete = true;
+        this.returnValue = runTask(this.ssl);
+    }
+}

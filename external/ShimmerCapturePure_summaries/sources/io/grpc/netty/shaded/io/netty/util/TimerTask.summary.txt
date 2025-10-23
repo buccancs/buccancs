@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/TimerTask.java
+// Size: 162 bytes
+// Modified: 2025-10-21 16:32:02.284874000 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+/* loaded from: classes3.dex */
+public interface TimerTask {
+    void run(Timeout timeout) throws Exception;
+}

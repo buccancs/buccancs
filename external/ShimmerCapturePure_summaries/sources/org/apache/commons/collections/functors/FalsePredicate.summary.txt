@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/functors/FalsePredicate.java
+// Size: 637 bytes
+// Modified: 2025-10-21 16:32:00.905675300 +0100
+
+package org.apache.commons.collections.functors;
+
+import java.io.Serializable;
+import org.apache.commons.collections.Predicate;
+
+/* loaded from: classes5.dex */
+public final class FalsePredicate implements Predicate, Serializable {
+    public static final Predicate INSTANCE = new FalsePredicate();
+    private static final long serialVersionUID = 7533784454832764388L;
+
+    public static Predicate getInstance() {
+        return INSTANCE;
+    }
+
+    @Override // org.apache.commons.collections.Predicate
+    public boolean evaluate(Object obj) {
+        return false;
+    }
+
+    private FalsePredicate() {
+    }
+}

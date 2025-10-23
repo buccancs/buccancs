@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/rbac/engine/cel/DefaultDispatcher.java
+// Size: 501 bytes
+// Modified: 2025-10-21 16:32:02.293411200 +0100
+
+package io.grpc.xds.internal.rbac.engine.cel;
+
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public class DefaultDispatcher implements Dispatcher {
+    public static DefaultDispatcher create() {
+        return new DefaultDispatcher();
+    }
+
+    @Override // io.grpc.xds.internal.rbac.engine.cel.Dispatcher
+    public Object dispatch(Metadata metadata, long j, String str, List<String> list, Object[] objArr) throws InterpreterException {
+        return new Object();
+    }
+}

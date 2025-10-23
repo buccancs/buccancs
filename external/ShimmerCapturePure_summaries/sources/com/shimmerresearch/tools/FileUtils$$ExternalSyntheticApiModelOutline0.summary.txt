@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/tools/FileUtils$$ExternalSyntheticApiModelOutline0.java
+// Size: 198 bytes
+// Modified: 2025-10-21 16:32:01.495788700 +0100
+
+package com.shimmerresearch.tools;
+
+/* compiled from: D8$$SyntheticClass */
+/* loaded from: classes2.dex */
+public final /* synthetic */ class FileUtils$$ExternalSyntheticApiModelOutline0 {
+}

@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/rpc/QuotaFailureOrBuilder.java
+// Size: 534 bytes
+// Modified: 2025-10-21 16:32:02.162570200 +0100
+
+package com.google.rpc;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.rpc.QuotaFailure;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface QuotaFailureOrBuilder extends MessageOrBuilder {
+    QuotaFailure.Violation getViolations(int i);
+
+    int getViolationsCount();
+
+    List<QuotaFailure.Violation> getViolationsList();
+
+    QuotaFailure.ViolationOrBuilder getViolationsOrBuilder(int i);
+
+    List<? extends QuotaFailure.ViolationOrBuilder> getViolationsOrBuilderList();
+}

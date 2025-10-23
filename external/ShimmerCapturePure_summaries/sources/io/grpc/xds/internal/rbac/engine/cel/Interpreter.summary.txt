@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/rbac/engine/cel/Interpreter.java
+// Size: 260 bytes
+// Modified: 2025-10-21 16:32:04.227677300 +0100
+
+package io.grpc.xds.internal.rbac.engine.cel;
+
+import io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Expr;
+
+/* loaded from: classes3.dex */
+public interface Interpreter {
+    Interpretable createInterpretable(Expr expr) throws InterpreterException;
+}

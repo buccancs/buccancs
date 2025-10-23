@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driver/ShimmerMsg.java
+// Size: 321 bytes
+// Modified: 2025-10-21 16:32:00.266113500 +0100
+
+package com.shimmerresearch.driver;
+
+/* loaded from: classes2.dex */
+public class ShimmerMsg {
+    public Object mB;
+    public int mIdentifier;
+
+    public ShimmerMsg(int i) {
+        this.mIdentifier = i;
+    }
+
+    public ShimmerMsg(int i, Object obj) {
+        this(i);
+        this.mB = obj;
+    }
+}

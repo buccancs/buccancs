@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/callback/BleReadCallback.java
+// Size: 311 bytes
+// Modified: 2025-10-21 16:32:01.186752300 +0100
+
+package com.clj.fastble.callback;
+
+import com.clj.fastble.exception.BleException;
+
+/* loaded from: classes.dex */
+public abstract class BleReadCallback extends BleBaseCallback {
+    public abstract void onReadFailure(BleException bleException);
+
+    public abstract void onReadSuccess(byte[] bArr);
+}

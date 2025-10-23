@@ -1,0 +1,149 @@
+package org.apache.commons.math.stat.descriptive.moment;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.exception.NullArgumentException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/moment/SemiVariance.class */
+public class SemiVariance extends AbstractUnivariateStatistic implements Serializable {
+    public static final Direction UPSIDE_VARIANCE = Direction.UPSIDE;
+    public static final Direction DOWNSIDE_VARIANCE = Direction.DOWNSIDE;
+    private static final long serialVersionUID = -2653430366886024994L;
+    private boolean biasCorrected;
+    private Direction varianceDirection;
+
+    public SemiVariance() {
+        this.biasCorrected = true;
+        this.varianceDirection = Direction.DOWNSIDE;
+    }
+
+    public SemiVariance(boolean biasCorrected) {
+        this.biasCorrected = true;
+        this.varianceDirection = Direction.DOWNSIDE;
+        this.biasCorrected = biasCorrected;
+    }
+
+    public SemiVariance(Direction direction) {
+        this.biasCorrected = true;
+        this.varianceDirection = Direction.DOWNSIDE;
+        this.varianceDirection = direction;
+    }
+
+    public SemiVariance(boolean corrected, Direction direction) {
+        this.biasCorrected = true;
+        this.varianceDirection = Direction.DOWNSIDE;
+        this.biasCorrected = corrected;
+        this.varianceDirection = direction;
+    }
+
+    public SemiVariance(SemiVariance original) {
+        this.biasCorrected = true;
+        this.varianceDirection = Direction.DOWNSIDE;
+        copy(original, this);
+    }
+
+    public static void copy(SemiVariance source, SemiVariance dest) {
+        dest.setData(source.getDataRef());
+        dest.biasCorrected = source.biasCorrected;
+        dest.varianceDirection = source.varianceDirection;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public SemiVariance copy() {
+        SemiVariance result = new SemiVariance();
+        copy(this, result);
+        return result;
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic
+    public double evaluate(double[] values) {
+        if (values == null) {
+            throw new NullArgumentException(LocalizedFormats.INPUT_ARRAY);
+        }
+        return evaluate(values, 0, values.length);
+    }
+
+    @Override
+    // org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic
+    public double evaluate(double[] values, int start, int length) {
+        double m = new Mean().evaluate(values, start, length);
+        return evaluate(values, m, this.varianceDirection, this.biasCorrected, 0, values.length);
+    }
+
+    public double evaluate(double[] values, Direction direction) {
+        double m = new Mean().evaluate(values);
+        return evaluate(values, m, direction, this.biasCorrected, 0, values.length);
+    }
+
+    public double evaluate(double[] values, double cutoff) {
+        return evaluate(values, cutoff, this.varianceDirection, this.biasCorrected, 0, values.length);
+    }
+
+    public double evaluate(double[] values, double cutoff, Direction direction) {
+        return evaluate(values, cutoff, direction, this.biasCorrected, 0, values.length);
+    }
+
+    public double evaluate(double[] values, double cutoff, Direction direction, boolean corrected, int start, int length) {
+        test(values, start, length);
+        if (values.length == 0) {
+            return Double.NaN;
+        }
+        if (values.length == 1) {
+            return 0.0d;
+        }
+        boolean booleanDirection = direction.getDirection();
+        double sumsq = 0.0d;
+        for (int i = start; i < length; i++) {
+            if ((values[i] > cutoff) == booleanDirection) {
+                double dev = values[i] - cutoff;
+                sumsq += dev * dev;
+            }
+        }
+        if (corrected) {
+            return sumsq / (length - 1.0d);
+        }
+        return sumsq / length;
+    }
+
+    public boolean isBiasCorrected() {
+        return this.biasCorrected;
+    }
+
+    public void setBiasCorrected(boolean biasCorrected) {
+        this.biasCorrected = biasCorrected;
+    }
+
+    public Direction getVarianceDirection() {
+        return this.varianceDirection;
+    }
+
+    public void setVarianceDirection(Direction varianceDirection) {
+        this.varianceDirection = varianceDirection;
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/moment/SemiVariance$Direction.class */
+    public enum Direction {
+        UPSIDE(true),
+        DOWNSIDE(false);
+
+        private boolean direction;
+
+        Direction(boolean b) {
+            this.direction = b;
+        }
+
+        boolean getDirection() {
+            return this.direction;
+        }
+    }
+}

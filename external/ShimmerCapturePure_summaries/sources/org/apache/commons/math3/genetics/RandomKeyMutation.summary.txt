@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/genetics/RandomKeyMutation.java
+// Size: 1150 bytes
+// Modified: 2025-10-21 16:32:09.469571500 +0100
+
+package org.apache.commons.math3.genetics;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+
+/* loaded from: classes5.dex */
+public class RandomKeyMutation implements MutationPolicy {
+    @Override // org.apache.commons.math3.genetics.MutationPolicy
+    public Chromosome mutate(Chromosome chromosome) throws MathIllegalArgumentException {
+        if (!(chromosome instanceof RandomKey)) {
+            throw new MathIllegalArgumentException(LocalizedFormats.RANDOMKEY_MUTATION_WRONG_CLASS, chromosome.getClass().getSimpleName());
+        }
+        RandomKey randomKey = (RandomKey) chromosome;
+        List<Double> representation = randomKey.getRepresentation();
+        int iNextInt = GeneticAlgorithm.getRandomGenerator().nextInt(representation.size());
+        ArrayList arrayList = new ArrayList(representation);
+        arrayList.set(iNextInt, Double.valueOf(GeneticAlgorithm.getRandomGenerator().nextDouble()));
+        return randomKey.newFixedLengthChromosome(arrayList);
+    }
+}

@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/local/LocalEventLoopGroup.java
+// Size: 617 bytes
+// Modified: 2025-10-21 16:32:03.721646800 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.local;
+
+import io.grpc.netty.shaded.io.netty.channel.DefaultEventLoopGroup;
+import java.util.concurrent.ThreadFactory;
+
+@Deprecated
+/* loaded from: classes3.dex */
+public class LocalEventLoopGroup extends DefaultEventLoopGroup {
+    public LocalEventLoopGroup() {
+    }
+
+    public LocalEventLoopGroup(int i) {
+        super(i);
+    }
+
+    public LocalEventLoopGroup(ThreadFactory threadFactory) {
+        super(0, threadFactory);
+    }
+
+    public LocalEventLoopGroup(int i, ThreadFactory threadFactory) {
+        super(i, threadFactory);
+    }
+}

@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/state/RegistryCallback.java
+// Size: 422 bytes
+// Modified: 2025-10-21 16:32:00.120577800 +0100
+
+package androidx.constraintlayout.core.state;
+
+/* loaded from: classes.dex */
+public interface RegistryCallback {
+    String currentLayoutInformation();
+
+    String currentMotionScene();
+
+    long getLastModified();
+
+    void onDimensions(int i, int i2);
+
+    void onNewMotionScene(String str);
+
+    void onProgress(float f);
+
+    void setDrawDebug(int i);
+
+    void setLayoutInformationMode(int i);
+}

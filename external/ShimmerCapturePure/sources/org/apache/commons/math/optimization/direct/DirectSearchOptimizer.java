@@ -1,0 +1,227 @@
+package org.apache.commons.math.optimization.direct;
+
+import java.util.Arrays;
+import java.util.Comparator;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxEvaluationsExceededException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.optimization.MultivariateRealOptimizer;
+import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.RealConvergenceChecker;
+import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.SimpleScalarValueChecker;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/direct/DirectSearchOptimizer.class */
+public abstract class DirectSearchOptimizer implements MultivariateRealOptimizer {
+    protected RealPointValuePair[] simplex;
+    private MultivariateRealFunction f;
+    private RealConvergenceChecker checker;
+    private int maxIterations;
+    private int iterations;
+    private int maxEvaluations;
+    private int evaluations;
+    private double[][] startConfiguration;
+
+    protected DirectSearchOptimizer() {
+        setConvergenceChecker(new SimpleScalarValueChecker());
+        setMaxIterations(Integer.MAX_VALUE);
+        setMaxEvaluations(Integer.MAX_VALUE);
+    }
+
+    protected abstract void iterateSimplex(Comparator<RealPointValuePair> comparator) throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
+
+    public void setStartConfiguration(double[] steps) throws IllegalArgumentException {
+        int n = steps.length;
+        this.startConfiguration = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            double[] vertexI = this.startConfiguration[i];
+            for (int j = 0; j < i + 1; j++) {
+                if (steps[j] == 0.0d) {
+                    throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.EQUAL_VERTICES_IN_SIMPLEX, Integer.valueOf(j), Integer.valueOf(j + 1));
+                }
+                System.arraycopy(steps, 0, vertexI, 0, j + 1);
+            }
+        }
+    }
+
+    public void setStartConfiguration(double[][] referenceSimplex) throws IllegalArgumentException {
+        int n = referenceSimplex.length - 1;
+        if (n < 0) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.SIMPLEX_NEED_ONE_POINT, new Object[0]);
+        }
+        this.startConfiguration = new double[n][n];
+        double[] ref0 = referenceSimplex[0];
+        for (int i = 0; i < n + 1; i++) {
+            double[] refI = referenceSimplex[i];
+            if (refI.length != n) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, Integer.valueOf(refI.length), Integer.valueOf(n));
+            }
+            for (int j = 0; j < i; j++) {
+                double[] refJ = referenceSimplex[j];
+                boolean allEquals = true;
+                int k = 0;
+                while (true) {
+                    if (k >= n) {
+                        break;
+                    }
+                    if (refI[k] == refJ[k]) {
+                        k++;
+                    } else {
+                        allEquals = false;
+                        break;
+                    }
+                }
+                if (allEquals) {
+                    throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.EQUAL_VERTICES_IN_SIMPLEX, Integer.valueOf(i), Integer.valueOf(j));
+                }
+            }
+            if (i > 0) {
+                double[] confI = this.startConfiguration[i - 1];
+                for (int k2 = 0; k2 < n; k2++) {
+                    confI[k2] = refI[k2] - ref0[k2];
+                }
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public int getMaxIterations() {
+        return this.maxIterations;
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public void setMaxIterations(int maxIterations) {
+        this.maxIterations = maxIterations;
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public int getMaxEvaluations() {
+        return this.maxEvaluations;
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public void setMaxEvaluations(int maxEvaluations) {
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public int getIterations() {
+        return this.iterations;
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public int getEvaluations() {
+        return this.evaluations;
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public RealConvergenceChecker getConvergenceChecker() {
+        return this.checker;
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public void setConvergenceChecker(RealConvergenceChecker convergenceChecker) {
+        this.checker = convergenceChecker;
+    }
+
+    @Override // org.apache.commons.math.optimization.MultivariateRealOptimizer
+    public RealPointValuePair optimize(MultivariateRealFunction function, final GoalType goalType, double[] startPoint) throws FunctionEvaluationException, OptimizationException, IllegalArgumentException {
+        if (this.startConfiguration == null || this.startConfiguration.length != startPoint.length) {
+            double[] unit = new double[startPoint.length];
+            Arrays.fill(unit, 1.0d);
+            setStartConfiguration(unit);
+        }
+        this.f = function;
+        Comparator<RealPointValuePair> comparator = new Comparator<RealPointValuePair>() { // from class: org.apache.commons.math.optimization.direct.DirectSearchOptimizer.1
+            @Override // java.util.Comparator
+            public int compare(RealPointValuePair o1, RealPointValuePair o2) {
+                double v1 = o1.getValue();
+                double v2 = o2.getValue();
+                return goalType == GoalType.MINIMIZE ? Double.compare(v1, v2) : Double.compare(v2, v1);
+            }
+        };
+        this.iterations = 0;
+        this.evaluations = 0;
+        buildSimplex(startPoint);
+        evaluateSimplex(comparator);
+        RealPointValuePair[] previous = new RealPointValuePair[this.simplex.length];
+        while (true) {
+            if (this.iterations > 0) {
+                boolean converged = true;
+                for (int i = 0; i < this.simplex.length; i++) {
+                    converged &= this.checker.converged(this.iterations, previous[i], this.simplex[i]);
+                }
+                if (converged) {
+                    return this.simplex[0];
+                }
+            }
+            System.arraycopy(this.simplex, 0, previous, 0, this.simplex.length);
+            iterateSimplex(comparator);
+        }
+    }
+
+    protected void incrementIterationsCounter() throws OptimizationException {
+        int i = this.iterations + 1;
+        this.iterations = i;
+        if (i > this.maxIterations) {
+            throw new OptimizationException(new MaxIterationsExceededException(this.maxIterations));
+        }
+    }
+
+    protected double evaluate(double[] x) throws FunctionEvaluationException, IllegalArgumentException {
+        int i = this.evaluations + 1;
+        this.evaluations = i;
+        if (i > this.maxEvaluations) {
+            throw new FunctionEvaluationException(new MaxEvaluationsExceededException(this.maxEvaluations), x);
+        }
+        return this.f.value(x);
+    }
+
+    private void buildSimplex(double[] startPoint) throws IllegalArgumentException {
+        int n = startPoint.length;
+        if (n != this.startConfiguration.length) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, Integer.valueOf(n), Integer.valueOf(this.startConfiguration.length));
+        }
+        this.simplex = new RealPointValuePair[n + 1];
+        this.simplex[0] = new RealPointValuePair(startPoint, Double.NaN);
+        for (int i = 0; i < n; i++) {
+            double[] confI = this.startConfiguration[i];
+            double[] vertexI = new double[n];
+            for (int k = 0; k < n; k++) {
+                vertexI[k] = startPoint[k] + confI[k];
+            }
+            this.simplex[i + 1] = new RealPointValuePair(vertexI, Double.NaN);
+        }
+    }
+
+    protected void evaluateSimplex(Comparator<RealPointValuePair> comparator) throws FunctionEvaluationException, OptimizationException {
+        for (int i = 0; i < this.simplex.length; i++) {
+            RealPointValuePair vertex = this.simplex[i];
+            double[] point = vertex.getPointRef();
+            if (Double.isNaN(vertex.getValue())) {
+                this.simplex[i] = new RealPointValuePair(point, evaluate(point), false);
+            }
+        }
+        Arrays.sort(this.simplex, comparator);
+    }
+
+    protected void replaceWorstPoint(RealPointValuePair pointValuePair, Comparator<RealPointValuePair> comparator) {
+        int n = this.simplex.length - 1;
+        for (int i = 0; i < n; i++) {
+            if (comparator.compare(this.simplex[i], pointValuePair) > 0) {
+                RealPointValuePair tmp = this.simplex[i];
+                this.simplex[i] = pointValuePair;
+                pointValuePair = tmp;
+            }
+        }
+        this.simplex[n] = pointValuePair;
+    }
+}

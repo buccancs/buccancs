@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/SkippingCipher.java
+// Size: 186 bytes
+// Modified: 2025-10-21 16:32:00.584756900 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface SkippingCipher {
+    long getPosition();
+
+    long seekTo(long j);
+
+    long skip(long j);
+}

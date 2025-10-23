@@ -1,0 +1,113 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/RectRegion.java
+// Size: 3961 bytes
+// Modified: 2025-10-21 16:32:01.183245800 +0100
+
+package com.androidplot.xy;
+
+import android.graphics.PointF;
+import android.graphics.RectF;
+import com.androidplot.LineRegion;
+import com.androidplot.util.ValPixConverter;
+import java.util.ArrayList;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public class RectRegion {
+    private LineRegion a;
+    private LineRegion b;
+    private String c;
+
+    public String getLabel() {
+        return this.c;
+    }
+
+    public void setLabel(String str) {
+        this.c = str;
+    }
+
+    public RectRegion(Number number, Number number2, Number number3, Number number4, String str) {
+        this.a = new LineRegion(number, number2);
+        this.b = new LineRegion(number3, number4);
+        setLabel(str);
+    }
+
+    public RectRegion(Number number, Number number2, Number number3, Number number4) {
+        this(number, number2, number3, number4, null);
+    }
+
+    public boolean containsPoint(PointF pointF) {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
+    public boolean containsValue(Number number, Number number2) {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
+    public boolean containsDomainValue(Number number) {
+        return this.a.contains(number);
+    }
+
+    public boolean containsRangeValue(Number number) {
+        return this.b.contains(number);
+    }
+
+    public boolean intersects(RectRegion rectRegion) {
+        return intersects(rectRegion.getMinX(), rectRegion.getMaxX(), rectRegion.getMinY(), rectRegion.getMaxY());
+    }
+
+    public boolean intersects(Number number, Number number2, Number number3, Number number4) {
+        return this.a.intersects(number, number2) && this.b.intersects(number3, number4);
+    }
+
+    public boolean intersects(RectF rectF, Number number, Number number2, Number number3, Number number4) {
+        return RectF.intersects(getRectF(rectF, Double.valueOf(number.doubleValue()), Double.valueOf(number2.doubleValue()), Double.valueOf(number3.doubleValue()), Double.valueOf(number4.doubleValue())), rectF);
+    }
+
+    public RectF getRectF(RectF rectF, Number number, Number number2, Number number3, Number number4) {
+        PointF pointFValToPix = ValPixConverter.valToPix(this.a.getMinVal().doubleValue() != Double.NEGATIVE_INFINITY ? this.a.getMinVal() : number, this.b.getMaxVal().doubleValue() != Double.NEGATIVE_INFINITY ? this.b.getMaxVal() : number4, rectF, number, number2, number3, number4);
+        PointF pointFValToPix2 = ValPixConverter.valToPix(this.a.getMaxVal().doubleValue() != Double.POSITIVE_INFINITY ? this.a.getMaxVal() : number2, this.b.getMinVal().doubleValue() != Double.POSITIVE_INFINITY ? this.b.getMinVal() : number3, rectF, number, number2, number3, number4);
+        return new RectF(pointFValToPix.x, pointFValToPix.y, pointFValToPix2.x, pointFValToPix2.y);
+    }
+
+    public static List<RectRegion> regionsWithin(List<RectRegion> list, Number number, Number number2, Number number3, Number number4) {
+        ArrayList arrayList = new ArrayList();
+        for (RectRegion rectRegion : list) {
+            if (rectRegion.intersects(number, number2, number3, number4)) {
+                arrayList.add(rectRegion);
+            }
+        }
+        return arrayList;
+    }
+
+    public Number getMinX() {
+        return this.a.getMinVal();
+    }
+
+    public void setMinX(double d) {
+        this.a.setMinVal(Double.valueOf(d));
+    }
+
+    public Number getMaxX() {
+        return this.a.getMaxVal();
+    }
+
+    public void setMaxX(Number number) {
+        this.a.setMaxVal(number);
+    }
+
+    public Number getMinY() {
+        return this.b.getMinVal();
+    }
+
+    public void setMinY(Number number) {
+        this.b.setMinVal(number);
+    }
+
+    public Number getMaxY() {
+        return this.b.getMaxVal();
+    }
+
+    public void setMaxY(Number number) {
+        this.b.setMaxVal(number);
+    }
+}

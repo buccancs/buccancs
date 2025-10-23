@@ -1,0 +1,34 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface ResourceOrBuilder extends MessageOrBuilder {
+    String getAliases(int i);
+
+    ByteString getAliasesBytes(int i);
+
+    int getAliasesCount();
+
+    /* renamed from: getAliasesList */
+    List<String> mo13044getAliasesList();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    Any getResource();
+
+    AnyOrBuilder getResourceOrBuilder();
+
+    String getVersion();
+
+    ByteString getVersionBytes();
+
+    boolean hasResource();
+}

@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/provider/AnnotatedException.java
+// Size: 729 bytes
+// Modified: 2025-10-21 16:32:01.023741000 +0100
+
+package org.bouncycastle.jce.provider;
+
+import org.bouncycastle.jce.exception.ExtException;
+
+/* loaded from: classes5.dex */
+public class AnnotatedException extends Exception implements ExtException {
+    private Throwable _underlyingException;
+
+    public AnnotatedException(String str) {
+        this(str, null);
+    }
+
+    public AnnotatedException(String str, Throwable th) {
+        super(str);
+        this._underlyingException = th;
+    }
+
+    @Override // java.lang.Throwable, org.bouncycastle.jce.exception.ExtException
+    public Throwable getCause() {
+        return this._underlyingException;
+    }
+
+    Throwable getUnderlyingException() {
+        return this._underlyingException;
+    }
+}

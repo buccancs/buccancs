@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/ContentType.java
+// Size: 351 bytes
+// Modified: 2025-10-21 16:32:00.578754800 +0100
+
+package org.bouncycastle.crypto.tls;
+
+/* loaded from: classes5.dex */
+public class ContentType {
+    public static final short alert = 21;
+    public static final short application_data = 23;
+    public static final short change_cipher_spec = 20;
+    public static final short handshake = 22;
+    public static final short heartbeat = 24;
+}

@@ -1,0 +1,160 @@
+package org.apache.commons.lang;
+
+import java.math.BigDecimal;
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public final class NumberUtils {
+    public static int maximum(int i, int i2, int i3) {
+        if (i2 > i) {
+            i = i2;
+        }
+        return i3 > i ? i3 : i;
+    }
+
+    public static long maximum(long j, long j2, long j3) {
+        if (j2 > j) {
+            j = j2;
+        }
+        return j3 > j ? j3 : j;
+    }
+
+    public static int minimum(int i, int i2, int i3) {
+        if (i2 < i) {
+            i = i2;
+        }
+        return i3 < i ? i3 : i;
+    }
+
+    public static long minimum(long j, long j2, long j3) {
+        if (j2 < j) {
+            j = j2;
+        }
+        return j3 < j ? j3 : j;
+    }
+
+    public static int stringToInt(String str) {
+        return stringToInt(str, 0);
+    }
+
+    public static int stringToInt(String str, int i) {
+        try {
+            return Integer.parseInt(str);
+        } catch (NumberFormatException unused) {
+            return i;
+        }
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:58:0x00f3, code lost:
+    
+        if (r1 == 'l') goto L59;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:145:0x0147 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:75:0x013c A[Catch: NumberFormatException -> 0x0147, TRY_LEAVE, TryCatch #3 {NumberFormatException -> 0x0147, blocks: (B:73:0x0132, B:75:0x013c), top: B:139:0x0132 }] */
+    /* JADX WARN: Removed duplicated region for block: B:82:0x0151 A[Catch: NumberFormatException -> 0x015d, TRY_LEAVE, TryCatch #6 {NumberFormatException -> 0x015d, blocks: (B:80:0x0147, B:82:0x0151), top: B:145:0x0147 }] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public static java.lang.Number createNumber(java.lang.String r14) throws java.lang.NumberFormatException {
+        /*
+            Method dump skipped, instructions count: 488
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.lang.NumberUtils.createNumber(java.lang.String):java.lang.Number");
+    }
+
+    private static boolean isAllZeros(String str) {
+        if (str == null) {
+            return true;
+        }
+        for (int length = str.length() - 1; length >= 0; length--) {
+            if (str.charAt(length) != '0') {
+                return false;
+            }
+        }
+        return str.length() > 0;
+    }
+
+    public static Float createFloat(String str) {
+        return Float.valueOf(str);
+    }
+
+    public static Double createDouble(String str) {
+        return Double.valueOf(str);
+    }
+
+    public static Integer createInteger(String str) {
+        return Integer.decode(str);
+    }
+
+    public static Long createLong(String str) {
+        return Long.valueOf(str);
+    }
+
+    public static BigInteger createBigInteger(String str) {
+        return new BigInteger(str);
+    }
+
+    public static BigDecimal createBigDecimal(String str) {
+        return new BigDecimal(str);
+    }
+
+    public static int compare(double d, double d2) {
+        if (d < d2) {
+            return -1;
+        }
+        if (d > d2) {
+            return 1;
+        }
+        long jDoubleToLongBits = Double.doubleToLongBits(d);
+        long jDoubleToLongBits2 = Double.doubleToLongBits(d2);
+        if (jDoubleToLongBits == jDoubleToLongBits2) {
+            return 0;
+        }
+        return jDoubleToLongBits < jDoubleToLongBits2 ? -1 : 1;
+    }
+
+    public static int compare(float f, float f2) {
+        if (f < f2) {
+            return -1;
+        }
+        if (f > f2) {
+            return 1;
+        }
+        int iFloatToIntBits = Float.floatToIntBits(f);
+        int iFloatToIntBits2 = Float.floatToIntBits(f2);
+        if (iFloatToIntBits == iFloatToIntBits2) {
+            return 0;
+        }
+        return iFloatToIntBits < iFloatToIntBits2 ? -1 : 1;
+    }
+
+    public static boolean isDigits(String str) {
+        if (str == null || str.length() == 0) {
+            return false;
+        }
+        for (int i = 0; i < str.length(); i++) {
+            if (!Character.isDigit(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:81:0x00ac, code lost:
+    
+        return false;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public static boolean isNumber(java.lang.String r16) {
+        /*
+            Method dump skipped, instructions count: 213
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.lang.NumberUtils.isNumber(java.lang.String):boolean");
+    }
+}

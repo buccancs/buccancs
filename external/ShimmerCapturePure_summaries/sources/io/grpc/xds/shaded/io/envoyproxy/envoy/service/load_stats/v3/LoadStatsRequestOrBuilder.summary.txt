@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/service/load_stats/v3/LoadStatsRequestOrBuilder.java
+// Size: 921 bytes
+// Modified: 2025-10-21 16:32:08.330624300 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Node;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.NodeOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.ClusterStats;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.ClusterStatsOrBuilder;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface LoadStatsRequestOrBuilder extends MessageOrBuilder {
+    ClusterStats getClusterStats(int i);
+
+    int getClusterStatsCount();
+
+    List<ClusterStats> getClusterStatsList();
+
+    ClusterStatsOrBuilder getClusterStatsOrBuilder(int i);
+
+    List<? extends ClusterStatsOrBuilder> getClusterStatsOrBuilderList();
+
+    Node getNode();
+
+    NodeOrBuilder getNodeOrBuilder();
+
+    boolean hasNode();
+}

@@ -1,0 +1,96 @@
+package com.shimmerresearch.driverUtilities;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FilenameFilter;
+import java.io.IOException;
+import java.io.PrintStream;
+import java.nio.file.Files;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Comparator;
+
+/* loaded from: classes2.dex */
+public class ConsoleDiverter {
+    public static final String LOG_FILE_EXT = "_Log.txt";
+    public static final String PATH_SEP = System.getProperty("file.separator");
+    public static String LOG_FILE_PATH_AND_BASE_NAME = "";
+    private static PrintStream consoleAndFilePrintStream;
+    private static PrintStream standardOut = System.out;
+    private static PrintStream standardErr = System.err;
+    private static FileOutputStream fout = null;
+
+    public static void divertConsoleMessagesToConsoleAndTxtFile(String str) throws IOException {
+        divertConsoleMessagesToConsoleAndTxtFile(str, "", LOG_FILE_EXT, 0);
+    }
+
+    public static void divertConsoleMessagesToConsoleAndTxtFile(String str, final String str2, final String str3, int i) throws IOException {
+        File file = new File(str);
+        if (!file.exists()) {
+            file.mkdirs();
+        }
+        if (file.exists()) {
+            if (i > 0) {
+                File[] fileArrListFiles = file.listFiles(new FilenameFilter() { // from class: com.shimmerresearch.driverUtilities.ConsoleDiverter.1
+                    @Override // java.io.FilenameFilter
+                    public boolean accept(File file2, String str4) {
+                        return str4.contains(str2) && str4.endsWith(str3);
+                    }
+                });
+                if (fileArrListFiles.length >= i) {
+                    Arrays.sort(fileArrListFiles, new Comparator<File>() { // from class: com.shimmerresearch.driverUtilities.ConsoleDiverter.2
+                        @Override // java.util.Comparator
+                        public int compare(File file2, File file3) {
+                            return Long.valueOf(file3.lastModified()).compareTo(Long.valueOf(file2.lastModified()));
+                        }
+                    });
+                    for (int i2 = i - 1; i2 < fileArrListFiles.length; i2++) {
+                        try {
+                            Files.delete(fileArrListFiles[i2].toPath());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss");
+            Calendar calendar = Calendar.getInstance();
+            try {
+                LOG_FILE_PATH_AND_BASE_NAME = file + PATH_SEP + (str2.isEmpty() ? "" : str2 + "_") + simpleDateFormat.format(calendar.getTime());
+                String str4 = LOG_FILE_PATH_AND_BASE_NAME;
+                StringBuilder sb = new StringBuilder();
+                sb.append(str4);
+                sb.append(str3);
+                fout = new FileOutputStream(sb.toString());
+                consoleAndFilePrintStream = new PrintStream(new MultiOutputStream(standardOut, fout));
+                setPrintStreamToConsoleAndFile();
+            } catch (FileNotFoundException e2) {
+                e2.printStackTrace();
+            }
+        }
+    }
+
+    public static void divertConsoleMessagesToConsole() throws IOException {
+        System.setOut(standardOut);
+        System.setErr(standardErr);
+        FileOutputStream fileOutputStream = fout;
+        if (fileOutputStream != null) {
+            try {
+                fileOutputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void setPrintStreamToConsoleAndFile() {
+        System.setOut(consoleAndFilePrintStream);
+        System.setErr(consoleAndFilePrintStream);
+    }
+
+    public static void divertConsoleMessagesToConsoleAndTxtFileForUnitTest(String str) throws IOException {
+        divertConsoleMessagesToConsoleAndTxtFile("UnitTestConsoleOutput/", str, ".txt", 5);
+    }
+}

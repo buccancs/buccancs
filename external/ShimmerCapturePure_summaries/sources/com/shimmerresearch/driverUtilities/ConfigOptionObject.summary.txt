@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driverUtilities/ConfigOptionObject.java
+// Size: 369 bytes
+// Modified: 2025-10-21 16:32:00.307654100 +0100
+
+package com.shimmerresearch.driverUtilities;
+
+/* loaded from: classes2.dex */
+public class ConfigOptionObject {
+    Integer[] configValues;
+    String[] guiValues;
+    int index;
+
+    public ConfigOptionObject(int i, String[] strArr, Integer[] numArr) {
+        this.index = i;
+        this.guiValues = strArr;
+        this.configValues = numArr;
+    }
+}

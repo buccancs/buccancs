@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/CorruptedFrameException.java
+// Size: 537 bytes
+// Modified: 2025-10-21 16:32:01.450987500 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec;
+
+/* loaded from: classes3.dex */
+public class CorruptedFrameException extends DecoderException {
+    private static final long serialVersionUID = 3918052232492988408L;
+
+    public CorruptedFrameException() {
+    }
+
+    public CorruptedFrameException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public CorruptedFrameException(String str) {
+        super(str);
+    }
+
+    public CorruptedFrameException(Throwable th) {
+        super(th);
+    }
+}

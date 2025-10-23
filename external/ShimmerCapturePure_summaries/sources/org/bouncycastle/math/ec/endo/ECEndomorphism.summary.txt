@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/math/ec/endo/ECEndomorphism.java
+// Size: 230 bytes
+// Modified: 2025-10-21 16:32:01.898231700 +0100
+
+package org.bouncycastle.math.ec.endo;
+
+import org.bouncycastle.math.ec.ECPointMap;
+
+/* loaded from: classes5.dex */
+public interface ECEndomorphism {
+    ECPointMap getPointMap();
+
+    boolean hasEfficientPointMap();
+}

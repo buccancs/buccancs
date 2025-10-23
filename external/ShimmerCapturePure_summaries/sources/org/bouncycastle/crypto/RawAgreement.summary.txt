@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/RawAgreement.java
+// Size: 274 bytes
+// Modified: 2025-10-21 16:32:00.986085700 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface RawAgreement {
+    void calculateAgreement(CipherParameters cipherParameters, byte[] bArr, int i);
+
+    int getAgreementSize();
+
+    void init(CipherParameters cipherParameters);
+}

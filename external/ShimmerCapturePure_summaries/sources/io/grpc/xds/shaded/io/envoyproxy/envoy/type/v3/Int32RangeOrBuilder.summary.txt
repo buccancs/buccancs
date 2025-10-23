@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/type/v3/Int32RangeOrBuilder.java
+// Size: 250 bytes
+// Modified: 2025-10-21 16:32:00.455591500 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface Int32RangeOrBuilder extends MessageOrBuilder {
+    int getEnd();
+
+    int getStart();
+}

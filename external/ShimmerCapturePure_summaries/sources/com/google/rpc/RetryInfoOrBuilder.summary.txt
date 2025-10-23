@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/rpc/RetryInfoOrBuilder.java
+// Size: 374 bytes
+// Modified: 2025-10-21 16:32:00.153828100 +0100
+
+package com.google.rpc;
+
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface RetryInfoOrBuilder extends MessageOrBuilder {
+    Duration getRetryDelay();
+
+    DurationOrBuilder getRetryDelayOrBuilder();
+
+    boolean hasRetryDelay();
+}

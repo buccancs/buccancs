@@ -1,0 +1,46 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ssl/PseudoRandomFunction.java
+// Size: 1776 bytes
+// Modified: 2025-10-21 16:32:01.470034500 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import io.grpc.netty.shaded.io.netty.util.internal.EmptyArrays;
+import java.security.GeneralSecurityException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+/* loaded from: classes3.dex */
+final class PseudoRandomFunction {
+    private PseudoRandomFunction() {
+    }
+
+    static byte[] hash(byte[] bArr, byte[] bArr2, byte[] bArr3, int i, String str) throws IllegalStateException, NoSuchAlgorithmException, InvalidKeyException {
+        if (i < 0) {
+            throw new IllegalArgumentException("You must provide a length greater than zero.");
+        }
+        try {
+            Mac mac = Mac.getInstance(str);
+            mac.init(new SecretKeySpec(bArr, str));
+            int iCeil = (int) Math.ceil(i / mac.getMacLength());
+            byte[] bArrConcat = EmptyArrays.EMPTY_BYTES;
+            byte[] bArrConcat2 = concat(bArr2, bArr3);
+            byte[] bArrDoFinal = bArrConcat2;
+            for (int i2 = 0; i2 < iCeil; i2++) {
+                bArrDoFinal = mac.doFinal(bArrDoFinal);
+                bArrConcat = concat(bArrConcat, mac.doFinal(concat(bArrDoFinal, bArrConcat2)));
+            }
+            return Arrays.copyOf(bArrConcat, i);
+        } catch (GeneralSecurityException e) {
+            throw new IllegalArgumentException("Could not find algo: " + str, e);
+        }
+    }
+
+    private static byte[] concat(byte[] bArr, byte[] bArr2) {
+        byte[] bArrCopyOf = Arrays.copyOf(bArr, bArr.length + bArr2.length);
+        System.arraycopy(bArr2, 0, bArrCopyOf, bArr.length, bArr2.length);
+        return bArrCopyOf;
+    }
+}

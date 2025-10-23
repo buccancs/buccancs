@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/tags/InternalUtils.java
+// Size: 288 bytes
+// Modified: 2025-10-21 16:32:04.484024200 +0100
+
+package io.opencensus.tags;
+
+import java.util.Iterator;
+
+/* loaded from: classes4.dex */
+public final class InternalUtils {
+    private InternalUtils() {
+    }
+
+    public static Iterator<Tag> getTags(TagContext tagContext) {
+        return tagContext.getIterator();
+    }
+}

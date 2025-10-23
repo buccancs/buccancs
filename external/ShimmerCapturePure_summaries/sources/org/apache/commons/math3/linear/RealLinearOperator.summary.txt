@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/linear/RealLinearOperator.java
+// Size: 652 bytes
+// Modified: 2025-10-21 16:32:07.199941400 +0100
+
+package org.apache.commons.math3.linear;
+
+import org.apache.commons.math3.exception.DimensionMismatchException;
+
+/* loaded from: classes5.dex */
+public abstract class RealLinearOperator {
+    public abstract int getColumnDimension();
+
+    public abstract int getRowDimension();
+
+    public boolean isTransposable() {
+        return false;
+    }
+
+    public abstract RealVector operate(RealVector realVector) throws DimensionMismatchException;
+
+    public RealVector operateTranspose(RealVector realVector) throws UnsupportedOperationException, DimensionMismatchException {
+        throw new UnsupportedOperationException();
+    }
+}

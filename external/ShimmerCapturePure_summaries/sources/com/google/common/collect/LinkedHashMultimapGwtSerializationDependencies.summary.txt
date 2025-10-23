@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/LinkedHashMultimapGwtSerializationDependencies.java
+// Size: 342 bytes
+// Modified: 2025-10-21 16:32:03.362878600 +0100
+
+package com.google.common.collect;
+
+import java.util.Collection;
+import java.util.Map;
+
+/* loaded from: classes.dex */
+abstract class LinkedHashMultimapGwtSerializationDependencies<K, V> extends AbstractSetMultimap<K, V> {
+    LinkedHashMultimapGwtSerializationDependencies(Map<K, Collection<V>> map) {
+        super(map);
+    }
+}

@@ -1,0 +1,69 @@
+package io.grpc.reflection.v1alpha;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+
+@Deprecated
+/* loaded from: classes3.dex */
+public final class ServerReflectionProto {
+    static final Descriptors.Descriptor internal_static_grpc_reflection_v1alpha_ErrorResponse_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_grpc_reflection_v1alpha_ErrorResponse_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_grpc_reflection_v1alpha_ExtensionNumberResponse_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_grpc_reflection_v1alpha_ExtensionNumberResponse_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_grpc_reflection_v1alpha_ExtensionRequest_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_grpc_reflection_v1alpha_ExtensionRequest_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_grpc_reflection_v1alpha_FileDescriptorResponse_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_grpc_reflection_v1alpha_FileDescriptorResponse_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_grpc_reflection_v1alpha_ListServiceResponse_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_grpc_reflection_v1alpha_ListServiceResponse_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_grpc_reflection_v1alpha_ServiceResponse_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_grpc_reflection_v1alpha_ServiceResponse_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n(grpc/reflection/v1alpha/reflection.proto\u0012\u0017grpc.reflection.v1alpha\"\u008a\u0002\n\u0017ServerReflectionRequest\u0012\f\n\u0004host\u0018\u0001 \u0001(\t\u0012\u001a\n\u0010file_by_filename\u0018\u0003 \u0001(\tH\u0000\u0012 \n\u0016file_containing_symbol\u0018\u0004 \u0001(\tH\u0000\u0012N\n\u0019file_containing_extension\u0018\u0005 \u0001(\u000b2).grpc.reflection.v1alpha.ExtensionRequestH\u0000\u0012'\n\u001dall_extension_numbers_of_type\u0018\u0006 \u0001(\tH\u0000\u0012\u0017\n\rlist_services\u0018\u0007 \u0001(\tH\u0000B\u0011\n\u000fmessage_request\"E\n\u0010ExtensionRequest\u0012\u0017\n\u000fcontaining_type\u0018\u0001 \u0001(\t\u0012\u0018\n\u0010extension_number\u0018\u0002 \u0001(\u0005\"Ñ\u0003\n\u0018ServerReflectionResponse\u0012\u0012\n\nvalid_host\u0018\u0001 \u0001(\t\u0012J\n\u0010original_request\u0018\u0002 \u0001(\u000b20.grpc.reflection.v1alpha.ServerReflectionRequest\u0012S\n\u0018file_descriptor_response\u0018\u0004 \u0001(\u000b2/.grpc.reflection.v1alpha.FileDescriptorResponseH\u0000\u0012Z\n\u001eall_extension_numbers_response\u0018\u0005 \u0001(\u000b20.grpc.reflection.v1alpha.ExtensionNumberResponseH\u0000\u0012N\n\u0016list_services_response\u0018\u0006 \u0001(\u000b2,.grpc.reflection.v1alpha.ListServiceResponseH\u0000\u0012@\n\u000eerror_response\u0018\u0007 \u0001(\u000b2&.grpc.reflection.v1alpha.ErrorResponseH\u0000B\u0012\n\u0010message_response\"7\n\u0016FileDescriptorResponse\u0012\u001d\n\u0015file_descriptor_proto\u0018\u0001 \u0003(\f\"K\n\u0017ExtensionNumberResponse\u0012\u0016\n\u000ebase_type_name\u0018\u0001 \u0001(\t\u0012\u0018\n\u0010extension_number\u0018\u0002 \u0003(\u0005\"P\n\u0013ListServiceResponse\u00129\n\u0007service\u0018\u0001 \u0003(\u000b2(.grpc.reflection.v1alpha.ServiceResponse\"\u001f\n\u000fServiceResponse\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\":\n\rErrorResponse\u0012\u0012\n\nerror_code\u0018\u0001 \u0001(\u0005\u0012\u0015\n\rerror_message\u0018\u0002 \u0001(\t2\u0093\u0001\n\u0010ServerReflection\u0012\u007f\n\u0014ServerReflectionInfo\u00120.grpc.reflection.v1alpha.ServerReflectionRequest\u001a1.grpc.reflection.v1alpha.ServerReflectionResponse(\u00010\u0001B8\n\u001aio.grpc.reflection.v1alphaB\u0015ServerReflectionProtoP\u0001¸\u0001\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[0]);
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_descriptor = descriptor2;
+        internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Host", "FileByFilename", "FileContainingSymbol", "FileContainingExtension", "AllExtensionNumbersOfType", "ListServices", "MessageRequest"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_grpc_reflection_v1alpha_ExtensionRequest_descriptor = descriptor3;
+        internal_static_grpc_reflection_v1alpha_ExtensionRequest_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"ContainingType", "ExtensionNumber"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_descriptor = descriptor4;
+        internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"ValidHost", "OriginalRequest", "FileDescriptorResponse", "AllExtensionNumbersResponse", "ListServicesResponse", "ErrorResponse", "MessageResponse"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_grpc_reflection_v1alpha_FileDescriptorResponse_descriptor = descriptor5;
+        internal_static_grpc_reflection_v1alpha_FileDescriptorResponse_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"FileDescriptorProto"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(4);
+        internal_static_grpc_reflection_v1alpha_ExtensionNumberResponse_descriptor = descriptor6;
+        internal_static_grpc_reflection_v1alpha_ExtensionNumberResponse_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"BaseTypeName", "ExtensionNumber"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(5);
+        internal_static_grpc_reflection_v1alpha_ListServiceResponse_descriptor = descriptor7;
+        internal_static_grpc_reflection_v1alpha_ListServiceResponse_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"Service"});
+        Descriptors.Descriptor descriptor8 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(6);
+        internal_static_grpc_reflection_v1alpha_ServiceResponse_descriptor = descriptor8;
+        internal_static_grpc_reflection_v1alpha_ServiceResponse_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor8, new String[]{"Name"});
+        Descriptors.Descriptor descriptor9 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(7);
+        internal_static_grpc_reflection_v1alpha_ErrorResponse_descriptor = descriptor9;
+        internal_static_grpc_reflection_v1alpha_ErrorResponse_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor9, new String[]{"ErrorCode", "ErrorMessage"});
+    }
+
+    private ServerReflectionProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

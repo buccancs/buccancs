@@ -1,0 +1,4096 @@
+package org.jtransforms.fft;
+
+import java.lang.reflect.Array;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import org.apache.commons.math3.util.FastMath;
+import org.jtransforms.utils.CommonUtils;
+import pl.edu.icm.jlargearrays.ConcurrencyUtils;
+import pl.edu.icm.jlargearrays.FloatLargeArray;
+import pl.edu.icm.jlargearrays.LargeArray;
+
+/* loaded from: classes2.dex */
+public class FloatFFT_2D {
+    private int columns;
+    private long columnsl;
+    private FloatFFT_1D fftColumns;
+    private FloatFFT_1D fftRows;
+    private boolean isPowerOfTwo;
+    private int rows;
+    private long rowsl;
+    private boolean useThreads;
+
+    public FloatFFT_2D(long j, long j2) {
+        this.isPowerOfTwo = false;
+        this.useThreads = false;
+        if (j <= 1 || j2 <= 1) {
+            throw new IllegalArgumentException("rows and columns must be greater than 1");
+        }
+        this.rows = (int) j;
+        this.columns = (int) j2;
+        this.rowsl = j;
+        this.columnsl = j2;
+        if (j * j2 >= CommonUtils.getThreadsBeginN_2D()) {
+            this.useThreads = true;
+        }
+        if (CommonUtils.isPowerOf2(j) && CommonUtils.isPowerOf2(j2)) {
+            this.isPowerOfTwo = true;
+        }
+        CommonUtils.setUseLargeArrays((2 * j) * j2 > ((long) LargeArray.getMaxSizeOf32bitArray()));
+        FloatFFT_1D floatFFT_1D = new FloatFFT_1D(j);
+        this.fftRows = floatFFT_1D;
+        if (j == j2) {
+            this.fftColumns = floatFFT_1D;
+        } else {
+            this.fftColumns = new FloatFFT_1D(j2);
+        }
+    }
+
+    public void complexForward(final float[] fArr) {
+        int i;
+        int i2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i3 = 0;
+        if (this.isPowerOfTwo) {
+            this.columns *= 2;
+            if (numberOfThreads > 1 && this.useThreads) {
+                xdft2d0_subth1(0, -1, fArr, true);
+                cdft2d_subth(-1, fArr, true);
+            } else {
+                while (i3 < this.rows) {
+                    this.fftColumns.complexForward(fArr, this.columns * i3);
+                    i3++;
+                }
+                cdft2d_sub(-1, fArr, true);
+            }
+            this.columns /= 2;
+            return;
+        }
+        int i4 = this.columns;
+        final int i5 = i4 * 2;
+        if (numberOfThreads > 1 && this.useThreads && (i2 = this.rows) >= numberOfThreads && i4 >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i6 = i2 / numberOfThreads;
+            int i7 = 0;
+            while (i7 < numberOfThreads) {
+                final int i8 = i7 * i6;
+                final int i9 = i7 == numberOfThreads + (-1) ? this.rows : i8 + i6;
+                futureArr[i7] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i10 = i8; i10 < i9; i10++) {
+                            FloatFFT_2D.this.fftColumns.complexForward(fArr, i5 * i10);
+                        }
+                    }
+                });
+                i7++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            int i10 = this.columns / numberOfThreads;
+            while (i3 < numberOfThreads) {
+                final int i11 = i3 * i10;
+                final int i12 = i3 == numberOfThreads + (-1) ? this.columns : i11 + i10;
+                futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.2
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        float[] fArr2 = new float[FloatFFT_2D.this.rows * 2];
+                        for (int i13 = i11; i13 < i12; i13++) {
+                            int i14 = i13 * 2;
+                            for (int i15 = 0; i15 < FloatFFT_2D.this.rows; i15++) {
+                                int i16 = i15 * 2;
+                                int i17 = (i5 * i15) + i14;
+                                float[] fArr3 = fArr;
+                                fArr2[i16] = fArr3[i17];
+                                fArr2[i16 + 1] = fArr3[i17 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2);
+                            for (int i18 = 0; i18 < FloatFFT_2D.this.rows; i18++) {
+                                int i19 = i18 * 2;
+                                int i20 = (i5 * i18) + i14;
+                                float[] fArr4 = fArr;
+                                fArr4[i20] = fArr2[i19];
+                                fArr4[i20 + 1] = fArr2[i19 + 1];
+                            }
+                        }
+                    }
+                });
+                i3++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+                return;
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e3);
+                return;
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e4);
+                return;
+            }
+        }
+        int i13 = 0;
+        while (true) {
+            i = this.rows;
+            if (i13 >= i) {
+                break;
+            }
+            this.fftColumns.complexForward(fArr, i13 * i5);
+            i13++;
+        }
+        float[] fArr2 = new float[i * 2];
+        for (int i14 = 0; i14 < this.columns; i14++) {
+            int i15 = i14 * 2;
+            for (int i16 = 0; i16 < this.rows; i16++) {
+                int i17 = i16 * 2;
+                int i18 = (i16 * i5) + i15;
+                fArr2[i17] = fArr[i18];
+                fArr2[i17 + 1] = fArr[i18 + 1];
+            }
+            this.fftRows.complexForward(fArr2);
+            for (int i19 = 0; i19 < this.rows; i19++) {
+                int i20 = i19 * 2;
+                int i21 = (i19 * i5) + i15;
+                fArr[i21] = fArr2[i20];
+                fArr[i21 + 1] = fArr2[i20 + 1];
+            }
+        }
+    }
+
+    public void complexForward(final FloatLargeArray floatLargeArray) {
+        if (!floatLargeArray.isLarge() && !floatLargeArray.isConstant()) {
+            complexForward(floatLargeArray.getData());
+            return;
+        }
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i = 0;
+        long j = 2;
+        if (this.isPowerOfTwo) {
+            this.columnsl *= 2;
+            if (numberOfThreads > 1 && this.useThreads) {
+                xdft2d0_subth1(0L, -1, floatLargeArray, true);
+                cdft2d_subth(-1, floatLargeArray, true);
+            } else {
+                while (true) {
+                    long j2 = i;
+                    if (j2 >= this.rowsl) {
+                        break;
+                    }
+                    this.fftColumns.complexForward(floatLargeArray, j2 * this.columnsl);
+                    i++;
+                }
+                cdft2d_sub(-1, floatLargeArray, true);
+            }
+            this.columnsl /= 2;
+            return;
+        }
+        long j3 = this.columnsl;
+        final long j4 = j3 * 2;
+        if (numberOfThreads > 1 && this.useThreads) {
+            long j5 = this.rowsl;
+            long j6 = numberOfThreads;
+            if (j5 >= j6 && j3 >= j6) {
+                Future[] futureArr = new Future[numberOfThreads];
+                long j7 = j5 / j6;
+                int i2 = 0;
+                while (i2 < numberOfThreads) {
+                    final long j8 = i2 * j7;
+                    final long j9 = i2 == numberOfThreads + (-1) ? this.rowsl : j8 + j7;
+                    Future[] futureArr2 = futureArr;
+                    futureArr2[i2] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.3
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            for (long j10 = j8; j10 < j9; j10++) {
+                                FloatFFT_2D.this.fftColumns.complexForward(floatLargeArray, j4 * j10);
+                            }
+                        }
+                    });
+                    i2++;
+                    futureArr = futureArr2;
+                    j6 = j6;
+                }
+                long j10 = j6;
+                Future[] futureArr3 = futureArr;
+                String str = null;
+                try {
+                    ConcurrencyUtils.waitForCompletion(futureArr3);
+                } catch (InterruptedException e) {
+                    Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+                } catch (ExecutionException e2) {
+                    Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+                }
+                long j11 = this.columnsl / j10;
+                while (i < numberOfThreads) {
+                    final long j12 = i * j11;
+                    final long j13 = i == numberOfThreads + (-1) ? this.columnsl : j12 + j11;
+                    futureArr3[i] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.4
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            long j14;
+                            long j15 = 2;
+                            FloatLargeArray floatLargeArray2 = new FloatLargeArray(FloatFFT_2D.this.rowsl * 2, false);
+                            long j16 = j12;
+                            while (j16 < j13) {
+                                long j17 = j16 * j15;
+                                long j18 = 0;
+                                while (true) {
+                                    j14 = 1;
+                                    if (j18 >= FloatFFT_2D.this.rowsl) {
+                                        break;
+                                    }
+                                    long j19 = j18 * j15;
+                                    long j20 = (j4 * j18) + j17;
+                                    floatLargeArray2.setDouble(j19, floatLargeArray.getFloat(j20));
+                                    floatLargeArray2.setDouble(j19 + 1, floatLargeArray.getFloat(j20 + 1));
+                                    j18++;
+                                    j15 = 2;
+                                }
+                                FloatFFT_2D.this.fftRows.complexForward(floatLargeArray2);
+                                for (long j21 = 0; j21 < FloatFFT_2D.this.rowsl; j21++) {
+                                    long j22 = j21 * 2;
+                                    long j23 = (j4 * j21) + j17;
+                                    floatLargeArray.setDouble(j23, floatLargeArray2.getFloat(j22));
+                                    j14 = 1;
+                                    floatLargeArray.setDouble(j23 + 1, floatLargeArray2.getFloat(j22 + 1));
+                                }
+                                j16 += j14;
+                                j15 = 2;
+                            }
+                        }
+                    });
+                    i++;
+                    str = str;
+                    numberOfThreads = numberOfThreads;
+                }
+                String str2 = str;
+                try {
+                    ConcurrencyUtils.waitForCompletion(futureArr3);
+                    return;
+                } catch (InterruptedException e3) {
+                    Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+                    return;
+                } catch (ExecutionException e4) {
+                    Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+                    return;
+                }
+            }
+        }
+        for (long j14 = 0; j14 < this.rowsl; j14++) {
+            this.fftColumns.complexForward(floatLargeArray, j14 * j4);
+        }
+        FloatLargeArray floatLargeArray2 = new FloatLargeArray(this.rowsl * 2, false);
+        long j15 = 0;
+        while (j15 < this.columnsl) {
+            long j16 = j15 * j;
+            long j17 = 0;
+            while (j17 < this.rowsl) {
+                long j18 = j17 * j;
+                long j19 = (j17 * j4) + j16;
+                floatLargeArray2.setDouble(j18, floatLargeArray.getFloat(j19));
+                floatLargeArray2.setDouble(j18 + 1, floatLargeArray.getFloat(j19 + 1));
+                j17++;
+                j15 = j15;
+                j = 2;
+            }
+            long j20 = j15;
+            this.fftRows.complexForward(floatLargeArray2);
+            long j21 = 0;
+            while (j21 < this.rowsl) {
+                long j22 = j21 * 2;
+                long j23 = (j21 * j4) + j16;
+                floatLargeArray.setDouble(j23, floatLargeArray2.getFloat(j22));
+                floatLargeArray.setDouble(j23 + 1, floatLargeArray2.getFloat(j22 + 1));
+                j21++;
+                j16 = j16;
+            }
+            j15 = j20 + 1;
+            j = 2;
+        }
+    }
+
+    public void complexForward(final float[][] fArr) {
+        int i;
+        int i2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i3 = 0;
+        if (this.isPowerOfTwo) {
+            this.columns *= 2;
+            if (numberOfThreads > 1 && this.useThreads) {
+                xdft2d0_subth1(0, -1, fArr, true);
+                cdft2d_subth(-1, fArr, true);
+            } else {
+                while (i3 < this.rows) {
+                    this.fftColumns.complexForward(fArr[i3]);
+                    i3++;
+                }
+                cdft2d_sub(-1, fArr, true);
+            }
+            this.columns /= 2;
+            return;
+        }
+        if (numberOfThreads > 1 && this.useThreads && (i2 = this.rows) >= numberOfThreads && this.columns >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i4 = i2 / numberOfThreads;
+            int i5 = 0;
+            while (i5 < numberOfThreads) {
+                final int i6 = i5 * i4;
+                final int i7 = i5 == numberOfThreads + (-1) ? this.rows : i6 + i4;
+                futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.5
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i8 = i6; i8 < i7; i8++) {
+                            FloatFFT_2D.this.fftColumns.complexForward(fArr[i8]);
+                        }
+                    }
+                });
+                i5++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            int i8 = this.columns / numberOfThreads;
+            while (i3 < numberOfThreads) {
+                final int i9 = i3 * i8;
+                final int i10 = i3 == numberOfThreads + (-1) ? this.columns : i9 + i8;
+                futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.6
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        float[] fArr2 = new float[FloatFFT_2D.this.rows * 2];
+                        for (int i11 = i9; i11 < i10; i11++) {
+                            int i12 = i11 * 2;
+                            for (int i13 = 0; i13 < FloatFFT_2D.this.rows; i13++) {
+                                int i14 = i13 * 2;
+                                float[] fArr3 = fArr[i13];
+                                fArr2[i14] = fArr3[i12];
+                                fArr2[i14 + 1] = fArr3[i12 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2);
+                            for (int i15 = 0; i15 < FloatFFT_2D.this.rows; i15++) {
+                                int i16 = i15 * 2;
+                                float[] fArr4 = fArr[i15];
+                                fArr4[i12] = fArr2[i16];
+                                fArr4[i12 + 1] = fArr2[i16 + 1];
+                            }
+                        }
+                    }
+                });
+                i3++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+                return;
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e3);
+                return;
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e4);
+                return;
+            }
+        }
+        int i11 = 0;
+        while (true) {
+            i = this.rows;
+            if (i11 >= i) {
+                break;
+            }
+            this.fftColumns.complexForward(fArr[i11]);
+            i11++;
+        }
+        float[] fArr2 = new float[i * 2];
+        for (int i12 = 0; i12 < this.columns; i12++) {
+            int i13 = i12 * 2;
+            for (int i14 = 0; i14 < this.rows; i14++) {
+                int i15 = i14 * 2;
+                float[] fArr3 = fArr[i14];
+                fArr2[i15] = fArr3[i13];
+                fArr2[i15 + 1] = fArr3[i13 + 1];
+            }
+            this.fftRows.complexForward(fArr2);
+            for (int i16 = 0; i16 < this.rows; i16++) {
+                int i17 = i16 * 2;
+                float[] fArr4 = fArr[i16];
+                fArr4[i13] = fArr2[i17];
+                fArr4[i13 + 1] = fArr2[i17 + 1];
+            }
+        }
+    }
+
+    public void complexInverse(final float[] fArr, final boolean z) {
+        int i;
+        int i2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i3 = 0;
+        if (this.isPowerOfTwo) {
+            this.columns *= 2;
+            if (numberOfThreads > 1 && this.useThreads) {
+                xdft2d0_subth1(0, 1, fArr, z);
+                cdft2d_subth(1, fArr, z);
+            } else {
+                while (i3 < this.rows) {
+                    this.fftColumns.complexInverse(fArr, this.columns * i3, z);
+                    i3++;
+                }
+                cdft2d_sub(1, fArr, z);
+            }
+            this.columns /= 2;
+            return;
+        }
+        int i4 = this.columns;
+        final int i5 = i4 * 2;
+        if (numberOfThreads > 1 && this.useThreads && (i2 = this.rows) >= numberOfThreads && i4 >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i6 = i2 / numberOfThreads;
+            int i7 = 0;
+            while (i7 < numberOfThreads) {
+                final int i8 = i7 * i6;
+                final int i9 = i7 == numberOfThreads + (-1) ? this.rows : i8 + i6;
+                int i10 = i7;
+                futureArr[i10] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.7
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i11 = i8; i11 < i9; i11++) {
+                            FloatFFT_2D.this.fftColumns.complexInverse(fArr, i5 * i11, z);
+                        }
+                    }
+                });
+                i7 = i10 + 1;
+            }
+            String str = null;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            int i11 = this.columns / numberOfThreads;
+            while (i3 < numberOfThreads) {
+                final int i12 = i3 * i11;
+                final int i13 = i3 == numberOfThreads + (-1) ? this.columns : i12 + i11;
+                futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.8
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        float[] fArr2 = new float[FloatFFT_2D.this.rows * 2];
+                        for (int i14 = i12; i14 < i13; i14++) {
+                            int i15 = i14 * 2;
+                            for (int i16 = 0; i16 < FloatFFT_2D.this.rows; i16++) {
+                                int i17 = i16 * 2;
+                                int i18 = (i5 * i16) + i15;
+                                float[] fArr3 = fArr;
+                                fArr2[i17] = fArr3[i18];
+                                fArr2[i17 + 1] = fArr3[i18 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, z);
+                            for (int i19 = 0; i19 < FloatFFT_2D.this.rows; i19++) {
+                                int i20 = i19 * 2;
+                                int i21 = (i5 * i19) + i15;
+                                float[] fArr4 = fArr;
+                                fArr4[i21] = fArr2[i20];
+                                fArr4[i21 + 1] = fArr2[i20 + 1];
+                            }
+                        }
+                    }
+                });
+                i3++;
+                str = str;
+                numberOfThreads = numberOfThreads;
+            }
+            String str2 = str;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+                return;
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+                return;
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+                return;
+            }
+        }
+        int i14 = 0;
+        while (true) {
+            i = this.rows;
+            if (i14 >= i) {
+                break;
+            }
+            this.fftColumns.complexInverse(fArr, i14 * i5, z);
+            i14++;
+        }
+        float[] fArr2 = new float[i * 2];
+        for (int i15 = 0; i15 < this.columns; i15++) {
+            int i16 = i15 * 2;
+            for (int i17 = 0; i17 < this.rows; i17++) {
+                int i18 = i17 * 2;
+                int i19 = (i17 * i5) + i16;
+                fArr2[i18] = fArr[i19];
+                fArr2[i18 + 1] = fArr[i19 + 1];
+            }
+            this.fftRows.complexInverse(fArr2, z);
+            for (int i20 = 0; i20 < this.rows; i20++) {
+                int i21 = i20 * 2;
+                int i22 = (i20 * i5) + i16;
+                fArr[i22] = fArr2[i21];
+                fArr[i22 + 1] = fArr2[i21 + 1];
+            }
+        }
+    }
+
+    public void complexInverse(final FloatLargeArray floatLargeArray, final boolean z) {
+        if (!floatLargeArray.isLarge() && !floatLargeArray.isConstant()) {
+            complexInverse(floatLargeArray.getData(), z);
+            return;
+        }
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        long j = 2;
+        if (this.isPowerOfTwo) {
+            this.columnsl *= 2;
+            if (numberOfThreads > 1 && this.useThreads) {
+                xdft2d0_subth1(0L, 1, floatLargeArray, z);
+                cdft2d_subth(1, floatLargeArray, z);
+            } else {
+                for (long j2 = 0; j2 < this.rowsl; j2++) {
+                    this.fftColumns.complexInverse(floatLargeArray, this.columnsl * j2, z);
+                }
+                cdft2d_sub(1, floatLargeArray, z);
+            }
+            this.columnsl /= 2;
+            return;
+        }
+        long j3 = this.columnsl;
+        final long j4 = j3 * 2;
+        if (numberOfThreads > 1 && this.useThreads) {
+            long j5 = this.rowsl;
+            long j6 = numberOfThreads;
+            if (j5 >= j6 && j3 >= j6) {
+                Future[] futureArr = new Future[numberOfThreads];
+                long j7 = j5 / j6;
+                int i = 0;
+                while (i < numberOfThreads) {
+                    final long j8 = i * j7;
+                    final long j9 = i == numberOfThreads + (-1) ? this.rowsl : j8 + j7;
+                    Future[] futureArr2 = futureArr;
+                    futureArr2[i] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.9
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            for (long j10 = j8; j10 < j9; j10++) {
+                                FloatFFT_2D.this.fftColumns.complexInverse(floatLargeArray, j4 * j10, z);
+                            }
+                        }
+                    });
+                    i++;
+                    futureArr = futureArr2;
+                }
+                Future[] futureArr3 = futureArr;
+                String str = null;
+                try {
+                    ConcurrencyUtils.waitForCompletion(futureArr3);
+                } catch (InterruptedException e) {
+                    Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+                } catch (ExecutionException e2) {
+                    Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+                }
+                long j10 = this.columnsl / j6;
+                int i2 = 0;
+                while (i2 < numberOfThreads) {
+                    final long j11 = i2 * j10;
+                    final long j12 = i2 == numberOfThreads + (-1) ? this.columnsl : j11 + j10;
+                    futureArr3[i2] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.10
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            long j13;
+                            long j14 = 2;
+                            FloatLargeArray floatLargeArray2 = new FloatLargeArray(FloatFFT_2D.this.rowsl * 2, false);
+                            long j15 = j11;
+                            while (j15 < j12) {
+                                long j16 = j15 * j14;
+                                long j17 = 0;
+                                while (true) {
+                                    j13 = 1;
+                                    if (j17 >= FloatFFT_2D.this.rowsl) {
+                                        break;
+                                    }
+                                    long j18 = j17 * j14;
+                                    long j19 = (j4 * j17) + j16;
+                                    floatLargeArray2.setDouble(j18, floatLargeArray.getFloat(j19));
+                                    floatLargeArray2.setDouble(j18 + 1, floatLargeArray.getFloat(j19 + 1));
+                                    j17++;
+                                    j14 = 2;
+                                }
+                                FloatFFT_2D.this.fftRows.complexInverse(floatLargeArray2, z);
+                                for (long j20 = 0; j20 < FloatFFT_2D.this.rowsl; j20++) {
+                                    long j21 = j20 * 2;
+                                    long j22 = (j4 * j20) + j16;
+                                    floatLargeArray.setDouble(j22, floatLargeArray2.getFloat(j21));
+                                    j13 = 1;
+                                    floatLargeArray.setDouble(j22 + 1, floatLargeArray2.getFloat(j21 + 1));
+                                }
+                                j15 += j13;
+                                j14 = 2;
+                            }
+                        }
+                    });
+                    i2++;
+                    str = str;
+                    j10 = j10;
+                }
+                String str2 = str;
+                try {
+                    ConcurrencyUtils.waitForCompletion(futureArr3);
+                    return;
+                } catch (InterruptedException e3) {
+                    Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+                    return;
+                } catch (ExecutionException e4) {
+                    Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+                    return;
+                }
+            }
+        }
+        for (long j13 = 0; j13 < this.rowsl; j13++) {
+            this.fftColumns.complexInverse(floatLargeArray, j13 * j4, z);
+        }
+        FloatLargeArray floatLargeArray2 = new FloatLargeArray(this.rowsl * 2);
+        long j14 = 0;
+        while (j14 < this.columnsl) {
+            long j15 = j14 * j;
+            long j16 = 0;
+            while (j16 < this.rowsl) {
+                long j17 = j16 * j;
+                long j18 = (j16 * j4) + j15;
+                floatLargeArray2.setDouble(j17, floatLargeArray.getFloat(j18));
+                floatLargeArray2.setDouble(j17 + 1, floatLargeArray.getFloat(j18 + 1));
+                j16++;
+                j = 2;
+            }
+            this.fftRows.complexInverse(floatLargeArray2, z);
+            for (long j19 = 0; j19 < this.rowsl; j19++) {
+                long j20 = j19 * 2;
+                long j21 = (j19 * j4) + j15;
+                floatLargeArray.setDouble(j21, floatLargeArray2.getFloat(j20));
+                floatLargeArray.setDouble(j21 + 1, floatLargeArray2.getFloat(j20 + 1));
+            }
+            j14++;
+            j = 2;
+        }
+    }
+
+    public void complexInverse(final float[][] fArr, final boolean z) {
+        int i;
+        int i2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i3 = 0;
+        if (this.isPowerOfTwo) {
+            this.columns *= 2;
+            if (numberOfThreads > 1 && this.useThreads) {
+                xdft2d0_subth1(0, 1, fArr, z);
+                cdft2d_subth(1, fArr, z);
+            } else {
+                while (i3 < this.rows) {
+                    this.fftColumns.complexInverse(fArr[i3], z);
+                    i3++;
+                }
+                cdft2d_sub(1, fArr, z);
+            }
+            this.columns /= 2;
+            return;
+        }
+        if (numberOfThreads > 1 && this.useThreads && (i2 = this.rows) >= numberOfThreads && this.columns >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i4 = i2 / numberOfThreads;
+            int i5 = 0;
+            while (i5 < numberOfThreads) {
+                final int i6 = i5 * i4;
+                final int i7 = i5 == numberOfThreads + (-1) ? this.rows : i6 + i4;
+                futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.11
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i8 = i6; i8 < i7; i8++) {
+                            FloatFFT_2D.this.fftColumns.complexInverse(fArr[i8], z);
+                        }
+                    }
+                });
+                i5++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            int i8 = this.columns / numberOfThreads;
+            while (i3 < numberOfThreads) {
+                final int i9 = i3 * i8;
+                final int i10 = i3 == numberOfThreads + (-1) ? this.columns : i9 + i8;
+                futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.12
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        float[] fArr2 = new float[FloatFFT_2D.this.rows * 2];
+                        for (int i11 = i9; i11 < i10; i11++) {
+                            int i12 = i11 * 2;
+                            for (int i13 = 0; i13 < FloatFFT_2D.this.rows; i13++) {
+                                int i14 = i13 * 2;
+                                float[] fArr3 = fArr[i13];
+                                fArr2[i14] = fArr3[i12];
+                                fArr2[i14 + 1] = fArr3[i12 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, z);
+                            for (int i15 = 0; i15 < FloatFFT_2D.this.rows; i15++) {
+                                int i16 = i15 * 2;
+                                float[] fArr4 = fArr[i15];
+                                fArr4[i12] = fArr2[i16];
+                                fArr4[i12 + 1] = fArr2[i16 + 1];
+                            }
+                        }
+                    }
+                });
+                i3++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+                return;
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e3);
+                return;
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e4);
+                return;
+            }
+        }
+        int i11 = 0;
+        while (true) {
+            i = this.rows;
+            if (i11 >= i) {
+                break;
+            }
+            this.fftColumns.complexInverse(fArr[i11], z);
+            i11++;
+        }
+        float[] fArr2 = new float[i * 2];
+        for (int i12 = 0; i12 < this.columns; i12++) {
+            int i13 = i12 * 2;
+            for (int i14 = 0; i14 < this.rows; i14++) {
+                int i15 = i14 * 2;
+                float[] fArr3 = fArr[i14];
+                fArr2[i15] = fArr3[i13];
+                fArr2[i15 + 1] = fArr3[i13 + 1];
+            }
+            this.fftRows.complexInverse(fArr2, z);
+            for (int i16 = 0; i16 < this.rows; i16++) {
+                int i17 = i16 * 2;
+                float[] fArr4 = fArr[i16];
+                fArr4[i13] = fArr2[i17];
+                fArr4[i13 + 1] = fArr2[i17 + 1];
+            }
+        }
+    }
+
+    public void realForward(float[] fArr) {
+        if (!this.isPowerOfTwo) {
+            throw new IllegalArgumentException("rows and columns must be power of two numbers");
+        }
+        if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+            xdft2d0_subth1(1, 1, fArr, true);
+            cdft2d_subth(-1, fArr, true);
+            rdft2d_sub(1, fArr);
+        } else {
+            for (int i = 0; i < this.rows; i++) {
+                this.fftColumns.realForward(fArr, this.columns * i);
+            }
+            cdft2d_sub(-1, fArr, true);
+            rdft2d_sub(1, fArr);
+        }
+    }
+
+    public void realForward(FloatLargeArray floatLargeArray) {
+        if (!this.isPowerOfTwo) {
+            throw new IllegalArgumentException("rows and columns must be power of two numbers");
+        }
+        if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+            xdft2d0_subth1(1L, 1, floatLargeArray, true);
+            cdft2d_subth(-1, floatLargeArray, true);
+            rdft2d_sub(1, floatLargeArray);
+        } else {
+            for (long j = 0; j < this.rowsl; j++) {
+                this.fftColumns.realForward(floatLargeArray, this.columnsl * j);
+            }
+            cdft2d_sub(-1, floatLargeArray, true);
+            rdft2d_sub(1, floatLargeArray);
+        }
+    }
+
+    public void realForward(float[][] fArr) {
+        if (!this.isPowerOfTwo) {
+            throw new IllegalArgumentException("rows and columns must be power of two numbers");
+        }
+        if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+            xdft2d0_subth1(1, 1, fArr, true);
+            cdft2d_subth(-1, fArr, true);
+            rdft2d_sub(1, fArr);
+        } else {
+            for (int i = 0; i < this.rows; i++) {
+                this.fftColumns.realForward(fArr[i]);
+            }
+            cdft2d_sub(-1, fArr, true);
+            rdft2d_sub(1, fArr);
+        }
+    }
+
+    public void realForwardFull(float[] fArr) {
+        if (this.isPowerOfTwo) {
+            if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+                xdft2d0_subth1(1, 1, fArr, true);
+                cdft2d_subth(-1, fArr, true);
+                rdft2d_sub(1, fArr);
+            } else {
+                for (int i = 0; i < this.rows; i++) {
+                    this.fftColumns.realForward(fArr, this.columns * i);
+                }
+                cdft2d_sub(-1, fArr, true);
+                rdft2d_sub(1, fArr);
+            }
+            fillSymmetric(fArr);
+            return;
+        }
+        mixedRadixRealForwardFull(fArr);
+    }
+
+    public void realForwardFull(FloatLargeArray floatLargeArray) {
+        if (this.isPowerOfTwo) {
+            if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+                xdft2d0_subth1(1L, 1, floatLargeArray, true);
+                cdft2d_subth(-1, floatLargeArray, true);
+                rdft2d_sub(1, floatLargeArray);
+            } else {
+                for (long j = 0; j < this.rowsl; j++) {
+                    this.fftColumns.realForward(floatLargeArray, this.columnsl * j);
+                }
+                cdft2d_sub(-1, floatLargeArray, true);
+                rdft2d_sub(1, floatLargeArray);
+            }
+            fillSymmetric(floatLargeArray);
+            return;
+        }
+        mixedRadixRealForwardFull(floatLargeArray);
+    }
+
+    public void realForwardFull(float[][] fArr) {
+        if (this.isPowerOfTwo) {
+            if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+                xdft2d0_subth1(1, 1, fArr, true);
+                cdft2d_subth(-1, fArr, true);
+                rdft2d_sub(1, fArr);
+            } else {
+                for (int i = 0; i < this.rows; i++) {
+                    this.fftColumns.realForward(fArr[i]);
+                }
+                cdft2d_sub(-1, fArr, true);
+                rdft2d_sub(1, fArr);
+            }
+            fillSymmetric(fArr);
+            return;
+        }
+        mixedRadixRealForwardFull(fArr);
+    }
+
+    public void realInverse(float[] fArr, boolean z) {
+        if (!this.isPowerOfTwo) {
+            throw new IllegalArgumentException("rows and columns must be power of two numbers");
+        }
+        if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+            rdft2d_sub(-1, fArr);
+            cdft2d_subth(1, fArr, z);
+            xdft2d0_subth1(1, -1, fArr, z);
+        } else {
+            rdft2d_sub(-1, fArr);
+            cdft2d_sub(1, fArr, z);
+            for (int i = 0; i < this.rows; i++) {
+                this.fftColumns.realInverse(fArr, this.columns * i, z);
+            }
+        }
+    }
+
+    public void realInverse(FloatLargeArray floatLargeArray, boolean z) {
+        if (!this.isPowerOfTwo) {
+            throw new IllegalArgumentException("rows and columns must be power of two numbers");
+        }
+        if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+            rdft2d_sub(-1, floatLargeArray);
+            cdft2d_subth(1, floatLargeArray, z);
+            xdft2d0_subth1(1L, -1, floatLargeArray, z);
+        } else {
+            rdft2d_sub(-1, floatLargeArray);
+            cdft2d_sub(1, floatLargeArray, z);
+            for (long j = 0; j < this.rowsl; j++) {
+                this.fftColumns.realInverse(floatLargeArray, this.columnsl * j, z);
+            }
+        }
+    }
+
+    public void realInverse(float[][] fArr, boolean z) {
+        if (!this.isPowerOfTwo) {
+            throw new IllegalArgumentException("rows and columns must be power of two numbers");
+        }
+        if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+            rdft2d_sub(-1, fArr);
+            cdft2d_subth(1, fArr, z);
+            xdft2d0_subth1(1, -1, fArr, z);
+        } else {
+            rdft2d_sub(-1, fArr);
+            cdft2d_sub(1, fArr, z);
+            for (int i = 0; i < this.rows; i++) {
+                this.fftColumns.realInverse(fArr[i], z);
+            }
+        }
+    }
+
+    public void realInverseFull(float[] fArr, boolean z) {
+        if (this.isPowerOfTwo) {
+            if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+                xdft2d0_subth2(1, -1, fArr, z);
+                cdft2d_subth(1, fArr, z);
+                rdft2d_sub(1, fArr);
+            } else {
+                for (int i = 0; i < this.rows; i++) {
+                    this.fftColumns.realInverse2(fArr, this.columns * i, z);
+                }
+                cdft2d_sub(1, fArr, z);
+                rdft2d_sub(1, fArr);
+            }
+            fillSymmetric(fArr);
+            return;
+        }
+        mixedRadixRealInverseFull(fArr, z);
+    }
+
+    public void realInverseFull(FloatLargeArray floatLargeArray, boolean z) {
+        if (this.isPowerOfTwo) {
+            if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+                xdft2d0_subth2(1L, -1, floatLargeArray, z);
+                cdft2d_subth(1, floatLargeArray, z);
+                rdft2d_sub(1, floatLargeArray);
+            } else {
+                for (long j = 0; j < this.rowsl; j++) {
+                    this.fftColumns.realInverse2(floatLargeArray, this.columnsl * j, z);
+                }
+                cdft2d_sub(1, floatLargeArray, z);
+                rdft2d_sub(1, floatLargeArray);
+            }
+            fillSymmetric(floatLargeArray);
+            return;
+        }
+        mixedRadixRealInverseFull(floatLargeArray, z);
+    }
+
+    public void realInverseFull(float[][] fArr, boolean z) {
+        if (this.isPowerOfTwo) {
+            if (ConcurrencyUtils.getNumberOfThreads() > 1 && this.useThreads) {
+                xdft2d0_subth2(1, -1, fArr, z);
+                cdft2d_subth(1, fArr, z);
+                rdft2d_sub(1, fArr);
+            } else {
+                for (int i = 0; i < this.rows; i++) {
+                    this.fftColumns.realInverse2(fArr[i], 0, z);
+                }
+                cdft2d_sub(1, fArr, z);
+                rdft2d_sub(1, fArr);
+            }
+            fillSymmetric(fArr);
+            return;
+        }
+        mixedRadixRealInverseFull(fArr, z);
+    }
+
+    private void mixedRadixRealForwardFull(final float[][] fArr) {
+        int i;
+        int i2;
+        int i3 = this.columns / 2;
+        final int i4 = i3 + 1;
+        final float[][] fArr2 = (float[][]) Array.newInstance((Class<?>) Float.TYPE, i4, this.rows * 2);
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int i5 = 1;
+        if (numberOfThreads > 1 && this.useThreads && (i = this.rows) >= numberOfThreads && i3 - 1 >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i6 = i / numberOfThreads;
+            int i7 = 0;
+            while (i7 < numberOfThreads) {
+                final int i8 = i7 * i6;
+                final int i9 = i7 == numberOfThreads + (-1) ? this.rows : i8 + i6;
+                futureArr[i7] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.13
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i10 = i8; i10 < i9; i10++) {
+                            FloatFFT_2D.this.fftColumns.realForward(fArr[i10]);
+                        }
+                    }
+                });
+                i7++;
+            }
+            String str = null;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            for (int i10 = 0; i10 < this.rows; i10++) {
+                fArr2[0][i10] = fArr[i10][0];
+            }
+            this.fftRows.realForwardFull(fArr2[0]);
+            int i11 = i2 / numberOfThreads;
+            int i12 = 0;
+            while (i12 < numberOfThreads) {
+                final int i13 = (i12 * i11) + 1;
+                int i14 = i12;
+                final int i15 = i12 == numberOfThreads + (-1) ? i3 : i13 + i11;
+                Future[] futureArr2 = futureArr;
+                futureArr2[i14] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.14
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i16 = i13; i16 < i15; i16++) {
+                            int i17 = i16 * 2;
+                            for (int i18 = 0; i18 < FloatFFT_2D.this.rows; i18++) {
+                                int i19 = i18 * 2;
+                                float[] fArr3 = fArr2[i16];
+                                float[] fArr4 = fArr[i18];
+                                fArr3[i19] = fArr4[i17];
+                                fArr3[i19 + 1] = fArr4[i17 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2[i16]);
+                        }
+                    }
+                });
+                i12 = i14 + 1;
+                str = str;
+                futureArr = futureArr2;
+            }
+            String str2 = str;
+            Future[] futureArr3 = futureArr;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+            }
+            if (this.columns % 2 == 0) {
+                for (int i16 = 0; i16 < this.rows; i16++) {
+                    fArr2[i3][i16] = fArr[i16][1];
+                }
+                this.fftRows.realForwardFull(fArr2[i3]);
+            } else {
+                for (int i17 = 0; i17 < this.rows; i17++) {
+                    int i18 = i17 * 2;
+                    float[] fArr3 = fArr2[i3];
+                    float[] fArr4 = fArr[i17];
+                    fArr3[i18] = fArr4[i3 * 2];
+                    fArr3[i18 + 1] = fArr4[1];
+                }
+                this.fftRows.complexForward(fArr2[i3]);
+            }
+            int i19 = this.rows / numberOfThreads;
+            int i20 = 0;
+            while (i20 < numberOfThreads) {
+                final int i21 = i20 * i19;
+                final int i22 = i20 == numberOfThreads + (-1) ? this.rows : i21 + i19;
+                futureArr3[i20] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.15
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i23 = i21; i23 < i22; i23++) {
+                            int i24 = i23 * 2;
+                            for (int i25 = 0; i25 < i4; i25++) {
+                                int i26 = i25 * 2;
+                                float[] fArr5 = fArr[i23];
+                                float[] fArr6 = fArr2[i25];
+                                fArr5[i26] = fArr6[i24];
+                                fArr5[i26 + 1] = fArr6[i24 + 1];
+                            }
+                        }
+                    }
+                });
+                i20++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e5) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e5);
+            } catch (ExecutionException e6) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e6);
+            }
+            int i23 = 0;
+            while (i23 < numberOfThreads) {
+                final int i24 = (i23 * i19) + 1;
+                final int i25 = i23 == numberOfThreads + (-1) ? this.rows : i24 + i19;
+                futureArr3[i23] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.16
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i26 = i24; i26 < i25; i26++) {
+                            int i27 = FloatFFT_2D.this.rows - i26;
+                            for (int i28 = i4; i28 < FloatFFT_2D.this.columns; i28++) {
+                                int i29 = i28 * 2;
+                                int i30 = (FloatFFT_2D.this.columns - i28) * 2;
+                                float[][] fArr5 = fArr;
+                                float[] fArr6 = fArr5[0];
+                                fArr6[i29] = fArr6[i30];
+                                int i31 = i29 + 1;
+                                int i32 = i30 + 1;
+                                fArr6[i31] = -fArr6[i32];
+                                float[] fArr7 = fArr5[i26];
+                                float[] fArr8 = fArr5[i27];
+                                fArr7[i29] = fArr8[i30];
+                                fArr7[i31] = -fArr8[i32];
+                            }
+                        }
+                    }
+                });
+                i23++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+                return;
+            } catch (InterruptedException e7) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e7);
+                return;
+            } catch (ExecutionException e8) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e8);
+                return;
+            }
+        }
+        for (int i26 = 0; i26 < this.rows; i26++) {
+            this.fftColumns.realForward(fArr[i26]);
+        }
+        for (int i27 = 0; i27 < this.rows; i27++) {
+            fArr2[0][i27] = fArr[i27][0];
+        }
+        this.fftRows.realForwardFull(fArr2[0]);
+        for (int i28 = 1; i28 < i3; i28++) {
+            int i29 = i28 * 2;
+            for (int i30 = 0; i30 < this.rows; i30++) {
+                int i31 = i30 * 2;
+                float[] fArr5 = fArr2[i28];
+                float[] fArr6 = fArr[i30];
+                fArr5[i31] = fArr6[i29];
+                fArr5[i31 + 1] = fArr6[i29 + 1];
+            }
+            this.fftRows.complexForward(fArr2[i28]);
+        }
+        if (this.columns % 2 == 0) {
+            for (int i32 = 0; i32 < this.rows; i32++) {
+                fArr2[i3][i32] = fArr[i32][1];
+            }
+            this.fftRows.realForwardFull(fArr2[i3]);
+        } else {
+            for (int i33 = 0; i33 < this.rows; i33++) {
+                int i34 = i33 * 2;
+                float[] fArr7 = fArr2[i3];
+                float[] fArr8 = fArr[i33];
+                fArr7[i34] = fArr8[i3 * 2];
+                fArr7[i34 + 1] = fArr8[1];
+            }
+            this.fftRows.complexForward(fArr2[i3]);
+        }
+        for (int i35 = 0; i35 < this.rows; i35++) {
+            int i36 = i35 * 2;
+            for (int i37 = 0; i37 < i4; i37++) {
+                int i38 = i37 * 2;
+                float[] fArr9 = fArr[i35];
+                float[] fArr10 = fArr2[i37];
+                fArr9[i38] = fArr10[i36];
+                fArr9[i38 + 1] = fArr10[i36 + 1];
+            }
+        }
+        while (true) {
+            int i39 = this.rows;
+            if (i5 >= i39) {
+                return;
+            }
+            int i40 = i39 - i5;
+            int i41 = i4;
+            while (true) {
+                int i42 = this.columns;
+                if (i41 < i42) {
+                    int i43 = i41 * 2;
+                    int i44 = (i42 - i41) * 2;
+                    float[] fArr11 = fArr[0];
+                    fArr11[i43] = fArr11[i44];
+                    int i45 = i43 + 1;
+                    int i46 = i44 + 1;
+                    fArr11[i45] = -fArr11[i46];
+                    float[] fArr12 = fArr[i5];
+                    float[] fArr13 = fArr[i40];
+                    fArr12[i43] = fArr13[i44];
+                    fArr12[i45] = -fArr13[i46];
+                    i41++;
+                }
+            }
+            i5++;
+        }
+    }
+
+    private void mixedRadixRealForwardFull(final float[] fArr) {
+        int i;
+        int i2;
+        int i3 = this.columns;
+        final int i4 = i3 * 2;
+        int i5 = i3 / 2;
+        final int i6 = i5 + 1;
+        final float[][] fArr2 = (float[][]) Array.newInstance((Class<?>) Float.TYPE, i6, this.rows * 2);
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        if (numberOfThreads > 1 && this.useThreads && (i = this.rows) >= numberOfThreads && i5 - 1 >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i7 = i / numberOfThreads;
+            int i8 = 0;
+            while (i8 < numberOfThreads) {
+                final int i9 = i8 * i7;
+                final int i10 = i8 == numberOfThreads + (-1) ? this.rows : i9 + i7;
+                futureArr[i8] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.17
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i11 = i9; i11 < i10; i11++) {
+                            FloatFFT_2D.this.fftColumns.realForward(fArr, FloatFFT_2D.this.columns * i11);
+                        }
+                    }
+                });
+                i8++;
+            }
+            String str = null;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            for (int i11 = 0; i11 < this.rows; i11++) {
+                fArr2[0][i11] = fArr[this.columns * i11];
+            }
+            this.fftRows.realForwardFull(fArr2[0]);
+            int i12 = i2 / numberOfThreads;
+            int i13 = 0;
+            while (i13 < numberOfThreads) {
+                final int i14 = (i13 * i12) + 1;
+                int i15 = i13;
+                final int i16 = i13 == numberOfThreads + (-1) ? i5 : i14 + i12;
+                Future[] futureArr2 = futureArr;
+                futureArr2[i15] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.18
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i17 = i14; i17 < i16; i17++) {
+                            int i18 = i17 * 2;
+                            for (int i19 = 0; i19 < FloatFFT_2D.this.rows; i19++) {
+                                int i20 = i19 * 2;
+                                int i21 = (FloatFFT_2D.this.columns * i19) + i18;
+                                float[] fArr3 = fArr2[i17];
+                                float[] fArr4 = fArr;
+                                fArr3[i20] = fArr4[i21];
+                                fArr3[i20 + 1] = fArr4[i21 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2[i17]);
+                        }
+                    }
+                });
+                i13 = i15 + 1;
+                str = str;
+                futureArr = futureArr2;
+            }
+            String str2 = str;
+            Future[] futureArr3 = futureArr;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+            }
+            if (this.columns % 2 == 0) {
+                for (int i17 = 0; i17 < this.rows; i17++) {
+                    fArr2[i5][i17] = fArr[(this.columns * i17) + 1];
+                }
+                this.fftRows.realForwardFull(fArr2[i5]);
+            } else {
+                for (int i18 = 0; i18 < this.rows; i18++) {
+                    int i19 = i18 * 2;
+                    int i20 = this.columns * i18;
+                    float[] fArr3 = fArr2[i5];
+                    fArr3[i19] = fArr[(i5 * 2) + i20];
+                    fArr3[i19 + 1] = fArr[i20 + 1];
+                }
+                this.fftRows.complexForward(fArr2[i5]);
+            }
+            int i21 = this.rows / numberOfThreads;
+            int i22 = 0;
+            while (i22 < numberOfThreads) {
+                final int i23 = i22 * i21;
+                final int i24 = i22 == numberOfThreads + (-1) ? this.rows : i23 + i21;
+                futureArr3[i22] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.19
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i25 = i23; i25 < i24; i25++) {
+                            int i26 = i25 * 2;
+                            for (int i27 = 0; i27 < i6; i27++) {
+                                int i28 = (i4 * i25) + (i27 * 2);
+                                float[] fArr4 = fArr;
+                                float[] fArr5 = fArr2[i27];
+                                fArr4[i28] = fArr5[i26];
+                                fArr4[i28 + 1] = fArr5[i26 + 1];
+                            }
+                        }
+                    }
+                });
+                i22++;
+                str2 = str2;
+            }
+            String str3 = str2;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e5) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str3, (Throwable) e5);
+            } catch (ExecutionException e6) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str3, (Throwable) e6);
+            }
+            int i25 = 0;
+            while (i25 < numberOfThreads) {
+                final int i26 = (i25 * i21) + 1;
+                final int i27 = i25 == numberOfThreads + (-1) ? this.rows : i26 + i21;
+                futureArr3[i25] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.20
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i28 = i26; i28 < i27; i28++) {
+                            int i29 = i4 * i28;
+                            int i30 = ((FloatFFT_2D.this.rows - i28) + 1) * i4;
+                            for (int i31 = i6; i31 < FloatFFT_2D.this.columns; i31++) {
+                                int i32 = i31 * 2;
+                                int i33 = (FloatFFT_2D.this.columns - i31) * 2;
+                                float[] fArr4 = fArr;
+                                fArr4[i32] = fArr4[i33];
+                                fArr4[i32 + 1] = -fArr4[i33 + 1];
+                                int i34 = i29 + i32;
+                                int i35 = i30 - i32;
+                                fArr4[i34] = fArr4[i35];
+                                fArr4[i34 + 1] = -fArr4[i35 + 1];
+                            }
+                        }
+                    }
+                });
+                i25++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+                return;
+            } catch (InterruptedException e7) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str3, (Throwable) e7);
+                return;
+            } catch (ExecutionException e8) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str3, (Throwable) e8);
+                return;
+            }
+        }
+        for (int i28 = 0; i28 < this.rows; i28++) {
+            this.fftColumns.realForward(fArr, this.columns * i28);
+        }
+        for (int i29 = 0; i29 < this.rows; i29++) {
+            fArr2[0][i29] = fArr[this.columns * i29];
+        }
+        this.fftRows.realForwardFull(fArr2[0]);
+        for (int i30 = 1; i30 < i5; i30++) {
+            int i31 = i30 * 2;
+            for (int i32 = 0; i32 < this.rows; i32++) {
+                int i33 = i32 * 2;
+                int i34 = (this.columns * i32) + i31;
+                float[] fArr4 = fArr2[i30];
+                fArr4[i33] = fArr[i34];
+                fArr4[i33 + 1] = fArr[i34 + 1];
+            }
+            this.fftRows.complexForward(fArr2[i30]);
+        }
+        if (this.columns % 2 == 0) {
+            for (int i35 = 0; i35 < this.rows; i35++) {
+                fArr2[i5][i35] = fArr[(this.columns * i35) + 1];
+            }
+            this.fftRows.realForwardFull(fArr2[i5]);
+        } else {
+            for (int i36 = 0; i36 < this.rows; i36++) {
+                int i37 = i36 * 2;
+                int i38 = this.columns * i36;
+                float[] fArr5 = fArr2[i5];
+                fArr5[i37] = fArr[(i5 * 2) + i38];
+                fArr5[i37 + 1] = fArr[i38 + 1];
+            }
+            this.fftRows.complexForward(fArr2[i5]);
+        }
+        for (int i39 = 0; i39 < this.rows; i39++) {
+            int i40 = i39 * 2;
+            for (int i41 = 0; i41 < i6; i41++) {
+                int i42 = (i39 * i4) + (i41 * 2);
+                float[] fArr6 = fArr2[i41];
+                fArr[i42] = fArr6[i40];
+                fArr[i42 + 1] = fArr6[i40 + 1];
+            }
+        }
+        int i43 = 1;
+        while (true) {
+            int i44 = this.rows;
+            if (i43 >= i44) {
+                return;
+            }
+            int i45 = i43 * i4;
+            int i46 = ((i44 - i43) + 1) * i4;
+            int i47 = i6;
+            while (true) {
+                int i48 = this.columns;
+                if (i47 < i48) {
+                    int i49 = i47 * 2;
+                    int i50 = (i48 - i47) * 2;
+                    fArr[i49] = fArr[i50];
+                    fArr[i49 + 1] = -fArr[i50 + 1];
+                    int i51 = i45 + i49;
+                    int i52 = i46 - i49;
+                    fArr[i51] = fArr[i52];
+                    fArr[i51 + 1] = -fArr[i52 + 1];
+                    i47++;
+                }
+            }
+            i43++;
+        }
+    }
+
+    private void mixedRadixRealForwardFull(final FloatLargeArray floatLargeArray) {
+        FloatFFT_2D floatFFT_2D = this;
+        long j = floatFFT_2D.columnsl;
+        final long j2 = j * 2;
+        long j3 = j / 2;
+        final long j4 = j3 + 1;
+        final FloatLargeArray floatLargeArray2 = new FloatLargeArray(j4 * 2 * floatFFT_2D.rowsl);
+        final long j5 = floatFFT_2D.rowsl * 2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        long j6 = 0;
+        if (numberOfThreads > 1 && floatFFT_2D.useThreads) {
+            long j7 = floatFFT_2D.rowsl;
+            long j8 = numberOfThreads;
+            if (j7 >= j8) {
+                long j9 = j3 - 1;
+                if (j9 >= j8) {
+                    Future[] futureArr = new Future[numberOfThreads];
+                    long j10 = j7 / j8;
+                    int i = 0;
+                    while (i < numberOfThreads) {
+                        final long j11 = i * j10;
+                        final long j12 = i == numberOfThreads + (-1) ? floatFFT_2D.rowsl : j11 + j10;
+                        Future[] futureArr2 = futureArr;
+                        futureArr2[i] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.21
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                for (long j13 = j11; j13 < j12; j13++) {
+                                    FloatFFT_2D.this.fftColumns.realForward(floatLargeArray, FloatFFT_2D.this.columnsl * j13);
+                                }
+                            }
+                        });
+                        i++;
+                        futureArr = futureArr2;
+                    }
+                    Future[] futureArr3 = futureArr;
+                    String str = null;
+                    try {
+                        ConcurrencyUtils.waitForCompletion(futureArr3);
+                    } catch (InterruptedException e) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+                    } catch (ExecutionException e2) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+                    }
+                    for (long j13 = 0; j13 < floatFFT_2D.rowsl; j13++) {
+                        floatLargeArray2.setDouble(j13, floatLargeArray.getFloat(floatFFT_2D.columnsl * j13));
+                    }
+                    floatFFT_2D.fftRows.realForwardFull(floatLargeArray2);
+                    long j14 = j9 / j8;
+                    int i2 = 0;
+                    while (i2 < numberOfThreads) {
+                        final long j15 = (i2 * j14) + 1;
+                        final long j16 = i2 == numberOfThreads + (-1) ? j3 : j15 + j14;
+                        futureArr3[i2] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.22
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                for (long j17 = j15; j17 < j16; j17++) {
+                                    long j18 = 2;
+                                    long j19 = j17 * 2;
+                                    long j20 = 0;
+                                    while (j20 < FloatFFT_2D.this.rowsl) {
+                                        long j21 = j20 * j18;
+                                        long j22 = (FloatFFT_2D.this.columnsl * j20) + j19;
+                                        floatLargeArray2.setDouble((j5 * j17) + j21, floatLargeArray.getFloat(j22));
+                                        floatLargeArray2.setDouble((j5 * j17) + j21 + 1, floatLargeArray.getFloat(j22 + 1));
+                                        j20++;
+                                        j18 = 2;
+                                    }
+                                    FloatFFT_2D.this.fftRows.complexForward(floatLargeArray2, j5 * j17);
+                                }
+                            }
+                        });
+                        i2++;
+                        str = str;
+                        numberOfThreads = numberOfThreads;
+                        j8 = j8;
+                    }
+                    String str2 = str;
+                    long j17 = j8;
+                    int i3 = numberOfThreads;
+                    try {
+                        ConcurrencyUtils.waitForCompletion(futureArr3);
+                    } catch (InterruptedException e3) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+                    } catch (ExecutionException e4) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+                    }
+                    if (floatFFT_2D.columnsl % 2 == 0) {
+                        while (j6 < floatFFT_2D.rowsl) {
+                            floatLargeArray2.setDouble((j3 * j5) + j6, floatLargeArray.getFloat((floatFFT_2D.columnsl * j6) + 1));
+                            j6++;
+                        }
+                        floatFFT_2D.fftRows.realForwardFull(floatLargeArray2, j3 * j5);
+                    } else {
+                        while (j6 < floatFFT_2D.rowsl) {
+                            long j18 = floatFFT_2D.columnsl * j6;
+                            long j19 = (j3 * j5) + (j6 * 2);
+                            floatLargeArray2.setDouble(j19, floatLargeArray.getFloat((j3 * 2) + j18));
+                            floatLargeArray2.setDouble(j19 + 1, floatLargeArray.getFloat(j18 + 1));
+                            j6++;
+                        }
+                        floatFFT_2D.fftRows.complexForward(floatLargeArray2, j3 * j5);
+                    }
+                    long j20 = floatFFT_2D.rowsl / j17;
+                    int i4 = 0;
+                    while (i4 < i3) {
+                        final long j21 = i4 * j20;
+                        final long j22 = i4 == i3 + (-1) ? floatFFT_2D.rowsl : j21 + j20;
+                        int i5 = i3;
+                        final FloatLargeArray floatLargeArray3 = floatLargeArray2;
+                        futureArr3[i4] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.23
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                for (long j23 = j21; j23 < j22; j23++) {
+                                    long j24 = 2;
+                                    long j25 = j23 * 2;
+                                    long j26 = 0;
+                                    while (j26 < j4) {
+                                        long j27 = (j2 * j23) + (j26 * j24);
+                                        floatLargeArray.setDouble(j27, floatLargeArray3.getFloat((j5 * j26) + j25));
+                                        floatLargeArray.setDouble(j27 + 1, floatLargeArray3.getFloat((j5 * j26) + j25 + 1));
+                                        j26++;
+                                        j24 = 2;
+                                    }
+                                }
+                            }
+                        });
+                        i4++;
+                        str2 = str2;
+                        i3 = i5;
+                        floatLargeArray2 = floatLargeArray2;
+                        floatFFT_2D = this;
+                    }
+                    String str3 = str2;
+                    int i6 = i3;
+                    try {
+                        ConcurrencyUtils.waitForCompletion(futureArr3);
+                    } catch (InterruptedException e5) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str3, (Throwable) e5);
+                    } catch (ExecutionException e6) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str3, (Throwable) e6);
+                    }
+                    int i7 = 0;
+                    while (i7 < i6) {
+                        final long j23 = (i7 * j20) + 1;
+                        String str4 = str3;
+                        final long j24 = i7 == i6 + (-1) ? this.rowsl : j23 + j20;
+                        futureArr3[i7] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.24
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                long j25 = j23;
+                                while (j25 < j24) {
+                                    long j26 = j2 * j25;
+                                    long j27 = 1;
+                                    long j28 = ((FloatFFT_2D.this.rowsl - j25) + 1) * j2;
+                                    long j29 = j4;
+                                    while (j29 < FloatFFT_2D.this.columnsl) {
+                                        long j30 = j29 * 2;
+                                        long j31 = 2 * (FloatFFT_2D.this.columnsl - j29);
+                                        floatLargeArray.setDouble(j30, r15.getFloat(j31));
+                                        long j32 = j25;
+                                        floatLargeArray.setDouble(j30 + 1, -r7.getFloat(j31 + 1));
+                                        long j33 = j26 + j30;
+                                        long j34 = j28 - j30;
+                                        floatLargeArray.setDouble(j33, r11.getFloat(j34));
+                                        floatLargeArray.setDouble(j33 + 1, -r11.getFloat(j34 + 1));
+                                        j29++;
+                                        j27 = 1;
+                                        j25 = j32;
+                                    }
+                                    j25 += j27;
+                                }
+                            }
+                        });
+                        i7++;
+                        str3 = str4;
+                    }
+                    String str5 = str3;
+                    try {
+                        ConcurrencyUtils.waitForCompletion(futureArr3);
+                        return;
+                    } catch (InterruptedException e7) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str5, (Throwable) e7);
+                        return;
+                    } catch (ExecutionException e8) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str5, (Throwable) e8);
+                        return;
+                    }
+                }
+            }
+        }
+        FloatFFT_2D floatFFT_2D2 = floatFFT_2D;
+        for (long j25 = 0; j25 < floatFFT_2D2.rowsl; j25++) {
+            floatFFT_2D2.fftColumns.realForward(floatLargeArray, floatFFT_2D2.columnsl * j25);
+        }
+        for (long j26 = 0; j26 < floatFFT_2D2.rowsl; j26++) {
+            floatLargeArray2.setDouble(j26, floatLargeArray.getFloat(floatFFT_2D2.columnsl * j26));
+        }
+        floatFFT_2D2.fftRows.realForwardFull(floatLargeArray2);
+        for (long j27 = 1; j27 < j3; j27++) {
+            long j28 = 2;
+            long j29 = j27 * 2;
+            long j30 = 0;
+            while (j30 < floatFFT_2D2.rowsl) {
+                long j31 = j30 * j28;
+                long j32 = (floatFFT_2D2.columnsl * j30) + j29;
+                long j33 = (j27 * j5) + j31;
+                floatLargeArray2.setDouble(j33, floatLargeArray.getFloat(j32));
+                floatLargeArray2.setDouble(j33 + 1, floatLargeArray.getFloat(j32 + 1));
+                j30++;
+                j28 = 2;
+            }
+            floatFFT_2D2.fftRows.complexForward(floatLargeArray2, j27 * j5);
+        }
+        if (floatFFT_2D2.columnsl % 2 == 0) {
+            for (long j34 = 0; j34 < floatFFT_2D2.rowsl; j34++) {
+                floatLargeArray2.setDouble((j3 * j5) + j34, floatLargeArray.getFloat((floatFFT_2D2.columnsl * j34) + 1));
+            }
+            floatFFT_2D2.fftRows.realForwardFull(floatLargeArray2, j3 * j5);
+        } else {
+            for (long j35 = 0; j35 < floatFFT_2D2.rowsl; j35++) {
+                long j36 = floatFFT_2D2.columnsl * j35;
+                long j37 = (j3 * j5) + (j35 * 2);
+                floatLargeArray2.setDouble(j37, floatLargeArray.getFloat((j3 * 2) + j36));
+                floatLargeArray2.setDouble(j37 + 1, floatLargeArray.getFloat(j36 + 1));
+            }
+            floatFFT_2D2.fftRows.complexForward(floatLargeArray2, j3 * j5);
+        }
+        for (long j38 = 0; j38 < floatFFT_2D2.rowsl; j38++) {
+            long j39 = 2;
+            long j40 = j38 * 2;
+            long j41 = 0;
+            while (j41 < j4) {
+                long j42 = (j38 * j2) + (j41 * j39);
+                long j43 = (j41 * j5) + j40;
+                floatLargeArray.setDouble(j42, floatLargeArray2.getFloat(j43));
+                floatLargeArray.setDouble(j42 + 1, floatLargeArray2.getFloat(j43 + 1));
+                j41++;
+                j39 = 2;
+            }
+        }
+        long j44 = 1;
+        while (true) {
+            long j45 = floatFFT_2D2.rowsl;
+            if (j44 >= j45) {
+                return;
+            }
+            long j46 = j44 * j2;
+            long j47 = ((j45 - j44) + 1) * j2;
+            long j48 = j4;
+            while (true) {
+                long j49 = floatFFT_2D2.columnsl;
+                if (j48 < j49) {
+                    long j50 = j48 * 2;
+                    long j51 = (j49 - j48) * 2;
+                    floatLargeArray.setDouble(j50, floatLargeArray.getFloat(j51));
+                    floatLargeArray.setDouble(j50 + 1, -floatLargeArray.getFloat(j51 + 1));
+                    long j52 = j46 + j50;
+                    long j53 = j47 - j50;
+                    floatLargeArray.setDouble(j52, floatLargeArray.getFloat(j53));
+                    floatLargeArray.setDouble(j52 + 1, -floatLargeArray.getFloat(j53 + 1));
+                    j48++;
+                    floatFFT_2D2 = this;
+                }
+            }
+            j44++;
+            floatFFT_2D2 = this;
+        }
+    }
+
+    private void mixedRadixRealInverseFull(final float[][] fArr, final boolean z) {
+        int i;
+        int i2;
+        int i3 = this.columns / 2;
+        final int i4 = i3 + 1;
+        final float[][] fArr2 = (float[][]) Array.newInstance((Class<?>) Float.TYPE, i4, this.rows * 2);
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        if (numberOfThreads > 1 && this.useThreads && (i = this.rows) >= numberOfThreads && i3 - 1 >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i5 = i / numberOfThreads;
+            int i6 = 0;
+            while (i6 < numberOfThreads) {
+                final int i7 = i6 * i5;
+                final int i8 = i6 == numberOfThreads + (-1) ? this.rows : i7 + i5;
+                int i9 = i6;
+                Future[] futureArr2 = futureArr;
+                futureArr2[i9] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.25
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i10 = i7; i10 < i8; i10++) {
+                            FloatFFT_2D.this.fftColumns.realInverse2(fArr[i10], 0, z);
+                        }
+                    }
+                });
+                i6 = i9 + 1;
+                futureArr = futureArr2;
+                i2 = i2;
+            }
+            Future[] futureArr3 = futureArr;
+            int i10 = i2;
+            String str = null;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            for (int i11 = 0; i11 < this.rows; i11++) {
+                fArr2[0][i11] = fArr[i11][0];
+            }
+            this.fftRows.realInverseFull(fArr2[0], z);
+            int i12 = i10 / numberOfThreads;
+            int i13 = 0;
+            while (i13 < numberOfThreads) {
+                final int i14 = (i13 * i12) + 1;
+                final int i15 = i13 == numberOfThreads + (-1) ? i3 : i14 + i12;
+                int i16 = i13;
+                futureArr3[i16] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.26
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i17 = i14; i17 < i15; i17++) {
+                            int i18 = i17 * 2;
+                            for (int i19 = 0; i19 < FloatFFT_2D.this.rows; i19++) {
+                                int i20 = i19 * 2;
+                                float[] fArr3 = fArr2[i17];
+                                float[] fArr4 = fArr[i19];
+                                fArr3[i20] = fArr4[i18];
+                                fArr3[i20 + 1] = fArr4[i18 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2[i17], z);
+                        }
+                    }
+                });
+                i13 = i16 + 1;
+                str = str;
+            }
+            String str2 = str;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+            }
+            if (this.columns % 2 == 0) {
+                for (int i17 = 0; i17 < this.rows; i17++) {
+                    fArr2[i3][i17] = fArr[i17][1];
+                }
+                this.fftRows.realInverseFull(fArr2[i3], z);
+            } else {
+                for (int i18 = 0; i18 < this.rows; i18++) {
+                    int i19 = i18 * 2;
+                    float[] fArr3 = fArr2[i3];
+                    float[] fArr4 = fArr[i18];
+                    fArr3[i19] = fArr4[i3 * 2];
+                    fArr3[i19 + 1] = fArr4[1];
+                }
+                this.fftRows.complexInverse(fArr2[i3], z);
+            }
+            int i20 = this.rows / numberOfThreads;
+            int i21 = 0;
+            while (i21 < numberOfThreads) {
+                final int i22 = i21 * i20;
+                final int i23 = i21 == numberOfThreads + (-1) ? this.rows : i22 + i20;
+                futureArr3[i21] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.27
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i24 = i22; i24 < i23; i24++) {
+                            int i25 = i24 * 2;
+                            for (int i26 = 0; i26 < i4; i26++) {
+                                int i27 = i26 * 2;
+                                float[] fArr5 = fArr[i24];
+                                float[] fArr6 = fArr2[i26];
+                                fArr5[i27] = fArr6[i25];
+                                fArr5[i27 + 1] = fArr6[i25 + 1];
+                            }
+                        }
+                    }
+                });
+                i21++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e5) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e5);
+            } catch (ExecutionException e6) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e6);
+            }
+            int i24 = 0;
+            while (i24 < numberOfThreads) {
+                final int i25 = (i24 * i20) + 1;
+                final int i26 = i24 == numberOfThreads + (-1) ? this.rows : i25 + i20;
+                futureArr3[i24] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.28
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i27 = i25; i27 < i26; i27++) {
+                            int i28 = FloatFFT_2D.this.rows - i27;
+                            for (int i29 = i4; i29 < FloatFFT_2D.this.columns; i29++) {
+                                int i30 = i29 * 2;
+                                int i31 = (FloatFFT_2D.this.columns - i29) * 2;
+                                float[][] fArr5 = fArr;
+                                float[] fArr6 = fArr5[0];
+                                fArr6[i30] = fArr6[i31];
+                                int i32 = i30 + 1;
+                                int i33 = i31 + 1;
+                                fArr6[i32] = -fArr6[i33];
+                                float[] fArr7 = fArr5[i27];
+                                float[] fArr8 = fArr5[i28];
+                                fArr7[i30] = fArr8[i31];
+                                fArr7[i32] = -fArr8[i33];
+                            }
+                        }
+                    }
+                });
+                i24++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+                return;
+            } catch (InterruptedException e7) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e7);
+                return;
+            } catch (ExecutionException e8) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e8);
+                return;
+            }
+        }
+        for (int i27 = 0; i27 < this.rows; i27++) {
+            this.fftColumns.realInverse2(fArr[i27], 0, z);
+        }
+        for (int i28 = 0; i28 < this.rows; i28++) {
+            fArr2[0][i28] = fArr[i28][0];
+        }
+        this.fftRows.realInverseFull(fArr2[0], z);
+        for (int i29 = 1; i29 < i3; i29++) {
+            int i30 = i29 * 2;
+            for (int i31 = 0; i31 < this.rows; i31++) {
+                int i32 = i31 * 2;
+                float[] fArr5 = fArr2[i29];
+                float[] fArr6 = fArr[i31];
+                fArr5[i32] = fArr6[i30];
+                fArr5[i32 + 1] = fArr6[i30 + 1];
+            }
+            this.fftRows.complexInverse(fArr2[i29], z);
+        }
+        if (this.columns % 2 == 0) {
+            for (int i33 = 0; i33 < this.rows; i33++) {
+                fArr2[i3][i33] = fArr[i33][1];
+            }
+            this.fftRows.realInverseFull(fArr2[i3], z);
+        } else {
+            for (int i34 = 0; i34 < this.rows; i34++) {
+                int i35 = i34 * 2;
+                float[] fArr7 = fArr2[i3];
+                float[] fArr8 = fArr[i34];
+                fArr7[i35] = fArr8[i3 * 2];
+                fArr7[i35 + 1] = fArr8[1];
+            }
+            this.fftRows.complexInverse(fArr2[i3], z);
+        }
+        for (int i36 = 0; i36 < this.rows; i36++) {
+            int i37 = i36 * 2;
+            for (int i38 = 0; i38 < i4; i38++) {
+                int i39 = i38 * 2;
+                float[] fArr9 = fArr[i36];
+                float[] fArr10 = fArr2[i38];
+                fArr9[i39] = fArr10[i37];
+                fArr9[i39 + 1] = fArr10[i37 + 1];
+            }
+        }
+        int i40 = 1;
+        while (true) {
+            int i41 = this.rows;
+            if (i40 >= i41) {
+                return;
+            }
+            int i42 = i41 - i40;
+            int i43 = i4;
+            while (true) {
+                int i44 = this.columns;
+                if (i43 < i44) {
+                    int i45 = i43 * 2;
+                    int i46 = (i44 - i43) * 2;
+                    float[] fArr11 = fArr[0];
+                    fArr11[i45] = fArr11[i46];
+                    int i47 = i45 + 1;
+                    int i48 = i46 + 1;
+                    fArr11[i47] = -fArr11[i48];
+                    float[] fArr12 = fArr[i40];
+                    float[] fArr13 = fArr[i42];
+                    fArr12[i45] = fArr13[i46];
+                    fArr12[i47] = -fArr13[i48];
+                    i43++;
+                }
+            }
+            i40++;
+        }
+    }
+
+    private void mixedRadixRealInverseFull(final float[] fArr, final boolean z) {
+        int i;
+        int i2;
+        int i3 = this.columns;
+        int i4 = i3 * 2;
+        int i5 = i3 / 2;
+        final int i6 = i5 + 1;
+        final float[][] fArr2 = (float[][]) Array.newInstance((Class<?>) Float.TYPE, i6, this.rows * 2);
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        if (numberOfThreads > 1 && this.useThreads && (i = this.rows) >= numberOfThreads && i5 - 1 >= numberOfThreads) {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i7 = i / numberOfThreads;
+            int i8 = 0;
+            while (i8 < numberOfThreads) {
+                final int i9 = i8 * i7;
+                final int i10 = i8 == numberOfThreads + (-1) ? this.rows : i9 + i7;
+                int i11 = i8;
+                Future[] futureArr2 = futureArr;
+                futureArr2[i11] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.29
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i12 = i9; i12 < i10; i12++) {
+                            FloatFFT_2D.this.fftColumns.realInverse2(fArr, FloatFFT_2D.this.columns * i12, z);
+                        }
+                    }
+                });
+                i8 = i11 + 1;
+                futureArr = futureArr2;
+                i2 = i2;
+            }
+            Future[] futureArr3 = futureArr;
+            int i12 = i2;
+            String str = null;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+            for (int i13 = 0; i13 < this.rows; i13++) {
+                fArr2[0][i13] = fArr[this.columns * i13];
+            }
+            this.fftRows.realInverseFull(fArr2[0], z);
+            int i14 = i12 / numberOfThreads;
+            int i15 = 0;
+            while (i15 < numberOfThreads) {
+                final int i16 = (i15 * i14) + 1;
+                final int i17 = i15 == numberOfThreads + (-1) ? i5 : i16 + i14;
+                int i18 = i15;
+                futureArr3[i18] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.30
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i19 = i16; i19 < i17; i19++) {
+                            int i20 = i19 * 2;
+                            for (int i21 = 0; i21 < FloatFFT_2D.this.rows; i21++) {
+                                int i22 = i21 * 2;
+                                int i23 = (FloatFFT_2D.this.columns * i21) + i20;
+                                float[] fArr3 = fArr2[i19];
+                                float[] fArr4 = fArr;
+                                fArr3[i22] = fArr4[i23];
+                                fArr3[i22 + 1] = fArr4[i23 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2[i19], z);
+                        }
+                    }
+                });
+                i15 = i18 + 1;
+                str = str;
+                i4 = i4;
+                numberOfThreads = numberOfThreads;
+            }
+            int i19 = numberOfThreads;
+            final int i20 = i4;
+            String str2 = str;
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e3) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+            } catch (ExecutionException e4) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+            }
+            if (this.columns % 2 == 0) {
+                for (int i21 = 0; i21 < this.rows; i21++) {
+                    fArr2[i5][i21] = fArr[(this.columns * i21) + 1];
+                }
+                this.fftRows.realInverseFull(fArr2[i5], z);
+            } else {
+                for (int i22 = 0; i22 < this.rows; i22++) {
+                    int i23 = i22 * 2;
+                    int i24 = this.columns * i22;
+                    float[] fArr3 = fArr2[i5];
+                    fArr3[i23] = fArr[(i5 * 2) + i24];
+                    fArr3[i23 + 1] = fArr[i24 + 1];
+                }
+                this.fftRows.complexInverse(fArr2[i5], z);
+            }
+            int i25 = this.rows / i19;
+            int i26 = 0;
+            while (i26 < i19) {
+                final int i27 = i26 * i25;
+                final int i28 = i26 == i19 + (-1) ? this.rows : i27 + i25;
+                futureArr3[i26] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.31
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i29 = i27; i29 < i28; i29++) {
+                            int i30 = i29 * 2;
+                            for (int i31 = 0; i31 < i6; i31++) {
+                                int i32 = (i20 * i29) + (i31 * 2);
+                                float[] fArr4 = fArr;
+                                float[] fArr5 = fArr2[i31];
+                                fArr4[i32] = fArr5[i30];
+                                fArr4[i32 + 1] = fArr5[i30 + 1];
+                            }
+                        }
+                    }
+                });
+                i26++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+            } catch (InterruptedException e5) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e5);
+            } catch (ExecutionException e6) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e6);
+            }
+            int i29 = 0;
+            while (i29 < i19) {
+                final int i30 = (i29 * i25) + 1;
+                final int i31 = i29 == i19 + (-1) ? this.rows : i30 + i25;
+                futureArr3[i29] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.32
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i32 = i30; i32 < i31; i32++) {
+                            int i33 = i20 * i32;
+                            int i34 = ((FloatFFT_2D.this.rows - i32) + 1) * i20;
+                            for (int i35 = i6; i35 < FloatFFT_2D.this.columns; i35++) {
+                                int i36 = i35 * 2;
+                                int i37 = (FloatFFT_2D.this.columns - i35) * 2;
+                                float[] fArr4 = fArr;
+                                fArr4[i36] = fArr4[i37];
+                                fArr4[i36 + 1] = -fArr4[i37 + 1];
+                                int i38 = i33 + i36;
+                                int i39 = i34 - i36;
+                                fArr4[i38] = fArr4[i39];
+                                fArr4[i38 + 1] = -fArr4[i39 + 1];
+                            }
+                        }
+                    }
+                });
+                i29++;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr3);
+                return;
+            } catch (InterruptedException e7) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e7);
+                return;
+            } catch (ExecutionException e8) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e8);
+                return;
+            }
+        }
+        for (int i32 = 0; i32 < this.rows; i32++) {
+            this.fftColumns.realInverse2(fArr, this.columns * i32, z);
+        }
+        for (int i33 = 0; i33 < this.rows; i33++) {
+            fArr2[0][i33] = fArr[this.columns * i33];
+        }
+        this.fftRows.realInverseFull(fArr2[0], z);
+        for (int i34 = 1; i34 < i5; i34++) {
+            int i35 = i34 * 2;
+            for (int i36 = 0; i36 < this.rows; i36++) {
+                int i37 = i36 * 2;
+                int i38 = (this.columns * i36) + i35;
+                float[] fArr4 = fArr2[i34];
+                fArr4[i37] = fArr[i38];
+                fArr4[i37 + 1] = fArr[i38 + 1];
+            }
+            this.fftRows.complexInverse(fArr2[i34], z);
+        }
+        if (this.columns % 2 == 0) {
+            for (int i39 = 0; i39 < this.rows; i39++) {
+                fArr2[i5][i39] = fArr[(this.columns * i39) + 1];
+            }
+            this.fftRows.realInverseFull(fArr2[i5], z);
+        } else {
+            for (int i40 = 0; i40 < this.rows; i40++) {
+                int i41 = i40 * 2;
+                int i42 = this.columns * i40;
+                float[] fArr5 = fArr2[i5];
+                fArr5[i41] = fArr[(i5 * 2) + i42];
+                fArr5[i41 + 1] = fArr[i42 + 1];
+            }
+            this.fftRows.complexInverse(fArr2[i5], z);
+        }
+        for (int i43 = 0; i43 < this.rows; i43++) {
+            int i44 = i43 * 2;
+            for (int i45 = 0; i45 < i6; i45++) {
+                int i46 = (i43 * i4) + (i45 * 2);
+                float[] fArr6 = fArr2[i45];
+                fArr[i46] = fArr6[i44];
+                fArr[i46 + 1] = fArr6[i44 + 1];
+            }
+        }
+        int i47 = 1;
+        while (true) {
+            int i48 = this.rows;
+            if (i47 >= i48) {
+                return;
+            }
+            int i49 = i47 * i4;
+            int i50 = ((i48 - i47) + 1) * i4;
+            int i51 = i6;
+            while (true) {
+                int i52 = this.columns;
+                if (i51 < i52) {
+                    int i53 = i51 * 2;
+                    int i54 = (i52 - i51) * 2;
+                    fArr[i53] = fArr[i54];
+                    fArr[i53 + 1] = -fArr[i54 + 1];
+                    int i55 = i49 + i53;
+                    int i56 = i50 - i53;
+                    fArr[i55] = fArr[i56];
+                    fArr[i55 + 1] = -fArr[i56 + 1];
+                    i51++;
+                }
+            }
+            i47++;
+        }
+    }
+
+    private void mixedRadixRealInverseFull(final FloatLargeArray floatLargeArray, final boolean z) {
+        FloatFFT_2D floatFFT_2D = this;
+        long j = floatFFT_2D.columnsl;
+        final long j2 = j * 2;
+        long j3 = j / 2;
+        final long j4 = j3 + 1;
+        final FloatLargeArray floatLargeArray2 = new FloatLargeArray(j4 * 2 * floatFFT_2D.rowsl);
+        final long j5 = floatFFT_2D.rowsl * 2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        long j6 = 0;
+        if (numberOfThreads > 1 && floatFFT_2D.useThreads) {
+            long j7 = floatFFT_2D.rowsl;
+            long j8 = numberOfThreads;
+            if (j7 >= j8) {
+                long j9 = j3 - 1;
+                if (j9 >= j8) {
+                    Future[] futureArr = new Future[numberOfThreads];
+                    long j10 = j7 / j8;
+                    int i = 0;
+                    while (i < numberOfThreads) {
+                        final long j11 = i * j10;
+                        final long j12 = i == numberOfThreads + (-1) ? floatFFT_2D.rowsl : j11 + j10;
+                        Future[] futureArr2 = futureArr;
+                        futureArr2[i] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.33
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                for (long j13 = j11; j13 < j12; j13++) {
+                                    FloatFFT_2D.this.fftColumns.realInverse2(floatLargeArray, FloatFFT_2D.this.columnsl * j13, z);
+                                }
+                            }
+                        });
+                        i++;
+                        futureArr = futureArr2;
+                    }
+                    Future[] futureArr3 = futureArr;
+                    String str = null;
+                    try {
+                        ConcurrencyUtils.waitForCompletion(futureArr3);
+                    } catch (InterruptedException e) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+                    } catch (ExecutionException e2) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+                    }
+                    for (long j13 = 0; j13 < floatFFT_2D.rowsl; j13++) {
+                        floatLargeArray2.setDouble(j13, floatLargeArray.getFloat(floatFFT_2D.columnsl * j13));
+                    }
+                    floatFFT_2D.fftRows.realInverseFull(floatLargeArray2, z);
+                    long j14 = j9 / j8;
+                    int i2 = 0;
+                    while (i2 < numberOfThreads) {
+                        final long j15 = (i2 * j14) + 1;
+                        final long j16 = i2 == numberOfThreads + (-1) ? j3 : j15 + j14;
+                        futureArr3[i2] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.34
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                for (long j17 = j15; j17 < j16; j17++) {
+                                    long j18 = 2;
+                                    long j19 = j17 * 2;
+                                    long j20 = 0;
+                                    while (j20 < FloatFFT_2D.this.rowsl) {
+                                        long j21 = j20 * j18;
+                                        long j22 = (FloatFFT_2D.this.columnsl * j20) + j19;
+                                        floatLargeArray2.setDouble((j5 * j17) + j21, floatLargeArray.getFloat(j22));
+                                        floatLargeArray2.setDouble((j5 * j17) + j21 + 1, floatLargeArray.getFloat(j22 + 1));
+                                        j20++;
+                                        j18 = 2;
+                                    }
+                                    FloatFFT_2D.this.fftRows.complexInverse(floatLargeArray2, j5 * j17, z);
+                                }
+                            }
+                        });
+                        i2++;
+                        str = str;
+                        j8 = j8;
+                        numberOfThreads = numberOfThreads;
+                    }
+                    String str2 = str;
+                    long j17 = j8;
+                    int i3 = numberOfThreads;
+                    try {
+                        ConcurrencyUtils.waitForCompletion(futureArr3);
+                    } catch (InterruptedException e3) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e3);
+                    } catch (ExecutionException e4) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str2, (Throwable) e4);
+                    }
+                    if (floatFFT_2D.columnsl % 2 == 0) {
+                        while (j6 < floatFFT_2D.rowsl) {
+                            floatLargeArray2.setDouble((j3 * j5) + j6, floatLargeArray.getFloat((floatFFT_2D.columnsl * j6) + 1));
+                            j6++;
+                        }
+                        floatFFT_2D.fftRows.realInverseFull(floatLargeArray2, j3 * j5, z);
+                    } else {
+                        while (j6 < floatFFT_2D.rowsl) {
+                            long j18 = floatFFT_2D.columnsl * j6;
+                            long j19 = (j3 * j5) + (j6 * 2);
+                            floatLargeArray2.setDouble(j19, floatLargeArray.getFloat((j3 * 2) + j18));
+                            floatLargeArray2.setDouble(j19 + 1, floatLargeArray.getFloat(j18 + 1));
+                            j6++;
+                        }
+                        floatFFT_2D.fftRows.complexInverse(floatLargeArray2, j3 * j5, z);
+                    }
+                    long j20 = floatFFT_2D.rowsl / j17;
+                    int i4 = i3;
+                    int i5 = 0;
+                    while (i5 < i4) {
+                        final long j21 = i5 * j20;
+                        final long j22 = i5 == i4 + (-1) ? floatFFT_2D.rowsl : j21 + j20;
+                        String str3 = str2;
+                        final FloatLargeArray floatLargeArray3 = floatLargeArray2;
+                        futureArr3[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.35
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                for (long j23 = j21; j23 < j22; j23++) {
+                                    long j24 = 2;
+                                    long j25 = j23 * 2;
+                                    long j26 = 0;
+                                    while (j26 < j4) {
+                                        long j27 = (j2 * j23) + (j26 * j24);
+                                        floatLargeArray.setDouble(j27, floatLargeArray3.getFloat((j5 * j26) + j25));
+                                        floatLargeArray.setDouble(j27 + 1, floatLargeArray3.getFloat((j5 * j26) + j25 + 1));
+                                        j26++;
+                                        j24 = 2;
+                                    }
+                                }
+                            }
+                        });
+                        i5++;
+                        str2 = str3;
+                        i4 = i4;
+                        floatLargeArray2 = floatLargeArray2;
+                        floatFFT_2D = this;
+                    }
+                    int i6 = i4;
+                    String str4 = str2;
+                    try {
+                        ConcurrencyUtils.waitForCompletion(futureArr3);
+                    } catch (InterruptedException e5) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str4, (Throwable) e5);
+                    } catch (ExecutionException e6) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str4, (Throwable) e6);
+                    }
+                    int i7 = i6;
+                    int i8 = 0;
+                    while (i8 < i7) {
+                        final long j23 = (i8 * j20) + 1;
+                        int i9 = i7;
+                        final long j24 = i8 == i7 + (-1) ? this.rowsl : j23 + j20;
+                        futureArr3[i8] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.36
+                            @Override // java.lang.Runnable
+                            public void run() {
+                                long j25 = j23;
+                                while (j25 < j24) {
+                                    long j26 = j2 * j25;
+                                    long j27 = 1;
+                                    long j28 = ((FloatFFT_2D.this.rowsl - j25) + 1) * j2;
+                                    long j29 = j4;
+                                    while (j29 < FloatFFT_2D.this.columnsl) {
+                                        long j30 = j29 * 2;
+                                        long j31 = 2 * (FloatFFT_2D.this.columnsl - j29);
+                                        floatLargeArray.setDouble(j30, r15.getFloat(j31));
+                                        long j32 = j25;
+                                        floatLargeArray.setDouble(j30 + 1, -r7.getFloat(j31 + 1));
+                                        long j33 = j26 + j30;
+                                        long j34 = j28 - j30;
+                                        floatLargeArray.setDouble(j33, r11.getFloat(j34));
+                                        floatLargeArray.setDouble(j33 + 1, -r11.getFloat(j34 + 1));
+                                        j29++;
+                                        j27 = 1;
+                                        j25 = j32;
+                                    }
+                                    j25 += j27;
+                                }
+                            }
+                        });
+                        i8++;
+                        i7 = i9;
+                    }
+                    try {
+                        ConcurrencyUtils.waitForCompletion(futureArr3);
+                        return;
+                    } catch (InterruptedException e7) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str4, (Throwable) e7);
+                        return;
+                    } catch (ExecutionException e8) {
+                        Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, str4, (Throwable) e8);
+                        return;
+                    }
+                }
+            }
+        }
+        FloatFFT_2D floatFFT_2D2 = floatFFT_2D;
+        for (long j25 = 0; j25 < floatFFT_2D2.rowsl; j25++) {
+            floatFFT_2D2.fftColumns.realInverse2(floatLargeArray, floatFFT_2D2.columnsl * j25, z);
+        }
+        for (long j26 = 0; j26 < floatFFT_2D2.rowsl; j26++) {
+            floatLargeArray2.setDouble(j26, floatLargeArray.getFloat(floatFFT_2D2.columnsl * j26));
+        }
+        floatFFT_2D2.fftRows.realInverseFull(floatLargeArray2, z);
+        for (long j27 = 1; j27 < j3; j27++) {
+            long j28 = j27 * 2;
+            long j29 = 0;
+            while (j29 < floatFFT_2D2.rowsl) {
+                long j30 = (floatFFT_2D2.columnsl * j29) + j28;
+                long j31 = (j29 * 2) + (j27 * j5);
+                floatLargeArray2.setDouble(j31, floatLargeArray.getFloat(j30));
+                floatLargeArray2.setDouble(j31 + 1, floatLargeArray.getFloat(j30 + 1));
+                j29++;
+                j28 = j28;
+            }
+            floatFFT_2D2.fftRows.complexInverse(floatLargeArray2, j27 * j5, z);
+        }
+        if (floatFFT_2D2.columnsl % 2 == 0) {
+            for (long j32 = 0; j32 < floatFFT_2D2.rowsl; j32++) {
+                floatLargeArray2.setDouble((j3 * j5) + j32, floatLargeArray.getFloat((floatFFT_2D2.columnsl * j32) + 1));
+            }
+            floatFFT_2D2.fftRows.realInverseFull(floatLargeArray2, j3 * j5, z);
+        } else {
+            for (long j33 = 0; j33 < floatFFT_2D2.rowsl; j33++) {
+                long j34 = floatFFT_2D2.columnsl * j33;
+                long j35 = (j3 * j5) + (j33 * 2);
+                floatLargeArray2.setDouble(j35, floatLargeArray.getFloat((j3 * 2) + j34));
+                floatLargeArray2.setDouble(j35 + 1, floatLargeArray.getFloat(j34 + 1));
+            }
+            floatFFT_2D2.fftRows.complexInverse(floatLargeArray2, j3 * j5, z);
+        }
+        for (long j36 = 0; j36 < floatFFT_2D2.rowsl; j36++) {
+            long j37 = j36 * 2;
+            long j38 = 0;
+            while (j38 < j4) {
+                long j39 = (j36 * j2) + (j38 * 2);
+                long j40 = (j38 * j5) + j37;
+                floatLargeArray.setDouble(j39, floatLargeArray2.getFloat(j40));
+                floatLargeArray.setDouble(j39 + 1, floatLargeArray2.getFloat(j40 + 1));
+                j38++;
+                j37 = j37;
+            }
+        }
+        long j41 = 1;
+        while (true) {
+            long j42 = floatFFT_2D2.rowsl;
+            if (j41 >= j42) {
+                return;
+            }
+            long j43 = j41 * j2;
+            long j44 = ((j42 - j41) + 1) * j2;
+            long j45 = j4;
+            while (true) {
+                long j46 = floatFFT_2D2.columnsl;
+                if (j45 < j46) {
+                    long j47 = j45 * 2;
+                    long j48 = (j46 - j45) * 2;
+                    floatLargeArray.setDouble(j47, floatLargeArray.getFloat(j48));
+                    floatLargeArray.setDouble(j47 + 1, -floatLargeArray.getFloat(j48 + 1));
+                    long j49 = j43 + j47;
+                    long j50 = j44 - j47;
+                    floatLargeArray.setDouble(j49, floatLargeArray.getFloat(j50));
+                    floatLargeArray.setDouble(j49 + 1, -floatLargeArray.getFloat(j50 + 1));
+                    j45++;
+                    floatFFT_2D2 = this;
+                }
+            }
+            j41++;
+            floatFFT_2D2 = this;
+        }
+    }
+
+    private void rdft2d_sub(int i, float[] fArr) {
+        int i2 = this.rows >> 1;
+        if (i >= 0) {
+            for (int i3 = 1; i3 < i2; i3++) {
+                int i4 = this.rows - i3;
+                int i5 = this.columns;
+                int i6 = i3 * i5;
+                int i7 = i4 * i5;
+                float f = (fArr[i6] - fArr[i7]) * 0.5f;
+                fArr[i7] = f;
+                fArr[i6] = fArr[i6] - f;
+                int i8 = i7 + 1;
+                int i9 = i6 + 1;
+                float f2 = (fArr[i9] + fArr[i8]) * 0.5f;
+                fArr[i8] = f2;
+                fArr[i9] = fArr[i9] - f2;
+            }
+            return;
+        }
+        for (int i10 = 1; i10 < i2; i10++) {
+            int i11 = this.rows - i10;
+            int i12 = this.columns;
+            int i13 = i10 * i12;
+            int i14 = i11 * i12;
+            float f3 = fArr[i13];
+            float f4 = fArr[i14];
+            fArr[i13] = f3 + f4;
+            fArr[i14] = f3 - f4;
+            int i15 = i14 + 1;
+            float f5 = fArr[i15];
+            int i16 = i13 + 1;
+            float f6 = fArr[i16];
+            fArr[i16] = f6 + f5;
+            fArr[i15] = f5 - f6;
+        }
+    }
+
+    private void rdft2d_sub(int i, FloatLargeArray floatLargeArray) {
+        long j = this.rowsl >> 1;
+        if (i >= 0) {
+            for (long j2 = 1; j2 < j; j2++) {
+                long j3 = this.rowsl - j2;
+                long j4 = this.columnsl;
+                long j5 = j2 * j4;
+                long j6 = j3 * j4;
+                floatLargeArray.setDouble(j6, (floatLargeArray.getFloat(j5) - floatLargeArray.getFloat(j6)) * 0.5f);
+                floatLargeArray.setDouble(j5, floatLargeArray.getFloat(j5) - floatLargeArray.getFloat(j6));
+                floatLargeArray.setDouble(j6 + 1, (floatLargeArray.getFloat(r12) + floatLargeArray.getFloat(r8)) * 0.5f);
+                floatLargeArray.setDouble(j5 + 1, floatLargeArray.getFloat(r12) - floatLargeArray.getFloat(r8));
+            }
+            return;
+        }
+        for (long j7 = 1; j7 < j; j7++) {
+            long j8 = this.rowsl - j7;
+            long j9 = this.columnsl;
+            long j10 = j7 * j9;
+            long j11 = j8 * j9;
+            float f = floatLargeArray.getFloat(j10) - floatLargeArray.getFloat(j11);
+            floatLargeArray.setDouble(j10, floatLargeArray.getFloat(j10) + floatLargeArray.getFloat(j11));
+            floatLargeArray.setDouble(j11, f);
+            long j12 = j11 + 1;
+            long j13 = j10 + 1;
+            float f2 = floatLargeArray.getFloat(j12) - floatLargeArray.getFloat(j13);
+            floatLargeArray.setDouble(j13, floatLargeArray.getFloat(j13) + floatLargeArray.getFloat(j12));
+            floatLargeArray.setDouble(j12, f2);
+        }
+    }
+
+    private void rdft2d_sub(int i, float[][] fArr) {
+        int i2 = this.rows >> 1;
+        if (i >= 0) {
+            for (int i3 = 1; i3 < i2; i3++) {
+                float[] fArr2 = fArr[this.rows - i3];
+                float[] fArr3 = fArr[i3];
+                float f = (fArr3[0] - fArr2[0]) * 0.5f;
+                fArr2[0] = f;
+                fArr3[0] = fArr3[0] - f;
+                float f2 = (fArr3[1] + fArr2[1]) * 0.5f;
+                fArr2[1] = f2;
+                fArr3[1] = fArr3[1] - f2;
+            }
+            return;
+        }
+        for (int i4 = 1; i4 < i2; i4++) {
+            int i5 = this.rows - i4;
+            float[] fArr4 = fArr[i4];
+            float f3 = fArr4[0];
+            float[] fArr5 = fArr[i5];
+            float f4 = fArr5[0];
+            fArr4[0] = f3 + f4;
+            fArr5[0] = f3 - f4;
+            float f5 = fArr5[1];
+            float f6 = fArr4[1];
+            fArr4[1] = f6 + f5;
+            fArr5[1] = f5 - f6;
+        }
+    }
+
+    private void cdft2d_sub(int i, float[] fArr, boolean z) {
+        int i2 = this.rows * 8;
+        int i3 = this.columns;
+        if (i3 == 4) {
+            i2 >>= 1;
+        } else if (i3 < 4) {
+            i2 >>= 2;
+        }
+        float[] fArr2 = new float[i2];
+        int i4 = 0;
+        if (i == -1) {
+            if (i3 > 4) {
+                for (int i5 = 0; i5 < this.columns; i5 += 8) {
+                    int i6 = 0;
+                    while (true) {
+                        int i7 = this.rows;
+                        if (i6 >= i7) {
+                            break;
+                        }
+                        int i8 = (this.columns * i6) + i5;
+                        int i9 = i6 * 2;
+                        int i10 = (i7 * 2) + i9;
+                        int i11 = (i7 * 2) + i10;
+                        int i12 = (i7 * 2) + i11;
+                        fArr2[i9] = fArr[i8];
+                        fArr2[i9 + 1] = fArr[i8 + 1];
+                        fArr2[i10] = fArr[i8 + 2];
+                        fArr2[i10 + 1] = fArr[i8 + 3];
+                        fArr2[i11] = fArr[i8 + 4];
+                        fArr2[i11 + 1] = fArr[i8 + 5];
+                        fArr2[i12] = fArr[i8 + 6];
+                        fArr2[i12 + 1] = fArr[i8 + 7];
+                        i6++;
+                    }
+                    this.fftRows.complexForward(fArr2, 0);
+                    this.fftRows.complexForward(fArr2, this.rows * 2);
+                    this.fftRows.complexForward(fArr2, this.rows * 4);
+                    this.fftRows.complexForward(fArr2, this.rows * 6);
+                    int i13 = 0;
+                    while (true) {
+                        int i14 = this.rows;
+                        if (i13 < i14) {
+                            int i15 = (this.columns * i13) + i5;
+                            int i16 = i13 * 2;
+                            int i17 = (i14 * 2) + i16;
+                            int i18 = (i14 * 2) + i17;
+                            int i19 = (i14 * 2) + i18;
+                            fArr[i15] = fArr2[i16];
+                            fArr[i15 + 1] = fArr2[i16 + 1];
+                            fArr[i15 + 2] = fArr2[i17];
+                            fArr[i15 + 3] = fArr2[i17 + 1];
+                            fArr[i15 + 4] = fArr2[i18];
+                            fArr[i15 + 5] = fArr2[i18 + 1];
+                            fArr[i15 + 6] = fArr2[i19];
+                            fArr[i15 + 7] = fArr2[i19 + 1];
+                            i13++;
+                        }
+                    }
+                }
+                return;
+            }
+            if (i3 != 4) {
+                if (i3 == 2) {
+                    for (int i20 = 0; i20 < this.rows; i20++) {
+                        int i21 = this.columns * i20;
+                        int i22 = i20 * 2;
+                        fArr2[i22] = fArr[i21];
+                        fArr2[i22 + 1] = fArr[i21 + 1];
+                    }
+                    this.fftRows.complexForward(fArr2, 0);
+                    while (i4 < this.rows) {
+                        int i23 = this.columns * i4;
+                        int i24 = i4 * 2;
+                        fArr[i23] = fArr2[i24];
+                        fArr[i23 + 1] = fArr2[i24 + 1];
+                        i4++;
+                    }
+                    return;
+                }
+                return;
+            }
+            int i25 = 0;
+            while (true) {
+                int i26 = this.rows;
+                if (i25 >= i26) {
+                    break;
+                }
+                int i27 = this.columns * i25;
+                int i28 = i25 * 2;
+                int i29 = (i26 * 2) + i28;
+                fArr2[i28] = fArr[i27];
+                fArr2[i28 + 1] = fArr[i27 + 1];
+                fArr2[i29] = fArr[i27 + 2];
+                fArr2[i29 + 1] = fArr[i27 + 3];
+                i25++;
+            }
+            this.fftRows.complexForward(fArr2, 0);
+            this.fftRows.complexForward(fArr2, this.rows * 2);
+            while (true) {
+                int i30 = this.rows;
+                if (i4 >= i30) {
+                    return;
+                }
+                int i31 = this.columns * i4;
+                int i32 = i4 * 2;
+                int i33 = (i30 * 2) + i32;
+                fArr[i31] = fArr2[i32];
+                fArr[i31 + 1] = fArr2[i32 + 1];
+                fArr[i31 + 2] = fArr2[i33];
+                fArr[i31 + 3] = fArr2[i33 + 1];
+                i4++;
+            }
+        } else {
+            if (i3 > 4) {
+                for (int i34 = 0; i34 < this.columns; i34 += 8) {
+                    int i35 = 0;
+                    while (true) {
+                        int i36 = this.rows;
+                        if (i35 >= i36) {
+                            break;
+                        }
+                        int i37 = (this.columns * i35) + i34;
+                        int i38 = i35 * 2;
+                        int i39 = (i36 * 2) + i38;
+                        int i40 = (i36 * 2) + i39;
+                        int i41 = (i36 * 2) + i40;
+                        fArr2[i38] = fArr[i37];
+                        fArr2[i38 + 1] = fArr[i37 + 1];
+                        fArr2[i39] = fArr[i37 + 2];
+                        fArr2[i39 + 1] = fArr[i37 + 3];
+                        fArr2[i40] = fArr[i37 + 4];
+                        fArr2[i40 + 1] = fArr[i37 + 5];
+                        fArr2[i41] = fArr[i37 + 6];
+                        fArr2[i41 + 1] = fArr[i37 + 7];
+                        i35++;
+                    }
+                    this.fftRows.complexInverse(fArr2, 0, z);
+                    this.fftRows.complexInverse(fArr2, this.rows * 2, z);
+                    this.fftRows.complexInverse(fArr2, this.rows * 4, z);
+                    this.fftRows.complexInverse(fArr2, this.rows * 6, z);
+                    int i42 = 0;
+                    while (true) {
+                        int i43 = this.rows;
+                        if (i42 < i43) {
+                            int i44 = (this.columns * i42) + i34;
+                            int i45 = i42 * 2;
+                            int i46 = (i43 * 2) + i45;
+                            int i47 = (i43 * 2) + i46;
+                            int i48 = (i43 * 2) + i47;
+                            fArr[i44] = fArr2[i45];
+                            fArr[i44 + 1] = fArr2[i45 + 1];
+                            fArr[i44 + 2] = fArr2[i46];
+                            fArr[i44 + 3] = fArr2[i46 + 1];
+                            fArr[i44 + 4] = fArr2[i47];
+                            fArr[i44 + 5] = fArr2[i47 + 1];
+                            fArr[i44 + 6] = fArr2[i48];
+                            fArr[i44 + 7] = fArr2[i48 + 1];
+                            i42++;
+                        }
+                    }
+                }
+                return;
+            }
+            if (i3 != 4) {
+                if (i3 == 2) {
+                    for (int i49 = 0; i49 < this.rows; i49++) {
+                        int i50 = this.columns * i49;
+                        int i51 = i49 * 2;
+                        fArr2[i51] = fArr[i50];
+                        fArr2[i51 + 1] = fArr[i50 + 1];
+                    }
+                    this.fftRows.complexInverse(fArr2, 0, z);
+                    while (i4 < this.rows) {
+                        int i52 = this.columns * i4;
+                        int i53 = i4 * 2;
+                        fArr[i52] = fArr2[i53];
+                        fArr[i52 + 1] = fArr2[i53 + 1];
+                        i4++;
+                    }
+                    return;
+                }
+                return;
+            }
+            int i54 = 0;
+            while (true) {
+                int i55 = this.rows;
+                if (i54 >= i55) {
+                    break;
+                }
+                int i56 = this.columns * i54;
+                int i57 = i54 * 2;
+                int i58 = (i55 * 2) + i57;
+                fArr2[i57] = fArr[i56];
+                fArr2[i57 + 1] = fArr[i56 + 1];
+                fArr2[i58] = fArr[i56 + 2];
+                fArr2[i58 + 1] = fArr[i56 + 3];
+                i54++;
+            }
+            this.fftRows.complexInverse(fArr2, 0, z);
+            this.fftRows.complexInverse(fArr2, this.rows * 2, z);
+            while (true) {
+                int i59 = this.rows;
+                if (i4 >= i59) {
+                    return;
+                }
+                int i60 = this.columns * i4;
+                int i61 = i4 * 2;
+                int i62 = (i59 * 2) + i61;
+                fArr[i60] = fArr2[i61];
+                fArr[i60 + 1] = fArr2[i61 + 1];
+                fArr[i60 + 2] = fArr2[i62];
+                fArr[i60 + 3] = fArr2[i62 + 1];
+                i4++;
+            }
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:11:0x002f  */
+    /* JADX WARN: Removed duplicated region for block: B:45:0x0255  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void cdft2d_sub(int r30, pl.edu.icm.jlargearrays.FloatLargeArray r31, boolean r32) {
+        /*
+            Method dump skipped, instructions count: 1158
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.jtransforms.fft.FloatFFT_2D.cdft2d_sub(int, pl.edu.icm.jlargearrays.FloatLargeArray, boolean):void");
+    }
+
+    private void cdft2d_sub(int i, float[][] fArr, boolean z) {
+        int i2 = this.rows * 8;
+        int i3 = this.columns;
+        if (i3 == 4) {
+            i2 >>= 1;
+        } else if (i3 < 4) {
+            i2 >>= 2;
+        }
+        float[] fArr2 = new float[i2];
+        if (i == -1) {
+            if (i3 > 4) {
+                for (int i4 = 0; i4 < this.columns; i4 += 8) {
+                    int i5 = 0;
+                    while (true) {
+                        int i6 = this.rows;
+                        if (i5 >= i6) {
+                            break;
+                        }
+                        int i7 = i5 * 2;
+                        int i8 = (i6 * 2) + i7;
+                        int i9 = (i6 * 2) + i8;
+                        int i10 = (i6 * 2) + i9;
+                        float[] fArr3 = fArr[i5];
+                        fArr2[i7] = fArr3[i4];
+                        fArr2[i7 + 1] = fArr3[i4 + 1];
+                        fArr2[i8] = fArr3[i4 + 2];
+                        fArr2[i8 + 1] = fArr3[i4 + 3];
+                        fArr2[i9] = fArr3[i4 + 4];
+                        fArr2[i9 + 1] = fArr3[i4 + 5];
+                        fArr2[i10] = fArr3[i4 + 6];
+                        fArr2[i10 + 1] = fArr3[i4 + 7];
+                        i5++;
+                    }
+                    this.fftRows.complexForward(fArr2, 0);
+                    this.fftRows.complexForward(fArr2, this.rows * 2);
+                    this.fftRows.complexForward(fArr2, this.rows * 4);
+                    this.fftRows.complexForward(fArr2, this.rows * 6);
+                    int i11 = 0;
+                    while (true) {
+                        int i12 = this.rows;
+                        if (i11 < i12) {
+                            int i13 = i11 * 2;
+                            int i14 = (i12 * 2) + i13;
+                            int i15 = (i12 * 2) + i14;
+                            int i16 = (i12 * 2) + i15;
+                            float[] fArr4 = fArr[i11];
+                            fArr4[i4] = fArr2[i13];
+                            fArr4[i4 + 1] = fArr2[i13 + 1];
+                            fArr4[i4 + 2] = fArr2[i14];
+                            fArr4[i4 + 3] = fArr2[i14 + 1];
+                            fArr4[i4 + 4] = fArr2[i15];
+                            fArr4[i4 + 5] = fArr2[i15 + 1];
+                            fArr4[i4 + 6] = fArr2[i16];
+                            fArr4[i4 + 7] = fArr2[i16 + 1];
+                            i11++;
+                        }
+                    }
+                }
+                return;
+            }
+            if (i3 != 4) {
+                if (i3 == 2) {
+                    for (int i17 = 0; i17 < this.rows; i17++) {
+                        int i18 = i17 * 2;
+                        float[] fArr5 = fArr[i17];
+                        fArr2[i18] = fArr5[0];
+                        fArr2[i18 + 1] = fArr5[1];
+                    }
+                    this.fftRows.complexForward(fArr2, 0);
+                    for (int i19 = 0; i19 < this.rows; i19++) {
+                        int i20 = i19 * 2;
+                        float[] fArr6 = fArr[i19];
+                        fArr6[0] = fArr2[i20];
+                        fArr6[1] = fArr2[i20 + 1];
+                    }
+                    return;
+                }
+                return;
+            }
+            int i21 = 0;
+            while (true) {
+                int i22 = this.rows;
+                if (i21 >= i22) {
+                    break;
+                }
+                int i23 = i21 * 2;
+                int i24 = (i22 * 2) + i23;
+                float[] fArr7 = fArr[i21];
+                fArr2[i23] = fArr7[0];
+                fArr2[i23 + 1] = fArr7[1];
+                fArr2[i24] = fArr7[2];
+                fArr2[i24 + 1] = fArr7[3];
+                i21++;
+            }
+            this.fftRows.complexForward(fArr2, 0);
+            this.fftRows.complexForward(fArr2, this.rows * 2);
+            int i25 = 0;
+            while (true) {
+                int i26 = this.rows;
+                if (i25 >= i26) {
+                    return;
+                }
+                int i27 = i25 * 2;
+                int i28 = (i26 * 2) + i27;
+                float[] fArr8 = fArr[i25];
+                fArr8[0] = fArr2[i27];
+                fArr8[1] = fArr2[i27 + 1];
+                fArr8[2] = fArr2[i28];
+                fArr8[3] = fArr2[i28 + 1];
+                i25++;
+            }
+        } else {
+            if (i3 > 4) {
+                for (int i29 = 0; i29 < this.columns; i29 += 8) {
+                    int i30 = 0;
+                    while (true) {
+                        int i31 = this.rows;
+                        if (i30 >= i31) {
+                            break;
+                        }
+                        int i32 = i30 * 2;
+                        int i33 = (i31 * 2) + i32;
+                        int i34 = (i31 * 2) + i33;
+                        int i35 = (i31 * 2) + i34;
+                        float[] fArr9 = fArr[i30];
+                        fArr2[i32] = fArr9[i29];
+                        fArr2[i32 + 1] = fArr9[i29 + 1];
+                        fArr2[i33] = fArr9[i29 + 2];
+                        fArr2[i33 + 1] = fArr9[i29 + 3];
+                        fArr2[i34] = fArr9[i29 + 4];
+                        fArr2[i34 + 1] = fArr9[i29 + 5];
+                        fArr2[i35] = fArr9[i29 + 6];
+                        fArr2[i35 + 1] = fArr9[i29 + 7];
+                        i30++;
+                    }
+                    this.fftRows.complexInverse(fArr2, 0, z);
+                    this.fftRows.complexInverse(fArr2, this.rows * 2, z);
+                    this.fftRows.complexInverse(fArr2, this.rows * 4, z);
+                    this.fftRows.complexInverse(fArr2, this.rows * 6, z);
+                    int i36 = 0;
+                    while (true) {
+                        int i37 = this.rows;
+                        if (i36 < i37) {
+                            int i38 = i36 * 2;
+                            int i39 = (i37 * 2) + i38;
+                            int i40 = (i37 * 2) + i39;
+                            int i41 = (i37 * 2) + i40;
+                            float[] fArr10 = fArr[i36];
+                            fArr10[i29] = fArr2[i38];
+                            fArr10[i29 + 1] = fArr2[i38 + 1];
+                            fArr10[i29 + 2] = fArr2[i39];
+                            fArr10[i29 + 3] = fArr2[i39 + 1];
+                            fArr10[i29 + 4] = fArr2[i40];
+                            fArr10[i29 + 5] = fArr2[i40 + 1];
+                            fArr10[i29 + 6] = fArr2[i41];
+                            fArr10[i29 + 7] = fArr2[i41 + 1];
+                            i36++;
+                        }
+                    }
+                }
+                return;
+            }
+            if (i3 != 4) {
+                if (i3 == 2) {
+                    for (int i42 = 0; i42 < this.rows; i42++) {
+                        int i43 = i42 * 2;
+                        float[] fArr11 = fArr[i42];
+                        fArr2[i43] = fArr11[0];
+                        fArr2[i43 + 1] = fArr11[1];
+                    }
+                    this.fftRows.complexInverse(fArr2, 0, z);
+                    for (int i44 = 0; i44 < this.rows; i44++) {
+                        int i45 = i44 * 2;
+                        float[] fArr12 = fArr[i44];
+                        fArr12[0] = fArr2[i45];
+                        fArr12[1] = fArr2[i45 + 1];
+                    }
+                    return;
+                }
+                return;
+            }
+            int i46 = 0;
+            while (true) {
+                int i47 = this.rows;
+                if (i46 >= i47) {
+                    break;
+                }
+                int i48 = i46 * 2;
+                int i49 = (i47 * 2) + i48;
+                float[] fArr13 = fArr[i46];
+                fArr2[i48] = fArr13[0];
+                fArr2[i48 + 1] = fArr13[1];
+                fArr2[i49] = fArr13[2];
+                fArr2[i49 + 1] = fArr13[3];
+                i46++;
+            }
+            this.fftRows.complexInverse(fArr2, 0, z);
+            this.fftRows.complexInverse(fArr2, this.rows * 2, z);
+            int i50 = 0;
+            while (true) {
+                int i51 = this.rows;
+                if (i50 >= i51) {
+                    return;
+                }
+                int i52 = i50 * 2;
+                int i53 = (i51 * 2) + i52;
+                float[] fArr14 = fArr[i50];
+                fArr14[0] = fArr2[i52];
+                fArr14[1] = fArr2[i52 + 1];
+                fArr14[2] = fArr2[i53];
+                fArr14[3] = fArr2[i53 + 1];
+                i50++;
+            }
+        }
+    }
+
+    private void xdft2d0_subth1(final int i, final int i2, final float[] fArr, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int numberOfThreads2 = this.rows;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        final int i3 = numberOfThreads2;
+        Future[] futureArr = new Future[i3];
+        for (int i4 = 0; i4 < i3; i4++) {
+            final int i5 = i4;
+            futureArr[i4] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.37
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (i == 0) {
+                        if (i2 == -1) {
+                            int i6 = i5;
+                            while (i6 < FloatFFT_2D.this.rows) {
+                                FloatFFT_2D.this.fftColumns.complexForward(fArr, FloatFFT_2D.this.columns * i6);
+                                i6 += i3;
+                            }
+                            return;
+                        }
+                        int i7 = i5;
+                        while (i7 < FloatFFT_2D.this.rows) {
+                            FloatFFT_2D.this.fftColumns.complexInverse(fArr, FloatFFT_2D.this.columns * i7, z);
+                            i7 += i3;
+                        }
+                        return;
+                    }
+                    if (i2 == 1) {
+                        int i8 = i5;
+                        while (i8 < FloatFFT_2D.this.rows) {
+                            FloatFFT_2D.this.fftColumns.realForward(fArr, FloatFFT_2D.this.columns * i8);
+                            i8 += i3;
+                        }
+                        return;
+                    }
+                    int i9 = i5;
+                    while (i9 < FloatFFT_2D.this.rows) {
+                        FloatFFT_2D.this.fftColumns.realInverse(fArr, FloatFFT_2D.this.columns * i9, z);
+                        i9 += i3;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void xdft2d0_subth1(final long j, final int i, final FloatLargeArray floatLargeArray, final boolean z) {
+        long numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        long numberOfThreads2 = this.rowsl;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        final int i2 = (int) numberOfThreads2;
+        Future[] futureArr = new Future[i2];
+        for (int i3 = 0; i3 < i2; i3++) {
+            final int i4 = i3;
+            futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.38
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (j == 0) {
+                        if (i == -1) {
+                            long j2 = i4;
+                            while (j2 < FloatFFT_2D.this.rowsl) {
+                                FloatFFT_2D.this.fftColumns.complexForward(floatLargeArray, FloatFFT_2D.this.columnsl * j2);
+                                j2 += i2;
+                            }
+                            return;
+                        }
+                        long j3 = i4;
+                        while (j3 < FloatFFT_2D.this.rowsl) {
+                            FloatFFT_2D.this.fftColumns.complexInverse(floatLargeArray, FloatFFT_2D.this.columnsl * j3, z);
+                            j3 += i2;
+                        }
+                        return;
+                    }
+                    if (i == 1) {
+                        long j4 = i4;
+                        while (j4 < FloatFFT_2D.this.rowsl) {
+                            FloatFFT_2D.this.fftColumns.realForward(floatLargeArray, FloatFFT_2D.this.columnsl * j4);
+                            j4 += i2;
+                        }
+                        return;
+                    }
+                    long j5 = i4;
+                    while (j5 < FloatFFT_2D.this.rowsl) {
+                        FloatFFT_2D.this.fftColumns.realInverse(floatLargeArray, FloatFFT_2D.this.columnsl * j5, z);
+                        j5 += i2;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void xdft2d0_subth2(final int i, final int i2, final float[] fArr, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int numberOfThreads2 = this.rows;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        final int i3 = numberOfThreads2;
+        Future[] futureArr = new Future[i3];
+        for (int i4 = 0; i4 < i3; i4++) {
+            final int i5 = i4;
+            futureArr[i4] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.39
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (i == 0) {
+                        if (i2 == -1) {
+                            int i6 = i5;
+                            while (i6 < FloatFFT_2D.this.rows) {
+                                FloatFFT_2D.this.fftColumns.complexForward(fArr, FloatFFT_2D.this.columns * i6);
+                                i6 += i3;
+                            }
+                            return;
+                        }
+                        int i7 = i5;
+                        while (i7 < FloatFFT_2D.this.rows) {
+                            FloatFFT_2D.this.fftColumns.complexInverse(fArr, FloatFFT_2D.this.columns * i7, z);
+                            i7 += i3;
+                        }
+                        return;
+                    }
+                    if (i2 == 1) {
+                        int i8 = i5;
+                        while (i8 < FloatFFT_2D.this.rows) {
+                            FloatFFT_2D.this.fftColumns.realForward(fArr, FloatFFT_2D.this.columns * i8);
+                            i8 += i3;
+                        }
+                        return;
+                    }
+                    int i9 = i5;
+                    while (i9 < FloatFFT_2D.this.rows) {
+                        FloatFFT_2D.this.fftColumns.realInverse2(fArr, FloatFFT_2D.this.columns * i9, z);
+                        i9 += i3;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void xdft2d0_subth2(final long j, final int i, final FloatLargeArray floatLargeArray, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int numberOfThreads2 = this.rows;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        final int i2 = numberOfThreads2;
+        Future[] futureArr = new Future[i2];
+        for (int i3 = 0; i3 < i2; i3++) {
+            final long j2 = i3;
+            futureArr[i3] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.40
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (j == 0) {
+                        if (i == -1) {
+                            long j3 = j2;
+                            while (j3 < FloatFFT_2D.this.rowsl) {
+                                FloatFFT_2D.this.fftColumns.complexForward(floatLargeArray, FloatFFT_2D.this.columnsl * j3);
+                                j3 += i2;
+                            }
+                            return;
+                        }
+                        long j4 = j2;
+                        while (j4 < FloatFFT_2D.this.rowsl) {
+                            FloatFFT_2D.this.fftColumns.complexInverse(floatLargeArray, FloatFFT_2D.this.columnsl * j4, z);
+                            j4 += i2;
+                        }
+                        return;
+                    }
+                    if (i == 1) {
+                        long j5 = j2;
+                        while (j5 < FloatFFT_2D.this.rowsl) {
+                            FloatFFT_2D.this.fftColumns.realForward(floatLargeArray, FloatFFT_2D.this.columnsl * j5);
+                            j5 += i2;
+                        }
+                        return;
+                    }
+                    long j6 = j2;
+                    while (j6 < FloatFFT_2D.this.rowsl) {
+                        FloatFFT_2D.this.fftColumns.realInverse2(floatLargeArray, FloatFFT_2D.this.columnsl * j6, z);
+                        j6 += i2;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void xdft2d0_subth1(final int i, final int i2, final float[][] fArr, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int numberOfThreads2 = this.rows;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        final int i3 = numberOfThreads2;
+        Future[] futureArr = new Future[i3];
+        for (int i4 = 0; i4 < i3; i4++) {
+            final int i5 = i4;
+            futureArr[i4] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.41
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (i == 0) {
+                        if (i2 == -1) {
+                            int i6 = i5;
+                            while (i6 < FloatFFT_2D.this.rows) {
+                                FloatFFT_2D.this.fftColumns.complexForward(fArr[i6]);
+                                i6 += i3;
+                            }
+                            return;
+                        }
+                        int i7 = i5;
+                        while (i7 < FloatFFT_2D.this.rows) {
+                            FloatFFT_2D.this.fftColumns.complexInverse(fArr[i7], z);
+                            i7 += i3;
+                        }
+                        return;
+                    }
+                    if (i2 == 1) {
+                        int i8 = i5;
+                        while (i8 < FloatFFT_2D.this.rows) {
+                            FloatFFT_2D.this.fftColumns.realForward(fArr[i8]);
+                            i8 += i3;
+                        }
+                        return;
+                    }
+                    int i9 = i5;
+                    while (i9 < FloatFFT_2D.this.rows) {
+                        FloatFFT_2D.this.fftColumns.realInverse(fArr[i9], z);
+                        i9 += i3;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void xdft2d0_subth2(final int i, final int i2, final float[][] fArr, final boolean z) {
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        int numberOfThreads2 = this.rows;
+        if (numberOfThreads <= numberOfThreads2) {
+            numberOfThreads2 = ConcurrencyUtils.getNumberOfThreads();
+        }
+        final int i3 = numberOfThreads2;
+        Future[] futureArr = new Future[i3];
+        for (int i4 = 0; i4 < i3; i4++) {
+            final int i5 = i4;
+            futureArr[i4] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.42
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (i == 0) {
+                        if (i2 == -1) {
+                            int i6 = i5;
+                            while (i6 < FloatFFT_2D.this.rows) {
+                                FloatFFT_2D.this.fftColumns.complexForward(fArr[i6]);
+                                i6 += i3;
+                            }
+                            return;
+                        }
+                        int i7 = i5;
+                        while (i7 < FloatFFT_2D.this.rows) {
+                            FloatFFT_2D.this.fftColumns.complexInverse(fArr[i7], z);
+                            i7 += i3;
+                        }
+                        return;
+                    }
+                    if (i2 == 1) {
+                        int i8 = i5;
+                        while (i8 < FloatFFT_2D.this.rows) {
+                            FloatFFT_2D.this.fftColumns.realForward(fArr[i8]);
+                            i8 += i3;
+                        }
+                        return;
+                    }
+                    int i9 = i5;
+                    while (i9 < FloatFFT_2D.this.rows) {
+                        FloatFFT_2D.this.fftColumns.realInverse2(fArr[i9], 0, z);
+                        i9 += i3;
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void cdft2d_subth(final int i, final float[] fArr, final boolean z) {
+        final int iMin = FastMath.min(this.columns / 2, ConcurrencyUtils.getNumberOfThreads());
+        int i2 = this.rows * 8;
+        int i3 = this.columns;
+        if (i3 == 4) {
+            i2 >>= 1;
+        } else if (i3 < 4) {
+            i2 >>= 2;
+        }
+        final int i4 = i2;
+        Future[] futureArr = new Future[iMin];
+        for (int i5 = 0; i5 < iMin; i5++) {
+            final int i6 = i5;
+            futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.43
+                @Override // java.lang.Runnable
+                public void run() {
+                    float[] fArr2 = new float[i4];
+                    int i7 = 0;
+                    if (i == -1) {
+                        if (FloatFFT_2D.this.columns > iMin * 4) {
+                            int i8 = i6 * 8;
+                            while (i8 < FloatFFT_2D.this.columns) {
+                                for (int i9 = 0; i9 < FloatFFT_2D.this.rows; i9++) {
+                                    int i10 = (FloatFFT_2D.this.columns * i9) + i8;
+                                    int i11 = i9 * 2;
+                                    int i12 = (FloatFFT_2D.this.rows * 2) + i11;
+                                    int i13 = (FloatFFT_2D.this.rows * 2) + i12;
+                                    int i14 = (FloatFFT_2D.this.rows * 2) + i13;
+                                    float[] fArr3 = fArr;
+                                    fArr2[i11] = fArr3[i10];
+                                    fArr2[i11 + 1] = fArr3[i10 + 1];
+                                    fArr2[i12] = fArr3[i10 + 2];
+                                    fArr2[i12 + 1] = fArr3[i10 + 3];
+                                    fArr2[i13] = fArr3[i10 + 4];
+                                    fArr2[i13 + 1] = fArr3[i10 + 5];
+                                    fArr2[i14] = fArr3[i10 + 6];
+                                    fArr2[i14 + 1] = fArr3[i10 + 7];
+                                }
+                                FloatFFT_2D.this.fftRows.complexForward(fArr2, 0);
+                                FloatFFT_2D.this.fftRows.complexForward(fArr2, FloatFFT_2D.this.rows * 2);
+                                FloatFFT_2D.this.fftRows.complexForward(fArr2, FloatFFT_2D.this.rows * 4);
+                                FloatFFT_2D.this.fftRows.complexForward(fArr2, FloatFFT_2D.this.rows * 6);
+                                for (int i15 = 0; i15 < FloatFFT_2D.this.rows; i15++) {
+                                    int i16 = (FloatFFT_2D.this.columns * i15) + i8;
+                                    int i17 = i15 * 2;
+                                    int i18 = (FloatFFT_2D.this.rows * 2) + i17;
+                                    int i19 = (FloatFFT_2D.this.rows * 2) + i18;
+                                    int i20 = (FloatFFT_2D.this.rows * 2) + i19;
+                                    float[] fArr4 = fArr;
+                                    fArr4[i16] = fArr2[i17];
+                                    fArr4[i16 + 1] = fArr2[i17 + 1];
+                                    fArr4[i16 + 2] = fArr2[i18];
+                                    fArr4[i16 + 3] = fArr2[i18 + 1];
+                                    fArr4[i16 + 4] = fArr2[i19];
+                                    fArr4[i16 + 5] = fArr2[i19 + 1];
+                                    fArr4[i16 + 6] = fArr2[i20];
+                                    fArr4[i16 + 7] = fArr2[i20 + 1];
+                                }
+                                i8 += iMin * 8;
+                            }
+                            return;
+                        }
+                        if (FloatFFT_2D.this.columns == iMin * 4) {
+                            for (int i21 = 0; i21 < FloatFFT_2D.this.rows; i21++) {
+                                int i22 = (FloatFFT_2D.this.columns * i21) + (i6 * 4);
+                                int i23 = i21 * 2;
+                                int i24 = (FloatFFT_2D.this.rows * 2) + i23;
+                                float[] fArr5 = fArr;
+                                fArr2[i23] = fArr5[i22];
+                                fArr2[i23 + 1] = fArr5[i22 + 1];
+                                fArr2[i24] = fArr5[i22 + 2];
+                                fArr2[i24 + 1] = fArr5[i22 + 3];
+                            }
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2, 0);
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2, FloatFFT_2D.this.rows * 2);
+                            while (i7 < FloatFFT_2D.this.rows) {
+                                int i25 = (FloatFFT_2D.this.columns * i7) + (i6 * 4);
+                                int i26 = i7 * 2;
+                                int i27 = (FloatFFT_2D.this.rows * 2) + i26;
+                                float[] fArr6 = fArr;
+                                fArr6[i25] = fArr2[i26];
+                                fArr6[i25 + 1] = fArr2[i26 + 1];
+                                fArr6[i25 + 2] = fArr2[i27];
+                                fArr6[i25 + 3] = fArr2[i27 + 1];
+                                i7++;
+                            }
+                            return;
+                        }
+                        if (FloatFFT_2D.this.columns == iMin * 2) {
+                            for (int i28 = 0; i28 < FloatFFT_2D.this.rows; i28++) {
+                                int i29 = (FloatFFT_2D.this.columns * i28) + (i6 * 2);
+                                int i30 = i28 * 2;
+                                float[] fArr7 = fArr;
+                                fArr2[i30] = fArr7[i29];
+                                fArr2[i30 + 1] = fArr7[i29 + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2, 0);
+                            while (i7 < FloatFFT_2D.this.rows) {
+                                int i31 = (FloatFFT_2D.this.columns * i7) + (i6 * 2);
+                                int i32 = i7 * 2;
+                                float[] fArr8 = fArr;
+                                fArr8[i31] = fArr2[i32];
+                                fArr8[i31 + 1] = fArr2[i32 + 1];
+                                i7++;
+                            }
+                            return;
+                        }
+                        return;
+                    }
+                    if (FloatFFT_2D.this.columns > iMin * 4) {
+                        int i33 = i6 * 8;
+                        while (i33 < FloatFFT_2D.this.columns) {
+                            for (int i34 = 0; i34 < FloatFFT_2D.this.rows; i34++) {
+                                int i35 = (FloatFFT_2D.this.columns * i34) + i33;
+                                int i36 = i34 * 2;
+                                int i37 = (FloatFFT_2D.this.rows * 2) + i36;
+                                int i38 = (FloatFFT_2D.this.rows * 2) + i37;
+                                int i39 = (FloatFFT_2D.this.rows * 2) + i38;
+                                float[] fArr9 = fArr;
+                                fArr2[i36] = fArr9[i35];
+                                fArr2[i36 + 1] = fArr9[i35 + 1];
+                                fArr2[i37] = fArr9[i35 + 2];
+                                fArr2[i37 + 1] = fArr9[i35 + 3];
+                                fArr2[i38] = fArr9[i35 + 4];
+                                fArr2[i38 + 1] = fArr9[i35 + 5];
+                                fArr2[i39] = fArr9[i35 + 6];
+                                fArr2[i39 + 1] = fArr9[i35 + 7];
+                            }
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, 0, z);
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, FloatFFT_2D.this.rows * 2, z);
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, FloatFFT_2D.this.rows * 4, z);
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, FloatFFT_2D.this.rows * 6, z);
+                            for (int i40 = 0; i40 < FloatFFT_2D.this.rows; i40++) {
+                                int i41 = (FloatFFT_2D.this.columns * i40) + i33;
+                                int i42 = i40 * 2;
+                                int i43 = (FloatFFT_2D.this.rows * 2) + i42;
+                                int i44 = (FloatFFT_2D.this.rows * 2) + i43;
+                                int i45 = (FloatFFT_2D.this.rows * 2) + i44;
+                                float[] fArr10 = fArr;
+                                fArr10[i41] = fArr2[i42];
+                                fArr10[i41 + 1] = fArr2[i42 + 1];
+                                fArr10[i41 + 2] = fArr2[i43];
+                                fArr10[i41 + 3] = fArr2[i43 + 1];
+                                fArr10[i41 + 4] = fArr2[i44];
+                                fArr10[i41 + 5] = fArr2[i44 + 1];
+                                fArr10[i41 + 6] = fArr2[i45];
+                                fArr10[i41 + 7] = fArr2[i45 + 1];
+                            }
+                            i33 += iMin * 8;
+                        }
+                        return;
+                    }
+                    if (FloatFFT_2D.this.columns == iMin * 4) {
+                        for (int i46 = 0; i46 < FloatFFT_2D.this.rows; i46++) {
+                            int i47 = (FloatFFT_2D.this.columns * i46) + (i6 * 4);
+                            int i48 = i46 * 2;
+                            int i49 = (FloatFFT_2D.this.rows * 2) + i48;
+                            float[] fArr11 = fArr;
+                            fArr2[i48] = fArr11[i47];
+                            fArr2[i48 + 1] = fArr11[i47 + 1];
+                            fArr2[i49] = fArr11[i47 + 2];
+                            fArr2[i49 + 1] = fArr11[i47 + 3];
+                        }
+                        FloatFFT_2D.this.fftRows.complexInverse(fArr2, 0, z);
+                        FloatFFT_2D.this.fftRows.complexInverse(fArr2, FloatFFT_2D.this.rows * 2, z);
+                        while (i7 < FloatFFT_2D.this.rows) {
+                            int i50 = (FloatFFT_2D.this.columns * i7) + (i6 * 4);
+                            int i51 = i7 * 2;
+                            int i52 = (FloatFFT_2D.this.rows * 2) + i51;
+                            float[] fArr12 = fArr;
+                            fArr12[i50] = fArr2[i51];
+                            fArr12[i50 + 1] = fArr2[i51 + 1];
+                            fArr12[i50 + 2] = fArr2[i52];
+                            fArr12[i50 + 3] = fArr2[i52 + 1];
+                            i7++;
+                        }
+                        return;
+                    }
+                    if (FloatFFT_2D.this.columns == iMin * 2) {
+                        for (int i53 = 0; i53 < FloatFFT_2D.this.rows; i53++) {
+                            int i54 = (FloatFFT_2D.this.columns * i53) + (i6 * 2);
+                            int i55 = i53 * 2;
+                            float[] fArr13 = fArr;
+                            fArr2[i55] = fArr13[i54];
+                            fArr2[i55 + 1] = fArr13[i54 + 1];
+                        }
+                        FloatFFT_2D.this.fftRows.complexInverse(fArr2, 0, z);
+                        while (i7 < FloatFFT_2D.this.rows) {
+                            int i56 = (FloatFFT_2D.this.columns * i7) + (i6 * 2);
+                            int i57 = i7 * 2;
+                            float[] fArr14 = fArr;
+                            fArr14[i56] = fArr2[i57];
+                            fArr14[i56 + 1] = fArr2[i57 + 1];
+                            i7++;
+                        }
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0031 A[LOOP:0: B:10:0x002f->B:11:0x0031, LOOP_END] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void cdft2d_subth(final int r19, final pl.edu.icm.jlargearrays.FloatLargeArray r20, final boolean r21) {
+        /*
+            r18 = this;
+            r11 = r18
+            java.lang.Class<org.jtransforms.fft.FloatFFT_2D> r12 = org.jtransforms.fft.FloatFFT_2D.class
+            long r0 = r11.columnsl
+            r2 = 2
+            long r0 = r0 / r2
+            int r2 = pl.edu.icm.jlargearrays.ConcurrencyUtils.getNumberOfThreads()
+            long r2 = (long) r2
+            long r0 = org.apache.commons.math3.util.FastMath.min(r0, r2)
+            int r13 = (int) r0
+            r0 = 8
+            long r2 = r11.rowsl
+            long r2 = r2 * r0
+            long r0 = r11.columnsl
+            r4 = 4
+            int r6 = (r0 > r4 ? 1 : (r0 == r4 ? 0 : -1))
+            if (r6 != 0) goto L24
+            r0 = 1
+        L22:
+            long r2 = r2 >> r0
+            goto L2a
+        L24:
+            int r6 = (r0 > r4 ? 1 : (r0 == r4 ? 0 : -1))
+            if (r6 >= 0) goto L2a
+            r0 = 2
+            goto L22
+        L2a:
+            r14 = r2
+            java.util.concurrent.Future[] r0 = new java.util.concurrent.Future[r13]
+            r1 = 0
+            r10 = 0
+        L2f:
+            if (r10 >= r13) goto L4e
+            long r7 = (long) r10
+            org.jtransforms.fft.FloatFFT_2D$44 r16 = new org.jtransforms.fft.FloatFFT_2D$44
+            r1 = r16
+            r2 = r18
+            r3 = r14
+            r5 = r19
+            r6 = r13
+            r9 = r20
+            r17 = r10
+            r10 = r21
+            r1.<init>()
+            java.util.concurrent.Future r1 = pl.edu.icm.jlargearrays.ConcurrencyUtils.submit(r16)
+            r0[r17] = r1
+            int r10 = r17 + 1
+            goto L2f
+        L4e:
+            r1 = 0
+            pl.edu.icm.jlargearrays.ConcurrencyUtils.waitForCompletion(r0)     // Catch: java.util.concurrent.ExecutionException -> L53 java.lang.InterruptedException -> L63
+            goto L72
+        L53:
+            r0 = move-exception
+            r2 = r0
+            java.lang.String r0 = r12.getName()
+            java.util.logging.Logger r0 = java.util.logging.Logger.getLogger(r0)
+            java.util.logging.Level r3 = java.util.logging.Level.SEVERE
+            r0.log(r3, r1, r2)
+            goto L72
+        L63:
+            r0 = move-exception
+            r2 = r0
+            java.lang.String r0 = r12.getName()
+            java.util.logging.Logger r0 = java.util.logging.Logger.getLogger(r0)
+            java.util.logging.Level r3 = java.util.logging.Level.SEVERE
+            r0.log(r3, r1, r2)
+        L72:
+            return
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.jtransforms.fft.FloatFFT_2D.cdft2d_subth(int, pl.edu.icm.jlargearrays.FloatLargeArray, boolean):void");
+    }
+
+    private void cdft2d_subth(final int i, final float[][] fArr, final boolean z) {
+        final int iMin = FastMath.min(this.columns / 2, ConcurrencyUtils.getNumberOfThreads());
+        int i2 = this.rows * 8;
+        int i3 = this.columns;
+        if (i3 == 4) {
+            i2 >>= 1;
+        } else if (i3 < 4) {
+            i2 >>= 2;
+        }
+        final int i4 = i2;
+        Future[] futureArr = new Future[iMin];
+        for (int i5 = 0; i5 < iMin; i5++) {
+            final int i6 = i5;
+            futureArr[i5] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.45
+                @Override // java.lang.Runnable
+                public void run() {
+                    float[] fArr2 = new float[i4];
+                    int i7 = 0;
+                    if (i == -1) {
+                        if (FloatFFT_2D.this.columns > iMin * 4) {
+                            int i8 = i6 * 8;
+                            while (i8 < FloatFFT_2D.this.columns) {
+                                for (int i9 = 0; i9 < FloatFFT_2D.this.rows; i9++) {
+                                    int i10 = i9 * 2;
+                                    int i11 = (FloatFFT_2D.this.rows * 2) + i10;
+                                    int i12 = (FloatFFT_2D.this.rows * 2) + i11;
+                                    int i13 = (FloatFFT_2D.this.rows * 2) + i12;
+                                    float[] fArr3 = fArr[i9];
+                                    fArr2[i10] = fArr3[i8];
+                                    fArr2[i10 + 1] = fArr3[i8 + 1];
+                                    fArr2[i11] = fArr3[i8 + 2];
+                                    fArr2[i11 + 1] = fArr3[i8 + 3];
+                                    fArr2[i12] = fArr3[i8 + 4];
+                                    fArr2[i12 + 1] = fArr3[i8 + 5];
+                                    fArr2[i13] = fArr3[i8 + 6];
+                                    fArr2[i13 + 1] = fArr3[i8 + 7];
+                                }
+                                FloatFFT_2D.this.fftRows.complexForward(fArr2, 0);
+                                FloatFFT_2D.this.fftRows.complexForward(fArr2, FloatFFT_2D.this.rows * 2);
+                                FloatFFT_2D.this.fftRows.complexForward(fArr2, FloatFFT_2D.this.rows * 4);
+                                FloatFFT_2D.this.fftRows.complexForward(fArr2, FloatFFT_2D.this.rows * 6);
+                                for (int i14 = 0; i14 < FloatFFT_2D.this.rows; i14++) {
+                                    int i15 = i14 * 2;
+                                    int i16 = (FloatFFT_2D.this.rows * 2) + i15;
+                                    int i17 = (FloatFFT_2D.this.rows * 2) + i16;
+                                    int i18 = (FloatFFT_2D.this.rows * 2) + i17;
+                                    float[] fArr4 = fArr[i14];
+                                    fArr4[i8] = fArr2[i15];
+                                    fArr4[i8 + 1] = fArr2[i15 + 1];
+                                    fArr4[i8 + 2] = fArr2[i16];
+                                    fArr4[i8 + 3] = fArr2[i16 + 1];
+                                    fArr4[i8 + 4] = fArr2[i17];
+                                    fArr4[i8 + 5] = fArr2[i17 + 1];
+                                    fArr4[i8 + 6] = fArr2[i18];
+                                    fArr4[i8 + 7] = fArr2[i18 + 1];
+                                }
+                                i8 += iMin * 8;
+                            }
+                            return;
+                        }
+                        if (FloatFFT_2D.this.columns == iMin * 4) {
+                            for (int i19 = 0; i19 < FloatFFT_2D.this.rows; i19++) {
+                                int i20 = i19 * 2;
+                                int i21 = (FloatFFT_2D.this.rows * 2) + i20;
+                                float[] fArr5 = fArr[i19];
+                                int i22 = i6;
+                                fArr2[i20] = fArr5[i22 * 4];
+                                fArr2[i20 + 1] = fArr5[(i22 * 4) + 1];
+                                fArr2[i21] = fArr5[(i22 * 4) + 2];
+                                fArr2[i21 + 1] = fArr5[(i22 * 4) + 3];
+                            }
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2, 0);
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2, FloatFFT_2D.this.rows * 2);
+                            while (i7 < FloatFFT_2D.this.rows) {
+                                int i23 = i7 * 2;
+                                int i24 = (FloatFFT_2D.this.rows * 2) + i23;
+                                float[] fArr6 = fArr[i7];
+                                int i25 = i6;
+                                fArr6[i25 * 4] = fArr2[i23];
+                                fArr6[(i25 * 4) + 1] = fArr2[i23 + 1];
+                                fArr6[(i25 * 4) + 2] = fArr2[i24];
+                                fArr6[(i25 * 4) + 3] = fArr2[i24 + 1];
+                                i7++;
+                            }
+                            return;
+                        }
+                        if (FloatFFT_2D.this.columns == iMin * 2) {
+                            for (int i26 = 0; i26 < FloatFFT_2D.this.rows; i26++) {
+                                int i27 = i26 * 2;
+                                float[] fArr7 = fArr[i26];
+                                int i28 = i6;
+                                fArr2[i27] = fArr7[i28 * 2];
+                                fArr2[i27 + 1] = fArr7[(i28 * 2) + 1];
+                            }
+                            FloatFFT_2D.this.fftRows.complexForward(fArr2, 0);
+                            while (i7 < FloatFFT_2D.this.rows) {
+                                int i29 = i7 * 2;
+                                float[] fArr8 = fArr[i7];
+                                int i30 = i6;
+                                fArr8[i30 * 2] = fArr2[i29];
+                                fArr8[(i30 * 2) + 1] = fArr2[i29 + 1];
+                                i7++;
+                            }
+                            return;
+                        }
+                        return;
+                    }
+                    if (FloatFFT_2D.this.columns > iMin * 4) {
+                        int i31 = i6 * 8;
+                        while (i31 < FloatFFT_2D.this.columns) {
+                            for (int i32 = 0; i32 < FloatFFT_2D.this.rows; i32++) {
+                                int i33 = i32 * 2;
+                                int i34 = (FloatFFT_2D.this.rows * 2) + i33;
+                                int i35 = (FloatFFT_2D.this.rows * 2) + i34;
+                                int i36 = (FloatFFT_2D.this.rows * 2) + i35;
+                                float[] fArr9 = fArr[i32];
+                                fArr2[i33] = fArr9[i31];
+                                fArr2[i33 + 1] = fArr9[i31 + 1];
+                                fArr2[i34] = fArr9[i31 + 2];
+                                fArr2[i34 + 1] = fArr9[i31 + 3];
+                                fArr2[i35] = fArr9[i31 + 4];
+                                fArr2[i35 + 1] = fArr9[i31 + 5];
+                                fArr2[i36] = fArr9[i31 + 6];
+                                fArr2[i36 + 1] = fArr9[i31 + 7];
+                            }
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, 0, z);
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, FloatFFT_2D.this.rows * 2, z);
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, FloatFFT_2D.this.rows * 4, z);
+                            FloatFFT_2D.this.fftRows.complexInverse(fArr2, FloatFFT_2D.this.rows * 6, z);
+                            for (int i37 = 0; i37 < FloatFFT_2D.this.rows; i37++) {
+                                int i38 = i37 * 2;
+                                int i39 = (FloatFFT_2D.this.rows * 2) + i38;
+                                int i40 = (FloatFFT_2D.this.rows * 2) + i39;
+                                int i41 = (FloatFFT_2D.this.rows * 2) + i40;
+                                float[] fArr10 = fArr[i37];
+                                fArr10[i31] = fArr2[i38];
+                                fArr10[i31 + 1] = fArr2[i38 + 1];
+                                fArr10[i31 + 2] = fArr2[i39];
+                                fArr10[i31 + 3] = fArr2[i39 + 1];
+                                fArr10[i31 + 4] = fArr2[i40];
+                                fArr10[i31 + 5] = fArr2[i40 + 1];
+                                fArr10[i31 + 6] = fArr2[i41];
+                                fArr10[i31 + 7] = fArr2[i41 + 1];
+                            }
+                            i31 += iMin * 8;
+                        }
+                        return;
+                    }
+                    if (FloatFFT_2D.this.columns == iMin * 4) {
+                        for (int i42 = 0; i42 < FloatFFT_2D.this.rows; i42++) {
+                            int i43 = i42 * 2;
+                            int i44 = (FloatFFT_2D.this.rows * 2) + i43;
+                            float[] fArr11 = fArr[i42];
+                            int i45 = i6;
+                            fArr2[i43] = fArr11[i45 * 4];
+                            fArr2[i43 + 1] = fArr11[(i45 * 4) + 1];
+                            fArr2[i44] = fArr11[(i45 * 4) + 2];
+                            fArr2[i44 + 1] = fArr11[(i45 * 4) + 3];
+                        }
+                        FloatFFT_2D.this.fftRows.complexInverse(fArr2, 0, z);
+                        FloatFFT_2D.this.fftRows.complexInverse(fArr2, FloatFFT_2D.this.rows * 2, z);
+                        while (i7 < FloatFFT_2D.this.rows) {
+                            int i46 = i7 * 2;
+                            int i47 = (FloatFFT_2D.this.rows * 2) + i46;
+                            float[] fArr12 = fArr[i7];
+                            int i48 = i6;
+                            fArr12[i48 * 4] = fArr2[i46];
+                            fArr12[(i48 * 4) + 1] = fArr2[i46 + 1];
+                            fArr12[(i48 * 4) + 2] = fArr2[i47];
+                            fArr12[(i48 * 4) + 3] = fArr2[i47 + 1];
+                            i7++;
+                        }
+                        return;
+                    }
+                    if (FloatFFT_2D.this.columns == iMin * 2) {
+                        for (int i49 = 0; i49 < FloatFFT_2D.this.rows; i49++) {
+                            int i50 = i49 * 2;
+                            float[] fArr13 = fArr[i49];
+                            int i51 = i6;
+                            fArr2[i50] = fArr13[i51 * 2];
+                            fArr2[i50 + 1] = fArr13[(i51 * 2) + 1];
+                        }
+                        FloatFFT_2D.this.fftRows.complexInverse(fArr2, 0, z);
+                        while (i7 < FloatFFT_2D.this.rows) {
+                            int i52 = i7 * 2;
+                            float[] fArr14 = fArr[i7];
+                            int i53 = i6;
+                            fArr14[i53 * 2] = fArr2[i52];
+                            fArr14[(i53 * 2) + 1] = fArr2[i52 + 1];
+                            i7++;
+                        }
+                    }
+                }
+            });
+        }
+        try {
+            ConcurrencyUtils.waitForCompletion(futureArr);
+        } catch (InterruptedException e) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+        } catch (ExecutionException e2) {
+            Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+        }
+    }
+
+    private void fillSymmetric(final float[] fArr) {
+        int i = this.columns * 2;
+        int i2 = this.rows;
+        int i3 = i2 / 2;
+        int i4 = i2 - 1;
+        while (true) {
+            if (i4 < 1) {
+                break;
+            }
+            int i5 = this.columns * i4;
+            int i6 = i5 * 2;
+            for (int i7 = 0; i7 < this.columns; i7 += 2) {
+                int i8 = i6 + i7;
+                int i9 = i5 + i7;
+                fArr[i8] = fArr[i9];
+                fArr[i9] = 0.0f;
+                int i10 = i9 + 1;
+                fArr[i8 + 1] = fArr[i10];
+                fArr[i10] = 0.0f;
+            }
+            i4--;
+        }
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        if (numberOfThreads <= 1 || !this.useThreads || i3 < numberOfThreads) {
+            for (int i11 = 1; i11 < i3; i11++) {
+                int i12 = i11 * i;
+                int i13 = (this.rows - i11) * i;
+                int i14 = this.columns;
+                fArr[i12 + i14] = fArr[i13 + 1];
+                fArr[i12 + i14 + 1] = -fArr[i13];
+            }
+            for (int i15 = 1; i15 < i3; i15++) {
+                int i16 = i15 * i;
+                int i17 = ((this.rows - i15) + 1) * i;
+                int i18 = this.columns;
+                while (true) {
+                    i18 += 2;
+                    if (i18 < i) {
+                        int i19 = i16 + i18;
+                        int i20 = i17 - i18;
+                        fArr[i19] = fArr[i20];
+                        fArr[i19 + 1] = -fArr[i20 + 1];
+                    }
+                }
+            }
+            int i21 = 0;
+            while (true) {
+                int i22 = this.rows;
+                if (i21 > i22 / 2) {
+                    break;
+                }
+                int i23 = i21 * i;
+                int i24 = ((i22 - i21) % i22) * i;
+                for (int i25 = 0; i25 < i; i25 += 2) {
+                    int i26 = i23 + i25;
+                    int i27 = ((i - i25) % i) + i24;
+                    fArr[i27] = fArr[i26];
+                    fArr[i27 + 1] = -fArr[i26 + 1];
+                }
+                i21++;
+            }
+        } else {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i28 = i3 / numberOfThreads;
+            final int i29 = this.columns * 2;
+            int i30 = 0;
+            while (i30 < numberOfThreads) {
+                final int i31 = i30 == 0 ? (i30 * i28) + 1 : i30 * i28;
+                final int i32 = i30 * i28;
+                final int i33 = i32 + i28;
+                int i34 = i30;
+                final int i35 = i30 == numberOfThreads + (-1) ? i33 + 1 : i33;
+                futureArr[i34] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.46
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i36 = i31; i36 < i33; i36++) {
+                            int i37 = i29 * i36;
+                            int i38 = (FloatFFT_2D.this.rows - i36) * i29;
+                            int i39 = i37 + FloatFFT_2D.this.columns;
+                            float[] fArr2 = fArr;
+                            fArr2[i39] = fArr2[i38 + 1];
+                            fArr2[i39 + 1] = -fArr2[i38];
+                        }
+                        for (int i40 = i31; i40 < i33; i40++) {
+                            int i41 = i29 * i40;
+                            int i42 = ((FloatFFT_2D.this.rows - i40) + 1) * i29;
+                            int i43 = FloatFFT_2D.this.columns;
+                            while (true) {
+                                i43 += 2;
+                                if (i43 < i29) {
+                                    int i44 = i42 - i43;
+                                    int i45 = i41 + i43;
+                                    float[] fArr3 = fArr;
+                                    fArr3[i45] = fArr3[i44];
+                                    fArr3[i45 + 1] = -fArr3[i44 + 1];
+                                }
+                            }
+                        }
+                        for (int i46 = i32; i46 < i35; i46++) {
+                            int i47 = (FloatFFT_2D.this.rows - i46) % FloatFFT_2D.this.rows;
+                            int i48 = i29;
+                            int i49 = i47 * i48;
+                            int i50 = i48 * i46;
+                            int i51 = 0;
+                            while (true) {
+                                int i52 = i29;
+                                if (i51 < i52) {
+                                    int i53 = ((i52 - i51) % i52) + i49;
+                                    int i54 = i50 + i51;
+                                    float[] fArr4 = fArr;
+                                    fArr4[i53] = fArr4[i54];
+                                    fArr4[i53 + 1] = -fArr4[i54 + 1];
+                                    i51 += 2;
+                                }
+                            }
+                        }
+                    }
+                });
+                i30 = i34 + 1;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+        }
+        int i36 = this.columns;
+        fArr[i36] = -fArr[1];
+        fArr[1] = 0.0f;
+        int i37 = i3 * i;
+        int i38 = i37 + 1;
+        fArr[i37 + i36] = -fArr[i38];
+        fArr[i38] = 0.0f;
+        fArr[i37 + i36 + 1] = 0.0f;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:33:0x00e4  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void fillSymmetric(final pl.edu.icm.jlargearrays.FloatLargeArray r33) {
+        /*
+            Method dump skipped, instructions count: 440
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.jtransforms.fft.FloatFFT_2D.fillSymmetric(pl.edu.icm.jlargearrays.FloatLargeArray):void");
+    }
+
+    private void fillSymmetric(final float[][] fArr) {
+        final int i = this.columns * 2;
+        int i2 = this.rows / 2;
+        int numberOfThreads = ConcurrencyUtils.getNumberOfThreads();
+        if (numberOfThreads <= 1 || !this.useThreads || i2 < numberOfThreads) {
+            for (int i3 = 1; i3 < i2; i3++) {
+                int i4 = this.rows - i3;
+                float[] fArr2 = fArr[i3];
+                int i5 = this.columns;
+                float[] fArr3 = fArr[i4];
+                fArr2[i5] = fArr3[1];
+                fArr2[i5 + 1] = -fArr3[0];
+            }
+            for (int i6 = 1; i6 < i2; i6++) {
+                int i7 = this.rows - i6;
+                int i8 = this.columns;
+                while (true) {
+                    i8 += 2;
+                    if (i8 < i) {
+                        int i9 = i - i8;
+                        float[] fArr4 = fArr[i6];
+                        float[] fArr5 = fArr[i7];
+                        fArr4[i8] = fArr5[i9];
+                        fArr4[i8 + 1] = -fArr5[i9 + 1];
+                    }
+                }
+            }
+            int i10 = 0;
+            while (true) {
+                int i11 = this.rows;
+                if (i10 > i11 / 2) {
+                    break;
+                }
+                int i12 = (i11 - i10) % i11;
+                for (int i13 = 0; i13 < i; i13 += 2) {
+                    int i14 = (i - i13) % i;
+                    float[] fArr6 = fArr[i12];
+                    float[] fArr7 = fArr[i10];
+                    fArr6[i14] = fArr7[i13];
+                    fArr6[i14 + 1] = -fArr7[i13 + 1];
+                }
+                i10++;
+            }
+        } else {
+            Future[] futureArr = new Future[numberOfThreads];
+            int i15 = i2 / numberOfThreads;
+            int i16 = 0;
+            while (i16 < numberOfThreads) {
+                final int i17 = i16 == 0 ? (i16 * i15) + 1 : i16 * i15;
+                final int i18 = i16 * i15;
+                final int i19 = i18 + i15;
+                int i20 = i16;
+                final int i21 = i16 == numberOfThreads + (-1) ? i19 + 1 : i19;
+                futureArr[i20] = ConcurrencyUtils.submit(new Runnable() { // from class: org.jtransforms.fft.FloatFFT_2D.48
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        for (int i22 = i17; i22 < i19; i22++) {
+                            int i23 = FloatFFT_2D.this.rows - i22;
+                            float[] fArr8 = fArr[i22];
+                            int i24 = FloatFFT_2D.this.columns;
+                            float[][] fArr9 = fArr;
+                            fArr8[i24] = fArr9[i23][1];
+                            fArr9[i22][FloatFFT_2D.this.columns + 1] = -fArr[i23][0];
+                        }
+                        for (int i25 = i17; i25 < i19; i25++) {
+                            int i26 = FloatFFT_2D.this.rows - i25;
+                            int i27 = FloatFFT_2D.this.columns;
+                            while (true) {
+                                i27 += 2;
+                                int i28 = i;
+                                if (i27 < i28) {
+                                    int i29 = i28 - i27;
+                                    float[][] fArr10 = fArr;
+                                    float[] fArr11 = fArr10[i25];
+                                    float[] fArr12 = fArr10[i26];
+                                    fArr11[i27] = fArr12[i29];
+                                    fArr11[i27 + 1] = -fArr12[i29 + 1];
+                                }
+                            }
+                        }
+                        for (int i30 = i18; i30 < i21; i30++) {
+                            int i31 = (FloatFFT_2D.this.rows - i30) % FloatFFT_2D.this.rows;
+                            int i32 = 0;
+                            while (true) {
+                                int i33 = i;
+                                if (i32 < i33) {
+                                    int i34 = (i33 - i32) % i33;
+                                    float[][] fArr13 = fArr;
+                                    float[] fArr14 = fArr13[i31];
+                                    float[] fArr15 = fArr13[i30];
+                                    fArr14[i34] = fArr15[i32];
+                                    fArr14[i34 + 1] = -fArr15[i32 + 1];
+                                    i32 += 2;
+                                }
+                            }
+                        }
+                    }
+                });
+                i16 = i20 + 1;
+            }
+            try {
+                ConcurrencyUtils.waitForCompletion(futureArr);
+            } catch (InterruptedException e) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e);
+            } catch (ExecutionException e2) {
+                Logger.getLogger(FloatFFT_2D.class.getName()).log(Level.SEVERE, (String) null, (Throwable) e2);
+            }
+        }
+        float[] fArr8 = fArr[0];
+        int i22 = this.columns;
+        fArr8[i22] = -fArr8[1];
+        fArr8[1] = 0.0f;
+        float[] fArr9 = fArr[i2];
+        fArr9[i22] = -fArr9[1];
+        fArr9[1] = 0.0f;
+        fArr9[i22 + 1] = 0.0f;
+    }
+}

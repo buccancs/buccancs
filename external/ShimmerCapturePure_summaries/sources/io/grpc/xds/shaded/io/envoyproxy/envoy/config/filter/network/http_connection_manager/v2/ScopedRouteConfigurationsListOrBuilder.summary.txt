@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/network/http_connection_manager/v2/ScopedRouteConfigurationsListOrBuilder.java
+// Size: 839 bytes
+// Modified: 2025-10-21 16:32:03.467925400 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.network.http_connection_manager.v2;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ScopedRouteConfiguration;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ScopedRouteConfigurationOrBuilder;
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public interface ScopedRouteConfigurationsListOrBuilder extends MessageOrBuilder {
+    ScopedRouteConfiguration getScopedRouteConfigurations(int i);
+
+    int getScopedRouteConfigurationsCount();
+
+    List<ScopedRouteConfiguration> getScopedRouteConfigurationsList();
+
+    ScopedRouteConfigurationOrBuilder getScopedRouteConfigurationsOrBuilder(int i);
+
+    List<? extends ScopedRouteConfigurationOrBuilder> getScopedRouteConfigurationsOrBuilderList();
+}

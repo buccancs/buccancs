@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/emoji2/text/EmojiDefaults.java
+// Size: 204 bytes
+// Modified: 2025-10-21 16:32:00.041816500 +0100
+
+package androidx.emoji2.text;
+
+/* loaded from: classes.dex */
+public class EmojiDefaults {
+    public static final int MAX_EMOJI_COUNT = Integer.MAX_VALUE;
+
+    private EmojiDefaults() {
+    }
+}

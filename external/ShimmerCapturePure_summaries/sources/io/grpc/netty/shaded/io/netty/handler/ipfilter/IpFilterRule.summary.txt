@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ipfilter/IpFilterRule.java
+// Size: 261 bytes
+// Modified: 2025-10-21 16:32:00.859739300 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ipfilter;
+
+import java.net.InetSocketAddress;
+
+/* loaded from: classes3.dex */
+public interface IpFilterRule {
+    boolean matches(InetSocketAddress inetSocketAddress);
+
+    IpFilterRuleType ruleType();
+}

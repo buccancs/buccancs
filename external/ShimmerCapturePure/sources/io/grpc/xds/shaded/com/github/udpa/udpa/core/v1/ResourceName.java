@@ -1,0 +1,828 @@
+package io.grpc.xds.shaded.com.github.udpa.udpa.core.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ContextParams;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class ResourceName extends GeneratedMessageV3 implements ResourceNameOrBuilder {
+    public static final int AUTHORITY_FIELD_NUMBER = 2;
+    public static final int CONTEXT_FIELD_NUMBER = 4;
+    public static final int ID_FIELD_NUMBER = 1;
+    public static final int RESOURCE_TYPE_FIELD_NUMBER = 3;
+    private static final long serialVersionUID = 0;
+    private static final ResourceName DEFAULT_INSTANCE = new ResourceName();
+    private static final Parser<ResourceName> PARSER = new AbstractParser<ResourceName>() { // from class: io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ResourceName m10317parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ResourceName(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object authority_;
+    private ContextParams context_;
+    private LazyStringList id_;
+    private byte memoizedIsInitialized;
+    private volatile Object resourceType_;
+
+    private ResourceName(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ResourceName() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.id_ = LazyStringArrayList.EMPTY;
+        this.authority_ = "";
+        this.resourceType_ = "";
+    }
+
+    private ResourceName(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if (!(z2 & true)) {
+                                this.id_ = new LazyStringArrayList();
+                                z2 |= true;
+                            }
+                            this.id_.add(stringRequireUtf8);
+                        } else if (tag == 18) {
+                            this.authority_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 26) {
+                            this.resourceType_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 34) {
+                            ContextParams contextParams = this.context_;
+                            ContextParams.Builder builderM10174toBuilder = contextParams != null ? contextParams.m10174toBuilder() : null;
+                            ContextParams contextParams2 = (ContextParams) codedInputStream.readMessage(ContextParams.parser(), extensionRegistryLite);
+                            this.context_ = contextParams2;
+                            if (builderM10174toBuilder != null) {
+                                builderM10174toBuilder.mergeFrom(contextParams2);
+                                this.context_ = builderM10174toBuilder.m10181buildPartial();
+                            }
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.id_ = this.id_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ResourceName getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ResourceName> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ResourceNameProto.internal_static_udpa_core_v1_ResourceName_descriptor;
+    }
+
+    public static ResourceName parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ResourceName) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ResourceName parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ResourceName) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ResourceName parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ResourceName) PARSER.parseFrom(byteString);
+    }
+
+    public static ResourceName parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ResourceName) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ResourceName parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ResourceName) PARSER.parseFrom(bArr);
+    }
+
+    public static ResourceName parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ResourceName) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ResourceName parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ResourceName parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ResourceName parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ResourceName parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ResourceName parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ResourceName parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m10315toBuilder();
+    }
+
+    public static Builder newBuilder(ResourceName resourceName) {
+        return DEFAULT_INSTANCE.m10315toBuilder().mergeFrom(resourceName);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ResourceName m10309getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    /* renamed from: getIdList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo10311getIdList() {
+        return this.id_;
+    }
+
+    public Parser<ResourceName> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public boolean hasContext() {
+        return this.context_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new ResourceName();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ResourceNameProto.internal_static_udpa_core_v1_ResourceName_fieldAccessorTable.ensureFieldAccessorsInitialized(ResourceName.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public int getIdCount() {
+        return this.id_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public String getId(int i) {
+        return (String) this.id_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public ByteString getIdBytes(int i) {
+        return this.id_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public String getAuthority() {
+        Object obj = this.authority_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.authority_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public ByteString getAuthorityBytes() {
+        Object obj = this.authority_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.authority_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public String getResourceType() {
+        Object obj = this.resourceType_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.resourceType_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public ByteString getResourceTypeBytes() {
+        Object obj = this.resourceType_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.resourceType_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public ContextParams getContext() {
+        ContextParams contextParams = this.context_;
+        return contextParams == null ? ContextParams.getDefaultInstance() : contextParams;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+    public ContextParamsOrBuilder getContextOrBuilder() {
+        return getContext();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        for (int i = 0; i < this.id_.size(); i++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.id_.getRaw(i));
+        }
+        if (!getAuthorityBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.authority_);
+        }
+        if (!getResourceTypeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.resourceType_);
+        }
+        if (this.context_ != null) {
+            codedOutputStream.writeMessage(4, getContext());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.id_.size(); i2++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.id_.getRaw(i2));
+        }
+        int size = iComputeStringSizeNoTag + mo10311getIdList().size();
+        if (!getAuthorityBytes().isEmpty()) {
+            size += GeneratedMessageV3.computeStringSize(2, this.authority_);
+        }
+        if (!getResourceTypeBytes().isEmpty()) {
+            size += GeneratedMessageV3.computeStringSize(3, this.resourceType_);
+        }
+        if (this.context_ != null) {
+            size += CodedOutputStream.computeMessageSize(4, getContext());
+        }
+        int serializedSize = size + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ResourceName)) {
+            return super.equals(obj);
+        }
+        ResourceName resourceName = (ResourceName) obj;
+        if (mo10311getIdList().equals(resourceName.mo10311getIdList()) && getAuthority().equals(resourceName.getAuthority()) && getResourceType().equals(resourceName.getResourceType()) && hasContext() == resourceName.hasContext()) {
+            return (!hasContext() || getContext().equals(resourceName.getContext())) && this.unknownFields.equals(resourceName.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (getIdCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + mo10311getIdList().hashCode();
+        }
+        int iHashCode2 = (((((((iHashCode * 37) + 2) * 53) + getAuthority().hashCode()) * 37) + 3) * 53) + getResourceType().hashCode();
+        if (hasContext()) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getContext().hashCode();
+        }
+        int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode3;
+        return iHashCode3;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m10312newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m10315toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ResourceNameOrBuilder {
+        private Object authority_;
+        private int bitField0_;
+        private SingleFieldBuilderV3<ContextParams, ContextParams.Builder, ContextParamsOrBuilder> contextBuilder_;
+        private ContextParams context_;
+        private LazyStringList id_;
+        private Object resourceType_;
+
+        private Builder() {
+            this.id_ = LazyStringArrayList.EMPTY;
+            this.authority_ = "";
+            this.resourceType_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.id_ = LazyStringArrayList.EMPTY;
+            this.authority_ = "";
+            this.resourceType_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ResourceNameProto.internal_static_udpa_core_v1_ResourceName_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public boolean hasContext() {
+            return (this.contextBuilder_ == null && this.context_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ResourceNameProto.internal_static_udpa_core_v1_ResourceName_fieldAccessorTable.ensureFieldAccessorsInitialized(ResourceName.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ResourceName.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10326clear() {
+            super.clear();
+            this.id_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            this.authority_ = "";
+            this.resourceType_ = "";
+            if (this.contextBuilder_ == null) {
+                this.context_ = null;
+            } else {
+                this.context_ = null;
+                this.contextBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ResourceNameProto.internal_static_udpa_core_v1_ResourceName_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ResourceName m10339getDefaultInstanceForType() {
+            return ResourceName.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ResourceName m10320build() throws UninitializedMessageException {
+            ResourceName resourceNameM10322buildPartial = m10322buildPartial();
+            if (resourceNameM10322buildPartial.isInitialized()) {
+                return resourceNameM10322buildPartial;
+            }
+            throw newUninitializedMessageException(resourceNameM10322buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ResourceName m10322buildPartial() {
+            ResourceName resourceName = new ResourceName(this);
+            if ((this.bitField0_ & 1) != 0) {
+                this.id_ = this.id_.getUnmodifiableView();
+                this.bitField0_ &= -2;
+            }
+            resourceName.id_ = this.id_;
+            resourceName.authority_ = this.authority_;
+            resourceName.resourceType_ = this.resourceType_;
+            SingleFieldBuilderV3<ContextParams, ContextParams.Builder, ContextParamsOrBuilder> singleFieldBuilderV3 = this.contextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                resourceName.context_ = this.context_;
+            } else {
+                resourceName.context_ = singleFieldBuilderV3.build();
+            }
+            onBuilt();
+            return resourceName;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10338clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10350setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10328clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10331clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10352setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10318addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10343mergeFrom(Message message) {
+            if (message instanceof ResourceName) {
+                return mergeFrom((ResourceName) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ResourceName resourceName) {
+            if (resourceName == ResourceName.getDefaultInstance()) {
+                return this;
+            }
+            if (!resourceName.id_.isEmpty()) {
+                if (this.id_.isEmpty()) {
+                    this.id_ = resourceName.id_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureIdIsMutable();
+                    this.id_.addAll(resourceName.id_);
+                }
+                onChanged();
+            }
+            if (!resourceName.getAuthority().isEmpty()) {
+                this.authority_ = resourceName.authority_;
+                onChanged();
+            }
+            if (!resourceName.getResourceType().isEmpty()) {
+                this.resourceType_ = resourceName.resourceType_;
+                onChanged();
+            }
+            if (resourceName.hasContext()) {
+                mergeContext(resourceName.getContext());
+            }
+            m10348mergeUnknownFields(resourceName.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName.Builder m10344mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName r3 = (io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName r4 = (io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName.Builder.m10344mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceName$Builder");
+        }
+
+        private void ensureIdIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.id_ = new LazyStringArrayList(this.id_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        /* renamed from: getIdList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo10311getIdList() {
+            return this.id_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public int getIdCount() {
+            return this.id_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public String getId(int i) {
+            return (String) this.id_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public ByteString getIdBytes(int i) {
+            return this.id_.getByteString(i);
+        }
+
+        public Builder setId(int i, String str) {
+            str.getClass();
+            ensureIdIsMutable();
+            this.id_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addId(String str) {
+            str.getClass();
+            ensureIdIsMutable();
+            this.id_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllId(Iterable<String> iterable) {
+            ensureIdIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.id_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearId() {
+            this.id_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        public Builder addIdBytes(ByteString byteString) {
+            byteString.getClass();
+            ResourceName.checkByteStringIsUtf8(byteString);
+            ensureIdIsMutable();
+            this.id_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public String getAuthority() {
+            Object obj = this.authority_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.authority_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setAuthority(String str) {
+            str.getClass();
+            this.authority_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public ByteString getAuthorityBytes() {
+            Object obj = this.authority_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.authority_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setAuthorityBytes(ByteString byteString) {
+            byteString.getClass();
+            ResourceName.checkByteStringIsUtf8(byteString);
+            this.authority_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAuthority() {
+            this.authority_ = ResourceName.getDefaultInstance().getAuthority();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public String getResourceType() {
+            Object obj = this.resourceType_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.resourceType_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setResourceType(String str) {
+            str.getClass();
+            this.resourceType_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public ByteString getResourceTypeBytes() {
+            Object obj = this.resourceType_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.resourceType_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setResourceTypeBytes(ByteString byteString) {
+            byteString.getClass();
+            ResourceName.checkByteStringIsUtf8(byteString);
+            this.resourceType_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearResourceType() {
+            this.resourceType_ = ResourceName.getDefaultInstance().getResourceType();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public ContextParams getContext() {
+            SingleFieldBuilderV3<ContextParams, ContextParams.Builder, ContextParamsOrBuilder> singleFieldBuilderV3 = this.contextBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            ContextParams contextParams = this.context_;
+            return contextParams == null ? ContextParams.getDefaultInstance() : contextParams;
+        }
+
+        public Builder setContext(ContextParams contextParams) {
+            SingleFieldBuilderV3<ContextParams, ContextParams.Builder, ContextParamsOrBuilder> singleFieldBuilderV3 = this.contextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                contextParams.getClass();
+                this.context_ = contextParams;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(contextParams);
+            }
+            return this;
+        }
+
+        public Builder setContext(ContextParams.Builder builder) {
+            SingleFieldBuilderV3<ContextParams, ContextParams.Builder, ContextParamsOrBuilder> singleFieldBuilderV3 = this.contextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.context_ = builder.m10179build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m10179build());
+            }
+            return this;
+        }
+
+        public Builder mergeContext(ContextParams contextParams) {
+            SingleFieldBuilderV3<ContextParams, ContextParams.Builder, ContextParamsOrBuilder> singleFieldBuilderV3 = this.contextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                ContextParams contextParams2 = this.context_;
+                if (contextParams2 != null) {
+                    this.context_ = ContextParams.newBuilder(contextParams2).mergeFrom(contextParams).m10181buildPartial();
+                } else {
+                    this.context_ = contextParams;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(contextParams);
+            }
+            return this;
+        }
+
+        public Builder clearContext() {
+            if (this.contextBuilder_ == null) {
+                this.context_ = null;
+                onChanged();
+            } else {
+                this.context_ = null;
+                this.contextBuilder_ = null;
+            }
+            return this;
+        }
+
+        public ContextParams.Builder getContextBuilder() {
+            onChanged();
+            return getContextFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceNameOrBuilder
+        public ContextParamsOrBuilder getContextOrBuilder() {
+            SingleFieldBuilderV3<ContextParams, ContextParams.Builder, ContextParamsOrBuilder> singleFieldBuilderV3 = this.contextBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ContextParamsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            ContextParams contextParams = this.context_;
+            return contextParams == null ? ContextParams.getDefaultInstance() : contextParams;
+        }
+
+        private SingleFieldBuilderV3<ContextParams, ContextParams.Builder, ContextParamsOrBuilder> getContextFieldBuilder() {
+            if (this.contextBuilder_ == null) {
+                this.contextBuilder_ = new SingleFieldBuilderV3<>(getContext(), getParentForChildren(), isClean());
+                this.context_ = null;
+            }
+            return this.contextBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m10354setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m10348mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

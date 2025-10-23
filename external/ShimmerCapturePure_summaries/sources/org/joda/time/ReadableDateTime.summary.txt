@@ -1,0 +1,54 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/ReadableDateTime.java
+// Size: 882 bytes
+// Modified: 2025-10-21 16:32:05.303369200 +0100
+
+package org.joda.time;
+
+import java.util.Locale;
+
+/* loaded from: classes2.dex */
+public interface ReadableDateTime extends ReadableInstant {
+    int getCenturyOfEra();
+
+    int getDayOfMonth();
+
+    int getDayOfWeek();
+
+    int getDayOfYear();
+
+    int getEra();
+
+    int getHourOfDay();
+
+    int getMillisOfDay();
+
+    int getMillisOfSecond();
+
+    int getMinuteOfDay();
+
+    int getMinuteOfHour();
+
+    int getMonthOfYear();
+
+    int getSecondOfDay();
+
+    int getSecondOfMinute();
+
+    int getWeekOfWeekyear();
+
+    int getWeekyear();
+
+    int getYear();
+
+    int getYearOfCentury();
+
+    int getYearOfEra();
+
+    DateTime toDateTime();
+
+    MutableDateTime toMutableDateTime();
+
+    String toString(String str) throws IllegalArgumentException;
+
+    String toString(String str, Locale locale) throws IllegalArgumentException;
+}

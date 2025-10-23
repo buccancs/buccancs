@@ -1,0 +1,50 @@
+package org.apache.commons.collections.functors;
+
+import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
+
+import org.apache.commons.collections.FunctorException;
+import org.apache.commons.collections.Transformer;
+
+/* loaded from: classes5.dex */
+public class InstantiateTransformer implements Transformer, Serializable {
+    public static final Transformer NO_ARG_INSTANCE = new InstantiateTransformer();
+    private static final long serialVersionUID = 3786388740793356347L;
+    private final Object[] iArgs;
+    private final Class[] iParamTypes;
+
+    private InstantiateTransformer() {
+        this.iParamTypes = null;
+        this.iArgs = null;
+    }
+
+    public InstantiateTransformer(Class[] clsArr, Object[] objArr) {
+        this.iParamTypes = clsArr;
+        this.iArgs = objArr;
+    }
+
+    public static Transformer getInstance(Class[] clsArr, Object[] objArr) {
+        if ((clsArr != null || objArr == null) && ((clsArr == null || objArr != null) && (clsArr == null || objArr == null || clsArr.length == objArr.length))) {
+            return (clsArr == null || clsArr.length == 0) ? NO_ARG_INSTANCE : new InstantiateTransformer((Class[]) clsArr.clone(), (Object[]) objArr.clone());
+        }
+        throw new IllegalArgumentException("Parameter types must match the arguments");
+    }
+
+    @Override // org.apache.commons.collections.Transformer
+    public Object transform(Object obj) {
+        try {
+            if (!(obj instanceof Class)) {
+                throw new FunctorException(new StringBuffer("InstantiateTransformer: Input object was not an instanceof Class, it was a ").append(obj == null ? "null object" : obj.getClass().getName()).toString());
+            }
+            return ((Class) obj).getConstructor(this.iParamTypes).newInstance(this.iArgs);
+        } catch (IllegalAccessException e) {
+            throw new FunctorException("InstantiateTransformer: Constructor must be public", e);
+        } catch (InstantiationException e2) {
+            throw new FunctorException("InstantiateTransformer: InstantiationException", e2);
+        } catch (NoSuchMethodException unused) {
+            throw new FunctorException("InstantiateTransformer: The constructor must exist and be public ");
+        } catch (InvocationTargetException e3) {
+            throw new FunctorException("InstantiateTransformer: Constructor threw an exception", e3);
+        }
+    }
+}

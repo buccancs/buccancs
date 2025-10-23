@@ -1,0 +1,1702 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/fault/v2/FaultRateLimit.java
+// Size: 86977 bytes
+// Modified: 2025-10-21 16:32:05.039652300 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.FractionalPercent;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.FractionalPercentOrBuilder;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes6.dex */
+public final class FaultRateLimit extends GeneratedMessageV3 implements FaultRateLimitOrBuilder {
+    public static final int FIXED_LIMIT_FIELD_NUMBER = 1;
+    public static final int HEADER_LIMIT_FIELD_NUMBER = 3;
+    public static final int PERCENTAGE_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private int limitTypeCase_;
+    private Object limitType_;
+    private byte memoizedIsInitialized;
+    private FractionalPercent percentage_;
+    private static final FaultRateLimit DEFAULT_INSTANCE = new FaultRateLimit();
+    private static final Parser<FaultRateLimit> PARSER = new AbstractParser<FaultRateLimit>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public FaultRateLimit m25819parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new FaultRateLimit(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public interface FixedLimitOrBuilder extends MessageOrBuilder {
+        long getLimitKbps();
+    }
+
+    public interface HeaderLimitOrBuilder extends MessageOrBuilder {
+    }
+
+    public static FaultRateLimit getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<FaultRateLimit> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public FaultRateLimit m25812getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<FaultRateLimit> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public boolean hasFixedLimit() {
+        return this.limitTypeCase_ == 1;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public boolean hasHeaderLimit() {
+        return this.limitTypeCase_ == 3;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public boolean hasPercentage() {
+        return this.percentage_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private FaultRateLimit(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.limitTypeCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private FaultRateLimit() {
+        this.limitTypeCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new FaultRateLimit();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private FaultRateLimit(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            FixedLimit.Builder builderM25863toBuilder = this.limitTypeCase_ == 1 ? ((FixedLimit) this.limitType_).m25863toBuilder() : null;
+                            MessageLite message = codedInputStream.readMessage(FixedLimit.parser(), extensionRegistryLite);
+                            this.limitType_ = message;
+                            if (builderM25863toBuilder != null) {
+                                builderM25863toBuilder.mergeFrom((FixedLimit) message);
+                                this.limitType_ = builderM25863toBuilder.m25870buildPartial();
+                            }
+                            this.limitTypeCase_ = 1;
+                        } else if (tag == 18) {
+                            FractionalPercent fractionalPercent = this.percentage_;
+                            FractionalPercent.Builder builderM32859toBuilder = fractionalPercent != null ? fractionalPercent.m32859toBuilder() : null;
+                            FractionalPercent fractionalPercent2 = (FractionalPercent) codedInputStream.readMessage(FractionalPercent.parser(), extensionRegistryLite);
+                            this.percentage_ = fractionalPercent2;
+                            if (builderM32859toBuilder != null) {
+                                builderM32859toBuilder.mergeFrom(fractionalPercent2);
+                                this.percentage_ = builderM32859toBuilder.m32866buildPartial();
+                            }
+                        } else if (tag == 26) {
+                            HeaderLimit.Builder builderM25909toBuilder = this.limitTypeCase_ == 3 ? ((HeaderLimit) this.limitType_).m25909toBuilder() : null;
+                            MessageLite message2 = codedInputStream.readMessage(HeaderLimit.parser(), extensionRegistryLite);
+                            this.limitType_ = message2;
+                            if (builderM25909toBuilder != null) {
+                                builderM25909toBuilder.mergeFrom((HeaderLimit) message2);
+                                this.limitType_ = builderM25909toBuilder.m25916buildPartial();
+                            }
+                            this.limitTypeCase_ = 3;
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_fieldAccessorTable.ensureFieldAccessorsInitialized(FaultRateLimit.class, Builder.class);
+    }
+
+    public static final class FixedLimit extends GeneratedMessageV3 implements FixedLimitOrBuilder {
+        public static final int LIMIT_KBPS_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private long limitKbps_;
+        private byte memoizedIsInitialized;
+        private static final FixedLimit DEFAULT_INSTANCE = new FixedLimit();
+        private static final Parser<FixedLimit> PARSER = new AbstractParser<FixedLimit>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimit.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public FixedLimit m25865parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new FixedLimit(codedInputStream, extensionRegistryLite);
+            }
+        };
+
+        public static FixedLimit getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<FixedLimit> parser() {
+            return PARSER;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FixedLimit m25858getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimitOrBuilder
+        public long getLimitKbps() {
+            return this.limitKbps_;
+        }
+
+        public Parser<FixedLimit> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        private FixedLimit(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private FixedLimit() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new FixedLimit();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        private FixedLimit(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 8) {
+                                this.limitKbps_ = codedInputStream.readUInt64();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_fieldAccessorTable.ensureFieldAccessorsInitialized(FixedLimit.class, Builder.class);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            long j = this.limitKbps_;
+            if (j != 0) {
+                codedOutputStream.writeUInt64(1, j);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            long j = this.limitKbps_;
+            int iComputeUInt64Size = (j != 0 ? CodedOutputStream.computeUInt64Size(1, j) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeUInt64Size;
+            return iComputeUInt64Size;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof FixedLimit)) {
+                return super.equals(obj);
+            }
+            FixedLimit fixedLimit = (FixedLimit) obj;
+            return getLimitKbps() == fixedLimit.getLimitKbps() && this.unknownFields.equals(fixedLimit.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + Internal.hashLong(getLimitKbps())) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        public static FixedLimit parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (FixedLimit) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static FixedLimit parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FixedLimit) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static FixedLimit parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (FixedLimit) PARSER.parseFrom(byteString);
+        }
+
+        public static FixedLimit parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FixedLimit) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static FixedLimit parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (FixedLimit) PARSER.parseFrom(bArr);
+        }
+
+        public static FixedLimit parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (FixedLimit) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static FixedLimit parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static FixedLimit parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static FixedLimit parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static FixedLimit parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static FixedLimit parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static FixedLimit parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25860newBuilderForType() {
+            return newBuilder();
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m25863toBuilder();
+        }
+
+        public static Builder newBuilder(FixedLimit fixedLimit) {
+            return DEFAULT_INSTANCE.m25863toBuilder().mergeFrom(fixedLimit);
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25863toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements FixedLimitOrBuilder {
+            private long limitKbps_;
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimitOrBuilder
+            public long getLimitKbps() {
+                return this.limitKbps_;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_descriptor;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_fieldAccessorTable.ensureFieldAccessorsInitialized(FixedLimit.class, Builder.class);
+            }
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = FixedLimit.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25874clear() {
+                super.clear();
+                this.limitKbps_ = 0L;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FixedLimit m25887getDefaultInstanceForType() {
+                return FixedLimit.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FixedLimit m25868build() throws UninitializedMessageException {
+                FixedLimit fixedLimitM25870buildPartial = m25870buildPartial();
+                if (fixedLimitM25870buildPartial.isInitialized()) {
+                    return fixedLimitM25870buildPartial;
+                }
+                throw newUninitializedMessageException(fixedLimitM25870buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public FixedLimit m25870buildPartial() {
+                FixedLimit fixedLimit = new FixedLimit(this);
+                fixedLimit.limitKbps_ = this.limitKbps_;
+                onBuilt();
+                return fixedLimit;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25886clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25898setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25876clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25879clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25900setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25866addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25891mergeFrom(Message message) {
+                if (message instanceof FixedLimit) {
+                    return mergeFrom((FixedLimit) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(FixedLimit fixedLimit) {
+                if (fixedLimit == FixedLimit.getDefaultInstance()) {
+                    return this;
+                }
+                if (fixedLimit.getLimitKbps() != 0) {
+                    setLimitKbps(fixedLimit.getLimitKbps());
+                }
+                m25896mergeUnknownFields(fixedLimit.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimit.Builder m25892mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimit.access$600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit$FixedLimit r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimit) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit$FixedLimit r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimit) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimit.Builder.m25892mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit$FixedLimit$Builder");
+            }
+
+            public Builder setLimitKbps(long j) {
+                this.limitKbps_ = j;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearLimitKbps() {
+                this.limitKbps_ = 0L;
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m25902setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m25896mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class HeaderLimit extends GeneratedMessageV3 implements HeaderLimitOrBuilder {
+        private static final HeaderLimit DEFAULT_INSTANCE = new HeaderLimit();
+        private static final Parser<HeaderLimit> PARSER = new AbstractParser<HeaderLimit>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.HeaderLimit.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public HeaderLimit m25911parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new HeaderLimit(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private byte memoizedIsInitialized;
+
+        public static HeaderLimit getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<HeaderLimit> parser() {
+            return PARSER;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HeaderLimit m25904getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<HeaderLimit> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        private HeaderLimit(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private HeaderLimit() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new HeaderLimit();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        private HeaderLimit(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag == 0 || !parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                        } catch (InvalidProtocolBufferException e) {
+                            throw e.setUnfinishedMessage(this);
+                        }
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_fieldAccessorTable.ensureFieldAccessorsInitialized(HeaderLimit.class, Builder.class);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int serializedSize = this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (obj instanceof HeaderLimit) {
+                return this.unknownFields.equals(((HeaderLimit) obj).unknownFields);
+            }
+            return super.equals(obj);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((779 + getDescriptor().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        public static HeaderLimit parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (HeaderLimit) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static HeaderLimit parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (HeaderLimit) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static HeaderLimit parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (HeaderLimit) PARSER.parseFrom(byteString);
+        }
+
+        public static HeaderLimit parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (HeaderLimit) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static HeaderLimit parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (HeaderLimit) PARSER.parseFrom(bArr);
+        }
+
+        public static HeaderLimit parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (HeaderLimit) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static HeaderLimit parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static HeaderLimit parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static HeaderLimit parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static HeaderLimit parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static HeaderLimit parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static HeaderLimit parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25906newBuilderForType() {
+            return newBuilder();
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m25909toBuilder();
+        }
+
+        public static Builder newBuilder(HeaderLimit headerLimit) {
+            return DEFAULT_INSTANCE.m25909toBuilder().mergeFrom(headerLimit);
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25909toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements HeaderLimitOrBuilder {
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_descriptor;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_fieldAccessorTable.ensureFieldAccessorsInitialized(HeaderLimit.class, Builder.class);
+            }
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = HeaderLimit.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25920clear() {
+                super.clear();
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public HeaderLimit m25933getDefaultInstanceForType() {
+                return HeaderLimit.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public HeaderLimit m25914build() throws UninitializedMessageException {
+                HeaderLimit headerLimitM25916buildPartial = m25916buildPartial();
+                if (headerLimitM25916buildPartial.isInitialized()) {
+                    return headerLimitM25916buildPartial;
+                }
+                throw newUninitializedMessageException(headerLimitM25916buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public HeaderLimit m25916buildPartial() {
+                HeaderLimit headerLimit = new HeaderLimit(this);
+                onBuilt();
+                return headerLimit;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25932clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25944setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25922clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25925clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25946setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25912addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m25937mergeFrom(Message message) {
+                if (message instanceof HeaderLimit) {
+                    return mergeFrom((HeaderLimit) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(HeaderLimit headerLimit) {
+                if (headerLimit == HeaderLimit.getDefaultInstance()) {
+                    return this;
+                }
+                m25942mergeUnknownFields(headerLimit.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.HeaderLimit.Builder m25938mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.HeaderLimit.access$1300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit$HeaderLimit r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.HeaderLimit) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit$HeaderLimit r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.HeaderLimit) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.HeaderLimit.Builder.m25938mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit$HeaderLimit$Builder");
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m25948setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m25942mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public enum LimitTypeCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        FIXED_LIMIT(1),
+        HEADER_LIMIT(3),
+        LIMITTYPE_NOT_SET(0);
+
+        private final int value;
+
+        public static LimitTypeCase forNumber(int i) {
+            if (i == 0) {
+                return LIMITTYPE_NOT_SET;
+            }
+            if (i == 1) {
+                return FIXED_LIMIT;
+            }
+            if (i != 3) {
+                return null;
+            }
+            return HEADER_LIMIT;
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+
+        LimitTypeCase(int i) {
+            this.value = i;
+        }
+
+        @Deprecated
+        public static LimitTypeCase valueOf(int i) {
+            return forNumber(i);
+        }
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public LimitTypeCase getLimitTypeCase() {
+        return LimitTypeCase.forNumber(this.limitTypeCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public FixedLimit getFixedLimit() {
+        if (this.limitTypeCase_ == 1) {
+            return (FixedLimit) this.limitType_;
+        }
+        return FixedLimit.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public FixedLimitOrBuilder getFixedLimitOrBuilder() {
+        if (this.limitTypeCase_ == 1) {
+            return (FixedLimit) this.limitType_;
+        }
+        return FixedLimit.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public HeaderLimit getHeaderLimit() {
+        if (this.limitTypeCase_ == 3) {
+            return (HeaderLimit) this.limitType_;
+        }
+        return HeaderLimit.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public HeaderLimitOrBuilder getHeaderLimitOrBuilder() {
+        if (this.limitTypeCase_ == 3) {
+            return (HeaderLimit) this.limitType_;
+        }
+        return HeaderLimit.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public FractionalPercent getPercentage() {
+        FractionalPercent fractionalPercent = this.percentage_;
+        return fractionalPercent == null ? FractionalPercent.getDefaultInstance() : fractionalPercent;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+    public FractionalPercentOrBuilder getPercentageOrBuilder() {
+        return getPercentage();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.limitTypeCase_ == 1) {
+            codedOutputStream.writeMessage(1, (FixedLimit) this.limitType_);
+        }
+        if (this.percentage_ != null) {
+            codedOutputStream.writeMessage(2, getPercentage());
+        }
+        if (this.limitTypeCase_ == 3) {
+            codedOutputStream.writeMessage(3, (HeaderLimit) this.limitType_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.limitTypeCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (FixedLimit) this.limitType_) : 0;
+        if (this.percentage_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getPercentage());
+        }
+        if (this.limitTypeCase_ == 3) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, (HeaderLimit) this.limitType_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof FaultRateLimit)) {
+            return super.equals(obj);
+        }
+        FaultRateLimit faultRateLimit = (FaultRateLimit) obj;
+        if (hasPercentage() != faultRateLimit.hasPercentage()) {
+            return false;
+        }
+        if ((hasPercentage() && !getPercentage().equals(faultRateLimit.getPercentage())) || !getLimitTypeCase().equals(faultRateLimit.getLimitTypeCase())) {
+            return false;
+        }
+        int i = this.limitTypeCase_;
+        if (i == 1) {
+            if (!getFixedLimit().equals(faultRateLimit.getFixedLimit())) {
+                return false;
+            }
+        } else if (i == 3 && !getHeaderLimit().equals(faultRateLimit.getHeaderLimit())) {
+            return false;
+        }
+        return this.unknownFields.equals(faultRateLimit.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        if (hasPercentage()) {
+            iHashCode2 = (((iHashCode2 * 37) + 2) * 53) + getPercentage().hashCode();
+        }
+        int i2 = this.limitTypeCase_;
+        if (i2 == 1) {
+            i = ((iHashCode2 * 37) + 1) * 53;
+            iHashCode = getFixedLimit().hashCode();
+        } else {
+            if (i2 == 3) {
+                i = ((iHashCode2 * 37) + 3) * 53;
+                iHashCode = getHeaderLimit().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    public static FaultRateLimit parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (FaultRateLimit) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static FaultRateLimit parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (FaultRateLimit) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static FaultRateLimit parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (FaultRateLimit) PARSER.parseFrom(byteString);
+    }
+
+    public static FaultRateLimit parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (FaultRateLimit) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static FaultRateLimit parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (FaultRateLimit) PARSER.parseFrom(bArr);
+    }
+
+    public static FaultRateLimit parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (FaultRateLimit) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static FaultRateLimit parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static FaultRateLimit parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static FaultRateLimit parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static FaultRateLimit parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static FaultRateLimit parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static FaultRateLimit parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m25814newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m25817toBuilder();
+    }
+
+    public static Builder newBuilder(FaultRateLimit faultRateLimit) {
+        return DEFAULT_INSTANCE.m25817toBuilder().mergeFrom(faultRateLimit);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m25817toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements FaultRateLimitOrBuilder {
+        private SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> fixedLimitBuilder_;
+        private SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> headerLimitBuilder_;
+        private int limitTypeCase_;
+        private Object limitType_;
+        private SingleFieldBuilderV3<FractionalPercent, FractionalPercent.Builder, FractionalPercentOrBuilder> percentageBuilder_;
+        private FractionalPercent percentage_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public boolean hasFixedLimit() {
+            return this.limitTypeCase_ == 1;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public boolean hasHeaderLimit() {
+            return this.limitTypeCase_ == 3;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public boolean hasPercentage() {
+            return (this.percentageBuilder_ == null && this.percentage_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_fieldAccessorTable.ensureFieldAccessorsInitialized(FaultRateLimit.class, Builder.class);
+        }
+
+        private Builder() {
+            this.limitTypeCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.limitTypeCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = FaultRateLimit.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25828clear() {
+            super.clear();
+            if (this.percentageBuilder_ == null) {
+                this.percentage_ = null;
+            } else {
+                this.percentage_ = null;
+                this.percentageBuilder_ = null;
+            }
+            this.limitTypeCase_ = 0;
+            this.limitType_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return FaultProto.internal_static_envoy_config_filter_fault_v2_FaultRateLimit_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FaultRateLimit m25841getDefaultInstanceForType() {
+            return FaultRateLimit.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FaultRateLimit m25822build() throws UninitializedMessageException {
+            FaultRateLimit faultRateLimitM25824buildPartial = m25824buildPartial();
+            if (faultRateLimitM25824buildPartial.isInitialized()) {
+                return faultRateLimitM25824buildPartial;
+            }
+            throw newUninitializedMessageException(faultRateLimitM25824buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public FaultRateLimit m25824buildPartial() {
+            FaultRateLimit faultRateLimit = new FaultRateLimit(this);
+            if (this.limitTypeCase_ == 1) {
+                SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> singleFieldBuilderV3 = this.fixedLimitBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    faultRateLimit.limitType_ = this.limitType_;
+                } else {
+                    faultRateLimit.limitType_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.limitTypeCase_ == 3) {
+                SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> singleFieldBuilderV32 = this.headerLimitBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    faultRateLimit.limitType_ = this.limitType_;
+                } else {
+                    faultRateLimit.limitType_ = singleFieldBuilderV32.build();
+                }
+            }
+            SingleFieldBuilderV3<FractionalPercent, FractionalPercent.Builder, FractionalPercentOrBuilder> singleFieldBuilderV33 = this.percentageBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                faultRateLimit.percentage_ = this.percentage_;
+            } else {
+                faultRateLimit.percentage_ = singleFieldBuilderV33.build();
+            }
+            faultRateLimit.limitTypeCase_ = this.limitTypeCase_;
+            onBuilt();
+            return faultRateLimit;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25840clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25852setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25830clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25833clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25854setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25820addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m25845mergeFrom(Message message) {
+            if (message instanceof FaultRateLimit) {
+                return mergeFrom((FaultRateLimit) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(FaultRateLimit faultRateLimit) {
+            if (faultRateLimit == FaultRateLimit.getDefaultInstance()) {
+                return this;
+            }
+            if (faultRateLimit.hasPercentage()) {
+                mergePercentage(faultRateLimit.getPercentage());
+            }
+            int i = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$config$filter$fault$v2$FaultRateLimit$LimitTypeCase[faultRateLimit.getLimitTypeCase().ordinal()];
+            if (i == 1) {
+                mergeFixedLimit(faultRateLimit.getFixedLimit());
+            } else if (i == 2) {
+                mergeHeaderLimit(faultRateLimit.getHeaderLimit());
+            }
+            m25850mergeUnknownFields(faultRateLimit.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.Builder m25846mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.access$2300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit.Builder.m25846mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public LimitTypeCase getLimitTypeCase() {
+            return LimitTypeCase.forNumber(this.limitTypeCase_);
+        }
+
+        public Builder clearLimitType() {
+            this.limitTypeCase_ = 0;
+            this.limitType_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public FixedLimit getFixedLimit() {
+            SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> singleFieldBuilderV3 = this.fixedLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.limitTypeCase_ == 1) {
+                    return (FixedLimit) this.limitType_;
+                }
+                return FixedLimit.getDefaultInstance();
+            }
+            if (this.limitTypeCase_ == 1) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return FixedLimit.getDefaultInstance();
+        }
+
+        public Builder setFixedLimit(FixedLimit fixedLimit) {
+            SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> singleFieldBuilderV3 = this.fixedLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                fixedLimit.getClass();
+                this.limitType_ = fixedLimit;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(fixedLimit);
+            }
+            this.limitTypeCase_ = 1;
+            return this;
+        }
+
+        public Builder setFixedLimit(FixedLimit.Builder builder) {
+            SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> singleFieldBuilderV3 = this.fixedLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.limitType_ = builder.m25868build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m25868build());
+            }
+            this.limitTypeCase_ = 1;
+            return this;
+        }
+
+        public Builder mergeFixedLimit(FixedLimit fixedLimit) {
+            SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> singleFieldBuilderV3 = this.fixedLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.limitTypeCase_ != 1 || this.limitType_ == FixedLimit.getDefaultInstance()) {
+                    this.limitType_ = fixedLimit;
+                } else {
+                    this.limitType_ = FixedLimit.newBuilder((FixedLimit) this.limitType_).mergeFrom(fixedLimit).m25870buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.limitTypeCase_ == 1) {
+                    singleFieldBuilderV3.mergeFrom(fixedLimit);
+                }
+                this.fixedLimitBuilder_.setMessage(fixedLimit);
+            }
+            this.limitTypeCase_ = 1;
+            return this;
+        }
+
+        public Builder clearFixedLimit() {
+            SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> singleFieldBuilderV3 = this.fixedLimitBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.limitTypeCase_ == 1) {
+                    this.limitTypeCase_ = 0;
+                    this.limitType_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.limitTypeCase_ == 1) {
+                this.limitTypeCase_ = 0;
+                this.limitType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public FixedLimit.Builder getFixedLimitBuilder() {
+            return getFixedLimitFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public FixedLimitOrBuilder getFixedLimitOrBuilder() {
+            SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> singleFieldBuilderV3;
+            int i = this.limitTypeCase_;
+            if (i == 1 && (singleFieldBuilderV3 = this.fixedLimitBuilder_) != null) {
+                return (FixedLimitOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 1) {
+                return (FixedLimit) this.limitType_;
+            }
+            return FixedLimit.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<FixedLimit, FixedLimit.Builder, FixedLimitOrBuilder> getFixedLimitFieldBuilder() {
+            if (this.fixedLimitBuilder_ == null) {
+                if (this.limitTypeCase_ != 1) {
+                    this.limitType_ = FixedLimit.getDefaultInstance();
+                }
+                this.fixedLimitBuilder_ = new SingleFieldBuilderV3<>((FixedLimit) this.limitType_, getParentForChildren(), isClean());
+                this.limitType_ = null;
+            }
+            this.limitTypeCase_ = 1;
+            onChanged();
+            return this.fixedLimitBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public HeaderLimit getHeaderLimit() {
+            SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> singleFieldBuilderV3 = this.headerLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.limitTypeCase_ == 3) {
+                    return (HeaderLimit) this.limitType_;
+                }
+                return HeaderLimit.getDefaultInstance();
+            }
+            if (this.limitTypeCase_ == 3) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return HeaderLimit.getDefaultInstance();
+        }
+
+        public Builder setHeaderLimit(HeaderLimit headerLimit) {
+            SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> singleFieldBuilderV3 = this.headerLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                headerLimit.getClass();
+                this.limitType_ = headerLimit;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(headerLimit);
+            }
+            this.limitTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder setHeaderLimit(HeaderLimit.Builder builder) {
+            SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> singleFieldBuilderV3 = this.headerLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.limitType_ = builder.m25914build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m25914build());
+            }
+            this.limitTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder mergeHeaderLimit(HeaderLimit headerLimit) {
+            SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> singleFieldBuilderV3 = this.headerLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.limitTypeCase_ != 3 || this.limitType_ == HeaderLimit.getDefaultInstance()) {
+                    this.limitType_ = headerLimit;
+                } else {
+                    this.limitType_ = HeaderLimit.newBuilder((HeaderLimit) this.limitType_).mergeFrom(headerLimit).m25916buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.limitTypeCase_ == 3) {
+                    singleFieldBuilderV3.mergeFrom(headerLimit);
+                }
+                this.headerLimitBuilder_.setMessage(headerLimit);
+            }
+            this.limitTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder clearHeaderLimit() {
+            SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> singleFieldBuilderV3 = this.headerLimitBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.limitTypeCase_ == 3) {
+                    this.limitTypeCase_ = 0;
+                    this.limitType_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.limitTypeCase_ == 3) {
+                this.limitTypeCase_ = 0;
+                this.limitType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public HeaderLimit.Builder getHeaderLimitBuilder() {
+            return getHeaderLimitFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public HeaderLimitOrBuilder getHeaderLimitOrBuilder() {
+            SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> singleFieldBuilderV3;
+            int i = this.limitTypeCase_;
+            if (i == 3 && (singleFieldBuilderV3 = this.headerLimitBuilder_) != null) {
+                return (HeaderLimitOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 3) {
+                return (HeaderLimit) this.limitType_;
+            }
+            return HeaderLimit.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<HeaderLimit, HeaderLimit.Builder, HeaderLimitOrBuilder> getHeaderLimitFieldBuilder() {
+            if (this.headerLimitBuilder_ == null) {
+                if (this.limitTypeCase_ != 3) {
+                    this.limitType_ = HeaderLimit.getDefaultInstance();
+                }
+                this.headerLimitBuilder_ = new SingleFieldBuilderV3<>((HeaderLimit) this.limitType_, getParentForChildren(), isClean());
+                this.limitType_ = null;
+            }
+            this.limitTypeCase_ = 3;
+            onChanged();
+            return this.headerLimitBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public FractionalPercent getPercentage() {
+            SingleFieldBuilderV3<FractionalPercent, FractionalPercent.Builder, FractionalPercentOrBuilder> singleFieldBuilderV3 = this.percentageBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            FractionalPercent fractionalPercent = this.percentage_;
+            return fractionalPercent == null ? FractionalPercent.getDefaultInstance() : fractionalPercent;
+        }
+
+        public Builder setPercentage(FractionalPercent fractionalPercent) {
+            SingleFieldBuilderV3<FractionalPercent, FractionalPercent.Builder, FractionalPercentOrBuilder> singleFieldBuilderV3 = this.percentageBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                fractionalPercent.getClass();
+                this.percentage_ = fractionalPercent;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(fractionalPercent);
+            }
+            return this;
+        }
+
+        public Builder setPercentage(FractionalPercent.Builder builder) {
+            SingleFieldBuilderV3<FractionalPercent, FractionalPercent.Builder, FractionalPercentOrBuilder> singleFieldBuilderV3 = this.percentageBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.percentage_ = builder.m32864build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m32864build());
+            }
+            return this;
+        }
+
+        public Builder mergePercentage(FractionalPercent fractionalPercent) {
+            SingleFieldBuilderV3<FractionalPercent, FractionalPercent.Builder, FractionalPercentOrBuilder> singleFieldBuilderV3 = this.percentageBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                FractionalPercent fractionalPercent2 = this.percentage_;
+                if (fractionalPercent2 != null) {
+                    this.percentage_ = FractionalPercent.newBuilder(fractionalPercent2).mergeFrom(fractionalPercent).m32866buildPartial();
+                } else {
+                    this.percentage_ = fractionalPercent;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(fractionalPercent);
+            }
+            return this;
+        }
+
+        public Builder clearPercentage() {
+            if (this.percentageBuilder_ == null) {
+                this.percentage_ = null;
+                onChanged();
+            } else {
+                this.percentage_ = null;
+                this.percentageBuilder_ = null;
+            }
+            return this;
+        }
+
+        public FractionalPercent.Builder getPercentageBuilder() {
+            onChanged();
+            return getPercentageFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder
+        public FractionalPercentOrBuilder getPercentageOrBuilder() {
+            SingleFieldBuilderV3<FractionalPercent, FractionalPercent.Builder, FractionalPercentOrBuilder> singleFieldBuilderV3 = this.percentageBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (FractionalPercentOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            FractionalPercent fractionalPercent = this.percentage_;
+            return fractionalPercent == null ? FractionalPercent.getDefaultInstance() : fractionalPercent;
+        }
+
+        private SingleFieldBuilderV3<FractionalPercent, FractionalPercent.Builder, FractionalPercentOrBuilder> getPercentageFieldBuilder() {
+            if (this.percentageBuilder_ == null) {
+                this.percentageBuilder_ = new SingleFieldBuilderV3<>(getPercentage(), getParentForChildren(), isClean());
+                this.percentage_ = null;
+            }
+            return this.percentageBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m25856setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m25850mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$config$filter$fault$v2$FaultRateLimit$LimitTypeCase;
+
+        static {
+            int[] iArr = new int[LimitTypeCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$config$filter$fault$v2$FaultRateLimit$LimitTypeCase = iArr;
+            try {
+                iArr[LimitTypeCase.FIXED_LIMIT.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$filter$fault$v2$FaultRateLimit$LimitTypeCase[LimitTypeCase.HEADER_LIMIT.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$filter$fault$v2$FaultRateLimit$LimitTypeCase[LimitTypeCase.LIMITTYPE_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+        }
+    }
+}

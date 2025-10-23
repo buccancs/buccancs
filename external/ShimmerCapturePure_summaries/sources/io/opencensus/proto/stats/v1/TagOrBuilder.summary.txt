@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/stats/v1/TagOrBuilder.java
+// Size: 339 bytes
+// Modified: 2025-10-21 16:32:00.342794600 +0100
+
+package io.opencensus.proto.stats.v1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface TagOrBuilder extends MessageOrBuilder {
+    String getKey();
+
+    ByteString getKeyBytes();
+
+    String getValue();
+
+    ByteString getValueBytes();
+}

@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/io/FileWriteMode.java
+// Size: 109 bytes
+// Modified: 2025-10-21 16:32:00.125576500 +0100
+
+package com.google.common.io;
+
+/* loaded from: classes.dex */
+public enum FileWriteMode {
+    APPEND
+}

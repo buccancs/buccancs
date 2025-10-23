@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/callback/BleWriteCallback.java
+// Size: 329 bytes
+// Modified: 2025-10-21 16:32:01.186752300 +0100
+
+package com.clj.fastble.callback;
+
+import com.clj.fastble.exception.BleException;
+
+/* loaded from: classes.dex */
+public abstract class BleWriteCallback extends BleBaseCallback {
+    public abstract void onWriteFailure(BleException bleException);
+
+    public abstract void onWriteSuccess(int i, int i2, byte[] bArr);
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/protocol/HttpProcessor.java
+// Size: 262 bytes
+// Modified: 2025-10-21 16:32:03.821109500 +0100
+
+package org.apache.http.protocol;
+
+import org.apache.http.HttpRequestInterceptor;
+import org.apache.http.HttpResponseInterceptor;
+
+/* loaded from: classes5.dex */
+public interface HttpProcessor extends HttpRequestInterceptor, HttpResponseInterceptor {
+}

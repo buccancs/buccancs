@@ -1,0 +1,51 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ml/neuralnet/twod/util/QuantizationError.java
+// Size: 2332 bytes
+// Modified: 2025-10-21 16:32:08.046001000 +0100
+
+package org.apache.commons.math3.ml.neuralnet.twod.util;
+
+import java.lang.reflect.Array;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.ml.distance.DistanceMeasure;
+import org.apache.commons.math3.ml.neuralnet.MapUtils;
+import org.apache.commons.math3.ml.neuralnet.Neuron;
+import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
+import org.apache.commons.math3.ml.neuralnet.twod.util.LocationFinder;
+
+/* loaded from: classes5.dex */
+public class QuantizationError implements MapDataVisualization {
+    private final DistanceMeasure distance;
+
+    public QuantizationError(DistanceMeasure distanceMeasure) {
+        this.distance = distanceMeasure;
+    }
+
+    @Override // org.apache.commons.math3.ml.neuralnet.twod.util.MapDataVisualization
+    public double[][] computeImage(NeuronSquareMesh2D neuronSquareMesh2D, Iterable<double[]> iterable) throws DimensionMismatchException {
+        int numberOfRows = neuronSquareMesh2D.getNumberOfRows();
+        int numberOfColumns = neuronSquareMesh2D.getNumberOfColumns();
+        LocationFinder locationFinder = new LocationFinder(neuronSquareMesh2D);
+        int[][] iArr = (int[][]) Array.newInstance((Class<?>) Integer.TYPE, numberOfRows, numberOfColumns);
+        double[][] dArr = (double[][]) Array.newInstance((Class<?>) Double.TYPE, numberOfRows, numberOfColumns);
+        for (double[] dArr2 : iterable) {
+            Neuron neuronFindBest = MapUtils.findBest(dArr2, neuronSquareMesh2D, this.distance);
+            LocationFinder.Location location = locationFinder.getLocation(neuronFindBest);
+            int row = location.getRow();
+            int column = location.getColumn();
+            int[] iArr2 = iArr[row];
+            iArr2[column] = iArr2[column] + 1;
+            double[] dArr3 = dArr[row];
+            dArr3[column] = dArr3[column] + this.distance.compute(dArr2, neuronFindBest.getFeatures());
+        }
+        for (int i = 0; i < numberOfRows; i++) {
+            for (int i2 = 0; i2 < numberOfColumns; i2++) {
+                int i3 = iArr[i][i2];
+                if (i3 != 0) {
+                    double[] dArr4 = dArr[i];
+                    dArr4[i2] = dArr4[i2] / i3;
+                }
+            }
+        }
+        return dArr;
+    }
+}

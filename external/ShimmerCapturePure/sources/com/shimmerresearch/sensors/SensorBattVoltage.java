@@ -1,0 +1,211 @@
+package com.shimmerresearch.sensors;
+
+import com.shimmerresearch.bluetooth.BtCommandDetails;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.SensorGroupingDetails;
+import com.shimmerresearch.driverUtilities.ShimmerBattStatusDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.sensors.AbstractSensor;
+import io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2CodecUtil;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public class SensorBattVoltage extends AbstractSensor {
+    public static final double BATTERY_VOLTAGE_DIVIDER_RATIO = 1.988d;
+    public static final byte GET_VBATT_COMMAND = -107;
+    public static final byte VBATT_RESPONSE = -108;
+    public static final ChannelDetails channelBattPercentage;
+    public static final ChannelDetails channelBattVolt;
+    public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
+    public static final Map<String, ChannelDetails> mChannelMapRef;
+    public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
+    public static final SensorDetailsRef sensorBattVoltageRef;
+    public static final SensorGroupingDetails sensorGroupBattVoltage;
+    private static final long serialVersionUID = -2835431738933986391L;
+
+    static {
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put((byte) -107, new BtCommandDetails((byte) -107, "GET_VBATT_COMMAND", (byte) -108));
+        mBtGetCommandMap = Collections.unmodifiableMap(linkedHashMap);
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(Http2CodecUtil.DEFAULT_HEADER_LIST_SIZE, Http2CodecUtil.DEFAULT_HEADER_LIST_SIZE, "Battery Voltage", null, null, Arrays.asList(ObjectClusterSensorName.BATTERY, "Batt_Percentage"));
+        sensorBattVoltageRef = sensorDetailsRef;
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put(3, sensorDetailsRef);
+        mSensorMapRef = Collections.unmodifiableMap(linkedHashMap2);
+        sensorGroupBattVoltage = new SensorGroupingDetails("Battery Voltage", Arrays.asList(3), Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoBattVoltage);
+        ChannelDetails channelDetails = new ChannelDetails("Batt_Percentage", "Battery Percent", "Batt_Percentage", Configuration.CHANNEL_UNITS.PERCENT, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL), true, false);
+        channelBattPercentage = channelDetails;
+        ChannelDetails channelDetails2 = new ChannelDetails(ObjectClusterSensorName.BATTERY, ObjectClusterSensorName.BATTERY, DatabaseChannelHandles.BATTERY, ChannelDetails.CHANNEL_DATA_TYPE.UINT12, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), true, true);
+        channelBattVolt = channelDetails2;
+        LinkedHashMap linkedHashMap3 = new LinkedHashMap();
+        linkedHashMap3.put("Batt_Percentage", channelDetails);
+        linkedHashMap3.put(ObjectClusterSensorName.BATTERY, channelDetails2);
+        mChannelMapRef = Collections.unmodifiableMap(linkedHashMap3);
+    }
+
+    protected int mSamplingDividerVBatt;
+    private ShimmerBattStatusDetails mShimmerBattStatusDetails;
+
+    public SensorBattVoltage(ShimmerDevice shimmerDevice) {
+        super(AbstractSensor.SENSORS.Battery, shimmerDevice);
+        this.mSamplingDividerVBatt = 0;
+        this.mShimmerBattStatusDetails = new ShimmerBattStatusDetails();
+        this.mShimmerBattStatusDetails = shimmerDevice.mShimmerBattStatusDetails;
+        initialise();
+    }
+
+    public SensorBattVoltage(ShimmerVerObject shimmerVerObject) {
+        super(AbstractSensor.SENSORS.Battery, shimmerVerObject);
+        this.mSamplingDividerVBatt = 0;
+        this.mShimmerBattStatusDetails = new ShimmerBattStatusDetails();
+        initialise();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        return null;
+    }
+
+    public int getSamplingDividerVBatt() {
+        return this.mSamplingDividerVBatt;
+    }
+
+    public void setSamplingDividerVBatt(int i) {
+        this.mSamplingDividerVBatt = i;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void parseConfigMap(LinkedHashMap<String, Object> linkedHashMap) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+        super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+        this.mSensorGroupingMap = new LinkedHashMap<>();
+        if (this.mShimmerVerObject.isShimmerGen3() || this.mShimmerVerObject.isShimmerGen4() || this.mShimmerVerObject.isSweatchDevice()) {
+            this.mSensorGroupingMap.put(Integer.valueOf(Configuration.Shimmer3.LABEL_SENSOR_TILE.BATTERY_MONITORING.ordinal()), sensorGroupBattVoltage);
+        }
+        super.updateSensorGroupingMap();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        sensorDetails.processDataCommon(bArr, communication_type, objectCluster, z, d);
+        for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
+            if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.BATTERY)) {
+                double dCalibrateU12AdcValueToMillivolts = SensorADC.calibrateU12AdcValueToMillivolts(ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData, 0.0d, 3.0d, 1.0d) * 1.988d;
+                objectCluster.addCalData(channelDetails, dCalibrateU12AdcValueToMillivolts, objectCluster.getIndexKeeper() - 1);
+                getShimmerBattStatusDetails().calculateBattPercentage(dCalibrateU12AdcValueToMillivolts / 1000.0d);
+            } else if (channelDetails.mObjectClusterName.equals("Batt_Percentage")) {
+                double estimatedChargePercentage = getShimmerBattStatusDetails().getEstimatedChargePercentage();
+                if (!Double.isNaN(estimatedChargePercentage) && !Double.isInfinite(estimatedChargePercentage)) {
+                    objectCluster.addCalData(channelDetails, estimatedChargePercentage);
+                    objectCluster.incrementIndexKeeper();
+                }
+            }
+        }
+        return objectCluster;
+    }
+
+    protected ShimmerBattStatusDetails getShimmerBattStatusDetails() {
+        return this.mShimmerDevice != null ? this.mShimmerDevice.mShimmerBattStatusDetails : this.mShimmerBattStatusDetails;
+    }
+
+    public static class DatabaseChannelHandles {
+        public static final String BATTERY = "F5437a_Int_A2_Battery";
+    }
+
+    public static class ObjectClusterSensorName {
+        public static final String BATTERY = "Battery";
+        public static final String BATT_PERCENTAGE = "Batt_Percentage";
+    }
+
+    public class GuiLabelConfig {
+        public static final String SAMPLING_RATE_DIVIDER_VBATT = "VBATT Divider";
+
+        public GuiLabelConfig() {
+        }
+    }
+
+    public class GuiLabelSensors {
+        public static final String BATTERY = "Battery Voltage";
+
+        public GuiLabelSensors() {
+        }
+    }
+
+    public class LABEL_SENSOR_TILE {
+        public static final String BATTERY_MONITORING = "Battery Voltage";
+
+        public LABEL_SENSOR_TILE() {
+        }
+    }
+}

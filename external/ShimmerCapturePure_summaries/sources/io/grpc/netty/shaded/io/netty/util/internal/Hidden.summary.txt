@@ -1,0 +1,54 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/Hidden.java
+// Size: 3379 bytes
+// Modified: 2025-10-21 16:32:03.163390500 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+import io.grpc.alts.CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0;
+import io.grpc.netty.shaded.io.netty.util.concurrent.FastThreadLocalThread;
+import java.util.function.Function;
+import java.util.function.Predicate;
+import reactor.blockhound.BlockHound;
+import reactor.blockhound.integration.BlockHoundIntegration;
+
+/* loaded from: classes3.dex */
+class Hidden {
+    Hidden() {
+    }
+
+    public static final class NettyBlockHoundIntegration implements BlockHoundIntegration {
+        public int compareTo(BlockHoundIntegration blockHoundIntegration) {
+            return 0;
+        }
+
+        public void applyTo(BlockHound.Builder builder) {
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.channel.nio.NioEventLoop", "handleLoopException");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.channel.kqueue.KQueueEventLoop", "handleLoopException");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop", "handleLoopException");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.util.HashedWheelTimer$Worker", "waitForNextTick");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor", "confirmShutdown");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.handler.ssl.SslHandler", "handshake");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.handler.ssl.SslHandler", "runAllDelegatedTasks");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.util.concurrent.GlobalEventExecutor", "takeTask");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.util.concurrent.GlobalEventExecutor", "addTask");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.util.concurrent.SingleThreadEventExecutor", "takeTask");
+            builder.allowBlockingCallsInside("io.grpc.netty.shaded.io.netty.handler.ssl.ReferenceCountedOpenSslClientContext$ExtendedTrustManagerVerifyCallback", "verify");
+            builder.nonBlockingThreadPredicate(new Function<Predicate<Thread>, Predicate<Thread>>() { // from class: io.grpc.netty.shaded.io.netty.util.internal.Hidden.NettyBlockHoundIntegration.1
+                @Override // java.util.function.Function
+                public /* bridge */ /* synthetic */ Predicate<Thread> apply(Predicate<Thread> predicate) {
+                    return apply2(CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m6309m((Object) predicate));
+                }
+
+                /* renamed from: apply, reason: avoid collision after fix types in other method */
+                public Predicate<Thread> apply2(final Predicate<Thread> predicate) {
+                    return new Predicate<Thread>() { // from class: io.grpc.netty.shaded.io.netty.util.internal.Hidden.NettyBlockHoundIntegration.1.1
+                        @Override // java.util.function.Predicate
+                        public boolean test(Thread thread) {
+                            return predicate.test(thread) || (thread instanceof FastThreadLocalThread);
+                        }
+                    };
+                }
+            });
+        }
+    }
+}

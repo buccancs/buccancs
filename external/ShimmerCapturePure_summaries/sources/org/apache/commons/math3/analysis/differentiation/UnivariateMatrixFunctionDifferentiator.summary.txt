@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/differentiation/UnivariateMatrixFunctionDifferentiator.java
+// Size: 337 bytes
+// Modified: 2025-10-21 16:32:03.282971100 +0100
+
+package org.apache.commons.math3.analysis.differentiation;
+
+import org.apache.commons.math3.analysis.UnivariateMatrixFunction;
+
+/* loaded from: classes5.dex */
+public interface UnivariateMatrixFunctionDifferentiator {
+    UnivariateDifferentiableMatrixFunction differentiate(UnivariateMatrixFunction univariateMatrixFunction);
+}

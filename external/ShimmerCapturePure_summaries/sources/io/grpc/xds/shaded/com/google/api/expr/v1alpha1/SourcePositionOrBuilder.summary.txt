@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/com/google/api/expr/v1alpha1/SourcePositionOrBuilder.java
+// Size: 388 bytes
+// Modified: 2025-10-21 16:32:00.434525700 +0100
+
+package io.grpc.xds.shaded.com.google.api.expr.v1alpha1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes3.dex */
+public interface SourcePositionOrBuilder extends MessageOrBuilder {
+    int getColumn();
+
+    int getLine();
+
+    String getLocation();
+
+    ByteString getLocationBytes();
+
+    int getOffset();
+}

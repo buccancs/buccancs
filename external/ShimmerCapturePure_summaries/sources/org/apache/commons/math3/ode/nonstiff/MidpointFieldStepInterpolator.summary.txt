@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ode/nonstiff/MidpointFieldStepInterpolator.java
+// Size: 3043 bytes
+// Modified: 2025-10-21 16:32:09.433708600 +0100
+
+package org.apache.commons.math3.ode.nonstiff;
+
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
+
+/* loaded from: classes5.dex */
+class MidpointFieldStepInterpolator<T extends RealFieldElement<T>> extends RungeKuttaFieldStepInterpolator<T> {
+    MidpointFieldStepInterpolator(Field<T> field, boolean z, T[][] tArr, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative2, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative3, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative4, FieldEquationsMapper<T> fieldEquationsMapper) {
+        super(field, z, tArr, fieldODEStateAndDerivative, fieldODEStateAndDerivative2, fieldODEStateAndDerivative3, fieldODEStateAndDerivative4, fieldEquationsMapper);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.apache.commons.math3.ode.nonstiff.RungeKuttaFieldStepInterpolator
+    public MidpointFieldStepInterpolator<T> create(Field<T> field, boolean z, T[][] tArr, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative2, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative3, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative4, FieldEquationsMapper<T> fieldEquationsMapper) {
+        return new MidpointFieldStepInterpolator<>(field, z, tArr, fieldODEStateAndDerivative, fieldODEStateAndDerivative2, fieldODEStateAndDerivative3, fieldODEStateAndDerivative4, fieldEquationsMapper);
+    }
+
+    @Override // org.apache.commons.math3.ode.sampling.AbstractFieldStepInterpolator
+    protected FieldODEStateAndDerivative<T> computeInterpolatedStateAndDerivatives(FieldEquationsMapper<T> fieldEquationsMapper, T t, T t2, T t3, T t4) {
+        T[] tArrCurrentStateLinearCombination;
+        T[] tArrDerivativeLinearCombination;
+        RealFieldElement realFieldElement = (RealFieldElement) t2.multiply(2);
+        RealFieldElement realFieldElement2 = (RealFieldElement) ((RealFieldElement) t.getField().getOne()).subtract(realFieldElement);
+        if (getGlobalPreviousState() != null && t2.getReal() <= 0.5d) {
+            tArrCurrentStateLinearCombination = previousStateLinearCombination((RealFieldElement) t2.multiply(t4), (RealFieldElement) t2.multiply(t3));
+            tArrDerivativeLinearCombination = derivativeLinearCombination(realFieldElement2, realFieldElement);
+        } else {
+            tArrCurrentStateLinearCombination = currentStateLinearCombination((RealFieldElement) t4.multiply(t2), (RealFieldElement) ((RealFieldElement) t4.multiply(t2.add(1.0d))).negate());
+            tArrDerivativeLinearCombination = derivativeLinearCombination(realFieldElement2, realFieldElement);
+        }
+        return new FieldODEStateAndDerivative<>(t, tArrCurrentStateLinearCombination, tArrDerivativeLinearCombination);
+    }
+}

@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socks/SocksRequest.java
+// Size: 581 bytes
+// Modified: 2025-10-21 16:32:04.439739800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socks;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public abstract class SocksRequest extends SocksMessage {
+    private final SocksRequestType requestType;
+
+    public SocksRequestType requestType() {
+        return this.requestType;
+    }
+
+    protected SocksRequest(SocksRequestType socksRequestType) {
+        super(SocksMessageType.REQUEST);
+        this.requestType = (SocksRequestType) ObjectUtil.checkNotNull(socksRequestType, "requestType");
+    }
+}

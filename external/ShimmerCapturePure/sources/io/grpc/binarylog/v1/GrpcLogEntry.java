@@ -1,0 +1,1864 @@
+package io.grpc.binarylog.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.binarylog.v1.Address;
+import io.grpc.binarylog.v1.ClientHeader;
+import io.grpc.binarylog.v1.Message;
+import io.grpc.binarylog.v1.ServerHeader;
+import io.grpc.binarylog.v1.Trailer;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class GrpcLogEntry extends GeneratedMessageV3 implements GrpcLogEntryOrBuilder {
+    public static final int CALL_ID_FIELD_NUMBER = 2;
+    public static final int CLIENT_HEADER_FIELD_NUMBER = 6;
+    public static final int LOGGER_FIELD_NUMBER = 5;
+    public static final int MESSAGE_FIELD_NUMBER = 8;
+    public static final int PAYLOAD_TRUNCATED_FIELD_NUMBER = 10;
+    public static final int PEER_FIELD_NUMBER = 11;
+    public static final int SEQUENCE_ID_WITHIN_CALL_FIELD_NUMBER = 3;
+    public static final int SERVER_HEADER_FIELD_NUMBER = 7;
+    public static final int TIMESTAMP_FIELD_NUMBER = 1;
+    public static final int TRAILER_FIELD_NUMBER = 9;
+    public static final int TYPE_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0;
+    private static final GrpcLogEntry DEFAULT_INSTANCE = new GrpcLogEntry();
+    private static final Parser<GrpcLogEntry> PARSER = new AbstractParser<GrpcLogEntry>() { // from class: io.grpc.binarylog.v1.GrpcLogEntry.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public GrpcLogEntry m7030parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new GrpcLogEntry(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private long callId_;
+    private int logger_;
+    private byte memoizedIsInitialized;
+    private int payloadCase_;
+    private boolean payloadTruncated_;
+    private Object payload_;
+    private Address peer_;
+    private long sequenceIdWithinCall_;
+    private Timestamp timestamp_;
+    private int type_;
+
+    private GrpcLogEntry(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.payloadCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private GrpcLogEntry() {
+        this.payloadCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.type_ = 0;
+        this.logger_ = 0;
+    }
+
+    private GrpcLogEntry(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Timestamp.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            Timestamp timestamp = this.timestamp_;
+                            builder = timestamp != null ? timestamp.toBuilder() : null;
+                            Timestamp message = codedInputStream.readMessage(Timestamp.parser(), extensionRegistryLite);
+                            this.timestamp_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.timestamp_ = builder.buildPartial();
+                            }
+                        case 16:
+                            this.callId_ = codedInputStream.readUInt64();
+                        case 24:
+                            this.sequenceIdWithinCall_ = codedInputStream.readUInt64();
+                        case 32:
+                            this.type_ = codedInputStream.readEnum();
+                        case 40:
+                            this.logger_ = codedInputStream.readEnum();
+                        case 50:
+                            builder = this.payloadCase_ == 6 ? ((ClientHeader) this.payload_).m6982toBuilder() : null;
+                            MessageLite message2 = codedInputStream.readMessage(ClientHeader.parser(), extensionRegistryLite);
+                            this.payload_ = message2;
+                            if (builder != null) {
+                                builder.mergeFrom((ClientHeader) message2);
+                                this.payload_ = builder.m6989buildPartial();
+                            }
+                            this.payloadCase_ = 6;
+                        case 58:
+                            builder = this.payloadCase_ == 7 ? ((ServerHeader) this.payload_).m7214toBuilder() : null;
+                            MessageLite message3 = codedInputStream.readMessage(ServerHeader.parser(), extensionRegistryLite);
+                            this.payload_ = message3;
+                            if (builder != null) {
+                                builder.mergeFrom((ServerHeader) message3);
+                                this.payload_ = builder.m7221buildPartial();
+                            }
+                            this.payloadCase_ = 7;
+                        case 66:
+                            builder = this.payloadCase_ == 8 ? ((Message) this.payload_).m7076toBuilder() : null;
+                            MessageLite message4 = codedInputStream.readMessage(Message.parser(), extensionRegistryLite);
+                            this.payload_ = message4;
+                            if (builder != null) {
+                                builder.mergeFrom((Message) message4);
+                                this.payload_ = builder.m7083buildPartial();
+                            }
+                            this.payloadCase_ = 8;
+                        case 74:
+                            builder = this.payloadCase_ == 9 ? ((Trailer) this.payload_).m7260toBuilder() : null;
+                            MessageLite message5 = codedInputStream.readMessage(Trailer.parser(), extensionRegistryLite);
+                            this.payload_ = message5;
+                            if (builder != null) {
+                                builder.mergeFrom((Trailer) message5);
+                                this.payload_ = builder.m7267buildPartial();
+                            }
+                            this.payloadCase_ = 9;
+                        case 80:
+                            this.payloadTruncated_ = codedInputStream.readBool();
+                        case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                            Address address = this.peer_;
+                            builder = address != null ? address.m6935toBuilder() : null;
+                            Address address2 = (Address) codedInputStream.readMessage(Address.parser(), extensionRegistryLite);
+                            this.peer_ = address2;
+                            if (builder != null) {
+                                builder.mergeFrom(address2);
+                                this.peer_ = builder.m6942buildPartial();
+                            }
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static GrpcLogEntry getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<GrpcLogEntry> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return BinaryLogProto.internal_static_grpc_binarylog_v1_GrpcLogEntry_descriptor;
+    }
+
+    public static GrpcLogEntry parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (GrpcLogEntry) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static GrpcLogEntry parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GrpcLogEntry) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static GrpcLogEntry parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (GrpcLogEntry) PARSER.parseFrom(byteString);
+    }
+
+    public static GrpcLogEntry parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GrpcLogEntry) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static GrpcLogEntry parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (GrpcLogEntry) PARSER.parseFrom(bArr);
+    }
+
+    public static GrpcLogEntry parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (GrpcLogEntry) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static GrpcLogEntry parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static GrpcLogEntry parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static GrpcLogEntry parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static GrpcLogEntry parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static GrpcLogEntry parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static GrpcLogEntry parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m7028toBuilder();
+    }
+
+    public static Builder newBuilder(GrpcLogEntry grpcLogEntry) {
+        return DEFAULT_INSTANCE.m7028toBuilder().mergeFrom(grpcLogEntry);
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public long getCallId() {
+        return this.callId_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public GrpcLogEntry m7023getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public int getLoggerValue() {
+        return this.logger_;
+    }
+
+    public Parser<GrpcLogEntry> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public boolean getPayloadTruncated() {
+        return this.payloadTruncated_;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public long getSequenceIdWithinCall() {
+        return this.sequenceIdWithinCall_;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public int getTypeValue() {
+        return this.type_;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public boolean hasClientHeader() {
+        return this.payloadCase_ == 6;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public boolean hasMessage() {
+        return this.payloadCase_ == 8;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public boolean hasPeer() {
+        return this.peer_ != null;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public boolean hasServerHeader() {
+        return this.payloadCase_ == 7;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public boolean hasTimestamp() {
+        return this.timestamp_ != null;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public boolean hasTrailer() {
+        return this.payloadCase_ == 9;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new GrpcLogEntry();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return BinaryLogProto.internal_static_grpc_binarylog_v1_GrpcLogEntry_fieldAccessorTable.ensureFieldAccessorsInitialized(GrpcLogEntry.class, Builder.class);
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public PayloadCase getPayloadCase() {
+        return PayloadCase.forNumber(this.payloadCase_);
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public Timestamp getTimestamp() {
+        Timestamp timestamp = this.timestamp_;
+        return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public TimestampOrBuilder getTimestampOrBuilder() {
+        return getTimestamp();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public EventType getType() {
+        EventType eventTypeValueOf = EventType.valueOf(this.type_);
+        return eventTypeValueOf == null ? EventType.UNRECOGNIZED : eventTypeValueOf;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public Logger getLogger() {
+        Logger loggerValueOf = Logger.valueOf(this.logger_);
+        return loggerValueOf == null ? Logger.UNRECOGNIZED : loggerValueOf;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public ClientHeader getClientHeader() {
+        if (this.payloadCase_ == 6) {
+            return (ClientHeader) this.payload_;
+        }
+        return ClientHeader.getDefaultInstance();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public ClientHeaderOrBuilder getClientHeaderOrBuilder() {
+        if (this.payloadCase_ == 6) {
+            return (ClientHeader) this.payload_;
+        }
+        return ClientHeader.getDefaultInstance();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public ServerHeader getServerHeader() {
+        if (this.payloadCase_ == 7) {
+            return (ServerHeader) this.payload_;
+        }
+        return ServerHeader.getDefaultInstance();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public ServerHeaderOrBuilder getServerHeaderOrBuilder() {
+        if (this.payloadCase_ == 7) {
+            return (ServerHeader) this.payload_;
+        }
+        return ServerHeader.getDefaultInstance();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public Message getMessage() {
+        if (this.payloadCase_ == 8) {
+            return (Message) this.payload_;
+        }
+        return Message.getDefaultInstance();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public MessageOrBuilder getMessageOrBuilder() {
+        if (this.payloadCase_ == 8) {
+            return (Message) this.payload_;
+        }
+        return Message.getDefaultInstance();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public Trailer getTrailer() {
+        if (this.payloadCase_ == 9) {
+            return (Trailer) this.payload_;
+        }
+        return Trailer.getDefaultInstance();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public TrailerOrBuilder getTrailerOrBuilder() {
+        if (this.payloadCase_ == 9) {
+            return (Trailer) this.payload_;
+        }
+        return Trailer.getDefaultInstance();
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public Address getPeer() {
+        Address address = this.peer_;
+        return address == null ? Address.getDefaultInstance() : address;
+    }
+
+    @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+    public AddressOrBuilder getPeerOrBuilder() {
+        return getPeer();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.timestamp_ != null) {
+            codedOutputStream.writeMessage(1, getTimestamp());
+        }
+        long j = this.callId_;
+        if (j != 0) {
+            codedOutputStream.writeUInt64(2, j);
+        }
+        long j2 = this.sequenceIdWithinCall_;
+        if (j2 != 0) {
+            codedOutputStream.writeUInt64(3, j2);
+        }
+        if (this.type_ != EventType.EVENT_TYPE_UNKNOWN.getNumber()) {
+            codedOutputStream.writeEnum(4, this.type_);
+        }
+        if (this.logger_ != Logger.LOGGER_UNKNOWN.getNumber()) {
+            codedOutputStream.writeEnum(5, this.logger_);
+        }
+        if (this.payloadCase_ == 6) {
+            codedOutputStream.writeMessage(6, (ClientHeader) this.payload_);
+        }
+        if (this.payloadCase_ == 7) {
+            codedOutputStream.writeMessage(7, (ServerHeader) this.payload_);
+        }
+        if (this.payloadCase_ == 8) {
+            codedOutputStream.writeMessage(8, (Message) this.payload_);
+        }
+        if (this.payloadCase_ == 9) {
+            codedOutputStream.writeMessage(9, (Trailer) this.payload_);
+        }
+        boolean z = this.payloadTruncated_;
+        if (z) {
+            codedOutputStream.writeBool(10, z);
+        }
+        if (this.peer_ != null) {
+            codedOutputStream.writeMessage(11, getPeer());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.timestamp_ != null ? CodedOutputStream.computeMessageSize(1, getTimestamp()) : 0;
+        long j = this.callId_;
+        if (j != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(2, j);
+        }
+        long j2 = this.sequenceIdWithinCall_;
+        if (j2 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(3, j2);
+        }
+        if (this.type_ != EventType.EVENT_TYPE_UNKNOWN.getNumber()) {
+            iComputeMessageSize += CodedOutputStream.computeEnumSize(4, this.type_);
+        }
+        if (this.logger_ != Logger.LOGGER_UNKNOWN.getNumber()) {
+            iComputeMessageSize += CodedOutputStream.computeEnumSize(5, this.logger_);
+        }
+        if (this.payloadCase_ == 6) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(6, (ClientHeader) this.payload_);
+        }
+        if (this.payloadCase_ == 7) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(7, (ServerHeader) this.payload_);
+        }
+        if (this.payloadCase_ == 8) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(8, (Message) this.payload_);
+        }
+        if (this.payloadCase_ == 9) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(9, (Trailer) this.payload_);
+        }
+        boolean z = this.payloadTruncated_;
+        if (z) {
+            iComputeMessageSize += CodedOutputStream.computeBoolSize(10, z);
+        }
+        if (this.peer_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(11, getPeer());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof GrpcLogEntry)) {
+            return super.equals(obj);
+        }
+        GrpcLogEntry grpcLogEntry = (GrpcLogEntry) obj;
+        if (hasTimestamp() != grpcLogEntry.hasTimestamp()) {
+            return false;
+        }
+        if ((hasTimestamp() && !getTimestamp().equals(grpcLogEntry.getTimestamp())) || getCallId() != grpcLogEntry.getCallId() || getSequenceIdWithinCall() != grpcLogEntry.getSequenceIdWithinCall() || this.type_ != grpcLogEntry.type_ || this.logger_ != grpcLogEntry.logger_ || getPayloadTruncated() != grpcLogEntry.getPayloadTruncated() || hasPeer() != grpcLogEntry.hasPeer()) {
+            return false;
+        }
+        if ((hasPeer() && !getPeer().equals(grpcLogEntry.getPeer())) || !getPayloadCase().equals(grpcLogEntry.getPayloadCase())) {
+            return false;
+        }
+        switch (this.payloadCase_) {
+            case 6:
+                if (!getClientHeader().equals(grpcLogEntry.getClientHeader())) {
+                    return false;
+                }
+                break;
+            case 7:
+                if (!getServerHeader().equals(grpcLogEntry.getServerHeader())) {
+                    return false;
+                }
+                break;
+            case 8:
+                if (!getMessage().equals(grpcLogEntry.getMessage())) {
+                    return false;
+                }
+                break;
+            case 9:
+                if (!getTrailer().equals(grpcLogEntry.getTrailer())) {
+                    return false;
+                }
+                break;
+        }
+        return this.unknownFields.equals(grpcLogEntry.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        if (hasTimestamp()) {
+            iHashCode2 = (((iHashCode2 * 37) + 1) * 53) + getTimestamp().hashCode();
+        }
+        int iHashLong = (((((((((((((((((((iHashCode2 * 37) + 2) * 53) + Internal.hashLong(getCallId())) * 37) + 3) * 53) + Internal.hashLong(getSequenceIdWithinCall())) * 37) + 4) * 53) + this.type_) * 37) + 5) * 53) + this.logger_) * 37) + 10) * 53) + Internal.hashBoolean(getPayloadTruncated());
+        if (hasPeer()) {
+            iHashLong = (((iHashLong * 37) + 11) * 53) + getPeer().hashCode();
+        }
+        switch (this.payloadCase_) {
+            case 6:
+                i = ((iHashLong * 37) + 6) * 53;
+                iHashCode = getClientHeader().hashCode();
+                break;
+            case 7:
+                i = ((iHashLong * 37) + 7) * 53;
+                iHashCode = getServerHeader().hashCode();
+                break;
+            case 8:
+                i = ((iHashLong * 37) + 8) * 53;
+                iHashCode = getMessage().hashCode();
+                break;
+            case 9:
+                i = ((iHashLong * 37) + 9) * 53;
+                iHashCode = getTrailer().hashCode();
+                break;
+            default:
+                int iHashCode3 = (iHashLong * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode3;
+                return iHashCode3;
+        }
+        iHashLong = i + iHashCode;
+        int iHashCode32 = (iHashLong * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m7025newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m7028toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum EventType implements ProtocolMessageEnum {
+        EVENT_TYPE_UNKNOWN(0),
+        EVENT_TYPE_CLIENT_HEADER(1),
+        EVENT_TYPE_SERVER_HEADER(2),
+        EVENT_TYPE_CLIENT_MESSAGE(3),
+        EVENT_TYPE_SERVER_MESSAGE(4),
+        EVENT_TYPE_CLIENT_HALF_CLOSE(5),
+        EVENT_TYPE_SERVER_TRAILER(6),
+        EVENT_TYPE_CANCEL(7),
+        UNRECOGNIZED(-1);
+
+        public static final int EVENT_TYPE_CANCEL_VALUE = 7;
+        public static final int EVENT_TYPE_CLIENT_HALF_CLOSE_VALUE = 5;
+        public static final int EVENT_TYPE_CLIENT_HEADER_VALUE = 1;
+        public static final int EVENT_TYPE_CLIENT_MESSAGE_VALUE = 3;
+        public static final int EVENT_TYPE_SERVER_HEADER_VALUE = 2;
+        public static final int EVENT_TYPE_SERVER_MESSAGE_VALUE = 4;
+        public static final int EVENT_TYPE_SERVER_TRAILER_VALUE = 6;
+        public static final int EVENT_TYPE_UNKNOWN_VALUE = 0;
+        private static final Internal.EnumLiteMap<EventType> internalValueMap = new Internal.EnumLiteMap<EventType>() { // from class: io.grpc.binarylog.v1.GrpcLogEntry.EventType.1
+            public EventType findValueByNumber(int i) {
+                return EventType.forNumber(i);
+            }
+        };
+        private static final EventType[] VALUES = values();
+        private final int value;
+
+        EventType(int i) {
+            this.value = i;
+        }
+
+        public static EventType forNumber(int i) {
+            switch (i) {
+                case 0:
+                    return EVENT_TYPE_UNKNOWN;
+                case 1:
+                    return EVENT_TYPE_CLIENT_HEADER;
+                case 2:
+                    return EVENT_TYPE_SERVER_HEADER;
+                case 3:
+                    return EVENT_TYPE_CLIENT_MESSAGE;
+                case 4:
+                    return EVENT_TYPE_SERVER_MESSAGE;
+                case 5:
+                    return EVENT_TYPE_CLIENT_HALF_CLOSE;
+                case 6:
+                    return EVENT_TYPE_SERVER_TRAILER;
+                case 7:
+                    return EVENT_TYPE_CANCEL;
+                default:
+                    return null;
+            }
+        }
+
+        public static Internal.EnumLiteMap<EventType> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static EventType valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) GrpcLogEntry.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static EventType valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum Logger implements ProtocolMessageEnum {
+        LOGGER_UNKNOWN(0),
+        LOGGER_CLIENT(1),
+        LOGGER_SERVER(2),
+        UNRECOGNIZED(-1);
+
+        public static final int LOGGER_CLIENT_VALUE = 1;
+        public static final int LOGGER_SERVER_VALUE = 2;
+        public static final int LOGGER_UNKNOWN_VALUE = 0;
+        private static final Internal.EnumLiteMap<Logger> internalValueMap = new Internal.EnumLiteMap<Logger>() { // from class: io.grpc.binarylog.v1.GrpcLogEntry.Logger.1
+            public Logger findValueByNumber(int i) {
+                return Logger.forNumber(i);
+            }
+        };
+        private static final Logger[] VALUES = values();
+        private final int value;
+
+        Logger(int i) {
+            this.value = i;
+        }
+
+        public static Logger forNumber(int i) {
+            if (i == 0) {
+                return LOGGER_UNKNOWN;
+            }
+            if (i == 1) {
+                return LOGGER_CLIENT;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return LOGGER_SERVER;
+        }
+
+        public static Internal.EnumLiteMap<Logger> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static Logger valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) GrpcLogEntry.getDescriptor().getEnumTypes().get(1);
+        }
+
+        public static Logger valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum PayloadCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        CLIENT_HEADER(6),
+        SERVER_HEADER(7),
+        MESSAGE(8),
+        TRAILER(9),
+        PAYLOAD_NOT_SET(0);
+
+        private final int value;
+
+        PayloadCase(int i) {
+            this.value = i;
+        }
+
+        public static PayloadCase forNumber(int i) {
+            if (i == 0) {
+                return PAYLOAD_NOT_SET;
+            }
+            switch (i) {
+                case 6:
+                    return CLIENT_HEADER;
+                case 7:
+                    return SERVER_HEADER;
+                case 8:
+                    return MESSAGE;
+                case 9:
+                    return TRAILER;
+                default:
+                    return null;
+            }
+        }
+
+        @Deprecated
+        public static PayloadCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements GrpcLogEntryOrBuilder {
+        private long callId_;
+        private SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> clientHeaderBuilder_;
+        private int logger_;
+        private SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> messageBuilder_;
+        private int payloadCase_;
+        private boolean payloadTruncated_;
+        private Object payload_;
+        private SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> peerBuilder_;
+        private Address peer_;
+        private long sequenceIdWithinCall_;
+        private SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> serverHeaderBuilder_;
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> timestampBuilder_;
+        private Timestamp timestamp_;
+        private SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> trailerBuilder_;
+        private int type_;
+
+        private Builder() {
+            this.payloadCase_ = 0;
+            this.type_ = 0;
+            this.logger_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.payloadCase_ = 0;
+            this.type_ = 0;
+            this.logger_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return BinaryLogProto.internal_static_grpc_binarylog_v1_GrpcLogEntry_descriptor;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public long getCallId() {
+            return this.callId_;
+        }
+
+        public Builder setCallId(long j) {
+            this.callId_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public int getLoggerValue() {
+            return this.logger_;
+        }
+
+        public Builder setLoggerValue(int i) {
+            this.logger_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public boolean getPayloadTruncated() {
+            return this.payloadTruncated_;
+        }
+
+        public Builder setPayloadTruncated(boolean z) {
+            this.payloadTruncated_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public long getSequenceIdWithinCall() {
+            return this.sequenceIdWithinCall_;
+        }
+
+        public Builder setSequenceIdWithinCall(long j) {
+            this.sequenceIdWithinCall_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public int getTypeValue() {
+            return this.type_;
+        }
+
+        public Builder setTypeValue(int i) {
+            this.type_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public boolean hasClientHeader() {
+            return this.payloadCase_ == 6;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public boolean hasMessage() {
+            return this.payloadCase_ == 8;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public boolean hasPeer() {
+            return (this.peerBuilder_ == null && this.peer_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public boolean hasServerHeader() {
+            return this.payloadCase_ == 7;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public boolean hasTimestamp() {
+            return (this.timestampBuilder_ == null && this.timestamp_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public boolean hasTrailer() {
+            return this.payloadCase_ == 9;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return BinaryLogProto.internal_static_grpc_binarylog_v1_GrpcLogEntry_fieldAccessorTable.ensureFieldAccessorsInitialized(GrpcLogEntry.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = GrpcLogEntry.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7039clear() {
+            super.clear();
+            if (this.timestampBuilder_ == null) {
+                this.timestamp_ = null;
+            } else {
+                this.timestamp_ = null;
+                this.timestampBuilder_ = null;
+            }
+            this.callId_ = 0L;
+            this.sequenceIdWithinCall_ = 0L;
+            this.type_ = 0;
+            this.logger_ = 0;
+            this.payloadTruncated_ = false;
+            if (this.peerBuilder_ == null) {
+                this.peer_ = null;
+            } else {
+                this.peer_ = null;
+                this.peerBuilder_ = null;
+            }
+            this.payloadCase_ = 0;
+            this.payload_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return BinaryLogProto.internal_static_grpc_binarylog_v1_GrpcLogEntry_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GrpcLogEntry m7052getDefaultInstanceForType() {
+            return GrpcLogEntry.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GrpcLogEntry m7033build() throws UninitializedMessageException {
+            GrpcLogEntry grpcLogEntryM7035buildPartial = m7035buildPartial();
+            if (grpcLogEntryM7035buildPartial.isInitialized()) {
+                return grpcLogEntryM7035buildPartial;
+            }
+            throw newUninitializedMessageException(grpcLogEntryM7035buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public GrpcLogEntry m7035buildPartial() {
+            GrpcLogEntry grpcLogEntry = new GrpcLogEntry(this);
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                grpcLogEntry.timestamp_ = this.timestamp_;
+            } else {
+                grpcLogEntry.timestamp_ = singleFieldBuilderV3.build();
+            }
+            grpcLogEntry.callId_ = this.callId_;
+            grpcLogEntry.sequenceIdWithinCall_ = this.sequenceIdWithinCall_;
+            grpcLogEntry.type_ = this.type_;
+            grpcLogEntry.logger_ = this.logger_;
+            if (this.payloadCase_ == 6) {
+                SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> singleFieldBuilderV32 = this.clientHeaderBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    grpcLogEntry.payload_ = this.payload_;
+                } else {
+                    grpcLogEntry.payload_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.payloadCase_ == 7) {
+                SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> singleFieldBuilderV33 = this.serverHeaderBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    grpcLogEntry.payload_ = this.payload_;
+                } else {
+                    grpcLogEntry.payload_ = singleFieldBuilderV33.build();
+                }
+            }
+            if (this.payloadCase_ == 8) {
+                SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> singleFieldBuilderV34 = this.messageBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    grpcLogEntry.payload_ = this.payload_;
+                } else {
+                    grpcLogEntry.payload_ = singleFieldBuilderV34.build();
+                }
+            }
+            if (this.payloadCase_ == 9) {
+                SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> singleFieldBuilderV35 = this.trailerBuilder_;
+                if (singleFieldBuilderV35 == null) {
+                    grpcLogEntry.payload_ = this.payload_;
+                } else {
+                    grpcLogEntry.payload_ = singleFieldBuilderV35.build();
+                }
+            }
+            grpcLogEntry.payloadTruncated_ = this.payloadTruncated_;
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV36 = this.peerBuilder_;
+            if (singleFieldBuilderV36 == null) {
+                grpcLogEntry.peer_ = this.peer_;
+            } else {
+                grpcLogEntry.peer_ = singleFieldBuilderV36.build();
+            }
+            grpcLogEntry.payloadCase_ = this.payloadCase_;
+            onBuilt();
+            return grpcLogEntry;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7051clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7063setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7041clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7044clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7065setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7031addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7056mergeFrom(com.google.protobuf.Message message) {
+            if (message instanceof GrpcLogEntry) {
+                return mergeFrom((GrpcLogEntry) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(GrpcLogEntry grpcLogEntry) {
+            if (grpcLogEntry == GrpcLogEntry.getDefaultInstance()) {
+                return this;
+            }
+            if (grpcLogEntry.hasTimestamp()) {
+                mergeTimestamp(grpcLogEntry.getTimestamp());
+            }
+            if (grpcLogEntry.getCallId() != 0) {
+                setCallId(grpcLogEntry.getCallId());
+            }
+            if (grpcLogEntry.getSequenceIdWithinCall() != 0) {
+                setSequenceIdWithinCall(grpcLogEntry.getSequenceIdWithinCall());
+            }
+            if (grpcLogEntry.type_ != 0) {
+                setTypeValue(grpcLogEntry.getTypeValue());
+            }
+            if (grpcLogEntry.logger_ != 0) {
+                setLoggerValue(grpcLogEntry.getLoggerValue());
+            }
+            if (grpcLogEntry.getPayloadTruncated()) {
+                setPayloadTruncated(grpcLogEntry.getPayloadTruncated());
+            }
+            if (grpcLogEntry.hasPeer()) {
+                mergePeer(grpcLogEntry.getPeer());
+            }
+            int i = AnonymousClass2.$SwitchMap$io$grpc$binarylog$v1$GrpcLogEntry$PayloadCase[grpcLogEntry.getPayloadCase().ordinal()];
+            if (i == 1) {
+                mergeClientHeader(grpcLogEntry.getClientHeader());
+            } else if (i == 2) {
+                mergeServerHeader(grpcLogEntry.getServerHeader());
+            } else if (i == 3) {
+                mergeMessage(grpcLogEntry.getMessage());
+            } else if (i == 4) {
+                mergeTrailer(grpcLogEntry.getTrailer());
+            }
+            m7061mergeUnknownFields(grpcLogEntry.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.binarylog.v1.GrpcLogEntry.Builder m7057mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.binarylog.v1.GrpcLogEntry.access$1400()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.binarylog.v1.GrpcLogEntry r3 = (io.grpc.binarylog.v1.GrpcLogEntry) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.binarylog.v1.GrpcLogEntry r4 = (io.grpc.binarylog.v1.GrpcLogEntry) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.binarylog.v1.GrpcLogEntry.Builder.m7057mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.binarylog.v1.GrpcLogEntry$Builder");
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public PayloadCase getPayloadCase() {
+            return PayloadCase.forNumber(this.payloadCase_);
+        }
+
+        public Builder clearPayload() {
+            this.payloadCase_ = 0;
+            this.payload_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public Timestamp getTimestamp() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Timestamp timestamp = this.timestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        public Builder setTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                timestamp.getClass();
+                this.timestamp_ = timestamp;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(timestamp);
+            }
+            return this;
+        }
+
+        public Builder setTimestamp(Timestamp.Builder builder) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.timestamp_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeTimestamp(Timestamp timestamp) {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Timestamp timestamp2 = this.timestamp_;
+                if (timestamp2 != null) {
+                    this.timestamp_ = Timestamp.newBuilder(timestamp2).mergeFrom(timestamp).buildPartial();
+                } else {
+                    this.timestamp_ = timestamp;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(timestamp);
+            }
+            return this;
+        }
+
+        public Builder clearTimestamp() {
+            if (this.timestampBuilder_ == null) {
+                this.timestamp_ = null;
+                onChanged();
+            } else {
+                this.timestamp_ = null;
+                this.timestampBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Timestamp.Builder getTimestampBuilder() {
+            onChanged();
+            return getTimestampFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public TimestampOrBuilder getTimestampOrBuilder() {
+            SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> singleFieldBuilderV3 = this.timestampBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Timestamp timestamp = this.timestamp_;
+            return timestamp == null ? Timestamp.getDefaultInstance() : timestamp;
+        }
+
+        private SingleFieldBuilderV3<Timestamp, Timestamp.Builder, TimestampOrBuilder> getTimestampFieldBuilder() {
+            if (this.timestampBuilder_ == null) {
+                this.timestampBuilder_ = new SingleFieldBuilderV3<>(getTimestamp(), getParentForChildren(), isClean());
+                this.timestamp_ = null;
+            }
+            return this.timestampBuilder_;
+        }
+
+        public Builder clearCallId() {
+            this.callId_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSequenceIdWithinCall() {
+            this.sequenceIdWithinCall_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public EventType getType() {
+            EventType eventTypeValueOf = EventType.valueOf(this.type_);
+            return eventTypeValueOf == null ? EventType.UNRECOGNIZED : eventTypeValueOf;
+        }
+
+        public Builder setType(EventType eventType) {
+            eventType.getClass();
+            this.type_ = eventType.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearType() {
+            this.type_ = 0;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public Logger getLogger() {
+            Logger loggerValueOf = Logger.valueOf(this.logger_);
+            return loggerValueOf == null ? Logger.UNRECOGNIZED : loggerValueOf;
+        }
+
+        public Builder setLogger(Logger logger) {
+            logger.getClass();
+            this.logger_ = logger.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearLogger() {
+            this.logger_ = 0;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public ClientHeader getClientHeader() {
+            SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> singleFieldBuilderV3 = this.clientHeaderBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.payloadCase_ == 6) {
+                    return (ClientHeader) this.payload_;
+                }
+                return ClientHeader.getDefaultInstance();
+            }
+            if (this.payloadCase_ == 6) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ClientHeader.getDefaultInstance();
+        }
+
+        public Builder setClientHeader(ClientHeader clientHeader) {
+            SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> singleFieldBuilderV3 = this.clientHeaderBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                clientHeader.getClass();
+                this.payload_ = clientHeader;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(clientHeader);
+            }
+            this.payloadCase_ = 6;
+            return this;
+        }
+
+        public Builder setClientHeader(ClientHeader.Builder builder) {
+            SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> singleFieldBuilderV3 = this.clientHeaderBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.payload_ = builder.m6987build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m6987build());
+            }
+            this.payloadCase_ = 6;
+            return this;
+        }
+
+        public Builder mergeClientHeader(ClientHeader clientHeader) {
+            SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> singleFieldBuilderV3 = this.clientHeaderBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.payloadCase_ != 6 || this.payload_ == ClientHeader.getDefaultInstance()) {
+                    this.payload_ = clientHeader;
+                } else {
+                    this.payload_ = ClientHeader.newBuilder((ClientHeader) this.payload_).mergeFrom(clientHeader).m6989buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.payloadCase_ == 6) {
+                    singleFieldBuilderV3.mergeFrom(clientHeader);
+                }
+                this.clientHeaderBuilder_.setMessage(clientHeader);
+            }
+            this.payloadCase_ = 6;
+            return this;
+        }
+
+        public Builder clearClientHeader() {
+            SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> singleFieldBuilderV3 = this.clientHeaderBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.payloadCase_ == 6) {
+                    this.payloadCase_ = 0;
+                    this.payload_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.payloadCase_ == 6) {
+                this.payloadCase_ = 0;
+                this.payload_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ClientHeader.Builder getClientHeaderBuilder() {
+            return getClientHeaderFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public ClientHeaderOrBuilder getClientHeaderOrBuilder() {
+            SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> singleFieldBuilderV3;
+            int i = this.payloadCase_;
+            if (i == 6 && (singleFieldBuilderV3 = this.clientHeaderBuilder_) != null) {
+                return (ClientHeaderOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 6) {
+                return (ClientHeader) this.payload_;
+            }
+            return ClientHeader.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ClientHeader, ClientHeader.Builder, ClientHeaderOrBuilder> getClientHeaderFieldBuilder() {
+            if (this.clientHeaderBuilder_ == null) {
+                if (this.payloadCase_ != 6) {
+                    this.payload_ = ClientHeader.getDefaultInstance();
+                }
+                this.clientHeaderBuilder_ = new SingleFieldBuilderV3<>((ClientHeader) this.payload_, getParentForChildren(), isClean());
+                this.payload_ = null;
+            }
+            this.payloadCase_ = 6;
+            onChanged();
+            return this.clientHeaderBuilder_;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public ServerHeader getServerHeader() {
+            SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> singleFieldBuilderV3 = this.serverHeaderBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.payloadCase_ == 7) {
+                    return (ServerHeader) this.payload_;
+                }
+                return ServerHeader.getDefaultInstance();
+            }
+            if (this.payloadCase_ == 7) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ServerHeader.getDefaultInstance();
+        }
+
+        public Builder setServerHeader(ServerHeader serverHeader) {
+            SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> singleFieldBuilderV3 = this.serverHeaderBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                serverHeader.getClass();
+                this.payload_ = serverHeader;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(serverHeader);
+            }
+            this.payloadCase_ = 7;
+            return this;
+        }
+
+        public Builder setServerHeader(ServerHeader.Builder builder) {
+            SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> singleFieldBuilderV3 = this.serverHeaderBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.payload_ = builder.m7219build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7219build());
+            }
+            this.payloadCase_ = 7;
+            return this;
+        }
+
+        public Builder mergeServerHeader(ServerHeader serverHeader) {
+            SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> singleFieldBuilderV3 = this.serverHeaderBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.payloadCase_ != 7 || this.payload_ == ServerHeader.getDefaultInstance()) {
+                    this.payload_ = serverHeader;
+                } else {
+                    this.payload_ = ServerHeader.newBuilder((ServerHeader) this.payload_).mergeFrom(serverHeader).m7221buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.payloadCase_ == 7) {
+                    singleFieldBuilderV3.mergeFrom(serverHeader);
+                }
+                this.serverHeaderBuilder_.setMessage(serverHeader);
+            }
+            this.payloadCase_ = 7;
+            return this;
+        }
+
+        public Builder clearServerHeader() {
+            SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> singleFieldBuilderV3 = this.serverHeaderBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.payloadCase_ == 7) {
+                    this.payloadCase_ = 0;
+                    this.payload_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.payloadCase_ == 7) {
+                this.payloadCase_ = 0;
+                this.payload_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ServerHeader.Builder getServerHeaderBuilder() {
+            return getServerHeaderFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public ServerHeaderOrBuilder getServerHeaderOrBuilder() {
+            SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> singleFieldBuilderV3;
+            int i = this.payloadCase_;
+            if (i == 7 && (singleFieldBuilderV3 = this.serverHeaderBuilder_) != null) {
+                return (ServerHeaderOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 7) {
+                return (ServerHeader) this.payload_;
+            }
+            return ServerHeader.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ServerHeader, ServerHeader.Builder, ServerHeaderOrBuilder> getServerHeaderFieldBuilder() {
+            if (this.serverHeaderBuilder_ == null) {
+                if (this.payloadCase_ != 7) {
+                    this.payload_ = ServerHeader.getDefaultInstance();
+                }
+                this.serverHeaderBuilder_ = new SingleFieldBuilderV3<>((ServerHeader) this.payload_, getParentForChildren(), isClean());
+                this.payload_ = null;
+            }
+            this.payloadCase_ = 7;
+            onChanged();
+            return this.serverHeaderBuilder_;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public Message getMessage() {
+            SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> singleFieldBuilderV3 = this.messageBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.payloadCase_ == 8) {
+                    return (Message) this.payload_;
+                }
+                return Message.getDefaultInstance();
+            }
+            if (this.payloadCase_ == 8) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Message.getDefaultInstance();
+        }
+
+        public Builder setMessage(Message message) {
+            SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> singleFieldBuilderV3 = this.messageBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                message.getClass();
+                this.payload_ = message;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(message);
+            }
+            this.payloadCase_ = 8;
+            return this;
+        }
+
+        public Builder setMessage(Message.Builder builder) {
+            SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> singleFieldBuilderV3 = this.messageBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.payload_ = builder.m7081build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7081build());
+            }
+            this.payloadCase_ = 8;
+            return this;
+        }
+
+        public Builder mergeMessage(Message message) {
+            SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> singleFieldBuilderV3 = this.messageBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.payloadCase_ != 8 || this.payload_ == Message.getDefaultInstance()) {
+                    this.payload_ = message;
+                } else {
+                    this.payload_ = Message.newBuilder((Message) this.payload_).mergeFrom(message).m7083buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.payloadCase_ == 8) {
+                    singleFieldBuilderV3.mergeFrom(message);
+                }
+                this.messageBuilder_.setMessage(message);
+            }
+            this.payloadCase_ = 8;
+            return this;
+        }
+
+        public Builder clearMessage() {
+            SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> singleFieldBuilderV3 = this.messageBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.payloadCase_ == 8) {
+                    this.payloadCase_ = 0;
+                    this.payload_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.payloadCase_ == 8) {
+                this.payloadCase_ = 0;
+                this.payload_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Message.Builder getMessageBuilder() {
+            return getMessageFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public MessageOrBuilder getMessageOrBuilder() {
+            SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> singleFieldBuilderV3;
+            int i = this.payloadCase_;
+            if (i == 8 && (singleFieldBuilderV3 = this.messageBuilder_) != null) {
+                return (MessageOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 8) {
+                return (Message) this.payload_;
+            }
+            return Message.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Message, Message.Builder, MessageOrBuilder> getMessageFieldBuilder() {
+            if (this.messageBuilder_ == null) {
+                if (this.payloadCase_ != 8) {
+                    this.payload_ = Message.getDefaultInstance();
+                }
+                this.messageBuilder_ = new SingleFieldBuilderV3<>((Message) this.payload_, getParentForChildren(), isClean());
+                this.payload_ = null;
+            }
+            this.payloadCase_ = 8;
+            onChanged();
+            return this.messageBuilder_;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public Trailer getTrailer() {
+            SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> singleFieldBuilderV3 = this.trailerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.payloadCase_ == 9) {
+                    return (Trailer) this.payload_;
+                }
+                return Trailer.getDefaultInstance();
+            }
+            if (this.payloadCase_ == 9) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Trailer.getDefaultInstance();
+        }
+
+        public Builder setTrailer(Trailer trailer) {
+            SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> singleFieldBuilderV3 = this.trailerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                trailer.getClass();
+                this.payload_ = trailer;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(trailer);
+            }
+            this.payloadCase_ = 9;
+            return this;
+        }
+
+        public Builder setTrailer(Trailer.Builder builder) {
+            SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> singleFieldBuilderV3 = this.trailerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.payload_ = builder.m7265build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7265build());
+            }
+            this.payloadCase_ = 9;
+            return this;
+        }
+
+        public Builder mergeTrailer(Trailer trailer) {
+            SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> singleFieldBuilderV3 = this.trailerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.payloadCase_ != 9 || this.payload_ == Trailer.getDefaultInstance()) {
+                    this.payload_ = trailer;
+                } else {
+                    this.payload_ = Trailer.newBuilder((Trailer) this.payload_).mergeFrom(trailer).m7267buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.payloadCase_ == 9) {
+                    singleFieldBuilderV3.mergeFrom(trailer);
+                }
+                this.trailerBuilder_.setMessage(trailer);
+            }
+            this.payloadCase_ = 9;
+            return this;
+        }
+
+        public Builder clearTrailer() {
+            SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> singleFieldBuilderV3 = this.trailerBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.payloadCase_ == 9) {
+                    this.payloadCase_ = 0;
+                    this.payload_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.payloadCase_ == 9) {
+                this.payloadCase_ = 0;
+                this.payload_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Trailer.Builder getTrailerBuilder() {
+            return getTrailerFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public TrailerOrBuilder getTrailerOrBuilder() {
+            SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> singleFieldBuilderV3;
+            int i = this.payloadCase_;
+            if (i == 9 && (singleFieldBuilderV3 = this.trailerBuilder_) != null) {
+                return (TrailerOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 9) {
+                return (Trailer) this.payload_;
+            }
+            return Trailer.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Trailer, Trailer.Builder, TrailerOrBuilder> getTrailerFieldBuilder() {
+            if (this.trailerBuilder_ == null) {
+                if (this.payloadCase_ != 9) {
+                    this.payload_ = Trailer.getDefaultInstance();
+                }
+                this.trailerBuilder_ = new SingleFieldBuilderV3<>((Trailer) this.payload_, getParentForChildren(), isClean());
+                this.payload_ = null;
+            }
+            this.payloadCase_ = 9;
+            onChanged();
+            return this.trailerBuilder_;
+        }
+
+        public Builder clearPayloadTruncated() {
+            this.payloadTruncated_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public Address getPeer() {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.peerBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Address address = this.peer_;
+            return address == null ? Address.getDefaultInstance() : address;
+        }
+
+        public Builder setPeer(Address address) {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.peerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                address.getClass();
+                this.peer_ = address;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(address);
+            }
+            return this;
+        }
+
+        public Builder setPeer(Address.Builder builder) {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.peerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.peer_ = builder.m6940build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m6940build());
+            }
+            return this;
+        }
+
+        public Builder mergePeer(Address address) {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.peerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Address address2 = this.peer_;
+                if (address2 != null) {
+                    this.peer_ = Address.newBuilder(address2).mergeFrom(address).m6942buildPartial();
+                } else {
+                    this.peer_ = address;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(address);
+            }
+            return this;
+        }
+
+        public Builder clearPeer() {
+            if (this.peerBuilder_ == null) {
+                this.peer_ = null;
+                onChanged();
+            } else {
+                this.peer_ = null;
+                this.peerBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Address.Builder getPeerBuilder() {
+            onChanged();
+            return getPeerFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.binarylog.v1.GrpcLogEntryOrBuilder
+        public AddressOrBuilder getPeerOrBuilder() {
+            SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> singleFieldBuilderV3 = this.peerBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (AddressOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Address address = this.peer_;
+            return address == null ? Address.getDefaultInstance() : address;
+        }
+
+        private SingleFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> getPeerFieldBuilder() {
+            if (this.peerBuilder_ == null) {
+                this.peerBuilder_ = new SingleFieldBuilderV3<>(getPeer(), getParentForChildren(), isClean());
+                this.peer_ = null;
+            }
+            return this.peerBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7067setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7061mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.binarylog.v1.GrpcLogEntry$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$grpc$binarylog$v1$GrpcLogEntry$PayloadCase;
+
+        static {
+            int[] iArr = new int[PayloadCase.values().length];
+            $SwitchMap$io$grpc$binarylog$v1$GrpcLogEntry$PayloadCase = iArr;
+            try {
+                iArr[PayloadCase.CLIENT_HEADER.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$grpc$binarylog$v1$GrpcLogEntry$PayloadCase[PayloadCase.SERVER_HEADER.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$grpc$binarylog$v1$GrpcLogEntry$PayloadCase[PayloadCase.MESSAGE.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$grpc$binarylog$v1$GrpcLogEntry$PayloadCase[PayloadCase.TRAILER.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$grpc$binarylog$v1$GrpcLogEntry$PayloadCase[PayloadCase.PAYLOAD_NOT_SET.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+        }
+    }
+}

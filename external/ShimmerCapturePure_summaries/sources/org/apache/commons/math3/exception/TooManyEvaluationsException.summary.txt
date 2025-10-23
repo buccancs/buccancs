@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/exception/TooManyEvaluationsException.java
+// Size: 470 bytes
+// Modified: 2025-10-21 16:32:06.184337100 +0100
+
+package org.apache.commons.math3.exception;
+
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+
+/* loaded from: classes5.dex */
+public class TooManyEvaluationsException extends MaxCountExceededException {
+    private static final long serialVersionUID = 4330003017885151975L;
+
+    public TooManyEvaluationsException(Number number) {
+        super(number);
+        getContext().addMessage(LocalizedFormats.EVALUATIONS, new Object[0]);
+    }
+}

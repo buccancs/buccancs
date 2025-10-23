@@ -1,0 +1,519 @@
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class ChannelConnectivityState extends GeneratedMessageV3 implements ChannelConnectivityStateOrBuilder {
+    public static final int STATE_FIELD_NUMBER = 1;
+    private static final ChannelConnectivityState DEFAULT_INSTANCE = new ChannelConnectivityState();
+    private static final Parser<ChannelConnectivityState> PARSER = new AbstractParser<ChannelConnectivityState>() { // from class: io.grpc.channelz.v1.ChannelConnectivityState.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ChannelConnectivityState m7538parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ChannelConnectivityState(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private byte memoizedIsInitialized;
+    private int state_;
+
+    private ChannelConnectivityState(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ChannelConnectivityState() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.state_ = 0;
+    }
+
+    private ChannelConnectivityState(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 8) {
+                            this.state_ = codedInputStream.readEnum();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ChannelConnectivityState getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ChannelConnectivityState> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_ChannelConnectivityState_descriptor;
+    }
+
+    public static ChannelConnectivityState parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ChannelConnectivityState) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ChannelConnectivityState parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ChannelConnectivityState) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ChannelConnectivityState parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ChannelConnectivityState) PARSER.parseFrom(byteString);
+    }
+
+    public static ChannelConnectivityState parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ChannelConnectivityState) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ChannelConnectivityState parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ChannelConnectivityState) PARSER.parseFrom(bArr);
+    }
+
+    public static ChannelConnectivityState parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ChannelConnectivityState) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ChannelConnectivityState parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ChannelConnectivityState parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ChannelConnectivityState parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ChannelConnectivityState parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ChannelConnectivityState parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ChannelConnectivityState parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m7536toBuilder();
+    }
+
+    public static Builder newBuilder(ChannelConnectivityState channelConnectivityState) {
+        return DEFAULT_INSTANCE.m7536toBuilder().mergeFrom(channelConnectivityState);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ChannelConnectivityState m7531getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ChannelConnectivityState> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelConnectivityStateOrBuilder
+    public int getStateValue() {
+        return this.state_;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new ChannelConnectivityState();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_ChannelConnectivityState_fieldAccessorTable.ensureFieldAccessorsInitialized(ChannelConnectivityState.class, Builder.class);
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelConnectivityStateOrBuilder
+    public State getState() {
+        State stateValueOf = State.valueOf(this.state_);
+        return stateValueOf == null ? State.UNRECOGNIZED : stateValueOf;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.state_ != State.UNKNOWN.getNumber()) {
+            codedOutputStream.writeEnum(1, this.state_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeEnumSize = (this.state_ != State.UNKNOWN.getNumber() ? CodedOutputStream.computeEnumSize(1, this.state_) : 0) + this.unknownFields.getSerializedSize();
+        this.memoizedSize = iComputeEnumSize;
+        return iComputeEnumSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ChannelConnectivityState)) {
+            return super.equals(obj);
+        }
+        ChannelConnectivityState channelConnectivityState = (ChannelConnectivityState) obj;
+        return this.state_ == channelConnectivityState.state_ && this.unknownFields.equals(channelConnectivityState.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + this.state_) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode;
+        return iHashCode;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m7533newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m7536toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum State implements ProtocolMessageEnum {
+        UNKNOWN(0),
+        IDLE(1),
+        CONNECTING(2),
+        READY(3),
+        TRANSIENT_FAILURE(4),
+        SHUTDOWN(5),
+        UNRECOGNIZED(-1);
+
+        public static final int CONNECTING_VALUE = 2;
+        public static final int IDLE_VALUE = 1;
+        public static final int READY_VALUE = 3;
+        public static final int SHUTDOWN_VALUE = 5;
+        public static final int TRANSIENT_FAILURE_VALUE = 4;
+        public static final int UNKNOWN_VALUE = 0;
+        private static final Internal.EnumLiteMap<State> internalValueMap = new Internal.EnumLiteMap<State>() { // from class: io.grpc.channelz.v1.ChannelConnectivityState.State.1
+            public State findValueByNumber(int i) {
+                return State.forNumber(i);
+            }
+        };
+        private static final State[] VALUES = values();
+        private final int value;
+
+        State(int i) {
+            this.value = i;
+        }
+
+        public static State forNumber(int i) {
+            if (i == 0) {
+                return UNKNOWN;
+            }
+            if (i == 1) {
+                return IDLE;
+            }
+            if (i == 2) {
+                return CONNECTING;
+            }
+            if (i == 3) {
+                return READY;
+            }
+            if (i == 4) {
+                return TRANSIENT_FAILURE;
+            }
+            if (i != 5) {
+                return null;
+            }
+            return SHUTDOWN;
+        }
+
+        public static Internal.EnumLiteMap<State> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static State valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) ChannelConnectivityState.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static State valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ChannelConnectivityStateOrBuilder {
+        private int state_;
+
+        private Builder() {
+            this.state_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.state_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_ChannelConnectivityState_descriptor;
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelConnectivityStateOrBuilder
+        public int getStateValue() {
+            return this.state_;
+        }
+
+        public Builder setStateValue(int i) {
+            this.state_ = i;
+            onChanged();
+            return this;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_ChannelConnectivityState_fieldAccessorTable.ensureFieldAccessorsInitialized(ChannelConnectivityState.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ChannelConnectivityState.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7547clear() {
+            super.clear();
+            this.state_ = 0;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_ChannelConnectivityState_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ChannelConnectivityState m7560getDefaultInstanceForType() {
+            return ChannelConnectivityState.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ChannelConnectivityState m7541build() throws UninitializedMessageException {
+            ChannelConnectivityState channelConnectivityStateM7543buildPartial = m7543buildPartial();
+            if (channelConnectivityStateM7543buildPartial.isInitialized()) {
+                return channelConnectivityStateM7543buildPartial;
+            }
+            throw newUninitializedMessageException(channelConnectivityStateM7543buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ChannelConnectivityState m7543buildPartial() {
+            ChannelConnectivityState channelConnectivityState = new ChannelConnectivityState(this);
+            channelConnectivityState.state_ = this.state_;
+            onBuilt();
+            return channelConnectivityState;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7559clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7571setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7549clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7552clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7573setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7539addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7564mergeFrom(Message message) {
+            if (message instanceof ChannelConnectivityState) {
+                return mergeFrom((ChannelConnectivityState) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ChannelConnectivityState channelConnectivityState) {
+            if (channelConnectivityState == ChannelConnectivityState.getDefaultInstance()) {
+                return this;
+            }
+            if (channelConnectivityState.state_ != 0) {
+                setStateValue(channelConnectivityState.getStateValue());
+            }
+            m7569mergeUnknownFields(channelConnectivityState.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.channelz.v1.ChannelConnectivityState.Builder m7565mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.channelz.v1.ChannelConnectivityState.access$600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.channelz.v1.ChannelConnectivityState r3 = (io.grpc.channelz.v1.ChannelConnectivityState) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.channelz.v1.ChannelConnectivityState r4 = (io.grpc.channelz.v1.ChannelConnectivityState) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.ChannelConnectivityState.Builder.m7565mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.ChannelConnectivityState$Builder");
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelConnectivityStateOrBuilder
+        public State getState() {
+            State stateValueOf = State.valueOf(this.state_);
+            return stateValueOf == null ? State.UNRECOGNIZED : stateValueOf;
+        }
+
+        public Builder setState(State state) {
+            state.getClass();
+            this.state_ = state.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearState() {
+            this.state_ = 0;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7575setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7569mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

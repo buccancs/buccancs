@@ -1,0 +1,80 @@
+package com.shimmerresearch.verisense.payloaddesign;
+
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import com.shimmerresearch.verisense.VerisenseDevice;
+import com.shimmerresearch.verisense.payloaddesign.DataBlockDetails;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public class UtilCsvSplitting {
+    protected static HashMap<AbstractSensor.SENSORS, double[]> SAMPLING_RATE_LIMITS_PER_SENSOR = new HashMap<>();
+
+    public static double[] calculateSamplingRateLimits(double d) {
+        return new double[]{0.9d * d, d * 1.1d};
+    }
+
+    public static boolean isTsDifferenceOutsideOfLimits(double[] dArr, double d, double d2) {
+        double dAbs = Math.abs(d - d2);
+        return dAbs < dArr[0] || dAbs > dArr[1];
+    }
+
+    public static String isSamplingRateOutsideOfLimits(double[] dArr, DataBlockDetails dataBlockDetails, DataBlockDetails dataBlockDetails2, AbstractSensor.SENSORS sensors) {
+        double dCalcSamplingRate = UtilVerisenseDriver.calcSamplingRate(dataBlockDetails.getEndTimeRwcMs(), dataBlockDetails2.getEndTimeRwcMs(), dataBlockDetails2.getSampleCount());
+        if (Double.isNaN(dCalcSamplingRate)) {
+            return "WARNING!!! Unable to calculate sampling rate";
+        }
+        if (!isSamplingRateOutsideOfLimits(dArr, dCalcSamplingRate)) {
+            return "";
+        }
+        double dAbs = Math.abs((dataBlockDetails2.getStartTimeRwcMs() - dataBlockDetails.getEndTimeRwcMs()) / 1000.0d);
+        return "WARNING!!! Unexpected sampling rate or time-gap detected for sensor " + sensors + " in between " + (dataBlockDetails.getPayloadIndex() == dataBlockDetails2.getPayloadIndex() ? "datablocks" : "payloads") + ": \n  |_1) " + dataBlockDetails.generateDebugStr() + "\n  |_2) " + dataBlockDetails2.generateDebugStr() + "\n    |_Time between datablocks=" + UtilVerisenseDriver.convertSecondsToHHmmssSSS(dAbs) + " (HH:mm:ss.SSS)\n    |_Detected=" + freqToStr(dCalcSamplingRate) + ", Limits: Min=" + freqToStr(dArr[0]) + " (" + timeToStr(1.0d / dArr[0]) + "), Max=" + freqToStr(dArr[1]) + " (" + timeToStr(1.0d / dArr[1]) + ")";
+    }
+
+    public static boolean isSamplingRateOutsideOfLimits(double[] dArr, double d) {
+        return d < dArr[0] || d > dArr[1];
+    }
+
+    public static void populateExpectedPayloadTsDiffLimitMapIfNeeded(VerisenseDevice verisenseDevice, HashMap<DataBlockDetails.DATABLOCK_SENSOR_ID, List<AbstractSensor.SENSORS>> map) {
+        Iterator<List<AbstractSensor.SENSORS>> it2 = map.values().iterator();
+        while (it2.hasNext()) {
+            for (AbstractSensor.SENSORS sensors : it2.next()) {
+                if (!SAMPLING_RATE_LIMITS_PER_SENSOR.containsKey(sensors)) {
+                    SAMPLING_RATE_LIMITS_PER_SENSOR.put(sensors, calculateSamplingRateLimits(verisenseDevice.getSamplingRateForSensor(sensors)));
+                }
+            }
+        }
+    }
+
+    public static void clearMapOfSamplingRateLimitsPerSensor() {
+        SAMPLING_RATE_LIMITS_PER_SENSOR.clear();
+    }
+
+    public static String isDataBlockContinuous(AbstractSensor.SENSORS sensors, DataSegmentDetails dataSegmentDetails, DataBlockDetails dataBlockDetails) {
+        DataBlockDetails dataBlockDetails2 = dataSegmentDetails.getListOfDataBlocks().get(dataSegmentDetails.getDataBlockCount() - 1);
+        double[] dArr = SAMPLING_RATE_LIMITS_PER_SENSOR.get(sensors);
+        if (dArr == null) {
+            return "WARNING!!! Sampling Rate Limits not set for sensor = " + sensors;
+        }
+        return isSamplingRateOutsideOfLimits(dArr, dataBlockDetails2, dataBlockDetails, sensors);
+    }
+
+    private static String freqToStr(double d) {
+        return UtilVerisenseDriver.formatDoubleToNdecimalPlaces(d, 2) + " Hz";
+    }
+
+    private static String timeToStr(double d) {
+        return UtilVerisenseDriver.formatDoubleToNdecimalPlaces(d, 3) + " s";
+    }
+
+    public class FILE_GAP_TOLERANCE_MULTIPLIER {
+        public static final double LOWER = 0.9d;
+        public static final double UPPER = 1.1d;
+
+        public FILE_GAP_TOLERANCE_MULTIPLIER() {
+        }
+    }
+}

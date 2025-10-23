@@ -1,0 +1,39 @@
+package org.apache.commons.math3.optimization.general;
+
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.analysis.differentiation.GradientFunction;
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.optimization.InitialGuess;
+import org.apache.commons.math3.optimization.OptimizationData;
+import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOptimizer;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public abstract class AbstractDifferentiableOptimizer extends BaseAbstractMultivariateOptimizer<MultivariateDifferentiableFunction> {
+    private MultivariateVectorFunction gradient;
+
+    protected AbstractDifferentiableOptimizer(ConvergenceChecker<PointValuePair> convergenceChecker) {
+        super(convergenceChecker);
+    }
+
+    protected double[] computeObjectiveGradient(double[] dArr) {
+        return this.gradient.value(dArr);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOptimizer
+    @Deprecated
+    public PointValuePair optimizeInternal(int i, MultivariateDifferentiableFunction multivariateDifferentiableFunction, GoalType goalType, double[] dArr) {
+        return optimizeInternal(i, multivariateDifferentiableFunction, goalType, new InitialGuess(dArr));
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOptimizer
+    public PointValuePair optimizeInternal(int i, MultivariateDifferentiableFunction multivariateDifferentiableFunction, GoalType goalType, OptimizationData... optimizationDataArr) {
+        this.gradient = new GradientFunction(multivariateDifferentiableFunction);
+        return super.optimizeInternal(i, (int) multivariateDifferentiableFunction, goalType, optimizationDataArr);
+    }
+}

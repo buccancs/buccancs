@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/ode/IntegratorException.java
+// Size: 815 bytes
+// Modified: 2025-10-21 16:32:03.806956300 +0100
+
+package org.apache.commons.math.ode;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.exception.util.Localizable;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ode/IntegratorException.class */
+public class IntegratorException extends MathException {
+    private static final long serialVersionUID = -1607588949778036796L;
+
+    @Deprecated
+    public IntegratorException(String specifier, Object... parts) {
+        super(specifier, parts);
+    }
+
+    public IntegratorException(Localizable specifier, Object... parts) {
+        super(specifier, parts);
+    }
+
+    public IntegratorException(Throwable cause) {
+        super(cause);
+    }
+}

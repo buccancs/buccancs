@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/shaded/org/jctools/queues/MpscArrayQueueL1Pad.java
+// Size: 528 bytes
+// Modified: 2025-10-21 16:32:04.448927200 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues;
+
+/* compiled from: MpscArrayQueue.java */
+/* loaded from: classes3.dex */
+abstract class MpscArrayQueueL1Pad<E> extends ConcurrentCircularArrayQueue<E> {
+    long p00;
+    long p01;
+    long p02;
+    long p03;
+    long p04;
+    long p05;
+    long p06;
+    long p07;
+    long p10;
+    long p11;
+    long p12;
+    long p13;
+    long p14;
+    long p15;
+    long p16;
+
+    MpscArrayQueueL1Pad(int i) {
+        super(i);
+    }
+}

@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jcajce/provider/config/ProviderConfiguration.java
+// Size: 548 bytes
+// Modified: 2025-10-21 16:32:03.013882600 +0100
+
+package org.bouncycastle.jcajce.provider.config;
+
+import java.security.spec.DSAParameterSpec;
+import java.util.Map;
+import java.util.Set;
+import javax.crypto.spec.DHParameterSpec;
+import org.bouncycastle.jce.spec.ECParameterSpec;
+
+/* loaded from: classes5.dex */
+public interface ProviderConfiguration {
+    Set getAcceptableNamedCurves();
+
+    Map getAdditionalECParameters();
+
+    DHParameterSpec getDHDefaultParameters(int i);
+
+    DSAParameterSpec getDSADefaultParameters(int i);
+
+    ECParameterSpec getEcImplicitlyCa();
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/Http2PingFrame.java
+// Size: 195 bytes
+// Modified: 2025-10-21 16:32:00.850719800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+/* loaded from: classes3.dex */
+public interface Http2PingFrame extends Http2Frame {
+    boolean ack();
+
+    long content();
+}

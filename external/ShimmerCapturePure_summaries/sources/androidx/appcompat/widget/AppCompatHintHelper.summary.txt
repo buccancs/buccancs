@@ -1,0 +1,33 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/widget/AppCompatHintHelper.java
+// Size: 957 bytes
+// Modified: 2025-10-21 16:32:00.695135100 +0100
+
+package androidx.appcompat.widget;
+
+import android.view.View;
+import android.view.ViewParent;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputConnection;
+
+/* loaded from: classes.dex */
+class AppCompatHintHelper {
+    static InputConnection onCreateInputConnection(InputConnection inputConnection, EditorInfo editorInfo, View view) {
+        if (inputConnection != null && editorInfo.hintText == null) {
+            ViewParent parent = view.getParent();
+            while (true) {
+                if (!(parent instanceof View)) {
+                    break;
+                }
+                if (parent instanceof WithHint) {
+                    editorInfo.hintText = ((WithHint) parent).getHint();
+                    break;
+                }
+                parent = parent.getParent();
+            }
+        }
+        return inputConnection;
+    }
+
+    private AppCompatHintHelper() {
+    }
+}

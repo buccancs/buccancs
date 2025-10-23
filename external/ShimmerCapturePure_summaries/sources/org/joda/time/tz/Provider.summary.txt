@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/tz/Provider.java
+// Size: 232 bytes
+// Modified: 2025-10-21 16:32:07.239092700 +0100
+
+package org.joda.time.tz;
+
+import java.util.Set;
+import org.joda.time.DateTimeZone;
+
+/* loaded from: classes2.dex */
+public interface Provider {
+    Set<String> getAvailableIDs();
+
+    DateTimeZone getZone(String str);
+}

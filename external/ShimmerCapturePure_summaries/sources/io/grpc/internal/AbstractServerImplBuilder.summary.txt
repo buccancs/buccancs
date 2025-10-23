@@ -1,0 +1,340 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/AbstractServerImplBuilder.java
+// Size: 19115 bytes
+// Modified: 2025-10-21 16:32:10.784859500 +0100
+
+package io.grpc.internal;
+
+import androidx.core.app.NotificationCompat;
+import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.MoreExecutors;
+import io.grpc.BinaryLog;
+import io.grpc.BindableService;
+import io.grpc.CompressorRegistry;
+import io.grpc.Context;
+import io.grpc.Deadline;
+import io.grpc.DecompressorRegistry;
+import io.grpc.HandlerRegistry;
+import io.grpc.InternalChannelz;
+import io.grpc.Server;
+import io.grpc.ServerBuilder;
+import io.grpc.ServerInterceptor;
+import io.grpc.ServerMethodDefinition;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServerStreamTracer;
+import io.grpc.ServerTransportFilter;
+import io.grpc.internal.AbstractServerImplBuilder;
+import io.grpc.internal.CallTracer;
+import io.grpc.internal.InternalHandlerRegistry;
+import io.grpc.internal.TransportTracer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractServerImplBuilder<T extends AbstractServerImplBuilder<T>> extends ServerBuilder<T> {
+
+    @Nullable
+    BinaryLog binlog;
+    private static final Logger log = Logger.getLogger(AbstractServerImplBuilder.class.getName());
+    private static final ObjectPool<? extends Executor> DEFAULT_EXECUTOR_POOL = SharedResourcePool.forResource(GrpcUtil.SHARED_CHANNEL_EXECUTOR);
+    private static final HandlerRegistry DEFAULT_FALLBACK_REGISTRY = new DefaultFallbackRegistry();
+    private static final DecompressorRegistry DEFAULT_DECOMPRESSOR_REGISTRY = DecompressorRegistry.getDefaultInstance();
+    private static final CompressorRegistry DEFAULT_COMPRESSOR_REGISTRY = CompressorRegistry.getDefaultInstance();
+    private static final long DEFAULT_HANDSHAKE_TIMEOUT_MILLIS = TimeUnit.SECONDS.toMillis(120);
+    final InternalHandlerRegistry.Builder registryBuilder = new InternalHandlerRegistry.Builder();
+    final List<ServerTransportFilter> transportFilters = new ArrayList();
+    final List<ServerInterceptor> interceptors = new ArrayList();
+    private final List<ServerStreamTracer.Factory> streamTracerFactories = new ArrayList();
+    HandlerRegistry fallbackRegistry = DEFAULT_FALLBACK_REGISTRY;
+    ObjectPool<? extends Executor> executorPool = DEFAULT_EXECUTOR_POOL;
+    DecompressorRegistry decompressorRegistry = DEFAULT_DECOMPRESSOR_REGISTRY;
+    CompressorRegistry compressorRegistry = DEFAULT_COMPRESSOR_REGISTRY;
+    long handshakeTimeoutMillis = DEFAULT_HANDSHAKE_TIMEOUT_MILLIS;
+    Deadline.Ticker ticker = Deadline.getSystemTicker();
+    private boolean statsEnabled = true;
+    private boolean recordStartedRpcs = true;
+    private boolean recordFinishedRpcs = true;
+    private boolean recordRealTimeMetrics = false;
+    private boolean tracingEnabled = true;
+    TransportTracer.Factory transportTracerFactory = TransportTracer.getDefaultFactory();
+    InternalChannelz channelz = InternalChannelz.instance();
+    CallTracer.Factory callTracerFactory = CallTracer.getDefaultFactory();
+
+    private T thisT() {
+        return this;
+    }
+
+    protected abstract List<? extends InternalServer> buildTransportServers(List<? extends ServerStreamTracer.Factory> list);
+
+    protected final InternalChannelz getChannelz() {
+        return this.channelz;
+    }
+
+    protected ObjectPool<? extends Executor> getExecutorPool() {
+        return this.executorPool;
+    }
+
+    protected final TransportTracer.Factory getTransportTracerFactory() {
+        return this.transportTracerFactory;
+    }
+
+    protected void setStatsEnabled(boolean z) {
+        this.statsEnabled = z;
+    }
+
+    protected void setStatsRecordFinishedRpcs(boolean z) {
+        this.recordFinishedRpcs = z;
+    }
+
+    protected void setStatsRecordRealTimeMetrics(boolean z) {
+        this.recordRealTimeMetrics = z;
+    }
+
+    protected void setStatsRecordStartedRpcs(boolean z) {
+        this.recordStartedRpcs = z;
+    }
+
+    protected void setTracingEnabled(boolean z) {
+        this.tracingEnabled = z;
+    }
+
+    public static ServerBuilder<?> forPort(int i) {
+        throw new UnsupportedOperationException("Subclass failed to hide static factory");
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T directExecutor() {
+        return (T) executor(MoreExecutors.directExecutor());
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T executor(@Nullable Executor executor) {
+        this.executorPool = executor != null ? new FixedObjectPool<>(executor) : DEFAULT_EXECUTOR_POOL;
+        return (T) thisT();
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T addService(ServerServiceDefinition serverServiceDefinition) {
+        this.registryBuilder.addService((ServerServiceDefinition) Preconditions.checkNotNull(serverServiceDefinition, NotificationCompat.CATEGORY_SERVICE));
+        return (T) thisT();
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T addService(BindableService bindableService) {
+        return (T) addService(((BindableService) Preconditions.checkNotNull(bindableService, "bindableService")).bindService());
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // io.grpc.ServerBuilder
+    public final T addTransportFilter(ServerTransportFilter serverTransportFilter) {
+        this.transportFilters.add(Preconditions.checkNotNull(serverTransportFilter, "filter"));
+        return (T) thisT();
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // io.grpc.ServerBuilder
+    public final T intercept(ServerInterceptor serverInterceptor) {
+        this.interceptors.add(Preconditions.checkNotNull(serverInterceptor, "interceptor"));
+        return (T) thisT();
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // io.grpc.ServerBuilder
+    public final T addStreamTracerFactory(ServerStreamTracer.Factory factory) {
+        this.streamTracerFactories.add(Preconditions.checkNotNull(factory, "factory"));
+        return (T) thisT();
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T fallbackHandlerRegistry(@Nullable HandlerRegistry handlerRegistry) {
+        if (handlerRegistry == null) {
+            handlerRegistry = DEFAULT_FALLBACK_REGISTRY;
+        }
+        this.fallbackRegistry = handlerRegistry;
+        return (T) thisT();
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T decompressorRegistry(@Nullable DecompressorRegistry decompressorRegistry) {
+        if (decompressorRegistry == null) {
+            decompressorRegistry = DEFAULT_DECOMPRESSOR_REGISTRY;
+        }
+        this.decompressorRegistry = decompressorRegistry;
+        return (T) thisT();
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T compressorRegistry(@Nullable CompressorRegistry compressorRegistry) {
+        if (compressorRegistry == null) {
+            compressorRegistry = DEFAULT_COMPRESSOR_REGISTRY;
+        }
+        this.compressorRegistry = compressorRegistry;
+        return (T) thisT();
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T handshakeTimeout(long j, TimeUnit timeUnit) {
+        Preconditions.checkArgument(j > 0, "handshake timeout is %s, but must be positive", j);
+        this.handshakeTimeoutMillis = ((TimeUnit) Preconditions.checkNotNull(timeUnit, "unit")).toMillis(j);
+        return (T) thisT();
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final T setBinaryLog(@Nullable BinaryLog binaryLog) {
+        this.binlog = binaryLog;
+        return (T) thisT();
+    }
+
+    public final T setTransportTracerFactory(TransportTracer.Factory factory) {
+        this.transportTracerFactory = factory;
+        return (T) thisT();
+    }
+
+    protected void setDeadlineTicker(Deadline.Ticker ticker) {
+        this.ticker = (Deadline.Ticker) Preconditions.checkNotNull(ticker, "ticker");
+    }
+
+    @Override // io.grpc.ServerBuilder
+    public final Server build() {
+        return new ServerImpl(this, buildTransportServers(getTracerFactories()), Context.ROOT);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:16:0x0071  */
+    /* JADX WARN: Removed duplicated region for block: B:35:0x0078 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    final java.util.List<? extends io.grpc.ServerStreamTracer.Factory> getTracerFactories() {
+        /*
+            r11 = this;
+            java.util.ArrayList r0 = new java.util.ArrayList
+            r0.<init>()
+            boolean r1 = r11.statsEnabled
+            java.lang.String r2 = "getServerStreamTracerFactory"
+            r3 = 0
+            r4 = 0
+            java.lang.String r5 = "Unable to apply census stats"
+            if (r1 == 0) goto L74
+            java.lang.String r1 = "io.grpc.census.InternalCensusStatsAccessor"
+            java.lang.Class r1 = java.lang.Class.forName(r1)     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            r6 = 3
+            java.lang.Class[] r7 = new java.lang.Class[r6]     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.Class r8 = java.lang.Boolean.TYPE     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            r7[r3] = r8     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.Class r8 = java.lang.Boolean.TYPE     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            r9 = 1
+            r7[r9] = r8     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.Class r8 = java.lang.Boolean.TYPE     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            r10 = 2
+            r7[r10] = r8     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.reflect.Method r1 = r1.getDeclaredMethod(r2, r7)     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.Object[] r6 = new java.lang.Object[r6]     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            boolean r7 = r11.recordStartedRpcs     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.Boolean r7 = java.lang.Boolean.valueOf(r7)     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            r6[r3] = r7     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            boolean r7 = r11.recordFinishedRpcs     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.Boolean r7 = java.lang.Boolean.valueOf(r7)     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            r6[r9] = r7     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            boolean r7 = r11.recordRealTimeMetrics     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.Boolean r7 = java.lang.Boolean.valueOf(r7)     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            r6[r10] = r7     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            java.lang.Object r1 = r1.invoke(r4, r6)     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            io.grpc.ServerStreamTracer$Factory r1 = (io.grpc.ServerStreamTracer.Factory) r1     // Catch: java.lang.reflect.InvocationTargetException -> L4b java.lang.IllegalAccessException -> L54 java.lang.NoSuchMethodException -> L5d java.lang.ClassNotFoundException -> L66
+            goto L6f
+        L4b:
+            r1 = move-exception
+            java.util.logging.Logger r6 = io.grpc.internal.AbstractServerImplBuilder.log
+            java.util.logging.Level r7 = java.util.logging.Level.FINE
+            r6.log(r7, r5, r1)
+            goto L6e
+        L54:
+            r1 = move-exception
+            java.util.logging.Logger r6 = io.grpc.internal.AbstractServerImplBuilder.log
+            java.util.logging.Level r7 = java.util.logging.Level.FINE
+            r6.log(r7, r5, r1)
+            goto L6e
+        L5d:
+            r1 = move-exception
+            java.util.logging.Logger r6 = io.grpc.internal.AbstractServerImplBuilder.log
+            java.util.logging.Level r7 = java.util.logging.Level.FINE
+            r6.log(r7, r5, r1)
+            goto L6e
+        L66:
+            r1 = move-exception
+            java.util.logging.Logger r6 = io.grpc.internal.AbstractServerImplBuilder.log
+            java.util.logging.Level r7 = java.util.logging.Level.FINE
+            r6.log(r7, r5, r1)
+        L6e:
+            r1 = r4
+        L6f:
+            if (r1 == 0) goto L74
+            r0.add(r1)
+        L74:
+            boolean r1 = r11.tracingEnabled
+            if (r1 == 0) goto Lb6
+            java.lang.String r1 = "io.grpc.census.InternalCensusTracingAccessor"
+            java.lang.Class r1 = java.lang.Class.forName(r1)     // Catch: java.lang.reflect.InvocationTargetException -> L8e java.lang.IllegalAccessException -> L97 java.lang.NoSuchMethodException -> La0 java.lang.ClassNotFoundException -> La9
+            java.lang.Class[] r6 = new java.lang.Class[r3]     // Catch: java.lang.reflect.InvocationTargetException -> L8e java.lang.IllegalAccessException -> L97 java.lang.NoSuchMethodException -> La0 java.lang.ClassNotFoundException -> La9
+            java.lang.reflect.Method r1 = r1.getDeclaredMethod(r2, r6)     // Catch: java.lang.reflect.InvocationTargetException -> L8e java.lang.IllegalAccessException -> L97 java.lang.NoSuchMethodException -> La0 java.lang.ClassNotFoundException -> La9
+            java.lang.Object[] r2 = new java.lang.Object[r3]     // Catch: java.lang.reflect.InvocationTargetException -> L8e java.lang.IllegalAccessException -> L97 java.lang.NoSuchMethodException -> La0 java.lang.ClassNotFoundException -> La9
+            java.lang.Object r1 = r1.invoke(r4, r2)     // Catch: java.lang.reflect.InvocationTargetException -> L8e java.lang.IllegalAccessException -> L97 java.lang.NoSuchMethodException -> La0 java.lang.ClassNotFoundException -> La9
+            io.grpc.ServerStreamTracer$Factory r1 = (io.grpc.ServerStreamTracer.Factory) r1     // Catch: java.lang.reflect.InvocationTargetException -> L8e java.lang.IllegalAccessException -> L97 java.lang.NoSuchMethodException -> La0 java.lang.ClassNotFoundException -> La9
+            r4 = r1
+            goto Lb1
+        L8e:
+            r1 = move-exception
+            java.util.logging.Logger r2 = io.grpc.internal.AbstractServerImplBuilder.log
+            java.util.logging.Level r3 = java.util.logging.Level.FINE
+            r2.log(r3, r5, r1)
+            goto Lb1
+        L97:
+            r1 = move-exception
+            java.util.logging.Logger r2 = io.grpc.internal.AbstractServerImplBuilder.log
+            java.util.logging.Level r3 = java.util.logging.Level.FINE
+            r2.log(r3, r5, r1)
+            goto Lb1
+        La0:
+            r1 = move-exception
+            java.util.logging.Logger r2 = io.grpc.internal.AbstractServerImplBuilder.log
+            java.util.logging.Level r3 = java.util.logging.Level.FINE
+            r2.log(r3, r5, r1)
+            goto Lb1
+        La9:
+            r1 = move-exception
+            java.util.logging.Logger r2 = io.grpc.internal.AbstractServerImplBuilder.log
+            java.util.logging.Level r3 = java.util.logging.Level.FINE
+            r2.log(r3, r5, r1)
+        Lb1:
+            if (r4 == 0) goto Lb6
+            r0.add(r4)
+        Lb6:
+            java.util.List<io.grpc.ServerStreamTracer$Factory> r1 = r11.streamTracerFactories
+            r0.addAll(r1)
+            r0.trimToSize()
+            java.util.List r0 = java.util.Collections.unmodifiableList(r0)
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.internal.AbstractServerImplBuilder.getTracerFactories():java.util.List");
+    }
+
+    private static final class DefaultFallbackRegistry extends HandlerRegistry {
+        @Override // io.grpc.HandlerRegistry
+        @Nullable
+        public ServerMethodDefinition<?, ?> lookupMethod(String str, @Nullable String str2) {
+            return null;
+        }
+
+        private DefaultFallbackRegistry() {
+        }
+
+        @Override // io.grpc.HandlerRegistry
+        public List<ServerServiceDefinition> getServices() {
+            return Collections.emptyList();
+        }
+    }
+}

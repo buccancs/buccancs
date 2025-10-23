@@ -1,0 +1,40 @@
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.NameResolver;
+import io.grpc.NameResolverProvider;
+import io.grpc.internal.ExponentialBackoffPolicy;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.xds.XdsClient;
+
+import java.net.URI;
+
+/* loaded from: classes3.dex */
+public final class XdsNameResolverProvider extends NameResolverProvider {
+    private static final String SCHEME = "xds";
+
+    @Override // io.grpc.NameResolver.Factory
+    public String getDefaultScheme() {
+        return SCHEME;
+    }
+
+    @Override // io.grpc.NameResolverProvider
+    protected boolean isAvailable() {
+        return true;
+    }
+
+    @Override // io.grpc.NameResolverProvider
+    protected int priority() {
+        return 4;
+    }
+
+    @Override // io.grpc.NameResolver.Factory
+    public XdsNameResolver newNameResolver(URI uri, NameResolver.Args args) {
+        if (!SCHEME.equals(uri.getScheme())) {
+            return null;
+        }
+        String str = (String) Preconditions.checkNotNull(uri.getPath(), "targetPath");
+        Preconditions.checkArgument(str.startsWith("/"), "the path component (%s) of the target (%s) must start with '/'", str, uri);
+        return new XdsNameResolver(str.substring(1), args, new ExponentialBackoffPolicy.Provider(), GrpcUtil.STOPWATCH_SUPPLIER, XdsClient.XdsChannelFactory.getInstance(), Bootstrapper.getInstance());
+    }
+}

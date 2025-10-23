@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/javax/annotation/Nullable.java
+// Size: 341 bytes
+// Modified: 2025-10-21 16:32:02.214612600 +0100
+
+package javax.annotation;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import javax.annotation.meta.When;
+
+@Nonnull(when = When.UNKNOWN)
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+/* loaded from: classes4.dex */
+public @interface Nullable {
+}

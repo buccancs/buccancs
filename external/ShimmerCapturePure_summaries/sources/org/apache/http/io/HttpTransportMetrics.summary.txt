@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/io/HttpTransportMetrics.java
+// Size: 162 bytes
+// Modified: 2025-10-21 16:32:00.535390400 +0100
+
+package org.apache.http.io;
+
+/* loaded from: classes5.dex */
+public interface HttpTransportMetrics {
+    long getBytesTransferred();
+
+    void reset();
+}

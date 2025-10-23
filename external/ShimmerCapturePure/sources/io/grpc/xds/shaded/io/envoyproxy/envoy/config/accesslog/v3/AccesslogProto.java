@@ -1,0 +1,120 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3;
+
+import com.google.protobuf.AnyProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.StructProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.BaseProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteComponentsProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3.PercentProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes2.dex */
+public final class AccesslogProto {
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_AccessLogFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_AccessLogFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_AccessLog_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_AccessLog_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_AndFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_AndFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_ComparisonFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_ComparisonFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_DurationFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_DurationFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_ExtensionFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_ExtensionFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_GrpcStatusFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_GrpcStatusFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_HeaderFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_HeaderFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_NotHealthCheckFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_NotHealthCheckFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_OrFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_OrFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_ResponseFlagFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_ResponseFlagFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_RuntimeFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_RuntimeFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_StatusCodeFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_StatusCodeFilter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_accesslog_v3_TraceableFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_accesslog_v3_TraceableFilter_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n)envoy/config/accesslog/v3/accesslog.proto\u0012\u0019envoy.config.accesslog.v3\u001a\u001fenvoy/config/core/v3/base.proto\u001a,envoy/config/route/v3/route_components.proto\u001a\u001benvoy/type/v3/percent.proto\u001a\u0019google/protobuf/any.proto\u001a\u001cgoogle/protobuf/struct.proto\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\u001a\u0017validate/validate.proto\"Ó\u0001\n\tAccessLog\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\u0012:\n\u0006filter\u0018\u0002 \u0001(\u000b2*.envoy.config.accesslog.v3.AccessLogFilter\u0012,\n\ftyped_config\u0018\u0004 \u0001(\u000b2\u0014.google.protobuf.AnyH\u0000:1\u009aÅ\u0088\u001e,\n*envoy.config.filter.accesslog.v2.AccessLogB\r\n\u000bconfig_typeJ\u0004\b\u0003\u0010\u0004R\u0006config\"î\u0006\n\u000fAccessLogFilter\u0012I\n\u0012status_code_filter\u0018\u0001 \u0001(\u000b2+.envoy.config.accesslog.v3.StatusCodeFilterH\u0000\u0012D\n\u000fduration_filter\u0018\u0002 \u0001(\u000b2).envoy.config.accesslog.v3.DurationFilterH\u0000\u0012R\n\u0017not_health_check_filter\u0018\u0003 \u0001(\u000b2/.envoy.config.accesslog.v3.NotHealthCheckFilterH\u0000\u0012F\n\u0010traceable_filter\u0018\u0004 \u0001(\u000b2*.envoy.config.accesslog.v3.TraceableFilterH\u0000\u0012B\n\u000eruntime_filter\u0018\u0005 \u0001(\u000b2(.envoy.config.accesslog.v3.RuntimeFilterH\u0000\u0012:\n\nand_filter\u0018\u0006 \u0001(\u000b2$.envoy.config.accesslog.v3.AndFilterH\u0000\u00128\n\tor_filter\u0018\u0007 \u0001(\u000b2#.envoy.config.accesslog.v3.OrFilterH\u0000\u0012@\n\rheader_filter\u0018\b \u0001(\u000b2'.envoy.config.accesslog.v3.HeaderFilterH\u0000\u0012M\n\u0014response_flag_filter\u0018\t \u0001(\u000b2-.envoy.config.accesslog.v3.ResponseFlagFilterH\u0000\u0012I\n\u0012grpc_status_filter\u0018\n \u0001(\u000b2+.envoy.config.accesslog.v3.GrpcStatusFilterH\u0000\u0012F\n\u0010extension_filter\u0018\u000b \u0001(\u000b2*.envoy.config.accesslog.v3.ExtensionFilterH\u0000:7\u009aÅ\u0088\u001e2\n0envoy.config.filter.accesslog.v2.AccessLogFilterB\u0017\n\u0010filter_specifier\u0012\u0003øB\u0001\"ä\u0001\n\u0010ComparisonFilter\u0012D\n\u0002op\u0018\u0001 \u0001(\u000e2..envoy.config.accesslog.v3.ComparisonFilter.OpB\búB\u0005\u0082\u0001\u0002\u0010\u0001\u00122\n\u0005value\u0018\u0002 \u0001(\u000b2#.envoy.config.core.v3.RuntimeUInt32\"\u001c\n\u0002Op\u0012\u0006\n\u0002EQ\u0010\u0000\u0012\u0006\n\u0002GE\u0010\u0001\u0012\u0006\n\u0002LE\u0010\u0002:8\u009aÅ\u0088\u001e3\n1envoy.config.filter.accesslog.v2.ComparisonFilter\"\u0097\u0001\n\u0010StatusCodeFilter\u0012I\n\ncomparison\u0018\u0001 \u0001(\u000b2+.envoy.config.accesslog.v3.ComparisonFilterB\búB\u0005\u008a\u0001\u0002\u0010\u0001:8\u009aÅ\u0088\u001e3\n1envoy.config.filter.accesslog.v2.StatusCodeFilter\"\u0093\u0001\n\u000eDurationFilter\u0012I\n\ncomparison\u0018\u0001 \u0001(\u000b2+.envoy.config.accesslog.v3.ComparisonFilterB\búB\u0005\u008a\u0001\u0002\u0010\u0001:6\u009aÅ\u0088\u001e1\n/envoy.config.filter.accesslog.v2.DurationFilter\"T\n\u0014NotHealthCheckFilter:<\u009aÅ\u0088\u001e7\n5envoy.config.filter.accesslog.v2.NotHealthCheckFilter\"J\n\u000fTraceableFilter:7\u009aÅ\u0088\u001e2\n0envoy.config.filter.accesslog.v2.TraceableFilter\"Ã\u0001\n\rRuntimeFilter\u0012\u001c\n\u000bruntime_key\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u00129\n\u000fpercent_sampled\u0018\u0002 \u0001(\u000b2 .envoy.type.v3.FractionalPercent\u0012\"\n\u001ause_independent_randomness\u0018\u0003 \u0001(\b:5\u009aÅ\u0088\u001e0\n.envoy.config.filter.accesslog.v2.RuntimeFilter\"\u0085\u0001\n\tAndFilter\u0012E\n\u0007filters\u0018\u0001 \u0003(\u000b2*.envoy.config.accesslog.v3.AccessLogFilterB\búB\u0005\u0092\u0001\u0002\b\u0002:1\u009aÅ\u0088\u001e,\n*envoy.config.filter.accesslog.v2.AndFilter\"\u0083\u0001\n\bOrFilter\u0012E\n\u0007filters\u0018\u0002 \u0003(\u000b2*.envoy.config.accesslog.v3.AccessLogFilterB\búB\u0005\u0092\u0001\u0002\b\u0002:0\u009aÅ\u0088\u001e+\n)envoy.config.filter.accesslog.v2.OrFilter\"\u0084\u0001\n\fHeaderFilter\u0012>\n\u0006header\u0018\u0001 \u0001(\u000b2$.envoy.config.route.v3.HeaderMatcherB\búB\u0005\u008a\u0001\u0002\u0010\u0001:4\u009aÅ\u0088\u001e/\n-envoy.config.filter.accesslog.v2.HeaderFilter\"Ð\u0001\n\u0012ResponseFlagFilter\u0012~\n\u0005flags\u0018\u0001 \u0003(\tBoúBl\u0092\u0001i\"greR\u0002LHR\u0002UHR\u0002UTR\u0002LRR\u0002URR\u0002UFR\u0002UCR\u0002UOR\u0002NRR\u0002DIR\u0002FIR\u0002RLR\u0004UAEXR\u0004RLSER\u0002DCR\u0003URXR\u0002SIR\u0002IHR\u0003DPER\u0005UMSDRR\u0004RFCFR\u0004NFCF::\u009aÅ\u0088\u001e5\n3envoy.config.filter.accesslog.v2.ResponseFlagFilter\"í\u0003\n\u0010GrpcStatusFilter\u0012S\n\bstatuses\u0018\u0001 \u0003(\u000e22.envoy.config.accesslog.v3.GrpcStatusFilter.StatusB\rúB\n\u0092\u0001\u0007\"\u0005\u0082\u0001\u0002\u0010\u0001\u0012\u000f\n\u0007exclude\u0018\u0002 \u0001(\b\"¸\u0002\n\u0006Status\u0012\u0006\n\u0002OK\u0010\u0000\u0012\f\n\bCANCELED\u0010\u0001\u0012\u000b\n\u0007UNKNOWN\u0010\u0002\u0012\u0014\n\u0010INVALID_ARGUMENT\u0010\u0003\u0012\u0015\n\u0011DEADLINE_EXCEEDED\u0010\u0004\u0012\r\n\tNOT_FOUND\u0010\u0005\u0012\u0012\n\u000eALREADY_EXISTS\u0010\u0006\u0012\u0015\n\u0011PERMISSION_DENIED\u0010\u0007\u0012\u0016\n\u0012RESOURCE_EXHAUSTED\u0010\b\u0012\u0017\n\u0013FAILED_PRECONDITION\u0010\t\u0012\u000b\n\u0007ABORTED\u0010\n\u0012\u0010\n\fOUT_OF_RANGE\u0010\u000b\u0012\u0011\n\rUNIMPLEMENTED\u0010\f\u0012\f\n\bINTERNAL\u0010\r\u0012\u000f\n\u000bUNAVAILABLE\u0010\u000e\u0012\r\n\tDATA_LOSS\u0010\u000f\u0012\u0013\n\u000fUNAUTHENTICATED\u0010\u0010:8\u009aÅ\u0088\u001e3\n1envoy.config.filter.accesslog.v2.GrpcStatusFilter\"£\u0001\n\u000fExtensionFilter\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\u0012,\n\ftyped_config\u0018\u0003 \u0001(\u000b2\u0014.google.protobuf.AnyH\u0000:7\u009aÅ\u0088\u001e2\n0envoy.config.filter.accesslog.v2.ExtensionFilterB\r\n\u000bconfig_typeJ\u0004\b\u0002\u0010\u0003R\u0006configBC\n'io.envoyproxy.envoy.config.accesslog.v3B\u000eAccesslogProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{BaseProto.getDescriptor(), RouteComponentsProto.getDescriptor(), PercentProto.getDescriptor(), AnyProto.getDescriptor(), StructProto.getDescriptor(), Status.getDescriptor(), Versioning.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_accesslog_v3_AccessLog_descriptor = descriptor2;
+        internal_static_envoy_config_accesslog_v3_AccessLog_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Name", "Filter", "TypedConfig", "ConfigType"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_config_accesslog_v3_AccessLogFilter_descriptor = descriptor3;
+        internal_static_envoy_config_accesslog_v3_AccessLogFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"StatusCodeFilter", "DurationFilter", "NotHealthCheckFilter", "TraceableFilter", "RuntimeFilter", "AndFilter", "OrFilter", "HeaderFilter", "ResponseFlagFilter", "GrpcStatusFilter", "ExtensionFilter", "FilterSpecifier"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_envoy_config_accesslog_v3_ComparisonFilter_descriptor = descriptor4;
+        internal_static_envoy_config_accesslog_v3_ComparisonFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"Op", "Value"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_envoy_config_accesslog_v3_StatusCodeFilter_descriptor = descriptor5;
+        internal_static_envoy_config_accesslog_v3_StatusCodeFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"Comparison"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(4);
+        internal_static_envoy_config_accesslog_v3_DurationFilter_descriptor = descriptor6;
+        internal_static_envoy_config_accesslog_v3_DurationFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"Comparison"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(5);
+        internal_static_envoy_config_accesslog_v3_NotHealthCheckFilter_descriptor = descriptor7;
+        internal_static_envoy_config_accesslog_v3_NotHealthCheckFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[0]);
+        Descriptors.Descriptor descriptor8 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(6);
+        internal_static_envoy_config_accesslog_v3_TraceableFilter_descriptor = descriptor8;
+        internal_static_envoy_config_accesslog_v3_TraceableFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor8, new String[0]);
+        Descriptors.Descriptor descriptor9 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(7);
+        internal_static_envoy_config_accesslog_v3_RuntimeFilter_descriptor = descriptor9;
+        internal_static_envoy_config_accesslog_v3_RuntimeFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor9, new String[]{"RuntimeKey", "PercentSampled", "UseIndependentRandomness"});
+        Descriptors.Descriptor descriptor10 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(8);
+        internal_static_envoy_config_accesslog_v3_AndFilter_descriptor = descriptor10;
+        internal_static_envoy_config_accesslog_v3_AndFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor10, new String[]{"Filters"});
+        Descriptors.Descriptor descriptor11 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(9);
+        internal_static_envoy_config_accesslog_v3_OrFilter_descriptor = descriptor11;
+        internal_static_envoy_config_accesslog_v3_OrFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor11, new String[]{"Filters"});
+        Descriptors.Descriptor descriptor12 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(10);
+        internal_static_envoy_config_accesslog_v3_HeaderFilter_descriptor = descriptor12;
+        internal_static_envoy_config_accesslog_v3_HeaderFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor12, new String[]{"Header"});
+        Descriptors.Descriptor descriptor13 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(11);
+        internal_static_envoy_config_accesslog_v3_ResponseFlagFilter_descriptor = descriptor13;
+        internal_static_envoy_config_accesslog_v3_ResponseFlagFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor13, new String[]{"Flags"});
+        Descriptors.Descriptor descriptor14 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(12);
+        internal_static_envoy_config_accesslog_v3_GrpcStatusFilter_descriptor = descriptor14;
+        internal_static_envoy_config_accesslog_v3_GrpcStatusFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor14, new String[]{"Statuses", "Exclude"});
+        Descriptors.Descriptor descriptor15 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(13);
+        internal_static_envoy_config_accesslog_v3_ExtensionFilter_descriptor = descriptor15;
+        internal_static_envoy_config_accesslog_v3_ExtensionFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor15, new String[]{"Name", "TypedConfig", "ConfigType"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        BaseProto.getDescriptor();
+        RouteComponentsProto.getDescriptor();
+        PercentProto.getDescriptor();
+        AnyProto.getDescriptor();
+        StructProto.getDescriptor();
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private AccesslogProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

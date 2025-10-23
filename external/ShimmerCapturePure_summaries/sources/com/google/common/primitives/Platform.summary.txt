@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/primitives/Platform.java
+// Size: 182 bytes
+// Modified: 2025-10-21 16:32:00.166847100 +0100
+
+package com.google.common.primitives;
+
+/* loaded from: classes.dex */
+final class Platform {
+    static void checkGwtRpcEnabled() {
+    }
+
+    private Platform() {
+    }
+}

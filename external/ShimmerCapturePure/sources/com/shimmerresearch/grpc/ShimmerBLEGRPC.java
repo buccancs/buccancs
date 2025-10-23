@@ -1,0 +1,3262 @@
+package com.shimmerresearch.grpc;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class ShimmerBLEGRPC {
+    private static final Descriptors.Descriptor internal_static_shimmerBLEGRPC_ObjectClusterByteArray_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_shimmerBLEGRPC_ObjectClusterByteArray_fieldAccessorTable;
+    private static final Descriptors.Descriptor internal_static_shimmerBLEGRPC_Reply_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_shimmerBLEGRPC_Reply_fieldAccessorTable;
+    private static final Descriptors.Descriptor internal_static_shimmerBLEGRPC_Request_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_shimmerBLEGRPC_Request_fieldAccessorTable;
+    private static final Descriptors.Descriptor internal_static_shimmerBLEGRPC_StateStatus_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_shimmerBLEGRPC_StateStatus_fieldAccessorTable;
+    private static final Descriptors.Descriptor internal_static_shimmerBLEGRPC_StreamRequest_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_shimmerBLEGRPC_StreamRequest_fieldAccessorTable;
+    private static final Descriptors.Descriptor internal_static_shimmerBLEGRPC_WriteBytes_descriptor;
+    private static final GeneratedMessageV3.FieldAccessorTable internal_static_shimmerBLEGRPC_WriteBytes_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n*src/ShimmerBLEGrpcAndPacketByteArray.proto\u0012\u000eshimmerBLEGRPC\"\u0018\n\u0005Reply\u0012\u000f\n\u0007message\u0018\u0001 \u0001(\t\"\u0017\n\u0007Request\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\"4\n\nWriteBytes\u0012\u000f\n\u0007address\u0018\u0001 \u0001(\t\u0012\u0015\n\rbyte_to_write\u0018\u0002 \u0001(\f\" \n\rStreamRequest\u0012\u000f\n\u0007message\u0018\u0001 \u0001(\t\"M\n\u000bStateStatus\u0012-\n\u0005State\u0018\u0001 \u0001(\u000e2\u001e.shimmerBLEGRPC.BluetoothState\u0012\u000f\n\u0007message\u0018\u0002 \u0001(\t\"\u0094\u0002\n\u0016ObjectClusterByteArray\u0012\f\n\u0004uuid\u0018\u0001 \u0001(\t\u0012\u0018\n\u0010bluetoothAddress\u0018\u0002 \u0001(\t\u0012S\n\u0011communicationType\u0018\u0003 \u0001(\u000e28.shimmerBLEGRPC.ObjectClusterByteArray.CommunicationType\u0012\u0012\n\nsystemTime\u0018\u0004 \u0001(\u0003\u0012\u001b\n\u0013calibratedTimeStamp\u0018\u0005 \u0001(\u0001\u0012\u0013\n\u000bbinary_data\u0018\u0006 \u0001(\f\"7\n\u0011CommunicationType\u0012\u0006\n\u0002BT\u0010\u0000\u0012\u0006\n\u0002SD\u0010\u0001\u0012\u0012\n\u000eRadio_802_15_4\u0010\u0002*A\n\u000eBluetoothState\u0012\r\n\tConnected\u0010\u0000\u0012\u000e\n\nConnecting\u0010\u0001\u0012\u0010\n\fDisconnected\u0010\u00022¼\u0004\n\u0014ShimmerBLEByteServer\u0012Z\n\rGetDataStream\u0012\u001d.shimmerBLEGRPC.StreamRequest\u001a&.shimmerBLEGRPC.ObjectClusterByteArray\"\u00000\u0001\u0012^\n\u0011GetTestDataStream\u0012\u001d.shimmerBLEGRPC.StreamRequest\u001a&.shimmerBLEGRPC.ObjectClusterByteArray\"\u00000\u0001\u0012S\n\u000eSendDataStream\u0012&.shimmerBLEGRPC.ObjectClusterByteArray\u001a\u0015.shimmerBLEGRPC.Reply\"\u0000(\u0001\u0012J\n\u000eConnectShimmer\u0012\u0017.shimmerBLEGRPC.Request\u001a\u001b.shimmerBLEGRPC.StateStatus\"\u00000\u0001\u0012C\n\u0011DisconnectShimmer\u0012\u0017.shimmerBLEGRPC.Request\u001a\u0015.shimmerBLEGRPC.Reply\u0012F\n\u0011WriteBytesShimmer\u0012\u001a.shimmerBLEGRPC.WriteBytes\u001a\u0015.shimmerBLEGRPC.Reply\u0012:\n\bSayHello\u0012\u0017.shimmerBLEGRPC.Request\u001a\u0015.shimmerBLEGRPC.ReplyBE\n\u0018com.shimmerresearch.grpcB\u000eShimmerBLEGRPCª\u0002\u0018com.shimmerresearch.grpcb\u0006proto3"}, new Descriptors.FileDescriptor[0]);
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_shimmerBLEGRPC_Reply_descriptor = descriptor2;
+        internal_static_shimmerBLEGRPC_Reply_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Message"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_shimmerBLEGRPC_Request_descriptor = descriptor3;
+        internal_static_shimmerBLEGRPC_Request_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Name"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_shimmerBLEGRPC_WriteBytes_descriptor = descriptor4;
+        internal_static_shimmerBLEGRPC_WriteBytes_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"Address", "ByteToWrite"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_shimmerBLEGRPC_StreamRequest_descriptor = descriptor5;
+        internal_static_shimmerBLEGRPC_StreamRequest_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"Message"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(4);
+        internal_static_shimmerBLEGRPC_StateStatus_descriptor = descriptor6;
+        internal_static_shimmerBLEGRPC_StateStatus_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"State", "Message"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(5);
+        internal_static_shimmerBLEGRPC_ObjectClusterByteArray_descriptor = descriptor7;
+        internal_static_shimmerBLEGRPC_ObjectClusterByteArray_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"Uuid", "BluetoothAddress", "CommunicationType", "SystemTime", "CalibratedTimeStamp", "BinaryData"});
+    }
+
+    private ShimmerBLEGRPC() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    public enum BluetoothState implements ProtocolMessageEnum {
+        Connected(0),
+        Connecting(1),
+        Disconnected(2),
+        UNRECOGNIZED(-1);
+
+        public static final int Connected_VALUE = 0;
+        public static final int Connecting_VALUE = 1;
+        public static final int Disconnected_VALUE = 2;
+        private static final Internal.EnumLiteMap<BluetoothState> internalValueMap = new Internal.EnumLiteMap<BluetoothState>() { // from class: com.shimmerresearch.grpc.ShimmerBLEGRPC.BluetoothState.1
+            public BluetoothState findValueByNumber(int i) {
+                return BluetoothState.forNumber(i);
+            }
+        };
+        private static final BluetoothState[] VALUES = values();
+        private final int value;
+
+        BluetoothState(int i) {
+            this.value = i;
+        }
+
+        public static BluetoothState forNumber(int i) {
+            if (i == 0) {
+                return Connected;
+            }
+            if (i == 1) {
+                return Connecting;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return Disconnected;
+        }
+
+        public static Internal.EnumLiteMap<BluetoothState> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static BluetoothState valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) ShimmerBLEGRPC.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static BluetoothState valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public interface ObjectClusterByteArrayOrBuilder extends MessageOrBuilder {
+        ByteString getBinaryData();
+
+        String getBluetoothAddress();
+
+        ByteString getBluetoothAddressBytes();
+
+        double getCalibratedTimeStamp();
+
+        ObjectClusterByteArray.CommunicationType getCommunicationType();
+
+        int getCommunicationTypeValue();
+
+        long getSystemTime();
+
+        String getUuid();
+
+        ByteString getUuidBytes();
+    }
+
+    public interface ReplyOrBuilder extends MessageOrBuilder {
+        String getMessage();
+
+        ByteString getMessageBytes();
+    }
+
+    public interface RequestOrBuilder extends MessageOrBuilder {
+        String getName();
+
+        ByteString getNameBytes();
+    }
+
+    public interface StateStatusOrBuilder extends MessageOrBuilder {
+        String getMessage();
+
+        ByteString getMessageBytes();
+
+        BluetoothState getState();
+
+        int getStateValue();
+    }
+
+    public interface StreamRequestOrBuilder extends MessageOrBuilder {
+        String getMessage();
+
+        ByteString getMessageBytes();
+    }
+
+    public interface WriteBytesOrBuilder extends MessageOrBuilder {
+        String getAddress();
+
+        ByteString getAddressBytes();
+
+        ByteString getByteToWrite();
+    }
+
+    public static final class Reply extends GeneratedMessageV3 implements ReplyOrBuilder {
+        public static final int MESSAGE_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final Reply DEFAULT_INSTANCE = new Reply();
+        private static final Parser<Reply> PARSER = new AbstractParser<Reply>() { // from class: com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Reply m4665parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Reply(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object message_;
+
+        private Reply(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Reply() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.message_ = "";
+        }
+
+        private Reply(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.message_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Reply getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Reply> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Reply_descriptor;
+        }
+
+        public static Reply parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Reply) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Reply parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Reply) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Reply parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Reply) PARSER.parseFrom(byteString);
+        }
+
+        public static Reply parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Reply) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Reply parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Reply) PARSER.parseFrom(bArr);
+        }
+
+        public static Reply parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Reply) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Reply parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Reply parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Reply parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Reply parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Reply parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Reply parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m4663toBuilder();
+        }
+
+        public static Builder newBuilder(Reply reply) {
+            return DEFAULT_INSTANCE.m4663toBuilder().mergeFrom(reply);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Reply m4658getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<Reply> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new Reply();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Reply_fieldAccessorTable.ensureFieldAccessorsInitialized(Reply.class, Builder.class);
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ReplyOrBuilder
+        public String getMessage() {
+            Object obj = this.message_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.message_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ReplyOrBuilder
+        public ByteString getMessageBytes() {
+            Object obj = this.message_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.message_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getMessageBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.message_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = (!getMessageBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.message_) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeStringSize;
+            return iComputeStringSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Reply)) {
+                return super.equals(obj);
+            }
+            Reply reply = (Reply) obj;
+            return getMessage().equals(reply.getMessage()) && this.unknownFields.equals(reply.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getMessage().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4660newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4663toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ReplyOrBuilder {
+            private Object message_;
+
+            private Builder() {
+                this.message_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.message_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Reply_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Reply_fieldAccessorTable.ensureFieldAccessorsInitialized(Reply.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = Reply.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4674clear() {
+                super.clear();
+                this.message_ = "";
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Reply_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Reply m4687getDefaultInstanceForType() {
+                return Reply.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Reply m4668build() throws UninitializedMessageException {
+                Reply replyM4670buildPartial = m4670buildPartial();
+                if (replyM4670buildPartial.isInitialized()) {
+                    return replyM4670buildPartial;
+                }
+                throw newUninitializedMessageException(replyM4670buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Reply m4670buildPartial() {
+                Reply reply = new Reply(this);
+                reply.message_ = this.message_;
+                onBuilt();
+                return reply;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4686clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4698setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4676clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4679clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4700setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4666addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4691mergeFrom(Message message) {
+                if (message instanceof Reply) {
+                    return mergeFrom((Reply) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Reply reply) {
+                if (reply == Reply.getDefaultInstance()) {
+                    return this;
+                }
+                if (!reply.getMessage().isEmpty()) {
+                    this.message_ = reply.message_;
+                    onChanged();
+                }
+                m4696mergeUnknownFields(reply.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply.Builder m4692mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply.m4657$$Nest$sfgetPARSER()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$Reply r3 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$Reply r4 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: com.shimmerresearch.grpc.ShimmerBLEGRPC.Reply.Builder.m4692mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.shimmerresearch.grpc.ShimmerBLEGRPC$Reply$Builder");
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ReplyOrBuilder
+            public String getMessage() {
+                Object obj = this.message_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.message_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setMessage(String str) {
+                str.getClass();
+                this.message_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ReplyOrBuilder
+            public ByteString getMessageBytes() {
+                Object obj = this.message_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.message_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setMessageBytes(ByteString byteString) {
+                byteString.getClass();
+                Reply.checkByteStringIsUtf8(byteString);
+                this.message_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearMessage() {
+                this.message_ = Reply.getDefaultInstance().getMessage();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4702setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4696mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Request extends GeneratedMessageV3 implements RequestOrBuilder {
+        public static final int NAME_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final Request DEFAULT_INSTANCE = new Request();
+        private static final Parser<Request> PARSER = new AbstractParser<Request>() { // from class: com.shimmerresearch.grpc.ShimmerBLEGRPC.Request.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public Request m4714parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new Request(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object name_;
+
+        private Request(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private Request() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.name_ = "";
+        }
+
+        private Request(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.name_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static Request getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<Request> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Request_descriptor;
+        }
+
+        public static Request parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (Request) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static Request parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Request) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static Request parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (Request) PARSER.parseFrom(byteString);
+        }
+
+        public static Request parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Request) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static Request parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (Request) PARSER.parseFrom(bArr);
+        }
+
+        public static Request parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (Request) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static Request parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static Request parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Request parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static Request parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static Request parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static Request parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m4712toBuilder();
+        }
+
+        public static Builder newBuilder(Request request) {
+            return DEFAULT_INSTANCE.m4712toBuilder().mergeFrom(request);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Request m4707getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<Request> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new Request();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Request_fieldAccessorTable.ensureFieldAccessorsInitialized(Request.class, Builder.class);
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.RequestOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.name_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.RequestOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getNameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = (!getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeStringSize;
+            return iComputeStringSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof Request)) {
+                return super.equals(obj);
+            }
+            Request request = (Request) obj;
+            return getName().equals(request.getName()) && this.unknownFields.equals(request.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getName().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4709newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4712toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RequestOrBuilder {
+            private Object name_;
+
+            private Builder() {
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Request_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Request_fieldAccessorTable.ensureFieldAccessorsInitialized(Request.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = Request.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4723clear() {
+                super.clear();
+                this.name_ = "";
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_Request_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Request m4736getDefaultInstanceForType() {
+                return Request.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Request m4717build() throws UninitializedMessageException {
+                Request requestM4719buildPartial = m4719buildPartial();
+                if (requestM4719buildPartial.isInitialized()) {
+                    return requestM4719buildPartial;
+                }
+                throw newUninitializedMessageException(requestM4719buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Request m4719buildPartial() {
+                Request request = new Request(this);
+                request.name_ = this.name_;
+                onBuilt();
+                return request;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4735clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4747setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4725clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4728clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4749setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4715addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4740mergeFrom(Message message) {
+                if (message instanceof Request) {
+                    return mergeFrom((Request) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(Request request) {
+                if (request == Request.getDefaultInstance()) {
+                    return this;
+                }
+                if (!request.getName().isEmpty()) {
+                    this.name_ = request.name_;
+                    onChanged();
+                }
+                m4745mergeUnknownFields(request.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public com.shimmerresearch.grpc.ShimmerBLEGRPC.Request.Builder m4741mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = com.shimmerresearch.grpc.ShimmerBLEGRPC.Request.m4706$$Nest$sfgetPARSER()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$Request r3 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.Request) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$Request r4 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.Request) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: com.shimmerresearch.grpc.ShimmerBLEGRPC.Request.Builder.m4741mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.shimmerresearch.grpc.ShimmerBLEGRPC$Request$Builder");
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.RequestOrBuilder
+            public String getName() {
+                Object obj = this.name_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.name_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setName(String str) {
+                str.getClass();
+                this.name_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.RequestOrBuilder
+            public ByteString getNameBytes() {
+                Object obj = this.name_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.name_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setNameBytes(ByteString byteString) {
+                byteString.getClass();
+                Request.checkByteStringIsUtf8(byteString);
+                this.name_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearName() {
+                this.name_ = Request.getDefaultInstance().getName();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4751setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4745mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class WriteBytes extends GeneratedMessageV3 implements WriteBytesOrBuilder {
+        public static final int ADDRESS_FIELD_NUMBER = 1;
+        public static final int BYTE_TO_WRITE_FIELD_NUMBER = 2;
+        private static final WriteBytes DEFAULT_INSTANCE = new WriteBytes();
+        private static final Parser<WriteBytes> PARSER = new AbstractParser<WriteBytes>() { // from class: com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public WriteBytes m4864parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new WriteBytes(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private volatile Object address_;
+        private ByteString byteToWrite_;
+        private byte memoizedIsInitialized;
+
+        private WriteBytes(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private WriteBytes() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.address_ = "";
+            this.byteToWrite_ = ByteString.EMPTY;
+        }
+
+        private WriteBytes(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    this.address_ = codedInputStream.readStringRequireUtf8();
+                                } else if (tag == 18) {
+                                    this.byteToWrite_ = codedInputStream.readBytes();
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static WriteBytes getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<WriteBytes> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_WriteBytes_descriptor;
+        }
+
+        public static WriteBytes parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (WriteBytes) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static WriteBytes parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (WriteBytes) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static WriteBytes parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (WriteBytes) PARSER.parseFrom(byteString);
+        }
+
+        public static WriteBytes parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (WriteBytes) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static WriteBytes parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (WriteBytes) PARSER.parseFrom(bArr);
+        }
+
+        public static WriteBytes parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (WriteBytes) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static WriteBytes parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static WriteBytes parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static WriteBytes parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static WriteBytes parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static WriteBytes parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static WriteBytes parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m4862toBuilder();
+        }
+
+        public static Builder newBuilder(WriteBytes writeBytes) {
+            return DEFAULT_INSTANCE.m4862toBuilder().mergeFrom(writeBytes);
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytesOrBuilder
+        public ByteString getByteToWrite() {
+            return this.byteToWrite_;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public WriteBytes m4857getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<WriteBytes> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new WriteBytes();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_WriteBytes_fieldAccessorTable.ensureFieldAccessorsInitialized(WriteBytes.class, Builder.class);
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytesOrBuilder
+        public String getAddress() {
+            Object obj = this.address_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.address_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytesOrBuilder
+        public ByteString getAddressBytes() {
+            Object obj = this.address_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.address_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getAddressBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.address_);
+            }
+            if (!this.byteToWrite_.isEmpty()) {
+                codedOutputStream.writeBytes(2, this.byteToWrite_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getAddressBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.address_) : 0;
+            if (!this.byteToWrite_.isEmpty()) {
+                iComputeStringSize += CodedOutputStream.computeBytesSize(2, this.byteToWrite_);
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof WriteBytes)) {
+                return super.equals(obj);
+            }
+            WriteBytes writeBytes = (WriteBytes) obj;
+            return getAddress().equals(writeBytes.getAddress()) && getByteToWrite().equals(writeBytes.getByteToWrite()) && this.unknownFields.equals(writeBytes.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getAddress().hashCode()) * 37) + 2) * 53) + getByteToWrite().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4859newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4862toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements WriteBytesOrBuilder {
+            private Object address_;
+            private ByteString byteToWrite_;
+
+            private Builder() {
+                this.address_ = "";
+                this.byteToWrite_ = ByteString.EMPTY;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.address_ = "";
+                this.byteToWrite_ = ByteString.EMPTY;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_WriteBytes_descriptor;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytesOrBuilder
+            public ByteString getByteToWrite() {
+                return this.byteToWrite_;
+            }
+
+            public Builder setByteToWrite(ByteString byteString) {
+                byteString.getClass();
+                this.byteToWrite_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_WriteBytes_fieldAccessorTable.ensureFieldAccessorsInitialized(WriteBytes.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = WriteBytes.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4873clear() {
+                super.clear();
+                this.address_ = "";
+                this.byteToWrite_ = ByteString.EMPTY;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_WriteBytes_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public WriteBytes m4886getDefaultInstanceForType() {
+                return WriteBytes.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public WriteBytes m4867build() throws UninitializedMessageException {
+                WriteBytes writeBytesM4869buildPartial = m4869buildPartial();
+                if (writeBytesM4869buildPartial.isInitialized()) {
+                    return writeBytesM4869buildPartial;
+                }
+                throw newUninitializedMessageException(writeBytesM4869buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public WriteBytes m4869buildPartial() {
+                WriteBytes writeBytes = new WriteBytes(this);
+                writeBytes.address_ = this.address_;
+                writeBytes.byteToWrite_ = this.byteToWrite_;
+                onBuilt();
+                return writeBytes;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4885clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4897setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4875clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4878clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4899setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4865addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4890mergeFrom(Message message) {
+                if (message instanceof WriteBytes) {
+                    return mergeFrom((WriteBytes) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(WriteBytes writeBytes) {
+                if (writeBytes == WriteBytes.getDefaultInstance()) {
+                    return this;
+                }
+                if (!writeBytes.getAddress().isEmpty()) {
+                    this.address_ = writeBytes.address_;
+                    onChanged();
+                }
+                if (writeBytes.getByteToWrite() != ByteString.EMPTY) {
+                    setByteToWrite(writeBytes.getByteToWrite());
+                }
+                m4895mergeUnknownFields(writeBytes.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes.Builder m4891mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes.m4856$$Nest$sfgetPARSER()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$WriteBytes r3 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$WriteBytes r4 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytes.Builder.m4891mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.shimmerresearch.grpc.ShimmerBLEGRPC$WriteBytes$Builder");
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytesOrBuilder
+            public String getAddress() {
+                Object obj = this.address_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.address_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setAddress(String str) {
+                str.getClass();
+                this.address_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.WriteBytesOrBuilder
+            public ByteString getAddressBytes() {
+                Object obj = this.address_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.address_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setAddressBytes(ByteString byteString) {
+                byteString.getClass();
+                WriteBytes.checkByteStringIsUtf8(byteString);
+                this.address_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearAddress() {
+                this.address_ = WriteBytes.getDefaultInstance().getAddress();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearByteToWrite() {
+                this.byteToWrite_ = WriteBytes.getDefaultInstance().getByteToWrite();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4901setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4895mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class StreamRequest extends GeneratedMessageV3 implements StreamRequestOrBuilder {
+        public static final int MESSAGE_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final StreamRequest DEFAULT_INSTANCE = new StreamRequest();
+        private static final Parser<StreamRequest> PARSER = new AbstractParser<StreamRequest>() { // from class: com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public StreamRequest m4814parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new StreamRequest(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object message_;
+
+        private StreamRequest(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private StreamRequest() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.message_ = "";
+        }
+
+        private StreamRequest(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.message_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static StreamRequest getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<StreamRequest> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StreamRequest_descriptor;
+        }
+
+        public static StreamRequest parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (StreamRequest) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static StreamRequest parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StreamRequest) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static StreamRequest parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (StreamRequest) PARSER.parseFrom(byteString);
+        }
+
+        public static StreamRequest parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StreamRequest) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static StreamRequest parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (StreamRequest) PARSER.parseFrom(bArr);
+        }
+
+        public static StreamRequest parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StreamRequest) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static StreamRequest parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static StreamRequest parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static StreamRequest parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static StreamRequest parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static StreamRequest parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static StreamRequest parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m4812toBuilder();
+        }
+
+        public static Builder newBuilder(StreamRequest streamRequest) {
+            return DEFAULT_INSTANCE.m4812toBuilder().mergeFrom(streamRequest);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public StreamRequest m4807getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<StreamRequest> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new StreamRequest();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StreamRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(StreamRequest.class, Builder.class);
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequestOrBuilder
+        public String getMessage() {
+            Object obj = this.message_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.message_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequestOrBuilder
+        public ByteString getMessageBytes() {
+            Object obj = this.message_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.message_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getMessageBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.message_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = (!getMessageBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.message_) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeStringSize;
+            return iComputeStringSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof StreamRequest)) {
+                return super.equals(obj);
+            }
+            StreamRequest streamRequest = (StreamRequest) obj;
+            return getMessage().equals(streamRequest.getMessage()) && this.unknownFields.equals(streamRequest.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getMessage().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4809newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4812toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements StreamRequestOrBuilder {
+            private Object message_;
+
+            private Builder() {
+                this.message_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.message_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StreamRequest_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StreamRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(StreamRequest.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = StreamRequest.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4823clear() {
+                super.clear();
+                this.message_ = "";
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StreamRequest_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StreamRequest m4836getDefaultInstanceForType() {
+                return StreamRequest.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StreamRequest m4817build() throws UninitializedMessageException {
+                StreamRequest streamRequestM4819buildPartial = m4819buildPartial();
+                if (streamRequestM4819buildPartial.isInitialized()) {
+                    return streamRequestM4819buildPartial;
+                }
+                throw newUninitializedMessageException(streamRequestM4819buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StreamRequest m4819buildPartial() {
+                StreamRequest streamRequest = new StreamRequest(this);
+                streamRequest.message_ = this.message_;
+                onBuilt();
+                return streamRequest;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4835clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4847setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4825clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4828clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4849setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4815addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4840mergeFrom(Message message) {
+                if (message instanceof StreamRequest) {
+                    return mergeFrom((StreamRequest) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(StreamRequest streamRequest) {
+                if (streamRequest == StreamRequest.getDefaultInstance()) {
+                    return this;
+                }
+                if (!streamRequest.getMessage().isEmpty()) {
+                    this.message_ = streamRequest.message_;
+                    onChanged();
+                }
+                m4845mergeUnknownFields(streamRequest.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest.Builder m4841mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest.m4806$$Nest$sfgetPARSER()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$StreamRequest r3 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$StreamRequest r4 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequest.Builder.m4841mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.shimmerresearch.grpc.ShimmerBLEGRPC$StreamRequest$Builder");
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequestOrBuilder
+            public String getMessage() {
+                Object obj = this.message_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.message_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setMessage(String str) {
+                str.getClass();
+                this.message_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StreamRequestOrBuilder
+            public ByteString getMessageBytes() {
+                Object obj = this.message_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.message_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setMessageBytes(ByteString byteString) {
+                byteString.getClass();
+                StreamRequest.checkByteStringIsUtf8(byteString);
+                this.message_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearMessage() {
+                this.message_ = StreamRequest.getDefaultInstance().getMessage();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4851setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4845mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class StateStatus extends GeneratedMessageV3 implements StateStatusOrBuilder {
+        public static final int MESSAGE_FIELD_NUMBER = 2;
+        public static final int STATE_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final StateStatus DEFAULT_INSTANCE = new StateStatus();
+        private static final Parser<StateStatus> PARSER = new AbstractParser<StateStatus>() { // from class: com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public StateStatus m4765parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new StateStatus(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object message_;
+        private int state_;
+
+        private StateStatus(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private StateStatus() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.state_ = 0;
+            this.message_ = "";
+        }
+
+        private StateStatus(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 8) {
+                                    this.state_ = codedInputStream.readEnum();
+                                } else if (tag == 18) {
+                                    this.message_ = codedInputStream.readStringRequireUtf8();
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static StateStatus getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<StateStatus> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StateStatus_descriptor;
+        }
+
+        public static StateStatus parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (StateStatus) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static StateStatus parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StateStatus) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static StateStatus parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (StateStatus) PARSER.parseFrom(byteString);
+        }
+
+        public static StateStatus parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StateStatus) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static StateStatus parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (StateStatus) PARSER.parseFrom(bArr);
+        }
+
+        public static StateStatus parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StateStatus) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static StateStatus parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static StateStatus parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static StateStatus parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static StateStatus parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static StateStatus parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static StateStatus parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m4763toBuilder();
+        }
+
+        public static Builder newBuilder(StateStatus stateStatus) {
+            return DEFAULT_INSTANCE.m4763toBuilder().mergeFrom(stateStatus);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public StateStatus m4758getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<StateStatus> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatusOrBuilder
+        public int getStateValue() {
+            return this.state_;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new StateStatus();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StateStatus_fieldAccessorTable.ensureFieldAccessorsInitialized(StateStatus.class, Builder.class);
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatusOrBuilder
+        public BluetoothState getState() {
+            BluetoothState bluetoothStateValueOf = BluetoothState.valueOf(this.state_);
+            return bluetoothStateValueOf == null ? BluetoothState.UNRECOGNIZED : bluetoothStateValueOf;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatusOrBuilder
+        public String getMessage() {
+            Object obj = this.message_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.message_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatusOrBuilder
+        public ByteString getMessageBytes() {
+            Object obj = this.message_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.message_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.state_ != BluetoothState.Connected.getNumber()) {
+                codedOutputStream.writeEnum(1, this.state_);
+            }
+            if (!getMessageBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 2, this.message_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeEnumSize = this.state_ != BluetoothState.Connected.getNumber() ? CodedOutputStream.computeEnumSize(1, this.state_) : 0;
+            if (!getMessageBytes().isEmpty()) {
+                iComputeEnumSize += GeneratedMessageV3.computeStringSize(2, this.message_);
+            }
+            int serializedSize = iComputeEnumSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof StateStatus)) {
+                return super.equals(obj);
+            }
+            StateStatus stateStatus = (StateStatus) obj;
+            return this.state_ == stateStatus.state_ && getMessage().equals(stateStatus.getMessage()) && this.unknownFields.equals(stateStatus.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + this.state_) * 37) + 2) * 53) + getMessage().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4760newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4763toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements StateStatusOrBuilder {
+            private Object message_;
+            private int state_;
+
+            private Builder() {
+                this.state_ = 0;
+                this.message_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.state_ = 0;
+                this.message_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StateStatus_descriptor;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatusOrBuilder
+            public int getStateValue() {
+                return this.state_;
+            }
+
+            public Builder setStateValue(int i) {
+                this.state_ = i;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StateStatus_fieldAccessorTable.ensureFieldAccessorsInitialized(StateStatus.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = StateStatus.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4774clear() {
+                super.clear();
+                this.state_ = 0;
+                this.message_ = "";
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_StateStatus_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StateStatus m4787getDefaultInstanceForType() {
+                return StateStatus.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StateStatus m4768build() throws UninitializedMessageException {
+                StateStatus stateStatusM4770buildPartial = m4770buildPartial();
+                if (stateStatusM4770buildPartial.isInitialized()) {
+                    return stateStatusM4770buildPartial;
+                }
+                throw newUninitializedMessageException(stateStatusM4770buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StateStatus m4770buildPartial() {
+                StateStatus stateStatus = new StateStatus(this);
+                stateStatus.state_ = this.state_;
+                stateStatus.message_ = this.message_;
+                onBuilt();
+                return stateStatus;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4786clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4798setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4776clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4779clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4800setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4766addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4791mergeFrom(Message message) {
+                if (message instanceof StateStatus) {
+                    return mergeFrom((StateStatus) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(StateStatus stateStatus) {
+                if (stateStatus == StateStatus.getDefaultInstance()) {
+                    return this;
+                }
+                if (stateStatus.state_ != 0) {
+                    setStateValue(stateStatus.getStateValue());
+                }
+                if (!stateStatus.getMessage().isEmpty()) {
+                    this.message_ = stateStatus.message_;
+                    onChanged();
+                }
+                m4796mergeUnknownFields(stateStatus.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus.Builder m4792mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus.m4757$$Nest$sfgetPARSER()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$StateStatus r3 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$StateStatus r4 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatus.Builder.m4792mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.shimmerresearch.grpc.ShimmerBLEGRPC$StateStatus$Builder");
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatusOrBuilder
+            public BluetoothState getState() {
+                BluetoothState bluetoothStateValueOf = BluetoothState.valueOf(this.state_);
+                return bluetoothStateValueOf == null ? BluetoothState.UNRECOGNIZED : bluetoothStateValueOf;
+            }
+
+            public Builder setState(BluetoothState bluetoothState) {
+                bluetoothState.getClass();
+                this.state_ = bluetoothState.getNumber();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearState() {
+                this.state_ = 0;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatusOrBuilder
+            public String getMessage() {
+                Object obj = this.message_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.message_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setMessage(String str) {
+                str.getClass();
+                this.message_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.StateStatusOrBuilder
+            public ByteString getMessageBytes() {
+                Object obj = this.message_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.message_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setMessageBytes(ByteString byteString) {
+                byteString.getClass();
+                StateStatus.checkByteStringIsUtf8(byteString);
+                this.message_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearMessage() {
+                this.message_ = StateStatus.getDefaultInstance().getMessage();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4802setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4796mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class ObjectClusterByteArray extends GeneratedMessageV3 implements ObjectClusterByteArrayOrBuilder {
+        public static final int BINARY_DATA_FIELD_NUMBER = 6;
+        public static final int BLUETOOTHADDRESS_FIELD_NUMBER = 2;
+        public static final int CALIBRATEDTIMESTAMP_FIELD_NUMBER = 5;
+        public static final int COMMUNICATIONTYPE_FIELD_NUMBER = 3;
+        public static final int SYSTEMTIME_FIELD_NUMBER = 4;
+        public static final int UUID_FIELD_NUMBER = 1;
+        private static final ObjectClusterByteArray DEFAULT_INSTANCE = new ObjectClusterByteArray();
+        private static final Parser<ObjectClusterByteArray> PARSER = new AbstractParser<ObjectClusterByteArray>() { // from class: com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public ObjectClusterByteArray m4615parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new ObjectClusterByteArray(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private ByteString binaryData_;
+        private volatile Object bluetoothAddress_;
+        private double calibratedTimeStamp_;
+        private int communicationType_;
+        private byte memoizedIsInitialized;
+        private long systemTime_;
+        private volatile Object uuid_;
+
+        private ObjectClusterByteArray(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private ObjectClusterByteArray() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.uuid_ = "";
+            this.bluetoothAddress_ = "";
+            this.communicationType_ = 0;
+            this.binaryData_ = ByteString.EMPTY;
+        }
+
+        private ObjectClusterByteArray(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.uuid_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                this.bluetoothAddress_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 24) {
+                                this.communicationType_ = codedInputStream.readEnum();
+                            } else if (tag == 32) {
+                                this.systemTime_ = codedInputStream.readInt64();
+                            } else if (tag == 41) {
+                                this.calibratedTimeStamp_ = codedInputStream.readDouble();
+                            } else if (tag == 50) {
+                                this.binaryData_ = codedInputStream.readBytes();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static ObjectClusterByteArray getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<ObjectClusterByteArray> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_ObjectClusterByteArray_descriptor;
+        }
+
+        public static ObjectClusterByteArray parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (ObjectClusterByteArray) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static ObjectClusterByteArray parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (ObjectClusterByteArray) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static ObjectClusterByteArray parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (ObjectClusterByteArray) PARSER.parseFrom(byteString);
+        }
+
+        public static ObjectClusterByteArray parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (ObjectClusterByteArray) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static ObjectClusterByteArray parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (ObjectClusterByteArray) PARSER.parseFrom(bArr);
+        }
+
+        public static ObjectClusterByteArray parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (ObjectClusterByteArray) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static ObjectClusterByteArray parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static ObjectClusterByteArray parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static ObjectClusterByteArray parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static ObjectClusterByteArray parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static ObjectClusterByteArray parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static ObjectClusterByteArray parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m4613toBuilder();
+        }
+
+        public static Builder newBuilder(ObjectClusterByteArray objectClusterByteArray) {
+            return DEFAULT_INSTANCE.m4613toBuilder().mergeFrom(objectClusterByteArray);
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public ByteString getBinaryData() {
+            return this.binaryData_;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public double getCalibratedTimeStamp() {
+            return this.calibratedTimeStamp_;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public int getCommunicationTypeValue() {
+            return this.communicationType_;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ObjectClusterByteArray m4608getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<ObjectClusterByteArray> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public long getSystemTime() {
+            return this.systemTime_;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new ObjectClusterByteArray();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_ObjectClusterByteArray_fieldAccessorTable.ensureFieldAccessorsInitialized(ObjectClusterByteArray.class, Builder.class);
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public String getUuid() {
+            Object obj = this.uuid_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.uuid_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public ByteString getUuidBytes() {
+            Object obj = this.uuid_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.uuid_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public String getBluetoothAddress() {
+            Object obj = this.bluetoothAddress_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.bluetoothAddress_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public ByteString getBluetoothAddressBytes() {
+            Object obj = this.bluetoothAddress_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.bluetoothAddress_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+        public CommunicationType getCommunicationType() {
+            CommunicationType communicationTypeValueOf = CommunicationType.valueOf(this.communicationType_);
+            return communicationTypeValueOf == null ? CommunicationType.UNRECOGNIZED : communicationTypeValueOf;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getUuidBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.uuid_);
+            }
+            if (!getBluetoothAddressBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 2, this.bluetoothAddress_);
+            }
+            if (this.communicationType_ != CommunicationType.BT.getNumber()) {
+                codedOutputStream.writeEnum(3, this.communicationType_);
+            }
+            long j = this.systemTime_;
+            if (j != 0) {
+                codedOutputStream.writeInt64(4, j);
+            }
+            double d = this.calibratedTimeStamp_;
+            if (d != 0.0d) {
+                codedOutputStream.writeDouble(5, d);
+            }
+            if (!this.binaryData_.isEmpty()) {
+                codedOutputStream.writeBytes(6, this.binaryData_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getUuidBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.uuid_) : 0;
+            if (!getBluetoothAddressBytes().isEmpty()) {
+                iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.bluetoothAddress_);
+            }
+            if (this.communicationType_ != CommunicationType.BT.getNumber()) {
+                iComputeStringSize += CodedOutputStream.computeEnumSize(3, this.communicationType_);
+            }
+            long j = this.systemTime_;
+            if (j != 0) {
+                iComputeStringSize += CodedOutputStream.computeInt64Size(4, j);
+            }
+            double d = this.calibratedTimeStamp_;
+            if (d != 0.0d) {
+                iComputeStringSize += CodedOutputStream.computeDoubleSize(5, d);
+            }
+            if (!this.binaryData_.isEmpty()) {
+                iComputeStringSize += CodedOutputStream.computeBytesSize(6, this.binaryData_);
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof ObjectClusterByteArray)) {
+                return super.equals(obj);
+            }
+            ObjectClusterByteArray objectClusterByteArray = (ObjectClusterByteArray) obj;
+            return getUuid().equals(objectClusterByteArray.getUuid()) && getBluetoothAddress().equals(objectClusterByteArray.getBluetoothAddress()) && this.communicationType_ == objectClusterByteArray.communicationType_ && getSystemTime() == objectClusterByteArray.getSystemTime() && Double.doubleToLongBits(getCalibratedTimeStamp()) == Double.doubleToLongBits(objectClusterByteArray.getCalibratedTimeStamp()) && getBinaryData().equals(objectClusterByteArray.getBinaryData()) && this.unknownFields.equals(objectClusterByteArray.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((((((((((((((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getUuid().hashCode()) * 37) + 2) * 53) + getBluetoothAddress().hashCode()) * 37) + 3) * 53) + this.communicationType_) * 37) + 4) * 53) + Internal.hashLong(getSystemTime())) * 37) + 5) * 53) + Internal.hashLong(Double.doubleToLongBits(getCalibratedTimeStamp()))) * 37) + 6) * 53) + getBinaryData().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4610newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4613toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public enum CommunicationType implements ProtocolMessageEnum {
+            BT(0),
+            SD(1),
+            Radio_802_15_4(2),
+            UNRECOGNIZED(-1);
+
+            public static final int BT_VALUE = 0;
+            public static final int Radio_802_15_4_VALUE = 2;
+            public static final int SD_VALUE = 1;
+            private static final Internal.EnumLiteMap<CommunicationType> internalValueMap = new Internal.EnumLiteMap<CommunicationType>() { // from class: com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray.CommunicationType.1
+                public CommunicationType findValueByNumber(int i) {
+                    return CommunicationType.forNumber(i);
+                }
+            };
+            private static final CommunicationType[] VALUES = values();
+            private final int value;
+
+            CommunicationType(int i) {
+                this.value = i;
+            }
+
+            public static CommunicationType forNumber(int i) {
+                if (i == 0) {
+                    return BT;
+                }
+                if (i == 1) {
+                    return SD;
+                }
+                if (i != 2) {
+                    return null;
+                }
+                return Radio_802_15_4;
+            }
+
+            public static Internal.EnumLiteMap<CommunicationType> internalGetValueMap() {
+                return internalValueMap;
+            }
+
+            @Deprecated
+            public static CommunicationType valueOf(int i) {
+                return forNumber(i);
+            }
+
+            public static final Descriptors.EnumDescriptor getDescriptor() {
+                return (Descriptors.EnumDescriptor) ObjectClusterByteArray.getDescriptor().getEnumTypes().get(0);
+            }
+
+            public static CommunicationType valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+                if (enumValueDescriptor.getType() == getDescriptor()) {
+                    return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+                }
+                throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+            }
+
+            public final int getNumber() {
+                if (this != UNRECOGNIZED) {
+                    return this.value;
+                }
+                throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+            }
+
+            public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+                if (this == UNRECOGNIZED) {
+                    throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+                }
+                return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+            }
+
+            public final Descriptors.EnumDescriptor getDescriptorForType() {
+                return getDescriptor();
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ObjectClusterByteArrayOrBuilder {
+            private ByteString binaryData_;
+            private Object bluetoothAddress_;
+            private double calibratedTimeStamp_;
+            private int communicationType_;
+            private long systemTime_;
+            private Object uuid_;
+
+            private Builder() {
+                this.uuid_ = "";
+                this.bluetoothAddress_ = "";
+                this.communicationType_ = 0;
+                this.binaryData_ = ByteString.EMPTY;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.uuid_ = "";
+                this.bluetoothAddress_ = "";
+                this.communicationType_ = 0;
+                this.binaryData_ = ByteString.EMPTY;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_ObjectClusterByteArray_descriptor;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public ByteString getBinaryData() {
+                return this.binaryData_;
+            }
+
+            public Builder setBinaryData(ByteString byteString) {
+                byteString.getClass();
+                this.binaryData_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public double getCalibratedTimeStamp() {
+                return this.calibratedTimeStamp_;
+            }
+
+            public Builder setCalibratedTimeStamp(double d) {
+                this.calibratedTimeStamp_ = d;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public int getCommunicationTypeValue() {
+                return this.communicationType_;
+            }
+
+            public Builder setCommunicationTypeValue(int i) {
+                this.communicationType_ = i;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public long getSystemTime() {
+                return this.systemTime_;
+            }
+
+            public Builder setSystemTime(long j) {
+                this.systemTime_ = j;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_ObjectClusterByteArray_fieldAccessorTable.ensureFieldAccessorsInitialized(ObjectClusterByteArray.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = ObjectClusterByteArray.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4624clear() {
+                super.clear();
+                this.uuid_ = "";
+                this.bluetoothAddress_ = "";
+                this.communicationType_ = 0;
+                this.systemTime_ = 0L;
+                this.calibratedTimeStamp_ = 0.0d;
+                this.binaryData_ = ByteString.EMPTY;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ShimmerBLEGRPC.internal_static_shimmerBLEGRPC_ObjectClusterByteArray_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public ObjectClusterByteArray m4637getDefaultInstanceForType() {
+                return ObjectClusterByteArray.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public ObjectClusterByteArray m4618build() throws UninitializedMessageException {
+                ObjectClusterByteArray objectClusterByteArrayM4620buildPartial = m4620buildPartial();
+                if (objectClusterByteArrayM4620buildPartial.isInitialized()) {
+                    return objectClusterByteArrayM4620buildPartial;
+                }
+                throw newUninitializedMessageException(objectClusterByteArrayM4620buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public ObjectClusterByteArray m4620buildPartial() {
+                ObjectClusterByteArray objectClusterByteArray = new ObjectClusterByteArray(this);
+                objectClusterByteArray.uuid_ = this.uuid_;
+                objectClusterByteArray.bluetoothAddress_ = this.bluetoothAddress_;
+                objectClusterByteArray.communicationType_ = this.communicationType_;
+                objectClusterByteArray.systemTime_ = this.systemTime_;
+                objectClusterByteArray.calibratedTimeStamp_ = this.calibratedTimeStamp_;
+                objectClusterByteArray.binaryData_ = this.binaryData_;
+                onBuilt();
+                return objectClusterByteArray;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4636clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4648setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4626clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4629clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4650setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4616addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m4641mergeFrom(Message message) {
+                if (message instanceof ObjectClusterByteArray) {
+                    return mergeFrom((ObjectClusterByteArray) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(ObjectClusterByteArray objectClusterByteArray) {
+                if (objectClusterByteArray == ObjectClusterByteArray.getDefaultInstance()) {
+                    return this;
+                }
+                if (!objectClusterByteArray.getUuid().isEmpty()) {
+                    this.uuid_ = objectClusterByteArray.uuid_;
+                    onChanged();
+                }
+                if (!objectClusterByteArray.getBluetoothAddress().isEmpty()) {
+                    this.bluetoothAddress_ = objectClusterByteArray.bluetoothAddress_;
+                    onChanged();
+                }
+                if (objectClusterByteArray.communicationType_ != 0) {
+                    setCommunicationTypeValue(objectClusterByteArray.getCommunicationTypeValue());
+                }
+                if (objectClusterByteArray.getSystemTime() != 0) {
+                    setSystemTime(objectClusterByteArray.getSystemTime());
+                }
+                if (objectClusterByteArray.getCalibratedTimeStamp() != 0.0d) {
+                    setCalibratedTimeStamp(objectClusterByteArray.getCalibratedTimeStamp());
+                }
+                if (objectClusterByteArray.getBinaryData() != ByteString.EMPTY) {
+                    setBinaryData(objectClusterByteArray.getBinaryData());
+                }
+                m4646mergeUnknownFields(objectClusterByteArray.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray.Builder m4642mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray.m4607$$Nest$sfgetPARSER()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$ObjectClusterByteArray r3 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    com.shimmerresearch.grpc.ShimmerBLEGRPC$ObjectClusterByteArray r4 = (com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArray.Builder.m4642mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.shimmerresearch.grpc.ShimmerBLEGRPC$ObjectClusterByteArray$Builder");
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public String getUuid() {
+                Object obj = this.uuid_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.uuid_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setUuid(String str) {
+                str.getClass();
+                this.uuid_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public ByteString getUuidBytes() {
+                Object obj = this.uuid_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.uuid_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setUuidBytes(ByteString byteString) {
+                byteString.getClass();
+                ObjectClusterByteArray.checkByteStringIsUtf8(byteString);
+                this.uuid_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearUuid() {
+                this.uuid_ = ObjectClusterByteArray.getDefaultInstance().getUuid();
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public String getBluetoothAddress() {
+                Object obj = this.bluetoothAddress_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.bluetoothAddress_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setBluetoothAddress(String str) {
+                str.getClass();
+                this.bluetoothAddress_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public ByteString getBluetoothAddressBytes() {
+                Object obj = this.bluetoothAddress_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.bluetoothAddress_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setBluetoothAddressBytes(ByteString byteString) {
+                byteString.getClass();
+                ObjectClusterByteArray.checkByteStringIsUtf8(byteString);
+                this.bluetoothAddress_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearBluetoothAddress() {
+                this.bluetoothAddress_ = ObjectClusterByteArray.getDefaultInstance().getBluetoothAddress();
+                onChanged();
+                return this;
+            }
+
+            @Override // com.shimmerresearch.grpc.ShimmerBLEGRPC.ObjectClusterByteArrayOrBuilder
+            public CommunicationType getCommunicationType() {
+                CommunicationType communicationTypeValueOf = CommunicationType.valueOf(this.communicationType_);
+                return communicationTypeValueOf == null ? CommunicationType.UNRECOGNIZED : communicationTypeValueOf;
+            }
+
+            public Builder setCommunicationType(CommunicationType communicationType) {
+                communicationType.getClass();
+                this.communicationType_ = communicationType.getNumber();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearCommunicationType() {
+                this.communicationType_ = 0;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearSystemTime() {
+                this.systemTime_ = 0L;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearCalibratedTimeStamp() {
+                this.calibratedTimeStamp_ = 0.0d;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearBinaryData() {
+                this.binaryData_ = ObjectClusterByteArray.getDefaultInstance().getBinaryData();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4652setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m4646mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+}

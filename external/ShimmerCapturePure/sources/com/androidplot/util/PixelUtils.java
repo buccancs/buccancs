@@ -1,0 +1,36 @@
+package com.androidplot.util;
+
+import android.content.Context;
+import android.graphics.PointF;
+import android.graphics.RectF;
+
+/* loaded from: classes.dex */
+public class PixelUtils {
+    public static PointF add(PointF pointF, PointF pointF2) {
+        return new PointF(pointF.x + pointF2.x, pointF.y + pointF2.y);
+    }
+
+    public static PointF sub(PointF pointF, PointF pointF2) {
+        return new PointF(pointF.x - pointF2.x, pointF.y - pointF2.y);
+    }
+
+    public static RectF sink(RectF rectF) {
+        return nearestPixRect(rectF.left, rectF.top, rectF.right, rectF.bottom);
+    }
+
+    public static RectF nearestPixRect(float f, float f2, float f3, float f4) {
+        return new RectF((int) (f + 0.5f), (int) (f2 + 0.5f), (int) (f3 + 0.5f), (int) (f4 + 0.5f));
+    }
+
+    public static float dpToPix(Context context, float f) {
+        return (context.getResources().getDisplayMetrics().density * f) + 0.5f;
+    }
+
+    public static float fractionToPixH(Context context, float f) {
+        return context.getResources().getDisplayMetrics().heightPixels * f;
+    }
+
+    public static float fractionToPixW(Context context, float f) {
+        return context.getResources().getDisplayMetrics().widthPixels * f;
+    }
+}

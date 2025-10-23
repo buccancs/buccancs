@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/checkerframework/checker/nullness/compatqual/NonNullType.java
+// Size: 449 bytes
+// Modified: 2025-10-21 16:32:00.651504600 +0100
+
+package org.checkerframework.checker.nullness.compatqual;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.TYPE_USE, ElementType.TYPE_PARAMETER})
+@Documented
+@Retention(RetentionPolicy.RUNTIME)
+/* loaded from: classes5.dex */
+public @interface NonNullType {
+}

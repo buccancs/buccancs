@@ -1,0 +1,162 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/SimpleXYSeries.java
+// Size: 4797 bytes
+// Modified: 2025-10-21 16:32:01.185245100 +0100
+
+package com.androidplot.xy;
+
+import android.util.Pair;
+import com.androidplot.series.XYSeries;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+/* loaded from: classes.dex */
+public class SimpleXYSeries implements XYSeries {
+    private LinkedList<Number> a;
+    private LinkedList<Number> b;
+    private String c;
+
+    public enum ArrayFormat {
+        Y_VALS_ONLY,
+        XY_VALS_INTERLEAVED
+    }
+
+    @Override // com.androidplot.series.Series
+    public String getTitle() {
+        return this.c;
+    }
+
+    public SimpleXYSeries(String str) {
+        this.b = null;
+        this.c = null;
+        this.a = new LinkedList<>();
+        this.b = new LinkedList<>();
+        this.c = str;
+    }
+
+    public SimpleXYSeries(List<? extends Number> list, ArrayFormat arrayFormat, String str) {
+        this(str);
+        setModel(list, arrayFormat);
+    }
+
+    public SimpleXYSeries(List<? extends Number> list, List<? extends Number> list2, String str) {
+        this(str);
+        if (list == null || list2 == null) {
+            throw new IllegalArgumentException("Neither the xVals nor the yVals parameters may be null.");
+        }
+        if (list.size() != list2.size()) {
+            throw new IllegalArgumentException("xVals and yVals List parameters must be of the same size.");
+        }
+        this.a.addAll(list);
+        this.b.addAll(list2);
+    }
+
+    public void setModel(List<? extends Number> list, ArrayFormat arrayFormat) {
+        this.a.clear();
+        this.b.clear();
+        if (list == null || list.size() == 0) {
+            return;
+        }
+        int i = a.a[arrayFormat.ordinal()];
+        int i2 = 0;
+        if (i == 1) {
+            while (i2 < list.size()) {
+                this.a.add(Integer.valueOf(i2));
+                this.b.add(list.get(i2));
+                i2++;
+            }
+            return;
+        }
+        if (i == 2) {
+            if (list.size() % 2 != 0) {
+                throw new IndexOutOfBoundsException("Cannot auto-generate series from odd-sized xy List.");
+            }
+            int size = list.size() / 2;
+            int i3 = 0;
+            while (i2 < size) {
+                this.a.add(list.get(i3));
+                this.b.add(list.get(i3 + 1));
+                i2++;
+                i3 += 2;
+            }
+            return;
+        }
+        throw new IllegalArgumentException("Unexpected enum value: " + arrayFormat);
+    }
+
+    static /* synthetic */ class a {
+        static final /* synthetic */ int[] a;
+
+        static {
+            int[] iArr = new int[ArrayFormat.values().length];
+            a = iArr;
+            try {
+                iArr[ArrayFormat.Y_VALS_ONLY.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                a[ArrayFormat.XY_VALS_INTERLEAVED.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
+    }
+
+    public void setX(Number number, int i) {
+        LinkedList<Number> linkedList = this.a;
+        if (linkedList == null || linkedList.size() <= i) {
+            throw new IndexOutOfBoundsException();
+        }
+        this.a.set(i, number);
+    }
+
+    public void setY(Number number, int i) {
+        LinkedList<Number> linkedList = this.b;
+        if (linkedList == null || linkedList.size() <= i) {
+            throw new IndexOutOfBoundsException();
+        }
+        this.b.set(i, number);
+    }
+
+    public synchronized void addFirst(Number number, Number number2) {
+        this.a.addFirst(number);
+        this.b.addFirst(number2);
+    }
+
+    public synchronized Pair<Number, Number> removeFirst() {
+        if (size() <= 0) {
+            throw new NoSuchElementException();
+        }
+        return new Pair<>(this.a.removeFirst(), this.b.removeFirst());
+    }
+
+    public synchronized void addLast(Number number, Number number2) {
+        this.a.addLast(number);
+        this.b.addLast(number2);
+    }
+
+    public synchronized Pair<Number, Number> removeLast() {
+        if (size() <= 0) {
+            throw new NoSuchElementException();
+        }
+        return new Pair<>(this.a.removeLast(), this.b.removeLast());
+    }
+
+    @Override // com.androidplot.series.Series
+    public int size() {
+        LinkedList<Number> linkedList = this.a;
+        if (linkedList != null) {
+            return linkedList.size();
+        }
+        return 0;
+    }
+
+    @Override // com.androidplot.series.XYSeries
+    public Number getX(int i) {
+        return this.a.get(i);
+    }
+
+    @Override // com.androidplot.series.XYSeries
+    public Number getY(int i) {
+        return this.b.get(i);
+    }
+}

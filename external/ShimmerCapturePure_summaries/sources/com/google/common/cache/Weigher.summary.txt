@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/cache/Weigher.java
+// Size: 131 bytes
+// Modified: 2025-10-21 16:32:00.160846900 +0100
+
+package com.google.common.cache;
+
+/* loaded from: classes.dex */
+public interface Weigher<K, V> {
+    int weigh(K k, V v);
+}

@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/HttpResponse.java
+// Size: 649 bytes
+// Modified: 2025-10-21 16:32:03.820109700 +0100
+
+package org.apache.http;
+
+import java.util.Locale;
+
+/* loaded from: classes5.dex */
+public interface HttpResponse extends HttpMessage {
+    HttpEntity getEntity();
+
+    Locale getLocale();
+
+    StatusLine getStatusLine();
+
+    void setEntity(HttpEntity httpEntity);
+
+    void setLocale(Locale locale);
+
+    void setReasonPhrase(String str) throws IllegalStateException;
+
+    void setStatusCode(int i) throws IllegalStateException;
+
+    void setStatusLine(ProtocolVersion protocolVersion, int i);
+
+    void setStatusLine(ProtocolVersion protocolVersion, int i, String str);
+
+    void setStatusLine(StatusLine statusLine);
+}

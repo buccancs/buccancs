@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/binarylog/v1/MetadataOrBuilder.java
+// Size: 412 bytes
+// Modified: 2025-10-21 16:32:03.142728900 +0100
+
+package io.grpc.binarylog.v1;
+
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface MetadataOrBuilder extends com.google.protobuf.MessageOrBuilder {
+    MetadataEntry getEntry(int i);
+
+    int getEntryCount();
+
+    List<MetadataEntry> getEntryList();
+
+    MetadataEntryOrBuilder getEntryOrBuilder(int i);
+
+    List<? extends MetadataEntryOrBuilder> getEntryOrBuilderList();
+}

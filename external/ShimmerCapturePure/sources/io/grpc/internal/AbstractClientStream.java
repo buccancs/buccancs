@@ -1,0 +1,387 @@
+package io.grpc.internal;
+
+import androidx.constraintlayout.core.motion.utils.TypedValues;
+import androidx.core.app.NotificationCompat;
+import com.google.common.base.Preconditions;
+import com.google.common.io.ByteStreams;
+import io.grpc.CallOptions;
+import io.grpc.Codec;
+import io.grpc.Compressor;
+import io.grpc.Deadline;
+import io.grpc.Decompressor;
+import io.grpc.DecompressorRegistry;
+import io.grpc.Grpc;
+import io.grpc.Metadata;
+import io.grpc.Status;
+import io.grpc.internal.AbstractStream;
+import io.grpc.internal.ClientStreamListener;
+import io.grpc.internal.MessageFramer;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractClientStream extends AbstractStream implements ClientStream, MessageFramer.Sink {
+    private static final Logger log = Logger.getLogger(AbstractClientStream.class.getName());
+    private final Framer framer;
+    private final TransportTracer transportTracer;
+    private volatile boolean cancelled;
+    private Metadata headers;
+    private boolean shouldBeCountedForInUse;
+    private boolean useGet;
+
+    protected AbstractClientStream(WritableBufferAllocator writableBufferAllocator, StatsTraceContext statsTraceContext, TransportTracer transportTracer, Metadata metadata, CallOptions callOptions, boolean z) {
+        Preconditions.checkNotNull(metadata, "headers");
+        this.transportTracer = (TransportTracer) Preconditions.checkNotNull(transportTracer, "transportTracer");
+        this.shouldBeCountedForInUse = GrpcUtil.shouldBeCountedForInUse(callOptions);
+        this.useGet = z;
+        if (!z) {
+            this.framer = new MessageFramer(this, writableBufferAllocator, statsTraceContext);
+            this.headers = metadata;
+        } else {
+            this.framer = new GetFramer(metadata, statsTraceContext);
+        }
+    }
+
+    protected abstract Sink abstractClientStreamSink();
+
+    @Override // io.grpc.internal.AbstractStream
+    protected final Framer framer() {
+        return this.framer;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public TransportTracer getTransportTracer() {
+        return this.transportTracer;
+    }
+
+    public final boolean shouldBeCountedForInUse() {
+        return this.shouldBeCountedForInUse;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // io.grpc.internal.AbstractStream
+    public abstract TransportState transportState();
+
+    @Override // io.grpc.internal.ClientStream
+    public void setDeadline(Deadline deadline) {
+        this.headers.discardAll(GrpcUtil.TIMEOUT_KEY);
+        this.headers.put(GrpcUtil.TIMEOUT_KEY, Long.valueOf(Math.max(0L, deadline.timeRemaining(TimeUnit.NANOSECONDS))));
+    }
+
+    @Override // io.grpc.internal.ClientStream
+    public void setMaxOutboundMessageSize(int i) {
+        this.framer.setMaxOutboundMessageSize(i);
+    }
+
+    @Override // io.grpc.internal.ClientStream
+    public void setMaxInboundMessageSize(int i) {
+        transportState().setMaxInboundMessageSize(i);
+    }
+
+    @Override // io.grpc.internal.ClientStream
+    public final void setFullStreamDecompression(boolean z) {
+        transportState().setFullStreamDecompression(z);
+    }
+
+    @Override // io.grpc.internal.ClientStream
+    public final void setDecompressorRegistry(DecompressorRegistry decompressorRegistry) {
+        transportState().setDecompressorRegistry(decompressorRegistry);
+    }
+
+    @Override // io.grpc.internal.ClientStream
+    public final void start(ClientStreamListener clientStreamListener) {
+        transportState().setListener(clientStreamListener);
+        if (this.useGet) {
+            return;
+        }
+        abstractClientStreamSink().writeHeaders(this.headers, null);
+        this.headers = null;
+    }
+
+    @Override // io.grpc.internal.MessageFramer.Sink
+    public final void deliverFrame(WritableBuffer writableBuffer, boolean z, boolean z2, int i) {
+        Preconditions.checkArgument(writableBuffer != null || z, "null frame before EOS");
+        abstractClientStreamSink().writeFrame(writableBuffer, z, z2, i);
+    }
+
+    @Override // io.grpc.internal.ClientStream
+    public final void halfClose() {
+        if (transportState().isOutboundClosed()) {
+            return;
+        }
+        transportState().setOutboundClosed();
+        endOfMessages();
+    }
+
+    @Override // io.grpc.internal.ClientStream
+    public final void cancel(Status status) {
+        Preconditions.checkArgument(!status.isOk(), "Should not cancel with OK status");
+        this.cancelled = true;
+        abstractClientStreamSink().cancel(status);
+    }
+
+    @Override // io.grpc.internal.AbstractStream, io.grpc.internal.Stream
+    public final boolean isReady() {
+        return super.isReady() && !this.cancelled;
+    }
+
+    @Override // io.grpc.internal.ClientStream
+    public final void appendTimeoutInsight(InsightBuilder insightBuilder) {
+        insightBuilder.appendKeyValue("remote_addr", getAttributes().get(Grpc.TRANSPORT_ATTR_REMOTE_ADDR));
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public interface Sink {
+        void cancel(Status status);
+
+        void writeFrame(@Nullable WritableBuffer writableBuffer, boolean z, boolean z2, int i);
+
+        void writeHeaders(Metadata metadata, @Nullable byte[] bArr);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public static abstract class TransportState extends AbstractStream.TransportState {
+        private final StatsTraceContext statsTraceCtx;
+        private DecompressorRegistry decompressorRegistry;
+        private boolean deframerClosed;
+        private Runnable deframerClosedTask;
+        private boolean fullStreamDecompression;
+        private ClientStreamListener listener;
+        private boolean listenerClosed;
+        private volatile boolean outboundClosed;
+        private boolean statusReported;
+        private boolean statusReportedIsOk;
+
+        protected TransportState(int i, StatsTraceContext statsTraceContext, TransportTracer transportTracer) {
+            super(i, statsTraceContext, transportTracer);
+            this.decompressorRegistry = DecompressorRegistry.getDefaultInstance();
+            this.deframerClosed = false;
+            this.statsTraceCtx = (StatsTraceContext) Preconditions.checkNotNull(statsTraceContext, "statsTraceCtx");
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void setFullStreamDecompression(boolean z) {
+            this.fullStreamDecompression = z;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public final void setOutboundClosed() {
+            this.outboundClosed = true;
+        }
+
+        protected final boolean isOutboundClosed() {
+            return this.outboundClosed;
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.internal.AbstractStream.TransportState
+        public final ClientStreamListener listener() {
+            return this.listener;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void setDecompressorRegistry(DecompressorRegistry decompressorRegistry) {
+            Preconditions.checkState(this.listener == null, "Already called start");
+            this.decompressorRegistry = (DecompressorRegistry) Preconditions.checkNotNull(decompressorRegistry, "decompressorRegistry");
+        }
+
+        public final void setListener(ClientStreamListener clientStreamListener) {
+            Preconditions.checkState(this.listener == null, "Already called setListener");
+            this.listener = (ClientStreamListener) Preconditions.checkNotNull(clientStreamListener, "listener");
+        }
+
+        @Override // io.grpc.internal.MessageDeframer.Listener
+        public void deframerClosed(boolean z) {
+            Preconditions.checkState(this.statusReported, "status should have been reported on deframer closed");
+            this.deframerClosed = true;
+            if (this.statusReportedIsOk && z) {
+                transportReportStatus(Status.INTERNAL.withDescription("Encountered end-of-stream mid-frame"), true, new Metadata());
+            }
+            Runnable runnable = this.deframerClosedTask;
+            if (runnable != null) {
+                runnable.run();
+                this.deframerClosedTask = null;
+            }
+        }
+
+        protected void inboundHeadersReceived(Metadata metadata) {
+            boolean z;
+            Preconditions.checkState(!this.statusReported, "Received headers on closed stream");
+            this.statsTraceCtx.clientInboundHeaders();
+            String str = (String) metadata.get(GrpcUtil.CONTENT_ENCODING_KEY);
+            if (!this.fullStreamDecompression || str == null) {
+                z = false;
+            } else if (str.equalsIgnoreCase("gzip")) {
+                setFullStreamDecompressor(new GzipInflatingBuffer());
+                z = true;
+            } else {
+                if (!str.equalsIgnoreCase("identity")) {
+                    deframeFailed(Status.INTERNAL.withDescription(String.format("Can't find full stream decompressor for %s", str)).asRuntimeException());
+                    return;
+                }
+                z = false;
+            }
+            String str2 = (String) metadata.get(GrpcUtil.MESSAGE_ENCODING_KEY);
+            if (str2 != null) {
+                Decompressor decompressorLookupDecompressor = this.decompressorRegistry.lookupDecompressor(str2);
+                if (decompressorLookupDecompressor == null) {
+                    deframeFailed(Status.INTERNAL.withDescription(String.format("Can't find decompressor for %s", str2)).asRuntimeException());
+                    return;
+                } else if (decompressorLookupDecompressor != Codec.Identity.NONE) {
+                    if (z) {
+                        deframeFailed(Status.INTERNAL.withDescription(String.format("Full stream and gRPC message encoding cannot both be set", new Object[0])).asRuntimeException());
+                        return;
+                    }
+                    setDecompressor(decompressorLookupDecompressor);
+                }
+            }
+            listener().headersRead(metadata);
+        }
+
+        protected void inboundDataReceived(ReadableBuffer readableBuffer) throws Throwable {
+            Preconditions.checkNotNull(readableBuffer, TypedValues.AttributesType.S_FRAME);
+            boolean z = true;
+            try {
+                if (this.statusReported) {
+                    AbstractClientStream.log.log(Level.INFO, "Received data on closed stream");
+                    readableBuffer.close();
+                    return;
+                }
+                try {
+                    deframe(readableBuffer);
+                } catch (Throwable th) {
+                    th = th;
+                    z = false;
+                    if (z) {
+                        readableBuffer.close();
+                    }
+                    throw th;
+                }
+            } catch (Throwable th2) {
+                th = th2;
+            }
+        }
+
+        protected void inboundTrailersReceived(Metadata metadata, Status status) {
+            Preconditions.checkNotNull(status, NotificationCompat.CATEGORY_STATUS);
+            Preconditions.checkNotNull(metadata, "trailers");
+            if (this.statusReported) {
+                AbstractClientStream.log.log(Level.INFO, "Received trailers on closed stream:\n {1}\n {2}", new Object[]{status, metadata});
+            } else {
+                this.statsTraceCtx.clientInboundTrailers(metadata);
+                transportReportStatus(status, false, metadata);
+            }
+        }
+
+        public final void transportReportStatus(Status status, boolean z, Metadata metadata) {
+            transportReportStatus(status, ClientStreamListener.RpcProgress.PROCESSED, z, metadata);
+        }
+
+        public final void transportReportStatus(final Status status, final ClientStreamListener.RpcProgress rpcProgress, boolean z, final Metadata metadata) {
+            Preconditions.checkNotNull(status, NotificationCompat.CATEGORY_STATUS);
+            Preconditions.checkNotNull(metadata, "trailers");
+            if (!this.statusReported || z) {
+                this.statusReported = true;
+                this.statusReportedIsOk = status.isOk();
+                onStreamDeallocated();
+                if (this.deframerClosed) {
+                    this.deframerClosedTask = null;
+                    closeListener(status, rpcProgress, metadata);
+                } else {
+                    this.deframerClosedTask = new Runnable() { // from class: io.grpc.internal.AbstractClientStream.TransportState.1
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            TransportState.this.closeListener(status, rpcProgress, metadata);
+                        }
+                    };
+                    closeDeframer(z);
+                }
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void closeListener(Status status, ClientStreamListener.RpcProgress rpcProgress, Metadata metadata) {
+            if (this.listenerClosed) {
+                return;
+            }
+            this.listenerClosed = true;
+            this.statsTraceCtx.streamClosed(status);
+            listener().closed(status, rpcProgress, metadata);
+            if (getTransportTracer() != null) {
+                getTransportTracer().reportStreamClosed(status.isOk());
+            }
+        }
+    }
+
+    private class GetFramer implements Framer {
+        private final StatsTraceContext statsTraceCtx;
+        private boolean closed;
+        private Metadata headers;
+        private byte[] payload;
+
+        public GetFramer(Metadata metadata, StatsTraceContext statsTraceContext) {
+            this.headers = (Metadata) Preconditions.checkNotNull(metadata, "headers");
+            this.statsTraceCtx = (StatsTraceContext) Preconditions.checkNotNull(statsTraceContext, "statsTraceCtx");
+        }
+
+        @Override // io.grpc.internal.Framer
+        public void dispose() {
+            this.closed = true;
+            this.payload = null;
+            this.headers = null;
+        }
+
+        @Override // io.grpc.internal.Framer
+        public void flush() {
+        }
+
+        @Override // io.grpc.internal.Framer
+        public boolean isClosed() {
+            return this.closed;
+        }
+
+        @Override // io.grpc.internal.Framer
+        public Framer setCompressor(Compressor compressor) {
+            return this;
+        }
+
+        @Override // io.grpc.internal.Framer
+        public void setMaxOutboundMessageSize(int i) {
+        }
+
+        @Override // io.grpc.internal.Framer
+        public Framer setMessageCompression(boolean z) {
+            return this;
+        }
+
+        @Override // io.grpc.internal.Framer
+        public void writePayload(InputStream inputStream) {
+            Preconditions.checkState(this.payload == null, "writePayload should not be called multiple times");
+            try {
+                this.payload = ByteStreams.toByteArray(inputStream);
+                this.statsTraceCtx.outboundMessage(0);
+                StatsTraceContext statsTraceContext = this.statsTraceCtx;
+                byte[] bArr = this.payload;
+                statsTraceContext.outboundMessageSent(0, bArr.length, bArr.length);
+                this.statsTraceCtx.outboundUncompressedSize(this.payload.length);
+                this.statsTraceCtx.outboundWireSize(this.payload.length);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        @Override // io.grpc.internal.Framer
+        public void close() {
+            this.closed = true;
+            Preconditions.checkState(this.payload != null, "Lack of request message. GET request is only supported for unary requests");
+            AbstractClientStream.this.abstractClientStreamSink().writeHeaders(this.headers, this.payload);
+            this.payload = null;
+            this.headers = null;
+        }
+    }
+}

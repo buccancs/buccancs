@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/generators/X448KeyPairGenerator.java
+// Size: 1172 bytes
+// Modified: 2025-10-21 16:32:06.623800400 +0100
+
+package org.bouncycastle.crypto.generators;
+
+import java.security.SecureRandom;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPair;
+import org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator;
+import org.bouncycastle.crypto.KeyGenerationParameters;
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+import org.bouncycastle.crypto.params.X448PrivateKeyParameters;
+
+/* loaded from: classes5.dex */
+public class X448KeyPairGenerator implements AsymmetricCipherKeyPairGenerator {
+    private SecureRandom random;
+
+    @Override // org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator
+    public AsymmetricCipherKeyPair generateKeyPair() {
+        X448PrivateKeyParameters x448PrivateKeyParameters = new X448PrivateKeyParameters(this.random);
+        return new AsymmetricCipherKeyPair((AsymmetricKeyParameter) x448PrivateKeyParameters.generatePublicKey(), (AsymmetricKeyParameter) x448PrivateKeyParameters);
+    }
+
+    @Override // org.bouncycastle.crypto.AsymmetricCipherKeyPairGenerator
+    public void init(KeyGenerationParameters keyGenerationParameters) {
+        this.random = keyGenerationParameters.getRandom();
+    }
+}

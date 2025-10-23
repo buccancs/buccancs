@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/DigestingStateAwareMessageSigner.java
+// Size: 650 bytes
+// Modified: 2025-10-21 16:32:05.891230800 +0100
+
+package org.bouncycastle.pqc.crypto;
+
+import org.bouncycastle.crypto.Digest;
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+
+/* loaded from: classes5.dex */
+public class DigestingStateAwareMessageSigner extends DigestingMessageSigner {
+    private final StateAwareMessageSigner signer;
+
+    public DigestingStateAwareMessageSigner(StateAwareMessageSigner stateAwareMessageSigner, Digest digest) {
+        super(stateAwareMessageSigner, digest);
+        this.signer = stateAwareMessageSigner;
+    }
+
+    public AsymmetricKeyParameter getUpdatedPrivateKey() {
+        return this.signer.getUpdatedPrivateKey();
+    }
+}

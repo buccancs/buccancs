@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/EmptyImmutableListMultimap.java
+// Size: 460 bytes
+// Modified: 2025-10-21 16:32:08.510717600 +0100
+
+package com.google.common.collect;
+
+/* loaded from: classes.dex */
+class EmptyImmutableListMultimap extends ImmutableListMultimap<Object, Object> {
+    static final EmptyImmutableListMultimap INSTANCE = new EmptyImmutableListMultimap();
+    private static final long serialVersionUID = 0;
+
+    private Object readResolve() {
+        return INSTANCE;
+    }
+
+    private EmptyImmutableListMultimap() {
+        super(ImmutableMap.of(), 0);
+    }
+}

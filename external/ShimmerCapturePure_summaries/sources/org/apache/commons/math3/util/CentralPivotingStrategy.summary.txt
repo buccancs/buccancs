@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/util/CentralPivotingStrategy.java
+// Size: 615 bytes
+// Modified: 2025-10-21 16:32:07.426758000 +0100
+
+package org.apache.commons.math3.util;
+
+import java.io.Serializable;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+
+/* loaded from: classes5.dex */
+public class CentralPivotingStrategy implements PivotingStrategyInterface, Serializable {
+    private static final long serialVersionUID = 20140713;
+
+    @Override // org.apache.commons.math3.util.PivotingStrategyInterface
+    public int pivotIndex(double[] dArr, int i, int i2) throws MathIllegalArgumentException {
+        int i3 = i2 - i;
+        MathArrays.verifyValues(dArr, i, i3);
+        return i + (i3 / 2);
+    }
+}

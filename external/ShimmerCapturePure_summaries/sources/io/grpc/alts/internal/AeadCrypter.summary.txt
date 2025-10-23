@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/alts/internal/AeadCrypter.java
+// Size: 672 bytes
+// Modified: 2025-10-21 16:32:00.247256500 +0100
+
+package io.grpc.alts.internal;
+
+import java.nio.ByteBuffer;
+import java.security.GeneralSecurityException;
+
+/* loaded from: classes2.dex */
+interface AeadCrypter {
+    void decrypt(ByteBuffer byteBuffer, ByteBuffer byteBuffer2, ByteBuffer byteBuffer3, byte[] bArr) throws GeneralSecurityException;
+
+    void decrypt(ByteBuffer byteBuffer, ByteBuffer byteBuffer2, byte[] bArr) throws GeneralSecurityException;
+
+    void encrypt(ByteBuffer byteBuffer, ByteBuffer byteBuffer2, ByteBuffer byteBuffer3, byte[] bArr) throws GeneralSecurityException;
+
+    void encrypt(ByteBuffer byteBuffer, ByteBuffer byteBuffer2, byte[] bArr) throws GeneralSecurityException;
+}

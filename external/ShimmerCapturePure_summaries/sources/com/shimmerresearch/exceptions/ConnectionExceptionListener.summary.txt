@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/exceptions/ConnectionExceptionListener.java
+// Size: 267 bytes
+// Modified: 2025-10-21 16:32:00.204596100 +0100
+
+package com.shimmerresearch.exceptions;
+
+/* loaded from: classes2.dex */
+public interface ConnectionExceptionListener {
+    void onConnectStartException(String str);
+
+    void onConnectionException(Exception exc);
+
+    void onConnectionStart(String str);
+}

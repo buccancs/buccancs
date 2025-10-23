@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/AnchorPosition.java
+// Size: 250 bytes
+// Modified: 2025-10-21 16:32:00.058880600 +0100
+
+package com.androidplot.ui;
+
+/* loaded from: classes.dex */
+public enum AnchorPosition {
+    TOP_MIDDLE,
+    LEFT_TOP,
+    LEFT_MIDDLE,
+    LEFT_BOTTOM,
+    RIGHT_TOP,
+    RIGHT_MIDDLE,
+    RIGHT_BOTTOM,
+    BOTTOM_MIDDLE,
+    CENTER
+}

@@ -1,0 +1,55 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ml/neuralnet/twod/util/SmoothedDataHistogram.java
+// Size: 2473 bytes
+// Modified: 2025-10-21 16:32:09.183489600 +0100
+
+package org.apache.commons.math3.ml.neuralnet.twod.util;
+
+import java.lang.reflect.Array;
+import java.util.Iterator;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.ml.distance.DistanceMeasure;
+import org.apache.commons.math3.ml.neuralnet.MapUtils;
+import org.apache.commons.math3.ml.neuralnet.Neuron;
+import org.apache.commons.math3.ml.neuralnet.twod.NeuronSquareMesh2D;
+import org.apache.commons.math3.ml.neuralnet.twod.util.LocationFinder;
+
+/* loaded from: classes5.dex */
+public class SmoothedDataHistogram implements MapDataVisualization {
+    private final DistanceMeasure distance;
+    private final double membershipNormalization;
+    private final int smoothingBins;
+
+    public SmoothedDataHistogram(int i, DistanceMeasure distanceMeasure) {
+        this.smoothingBins = i;
+        this.distance = distanceMeasure;
+        double d = 0.0d;
+        for (int i2 = 0; i2 < i; i2++) {
+            d += i - i2;
+        }
+        this.membershipNormalization = 1.0d / d;
+    }
+
+    @Override // org.apache.commons.math3.ml.neuralnet.twod.util.MapDataVisualization
+    public double[][] computeImage(NeuronSquareMesh2D neuronSquareMesh2D, Iterable<double[]> iterable) {
+        int numberOfRows = neuronSquareMesh2D.getNumberOfRows();
+        int numberOfColumns = neuronSquareMesh2D.getNumberOfColumns();
+        int i = numberOfRows * numberOfColumns;
+        if (i < this.smoothingBins) {
+            throw new NumberIsTooSmallException(Integer.valueOf(i), Integer.valueOf(this.smoothingBins), true);
+        }
+        LocationFinder locationFinder = new LocationFinder(neuronSquareMesh2D);
+        double[][] dArr = (double[][]) Array.newInstance((Class<?>) Double.TYPE, numberOfRows, numberOfColumns);
+        Iterator<double[]> it2 = iterable.iterator();
+        while (it2.hasNext()) {
+            Neuron[] neuronArrSort = MapUtils.sort(it2.next(), neuronSquareMesh2D.getNetwork(), this.distance);
+            for (int i2 = 0; i2 < this.smoothingBins; i2++) {
+                LocationFinder.Location location = locationFinder.getLocation(neuronArrSort[i2]);
+                int row = location.getRow();
+                int column = location.getColumn();
+                double[] dArr2 = dArr[row];
+                dArr2[column] = dArr2[column] + ((this.smoothingBins - i2) * this.membershipNormalization);
+            }
+        }
+        return dArr;
+    }
+}

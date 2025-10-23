@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/agent/trace/v1/ExportTraceServiceRequestOrBuilder.java
+// Size: 946 bytes
+// Modified: 2025-10-21 16:32:09.741751300 +0100
+
+package io.opencensus.proto.agent.trace.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.opencensus.proto.agent.common.v1.Node;
+import io.opencensus.proto.agent.common.v1.NodeOrBuilder;
+import io.opencensus.proto.resource.v1.Resource;
+import io.opencensus.proto.resource.v1.ResourceOrBuilder;
+import io.opencensus.proto.trace.v1.Span;
+import io.opencensus.proto.trace.v1.SpanOrBuilder;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface ExportTraceServiceRequestOrBuilder extends MessageOrBuilder {
+    Node getNode();
+
+    NodeOrBuilder getNodeOrBuilder();
+
+    Resource getResource();
+
+    ResourceOrBuilder getResourceOrBuilder();
+
+    Span getSpans(int i);
+
+    int getSpansCount();
+
+    List<Span> getSpansList();
+
+    SpanOrBuilder getSpansOrBuilder(int i);
+
+    List<? extends SpanOrBuilder> getSpansOrBuilderList();
+
+    boolean hasNode();
+
+    boolean hasResource();
+}

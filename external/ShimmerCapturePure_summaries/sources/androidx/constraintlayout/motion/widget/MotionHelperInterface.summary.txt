@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/motion/widget/MotionHelperInterface.java
+// Size: 648 bytes
+// Modified: 2025-10-21 16:32:10.789216000 +0100
+
+package androidx.constraintlayout.motion.widget;
+
+import android.graphics.Canvas;
+import android.view.View;
+import androidx.constraintlayout.motion.widget.MotionLayout;
+import java.util.HashMap;
+
+/* loaded from: classes.dex */
+public interface MotionHelperInterface extends Animatable, MotionLayout.TransitionListener {
+    boolean isDecorator();
+
+    boolean isUseOnHide();
+
+    boolean isUsedOnShow();
+
+    void onFinishedMotionScene(MotionLayout motionLayout);
+
+    void onPostDraw(Canvas canvas);
+
+    void onPreDraw(Canvas canvas);
+
+    void onPreSetup(MotionLayout motionLayout, HashMap<View, MotionController> map);
+}

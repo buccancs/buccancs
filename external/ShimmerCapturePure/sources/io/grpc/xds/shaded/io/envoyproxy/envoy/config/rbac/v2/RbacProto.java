@@ -1,0 +1,89 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import io.grpc.xds.shaded.com.google.api.expr.v1alpha1.SyntaxProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.AddressProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.RouteComponentsProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.MetadataProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.PathProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.StringProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+
+/* loaded from: classes4.dex */
+public final class RbacProto {
+    static final Descriptors.Descriptor internal_static_envoy_config_rbac_v2_Permission_Set_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_rbac_v2_Permission_Set_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_rbac_v2_Permission_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_rbac_v2_Permission_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_rbac_v2_Policy_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_rbac_v2_Policy_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_rbac_v2_Principal_Authenticated_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_rbac_v2_Principal_Authenticated_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_rbac_v2_Principal_Set_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_rbac_v2_Principal_Set_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_rbac_v2_Principal_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_rbac_v2_Principal_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_rbac_v2_RBAC_PoliciesEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_rbac_v2_RBAC_PoliciesEntry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_rbac_v2_RBAC_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_rbac_v2_RBAC_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n\u001fenvoy/config/rbac/v2/rbac.proto\u0012\u0014envoy.config.rbac.v2\u001a\u001fenvoy/api/v2/core/address.proto\u001a)envoy/api/v2/route/route_components.proto\u001a!envoy/type/matcher/metadata.proto\u001a\u001denvoy/type/matcher/path.proto\u001a\u001fenvoy/type/matcher/string.proto\u001a%google/api/expr/v1alpha1/syntax.proto\u001a\u001dudpa/annotations/status.proto\u001a\u0017validate/validate.proto\"ã\u0001\n\u0004RBAC\u00121\n\u0006action\u0018\u0001 \u0001(\u000e2!.envoy.config.rbac.v2.RBAC.Action\u0012:\n\bpolicies\u0018\u0002 \u0003(\u000b2(.envoy.config.rbac.v2.RBAC.PoliciesEntry\u001aM\n\rPoliciesEntry\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\t\u0012+\n\u0005value\u0018\u0002 \u0001(\u000b2\u001c.envoy.config.rbac.v2.Policy:\u00028\u0001\"\u001d\n\u0006Action\u0012\t\n\u0005ALLOW\u0010\u0000\u0012\b\n\u0004DENY\u0010\u0001\"»\u0001\n\u0006Policy\u0012?\n\u000bpermissions\u0018\u0001 \u0003(\u000b2 .envoy.config.rbac.v2.PermissionB\búB\u0005\u0092\u0001\u0002\b\u0001\u0012=\n\nprincipals\u0018\u0002 \u0003(\u000b2\u001f.envoy.config.rbac.v2.PrincipalB\búB\u0005\u0092\u0001\u0002\b\u0001\u00121\n\tcondition\u0018\u0003 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr\"ä\u0004\n\nPermission\u00129\n\tand_rules\u0018\u0001 \u0001(\u000b2$.envoy.config.rbac.v2.Permission.SetH\u0000\u00128\n\bor_rules\u0018\u0002 \u0001(\u000b2$.envoy.config.rbac.v2.Permission.SetH\u0000\u0012\u0016\n\u0003any\u0018\u0003 \u0001(\bB\u0007úB\u0004j\u0002\b\u0001H\u0000\u00123\n\u0006header\u0018\u0004 \u0001(\u000b2!.envoy.api.v2.route.HeaderMatcherH\u0000\u00123\n\burl_path\u0018\n \u0001(\u000b2\u001f.envoy.type.matcher.PathMatcherH\u0000\u00126\n\u000edestination_ip\u0018\u0005 \u0001(\u000b2\u001c.envoy.api.v2.core.CidrRangeH\u0000\u0012%\n\u0010destination_port\u0018\u0006 \u0001(\rB\túB\u0006*\u0004\u0018ÿÿ\u0003H\u0000\u00127\n\bmetadata\u0018\u0007 \u0001(\u000b2#.envoy.type.matcher.MetadataMatcherH\u0000\u00124\n\bnot_rule\u0018\b \u0001(\u000b2 .envoy.config.rbac.v2.PermissionH\u0000\u0012B\n\u0015requested_server_name\u0018\t \u0001(\u000b2!.envoy.type.matcher.StringMatcherH\u0000\u001a@\n\u0003Set\u00129\n\u0005rules\u0018\u0001 \u0003(\u000b2 .envoy.config.rbac.v2.PermissionB\búB\u0005\u0092\u0001\u0002\b\u0001B\u000b\n\u0004rule\u0012\u0003øB\u0001\"ø\u0005\n\tPrincipal\u00126\n\u0007and_ids\u0018\u0001 \u0001(\u000b2#.envoy.config.rbac.v2.Principal.SetH\u0000\u00125\n\u0006or_ids\u0018\u0002 \u0001(\u000b2#.envoy.config.rbac.v2.Principal.SetH\u0000\u0012\u0016\n\u0003any\u0018\u0003 \u0001(\bB\u0007úB\u0004j\u0002\b\u0001H\u0000\u0012F\n\rauthenticated\u0018\u0004 \u0001(\u000b2-.envoy.config.rbac.v2.Principal.AuthenticatedH\u0000\u00125\n\tsource_ip\u0018\u0005 \u0001(\u000b2\u001c.envoy.api.v2.core.CidrRangeB\u0002\u0018\u0001H\u0000\u00128\n\u0010direct_remote_ip\u0018\n \u0001(\u000b2\u001c.envoy.api.v2.core.CidrRangeH\u0000\u00121\n\tremote_ip\u0018\u000b \u0001(\u000b2\u001c.envoy.api.v2.core.CidrRangeH\u0000\u00123\n\u0006header\u0018\u0006 \u0001(\u000b2!.envoy.api.v2.route.HeaderMatcherH\u0000\u00123\n\burl_path\u0018\t \u0001(\u000b2\u001f.envoy.type.matcher.PathMatcherH\u0000\u00127\n\bmetadata\u0018\u0007 \u0001(\u000b2#.envoy.type.matcher.MetadataMatcherH\u0000\u00121\n\u0006not_id\u0018\b \u0001(\u000b2\u001f.envoy.config.rbac.v2.PrincipalH\u0000\u001a=\n\u0003Set\u00126\n\u0003ids\u0018\u0001 \u0003(\u000b2\u001f.envoy.config.rbac.v2.PrincipalB\búB\u0005\u0092\u0001\u0002\b\u0001\u001aP\n\rAuthenticated\u00129\n\u000eprincipal_name\u0018\u0002 \u0001(\u000b2!.envoy.type.matcher.StringMatcherJ\u0004\b\u0001\u0010\u0002B\u0011\n\nidentifier\u0012\u0003øB\u0001B9\n\"io.envoyproxy.envoy.config.rbac.v2B\tRbacProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{AddressProto.getDescriptor(), RouteComponentsProto.getDescriptor(), MetadataProto.getDescriptor(), PathProto.getDescriptor(), StringProto.getDescriptor(), SyntaxProto.getDescriptor(), Status.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_rbac_v2_RBAC_descriptor = descriptor2;
+        internal_static_envoy_config_rbac_v2_RBAC_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Action", "Policies"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_envoy_config_rbac_v2_RBAC_PoliciesEntry_descriptor = descriptor3;
+        internal_static_envoy_config_rbac_v2_RBAC_PoliciesEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Key", "Value"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_config_rbac_v2_Policy_descriptor = descriptor4;
+        internal_static_envoy_config_rbac_v2_Policy_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"Permissions", "Principals", "Condition"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_envoy_config_rbac_v2_Permission_descriptor = descriptor5;
+        internal_static_envoy_config_rbac_v2_Permission_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"AndRules", "OrRules", "Any", "Header", "UrlPath", "DestinationIp", "DestinationPort", "Metadata", "NotRule", "RequestedServerName", "Rule"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) descriptor5.getNestedTypes().get(0);
+        internal_static_envoy_config_rbac_v2_Permission_Set_descriptor = descriptor6;
+        internal_static_envoy_config_rbac_v2_Permission_Set_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"Rules"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_envoy_config_rbac_v2_Principal_descriptor = descriptor7;
+        internal_static_envoy_config_rbac_v2_Principal_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"AndIds", "OrIds", "Any", "Authenticated", "SourceIp", "DirectRemoteIp", "RemoteIp", "Header", "UrlPath", "Metadata", "NotId", "Identifier"});
+        Descriptors.Descriptor descriptor8 = (Descriptors.Descriptor) descriptor7.getNestedTypes().get(0);
+        internal_static_envoy_config_rbac_v2_Principal_Set_descriptor = descriptor8;
+        internal_static_envoy_config_rbac_v2_Principal_Set_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor8, new String[]{"Ids"});
+        Descriptors.Descriptor descriptor9 = (Descriptors.Descriptor) descriptor7.getNestedTypes().get(1);
+        internal_static_envoy_config_rbac_v2_Principal_Authenticated_descriptor = descriptor9;
+        internal_static_envoy_config_rbac_v2_Principal_Authenticated_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor9, new String[]{"PrincipalName"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        AddressProto.getDescriptor();
+        RouteComponentsProto.getDescriptor();
+        MetadataProto.getDescriptor();
+        PathProto.getDescriptor();
+        StringProto.getDescriptor();
+        SyntaxProto.getDescriptor();
+        Status.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private RbacProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

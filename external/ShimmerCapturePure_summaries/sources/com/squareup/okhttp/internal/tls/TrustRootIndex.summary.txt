@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/squareup/okhttp/internal/tls/TrustRootIndex.java
+// Size: 242 bytes
+// Modified: 2025-10-21 16:32:00.245747300 +0100
+
+package com.squareup.okhttp.internal.tls;
+
+import java.security.cert.X509Certificate;
+
+/* loaded from: classes2.dex */
+public interface TrustRootIndex {
+    X509Certificate findByIssuerAndSignature(X509Certificate x509Certificate);
+}

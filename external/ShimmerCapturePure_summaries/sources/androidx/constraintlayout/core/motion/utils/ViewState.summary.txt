@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/motion/utils/ViewState.java
+// Size: 756 bytes
+// Modified: 2025-10-21 16:32:04.049870100 +0100
+
+package androidx.constraintlayout.core.motion.utils;
+
+import androidx.constraintlayout.core.motion.MotionWidget;
+
+/* loaded from: classes.dex */
+public class ViewState {
+    public int bottom;
+    public int left;
+    public int right;
+    public float rotation;
+    public int top;
+
+    public int height() {
+        return this.bottom - this.top;
+    }
+
+    public int width() {
+        return this.right - this.left;
+    }
+
+    public void getState(MotionWidget motionWidget) {
+        this.left = motionWidget.getLeft();
+        this.top = motionWidget.getTop();
+        this.right = motionWidget.getRight();
+        this.bottom = motionWidget.getBottom();
+        this.rotation = (int) motionWidget.getRotationZ();
+    }
+}

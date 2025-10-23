@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/grpclb/SubchannelPool.java
+// Size: 755 bytes
+// Modified: 2025-10-21 16:32:08.815885000 +0100
+
+package io.grpc.grpclb;
+
+import io.grpc.Attributes;
+import io.grpc.ConnectivityStateInfo;
+import io.grpc.EquivalentAddressGroup;
+import io.grpc.LoadBalancer;
+
+/* loaded from: classes2.dex */
+interface SubchannelPool {
+
+    public interface PooledSubchannelStateListener {
+        void onSubchannelState(LoadBalancer.Subchannel subchannel, ConnectivityStateInfo connectivityStateInfo);
+    }
+
+    void clear();
+
+    void registerListener(PooledSubchannelStateListener pooledSubchannelStateListener);
+
+    void returnSubchannel(LoadBalancer.Subchannel subchannel, ConnectivityStateInfo connectivityStateInfo);
+
+    LoadBalancer.Subchannel takeOrCreateSubchannel(EquivalentAddressGroup equivalentAddressGroup, Attributes attributes);
+}

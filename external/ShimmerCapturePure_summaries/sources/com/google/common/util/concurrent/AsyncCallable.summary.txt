@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/AsyncCallable.java
+// Size: 168 bytes
+// Modified: 2025-10-21 16:32:01.295344200 +0100
+
+package com.google.common.util.concurrent;
+
+/* loaded from: classes.dex */
+public interface AsyncCallable<V> {
+    ListenableFuture<V> call() throws Exception;
+}

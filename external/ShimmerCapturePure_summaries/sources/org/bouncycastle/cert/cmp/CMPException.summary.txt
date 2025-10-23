@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/cmp/CMPException.java
+// Size: 439 bytes
+// Modified: 2025-10-21 16:32:00.584756900 +0100
+
+package org.bouncycastle.cert.cmp;
+
+/* loaded from: classes5.dex */
+public class CMPException extends Exception {
+    private Throwable cause;
+
+    public CMPException(String str) {
+        super(str);
+    }
+
+    public CMPException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

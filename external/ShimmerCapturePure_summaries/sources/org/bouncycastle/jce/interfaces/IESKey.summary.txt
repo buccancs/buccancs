@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/interfaces/IESKey.java
+// Size: 275 bytes
+// Modified: 2025-10-21 16:32:00.654504900 +0100
+
+package org.bouncycastle.jce.interfaces;
+
+import java.security.Key;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+
+/* loaded from: classes5.dex */
+public interface IESKey extends Key {
+    PrivateKey getPrivate();
+
+    PublicKey getPublic();
+}

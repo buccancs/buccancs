@@ -1,0 +1,35 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/FileRegion.java
+// Size: 891 bytes
+// Modified: 2025-10-21 16:32:00.837139700 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+import io.grpc.netty.shaded.io.netty.util.ReferenceCounted;
+import java.io.IOException;
+import java.nio.channels.WritableByteChannel;
+
+/* loaded from: classes3.dex */
+public interface FileRegion extends ReferenceCounted {
+    long count();
+
+    long position();
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    FileRegion retain();
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    FileRegion retain(int i);
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    FileRegion touch();
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    FileRegion touch(Object obj);
+
+    long transferTo(WritableByteChannel writableByteChannel, long j) throws IOException;
+
+    @Deprecated
+    long transfered();
+
+    long transferred();
+}

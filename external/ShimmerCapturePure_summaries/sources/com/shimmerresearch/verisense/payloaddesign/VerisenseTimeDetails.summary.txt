@@ -1,0 +1,149 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/payloaddesign/VerisenseTimeDetails.java
+// Size: 4891 bytes
+// Modified: 2025-10-21 16:32:04.937700100 +0100
+
+package com.shimmerresearch.verisense.payloaddesign;
+
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import com.shimmerresearch.verisense.sensors.SensorVerisenseClock;
+import java.io.Serializable;
+
+/* loaded from: classes2.dex */
+public class VerisenseTimeDetails implements Serializable {
+    public static final double DEFAULT_END_TIME_VALUE = Double.MIN_VALUE;
+    public static final double DEFAULT_START_TIME_VALUE = Double.MAX_VALUE;
+    public static final long TIME_MS_1980 = UtilVerisenseDriver.fromTimeStringToMilliseconds("1980/01/01 00:00:00", UtilVerisenseDriver.DATE_FORMAT_NO_MILLIS);
+    private static final long serialVersionUID = -8512683733417198408L;
+    private long endTimeMinutes = 0;
+    private long endTimeTicks = 0;
+    private double endTimeMs = Double.MIN_VALUE;
+    private double startTimeMs = Double.MAX_VALUE;
+
+    public static long calculateMinutesFromSeconds(double d) {
+        return (long) (d / 60.0d);
+    }
+
+    public static double calculateStartTimeMs(double d, long j, double d2) {
+        return d - (((j - 1) * d2) * 1000.0d);
+    }
+
+    public static long calculateTicksFromSeconds(double d) {
+        return (long) ((d % 60.0d) * 32768.0d);
+    }
+
+    public long getEndTimeMinutes() {
+        return this.endTimeMinutes;
+    }
+
+    public double getEndTimeMs() {
+        return this.endTimeMs;
+    }
+
+    public long getEndTimeTicks() {
+        return this.endTimeTicks;
+    }
+
+    public double getStartTimeMs() {
+        return this.startTimeMs;
+    }
+
+    public boolean isEndTimeSet() {
+        return this.endTimeMs != Double.MIN_VALUE;
+    }
+
+    public boolean isStartTimeSet() {
+        return this.startTimeMs != Double.MAX_VALUE;
+    }
+
+    public boolean isTimeSetInSensor() {
+        return this.endTimeMs < ((double) TIME_MS_1980);
+    }
+
+    public void setEndTimeMinutes(long j) {
+        this.endTimeMinutes = j;
+    }
+
+    public void setEndTimeMs(double d) {
+        this.endTimeMs = d;
+    }
+
+    public void setEndTimeTicks(long j) {
+        this.endTimeTicks = j;
+    }
+
+    public void setStartTimeMs(double d) {
+        this.startTimeMs = d;
+    }
+
+    public void setEndTimeAndCalculateMs(long j, long j2) {
+        setEndTimeMinutes(j);
+        setEndTimeTicks(j2);
+        calculateEndTimeMs();
+    }
+
+    public void calculateEndTimeMs() {
+        setEndTimeMs(SensorVerisenseClock.convertRtcMinutesAndTicksToMs(this.endTimeMinutes, this.endTimeTicks));
+    }
+
+    public String getEndTimeStr() {
+        return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getEndTimeMs());
+    }
+
+    public String getStartTimeStr() {
+        return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getStartTimeMs());
+    }
+
+    public void calculateAndSetStartTimeMs(int i, double d) {
+        setStartTimeMs(calculateStartTimeMs(getEndTimeMs(), i, d));
+    }
+
+    public double calculateDurationMs() {
+        return getEndTimeMs() - getStartTimeMs();
+    }
+
+    public String generateTimingReport() {
+        return "Timimg [Start=" + (isStartTimeSet() ? UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getStartTimeMs()) : "Not set") + ", End=" + (isEndTimeSet() ? UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getEndTimeMs()) : "Not set") + ", Duration=" + ((isStartTimeSet() && isEndTimeSet()) ? UtilVerisenseDriver.convertSecondsToHHmmssSSS(calculateDurationMs() / 1000.0d) : "N/A") + "]";
+    }
+
+    public static long parseTimeTicksAtIndex(byte[] bArr, int i) {
+        long j = 0;
+        int i2 = 0;
+        while (i2 < 3) {
+            j += (bArr[i] & 255) << (i2 * 8);
+            i2++;
+            i++;
+        }
+        return j;
+    }
+
+    public static long parseTimeMinutesAtIndex(byte[] bArr, int i) {
+        long j = 0;
+        int i2 = 0;
+        while (i2 < 4) {
+            j += (bArr[i] & 255) << (i2 * 8);
+            i2++;
+            i++;
+        }
+        return j;
+    }
+
+    public static double parseTimeMsFromMinutesAndTicksAtIndex(byte[] bArr, int i) {
+        return SensorVerisenseClock.convertRtcMinutesAndTicksToMs(parseTimeMinutesAtIndex(bArr, i), parseTimeTicksAtIndex(bArr, i + 4));
+    }
+
+    public static byte[] generateMinutesAndTicksByteArray(double d) {
+        double d2 = d / 1000.0d;
+        return generateMinutesAndTicksByteArray(calculateMinutesFromSeconds(d2), calculateTicksFromSeconds(d2));
+    }
+
+    public static byte[] generateMinutesAndTicksByteArray(long j, long j2) {
+        byte[] bArr = new byte[7];
+        for (int i = 0; i < 4; i++) {
+            bArr[i] = (byte) (255 & (j >> (i * 8)));
+        }
+        for (int i2 = 0; i2 < 3; i2++) {
+            bArr[i2 + 4] = (byte) ((j2 >> (i2 * 8)) & 255);
+        }
+        return bArr;
+    }
+}

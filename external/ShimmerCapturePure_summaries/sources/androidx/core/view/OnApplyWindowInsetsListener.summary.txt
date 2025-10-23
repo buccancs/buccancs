@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/OnApplyWindowInsetsListener.java
+// Size: 238 bytes
+// Modified: 2025-10-21 16:32:04.975834900 +0100
+
+package androidx.core.view;
+
+import android.view.View;
+
+/* loaded from: classes.dex */
+public interface OnApplyWindowInsetsListener {
+    WindowInsetsCompat onApplyWindowInsets(View view, WindowInsetsCompat windowInsetsCompat);
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/KeyParser.java
+// Size: 306 bytes
+// Modified: 2025-10-21 16:32:01.812723100 +0100
+
+package org.bouncycastle.crypto;
+
+import java.io.IOException;
+import java.io.InputStream;
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+
+/* loaded from: classes5.dex */
+public interface KeyParser {
+    AsymmetricKeyParameter readKey(InputStream inputStream) throws IOException;
+}

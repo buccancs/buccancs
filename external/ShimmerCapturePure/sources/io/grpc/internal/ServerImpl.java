@@ -1,0 +1,763 @@
+package io.grpc.internal;
+
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Preconditions;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.MoreExecutors;
+import com.google.common.util.concurrent.SettableFuture;
+import io.grpc.Attributes;
+import io.grpc.BinaryLog;
+import io.grpc.CompressorRegistry;
+import io.grpc.Context;
+import io.grpc.Contexts;
+import io.grpc.Deadline;
+import io.grpc.Decompressor;
+import io.grpc.DecompressorRegistry;
+import io.grpc.HandlerRegistry;
+import io.grpc.InternalChannelz;
+import io.grpc.InternalInstrumented;
+import io.grpc.InternalLogId;
+import io.grpc.InternalServerInterceptors;
+import io.grpc.Metadata;
+import io.grpc.Server;
+import io.grpc.ServerCall;
+import io.grpc.ServerCallHandler;
+import io.grpc.ServerInterceptor;
+import io.grpc.ServerMethodDefinition;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServerTransportFilter;
+import io.grpc.Status;
+import io.grpc.internal.StreamListener;
+import io.perfmark.Link;
+import io.perfmark.PerfMark;
+import io.perfmark.Tag;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/* loaded from: classes2.dex */
+public final class ServerImpl extends Server implements InternalInstrumented<InternalChannelz.ServerStats> {
+    private static final Logger log = Logger.getLogger(ServerImpl.class.getName());
+    private static final ServerStreamListener NOOP_LISTENER = new NoopListener();
+    private final BinaryLog binlog;
+    private final InternalChannelz channelz;
+    private final CompressorRegistry compressorRegistry;
+    private final DecompressorRegistry decompressorRegistry;
+    private final ObjectPool<? extends Executor> executorPool;
+    private final HandlerRegistry fallbackRegistry;
+    private final long handshakeTimeoutMillis;
+    private final ServerInterceptor[] interceptors;
+    private final InternalLogId logId;
+    private final HandlerRegistry registry;
+    private final Context rootContext;
+    private final CallTracer serverCallTracer;
+    private final Deadline.Ticker ticker;
+    private final List<ServerTransportFilter> transportFilters;
+    private final List<? extends InternalServer> transportServers;
+    private final Object lock = new Object();
+    private final Set<ServerTransport> transports = new HashSet();
+    private int activeTransportServers;
+    private Executor executor;
+    private boolean serverShutdownCallbackInvoked;
+    private boolean shutdown;
+    private Status shutdownNowStatus;
+    private boolean started;
+    private boolean terminated;
+    private boolean transportServersTerminated;
+
+    ServerImpl(AbstractServerImplBuilder<?> abstractServerImplBuilder, List<? extends InternalServer> list, Context context) {
+        this.executorPool = (ObjectPool) Preconditions.checkNotNull(abstractServerImplBuilder.executorPool, "executorPool");
+        this.registry = (HandlerRegistry) Preconditions.checkNotNull(abstractServerImplBuilder.registryBuilder.build(), "registryBuilder");
+        this.fallbackRegistry = (HandlerRegistry) Preconditions.checkNotNull(abstractServerImplBuilder.fallbackRegistry, "fallbackRegistry");
+        Preconditions.checkNotNull(list, "transportServers");
+        Preconditions.checkArgument(!list.isEmpty(), "no servers provided");
+        this.transportServers = new ArrayList(list);
+        this.logId = InternalLogId.allocate("Server", String.valueOf(getListenSocketsIgnoringLifecycle()));
+        this.rootContext = ((Context) Preconditions.checkNotNull(context, "rootContext")).fork();
+        this.decompressorRegistry = abstractServerImplBuilder.decompressorRegistry;
+        this.compressorRegistry = abstractServerImplBuilder.compressorRegistry;
+        this.transportFilters = Collections.unmodifiableList(new ArrayList(abstractServerImplBuilder.transportFilters));
+        this.interceptors = (ServerInterceptor[]) abstractServerImplBuilder.interceptors.toArray(new ServerInterceptor[abstractServerImplBuilder.interceptors.size()]);
+        this.handshakeTimeoutMillis = abstractServerImplBuilder.handshakeTimeoutMillis;
+        this.binlog = abstractServerImplBuilder.binlog;
+        InternalChannelz internalChannelz = abstractServerImplBuilder.channelz;
+        this.channelz = internalChannelz;
+        this.serverCallTracer = abstractServerImplBuilder.callTracerFactory.create();
+        this.ticker = (Deadline.Ticker) Preconditions.checkNotNull(abstractServerImplBuilder.ticker, "ticker");
+        internalChannelz.addServer(this);
+    }
+
+    static /* synthetic */ int access$410(ServerImpl serverImpl) {
+        int i = serverImpl.activeTransportServers;
+        serverImpl.activeTransportServers = i - 1;
+        return i;
+    }
+
+    @Override // io.grpc.InternalWithLogId
+    public InternalLogId getLogId() {
+        return this.logId;
+    }
+
+    @Override // io.grpc.Server
+    public ServerImpl start() throws IOException {
+        synchronized (this.lock) {
+            Preconditions.checkState(!this.started, "Already started");
+            Preconditions.checkState(!this.shutdown, "Shutting down");
+            ServerListenerImpl serverListenerImpl = new ServerListenerImpl();
+            Iterator<? extends InternalServer> it2 = this.transportServers.iterator();
+            while (it2.hasNext()) {
+                it2.next().start(serverListenerImpl);
+                this.activeTransportServers++;
+            }
+            this.executor = (Executor) Preconditions.checkNotNull(this.executorPool.getObject(), "executor");
+            this.started = true;
+        }
+        return this;
+    }
+
+    @Override // io.grpc.Server
+    public int getPort() {
+        synchronized (this.lock) {
+            Preconditions.checkState(this.started, "Not started");
+            Preconditions.checkState(!this.terminated, "Already terminated");
+            Iterator<? extends InternalServer> it2 = this.transportServers.iterator();
+            while (it2.hasNext()) {
+                SocketAddress listenSocketAddress = it2.next().getListenSocketAddress();
+                if (listenSocketAddress instanceof InetSocketAddress) {
+                    return ((InetSocketAddress) listenSocketAddress).getPort();
+                }
+            }
+            return -1;
+        }
+    }
+
+    @Override // io.grpc.Server
+    public List<SocketAddress> getListenSockets() {
+        List<SocketAddress> listenSocketsIgnoringLifecycle;
+        synchronized (this.lock) {
+            Preconditions.checkState(this.started, "Not started");
+            Preconditions.checkState(!this.terminated, "Already terminated");
+            listenSocketsIgnoringLifecycle = getListenSocketsIgnoringLifecycle();
+        }
+        return listenSocketsIgnoringLifecycle;
+    }
+
+    private List<SocketAddress> getListenSocketsIgnoringLifecycle() {
+        List<SocketAddress> listUnmodifiableList;
+        synchronized (this.lock) {
+            ArrayList arrayList = new ArrayList(this.transportServers.size());
+            Iterator<? extends InternalServer> it2 = this.transportServers.iterator();
+            while (it2.hasNext()) {
+                arrayList.add(it2.next().getListenSocketAddress());
+            }
+            listUnmodifiableList = Collections.unmodifiableList(arrayList);
+        }
+        return listUnmodifiableList;
+    }
+
+    @Override // io.grpc.Server
+    public List<ServerServiceDefinition> getServices() {
+        List<ServerServiceDefinition> services = this.fallbackRegistry.getServices();
+        if (services.isEmpty()) {
+            return this.registry.getServices();
+        }
+        List<ServerServiceDefinition> services2 = this.registry.getServices();
+        ArrayList arrayList = new ArrayList(services2.size() + services.size());
+        arrayList.addAll(services2);
+        arrayList.addAll(services);
+        return Collections.unmodifiableList(arrayList);
+    }
+
+    @Override // io.grpc.Server
+    public List<ServerServiceDefinition> getImmutableServices() {
+        return this.registry.getServices();
+    }
+
+    @Override // io.grpc.Server
+    public List<ServerServiceDefinition> getMutableServices() {
+        return Collections.unmodifiableList(this.fallbackRegistry.getServices());
+    }
+
+    @Override // io.grpc.Server
+    public ServerImpl shutdown() {
+        synchronized (this.lock) {
+            if (this.shutdown) {
+                return this;
+            }
+            this.shutdown = true;
+            boolean z = this.started;
+            if (!z) {
+                this.transportServersTerminated = true;
+                checkForTermination();
+            }
+            if (z) {
+                Iterator<? extends InternalServer> it2 = this.transportServers.iterator();
+                while (it2.hasNext()) {
+                    it2.next().shutdown();
+                }
+            }
+            return this;
+        }
+    }
+
+    @Override // io.grpc.Server
+    public ServerImpl shutdownNow() {
+        shutdown();
+        Status statusWithDescription = Status.UNAVAILABLE.withDescription("Server shutdownNow invoked");
+        synchronized (this.lock) {
+            if (this.shutdownNowStatus != null) {
+                return this;
+            }
+            this.shutdownNowStatus = statusWithDescription;
+            ArrayList arrayList = new ArrayList(this.transports);
+            boolean z = this.serverShutdownCallbackInvoked;
+            if (z) {
+                Iterator it2 = arrayList.iterator();
+                while (it2.hasNext()) {
+                    ((ServerTransport) it2.next()).shutdownNow(statusWithDescription);
+                }
+            }
+            return this;
+        }
+    }
+
+    @Override // io.grpc.Server
+    public boolean isShutdown() {
+        boolean z;
+        synchronized (this.lock) {
+            z = this.shutdown;
+        }
+        return z;
+    }
+
+    @Override // io.grpc.Server
+    public boolean awaitTermination(long j, TimeUnit timeUnit) throws InterruptedException {
+        boolean z;
+        synchronized (this.lock) {
+            long jNanoTime = System.nanoTime() + timeUnit.toNanos(j);
+            while (!this.terminated) {
+                long jNanoTime2 = jNanoTime - System.nanoTime();
+                if (jNanoTime2 <= 0) {
+                    break;
+                }
+                TimeUnit.NANOSECONDS.timedWait(this.lock, jNanoTime2);
+            }
+            z = this.terminated;
+        }
+        return z;
+    }
+
+    @Override // io.grpc.Server
+    public void awaitTermination() throws InterruptedException {
+        synchronized (this.lock) {
+            while (!this.terminated) {
+                this.lock.wait();
+            }
+        }
+    }
+
+    @Override // io.grpc.Server
+    public boolean isTerminated() {
+        boolean z;
+        synchronized (this.lock) {
+            z = this.terminated;
+        }
+        return z;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void transportClosed(ServerTransport serverTransport) {
+        synchronized (this.lock) {
+            if (!this.transports.remove(serverTransport)) {
+                throw new AssertionError("Transport already removed");
+            }
+            this.channelz.removeServerSocket(this, serverTransport);
+            checkForTermination();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void checkForTermination() {
+        synchronized (this.lock) {
+            if (this.shutdown && this.transports.isEmpty() && this.transportServersTerminated) {
+                if (this.terminated) {
+                    throw new AssertionError("Server already terminated");
+                }
+                this.terminated = true;
+                this.channelz.removeServer(this);
+                Executor executor = this.executor;
+                if (executor != null) {
+                    this.executor = this.executorPool.returnObject(executor);
+                }
+                this.lock.notifyAll();
+            }
+        }
+    }
+
+    @Override // io.grpc.InternalInstrumented
+    public ListenableFuture<InternalChannelz.ServerStats> getStats() {
+        InternalChannelz.ServerStats.Builder builder = new InternalChannelz.ServerStats.Builder();
+        Iterator<? extends InternalServer> it2 = this.transportServers.iterator();
+        while (it2.hasNext()) {
+            InternalInstrumented<InternalChannelz.SocketStats> listenSocketStats = it2.next().getListenSocketStats();
+            if (listenSocketStats != null) {
+                builder.addListenSockets(Collections.singletonList(listenSocketStats));
+            }
+        }
+        this.serverCallTracer.updateBuilder(builder);
+        SettableFuture settableFutureCreate = SettableFuture.create();
+        settableFutureCreate.set(builder.build());
+        return settableFutureCreate;
+    }
+
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("logId", this.logId.getId()).add("transportServers", this.transportServers).toString();
+    }
+
+    private static final class NoopListener implements ServerStreamListener {
+        private NoopListener() {
+        }
+
+        @Override // io.grpc.internal.ServerStreamListener
+        public void closed(Status status) {
+        }
+
+        @Override // io.grpc.internal.ServerStreamListener
+        public void halfClosed() {
+        }
+
+        @Override // io.grpc.internal.StreamListener
+        public void onReady() {
+        }
+
+        @Override // io.grpc.internal.StreamListener
+        public void messagesAvailable(StreamListener.MessageProducer messageProducer) throws IOException {
+            while (true) {
+                InputStream next = messageProducer.next();
+                if (next == null) {
+                    return;
+                }
+                try {
+                    next.close();
+                } catch (IOException e) {
+                    while (true) {
+                        InputStream next2 = messageProducer.next();
+                        if (next2 != null) {
+                            try {
+                                next2.close();
+                            } catch (IOException e2) {
+                                ServerImpl.log.log(Level.WARNING, "Exception closing stream", (Throwable) e2);
+                            }
+                        } else {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    static final class JumpToApplicationThreadServerStreamListener implements ServerStreamListener {
+        private final Executor callExecutor;
+        private final Executor cancelExecutor;
+        private final Context.CancellableContext context;
+        private final ServerStream stream;
+        private final Tag tag;
+        private ServerStreamListener listener;
+
+        public JumpToApplicationThreadServerStreamListener(Executor executor, Executor executor2, ServerStream serverStream, Context.CancellableContext cancellableContext, Tag tag) {
+            this.callExecutor = executor;
+            this.cancelExecutor = executor2;
+            this.stream = serverStream;
+            this.context = cancellableContext;
+            this.tag = tag;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public ServerStreamListener getListener() {
+            ServerStreamListener serverStreamListener = this.listener;
+            if (serverStreamListener != null) {
+                return serverStreamListener;
+            }
+            throw new IllegalStateException("listener unset");
+        }
+
+        void setListener(ServerStreamListener serverStreamListener) {
+            Preconditions.checkNotNull(serverStreamListener, "listener must not be null");
+            Preconditions.checkState(this.listener == null, "Listener already set");
+            this.listener = serverStreamListener;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void internalClose(Throwable th) {
+            this.stream.close(Status.UNKNOWN.withCause(th), new Metadata());
+        }
+
+        @Override // io.grpc.internal.StreamListener
+        public void messagesAvailable(final StreamListener.MessageProducer messageProducer) {
+            PerfMark.startTask("ServerStreamListener.messagesAvailable", this.tag);
+            final Link linkLinkOut = PerfMark.linkOut();
+            try {
+                this.callExecutor.execute(new ContextRunnable() { // from class: io.grpc.internal.ServerImpl.JumpToApplicationThreadServerStreamListener.1MessagesAvailable
+                    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */ {
+                        super(JumpToApplicationThreadServerStreamListener.this.context);
+                    }
+
+                    @Override // io.grpc.internal.ContextRunnable
+                    public void runInContext() {
+                        PerfMark.startTask("ServerCallListener(app).messagesAvailable", JumpToApplicationThreadServerStreamListener.this.tag);
+                        PerfMark.linkIn(linkLinkOut);
+                        try {
+                            JumpToApplicationThreadServerStreamListener.this.getListener().messagesAvailable(messageProducer);
+                        } finally {
+                        }
+                    }
+                });
+            } finally {
+                PerfMark.stopTask("ServerStreamListener.messagesAvailable", this.tag);
+            }
+        }
+
+        @Override // io.grpc.internal.ServerStreamListener
+        public void halfClosed() {
+            PerfMark.startTask("ServerStreamListener.halfClosed", this.tag);
+            final Link linkLinkOut = PerfMark.linkOut();
+            try {
+                this.callExecutor.execute(new ContextRunnable() { // from class: io.grpc.internal.ServerImpl.JumpToApplicationThreadServerStreamListener.1HalfClosed
+                    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */ {
+                        super(JumpToApplicationThreadServerStreamListener.this.context);
+                    }
+
+                    @Override // io.grpc.internal.ContextRunnable
+                    public void runInContext() {
+                        PerfMark.startTask("ServerCallListener(app).halfClosed", JumpToApplicationThreadServerStreamListener.this.tag);
+                        PerfMark.linkIn(linkLinkOut);
+                        try {
+                            JumpToApplicationThreadServerStreamListener.this.getListener().halfClosed();
+                        } finally {
+                        }
+                    }
+                });
+            } finally {
+                PerfMark.stopTask("ServerStreamListener.halfClosed", this.tag);
+            }
+        }
+
+        @Override // io.grpc.internal.ServerStreamListener
+        public void closed(Status status) {
+            PerfMark.startTask("ServerStreamListener.closed", this.tag);
+            try {
+                closedInternal(status);
+            } finally {
+                PerfMark.stopTask("ServerStreamListener.closed", this.tag);
+            }
+        }
+
+        private void closedInternal(final Status status) {
+            if (!status.isOk()) {
+                this.cancelExecutor.execute(new ContextCloser(this.context, status.getCause()));
+            }
+            final Link linkLinkOut = PerfMark.linkOut();
+            this.callExecutor.execute(new ContextRunnable() { // from class: io.grpc.internal.ServerImpl.JumpToApplicationThreadServerStreamListener.1Closed
+                /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */ {
+                    super(JumpToApplicationThreadServerStreamListener.this.context);
+                }
+
+                @Override // io.grpc.internal.ContextRunnable
+                public void runInContext() {
+                    PerfMark.startTask("ServerCallListener(app).closed", JumpToApplicationThreadServerStreamListener.this.tag);
+                    PerfMark.linkIn(linkLinkOut);
+                    try {
+                        JumpToApplicationThreadServerStreamListener.this.getListener().closed(status);
+                    } finally {
+                        PerfMark.stopTask("ServerCallListener(app).closed", JumpToApplicationThreadServerStreamListener.this.tag);
+                    }
+                }
+            });
+        }
+
+        @Override // io.grpc.internal.StreamListener
+        public void onReady() {
+            PerfMark.startTask("ServerStreamListener.onReady", this.tag);
+            final Link linkLinkOut = PerfMark.linkOut();
+            try {
+                this.callExecutor.execute(new ContextRunnable() { // from class: io.grpc.internal.ServerImpl.JumpToApplicationThreadServerStreamListener.1OnReady
+                    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */ {
+                        super(JumpToApplicationThreadServerStreamListener.this.context);
+                    }
+
+                    @Override // io.grpc.internal.ContextRunnable
+                    public void runInContext() {
+                        PerfMark.startTask("ServerCallListener(app).onReady", JumpToApplicationThreadServerStreamListener.this.tag);
+                        PerfMark.linkIn(linkLinkOut);
+                        try {
+                            JumpToApplicationThreadServerStreamListener.this.getListener().onReady();
+                        } finally {
+                        }
+                    }
+                });
+            } finally {
+                PerfMark.stopTask("ServerStreamListener.onReady", this.tag);
+            }
+        }
+    }
+
+    static final class ContextCloser implements Runnable {
+        private final Throwable cause;
+        private final Context.CancellableContext context;
+
+        ContextCloser(Context.CancellableContext cancellableContext, Throwable th) {
+            this.context = cancellableContext;
+            this.cause = th;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            this.context.cancel(this.cause);
+        }
+    }
+
+    private final class ServerListenerImpl implements ServerListener {
+        private ServerListenerImpl() {
+        }
+
+        @Override // io.grpc.internal.ServerListener
+        public ServerTransportListener transportCreated(ServerTransport serverTransport) {
+            synchronized (ServerImpl.this.lock) {
+                ServerImpl.this.transports.add(serverTransport);
+            }
+            ServerTransportListenerImpl serverTransportListenerImpl = ServerImpl.this.new ServerTransportListenerImpl(serverTransport);
+            serverTransportListenerImpl.init();
+            return serverTransportListenerImpl;
+        }
+
+        @Override // io.grpc.internal.ServerListener
+        public void serverShutdown() {
+            synchronized (ServerImpl.this.lock) {
+                ServerImpl.access$410(ServerImpl.this);
+                if (ServerImpl.this.activeTransportServers != 0) {
+                    return;
+                }
+                ArrayList arrayList = new ArrayList(ServerImpl.this.transports);
+                Status status = ServerImpl.this.shutdownNowStatus;
+                ServerImpl.this.serverShutdownCallbackInvoked = true;
+                Iterator it2 = arrayList.iterator();
+                while (it2.hasNext()) {
+                    ServerTransport serverTransport = (ServerTransport) it2.next();
+                    if (status == null) {
+                        serverTransport.shutdown();
+                    } else {
+                        serverTransport.shutdownNow(status);
+                    }
+                }
+                synchronized (ServerImpl.this.lock) {
+                    ServerImpl.this.transportServersTerminated = true;
+                    ServerImpl.this.checkForTermination();
+                }
+            }
+        }
+    }
+
+    private final class ServerTransportListenerImpl implements ServerTransportListener {
+        private final ServerTransport transport;
+        private Attributes attributes;
+        private Future<?> handshakeTimeoutFuture;
+
+        ServerTransportListenerImpl(ServerTransport serverTransport) {
+            this.transport = serverTransport;
+        }
+
+        public void init() {
+            if (ServerImpl.this.handshakeTimeoutMillis != Long.MAX_VALUE) {
+                this.handshakeTimeoutFuture = this.transport.getScheduledExecutorService().schedule(new Runnable() { // from class: io.grpc.internal.ServerImpl.ServerTransportListenerImpl.1TransportShutdownNow
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        ServerTransportListenerImpl.this.transport.shutdownNow(Status.CANCELLED.withDescription("Handshake timeout exceeded"));
+                    }
+                }, ServerImpl.this.handshakeTimeoutMillis, TimeUnit.MILLISECONDS);
+            } else {
+                this.handshakeTimeoutFuture = new FutureTask(new Runnable() { // from class: io.grpc.internal.ServerImpl.ServerTransportListenerImpl.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                    }
+                }, null);
+            }
+            ServerImpl.this.channelz.addServerSocket(ServerImpl.this, this.transport);
+        }
+
+        @Override // io.grpc.internal.ServerTransportListener
+        public Attributes transportReady(Attributes attributes) {
+            this.handshakeTimeoutFuture.cancel(false);
+            this.handshakeTimeoutFuture = null;
+            for (ServerTransportFilter serverTransportFilter : ServerImpl.this.transportFilters) {
+                attributes = (Attributes) Preconditions.checkNotNull(serverTransportFilter.transportReady(attributes), "Filter %s returned null", serverTransportFilter);
+            }
+            this.attributes = attributes;
+            return attributes;
+        }
+
+        @Override // io.grpc.internal.ServerTransportListener
+        public void transportTerminated() {
+            Future<?> future = this.handshakeTimeoutFuture;
+            if (future != null) {
+                future.cancel(false);
+                this.handshakeTimeoutFuture = null;
+            }
+            Iterator it2 = ServerImpl.this.transportFilters.iterator();
+            while (it2.hasNext()) {
+                ((ServerTransportFilter) it2.next()).transportTerminated(this.attributes);
+            }
+            ServerImpl.this.transportClosed(this.transport);
+        }
+
+        @Override // io.grpc.internal.ServerTransportListener
+        public void streamCreated(ServerStream serverStream, String str, Metadata metadata) {
+            Tag tagCreateTag = PerfMark.createTag(str, serverStream.streamId());
+            PerfMark.startTask("ServerTransportListener.streamCreated", tagCreateTag);
+            try {
+                streamCreatedInternal(serverStream, str, metadata, tagCreateTag);
+            } finally {
+                PerfMark.stopTask("ServerTransportListener.streamCreated", tagCreateTag);
+            }
+        }
+
+        private void streamCreatedInternal(ServerStream serverStream, String str, Metadata metadata, Tag tag) {
+            Executor serializingExecutor;
+            if (ServerImpl.this.executor == MoreExecutors.directExecutor()) {
+                serializingExecutor = new SerializeReentrantCallsDirectExecutor();
+                serverStream.optimizeForDirectExecutor();
+            } else {
+                serializingExecutor = new SerializingExecutor(ServerImpl.this.executor);
+            }
+            Executor executor = serializingExecutor;
+            if (metadata.containsKey(GrpcUtil.MESSAGE_ENCODING_KEY)) {
+                String str2 = (String) metadata.get(GrpcUtil.MESSAGE_ENCODING_KEY);
+                Decompressor decompressorLookupDecompressor = ServerImpl.this.decompressorRegistry.lookupDecompressor(str2);
+                if (decompressorLookupDecompressor == null) {
+                    serverStream.setListener(ServerImpl.NOOP_LISTENER);
+                    serverStream.close(Status.UNIMPLEMENTED.withDescription(String.format("Can't find decompressor for %s", str2)), new Metadata());
+                    return;
+                }
+                serverStream.setDecompressor(decompressorLookupDecompressor);
+            }
+            StatsTraceContext statsTraceContext = (StatsTraceContext) Preconditions.checkNotNull(serverStream.statsTraceContext(), "statsTraceCtx not present from stream");
+            Context.CancellableContext cancellableContextCreateContext = createContext(metadata, statsTraceContext);
+            Link linkLinkOut = PerfMark.linkOut();
+            JumpToApplicationThreadServerStreamListener jumpToApplicationThreadServerStreamListener = new JumpToApplicationThreadServerStreamListener(executor, ServerImpl.this.executor, serverStream, cancellableContextCreateContext, tag);
+            serverStream.setListener(jumpToApplicationThreadServerStreamListener);
+            executor.execute(new ContextRunnable(cancellableContextCreateContext, tag, linkLinkOut, str, serverStream, metadata, statsTraceContext, jumpToApplicationThreadServerStreamListener) { // from class: io.grpc.internal.ServerImpl.ServerTransportListenerImpl.1StreamCreated
+                final /* synthetic */ Context.CancellableContext val$context;
+                final /* synthetic */ Metadata val$headers;
+                final /* synthetic */ JumpToApplicationThreadServerStreamListener val$jumpListener;
+                final /* synthetic */ Link val$link;
+                final /* synthetic */ String val$methodName;
+                final /* synthetic */ StatsTraceContext val$statsTraceCtx;
+                final /* synthetic */ ServerStream val$stream;
+                final /* synthetic */ Tag val$tag;
+
+                /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */ {
+                    super(cancellableContextCreateContext);
+                    this.val$context = cancellableContextCreateContext;
+                    this.val$tag = tag;
+                    this.val$link = linkLinkOut;
+                    this.val$methodName = str;
+                    this.val$stream = serverStream;
+                    this.val$headers = metadata;
+                    this.val$statsTraceCtx = statsTraceContext;
+                    this.val$jumpListener = jumpToApplicationThreadServerStreamListener;
+                }
+
+                @Override // io.grpc.internal.ContextRunnable
+                public void runInContext() {
+                    PerfMark.startTask("ServerTransportListener$StreamCreated.startCall", this.val$tag);
+                    PerfMark.linkIn(this.val$link);
+                    try {
+                        runInternal();
+                    } finally {
+                        PerfMark.stopTask("ServerTransportListener$StreamCreated.startCall", this.val$tag);
+                    }
+                }
+
+                private void runInternal() {
+                    ServerStreamListener serverStreamListener = ServerImpl.NOOP_LISTENER;
+                    try {
+                        ServerMethodDefinition<?, ?> serverMethodDefinitionLookupMethod = ServerImpl.this.registry.lookupMethod(this.val$methodName);
+                        if (serverMethodDefinitionLookupMethod == null) {
+                            serverMethodDefinitionLookupMethod = ServerImpl.this.fallbackRegistry.lookupMethod(this.val$methodName, this.val$stream.getAuthority());
+                        }
+                        ServerMethodDefinition<?, ?> serverMethodDefinition = serverMethodDefinitionLookupMethod;
+                        if (serverMethodDefinition != null) {
+                            this.val$jumpListener.setListener(ServerTransportListenerImpl.this.startCall(this.val$stream, this.val$methodName, serverMethodDefinition, this.val$headers, this.val$context, this.val$statsTraceCtx, this.val$tag));
+                            this.val$context.addListener(new Context.CancellationListener() { // from class: io.grpc.internal.ServerImpl.ServerTransportListenerImpl.1StreamCreated.1ServerStreamCancellationListener
+                                @Override // io.grpc.Context.CancellationListener
+                                public void cancelled(Context context) {
+                                    Status statusStatusFromCancelled = Contexts.statusFromCancelled(context);
+                                    if (Status.DEADLINE_EXCEEDED.getCode().equals(statusStatusFromCancelled.getCode())) {
+                                        C1StreamCreated.this.val$stream.cancel(statusStatusFromCancelled);
+                                    }
+                                }
+                            }, MoreExecutors.directExecutor());
+                        } else {
+                            this.val$stream.close(Status.UNIMPLEMENTED.withDescription("Method not found: " + this.val$methodName), new Metadata());
+                            this.val$context.cancel(null);
+                        }
+                    } catch (Throwable th) {
+                        try {
+                            this.val$stream.close(Status.fromThrowable(th), new Metadata());
+                            this.val$context.cancel(null);
+                            throw th;
+                        } finally {
+                            this.val$jumpListener.setListener(serverStreamListener);
+                        }
+                    }
+                }
+            });
+        }
+
+        private Context.CancellableContext createContext(Metadata metadata, StatsTraceContext statsTraceContext) {
+            Long l = (Long) metadata.get(GrpcUtil.TIMEOUT_KEY);
+            Context contextWithValue = statsTraceContext.serverFilterContext(ServerImpl.this.rootContext).withValue(io.grpc.InternalServer.SERVER_CONTEXT_KEY, ServerImpl.this);
+            if (l == null) {
+                return contextWithValue.withCancellation();
+            }
+            return contextWithValue.withDeadline(Deadline.after(l.longValue(), TimeUnit.NANOSECONDS, ServerImpl.this.ticker), this.transport.getScheduledExecutorService());
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public <ReqT, RespT> ServerStreamListener startCall(ServerStream serverStream, String str, ServerMethodDefinition<ReqT, RespT> serverMethodDefinition, Metadata metadata, Context.CancellableContext cancellableContext, StatsTraceContext statsTraceContext, Tag tag) {
+            statsTraceContext.serverCallStarted(new ServerCallInfoImpl(serverMethodDefinition.getMethodDescriptor(), serverStream.getAttributes(), serverStream.getAuthority()));
+            ServerCallHandler<ReqT, RespT> serverCallHandler = serverMethodDefinition.getServerCallHandler();
+            for (ServerInterceptor serverInterceptor : ServerImpl.this.interceptors) {
+                serverCallHandler = InternalServerInterceptors.interceptCallHandler(serverInterceptor, serverCallHandler);
+            }
+            ServerMethodDefinition<ReqT, RespT> serverMethodDefinitionWithServerCallHandler = serverMethodDefinition.withServerCallHandler(serverCallHandler);
+            if (ServerImpl.this.binlog != null) {
+                serverMethodDefinitionWithServerCallHandler = (ServerMethodDefinition<ReqT, RespT>) ServerImpl.this.binlog.wrapMethodDefinition(serverMethodDefinitionWithServerCallHandler);
+            }
+            return startWrappedCall(str, serverMethodDefinitionWithServerCallHandler, serverStream, metadata, cancellableContext, tag);
+        }
+
+        private <WReqT, WRespT> ServerStreamListener startWrappedCall(String str, ServerMethodDefinition<WReqT, WRespT> serverMethodDefinition, ServerStream serverStream, Metadata metadata, Context.CancellableContext cancellableContext, Tag tag) {
+            ServerCallImpl serverCallImpl = new ServerCallImpl(serverStream, serverMethodDefinition.getMethodDescriptor(), metadata, cancellableContext, ServerImpl.this.decompressorRegistry, ServerImpl.this.compressorRegistry, ServerImpl.this.serverCallTracer, tag);
+            ServerCall.Listener<WReqT> listenerStartCall = serverMethodDefinition.getServerCallHandler().startCall(serverCallImpl, metadata);
+            if (listenerStartCall == null) {
+                throw new NullPointerException("startCall() returned a null listener for method " + str);
+            }
+            return serverCallImpl.newServerStreamListener(listenerStartCall);
+        }
+    }
+}

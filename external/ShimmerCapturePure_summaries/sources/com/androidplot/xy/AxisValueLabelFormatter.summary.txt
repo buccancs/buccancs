@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/AxisValueLabelFormatter.java
+// Size: 328 bytes
+// Modified: 2025-10-21 16:32:00.077881100 +0100
+
+package com.androidplot.xy;
+
+/* loaded from: classes.dex */
+public class AxisValueLabelFormatter {
+    private int a;
+
+    public int getColor() {
+        return this.a;
+    }
+
+    public void setColor(int i) {
+        this.a = i;
+    }
+
+    public AxisValueLabelFormatter(int i) {
+        this.a = i;
+    }
+}

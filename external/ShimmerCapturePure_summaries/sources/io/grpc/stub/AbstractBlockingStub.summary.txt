@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/stub/AbstractBlockingStub.java
+// Size: 1078 bytes
+// Modified: 2025-10-21 16:32:09.655913800 +0100
+
+package io.grpc.stub;
+
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.stub.AbstractBlockingStub;
+import io.grpc.stub.AbstractStub;
+import io.grpc.stub.ClientCalls;
+import javax.annotation.CheckReturnValue;
+
+@CheckReturnValue
+/* loaded from: classes3.dex */
+public abstract class AbstractBlockingStub<S extends AbstractBlockingStub<S>> extends AbstractStub<S> {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+
+    protected AbstractBlockingStub(Channel channel, CallOptions callOptions) {
+        super(channel, callOptions);
+    }
+
+    public static <T extends AbstractStub<T>> T newStub(AbstractStub.StubFactory<T> stubFactory, Channel channel) {
+        return (T) newStub(stubFactory, channel, CallOptions.DEFAULT);
+    }
+
+    public static <T extends AbstractStub<T>> T newStub(AbstractStub.StubFactory<T> stubFactory, Channel channel, CallOptions callOptions) {
+        return (T) stubFactory.newStub(channel, callOptions.withOption(ClientCalls.STUB_TYPE_OPTION, ClientCalls.StubType.BLOCKING));
+    }
+}

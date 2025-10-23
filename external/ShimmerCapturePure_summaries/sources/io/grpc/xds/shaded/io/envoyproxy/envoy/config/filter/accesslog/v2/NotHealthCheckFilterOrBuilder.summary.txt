@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/accesslog/v2/NotHealthCheckFilterOrBuilder.java
+// Size: 237 bytes
+// Modified: 2025-10-21 16:32:00.325706200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface NotHealthCheckFilterOrBuilder extends MessageOrBuilder {
+}

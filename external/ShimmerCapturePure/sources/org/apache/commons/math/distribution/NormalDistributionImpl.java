@@ -1,0 +1,163 @@
+package org.apache.commons.math.distribution;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.special.Erf;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/distribution/NormalDistributionImpl.class */
+public class NormalDistributionImpl extends AbstractContinuousDistribution implements NormalDistribution, Serializable {
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1.0E-9d;
+    private static final long serialVersionUID = 8589540077390120676L;
+    private static final double SQRT2PI = FastMath.sqrt(6.283185307179586d);
+    private final double solverAbsoluteAccuracy;
+    private double mean;
+    private double standardDeviation;
+
+    public NormalDistributionImpl(double mean, double sd) {
+        this(mean, sd, 1.0E-9d);
+    }
+
+    public NormalDistributionImpl(double mean, double sd, double inverseCumAccuracy) {
+        this.mean = 0.0d;
+        this.standardDeviation = 1.0d;
+        setMeanInternal(mean);
+        setStandardDeviationInternal(sd);
+        this.solverAbsoluteAccuracy = inverseCumAccuracy;
+    }
+
+    public NormalDistributionImpl() {
+        this(0.0d, 1.0d);
+    }
+
+    @Override // org.apache.commons.math.distribution.NormalDistribution
+    public double getMean() {
+        return this.mean;
+    }
+
+    @Override // org.apache.commons.math.distribution.NormalDistribution
+    @Deprecated
+    public void setMean(double mean) {
+        setMeanInternal(mean);
+    }
+
+    private void setMeanInternal(double newMean) {
+        this.mean = newMean;
+    }
+
+    @Override // org.apache.commons.math.distribution.NormalDistribution
+    public double getStandardDeviation() {
+        return this.standardDeviation;
+    }
+
+    @Override // org.apache.commons.math.distribution.NormalDistribution
+    @Deprecated
+    public void setStandardDeviation(double sd) {
+        setStandardDeviationInternal(sd);
+    }
+
+    private void setStandardDeviationInternal(double sd) {
+        if (sd <= 0.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_STANDARD_DEVIATION, Double.valueOf(sd));
+        }
+        this.standardDeviation = sd;
+    }
+
+    /* JADX WARN: Can't rename method to resolve collision */
+    @Override // org.apache.commons.math.distribution.HasDensity
+    @Deprecated
+    public double density(Double x) {
+        return density(x.doubleValue());
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    public double density(double x) {
+        double x0 = x - this.mean;
+        return FastMath.exp(((-x0) * x0) / ((2.0d * this.standardDeviation) * this.standardDeviation)) / (this.standardDeviation * SQRT2PI);
+    }
+
+    @Override // org.apache.commons.math.distribution.Distribution
+    public double cumulativeProbability(double x) throws MathException {
+        double dev = x - this.mean;
+        if (FastMath.abs(dev) > 40.0d * this.standardDeviation) {
+            return dev < 0.0d ? 0.0d : 1.0d;
+        }
+        return 0.5d * (1.0d + Erf.erf(dev / (this.standardDeviation * FastMath.sqrt(2.0d))));
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getSolverAbsoluteAccuracy() {
+        return this.solverAbsoluteAccuracy;
+    }
+
+    @Override
+    // org.apache.commons.math.distribution.AbstractContinuousDistribution, org.apache.commons.math.distribution.ContinuousDistribution
+    public double inverseCumulativeProbability(double p) throws MathException {
+        if (p == 0.0d) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        if (p == 1.0d) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return super.inverseCumulativeProbability(p);
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    public double sample() throws MathException {
+        return this.randomData.nextGaussian(this.mean, this.standardDeviation);
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainLowerBound(double p) {
+        double ret;
+        if (p < 0.5d) {
+            ret = -1.7976931348623157E308d;
+        } else {
+            ret = this.mean;
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainUpperBound(double p) {
+        double ret;
+        if (p < 0.5d) {
+            ret = this.mean;
+        } else {
+            ret = Double.MAX_VALUE;
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getInitialDomain(double p) {
+        double ret;
+        if (p < 0.5d) {
+            ret = this.mean - this.standardDeviation;
+        } else if (p > 0.5d) {
+            ret = this.mean + this.standardDeviation;
+        } else {
+            ret = this.mean;
+        }
+        return ret;
+    }
+
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    public double getNumericalVariance() {
+        double s = getStandardDeviation();
+        return s * s;
+    }
+}

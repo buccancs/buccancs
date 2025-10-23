@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/TlsCipher.java
+// Size: 363 bytes
+// Modified: 2025-10-21 16:32:00.618856100 +0100
+
+package org.bouncycastle.crypto.tls;
+
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public interface TlsCipher {
+    byte[] decodeCiphertext(long j, short s, byte[] bArr, int i, int i2) throws IOException;
+
+    byte[] encodePlaintext(long j, short s, byte[] bArr, int i, int i2) throws IOException;
+
+    int getPlaintextLimit(int i);
+}

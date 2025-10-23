@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/CommonPattern.java
+// Size: 539 bytes
+// Modified: 2025-10-21 16:32:02.097250000 +0100
+
+package com.google.common.base;
+
+/* loaded from: classes.dex */
+abstract class CommonPattern {
+    public abstract int flags();
+
+    public abstract CommonMatcher matcher(CharSequence charSequence);
+
+    public abstract String pattern();
+
+    public abstract String toString();
+
+    CommonPattern() {
+    }
+
+    public static CommonPattern compile(String str) {
+        return Platform.compilePattern(str);
+    }
+
+    public static boolean isPcreLike() {
+        return Platform.patternCompilerIsPcreLike();
+    }
+}

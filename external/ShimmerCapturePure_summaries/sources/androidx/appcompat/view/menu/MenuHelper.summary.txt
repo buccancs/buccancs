@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/view/menu/MenuHelper.java
+// Size: 242 bytes
+// Modified: 2025-10-21 16:32:03.371899900 +0100
+
+package androidx.appcompat.view.menu;
+
+import androidx.appcompat.view.menu.MenuPresenter;
+
+/* loaded from: classes.dex */
+interface MenuHelper {
+    void dismiss();
+
+    void setPresenterCallback(MenuPresenter.Callback callback);
+}

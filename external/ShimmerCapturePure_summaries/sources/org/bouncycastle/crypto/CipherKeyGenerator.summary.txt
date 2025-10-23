@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/CipherKeyGenerator.java
+// Size: 578 bytes
+// Modified: 2025-10-21 16:32:00.983087800 +0100
+
+package org.bouncycastle.crypto;
+
+import java.security.SecureRandom;
+
+/* loaded from: classes5.dex */
+public class CipherKeyGenerator {
+    protected SecureRandom random;
+    protected int strength;
+
+    public byte[] generateKey() {
+        byte[] bArr = new byte[this.strength];
+        this.random.nextBytes(bArr);
+        return bArr;
+    }
+
+    public void init(KeyGenerationParameters keyGenerationParameters) {
+        this.random = keyGenerationParameters.getRandom();
+        this.strength = (keyGenerationParameters.getStrength() + 7) / 8;
+    }
+}

@@ -1,0 +1,888 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/linear/BigMatrixImpl.java
+// Size: 35800 bytes
+// Modified: 2025-10-21 16:32:10.184641400 +0100
+
+package org.apache.commons.math.linear;
+
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math3.geometry.VectorFormat;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+@Deprecated
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/linear/BigMatrixImpl.class */
+public class BigMatrixImpl implements BigMatrix, Serializable {
+    static final BigDecimal ZERO = new BigDecimal(0);
+    static final BigDecimal ONE = new BigDecimal(1);
+    private static final BigDecimal TOO_SMALL = new BigDecimal(1.0E-11d);
+    private static final long serialVersionUID = -1011428905656140431L;
+    protected BigDecimal[][] data;
+    protected BigDecimal[][] lu;
+    protected int[] permutation;
+    protected int parity;
+    private int roundingMode;
+    private int scale;
+
+    public BigMatrixImpl() {
+        this.data = (BigDecimal[][]) null;
+        this.lu = (BigDecimal[][]) null;
+        this.permutation = null;
+        this.parity = 1;
+        this.roundingMode = 4;
+        this.scale = 64;
+    }
+
+    public BigMatrixImpl(int rowDimension, int columnDimension) {
+        this.data = (BigDecimal[][]) null;
+        this.lu = (BigDecimal[][]) null;
+        this.permutation = null;
+        this.parity = 1;
+        this.roundingMode = 4;
+        this.scale = 64;
+        if (rowDimension < 1) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INSUFFICIENT_DIMENSION, Integer.valueOf(rowDimension), 1);
+        }
+        if (columnDimension < 1) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INSUFFICIENT_DIMENSION, Integer.valueOf(columnDimension), 1);
+        }
+        this.data = new BigDecimal[rowDimension][columnDimension];
+        this.lu = (BigDecimal[][]) null;
+    }
+
+    public BigMatrixImpl(BigDecimal[][] d) throws MatrixIndexException {
+        this.data = (BigDecimal[][]) null;
+        this.lu = (BigDecimal[][]) null;
+        this.permutation = null;
+        this.parity = 1;
+        this.roundingMode = 4;
+        this.scale = 64;
+        copyIn(d);
+        this.lu = (BigDecimal[][]) null;
+    }
+
+    public BigMatrixImpl(BigDecimal[][] d, boolean copyArray) throws MatrixIndexException {
+        this.data = (BigDecimal[][]) null;
+        this.lu = (BigDecimal[][]) null;
+        this.permutation = null;
+        this.parity = 1;
+        this.roundingMode = 4;
+        this.scale = 64;
+        if (copyArray) {
+            copyIn(d);
+        } else {
+            if (d == null) {
+                throw new NullPointerException();
+            }
+            int nRows = d.length;
+            if (nRows == 0) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW, new Object[0]);
+            }
+            int nCols = d[0].length;
+            if (nCols == 0) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN, new Object[0]);
+            }
+            for (int r = 1; r < nRows; r++) {
+                if (d[r].length != nCols) {
+                    throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIFFERENT_ROWS_LENGTHS, Integer.valueOf(nCols), Integer.valueOf(d[r].length));
+                }
+            }
+            this.data = d;
+        }
+        this.lu = (BigDecimal[][]) null;
+    }
+
+    public BigMatrixImpl(double[][] d) {
+        this.data = (BigDecimal[][]) null;
+        this.lu = (BigDecimal[][]) null;
+        this.permutation = null;
+        this.parity = 1;
+        this.roundingMode = 4;
+        this.scale = 64;
+        int nRows = d.length;
+        if (nRows == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW, new Object[0]);
+        }
+        int nCols = d[0].length;
+        if (nCols == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN, new Object[0]);
+        }
+        for (int row = 1; row < nRows; row++) {
+            if (d[row].length != nCols) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIFFERENT_ROWS_LENGTHS, Integer.valueOf(nCols), Integer.valueOf(d[row].length));
+            }
+        }
+        copyIn(d);
+        this.lu = (BigDecimal[][]) null;
+    }
+
+    public BigMatrixImpl(String[][] d) {
+        this.data = (BigDecimal[][]) null;
+        this.lu = (BigDecimal[][]) null;
+        this.permutation = null;
+        this.parity = 1;
+        this.roundingMode = 4;
+        this.scale = 64;
+        int nRows = d.length;
+        if (nRows == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW, new Object[0]);
+        }
+        int nCols = d[0].length;
+        if (nCols == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN, new Object[0]);
+        }
+        for (int row = 1; row < nRows; row++) {
+            if (d[row].length != nCols) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIFFERENT_ROWS_LENGTHS, Integer.valueOf(nCols), Integer.valueOf(d[row].length));
+            }
+        }
+        copyIn(d);
+        this.lu = (BigDecimal[][]) null;
+    }
+
+    public BigMatrixImpl(BigDecimal[] v) {
+        this.data = (BigDecimal[][]) null;
+        this.lu = (BigDecimal[][]) null;
+        this.permutation = null;
+        this.parity = 1;
+        this.roundingMode = 4;
+        this.scale = 64;
+        int nRows = v.length;
+        this.data = new BigDecimal[nRows][1];
+        for (int row = 0; row < nRows; row++) {
+            this.data[row][0] = v[row];
+        }
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix copy() {
+        return new BigMatrixImpl(copyOut(), false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix add(BigMatrix m) throws IllegalArgumentException {
+        try {
+            return add((BigMatrixImpl) m);
+        } catch (ClassCastException e) {
+            MatrixUtils.checkAdditionCompatible(this, m);
+            int rowCount = getRowDimension();
+            int columnCount = getColumnDimension();
+            BigDecimal[][] outData = new BigDecimal[rowCount][columnCount];
+            for (int row = 0; row < rowCount; row++) {
+                BigDecimal[] dataRow = this.data[row];
+                BigDecimal[] outDataRow = outData[row];
+                for (int col = 0; col < columnCount; col++) {
+                    outDataRow[col] = dataRow[col].add(m.getEntry(row, col));
+                }
+            }
+            return new BigMatrixImpl(outData, false);
+        }
+    }
+
+    public BigMatrixImpl add(BigMatrixImpl m) throws IllegalArgumentException {
+        MatrixUtils.checkAdditionCompatible(this, m);
+        int rowCount = getRowDimension();
+        int columnCount = getColumnDimension();
+        BigDecimal[][] outData = new BigDecimal[rowCount][columnCount];
+        for (int row = 0; row < rowCount; row++) {
+            BigDecimal[] dataRow = this.data[row];
+            BigDecimal[] mRow = m.data[row];
+            BigDecimal[] outDataRow = outData[row];
+            for (int col = 0; col < columnCount; col++) {
+                outDataRow[col] = dataRow[col].add(mRow[col]);
+            }
+        }
+        return new BigMatrixImpl(outData, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix subtract(BigMatrix m) throws IllegalArgumentException {
+        try {
+            return subtract((BigMatrixImpl) m);
+        } catch (ClassCastException e) {
+            MatrixUtils.checkSubtractionCompatible(this, m);
+            int rowCount = getRowDimension();
+            int columnCount = getColumnDimension();
+            BigDecimal[][] outData = new BigDecimal[rowCount][columnCount];
+            for (int row = 0; row < rowCount; row++) {
+                BigDecimal[] dataRow = this.data[row];
+                BigDecimal[] outDataRow = outData[row];
+                for (int col = 0; col < columnCount; col++) {
+                    outDataRow[col] = dataRow[col].subtract(getEntry(row, col));
+                }
+            }
+            return new BigMatrixImpl(outData, false);
+        }
+    }
+
+    public BigMatrixImpl subtract(BigMatrixImpl m) throws IllegalArgumentException {
+        MatrixUtils.checkSubtractionCompatible(this, m);
+        int rowCount = getRowDimension();
+        int columnCount = getColumnDimension();
+        BigDecimal[][] outData = new BigDecimal[rowCount][columnCount];
+        for (int row = 0; row < rowCount; row++) {
+            BigDecimal[] dataRow = this.data[row];
+            BigDecimal[] mRow = m.data[row];
+            BigDecimal[] outDataRow = outData[row];
+            for (int col = 0; col < columnCount; col++) {
+                outDataRow[col] = dataRow[col].subtract(mRow[col]);
+            }
+        }
+        return new BigMatrixImpl(outData, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix scalarAdd(BigDecimal d) {
+        int rowCount = getRowDimension();
+        int columnCount = getColumnDimension();
+        BigDecimal[][] outData = new BigDecimal[rowCount][columnCount];
+        for (int row = 0; row < rowCount; row++) {
+            BigDecimal[] dataRow = this.data[row];
+            BigDecimal[] outDataRow = outData[row];
+            for (int col = 0; col < columnCount; col++) {
+                outDataRow[col] = dataRow[col].add(d);
+            }
+        }
+        return new BigMatrixImpl(outData, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix scalarMultiply(BigDecimal d) {
+        int rowCount = getRowDimension();
+        int columnCount = getColumnDimension();
+        BigDecimal[][] outData = new BigDecimal[rowCount][columnCount];
+        for (int row = 0; row < rowCount; row++) {
+            BigDecimal[] dataRow = this.data[row];
+            BigDecimal[] outDataRow = outData[row];
+            for (int col = 0; col < columnCount; col++) {
+                outDataRow[col] = dataRow[col].multiply(d);
+            }
+        }
+        return new BigMatrixImpl(outData, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix multiply(BigMatrix m) throws IllegalArgumentException {
+        try {
+            return multiply((BigMatrixImpl) m);
+        } catch (ClassCastException e) {
+            MatrixUtils.checkMultiplicationCompatible(this, m);
+            int nRows = getRowDimension();
+            int nCols = m.getColumnDimension();
+            int nSum = getColumnDimension();
+            BigDecimal[][] outData = new BigDecimal[nRows][nCols];
+            for (int row = 0; row < nRows; row++) {
+                BigDecimal[] dataRow = this.data[row];
+                BigDecimal[] outDataRow = outData[row];
+                for (int col = 0; col < nCols; col++) {
+                    BigDecimal sum = ZERO;
+                    for (int i = 0; i < nSum; i++) {
+                        sum = sum.add(dataRow[i].multiply(m.getEntry(i, col)));
+                    }
+                    outDataRow[col] = sum;
+                }
+            }
+            return new BigMatrixImpl(outData, false);
+        }
+    }
+
+    public BigMatrixImpl multiply(BigMatrixImpl m) throws IllegalArgumentException {
+        MatrixUtils.checkMultiplicationCompatible(this, m);
+        int nRows = getRowDimension();
+        int nCols = m.getColumnDimension();
+        int nSum = getColumnDimension();
+        BigDecimal[][] outData = new BigDecimal[nRows][nCols];
+        for (int row = 0; row < nRows; row++) {
+            BigDecimal[] dataRow = this.data[row];
+            BigDecimal[] outDataRow = outData[row];
+            for (int col = 0; col < nCols; col++) {
+                BigDecimal sum = ZERO;
+                for (int i = 0; i < nSum; i++) {
+                    sum = sum.add(dataRow[i].multiply(m.data[i][col]));
+                }
+                outDataRow[col] = sum;
+            }
+        }
+        return new BigMatrixImpl(outData, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix preMultiply(BigMatrix m) throws IllegalArgumentException {
+        return m.multiply(this);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal[][] getData() {
+        return copyOut();
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public double[][] getDataAsDoubleArray() {
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        double[][] d = new double[nRows][nCols];
+        for (int i = 0; i < nRows; i++) {
+            for (int j = 0; j < nCols; j++) {
+                d[i][j] = this.data[i][j].doubleValue();
+            }
+        }
+        return d;
+    }
+
+    public BigDecimal[][] getDataRef() {
+        return this.data;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public int getRoundingMode() {
+        return this.roundingMode;
+    }
+
+    public void setRoundingMode(int roundingMode) {
+        this.roundingMode = roundingMode;
+    }
+
+    public int getScale() {
+        return this.scale;
+    }
+
+    public void setScale(int scale) {
+        this.scale = scale;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal getNorm() {
+        BigDecimal maxColSum = ZERO;
+        for (int col = 0; col < getColumnDimension(); col++) {
+            BigDecimal sum = ZERO;
+            for (int row = 0; row < getRowDimension(); row++) {
+                sum = sum.add(this.data[row][col].abs());
+            }
+            maxColSum = maxColSum.max(sum);
+        }
+        return maxColSum;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix getSubMatrix(int startRow, int endRow, int startColumn, int endColumn) throws MatrixIndexException {
+        MatrixUtils.checkRowIndex(this, startRow);
+        MatrixUtils.checkRowIndex(this, endRow);
+        if (startRow > endRow) {
+            throw new MatrixIndexException(LocalizedFormats.INITIAL_ROW_AFTER_FINAL_ROW, Integer.valueOf(startRow), Integer.valueOf(endRow));
+        }
+        MatrixUtils.checkColumnIndex(this, startColumn);
+        MatrixUtils.checkColumnIndex(this, endColumn);
+        if (startColumn > endColumn) {
+            throw new MatrixIndexException(LocalizedFormats.INITIAL_COLUMN_AFTER_FINAL_COLUMN, Integer.valueOf(startColumn), Integer.valueOf(endColumn));
+        }
+        BigDecimal[][] subMatrixData = new BigDecimal[(endRow - startRow) + 1][(endColumn - startColumn) + 1];
+        for (int i = startRow; i <= endRow; i++) {
+            System.arraycopy(this.data[i], startColumn, subMatrixData[i - startRow], 0, (endColumn - startColumn) + 1);
+        }
+        return new BigMatrixImpl(subMatrixData, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix getSubMatrix(int[] selectedRows, int[] selectedColumns) throws MatrixIndexException {
+        if (selectedRows.length * selectedColumns.length == 0) {
+            if (selectedRows.length == 0) {
+                throw new MatrixIndexException(LocalizedFormats.EMPTY_SELECTED_ROW_INDEX_ARRAY, new Object[0]);
+            }
+            throw new MatrixIndexException(LocalizedFormats.EMPTY_SELECTED_COLUMN_INDEX_ARRAY, new Object[0]);
+        }
+        BigDecimal[][] subMatrixData = new BigDecimal[selectedRows.length][selectedColumns.length];
+        for (int i = 0; i < selectedRows.length; i++) {
+            try {
+                BigDecimal[] subI = subMatrixData[i];
+                BigDecimal[] dataSelectedI = this.data[selectedRows[i]];
+                for (int j = 0; j < selectedColumns.length; j++) {
+                    subI[j] = dataSelectedI[selectedColumns[j]];
+                }
+            } catch (ArrayIndexOutOfBoundsException e) {
+                for (int row : selectedRows) {
+                    MatrixUtils.checkRowIndex(this, row);
+                }
+                for (int column : selectedColumns) {
+                    MatrixUtils.checkColumnIndex(this, column);
+                }
+            }
+        }
+        return new BigMatrixImpl(subMatrixData, false);
+    }
+
+    public void setSubMatrix(BigDecimal[][] subMatrix, int row, int column) throws MatrixIndexException {
+        int nRows = subMatrix.length;
+        if (nRows == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_ROW, new Object[0]);
+        }
+        int nCols = subMatrix[0].length;
+        if (nCols == 0) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.AT_LEAST_ONE_COLUMN, new Object[0]);
+        }
+        for (int r = 1; r < nRows; r++) {
+            if (subMatrix[r].length != nCols) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIFFERENT_ROWS_LENGTHS, Integer.valueOf(nCols), Integer.valueOf(subMatrix[r].length));
+            }
+        }
+        if (this.data == null) {
+            if (row > 0) {
+                throw MathRuntimeException.createIllegalStateException(LocalizedFormats.FIRST_ROWS_NOT_INITIALIZED_YET, Integer.valueOf(row));
+            }
+            if (column > 0) {
+                throw MathRuntimeException.createIllegalStateException(LocalizedFormats.FIRST_COLUMNS_NOT_INITIALIZED_YET, Integer.valueOf(column));
+            }
+            this.data = new BigDecimal[nRows][nCols];
+            System.arraycopy(subMatrix, 0, this.data, 0, subMatrix.length);
+        } else {
+            MatrixUtils.checkRowIndex(this, row);
+            MatrixUtils.checkColumnIndex(this, column);
+            MatrixUtils.checkRowIndex(this, (nRows + row) - 1);
+            MatrixUtils.checkColumnIndex(this, (nCols + column) - 1);
+        }
+        for (int i = 0; i < nRows; i++) {
+            System.arraycopy(subMatrix[i], 0, this.data[row + i], column, nCols);
+        }
+        this.lu = (BigDecimal[][]) null;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix getRowMatrix(int row) throws MatrixIndexException {
+        MatrixUtils.checkRowIndex(this, row);
+        int ncols = getColumnDimension();
+        BigDecimal[][] out = new BigDecimal[1][ncols];
+        System.arraycopy(this.data[row], 0, out[0], 0, ncols);
+        return new BigMatrixImpl(out, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix getColumnMatrix(int column) throws MatrixIndexException {
+        MatrixUtils.checkColumnIndex(this, column);
+        int nRows = getRowDimension();
+        BigDecimal[][] out = new BigDecimal[nRows][1];
+        for (int row = 0; row < nRows; row++) {
+            out[row][0] = this.data[row][column];
+        }
+        return new BigMatrixImpl(out, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal[] getRow(int row) throws MatrixIndexException {
+        MatrixUtils.checkRowIndex(this, row);
+        int ncols = getColumnDimension();
+        BigDecimal[] out = new BigDecimal[ncols];
+        System.arraycopy(this.data[row], 0, out, 0, ncols);
+        return out;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public double[] getRowAsDoubleArray(int row) throws MatrixIndexException {
+        MatrixUtils.checkRowIndex(this, row);
+        int ncols = getColumnDimension();
+        double[] out = new double[ncols];
+        for (int i = 0; i < ncols; i++) {
+            out[i] = this.data[row][i].doubleValue();
+        }
+        return out;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal[] getColumn(int col) throws MatrixIndexException {
+        MatrixUtils.checkColumnIndex(this, col);
+        int nRows = getRowDimension();
+        BigDecimal[] out = new BigDecimal[nRows];
+        for (int i = 0; i < nRows; i++) {
+            out[i] = this.data[i][col];
+        }
+        return out;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public double[] getColumnAsDoubleArray(int col) throws MatrixIndexException {
+        MatrixUtils.checkColumnIndex(this, col);
+        int nrows = getRowDimension();
+        double[] out = new double[nrows];
+        for (int i = 0; i < nrows; i++) {
+            out[i] = this.data[i][col].doubleValue();
+        }
+        return out;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal getEntry(int row, int column) throws MatrixIndexException {
+        try {
+            return this.data[row][column];
+        } catch (ArrayIndexOutOfBoundsException e) {
+            throw new MatrixIndexException(LocalizedFormats.NO_SUCH_MATRIX_ENTRY, Integer.valueOf(row), Integer.valueOf(column), Integer.valueOf(getRowDimension()), Integer.valueOf(getColumnDimension()));
+        }
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public double getEntryAsDouble(int row, int column) throws MatrixIndexException {
+        return getEntry(row, column).doubleValue();
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix transpose() {
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        BigDecimal[][] outData = new BigDecimal[nCols][nRows];
+        for (int row = 0; row < nRows; row++) {
+            BigDecimal[] dataRow = this.data[row];
+            for (int col = 0; col < nCols; col++) {
+                outData[col][row] = dataRow[col];
+            }
+        }
+        return new BigMatrixImpl(outData, false);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix inverse() throws InvalidMatrixException {
+        return solve(MatrixUtils.createBigIdentityMatrix(getRowDimension()));
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal getDeterminant() throws InvalidMatrixException {
+        if (!isSquare()) {
+            throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
+        }
+        if (isSingular()) {
+            return ZERO;
+        }
+        BigDecimal det = this.parity == 1 ? ONE : ONE.negate();
+        for (int i = 0; i < getRowDimension(); i++) {
+            det = det.multiply(this.lu[i][i]);
+        }
+        return det;
+    }
+
+    @Override // org.apache.commons.math.linear.AnyMatrix
+    public boolean isSquare() {
+        return getColumnDimension() == getRowDimension();
+    }
+
+    public boolean isSingular() {
+        if (this.lu == null) {
+            try {
+                luDecompose();
+                return false;
+            } catch (InvalidMatrixException e) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override // org.apache.commons.math.linear.AnyMatrix
+    public int getRowDimension() {
+        return this.data.length;
+    }
+
+    @Override // org.apache.commons.math.linear.AnyMatrix
+    public int getColumnDimension() {
+        return this.data[0].length;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal getTrace() throws IllegalArgumentException {
+        if (!isSquare()) {
+            throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
+        }
+        BigDecimal trace = this.data[0][0];
+        for (int i = 1; i < getRowDimension(); i++) {
+            trace = trace.add(this.data[i][i]);
+        }
+        return trace;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal[] operate(BigDecimal[] v) throws IllegalArgumentException {
+        if (v.length != getColumnDimension()) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.VECTOR_LENGTH_MISMATCH, Integer.valueOf(v.length), Integer.valueOf(getColumnDimension()));
+        }
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        BigDecimal[] out = new BigDecimal[nRows];
+        for (int row = 0; row < nRows; row++) {
+            BigDecimal sum = ZERO;
+            for (int i = 0; i < nCols; i++) {
+                sum = sum.add(this.data[row][i].multiply(v[i]));
+            }
+            out[row] = sum;
+        }
+        return out;
+    }
+
+    public BigDecimal[] operate(double[] v) throws IllegalArgumentException {
+        BigDecimal[] bd = new BigDecimal[v.length];
+        for (int i = 0; i < bd.length; i++) {
+            bd[i] = new BigDecimal(v[i]);
+        }
+        return operate(bd);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal[] preMultiply(BigDecimal[] v) throws IllegalArgumentException {
+        int nRows = getRowDimension();
+        if (v.length != nRows) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.VECTOR_LENGTH_MISMATCH, Integer.valueOf(v.length), Integer.valueOf(nRows));
+        }
+        int nCols = getColumnDimension();
+        BigDecimal[] out = new BigDecimal[nCols];
+        for (int col = 0; col < nCols; col++) {
+            BigDecimal sum = ZERO;
+            for (int i = 0; i < nRows; i++) {
+                sum = sum.add(this.data[i][col].multiply(v[i]));
+            }
+            out[col] = sum;
+        }
+        return out;
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigDecimal[] solve(BigDecimal[] b) throws InvalidMatrixException, IllegalArgumentException {
+        int nRows = getRowDimension();
+        if (b.length != nRows) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.VECTOR_LENGTH_MISMATCH, Integer.valueOf(b.length), Integer.valueOf(nRows));
+        }
+        BigMatrix bMatrix = new BigMatrixImpl(b);
+        BigDecimal[][] solution = ((BigMatrixImpl) solve(bMatrix)).getDataRef();
+        BigDecimal[] out = new BigDecimal[nRows];
+        for (int row = 0; row < nRows; row++) {
+            out[row] = solution[row][0];
+        }
+        return out;
+    }
+
+    public BigDecimal[] solve(double[] b) throws InvalidMatrixException, IllegalArgumentException {
+        BigDecimal[] bd = new BigDecimal[b.length];
+        for (int i = 0; i < bd.length; i++) {
+            bd[i] = new BigDecimal(b[i]);
+        }
+        return solve(bd);
+    }
+
+    @Override // org.apache.commons.math.linear.BigMatrix
+    public BigMatrix solve(BigMatrix b) throws InvalidMatrixException, IllegalArgumentException {
+        if (b.getRowDimension() != getRowDimension()) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_2x2, Integer.valueOf(b.getRowDimension()), Integer.valueOf(b.getColumnDimension()), Integer.valueOf(getRowDimension()), "n");
+        }
+        if (!isSquare()) {
+            throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
+        }
+        if (isSingular()) {
+            throw new SingularMatrixException();
+        }
+        int nCol = getColumnDimension();
+        int nColB = b.getColumnDimension();
+        int nRowB = b.getRowDimension();
+        BigDecimal[][] bp = new BigDecimal[nRowB][nColB];
+        for (int row = 0; row < nRowB; row++) {
+            BigDecimal[] bpRow = bp[row];
+            for (int col = 0; col < nColB; col++) {
+                bpRow[col] = b.getEntry(this.permutation[row], col);
+            }
+        }
+        for (int col2 = 0; col2 < nCol; col2++) {
+            for (int i = col2 + 1; i < nCol; i++) {
+                BigDecimal[] bpI = bp[i];
+                BigDecimal[] luI = this.lu[i];
+                for (int j = 0; j < nColB; j++) {
+                    bpI[j] = bpI[j].subtract(bp[col2][j].multiply(luI[col2]));
+                }
+            }
+        }
+        for (int col3 = nCol - 1; col3 >= 0; col3--) {
+            BigDecimal[] bpCol = bp[col3];
+            BigDecimal luDiag = this.lu[col3][col3];
+            for (int j2 = 0; j2 < nColB; j2++) {
+                bpCol[j2] = bpCol[j2].divide(luDiag, this.scale, this.roundingMode);
+            }
+            for (int i2 = 0; i2 < col3; i2++) {
+                BigDecimal[] bpI2 = bp[i2];
+                BigDecimal[] luI2 = this.lu[i2];
+                for (int j3 = 0; j3 < nColB; j3++) {
+                    bpI2[j3] = bpI2[j3].subtract(bp[col3][j3].multiply(luI2[col3]));
+                }
+            }
+        }
+        return new BigMatrixImpl(bp, false);
+    }
+
+    public void luDecompose() throws InvalidMatrixException {
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        if (nRows != nCols) {
+            throw new NonSquareMatrixException(getRowDimension(), getColumnDimension());
+        }
+        this.lu = getData();
+        this.permutation = new int[nRows];
+        for (int row = 0; row < nRows; row++) {
+            this.permutation[row] = row;
+        }
+        this.parity = 1;
+        for (int col = 0; col < nCols; col++) {
+            BigDecimal bigDecimal = ZERO;
+            for (int row2 = 0; row2 < col; row2++) {
+                BigDecimal[] luRow = this.lu[row2];
+                BigDecimal sum = luRow[col];
+                for (int i = 0; i < row2; i++) {
+                    sum = sum.subtract(luRow[i].multiply(this.lu[i][col]));
+                }
+                luRow[col] = sum;
+            }
+            int max = col;
+            BigDecimal largest = ZERO;
+            for (int row3 = col; row3 < nRows; row3++) {
+                BigDecimal[] luRow2 = this.lu[row3];
+                BigDecimal sum2 = luRow2[col];
+                for (int i2 = 0; i2 < col; i2++) {
+                    sum2 = sum2.subtract(luRow2[i2].multiply(this.lu[i2][col]));
+                }
+                luRow2[col] = sum2;
+                if (sum2.abs().compareTo(largest) == 1) {
+                    largest = sum2.abs();
+                    max = row3;
+                }
+            }
+            if (this.lu[max][col].abs().compareTo(TOO_SMALL) <= 0) {
+                this.lu = (BigDecimal[][]) null;
+                throw new SingularMatrixException();
+            }
+            if (max != col) {
+                BigDecimal bigDecimal2 = ZERO;
+                for (int i3 = 0; i3 < nCols; i3++) {
+                    BigDecimal tmp = this.lu[max][i3];
+                    this.lu[max][i3] = this.lu[col][i3];
+                    this.lu[col][i3] = tmp;
+                }
+                int temp = this.permutation[max];
+                this.permutation[max] = this.permutation[col];
+                this.permutation[col] = temp;
+                this.parity = -this.parity;
+            }
+            BigDecimal luDiag = this.lu[col][col];
+            for (int row4 = col + 1; row4 < nRows; row4++) {
+                BigDecimal[] luRow3 = this.lu[row4];
+                luRow3[col] = luRow3[col].divide(luDiag, this.scale, this.roundingMode);
+            }
+        }
+    }
+
+    public String toString() {
+        StringBuilder res = new StringBuilder();
+        res.append("BigMatrixImpl{");
+        if (this.data != null) {
+            for (int i = 0; i < this.data.length; i++) {
+                if (i > 0) {
+                    res.append(UtilVerisenseDriver.CSV_DELIMITER);
+                }
+                res.append(VectorFormat.DEFAULT_PREFIX);
+                for (int j = 0; j < this.data[0].length; j++) {
+                    if (j > 0) {
+                        res.append(UtilVerisenseDriver.CSV_DELIMITER);
+                    }
+                    res.append(this.data[i][j]);
+                }
+                res.append(VectorFormat.DEFAULT_SUFFIX);
+            }
+        }
+        res.append(VectorFormat.DEFAULT_SUFFIX);
+        return res.toString();
+    }
+
+    public boolean equals(Object object) {
+        if (object == this) {
+            return true;
+        }
+        if (!(object instanceof BigMatrixImpl)) {
+            return false;
+        }
+        BigMatrix m = (BigMatrix) object;
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        if (m.getColumnDimension() != nCols || m.getRowDimension() != nRows) {
+            return false;
+        }
+        for (int row = 0; row < nRows; row++) {
+            BigDecimal[] dataRow = this.data[row];
+            for (int col = 0; col < nCols; col++) {
+                if (!dataRow[col].equals(m.getEntry(row, col))) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public int hashCode() {
+        int nRows = getRowDimension();
+        int nCols = getColumnDimension();
+        int ret = (7 * 31) + nRows;
+        int ret2 = (ret * 31) + nCols;
+        for (int row = 0; row < nRows; row++) {
+            BigDecimal[] dataRow = this.data[row];
+            for (int col = 0; col < nCols; col++) {
+                ret2 = (ret2 * 31) + (((11 * (row + 1)) + (17 * (col + 1))) * dataRow[col].hashCode());
+            }
+        }
+        return ret2;
+    }
+
+    protected BigMatrix getLUMatrix() throws InvalidMatrixException {
+        if (this.lu == null) {
+            luDecompose();
+        }
+        return new BigMatrixImpl(this.lu);
+    }
+
+    protected int[] getPermutation() {
+        int[] out = new int[this.permutation.length];
+        System.arraycopy(this.permutation, 0, out, 0, this.permutation.length);
+        return out;
+    }
+
+    private BigDecimal[][] copyOut() {
+        int nRows = getRowDimension();
+        BigDecimal[][] out = new BigDecimal[nRows][getColumnDimension()];
+        for (int i = 0; i < nRows; i++) {
+            System.arraycopy(this.data[i], 0, out[i], 0, this.data[i].length);
+        }
+        return out;
+    }
+
+    private void copyIn(BigDecimal[][] in) throws MatrixIndexException {
+        setSubMatrix(in, 0, 0);
+    }
+
+    private void copyIn(double[][] in) {
+        int nRows = in.length;
+        int nCols = in[0].length;
+        this.data = new BigDecimal[nRows][nCols];
+        for (int i = 0; i < nRows; i++) {
+            BigDecimal[] dataI = this.data[i];
+            double[] inI = in[i];
+            for (int j = 0; j < nCols; j++) {
+                dataI[j] = new BigDecimal(inI[j]);
+            }
+        }
+        this.lu = (BigDecimal[][]) null;
+    }
+
+    private void copyIn(String[][] in) {
+        int nRows = in.length;
+        int nCols = in[0].length;
+        this.data = new BigDecimal[nRows][nCols];
+        for (int i = 0; i < nRows; i++) {
+            BigDecimal[] dataI = this.data[i];
+            String[] inI = in[i];
+            for (int j = 0; j < nCols; j++) {
+                dataI[j] = new BigDecimal(inI[j]);
+            }
+        }
+        this.lu = (BigDecimal[][]) null;
+    }
+}

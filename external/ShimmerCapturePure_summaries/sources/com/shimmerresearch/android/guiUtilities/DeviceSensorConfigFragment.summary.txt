@@ -1,0 +1,166 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/android/guiUtilities/DeviceSensorConfigFragment.java
+// Size: 9507 bytes
+// Modified: 2025-10-21 16:32:13.686856500 +0100
+
+package com.shimmerresearch.android.guiUtilities;
+
+import android.app.Fragment;
+import android.content.Context;
+import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.Button;
+import android.widget.CheckedTextView;
+import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
+import android.widget.Toast;
+import com.shimmerresearch.android.Shimmer;
+import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid;
+import com.shimmerresearch.androidinstrumentdriver.R;
+import com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractSensorConfigDialog;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.AssembleShimmerConfig;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
+import com.shimmerresearch.managers.bluetoothManager.ShimmerBluetoothManager;
+import java.util.ArrayList;
+
+/* loaded from: classes2.dex */
+public class DeviceSensorConfigFragment extends Fragment {
+    int buttonBackgroundResourceId = -1;
+    DeviceConfigListAdapter expandListAdapter;
+    ExpandableListView expandListView;
+    SensorConfigDialog scd;
+
+    public static DeviceSensorConfigFragment newInstance() {
+        return new DeviceSensorConfigFragment();
+    }
+
+    public void buildDeviceConfigList(ShimmerDevice shimmerDevice, Context context, ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid, int i) {
+        this.buttonBackgroundResourceId = i;
+        buildDeviceConfigList(shimmerDevice, context, shimmerBluetoothManagerAndroid);
+    }
+
+    public void buildDeviceConfigList(ShimmerDevice shimmerDevice, Context context, ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid) {
+        this.scd = new SensorConfigDialog(shimmerDevice, shimmerBluetoothManagerAndroid, context);
+    }
+
+    @Override // android.app.Fragment
+    public View onCreateView(LayoutInflater layoutInflater, ViewGroup viewGroup, Bundle bundle) {
+        return layoutInflater.inflate(R.layout.fragment_device_config, (ViewGroup) null);
+    }
+
+    public ShimmerDevice getCloneDevice() {
+        return this.scd.getCloneDevice();
+    }
+
+    public class SensorConfigDialog extends AbstractSensorConfigDialog {
+        Context context;
+
+        @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractSensorConfigDialog
+        public void createComboBox(int i, String str, ConfigOptionDetailsSensor configOptionDetailsSensor, Object[] objArr, boolean z) {
+        }
+
+        @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractSensorConfigDialog
+        public void createEditText(String str, boolean z) {
+        }
+
+        @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractSensorConfigDialog
+        public void createFrame() {
+        }
+
+        @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractSensorConfigDialog
+        public void createLabel(String str) {
+        }
+
+        SensorConfigDialog(ShimmerDevice shimmerDevice, ShimmerBluetoothManager shimmerBluetoothManager, Context context) {
+            super(shimmerDevice, shimmerBluetoothManager);
+            this.context = context;
+            ArrayList arrayList = new ArrayList();
+            arrayList.add("Wide Range Accel Rate");
+            setSensorKeysFilter(arrayList, true);
+            ArrayList arrayList2 = new ArrayList();
+            arrayList2.add("Wide Range Accel Rate");
+            arrayList2.add("Mag Rate");
+            arrayList2.add("Gyro Sampling Rate");
+            setSensorDisplayButDisableKeysFilter(arrayList2, true);
+            initialize();
+            showFrame();
+        }
+
+        public ShimmerDevice getCloneDevice() {
+            return this.cloneDevice;
+        }
+
+        @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractSensorConfigDialog
+        public void showFrame() {
+            DeviceSensorConfigFragment.this.expandListAdapter = new DeviceConfigListAdapter(this.context, this.listOfKeys, this.configOptionsMap, this.shimmerDevice, this.cloneDevice);
+            DeviceSensorConfigFragment deviceSensorConfigFragment = DeviceSensorConfigFragment.this;
+            deviceSensorConfigFragment.expandListView = (ExpandableListView) deviceSensorConfigFragment.getView().findViewById(R.id.expandable_listview);
+            DeviceSensorConfigFragment.this.expandListView.setAdapter(DeviceSensorConfigFragment.this.expandListAdapter);
+            DeviceSensorConfigFragment.this.expandListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() { // from class: com.shimmerresearch.android.guiUtilities.DeviceSensorConfigFragment.SensorConfigDialog.1
+                @Override // android.widget.ExpandableListView.OnChildClickListener
+                public boolean onChildClick(ExpandableListView expandableListView, View view, int i, int i2, long j) {
+                    if (view.findViewById(R.id.expandedListItem) != null) {
+                        CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.expandedListItem);
+                        if (checkedTextView.isChecked()) {
+                            checkedTextView.setChecked(false);
+                        } else {
+                            checkedTextView.setChecked(true);
+                        }
+                        String str = (String) DeviceSensorConfigFragment.this.expandListAdapter.getChild(i, i2);
+                        String str2 = (String) DeviceSensorConfigFragment.this.expandListAdapter.getGroup(i);
+                        SensorConfigDialog.this.cloneDevice.setConfigValueUsingConfigLabel(str2, ((ConfigOptionDetailsSensor) SensorConfigDialog.this.configOptionsMap.get(str2)).mConfigValues[i2]);
+                        DeviceSensorConfigFragment.this.expandListAdapter.replaceCurrentSetting(str2, str);
+                        DeviceSensorConfigFragment.this.expandListAdapter.notifyDataSetChanged();
+                    }
+                    return false;
+                }
+            });
+            if (DeviceSensorConfigFragment.this.expandListView.getFooterViewsCount() == 0) {
+                LinearLayout linearLayout = new LinearLayout(this.context);
+                linearLayout.setLayoutParams(new AbsListView.LayoutParams(-1, -2));
+                linearLayout.setOrientation(0);
+                linearLayout.setGravity(1);
+                Button button = new Button(this.context);
+                Button button2 = new Button(this.context);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2, 1.0f);
+                button.setLayoutParams(layoutParams);
+                button2.setLayoutParams(layoutParams);
+                if (DeviceSensorConfigFragment.this.buttonBackgroundResourceId != -1) {
+                    button.setBackgroundResource(DeviceSensorConfigFragment.this.buttonBackgroundResourceId);
+                    button2.setBackgroundResource(DeviceSensorConfigFragment.this.buttonBackgroundResourceId);
+                }
+                button.setOnClickListener(new View.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.DeviceSensorConfigFragment.SensorConfigDialog.2
+                    @Override // android.view.View.OnClickListener
+                    public void onClick(View view) throws InterruptedException {
+                        Toast.makeText(SensorConfigDialog.this.context, "Writing config to Shimmer...", 0).show();
+                        ArrayList arrayList = new ArrayList();
+                        arrayList.add(0, SensorConfigDialog.this.cloneDevice);
+                        AssembleShimmerConfig.generateMultipleShimmerConfig(arrayList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+                        if (SensorConfigDialog.this.cloneDevice instanceof Shimmer) {
+                            SensorConfigDialog.this.bluetoothManager.configureShimmer(SensorConfigDialog.this.cloneDevice);
+                        }
+                    }
+                });
+                button2.setOnClickListener(new View.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.DeviceSensorConfigFragment.SensorConfigDialog.3
+                    @Override // android.view.View.OnClickListener
+                    public void onClick(View view) {
+                        SensorConfigDialog sensorConfigDialog = SensorConfigDialog.this;
+                        sensorConfigDialog.cloneDevice = sensorConfigDialog.shimmerDevice.deepClone();
+                        DeviceSensorConfigFragment.this.expandListAdapter.updateCloneDevice(SensorConfigDialog.this.cloneDevice);
+                        DeviceSensorConfigFragment.this.expandListAdapter.notifyDataSetChanged();
+                        Toast.makeText(SensorConfigDialog.this.context, "Settings have been reset", 0).show();
+                    }
+                });
+                button.setText("Save Changes");
+                button2.setText("Reset List");
+                linearLayout.addView(button2);
+                linearLayout.addView(button);
+                DeviceSensorConfigFragment.this.expandListView.addFooterView(linearLayout);
+            }
+        }
+    }
+}

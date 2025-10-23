@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/stats/AutoValue_Aggregation_LastValue.java
+// Size: 486 bytes
+// Modified: 2025-10-21 16:32:04.699605300 +0100
+
+package io.opencensus.stats;
+
+import io.opencensus.stats.Aggregation;
+
+/* loaded from: classes4.dex */
+final class AutoValue_Aggregation_LastValue extends Aggregation.LastValue {
+    public int hashCode() {
+        return 1;
+    }
+
+    public String toString() {
+        return "LastValue{}";
+    }
+
+    AutoValue_Aggregation_LastValue() {
+    }
+
+    public boolean equals(Object obj) {
+        return obj == this || (obj instanceof Aggregation.LastValue);
+    }
+}

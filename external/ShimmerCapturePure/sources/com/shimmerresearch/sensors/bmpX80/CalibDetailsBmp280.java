@@ -1,0 +1,108 @@
+package com.shimmerresearch.sensors.bmpX80;
+
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driverUtilities.UtilParseData;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+
+/* loaded from: classes2.dex */
+public class CalibDetailsBmp280 extends CalibDetailsBmpX80 {
+    private static final long serialVersionUID = 3020209119724202014L;
+    public double dig_T1 = DEFAULT_COMPENSATION_VALUES.DIG_T1;
+    public double dig_T2 = DEFAULT_COMPENSATION_VALUES.DIG_T2;
+    public double dig_T3 = DEFAULT_COMPENSATION_VALUES.DIG_T3;
+    public double dig_P1 = DEFAULT_COMPENSATION_VALUES.DIG_P1;
+    public double dig_P2 = DEFAULT_COMPENSATION_VALUES.DIG_P2;
+    public double dig_P3 = DEFAULT_COMPENSATION_VALUES.DIG_P3;
+    public double dig_P4 = DEFAULT_COMPENSATION_VALUES.DIG_P4;
+    public double dig_P5 = DEFAULT_COMPENSATION_VALUES.DIG_P5;
+    public double dig_P6 = DEFAULT_COMPENSATION_VALUES.DIG_P6;
+    public double dig_P7 = DEFAULT_COMPENSATION_VALUES.DIG_P7;
+    public double dig_P8 = DEFAULT_COMPENSATION_VALUES.DIG_P8;
+    public double dig_P9 = DEFAULT_COMPENSATION_VALUES.DIG_P9;
+
+    @Override // com.shimmerresearch.sensors.bmpX80.CalibDetailsBmpX80
+    public double[] calibratePressureSensorData(double d, double d2) {
+        double d3 = this.dig_T1;
+        double d4 = d2 / 131072.0d;
+        double d5 = (((d2 / 16384.0d) - (d3 / 1024.0d)) * this.dig_T2) + ((d4 - (d3 / 8192.0d)) * (d4 - (d3 / 8192.0d)) * this.dig_T3);
+        double d6 = d5 / 5120.0d;
+        double d7 = (d5 / 2.0d) - 64000.0d;
+        double d8 = (((1048576.0d - d) - (((((((d7 * d7) * this.dig_P6) / 32768.0d) + ((this.dig_P5 * d7) * 2.0d)) / 4.0d) + (this.dig_P4 * 65536.0d)) / 4096.0d)) * 6250.0d) / ((((((((this.dig_P3 * d7) * d7) / 524288.0d) + (this.dig_P2 * d7)) / 524288.0d) / 32768.0d) + 1.0d) * this.dig_P1);
+        return new double[]{d8 + ((((((this.dig_P9 * d8) * d8) / 2.147483648E9d) + ((this.dig_P8 * d8) / 32768.0d)) + this.dig_P7) / 16.0d), d6};
+    }
+
+    @Override // com.shimmerresearch.driver.calibration.CalibDetails
+    public byte[] generateCalParamByteArray() {
+        return null;
+    }
+
+    public void setPressureCalib(double d, double d2, double d3, double d4, double d5, double d6, double d7, double d8, double d9, double d10, double d11, double d12) {
+        this.dig_T1 = d;
+        this.dig_T2 = d2;
+        this.dig_T3 = d3;
+        this.dig_P1 = d4;
+        this.dig_P2 = d5;
+        this.dig_P3 = d6;
+        this.dig_P4 = d7;
+        this.dig_P5 = d8;
+        this.dig_P6 = d9;
+        this.dig_P7 = d10;
+        this.dig_P8 = d11;
+        this.dig_P9 = d12;
+    }
+
+    @Override // com.shimmerresearch.driver.calibration.CalibDetails
+    public void parseCalParamByteArray(byte[] bArr, CalibDetails.CALIB_READ_SOURCE calib_read_source) {
+        if (calib_read_source.ordinal() <= getCalibReadSource().ordinal() || UtilShimmer.isAllFF(bArr) || UtilShimmer.isAllZeros(bArr)) {
+            return;
+        }
+        setPressureRawCoefficients(bArr);
+        setCalibReadSource(calib_read_source);
+        this.dig_T1 = (bArr[0] & 255) + ((bArr[1] & 255) << 8);
+        this.dig_T2 = UtilParseData.calculatetwoscomplement((bArr[2] & 255) + ((bArr[3] & 255) << 8), 16);
+        this.dig_T3 = UtilParseData.calculatetwoscomplement((bArr[4] & 255) + ((bArr[5] & 255) << 8), 16);
+        this.dig_P1 = (bArr[6] & 255) + ((bArr[7] & 255) << 8);
+        this.dig_P2 = UtilParseData.calculatetwoscomplement((bArr[8] & 255) + ((bArr[9] & 255) << 8), 16);
+        this.dig_P3 = UtilParseData.calculatetwoscomplement((bArr[10] & 255) + ((bArr[11] & 255) << 8), 16);
+        this.dig_P4 = UtilParseData.calculatetwoscomplement((bArr[12] & 255) + ((bArr[13] & 255) << 8), 16);
+        this.dig_P5 = UtilParseData.calculatetwoscomplement((bArr[14] & 255) + ((bArr[15] & 255) << 8), 16);
+        this.dig_P6 = UtilParseData.calculatetwoscomplement((bArr[16] & 255) + ((bArr[17] & 255) << 8), 16);
+        this.dig_P7 = UtilParseData.calculatetwoscomplement((bArr[18] & 255) + ((bArr[19] & 255) << 8), 16);
+        this.dig_P8 = UtilParseData.calculatetwoscomplement((bArr[20] & 255) + ((bArr[21] & 255) << 8), 16);
+        this.dig_P9 = UtilParseData.calculatetwoscomplement((bArr[22] & 255) + ((bArr[23] & 255) << 8), 16);
+    }
+
+    @Override // com.shimmerresearch.driver.calibration.CalibDetails
+    public void resetToDefaultParameters() {
+        this.dig_T1 = DEFAULT_COMPENSATION_VALUES.DIG_T1;
+        this.dig_T2 = DEFAULT_COMPENSATION_VALUES.DIG_T2;
+        this.dig_T3 = DEFAULT_COMPENSATION_VALUES.DIG_T3;
+        this.dig_P1 = DEFAULT_COMPENSATION_VALUES.DIG_P1;
+        this.dig_P2 = DEFAULT_COMPENSATION_VALUES.DIG_P2;
+        this.dig_P3 = DEFAULT_COMPENSATION_VALUES.DIG_P3;
+        this.dig_P4 = DEFAULT_COMPENSATION_VALUES.DIG_P4;
+        this.dig_P5 = DEFAULT_COMPENSATION_VALUES.DIG_P5;
+        this.dig_P6 = DEFAULT_COMPENSATION_VALUES.DIG_P6;
+        this.dig_P7 = DEFAULT_COMPENSATION_VALUES.DIG_P7;
+        this.dig_P8 = DEFAULT_COMPENSATION_VALUES.DIG_P8;
+        this.dig_P9 = DEFAULT_COMPENSATION_VALUES.DIG_P9;
+    }
+
+    private static final class DEFAULT_COMPENSATION_VALUES {
+        public static double DIG_P1 = 36477.0d;
+        public static double DIG_P2 = -10685.0d;
+        public static double DIG_P3 = 3024.0d;
+        public static double DIG_P4 = 2855.0d;
+        public static double DIG_P5 = 140.0d;
+        public static double DIG_P6 = -7.0d;
+        public static double DIG_P7 = 15500.0d;
+        public static double DIG_P8 = -14600.0d;
+        public static double DIG_P9 = 6000.0d;
+        public static double DIG_T1 = 27504.0d;
+        public static double DIG_T2 = 26435.0d;
+        public static double DIG_T3 = -1000.0d;
+
+        private DEFAULT_COMPENSATION_VALUES() {
+        }
+    }
+}

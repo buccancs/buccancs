@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/compression/SnappyFramedDecoder.java
+// Size: 180 bytes
+// Modified: 2025-10-21 16:32:04.457942200 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.compression;
+
+@Deprecated
+/* loaded from: classes3.dex */
+public class SnappyFramedDecoder extends SnappyFrameDecoder {
+}

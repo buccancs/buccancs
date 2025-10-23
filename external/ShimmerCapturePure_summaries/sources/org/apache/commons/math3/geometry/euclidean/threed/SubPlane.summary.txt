@@ -1,0 +1,57 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/geometry/euclidean/threed/SubPlane.java
+// Size: 3796 bytes
+// Modified: 2025-10-21 16:32:14.347603900 +0100
+
+package org.apache.commons.math3.geometry.euclidean.threed;
+
+import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.euclidean.oned.Euclidean1D;
+import org.apache.commons.math3.geometry.euclidean.oned.Vector1D;
+import org.apache.commons.math3.geometry.euclidean.twod.Euclidean2D;
+import org.apache.commons.math3.geometry.euclidean.twod.PolygonsSet;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
+import org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane;
+import org.apache.commons.math3.geometry.partitioning.BSPTree;
+import org.apache.commons.math3.geometry.partitioning.Hyperplane;
+import org.apache.commons.math3.geometry.partitioning.Region;
+import org.apache.commons.math3.geometry.partitioning.SubHyperplane;
+
+/* loaded from: classes5.dex */
+public class SubPlane extends AbstractSubHyperplane<Euclidean3D, Euclidean2D> {
+    public SubPlane(Hyperplane<Euclidean3D> hyperplane, Region<Euclidean2D> region) {
+        super(hyperplane, region);
+    }
+
+    @Override // org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane
+    protected AbstractSubHyperplane<Euclidean3D, Euclidean2D> buildNew(Hyperplane<Euclidean3D> hyperplane, Region<Euclidean2D> region) {
+        return new SubPlane(hyperplane, region);
+    }
+
+    @Override // org.apache.commons.math3.geometry.partitioning.AbstractSubHyperplane, org.apache.commons.math3.geometry.partitioning.SubHyperplane
+    public SubHyperplane.SplitSubHyperplane<Euclidean3D> split(Hyperplane<Euclidean3D> hyperplane) {
+        Plane plane = (Plane) hyperplane;
+        Plane plane2 = (Plane) getHyperplane();
+        Line lineIntersection = plane.intersection(plane2);
+        double tolerance = plane2.getTolerance();
+        if (lineIntersection == null) {
+            double offset = plane.getOffset(plane2);
+            if (offset < (-tolerance)) {
+                return new SubHyperplane.SplitSubHyperplane<>(null, this);
+            }
+            if (offset > tolerance) {
+                return new SubHyperplane.SplitSubHyperplane<>(this, null);
+            }
+            return new SubHyperplane.SplitSubHyperplane<>(null, null);
+        }
+        Vector2D subSpace = plane2.toSubSpace((Point<Euclidean3D>) lineIntersection.toSpace((Point<Euclidean1D>) Vector1D.ZERO));
+        Vector2D subSpace2 = plane2.toSubSpace((Point<Euclidean3D>) lineIntersection.toSpace((Point<Euclidean1D>) Vector1D.ONE));
+        if (Vector3D.crossProduct(lineIntersection.getDirection(), plane2.getNormal()).dotProduct(plane.getNormal()) < 0.0d) {
+            subSpace2 = subSpace;
+            subSpace = subSpace2;
+        }
+        org.apache.commons.math3.geometry.euclidean.twod.SubLine subLineWholeHyperplane = new org.apache.commons.math3.geometry.euclidean.twod.Line(subSpace, subSpace2, tolerance).wholeHyperplane();
+        org.apache.commons.math3.geometry.euclidean.twod.SubLine subLineWholeHyperplane2 = new org.apache.commons.math3.geometry.euclidean.twod.Line(subSpace2, subSpace, tolerance).wholeHyperplane();
+        BSPTree bSPTreeSplit = getRemainingRegion().getTree(false).split(subLineWholeHyperplane);
+        return new SubHyperplane.SplitSubHyperplane<>(new SubPlane(plane2.copySelf(), new PolygonsSet((BSPTree<Euclidean2D>) (getRemainingRegion().isEmpty(bSPTreeSplit.getPlus()) ? new BSPTree(Boolean.FALSE) : new BSPTree(subLineWholeHyperplane2, new BSPTree(Boolean.FALSE), bSPTreeSplit.getPlus(), null)), tolerance)), new SubPlane(plane2.copySelf(), new PolygonsSet((BSPTree<Euclidean2D>) (getRemainingRegion().isEmpty(bSPTreeSplit.getMinus()) ? new BSPTree(Boolean.FALSE) : new BSPTree(subLineWholeHyperplane, new BSPTree(Boolean.FALSE), bSPTreeSplit.getMinus(), null)), tolerance)));
+    }
+}

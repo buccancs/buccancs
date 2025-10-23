@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/KnownLength.java
+// Size: 160 bytes
+// Modified: 2025-10-21 16:32:00.188074000 +0100
+
+package io.grpc;
+
+import java.io.IOException;
+
+/* loaded from: classes2.dex */
+public interface KnownLength {
+    int available() throws IOException;
+}

@@ -1,0 +1,96 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/ConvergingAlgorithmImpl.java
+// Size: 3311 bytes
+// Modified: 2025-10-21 16:32:03.565721800 +0100
+
+package org.apache.commons.math;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ConvergingAlgorithmImpl.class */
+public abstract class ConvergingAlgorithmImpl implements ConvergingAlgorithm {
+    protected double absoluteAccuracy;
+    protected double relativeAccuracy;
+    protected int maximalIterationCount;
+    protected double defaultAbsoluteAccuracy;
+    protected double defaultRelativeAccuracy;
+    protected int defaultMaximalIterationCount;
+    protected int iterationCount;
+
+    @Deprecated
+    protected ConvergingAlgorithmImpl(int defaultMaximalIterationCount, double defaultAbsoluteAccuracy) {
+        this.defaultAbsoluteAccuracy = defaultAbsoluteAccuracy;
+        this.defaultRelativeAccuracy = 1.0E-14d;
+        this.absoluteAccuracy = defaultAbsoluteAccuracy;
+        this.relativeAccuracy = this.defaultRelativeAccuracy;
+        this.defaultMaximalIterationCount = defaultMaximalIterationCount;
+        this.maximalIterationCount = defaultMaximalIterationCount;
+        this.iterationCount = 0;
+    }
+
+    @Deprecated
+    protected ConvergingAlgorithmImpl() {
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public int getIterationCount() {
+        return this.iterationCount;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public void setAbsoluteAccuracy(double accuracy) {
+        this.absoluteAccuracy = accuracy;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public double getAbsoluteAccuracy() {
+        return this.absoluteAccuracy;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public void resetAbsoluteAccuracy() {
+        this.absoluteAccuracy = this.defaultAbsoluteAccuracy;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public void setMaximalIterationCount(int count) {
+        this.maximalIterationCount = count;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public int getMaximalIterationCount() {
+        return this.maximalIterationCount;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public void resetMaximalIterationCount() {
+        this.maximalIterationCount = this.defaultMaximalIterationCount;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public void setRelativeAccuracy(double accuracy) {
+        this.relativeAccuracy = accuracy;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public double getRelativeAccuracy() {
+        return this.relativeAccuracy;
+    }
+
+    @Override // org.apache.commons.math.ConvergingAlgorithm
+    public void resetRelativeAccuracy() {
+        this.relativeAccuracy = this.defaultRelativeAccuracy;
+    }
+
+    protected void resetIterationsCounter() {
+        this.iterationCount = 0;
+    }
+
+    protected void incrementIterationsCounter() throws MaxIterationsExceededException {
+        int i = this.iterationCount + 1;
+        this.iterationCount = i;
+        if (i > this.maximalIterationCount) {
+            throw new MaxIterationsExceededException(this.maximalIterationCount);
+        }
+    }
+}

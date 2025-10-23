@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/Timer.java
+// Size: 274 bytes
+// Modified: 2025-10-21 16:32:03.394019100 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
+
+/* loaded from: classes3.dex */
+public interface Timer {
+    Timeout newTimeout(TimerTask timerTask, long j, TimeUnit timeUnit);
+
+    Set<Timeout> stop();
+}

@@ -1,0 +1,122 @@
+package pl.edu.icm.jlargearrays;
+
+import java.lang.Thread;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.ThreadFactory;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes2.dex */
+public class ConcurrencyUtils {
+    private static final ExecutorService DEFAULT_THREAD_POOL;
+    private static long concurrentThreshold;
+    private static int nthreads;
+    private static ExecutorService threadPool;
+
+    static {
+        ExecutorService executorServiceNewCachedThreadPool = Executors.newCachedThreadPool(new CustomThreadFactory(new CustomExceptionHandler()));
+        DEFAULT_THREAD_POOL = executorServiceNewCachedThreadPool;
+        threadPool = executorServiceNewCachedThreadPool;
+        nthreads = getNumberOfProcessors();
+        concurrentThreshold = 100000L;
+    }
+
+    private ConcurrencyUtils() {
+    }
+
+    public static long getConcurrentThreshold() {
+        return concurrentThreshold;
+    }
+
+    public static void setConcurrentThreshold(long j) {
+        concurrentThreshold = FastMath.max(1L, j);
+    }
+
+    public static int getNumberOfThreads() {
+        return nthreads;
+    }
+
+    public static void setNumberOfThreads(int i) {
+        nthreads = i;
+    }
+
+    public static ExecutorService getThreadPool() {
+        return threadPool;
+    }
+
+    public static void setThreadPool(ExecutorService executorService) {
+        threadPool = executorService;
+    }
+
+    public static int getNumberOfProcessors() {
+        return Runtime.getRuntime().availableProcessors();
+    }
+
+    public static <T> Future<T> submit(Callable<T> callable) {
+        if (threadPool.isShutdown() || threadPool.isTerminated()) {
+            threadPool = DEFAULT_THREAD_POOL;
+        }
+        return threadPool.submit(callable);
+    }
+
+    public static Future<?> submit(Runnable runnable) {
+        if (threadPool.isShutdown() || threadPool.isTerminated()) {
+            threadPool = DEFAULT_THREAD_POOL;
+        }
+        return threadPool.submit(runnable);
+    }
+
+    public static void waitForCompletion(Future<?>[] futureArr) throws ExecutionException, InterruptedException {
+        for (Future<?> future : futureArr) {
+            future.get();
+        }
+    }
+
+    public static void shutdownThreadPoolAndAwaitTermination() {
+        threadPool.shutdown();
+        try {
+            if (threadPool.awaitTermination(60L, TimeUnit.SECONDS)) {
+                return;
+            }
+            threadPool.shutdownNow();
+            if (threadPool.awaitTermination(60L, TimeUnit.SECONDS)) {
+                return;
+            }
+            System.err.println("Pool did not terminate");
+        } catch (InterruptedException unused) {
+            threadPool.shutdownNow();
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    private static class CustomExceptionHandler implements Thread.UncaughtExceptionHandler {
+        private CustomExceptionHandler() {
+        }
+
+        @Override // java.lang.Thread.UncaughtExceptionHandler
+        public void uncaughtException(Thread thread, Throwable th) {
+            th.printStackTrace();
+        }
+    }
+
+    private static class CustomThreadFactory implements ThreadFactory {
+        private static final ThreadFactory DEFAULT_FACTORY = Executors.defaultThreadFactory();
+        private final Thread.UncaughtExceptionHandler handler;
+
+        CustomThreadFactory(Thread.UncaughtExceptionHandler uncaughtExceptionHandler) {
+            this.handler = uncaughtExceptionHandler;
+        }
+
+        @Override // java.util.concurrent.ThreadFactory
+        public Thread newThread(Runnable runnable) {
+            Thread threadNewThread = DEFAULT_FACTORY.newThread(runnable);
+            threadNewThread.setUncaughtExceptionHandler(this.handler);
+            return threadNewThread;
+        }
+    }
+}

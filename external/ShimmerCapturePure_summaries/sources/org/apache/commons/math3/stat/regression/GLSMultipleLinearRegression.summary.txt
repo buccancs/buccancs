@@ -1,0 +1,54 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/regression/GLSMultipleLinearRegression.java
+// Size: 2266 bytes
+// Modified: 2025-10-21 16:32:11.473809400 +0100
+
+package org.apache.commons.math3.stat.regression;
+
+import org.apache.commons.math3.linear.Array2DRowRealMatrix;
+import org.apache.commons.math3.linear.LUDecomposition;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.linear.RealVector;
+
+/* loaded from: classes5.dex */
+public class GLSMultipleLinearRegression extends AbstractMultipleLinearRegression {
+    private RealMatrix Omega;
+    private RealMatrix OmegaInverse;
+
+    public void newSampleData(double[] dArr, double[][] dArr2, double[][] dArr3) {
+        validateSampleData(dArr2, dArr);
+        newYSampleData(dArr);
+        newXSampleData(dArr2);
+        validateCovarianceData(dArr2, dArr3);
+        newCovarianceData(dArr3);
+    }
+
+    protected void newCovarianceData(double[][] dArr) {
+        this.Omega = new Array2DRowRealMatrix(dArr);
+        this.OmegaInverse = null;
+    }
+
+    protected RealMatrix getOmegaInverse() {
+        if (this.OmegaInverse == null) {
+            this.OmegaInverse = new LUDecomposition(this.Omega).getSolver().getInverse();
+        }
+        return this.OmegaInverse;
+    }
+
+    @Override // org.apache.commons.math3.stat.regression.AbstractMultipleLinearRegression
+    protected RealVector calculateBeta() {
+        RealMatrix omegaInverse = getOmegaInverse();
+        RealMatrix realMatrixTranspose = getX().transpose();
+        return new LUDecomposition(realMatrixTranspose.multiply(omegaInverse).multiply(getX())).getSolver().getInverse().multiply(realMatrixTranspose).multiply(omegaInverse).operate(getY());
+    }
+
+    @Override // org.apache.commons.math3.stat.regression.AbstractMultipleLinearRegression
+    protected RealMatrix calculateBetaVariance() {
+        return new LUDecomposition(getX().transpose().multiply(getOmegaInverse()).multiply(getX())).getSolver().getInverse();
+    }
+
+    @Override // org.apache.commons.math3.stat.regression.AbstractMultipleLinearRegression
+    protected double calculateErrorVariance() {
+        RealVector realVectorCalculateResiduals = calculateResiduals();
+        return realVectorCalculateResiduals.dotProduct(getOmegaInverse().operate(realVectorCalculateResiduals)) / (getX().getRowDimension() - getX().getColumnDimension());
+    }
+}

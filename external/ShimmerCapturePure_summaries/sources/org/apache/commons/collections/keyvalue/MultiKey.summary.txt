@@ -1,0 +1,83 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/keyvalue/MultiKey.java
+// Size: 2167 bytes
+// Modified: 2025-10-21 16:32:00.465636700 +0100
+
+package org.apache.commons.collections.keyvalue;
+
+import java.io.Serializable;
+import java.util.Arrays;
+
+/* loaded from: classes5.dex */
+public class MultiKey implements Serializable {
+    private static final long serialVersionUID = 4465448607415788805L;
+    private final int hashCode;
+    private final Object[] keys;
+
+    public int hashCode() {
+        return this.hashCode;
+    }
+
+    public MultiKey(Object obj, Object obj2) {
+        this(new Object[]{obj, obj2}, false);
+    }
+
+    public MultiKey(Object obj, Object obj2, Object obj3) {
+        this(new Object[]{obj, obj2, obj3}, false);
+    }
+
+    public MultiKey(Object obj, Object obj2, Object obj3, Object obj4) {
+        this(new Object[]{obj, obj2, obj3, obj4}, false);
+    }
+
+    public MultiKey(Object obj, Object obj2, Object obj3, Object obj4, Object obj5) {
+        this(new Object[]{obj, obj2, obj3, obj4, obj5}, false);
+    }
+
+    public MultiKey(Object[] objArr) {
+        this(objArr, true);
+    }
+
+    public MultiKey(Object[] objArr, boolean z) {
+        if (objArr == null) {
+            throw new IllegalArgumentException("The array of keys must not be null");
+        }
+        if (z) {
+            this.keys = (Object[]) objArr.clone();
+        } else {
+            this.keys = objArr;
+        }
+        int iHashCode = 0;
+        for (Object obj : objArr) {
+            if (obj != null) {
+                iHashCode ^= obj.hashCode();
+            }
+        }
+        this.hashCode = iHashCode;
+    }
+
+    public Object[] getKeys() {
+        return (Object[]) this.keys.clone();
+    }
+
+    public Object getKey(int i) {
+        return this.keys[i];
+    }
+
+    public int size() {
+        return this.keys.length;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj instanceof MultiKey) {
+            return Arrays.equals(this.keys, ((MultiKey) obj).keys);
+        }
+        return false;
+    }
+
+    public String toString() {
+        return new StringBuffer("MultiKey").append(Arrays.asList(this.keys).toString()).toString();
+    }
+}

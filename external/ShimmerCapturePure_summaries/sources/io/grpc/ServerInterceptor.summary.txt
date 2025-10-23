@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/ServerInterceptor.java
+// Size: 289 bytes
+// Modified: 2025-10-21 16:32:05.813842300 +0100
+
+package io.grpc;
+
+import io.grpc.ServerCall;
+
+/* loaded from: classes2.dex */
+public interface ServerInterceptor {
+    <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall, Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler);
+}

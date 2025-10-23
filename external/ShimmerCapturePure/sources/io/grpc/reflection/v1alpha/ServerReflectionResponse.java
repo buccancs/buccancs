@@ -1,0 +1,1386 @@
+package io.grpc.reflection.v1alpha;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.reflection.v1alpha.ErrorResponse;
+import io.grpc.reflection.v1alpha.ExtensionNumberResponse;
+import io.grpc.reflection.v1alpha.FileDescriptorResponse;
+import io.grpc.reflection.v1alpha.ListServiceResponse;
+import io.grpc.reflection.v1alpha.ServerReflectionRequest;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class ServerReflectionResponse extends GeneratedMessageV3 implements ServerReflectionResponseOrBuilder {
+    public static final int ALL_EXTENSION_NUMBERS_RESPONSE_FIELD_NUMBER = 5;
+    public static final int ERROR_RESPONSE_FIELD_NUMBER = 7;
+    public static final int FILE_DESCRIPTOR_RESPONSE_FIELD_NUMBER = 4;
+    public static final int LIST_SERVICES_RESPONSE_FIELD_NUMBER = 6;
+    public static final int ORIGINAL_REQUEST_FIELD_NUMBER = 2;
+    public static final int VALID_HOST_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final ServerReflectionResponse DEFAULT_INSTANCE = new ServerReflectionResponse();
+    private static final Parser<ServerReflectionResponse> PARSER = new AbstractParser<ServerReflectionResponse>() { // from class: io.grpc.reflection.v1alpha.ServerReflectionResponse.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ServerReflectionResponse m9903parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ServerReflectionResponse(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private byte memoizedIsInitialized;
+    private int messageResponseCase_;
+    private Object messageResponse_;
+    private ServerReflectionRequest originalRequest_;
+    private volatile Object validHost_;
+
+    private ServerReflectionResponse(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.messageResponseCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ServerReflectionResponse() {
+        this.messageResponseCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.validHost_ = "";
+    }
+
+    private ServerReflectionResponse(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag != 10) {
+                            if (tag == 18) {
+                                ServerReflectionRequest serverReflectionRequest = this.originalRequest_;
+                                ServerReflectionRequest.Builder builderM9855toBuilder = serverReflectionRequest != null ? serverReflectionRequest.m9855toBuilder() : null;
+                                ServerReflectionRequest serverReflectionRequest2 = (ServerReflectionRequest) codedInputStream.readMessage(ServerReflectionRequest.parser(), extensionRegistryLite);
+                                this.originalRequest_ = serverReflectionRequest2;
+                                if (builderM9855toBuilder != null) {
+                                    builderM9855toBuilder.mergeFrom(serverReflectionRequest2);
+                                    this.originalRequest_ = builderM9855toBuilder.m9862buildPartial();
+                                }
+                            } else if (tag == 34) {
+                                FileDescriptorResponse.Builder builderM9763toBuilder = this.messageResponseCase_ == 4 ? ((FileDescriptorResponse) this.messageResponse_).m9763toBuilder() : null;
+                                MessageLite message = codedInputStream.readMessage(FileDescriptorResponse.parser(), extensionRegistryLite);
+                                this.messageResponse_ = message;
+                                if (builderM9763toBuilder != null) {
+                                    builderM9763toBuilder.mergeFrom((FileDescriptorResponse) message);
+                                    this.messageResponse_ = builderM9763toBuilder.m9770buildPartial();
+                                }
+                                this.messageResponseCase_ = 4;
+                            } else if (tag == 42) {
+                                ExtensionNumberResponse.Builder builderM9671toBuilder = this.messageResponseCase_ == 5 ? ((ExtensionNumberResponse) this.messageResponse_).m9671toBuilder() : null;
+                                MessageLite message2 = codedInputStream.readMessage(ExtensionNumberResponse.parser(), extensionRegistryLite);
+                                this.messageResponse_ = message2;
+                                if (builderM9671toBuilder != null) {
+                                    builderM9671toBuilder.mergeFrom((ExtensionNumberResponse) message2);
+                                    this.messageResponse_ = builderM9671toBuilder.m9678buildPartial();
+                                }
+                                this.messageResponseCase_ = 5;
+                            } else if (tag == 50) {
+                                ListServiceResponse.Builder builderM9809toBuilder = this.messageResponseCase_ == 6 ? ((ListServiceResponse) this.messageResponse_).m9809toBuilder() : null;
+                                MessageLite message3 = codedInputStream.readMessage(ListServiceResponse.parser(), extensionRegistryLite);
+                                this.messageResponse_ = message3;
+                                if (builderM9809toBuilder != null) {
+                                    builderM9809toBuilder.mergeFrom((ListServiceResponse) message3);
+                                    this.messageResponse_ = builderM9809toBuilder.m9816buildPartial();
+                                }
+                                this.messageResponseCase_ = 6;
+                            } else if (tag == 58) {
+                                ErrorResponse.Builder builderM9625toBuilder = this.messageResponseCase_ == 7 ? ((ErrorResponse) this.messageResponse_).m9625toBuilder() : null;
+                                MessageLite message4 = codedInputStream.readMessage(ErrorResponse.parser(), extensionRegistryLite);
+                                this.messageResponse_ = message4;
+                                if (builderM9625toBuilder != null) {
+                                    builderM9625toBuilder.mergeFrom((ErrorResponse) message4);
+                                    this.messageResponse_ = builderM9625toBuilder.m9632buildPartial();
+                                }
+                                this.messageResponseCase_ = 7;
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            this.validHost_ = codedInputStream.readStringRequireUtf8();
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ServerReflectionResponse getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ServerReflectionResponse> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_descriptor;
+    }
+
+    public static ServerReflectionResponse parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ServerReflectionResponse) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ServerReflectionResponse parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ServerReflectionResponse) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ServerReflectionResponse parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ServerReflectionResponse) PARSER.parseFrom(byteString);
+    }
+
+    public static ServerReflectionResponse parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ServerReflectionResponse) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ServerReflectionResponse parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ServerReflectionResponse) PARSER.parseFrom(bArr);
+    }
+
+    public static ServerReflectionResponse parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ServerReflectionResponse) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ServerReflectionResponse parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ServerReflectionResponse parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ServerReflectionResponse parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ServerReflectionResponse parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ServerReflectionResponse parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ServerReflectionResponse parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m9901toBuilder();
+    }
+
+    public static Builder newBuilder(ServerReflectionResponse serverReflectionResponse) {
+        return DEFAULT_INSTANCE.m9901toBuilder().mergeFrom(serverReflectionResponse);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ServerReflectionResponse m9896getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ServerReflectionResponse> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public boolean hasAllExtensionNumbersResponse() {
+        return this.messageResponseCase_ == 5;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public boolean hasErrorResponse() {
+        return this.messageResponseCase_ == 7;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public boolean hasFileDescriptorResponse() {
+        return this.messageResponseCase_ == 4;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public boolean hasListServicesResponse() {
+        return this.messageResponseCase_ == 6;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public boolean hasOriginalRequest() {
+        return this.originalRequest_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new ServerReflectionResponse();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_fieldAccessorTable.ensureFieldAccessorsInitialized(ServerReflectionResponse.class, Builder.class);
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public MessageResponseCase getMessageResponseCase() {
+        return MessageResponseCase.forNumber(this.messageResponseCase_);
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public String getValidHost() {
+        Object obj = this.validHost_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.validHost_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ByteString getValidHostBytes() {
+        Object obj = this.validHost_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.validHost_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ServerReflectionRequest getOriginalRequest() {
+        ServerReflectionRequest serverReflectionRequest = this.originalRequest_;
+        return serverReflectionRequest == null ? ServerReflectionRequest.getDefaultInstance() : serverReflectionRequest;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ServerReflectionRequestOrBuilder getOriginalRequestOrBuilder() {
+        return getOriginalRequest();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public FileDescriptorResponse getFileDescriptorResponse() {
+        if (this.messageResponseCase_ == 4) {
+            return (FileDescriptorResponse) this.messageResponse_;
+        }
+        return FileDescriptorResponse.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public FileDescriptorResponseOrBuilder getFileDescriptorResponseOrBuilder() {
+        if (this.messageResponseCase_ == 4) {
+            return (FileDescriptorResponse) this.messageResponse_;
+        }
+        return FileDescriptorResponse.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ExtensionNumberResponse getAllExtensionNumbersResponse() {
+        if (this.messageResponseCase_ == 5) {
+            return (ExtensionNumberResponse) this.messageResponse_;
+        }
+        return ExtensionNumberResponse.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ExtensionNumberResponseOrBuilder getAllExtensionNumbersResponseOrBuilder() {
+        if (this.messageResponseCase_ == 5) {
+            return (ExtensionNumberResponse) this.messageResponse_;
+        }
+        return ExtensionNumberResponse.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ListServiceResponse getListServicesResponse() {
+        if (this.messageResponseCase_ == 6) {
+            return (ListServiceResponse) this.messageResponse_;
+        }
+        return ListServiceResponse.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ListServiceResponseOrBuilder getListServicesResponseOrBuilder() {
+        if (this.messageResponseCase_ == 6) {
+            return (ListServiceResponse) this.messageResponse_;
+        }
+        return ListServiceResponse.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ErrorResponse getErrorResponse() {
+        if (this.messageResponseCase_ == 7) {
+            return (ErrorResponse) this.messageResponse_;
+        }
+        return ErrorResponse.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+    public ErrorResponseOrBuilder getErrorResponseOrBuilder() {
+        if (this.messageResponseCase_ == 7) {
+            return (ErrorResponse) this.messageResponse_;
+        }
+        return ErrorResponse.getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getValidHostBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.validHost_);
+        }
+        if (this.originalRequest_ != null) {
+            codedOutputStream.writeMessage(2, getOriginalRequest());
+        }
+        if (this.messageResponseCase_ == 4) {
+            codedOutputStream.writeMessage(4, (FileDescriptorResponse) this.messageResponse_);
+        }
+        if (this.messageResponseCase_ == 5) {
+            codedOutputStream.writeMessage(5, (ExtensionNumberResponse) this.messageResponse_);
+        }
+        if (this.messageResponseCase_ == 6) {
+            codedOutputStream.writeMessage(6, (ListServiceResponse) this.messageResponse_);
+        }
+        if (this.messageResponseCase_ == 7) {
+            codedOutputStream.writeMessage(7, (ErrorResponse) this.messageResponse_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getValidHostBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.validHost_) : 0;
+        if (this.originalRequest_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(2, getOriginalRequest());
+        }
+        if (this.messageResponseCase_ == 4) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(4, (FileDescriptorResponse) this.messageResponse_);
+        }
+        if (this.messageResponseCase_ == 5) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(5, (ExtensionNumberResponse) this.messageResponse_);
+        }
+        if (this.messageResponseCase_ == 6) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(6, (ListServiceResponse) this.messageResponse_);
+        }
+        if (this.messageResponseCase_ == 7) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(7, (ErrorResponse) this.messageResponse_);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ServerReflectionResponse)) {
+            return super.equals(obj);
+        }
+        ServerReflectionResponse serverReflectionResponse = (ServerReflectionResponse) obj;
+        if (!getValidHost().equals(serverReflectionResponse.getValidHost()) || hasOriginalRequest() != serverReflectionResponse.hasOriginalRequest()) {
+            return false;
+        }
+        if ((hasOriginalRequest() && !getOriginalRequest().equals(serverReflectionResponse.getOriginalRequest())) || !getMessageResponseCase().equals(serverReflectionResponse.getMessageResponseCase())) {
+            return false;
+        }
+        int i = this.messageResponseCase_;
+        if (i != 4) {
+            if (i != 5) {
+                if (i == 6) {
+                    if (!getListServicesResponse().equals(serverReflectionResponse.getListServicesResponse())) {
+                        return false;
+                    }
+                } else if (i == 7 && !getErrorResponse().equals(serverReflectionResponse.getErrorResponse())) {
+                    return false;
+                }
+            } else if (!getAllExtensionNumbersResponse().equals(serverReflectionResponse.getAllExtensionNumbersResponse())) {
+                return false;
+            }
+        } else if (!getFileDescriptorResponse().equals(serverReflectionResponse.getFileDescriptorResponse())) {
+            return false;
+        }
+        return this.unknownFields.equals(serverReflectionResponse.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getValidHost().hashCode();
+        if (hasOriginalRequest()) {
+            iHashCode2 = (((iHashCode2 * 37) + 2) * 53) + getOriginalRequest().hashCode();
+        }
+        int i2 = this.messageResponseCase_;
+        if (i2 == 4) {
+            i = ((iHashCode2 * 37) + 4) * 53;
+            iHashCode = getFileDescriptorResponse().hashCode();
+        } else if (i2 == 5) {
+            i = ((iHashCode2 * 37) + 5) * 53;
+            iHashCode = getAllExtensionNumbersResponse().hashCode();
+        } else if (i2 == 6) {
+            i = ((iHashCode2 * 37) + 6) * 53;
+            iHashCode = getListServicesResponse().hashCode();
+        } else {
+            if (i2 == 7) {
+                i = ((iHashCode2 * 37) + 7) * 53;
+                iHashCode = getErrorResponse().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m9898newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m9901toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum MessageResponseCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        FILE_DESCRIPTOR_RESPONSE(4),
+        ALL_EXTENSION_NUMBERS_RESPONSE(5),
+        LIST_SERVICES_RESPONSE(6),
+        ERROR_RESPONSE(7),
+        MESSAGERESPONSE_NOT_SET(0);
+
+        private final int value;
+
+        MessageResponseCase(int i) {
+            this.value = i;
+        }
+
+        public static MessageResponseCase forNumber(int i) {
+            if (i == 0) {
+                return MESSAGERESPONSE_NOT_SET;
+            }
+            if (i == 4) {
+                return FILE_DESCRIPTOR_RESPONSE;
+            }
+            if (i == 5) {
+                return ALL_EXTENSION_NUMBERS_RESPONSE;
+            }
+            if (i == 6) {
+                return LIST_SERVICES_RESPONSE;
+            }
+            if (i != 7) {
+                return null;
+            }
+            return ERROR_RESPONSE;
+        }
+
+        @Deprecated
+        public static MessageResponseCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ServerReflectionResponseOrBuilder {
+        private SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> allExtensionNumbersResponseBuilder_;
+        private SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> errorResponseBuilder_;
+        private SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> fileDescriptorResponseBuilder_;
+        private SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> listServicesResponseBuilder_;
+        private int messageResponseCase_;
+        private Object messageResponse_;
+        private SingleFieldBuilderV3<ServerReflectionRequest, ServerReflectionRequest.Builder, ServerReflectionRequestOrBuilder> originalRequestBuilder_;
+        private ServerReflectionRequest originalRequest_;
+        private Object validHost_;
+
+        private Builder() {
+            this.messageResponseCase_ = 0;
+            this.validHost_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.messageResponseCase_ = 0;
+            this.validHost_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_descriptor;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public boolean hasAllExtensionNumbersResponse() {
+            return this.messageResponseCase_ == 5;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public boolean hasErrorResponse() {
+            return this.messageResponseCase_ == 7;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public boolean hasFileDescriptorResponse() {
+            return this.messageResponseCase_ == 4;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public boolean hasListServicesResponse() {
+            return this.messageResponseCase_ == 6;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public boolean hasOriginalRequest() {
+            return (this.originalRequestBuilder_ == null && this.originalRequest_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_fieldAccessorTable.ensureFieldAccessorsInitialized(ServerReflectionResponse.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ServerReflectionResponse.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9912clear() {
+            super.clear();
+            this.validHost_ = "";
+            if (this.originalRequestBuilder_ == null) {
+                this.originalRequest_ = null;
+            } else {
+                this.originalRequest_ = null;
+                this.originalRequestBuilder_ = null;
+            }
+            this.messageResponseCase_ = 0;
+            this.messageResponse_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionResponse_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ServerReflectionResponse m9925getDefaultInstanceForType() {
+            return ServerReflectionResponse.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ServerReflectionResponse m9906build() throws UninitializedMessageException {
+            ServerReflectionResponse serverReflectionResponseM9908buildPartial = m9908buildPartial();
+            if (serverReflectionResponseM9908buildPartial.isInitialized()) {
+                return serverReflectionResponseM9908buildPartial;
+            }
+            throw newUninitializedMessageException(serverReflectionResponseM9908buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ServerReflectionResponse m9908buildPartial() {
+            ServerReflectionResponse serverReflectionResponse = new ServerReflectionResponse(this);
+            serverReflectionResponse.validHost_ = this.validHost_;
+            SingleFieldBuilderV3<ServerReflectionRequest, ServerReflectionRequest.Builder, ServerReflectionRequestOrBuilder> singleFieldBuilderV3 = this.originalRequestBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                serverReflectionResponse.originalRequest_ = this.originalRequest_;
+            } else {
+                serverReflectionResponse.originalRequest_ = singleFieldBuilderV3.build();
+            }
+            if (this.messageResponseCase_ == 4) {
+                SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> singleFieldBuilderV32 = this.fileDescriptorResponseBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    serverReflectionResponse.messageResponse_ = this.messageResponse_;
+                } else {
+                    serverReflectionResponse.messageResponse_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.messageResponseCase_ == 5) {
+                SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> singleFieldBuilderV33 = this.allExtensionNumbersResponseBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    serverReflectionResponse.messageResponse_ = this.messageResponse_;
+                } else {
+                    serverReflectionResponse.messageResponse_ = singleFieldBuilderV33.build();
+                }
+            }
+            if (this.messageResponseCase_ == 6) {
+                SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> singleFieldBuilderV34 = this.listServicesResponseBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    serverReflectionResponse.messageResponse_ = this.messageResponse_;
+                } else {
+                    serverReflectionResponse.messageResponse_ = singleFieldBuilderV34.build();
+                }
+            }
+            if (this.messageResponseCase_ == 7) {
+                SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> singleFieldBuilderV35 = this.errorResponseBuilder_;
+                if (singleFieldBuilderV35 == null) {
+                    serverReflectionResponse.messageResponse_ = this.messageResponse_;
+                } else {
+                    serverReflectionResponse.messageResponse_ = singleFieldBuilderV35.build();
+                }
+            }
+            serverReflectionResponse.messageResponseCase_ = this.messageResponseCase_;
+            onBuilt();
+            return serverReflectionResponse;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9924clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9936setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9914clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9917clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9938setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9904addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9929mergeFrom(Message message) {
+            if (message instanceof ServerReflectionResponse) {
+                return mergeFrom((ServerReflectionResponse) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ServerReflectionResponse serverReflectionResponse) {
+            if (serverReflectionResponse == ServerReflectionResponse.getDefaultInstance()) {
+                return this;
+            }
+            if (!serverReflectionResponse.getValidHost().isEmpty()) {
+                this.validHost_ = serverReflectionResponse.validHost_;
+                onChanged();
+            }
+            if (serverReflectionResponse.hasOriginalRequest()) {
+                mergeOriginalRequest(serverReflectionResponse.getOriginalRequest());
+            }
+            int i = AnonymousClass2.$SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionResponse$MessageResponseCase[serverReflectionResponse.getMessageResponseCase().ordinal()];
+            if (i == 1) {
+                mergeFileDescriptorResponse(serverReflectionResponse.getFileDescriptorResponse());
+            } else if (i == 2) {
+                mergeAllExtensionNumbersResponse(serverReflectionResponse.getAllExtensionNumbersResponse());
+            } else if (i == 3) {
+                mergeListServicesResponse(serverReflectionResponse.getListServicesResponse());
+            } else if (i == 4) {
+                mergeErrorResponse(serverReflectionResponse.getErrorResponse());
+            }
+            m9934mergeUnknownFields(serverReflectionResponse.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.reflection.v1alpha.ServerReflectionResponse.Builder m9930mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.reflection.v1alpha.ServerReflectionResponse.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.reflection.v1alpha.ServerReflectionResponse r3 = (io.grpc.reflection.v1alpha.ServerReflectionResponse) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.reflection.v1alpha.ServerReflectionResponse r4 = (io.grpc.reflection.v1alpha.ServerReflectionResponse) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.reflection.v1alpha.ServerReflectionResponse.Builder.m9930mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.reflection.v1alpha.ServerReflectionResponse$Builder");
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public MessageResponseCase getMessageResponseCase() {
+            return MessageResponseCase.forNumber(this.messageResponseCase_);
+        }
+
+        public Builder clearMessageResponse() {
+            this.messageResponseCase_ = 0;
+            this.messageResponse_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public String getValidHost() {
+            Object obj = this.validHost_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.validHost_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setValidHost(String str) {
+            str.getClass();
+            this.validHost_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ByteString getValidHostBytes() {
+            Object obj = this.validHost_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.validHost_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setValidHostBytes(ByteString byteString) {
+            byteString.getClass();
+            ServerReflectionResponse.checkByteStringIsUtf8(byteString);
+            this.validHost_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearValidHost() {
+            this.validHost_ = ServerReflectionResponse.getDefaultInstance().getValidHost();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ServerReflectionRequest getOriginalRequest() {
+            SingleFieldBuilderV3<ServerReflectionRequest, ServerReflectionRequest.Builder, ServerReflectionRequestOrBuilder> singleFieldBuilderV3 = this.originalRequestBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            ServerReflectionRequest serverReflectionRequest = this.originalRequest_;
+            return serverReflectionRequest == null ? ServerReflectionRequest.getDefaultInstance() : serverReflectionRequest;
+        }
+
+        public Builder setOriginalRequest(ServerReflectionRequest serverReflectionRequest) {
+            SingleFieldBuilderV3<ServerReflectionRequest, ServerReflectionRequest.Builder, ServerReflectionRequestOrBuilder> singleFieldBuilderV3 = this.originalRequestBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                serverReflectionRequest.getClass();
+                this.originalRequest_ = serverReflectionRequest;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(serverReflectionRequest);
+            }
+            return this;
+        }
+
+        public Builder setOriginalRequest(ServerReflectionRequest.Builder builder) {
+            SingleFieldBuilderV3<ServerReflectionRequest, ServerReflectionRequest.Builder, ServerReflectionRequestOrBuilder> singleFieldBuilderV3 = this.originalRequestBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.originalRequest_ = builder.m9860build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m9860build());
+            }
+            return this;
+        }
+
+        public Builder mergeOriginalRequest(ServerReflectionRequest serverReflectionRequest) {
+            SingleFieldBuilderV3<ServerReflectionRequest, ServerReflectionRequest.Builder, ServerReflectionRequestOrBuilder> singleFieldBuilderV3 = this.originalRequestBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                ServerReflectionRequest serverReflectionRequest2 = this.originalRequest_;
+                if (serverReflectionRequest2 != null) {
+                    this.originalRequest_ = ServerReflectionRequest.newBuilder(serverReflectionRequest2).mergeFrom(serverReflectionRequest).m9862buildPartial();
+                } else {
+                    this.originalRequest_ = serverReflectionRequest;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(serverReflectionRequest);
+            }
+            return this;
+        }
+
+        public Builder clearOriginalRequest() {
+            if (this.originalRequestBuilder_ == null) {
+                this.originalRequest_ = null;
+                onChanged();
+            } else {
+                this.originalRequest_ = null;
+                this.originalRequestBuilder_ = null;
+            }
+            return this;
+        }
+
+        public ServerReflectionRequest.Builder getOriginalRequestBuilder() {
+            onChanged();
+            return getOriginalRequestFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ServerReflectionRequestOrBuilder getOriginalRequestOrBuilder() {
+            SingleFieldBuilderV3<ServerReflectionRequest, ServerReflectionRequest.Builder, ServerReflectionRequestOrBuilder> singleFieldBuilderV3 = this.originalRequestBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ServerReflectionRequestOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            ServerReflectionRequest serverReflectionRequest = this.originalRequest_;
+            return serverReflectionRequest == null ? ServerReflectionRequest.getDefaultInstance() : serverReflectionRequest;
+        }
+
+        private SingleFieldBuilderV3<ServerReflectionRequest, ServerReflectionRequest.Builder, ServerReflectionRequestOrBuilder> getOriginalRequestFieldBuilder() {
+            if (this.originalRequestBuilder_ == null) {
+                this.originalRequestBuilder_ = new SingleFieldBuilderV3<>(getOriginalRequest(), getParentForChildren(), isClean());
+                this.originalRequest_ = null;
+            }
+            return this.originalRequestBuilder_;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public FileDescriptorResponse getFileDescriptorResponse() {
+            SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> singleFieldBuilderV3 = this.fileDescriptorResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageResponseCase_ == 4) {
+                    return (FileDescriptorResponse) this.messageResponse_;
+                }
+                return FileDescriptorResponse.getDefaultInstance();
+            }
+            if (this.messageResponseCase_ == 4) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return FileDescriptorResponse.getDefaultInstance();
+        }
+
+        public Builder setFileDescriptorResponse(FileDescriptorResponse fileDescriptorResponse) {
+            SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> singleFieldBuilderV3 = this.fileDescriptorResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                fileDescriptorResponse.getClass();
+                this.messageResponse_ = fileDescriptorResponse;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(fileDescriptorResponse);
+            }
+            this.messageResponseCase_ = 4;
+            return this;
+        }
+
+        public Builder setFileDescriptorResponse(FileDescriptorResponse.Builder builder) {
+            SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> singleFieldBuilderV3 = this.fileDescriptorResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.messageResponse_ = builder.m9768build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m9768build());
+            }
+            this.messageResponseCase_ = 4;
+            return this;
+        }
+
+        public Builder mergeFileDescriptorResponse(FileDescriptorResponse fileDescriptorResponse) {
+            SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> singleFieldBuilderV3 = this.fileDescriptorResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageResponseCase_ != 4 || this.messageResponse_ == FileDescriptorResponse.getDefaultInstance()) {
+                    this.messageResponse_ = fileDescriptorResponse;
+                } else {
+                    this.messageResponse_ = FileDescriptorResponse.newBuilder((FileDescriptorResponse) this.messageResponse_).mergeFrom(fileDescriptorResponse).m9770buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.messageResponseCase_ == 4) {
+                    singleFieldBuilderV3.mergeFrom(fileDescriptorResponse);
+                }
+                this.fileDescriptorResponseBuilder_.setMessage(fileDescriptorResponse);
+            }
+            this.messageResponseCase_ = 4;
+            return this;
+        }
+
+        public Builder clearFileDescriptorResponse() {
+            SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> singleFieldBuilderV3 = this.fileDescriptorResponseBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.messageResponseCase_ == 4) {
+                    this.messageResponseCase_ = 0;
+                    this.messageResponse_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.messageResponseCase_ == 4) {
+                this.messageResponseCase_ = 0;
+                this.messageResponse_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public FileDescriptorResponse.Builder getFileDescriptorResponseBuilder() {
+            return getFileDescriptorResponseFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public FileDescriptorResponseOrBuilder getFileDescriptorResponseOrBuilder() {
+            SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> singleFieldBuilderV3;
+            int i = this.messageResponseCase_;
+            if (i == 4 && (singleFieldBuilderV3 = this.fileDescriptorResponseBuilder_) != null) {
+                return (FileDescriptorResponseOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 4) {
+                return (FileDescriptorResponse) this.messageResponse_;
+            }
+            return FileDescriptorResponse.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<FileDescriptorResponse, FileDescriptorResponse.Builder, FileDescriptorResponseOrBuilder> getFileDescriptorResponseFieldBuilder() {
+            if (this.fileDescriptorResponseBuilder_ == null) {
+                if (this.messageResponseCase_ != 4) {
+                    this.messageResponse_ = FileDescriptorResponse.getDefaultInstance();
+                }
+                this.fileDescriptorResponseBuilder_ = new SingleFieldBuilderV3<>((FileDescriptorResponse) this.messageResponse_, getParentForChildren(), isClean());
+                this.messageResponse_ = null;
+            }
+            this.messageResponseCase_ = 4;
+            onChanged();
+            return this.fileDescriptorResponseBuilder_;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ExtensionNumberResponse getAllExtensionNumbersResponse() {
+            SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> singleFieldBuilderV3 = this.allExtensionNumbersResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageResponseCase_ == 5) {
+                    return (ExtensionNumberResponse) this.messageResponse_;
+                }
+                return ExtensionNumberResponse.getDefaultInstance();
+            }
+            if (this.messageResponseCase_ == 5) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ExtensionNumberResponse.getDefaultInstance();
+        }
+
+        public Builder setAllExtensionNumbersResponse(ExtensionNumberResponse extensionNumberResponse) {
+            SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> singleFieldBuilderV3 = this.allExtensionNumbersResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                extensionNumberResponse.getClass();
+                this.messageResponse_ = extensionNumberResponse;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(extensionNumberResponse);
+            }
+            this.messageResponseCase_ = 5;
+            return this;
+        }
+
+        public Builder setAllExtensionNumbersResponse(ExtensionNumberResponse.Builder builder) {
+            SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> singleFieldBuilderV3 = this.allExtensionNumbersResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.messageResponse_ = builder.m9676build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m9676build());
+            }
+            this.messageResponseCase_ = 5;
+            return this;
+        }
+
+        public Builder mergeAllExtensionNumbersResponse(ExtensionNumberResponse extensionNumberResponse) {
+            SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> singleFieldBuilderV3 = this.allExtensionNumbersResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageResponseCase_ != 5 || this.messageResponse_ == ExtensionNumberResponse.getDefaultInstance()) {
+                    this.messageResponse_ = extensionNumberResponse;
+                } else {
+                    this.messageResponse_ = ExtensionNumberResponse.newBuilder((ExtensionNumberResponse) this.messageResponse_).mergeFrom(extensionNumberResponse).m9678buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.messageResponseCase_ == 5) {
+                    singleFieldBuilderV3.mergeFrom(extensionNumberResponse);
+                }
+                this.allExtensionNumbersResponseBuilder_.setMessage(extensionNumberResponse);
+            }
+            this.messageResponseCase_ = 5;
+            return this;
+        }
+
+        public Builder clearAllExtensionNumbersResponse() {
+            SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> singleFieldBuilderV3 = this.allExtensionNumbersResponseBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.messageResponseCase_ == 5) {
+                    this.messageResponseCase_ = 0;
+                    this.messageResponse_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.messageResponseCase_ == 5) {
+                this.messageResponseCase_ = 0;
+                this.messageResponse_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ExtensionNumberResponse.Builder getAllExtensionNumbersResponseBuilder() {
+            return getAllExtensionNumbersResponseFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ExtensionNumberResponseOrBuilder getAllExtensionNumbersResponseOrBuilder() {
+            SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> singleFieldBuilderV3;
+            int i = this.messageResponseCase_;
+            if (i == 5 && (singleFieldBuilderV3 = this.allExtensionNumbersResponseBuilder_) != null) {
+                return (ExtensionNumberResponseOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 5) {
+                return (ExtensionNumberResponse) this.messageResponse_;
+            }
+            return ExtensionNumberResponse.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ExtensionNumberResponse, ExtensionNumberResponse.Builder, ExtensionNumberResponseOrBuilder> getAllExtensionNumbersResponseFieldBuilder() {
+            if (this.allExtensionNumbersResponseBuilder_ == null) {
+                if (this.messageResponseCase_ != 5) {
+                    this.messageResponse_ = ExtensionNumberResponse.getDefaultInstance();
+                }
+                this.allExtensionNumbersResponseBuilder_ = new SingleFieldBuilderV3<>((ExtensionNumberResponse) this.messageResponse_, getParentForChildren(), isClean());
+                this.messageResponse_ = null;
+            }
+            this.messageResponseCase_ = 5;
+            onChanged();
+            return this.allExtensionNumbersResponseBuilder_;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ListServiceResponse getListServicesResponse() {
+            SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> singleFieldBuilderV3 = this.listServicesResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageResponseCase_ == 6) {
+                    return (ListServiceResponse) this.messageResponse_;
+                }
+                return ListServiceResponse.getDefaultInstance();
+            }
+            if (this.messageResponseCase_ == 6) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ListServiceResponse.getDefaultInstance();
+        }
+
+        public Builder setListServicesResponse(ListServiceResponse listServiceResponse) {
+            SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> singleFieldBuilderV3 = this.listServicesResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                listServiceResponse.getClass();
+                this.messageResponse_ = listServiceResponse;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(listServiceResponse);
+            }
+            this.messageResponseCase_ = 6;
+            return this;
+        }
+
+        public Builder setListServicesResponse(ListServiceResponse.Builder builder) {
+            SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> singleFieldBuilderV3 = this.listServicesResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.messageResponse_ = builder.m9814build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m9814build());
+            }
+            this.messageResponseCase_ = 6;
+            return this;
+        }
+
+        public Builder mergeListServicesResponse(ListServiceResponse listServiceResponse) {
+            SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> singleFieldBuilderV3 = this.listServicesResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageResponseCase_ != 6 || this.messageResponse_ == ListServiceResponse.getDefaultInstance()) {
+                    this.messageResponse_ = listServiceResponse;
+                } else {
+                    this.messageResponse_ = ListServiceResponse.newBuilder((ListServiceResponse) this.messageResponse_).mergeFrom(listServiceResponse).m9816buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.messageResponseCase_ == 6) {
+                    singleFieldBuilderV3.mergeFrom(listServiceResponse);
+                }
+                this.listServicesResponseBuilder_.setMessage(listServiceResponse);
+            }
+            this.messageResponseCase_ = 6;
+            return this;
+        }
+
+        public Builder clearListServicesResponse() {
+            SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> singleFieldBuilderV3 = this.listServicesResponseBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.messageResponseCase_ == 6) {
+                    this.messageResponseCase_ = 0;
+                    this.messageResponse_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.messageResponseCase_ == 6) {
+                this.messageResponseCase_ = 0;
+                this.messageResponse_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ListServiceResponse.Builder getListServicesResponseBuilder() {
+            return getListServicesResponseFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ListServiceResponseOrBuilder getListServicesResponseOrBuilder() {
+            SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> singleFieldBuilderV3;
+            int i = this.messageResponseCase_;
+            if (i == 6 && (singleFieldBuilderV3 = this.listServicesResponseBuilder_) != null) {
+                return (ListServiceResponseOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 6) {
+                return (ListServiceResponse) this.messageResponse_;
+            }
+            return ListServiceResponse.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ListServiceResponse, ListServiceResponse.Builder, ListServiceResponseOrBuilder> getListServicesResponseFieldBuilder() {
+            if (this.listServicesResponseBuilder_ == null) {
+                if (this.messageResponseCase_ != 6) {
+                    this.messageResponse_ = ListServiceResponse.getDefaultInstance();
+                }
+                this.listServicesResponseBuilder_ = new SingleFieldBuilderV3<>((ListServiceResponse) this.messageResponse_, getParentForChildren(), isClean());
+                this.messageResponse_ = null;
+            }
+            this.messageResponseCase_ = 6;
+            onChanged();
+            return this.listServicesResponseBuilder_;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ErrorResponse getErrorResponse() {
+            SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> singleFieldBuilderV3 = this.errorResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageResponseCase_ == 7) {
+                    return (ErrorResponse) this.messageResponse_;
+                }
+                return ErrorResponse.getDefaultInstance();
+            }
+            if (this.messageResponseCase_ == 7) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ErrorResponse.getDefaultInstance();
+        }
+
+        public Builder setErrorResponse(ErrorResponse errorResponse) {
+            SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> singleFieldBuilderV3 = this.errorResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                errorResponse.getClass();
+                this.messageResponse_ = errorResponse;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(errorResponse);
+            }
+            this.messageResponseCase_ = 7;
+            return this;
+        }
+
+        public Builder setErrorResponse(ErrorResponse.Builder builder) {
+            SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> singleFieldBuilderV3 = this.errorResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.messageResponse_ = builder.m9630build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m9630build());
+            }
+            this.messageResponseCase_ = 7;
+            return this;
+        }
+
+        public Builder mergeErrorResponse(ErrorResponse errorResponse) {
+            SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> singleFieldBuilderV3 = this.errorResponseBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageResponseCase_ != 7 || this.messageResponse_ == ErrorResponse.getDefaultInstance()) {
+                    this.messageResponse_ = errorResponse;
+                } else {
+                    this.messageResponse_ = ErrorResponse.newBuilder((ErrorResponse) this.messageResponse_).mergeFrom(errorResponse).m9632buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.messageResponseCase_ == 7) {
+                    singleFieldBuilderV3.mergeFrom(errorResponse);
+                }
+                this.errorResponseBuilder_.setMessage(errorResponse);
+            }
+            this.messageResponseCase_ = 7;
+            return this;
+        }
+
+        public Builder clearErrorResponse() {
+            SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> singleFieldBuilderV3 = this.errorResponseBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.messageResponseCase_ == 7) {
+                    this.messageResponseCase_ = 0;
+                    this.messageResponse_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.messageResponseCase_ == 7) {
+                this.messageResponseCase_ = 0;
+                this.messageResponse_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ErrorResponse.Builder getErrorResponseBuilder() {
+            return getErrorResponseFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionResponseOrBuilder
+        public ErrorResponseOrBuilder getErrorResponseOrBuilder() {
+            SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> singleFieldBuilderV3;
+            int i = this.messageResponseCase_;
+            if (i == 7 && (singleFieldBuilderV3 = this.errorResponseBuilder_) != null) {
+                return (ErrorResponseOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 7) {
+                return (ErrorResponse) this.messageResponse_;
+            }
+            return ErrorResponse.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ErrorResponse, ErrorResponse.Builder, ErrorResponseOrBuilder> getErrorResponseFieldBuilder() {
+            if (this.errorResponseBuilder_ == null) {
+                if (this.messageResponseCase_ != 7) {
+                    this.messageResponse_ = ErrorResponse.getDefaultInstance();
+                }
+                this.errorResponseBuilder_ = new SingleFieldBuilderV3<>((ErrorResponse) this.messageResponse_, getParentForChildren(), isClean());
+                this.messageResponse_ = null;
+            }
+            this.messageResponseCase_ = 7;
+            onChanged();
+            return this.errorResponseBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m9940setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m9934mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.reflection.v1alpha.ServerReflectionResponse$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionResponse$MessageResponseCase;
+
+        static {
+            int[] iArr = new int[MessageResponseCase.values().length];
+            $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionResponse$MessageResponseCase = iArr;
+            try {
+                iArr[MessageResponseCase.FILE_DESCRIPTOR_RESPONSE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionResponse$MessageResponseCase[MessageResponseCase.ALL_EXTENSION_NUMBERS_RESPONSE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionResponse$MessageResponseCase[MessageResponseCase.LIST_SERVICES_RESPONSE.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionResponse$MessageResponseCase[MessageResponseCase.ERROR_RESPONSE.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionResponse$MessageResponseCase[MessageResponseCase.MESSAGERESPONSE_NOT_SET.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+        }
+    }
+}

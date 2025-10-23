@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/package-info.java
+// Size: 215 bytes
+// Modified: 2025-10-21 16:32:03.124618000 +0100
+
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package com.google.common.util.concurrent;
+
+import com.google.errorprone.annotations.CheckReturnValue;
+import javax.annotation.ParametersAreNonnullByDefault;
+

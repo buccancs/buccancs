@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/service/discovery/v3/AdsDummyOrBuilder.java
+// Size: 219 bytes
+// Modified: 2025-10-21 16:32:00.371012600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface AdsDummyOrBuilder extends MessageOrBuilder {
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/CMSTypedData.java
+// Size: 223 bytes
+// Modified: 2025-10-21 16:32:04.986509500 +0100
+
+package org.bouncycastle.cms;
+
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+
+/* loaded from: classes5.dex */
+public interface CMSTypedData extends CMSProcessable {
+    ASN1ObjectIdentifier getContentType();
+}

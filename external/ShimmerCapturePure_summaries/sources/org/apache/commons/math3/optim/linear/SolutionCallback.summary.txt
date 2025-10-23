@@ -1,0 +1,33 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/linear/SolutionCallback.java
+// Size: 857 bytes
+// Modified: 2025-10-21 16:32:05.924316300 +0100
+
+package org.apache.commons.math3.optim.linear;
+
+import org.apache.commons.math3.optim.OptimizationData;
+import org.apache.commons.math3.optim.PointValuePair;
+
+/* loaded from: classes5.dex */
+public class SolutionCallback implements OptimizationData {
+    private SimplexTableau tableau;
+
+    void setTableau(SimplexTableau simplexTableau) {
+        this.tableau = simplexTableau;
+    }
+
+    public PointValuePair getSolution() {
+        SimplexTableau simplexTableau = this.tableau;
+        if (simplexTableau != null) {
+            return simplexTableau.getSolution();
+        }
+        return null;
+    }
+
+    public boolean isSolutionOptimal() {
+        SimplexTableau simplexTableau = this.tableau;
+        if (simplexTableau != null) {
+            return simplexTableau.isOptimal();
+        }
+        return false;
+    }
+}

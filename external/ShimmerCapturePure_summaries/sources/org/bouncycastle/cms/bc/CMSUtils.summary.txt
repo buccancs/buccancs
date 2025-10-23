@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/bc/CMSUtils.java
+// Size: 723 bytes
+// Modified: 2025-10-21 16:32:03.562723300 +0100
+
+package org.bouncycastle.cms.bc;
+
+import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.operator.GenericKey;
+
+/* loaded from: classes5.dex */
+class CMSUtils {
+    CMSUtils() {
+    }
+
+    static CipherParameters getBcKey(GenericKey genericKey) {
+        if (genericKey.getRepresentation() instanceof CipherParameters) {
+            return (CipherParameters) genericKey.getRepresentation();
+        }
+        if (genericKey.getRepresentation() instanceof byte[]) {
+            return new KeyParameter((byte[]) genericKey.getRepresentation());
+        }
+        throw new IllegalArgumentException("unknown generic key type");
+    }
+}

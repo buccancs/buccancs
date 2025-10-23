@@ -1,0 +1,49 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/envoy/annotations/Deprecation.java
+// Size: 2967 bytes
+// Modified: 2025-10-21 16:32:00.249779800 +0100
+
+package envoy.annotations;
+
+import com.google.protobuf.DescriptorProtos;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessage;
+import com.google.protobuf.Message;
+
+/* loaded from: classes2.dex */
+public final class Deprecation {
+    public static final int DISALLOWED_BY_DEFAULT_ENUM_FIELD_NUMBER = 70100853;
+    public static final int DISALLOWED_BY_DEFAULT_FIELD_NUMBER = 189503207;
+    private static Descriptors.FileDescriptor descriptor;
+    public static final GeneratedMessage.GeneratedExtension<DescriptorProtos.FieldOptions, Boolean> disallowedByDefault;
+    public static final GeneratedMessage.GeneratedExtension<DescriptorProtos.EnumValueOptions, Boolean> disallowedByDefaultEnum;
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    private Deprecation() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+        extensionRegistryLite.add(disallowedByDefault);
+        extensionRegistryLite.add(disallowedByDefaultEnum);
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        GeneratedMessage.GeneratedExtension<DescriptorProtos.FieldOptions, Boolean> generatedExtensionNewFileScopedGeneratedExtension = GeneratedMessage.newFileScopedGeneratedExtension(Boolean.class, (Message) null);
+        disallowedByDefault = generatedExtensionNewFileScopedGeneratedExtension;
+        GeneratedMessage.GeneratedExtension<DescriptorProtos.EnumValueOptions, Boolean> generatedExtensionNewFileScopedGeneratedExtension2 = GeneratedMessage.newFileScopedGeneratedExtension(Boolean.class, (Message) null);
+        disallowedByDefaultEnum = generatedExtensionNewFileScopedGeneratedExtension2;
+        Descriptors.FileDescriptor fileDescriptorInternalBuildGeneratedFileFrom = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n#envoy/annotations/deprecation.proto\u0012\u0011envoy.annotations\u001a google/protobuf/descriptor.proto:?\n\u0015disallowed_by_default\u0012\u001d.google.protobuf.FieldOptions\u0018ç\u00ad®Z \u0001(\b:H\n\u001adisallowed_by_default_enum\u0012!.google.protobuf.EnumValueOptions\u0018õÎ¶! \u0001(\bb\u0006proto3"}, new Descriptors.FileDescriptor[]{DescriptorProtos.getDescriptor()});
+        descriptor = fileDescriptorInternalBuildGeneratedFileFrom;
+        generatedExtensionNewFileScopedGeneratedExtension.internalInit((Descriptors.FieldDescriptor) fileDescriptorInternalBuildGeneratedFileFrom.getExtensions().get(0));
+        generatedExtensionNewFileScopedGeneratedExtension2.internalInit((Descriptors.FieldDescriptor) descriptor.getExtensions().get(1));
+        DescriptorProtos.getDescriptor();
+    }
+}

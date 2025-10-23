@@ -1,0 +1,377 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/NativeLibraryLoader.java
+// Size: 17720 bytes
+// Modified: 2025-10-21 16:32:09.930789900 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+import io.grpc.netty.shaded.io.netty.util.CharsetUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory;
+import java.io.ByteArrayOutputStream;
+import java.io.Closeable;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.Method;
+import java.net.URL;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.attribute.PosixFilePermission;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.EnumSet;
+import java.util.Set;
+
+/* loaded from: classes3.dex */
+public final class NativeLibraryLoader {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final boolean DELETE_NATIVE_LIB_AFTER_LOADING;
+    private static final String NATIVE_RESOURCE_HOME = "META-INF/native/";
+    private static final boolean TRY_TO_PATCH_SHADED_ID;
+    private static final byte[] UNIQUE_ID_BYTES;
+    private static final File WORKDIR;
+    private static final InternalLogger logger;
+
+    static {
+        InternalLogger internalLoggerFactory = InternalLoggerFactory.getInstance((Class<?>) NativeLibraryLoader.class);
+        logger = internalLoggerFactory;
+        UNIQUE_ID_BYTES = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".getBytes(CharsetUtil.US_ASCII);
+        String str = SystemPropertyUtil.get("io.grpc.netty.shaded.io.netty.native.workdir");
+        if (str != null) {
+            File file = new File(str);
+            file.mkdirs();
+            try {
+                file = file.getAbsoluteFile();
+            } catch (Exception unused) {
+            }
+            WORKDIR = file;
+            logger.debug("-Dio.netty.native.workdir: " + file);
+        } else {
+            File fileTmpdir = PlatformDependent.tmpdir();
+            WORKDIR = fileTmpdir;
+            internalLoggerFactory.debug("-Dio.netty.native.workdir: " + fileTmpdir + " (io.netty.tmpdir)");
+        }
+        boolean z = SystemPropertyUtil.getBoolean("io.grpc.netty.shaded.io.netty.native.deleteLibAfterLoading", true);
+        DELETE_NATIVE_LIB_AFTER_LOADING = z;
+        InternalLogger internalLogger = logger;
+        internalLogger.debug("-Dio.netty.native.deleteLibAfterLoading: {}", Boolean.valueOf(z));
+        boolean z2 = SystemPropertyUtil.getBoolean("io.grpc.netty.shaded.io.netty.native.tryPatchShadedId", true);
+        TRY_TO_PATCH_SHADED_ID = z2;
+        internalLogger.debug("-Dio.netty.native.tryPatchShadedId: {}", Boolean.valueOf(z2));
+    }
+
+    public static void loadFirstAvailable(ClassLoader classLoader, String... strArr) {
+        ArrayList arrayList = new ArrayList();
+        for (String str : strArr) {
+            try {
+                load(str, classLoader);
+                return;
+            } catch (Throwable th) {
+                arrayList.add(th);
+                logger.debug("Unable to load the library '{}', trying next name...", str, th);
+            }
+        }
+        IllegalArgumentException illegalArgumentException = new IllegalArgumentException("Failed to load any of the given libraries: " + Arrays.toString(strArr));
+        ThrowableUtil.addSuppressedAndClear(illegalArgumentException, arrayList);
+        throw illegalArgumentException;
+    }
+
+    private static String calculatePackagePrefix() {
+        String name = NativeLibraryLoader.class.getName();
+        String strReplace = "io!netty!util!internal!NativeLibraryLoader".replace('!', '.');
+        if (!name.endsWith(strReplace)) {
+            throw new UnsatisfiedLinkError(String.format("Could not find prefix added to %s to get %s. When shading, only adding a package prefix is supported", strReplace, name));
+        }
+        return name.substring(0, name.length() - strReplace.length());
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:100:0x0190  */
+    /* JADX WARN: Removed duplicated region for block: B:112:0x0156 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:122:? A[RETURN, SYNTHETIC] */
+    /* JADX WARN: Removed duplicated region for block: B:37:0x00d8 A[Catch: all -> 0x010d, Exception -> 0x0110, UnsatisfiedLinkError -> 0x0112, TryCatch #12 {Exception -> 0x0110, UnsatisfiedLinkError -> 0x0112, all -> 0x010d, blocks: (B:35:0x00d2, B:37:0x00d8, B:42:0x00ea, B:38:0x00dc, B:39:0x00e0, B:41:0x00e6), top: B:115:0x00d2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x00dc A[Catch: all -> 0x010d, Exception -> 0x0110, UnsatisfiedLinkError -> 0x0112, TryCatch #12 {Exception -> 0x0110, UnsatisfiedLinkError -> 0x0112, all -> 0x010d, blocks: (B:35:0x00d2, B:37:0x00d8, B:42:0x00ea, B:38:0x00dc, B:39:0x00e0, B:41:0x00e6), top: B:115:0x00d2 }] */
+    /* JADX WARN: Removed duplicated region for block: B:46:0x00ff  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public static void load(java.lang.String r11, java.lang.ClassLoader r12) throws java.lang.Throwable {
+        /*
+            Method dump skipped, instructions count: 414
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryLoader.load(java.lang.String, java.lang.ClassLoader):void");
+    }
+
+    static boolean patchShadedLibraryId(InputStream inputStream, OutputStream outputStream, String str, String str2) throws IOException {
+        boolean zPatchShadedLibraryId;
+        byte[] bArr = new byte[8192];
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(inputStream.available());
+        while (true) {
+            int i = inputStream.read(bArr);
+            if (i <= 0) {
+                break;
+            }
+            byteArrayOutputStream.write(bArr, 0, i);
+        }
+        byteArrayOutputStream.flush();
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        byteArrayOutputStream.close();
+        if (patchShadedLibraryId(byteArray, str, str2)) {
+            zPatchShadedLibraryId = true;
+        } else {
+            String str3 = "_" + PlatformDependent.normalizedOs() + "_" + PlatformDependent.normalizedArch();
+            zPatchShadedLibraryId = str.endsWith(str3) ? patchShadedLibraryId(byteArray, str.substring(0, str.length() - str3.length()), str2) : false;
+        }
+        outputStream.write(byteArray, 0, byteArray.length);
+        return zPatchShadedLibraryId;
+    }
+
+    private static boolean shouldShadedLibraryIdBePatched(String str) {
+        return TRY_TO_PATCH_SHADED_ID && PlatformDependent.isOsx() && !str.isEmpty();
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:34:0x0028, code lost:
+    
+        continue;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private static boolean patchShadedLibraryId(byte[] r8, java.lang.String r9, java.lang.String r10) {
+        /*
+            java.nio.charset.Charset r0 = io.grpc.netty.shaded.io.netty.util.CharsetUtil.UTF_8
+            byte[] r0 = r9.getBytes(r0)
+            r1 = 0
+            r2 = 0
+        L8:
+            int r3 = r8.length
+            r4 = -1
+            if (r2 >= r3) goto L2b
+            int r3 = r8.length
+            int r3 = r3 - r2
+            int r5 = r0.length
+            if (r3 < r5) goto L2b
+            r5 = r2
+            r3 = 0
+        L13:
+            int r6 = r0.length
+            if (r3 >= r6) goto L28
+            int r6 = r5 + 1
+            r5 = r8[r5]
+            int r7 = r3 + 1
+            r3 = r0[r3]
+            if (r5 == r3) goto L21
+            goto L28
+        L21:
+            int r3 = r0.length
+            if (r7 != r3) goto L25
+            goto L2c
+        L25:
+            r5 = r6
+            r3 = r7
+            goto L13
+        L28:
+            int r2 = r2 + 1
+            goto L8
+        L2b:
+            r2 = -1
+        L2c:
+            if (r2 != r4) goto L36
+            io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger r8 = io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryLoader.logger
+            java.lang.String r9 = "Was not able to find the ID of the shaded native library {}, can't adjust it."
+            r8.debug(r9, r10)
+            return r1
+        L36:
+            r3 = 0
+        L37:
+            int r4 = r0.length
+            if (r3 >= r4) goto L4e
+            int r4 = r2 + r3
+            byte[] r5 = io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryLoader.UNIQUE_ID_BYTES
+            java.util.Random r6 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.threadLocalRandom()
+            int r7 = r5.length
+            int r6 = r6.nextInt(r7)
+            r5 = r5[r6]
+            r8[r4] = r5
+            int r3 = r3 + 1
+            goto L37
+        L4e:
+            io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger r3 = io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryLoader.logger
+            boolean r4 = r3.isDebugEnabled()
+            r5 = 1
+            if (r4 == 0) goto L6e
+            r4 = 3
+            java.lang.Object[] r4 = new java.lang.Object[r4]
+            r4[r1] = r10
+            r4[r5] = r9
+            java.lang.String r9 = new java.lang.String
+            int r10 = r0.length
+            java.nio.charset.Charset r0 = io.grpc.netty.shaded.io.netty.util.CharsetUtil.UTF_8
+            r9.<init>(r8, r2, r10, r0)
+            r8 = 2
+            r4[r8] = r9
+            java.lang.String r8 = "Found the ID of the shaded native library {}. Replacing ID part {} with {}"
+            r3.debug(r8, r4)
+        L6e:
+            return r5
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryLoader.patchShadedLibraryId(byte[], java.lang.String, java.lang.String):boolean");
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r3v0, types: [java.lang.ClassLoader] */
+    /* JADX WARN: Type inference failed for: r3v3, types: [java.lang.Throwable] */
+    /* JADX WARN: Type inference failed for: r3v5, types: [io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger] */
+    private static void loadLibrary(ClassLoader classLoader, String str, boolean z) {
+        try {
+            try {
+                loadLibraryByHelper(tryToLoadClass(classLoader, NativeLibraryUtil.class), str, z);
+                classLoader = logger;
+                classLoader.debug("Successfully loaded the library {}", str);
+            } catch (Exception e) {
+                logger.debug("Unable to load the library '{}', trying other loading mechanism.", str, e);
+                NativeLibraryUtil.loadLibrary(str, z);
+                logger.debug("Successfully loaded the library {}", str);
+            } catch (UnsatisfiedLinkError e2) {
+                logger.debug("Unable to load the library '{}', trying other loading mechanism.", str, e2);
+                NativeLibraryUtil.loadLibrary(str, z);
+                logger.debug("Successfully loaded the library {}", str);
+            }
+        } catch (UnsatisfiedLinkError e3) {
+            ThrowableUtil.addSuppressed(e3, (Throwable) classLoader);
+            throw e3;
+        }
+    }
+
+    private static void loadLibraryByHelper(final Class<?> cls, final String str, final boolean z) throws UnsatisfiedLinkError {
+        Object objDoPrivileged = AccessController.doPrivileged(new PrivilegedAction<Object>() { // from class: io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryLoader.1
+            @Override // java.security.PrivilegedAction
+            public Object run() throws NoSuchMethodException, SecurityException {
+                try {
+                    Method method = cls.getMethod("loadLibrary", String.class, Boolean.TYPE);
+                    method.setAccessible(true);
+                    return method.invoke(null, str, Boolean.valueOf(z));
+                } catch (Exception e) {
+                    return e;
+                }
+            }
+        });
+        if (objDoPrivileged instanceof Throwable) {
+            Throwable th = (Throwable) objDoPrivileged;
+            Throwable cause = th.getCause();
+            if (cause instanceof UnsatisfiedLinkError) {
+                throw ((UnsatisfiedLinkError) cause);
+            }
+            UnsatisfiedLinkError unsatisfiedLinkError = new UnsatisfiedLinkError(th.getMessage());
+            unsatisfiedLinkError.initCause(th);
+            throw unsatisfiedLinkError;
+        }
+    }
+
+    private static Class<?> tryToLoadClass(final ClassLoader classLoader, final Class<?> cls) throws ClassNotFoundException, IOException {
+        try {
+            return Class.forName(cls.getName(), false, classLoader);
+        } catch (ClassNotFoundException e) {
+            if (classLoader == null) {
+                throw e;
+            }
+            try {
+                final byte[] bArrClassToByteArray = classToByteArray(cls);
+                return (Class) AccessController.doPrivileged(new PrivilegedAction<Class<?>>() { // from class: io.grpc.netty.shaded.io.netty.util.internal.NativeLibraryLoader.2
+                    /* JADX WARN: Can't rename method to resolve collision */
+                    @Override // java.security.PrivilegedAction
+                    public Class<?> run() throws NoSuchMethodException, SecurityException {
+                        try {
+                            Method declaredMethod = ClassLoader.class.getDeclaredMethod("defineClass", String.class, byte[].class, Integer.TYPE, Integer.TYPE);
+                            declaredMethod.setAccessible(true);
+                            return (Class) declaredMethod.invoke(classLoader, cls.getName(), bArrClassToByteArray, 0, Integer.valueOf(bArrClassToByteArray.length));
+                        } catch (Exception e2) {
+                            throw new IllegalStateException("Define class failed!", e2);
+                        }
+                    }
+                });
+            } catch (ClassNotFoundException e2) {
+                ThrowableUtil.addSuppressed(e2, e);
+                throw e2;
+            } catch (Error e3) {
+                ThrowableUtil.addSuppressed(e3, e);
+                throw e3;
+            } catch (RuntimeException e4) {
+                ThrowableUtil.addSuppressed(e4, e);
+                throw e4;
+            }
+        }
+    }
+
+    private static byte[] classToByteArray(Class<?> cls) throws IOException, ClassNotFoundException {
+        String name = cls.getName();
+        int iLastIndexOf = name.lastIndexOf(46);
+        if (iLastIndexOf > 0) {
+            name = name.substring(iLastIndexOf + 1);
+        }
+        URL resource = cls.getResource(name + ".class");
+        if (resource == null) {
+            throw new ClassNotFoundException(cls.getName());
+        }
+        byte[] bArr = new byte[1024];
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream(4096);
+        InputStream inputStreamOpenStream = null;
+        try {
+            try {
+                inputStreamOpenStream = resource.openStream();
+                while (true) {
+                    int i = inputStreamOpenStream.read(bArr);
+                    if (i != -1) {
+                        byteArrayOutputStream.write(bArr, 0, i);
+                    } else {
+                        return byteArrayOutputStream.toByteArray();
+                    }
+                }
+            } catch (IOException e) {
+                throw new ClassNotFoundException(cls.getName(), e);
+            }
+        } finally {
+            closeQuietly(inputStreamOpenStream);
+            closeQuietly(byteArrayOutputStream);
+        }
+    }
+
+    private static void closeQuietly(Closeable closeable) throws IOException {
+        if (closeable != null) {
+            try {
+                closeable.close();
+            } catch (IOException unused) {
+            }
+        }
+    }
+
+    private NativeLibraryLoader() {
+    }
+
+    private static final class NoexecVolumeDetector {
+        /* JADX INFO: Access modifiers changed from: private */
+        public static boolean canExecuteExecutable(File file) throws IOException {
+            if (PlatformDependent.javaVersion() < 7 || file.canExecute()) {
+                return true;
+            }
+            Set posixFilePermissions = Files.getPosixFilePermissions(file.toPath(), new LinkOption[0]);
+            EnumSet enumSetOf = EnumSet.of(PosixFilePermission.OWNER_EXECUTE, PosixFilePermission.GROUP_EXECUTE, PosixFilePermission.OTHERS_EXECUTE);
+            if (posixFilePermissions.containsAll(enumSetOf)) {
+                return false;
+            }
+            EnumSet enumSetCopyOf = EnumSet.copyOf((Collection) posixFilePermissions);
+            enumSetCopyOf.addAll(enumSetOf);
+            Files.setPosixFilePermissions(file.toPath(), enumSetCopyOf);
+            return file.canExecute();
+        }
+
+        private NoexecVolumeDetector() {
+        }
+    }
+}

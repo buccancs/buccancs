@@ -1,0 +1,271 @@
+package com.shimmerresearch.sensors.kionix;
+
+import com.shimmerresearch.bluetooth.BtCommandDetails;
+import com.shimmerresearch.driver.ConfigByteLayout;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driver.calibration.CalibDetailsKinematic;
+import com.shimmerresearch.driver.calibration.UtilCalibration;
+import com.shimmerresearch.driver.shimmer2r3.ConfigByteLayoutShimmer3;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.ActionSetting;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.TreeMap;
+
+/* loaded from: classes2.dex */
+public abstract class SensorKionixAccel extends AbstractSensor {
+    public static final byte ACCEL_CALIBRATION_RESPONSE = 18;
+    public static final byte GET_ACCEL_CALIBRATION_COMMAND = 19;
+    public static final String LN_ACCEL_RANGE_STRING = "± 2g";
+    public static final int LN_ACCEL_RANGE_VALUE = 0;
+    public static final String OldCalRangeLN2g = "accel_ln_2g";
+    public static final byte SET_ACCEL_CALIBRATION_COMMAND = 17;
+    public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
+    public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
+    private static final long serialVersionUID = -5027305280613145453L;
+
+    static {
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put((byte) 19, new BtCommandDetails((byte) 19, "GET_ACCEL_CALIBRATION_COMMAND", (byte) 18));
+        mBtGetCommandMap = Collections.unmodifiableMap(linkedHashMap);
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put((byte) 17, new BtCommandDetails((byte) 17, "SET_ACCEL_CALIBRATION_COMMAND"));
+        mBtSetCommandMap = Collections.unmodifiableMap(linkedHashMap2);
+    }
+
+    public CalibDetailsKinematic mCurrentCalibDetailsAccelLn;
+    public boolean mIsUsingDefaultLNAccelParam;
+
+    public SensorKionixAccel(AbstractSensor.SENSORS sensors) {
+        super(sensors);
+        this.mCurrentCalibDetailsAccelLn = null;
+        this.mIsUsingDefaultLNAccelParam = true;
+    }
+
+    public SensorKionixAccel(AbstractSensor.SENSORS sensors, ShimmerVerObject shimmerVerObject) {
+        super(sensors, shimmerVerObject);
+        this.mCurrentCalibDetailsAccelLn = null;
+        this.mIsUsingDefaultLNAccelParam = true;
+    }
+
+    public SensorKionixAccel(AbstractSensor.SENSORS sensors, ShimmerDevice shimmerDevice) {
+        super(sensors, shimmerDevice);
+        this.mCurrentCalibDetailsAccelLn = null;
+        this.mIsUsingDefaultLNAccelParam = true;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        ObjectCluster objectClusterProcessDataCommon = sensorDetails.processDataCommon(bArr, communication_type, objectCluster, z, d);
+        if (mEnableCalibration && this.mCurrentCalibDetailsAccelLn != null) {
+            double[] dArr = new double[3];
+            for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
+                if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_X)) {
+                    dArr[0] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_Y)) {
+                    dArr[1] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_Z)) {
+                    dArr[2] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                }
+            }
+            double[] dArrCalibrateInertialSensorData = UtilCalibration.calibrateInertialSensorData(dArr, this.mCurrentCalibDetailsAccelLn);
+            for (ChannelDetails channelDetails2 : sensorDetails.mListOfChannels) {
+                if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_X)) {
+                    objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[0], objectClusterProcessDataCommon.getIndexKeeper() - 3, isUsingDefaultLNAccelParam());
+                } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_Y)) {
+                    objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[1], objectClusterProcessDataCommon.getIndexKeeper() - 2, isUsingDefaultLNAccelParam());
+                } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_LN_Z)) {
+                    objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[2], objectClusterProcessDataCommon.getIndexKeeper() - 1, isUsingDefaultLNAccelParam());
+                }
+            }
+        }
+        if (this.mIsDebugOutput) {
+            super.consolePrintChannelsCal(objectClusterProcessDataCommon, Arrays.asList(new String[]{ObjectClusterSensorName.ACCEL_LN_X, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_LN_Y, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_LN_Z, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_LN_X, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_LN_Y, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_LN_Z, ChannelDetails.CHANNEL_TYPE.CAL.toString()}));
+        }
+        return objectClusterProcessDataCommon;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) configByteLayout;
+            System.arraycopy(generateCalParamByteArrayAccelLn(), 0, bArr, configByteLayoutShimmer3.idxAnalogAccelCalibration, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) configByteLayout;
+            if (shimmerDevice.isConnected()) {
+                getCurrentCalibDetailsAccelLn().mCalibReadSource = CalibDetails.CALIB_READ_SOURCE.INFOMEM;
+            }
+            byte[] bArr2 = new byte[configByteLayoutShimmer3.lengthGeneralCalibrationBytes];
+            System.arraycopy(bArr, configByteLayoutShimmer3.idxAnalogAccelCalibration, bArr2, 0, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+            parseCalibParamFromPacketAccelAnalog(bArr2, CalibDetails.CALIB_READ_SOURCE.INFOMEM);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        str.hashCode();
+        return super.setConfigValueUsingConfigLabelCommon(num, str, obj);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        str.hashCode();
+        if (str.equals("Range")) {
+            return num.intValue() == 2 ? 0 : null;
+        }
+        return super.getConfigValueUsingConfigLabelCommon(num, str);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        if (!this.mSensorMap.containsKey(Integer.valueOf(i))) {
+            return false;
+        }
+        updateCurrentAccelLnCalibInUse();
+        return true;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return this.mConfigOptionsMap.containsKey(str);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return new ActionSetting(communication_type);
+    }
+
+    private byte[] generateCalParamAnalogAccel() {
+        return this.mCurrentCalibDetailsAccelLn.generateCalParamByteArray();
+    }
+
+    public void parseCalibParamFromPacketAccelAnalog(byte[] bArr, CalibDetails.CALIB_READ_SOURCE calib_read_source) {
+        this.mCurrentCalibDetailsAccelLn.parseCalParamByteArray(bArr, calib_read_source);
+    }
+
+    private void setDefaultCalibrationShimmer3LowNoiseAccel() {
+        this.mCurrentCalibDetailsAccelLn.resetToDefaultParameters();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public String getSensorName() {
+        return this.mSensorName;
+    }
+
+    public boolean isUsingDefaultLNAccelParam() {
+        return this.mCurrentCalibDetailsAccelLn.isUsingDefaultParameters();
+    }
+
+    public double[][] getAlignmentMatrixAccel() {
+        return this.mCurrentCalibDetailsAccelLn.getValidAlignmentMatrix();
+    }
+
+    public double[][] getSensitivityMatrixAccel() {
+        return this.mCurrentCalibDetailsAccelLn.getValidSensitivityMatrix();
+    }
+
+    public double[][] getOffsetVectorMatrixAccel() {
+        return this.mCurrentCalibDetailsAccelLn.getValidOffsetVector();
+    }
+
+    public void updateCurrentAccelLnCalibInUse() {
+        this.mCurrentCalibDetailsAccelLn = getCurrentCalibDetailsAccelLn();
+    }
+
+    public CalibDetailsKinematic getCurrentCalibDetailsAccelLn() {
+        CalibDetails calibForSensor = getCalibForSensor(2, 0);
+        if (calibForSensor != null) {
+            return (CalibDetailsKinematic) calibForSensor;
+        }
+        return null;
+    }
+
+    public byte[] generateCalParamByteArrayAccelLn() {
+        return getCurrentCalibDetailsAccelLn().generateCalParamByteArray();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean isSensorUsingDefaultCal(int i) {
+        if (i == 2) {
+            return isUsingDefaultLNAccelParam();
+        }
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setCalibrationMapPerSensor(int i, TreeMap<Integer, CalibDetails> treeMap) {
+        super.setCalibrationMapPerSensor(i, treeMap);
+        updateCurrentAccelLnCalibInUse();
+    }
+
+    public void updateIsUsingDefaultLNAccelParam() {
+        this.mIsUsingDefaultLNAccelParam = getCurrentCalibDetailsAccelLn().isUsingDefaultParameters();
+    }
+
+    public static class ObjectClusterSensorName {
+        public static String ACCEL_LN_X = "Accel_LN_X";
+        public static String ACCEL_LN_Y = "Accel_LN_Y";
+        public static String ACCEL_LN_Z = "Accel_LN_Z";
+    }
+
+    public class GuiLabelConfig {
+        public static final String KIONIX_ACCEL_CALIB_PARAM = "Low Noise Accel Calibration Details";
+        public static final String KIONIX_ACCEL_DEFAULT_CALIB = "Low Noise Accel Default Calibration";
+        public static final String KIONIX_ACCEL_VALID_CALIB = "Low Noise Accel Valid Calibration";
+
+        public GuiLabelConfig() {
+        }
+    }
+
+    public class GuiLabelSensors {
+        public static final String ACCEL_LN = "Low-Noise Accelerometer";
+
+        public GuiLabelSensors() {
+        }
+    }
+
+    public class LABEL_SENSOR_TILE {
+        public static final String LOW_NOISE_ACCEL = "Low-Noise Accelerometer";
+
+        public LABEL_SENSOR_TILE() {
+        }
+    }
+}

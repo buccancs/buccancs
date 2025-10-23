@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/testing/TlsTesting.java
+// Size: 296 bytes
+// Modified: 2025-10-21 16:32:03.481993600 +0100
+
+package io.grpc.testing;
+
+import java.io.InputStream;
+
+/* loaded from: classes3.dex */
+public final class TlsTesting {
+    public static InputStream loadCert(String str) {
+        return TestUtils.class.getResourceAsStream("/certs/" + str);
+    }
+
+    private TlsTesting() {
+    }
+}

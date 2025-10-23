@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/common/ToDoubleFunction.java
+// Size: 141 bytes
+// Modified: 2025-10-21 16:32:01.945011900 +0100
+
+package io.opencensus.common;
+
+/* loaded from: classes4.dex */
+public interface ToDoubleFunction<T> {
+    double applyAsDouble(T t);
+}

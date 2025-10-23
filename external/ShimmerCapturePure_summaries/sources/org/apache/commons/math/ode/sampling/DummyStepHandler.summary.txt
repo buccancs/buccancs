@@ -1,0 +1,46 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/ode/sampling/DummyStepHandler.java
+// Size: 1340 bytes
+// Modified: 2025-10-21 16:32:02.891692000 +0100
+
+package org.apache.commons.math.ode.sampling;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ode/sampling/DummyStepHandler.class */
+public class DummyStepHandler implements StepHandler {
+    private DummyStepHandler() {
+    }
+
+    public static DummyStepHandler getInstance() {
+        return LazyHolder.INSTANCE;
+    }
+
+    @Override // org.apache.commons.math.ode.sampling.StepHandler
+    public boolean requiresDenseOutput() {
+        return false;
+    }
+
+    @Override // org.apache.commons.math.ode.sampling.StepHandler
+    public void reset() {
+    }
+
+    @Override // org.apache.commons.math.ode.sampling.StepHandler
+    public void handleStep(StepInterpolator interpolator, boolean isLast) {
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ode/sampling/DummyStepHandler$LazyHolder.class */
+    private static class LazyHolder {
+        private static final DummyStepHandler INSTANCE = new DummyStepHandler();
+
+        private LazyHolder() {
+        }
+    }
+
+    private Object readResolve() {
+        return LazyHolder.INSTANCE;
+    }
+}

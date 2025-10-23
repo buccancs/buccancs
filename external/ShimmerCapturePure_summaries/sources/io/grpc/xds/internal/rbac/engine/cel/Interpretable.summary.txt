@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/rbac/engine/cel/Interpretable.java
+// Size: 188 bytes
+// Modified: 2025-10-21 16:32:02.306943200 +0100
+
+package io.grpc.xds.internal.rbac.engine.cel;
+
+/* loaded from: classes3.dex */
+public interface Interpretable {
+    Object eval(Activation activation) throws InterpreterException;
+}

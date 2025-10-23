@@ -1,0 +1,112 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/function/Sigmoid.java
+// Size: 4335 bytes
+// Modified: 2025-10-21 16:32:10.127973000 +0100
+
+package org.apache.commons.math3.analysis.function;
+
+import java.util.Arrays;
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.FunctionUtils;
+import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class Sigmoid implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+    private final double hi;
+    private final double lo;
+
+    public Sigmoid() {
+        this(0.0d, 1.0d);
+    }
+
+    public Sigmoid(double d, double d2) {
+        this.lo = d;
+        this.hi = d2;
+    }
+
+    @Override // org.apache.commons.math3.analysis.DifferentiableUnivariateFunction
+    @Deprecated
+    public UnivariateFunction derivative() {
+        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
+    }
+
+    @Override // org.apache.commons.math3.analysis.UnivariateFunction
+    public double value(double d) {
+        return value(d, this.lo, this.hi);
+    }
+
+    public static class Parametric implements ParametricUnivariateFunction {
+        @Override // org.apache.commons.math3.analysis.ParametricUnivariateFunction
+        public double value(double d, double... dArr) throws NullArgumentException, DimensionMismatchException {
+            validateParameters(dArr);
+            return Sigmoid.value(d, dArr[0], dArr[1]);
+        }
+
+        @Override // org.apache.commons.math3.analysis.ParametricUnivariateFunction
+        public double[] gradient(double d, double... dArr) throws NullArgumentException, DimensionMismatchException {
+            validateParameters(dArr);
+            double dExp = 1.0d / (FastMath.exp(-d) + 1.0d);
+            return new double[]{1.0d - dExp, dExp};
+        }
+
+        private void validateParameters(double[] dArr) throws NullArgumentException, DimensionMismatchException {
+            if (dArr == null) {
+                throw new NullArgumentException();
+            }
+            if (dArr.length != 2) {
+                throw new DimensionMismatchException(dArr.length, 2);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static double value(double d, double d2, double d3) {
+        return d2 + ((d3 - d2) / (FastMath.exp(-d) + 1.0d));
+    }
+
+    @Override // org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction
+    public DerivativeStructure value(DerivativeStructure derivativeStructure) throws DimensionMismatchException {
+        int i = 1;
+        int order = derivativeStructure.getOrder() + 1;
+        double[] dArr = new double[order];
+        double dExp = FastMath.exp(-derivativeStructure.getValue());
+        if (Double.isInfinite(dExp)) {
+            dArr[0] = this.lo;
+            Arrays.fill(dArr, 1, order, 0.0d);
+        } else {
+            double[] dArr2 = new double[order];
+            double d = 1.0d;
+            double d2 = 1.0d / (dExp + 1.0d);
+            double d3 = this.hi - this.lo;
+            int i2 = 0;
+            while (i2 < order) {
+                dArr2[i2] = d;
+                int i3 = i2;
+                double d4 = 0.0d;
+                while (i3 >= 0) {
+                    d4 = (d4 * dExp) + dArr2[i3];
+                    if (i3 > i) {
+                        int i4 = i3 - 1;
+                        dArr2[i4] = (((i2 - i3) + 2) * dArr2[i3 - 2]) - (i4 * dArr2[i4]);
+                    } else {
+                        dArr2[0] = 0.0d;
+                    }
+                    i3--;
+                    i = 1;
+                }
+                d3 *= d2;
+                dArr[i2] = d4 * d3;
+                i2++;
+                i = 1;
+                d = 1.0d;
+            }
+            dArr[0] = dArr[0] + this.lo;
+        }
+        return derivativeStructure.compose(dArr);
+    }
+}

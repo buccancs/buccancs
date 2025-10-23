@@ -1,0 +1,207 @@
+package com.androidplot.ui;
+
+import android.graphics.RectF;
+import com.androidplot.ui.TableModel;
+
+import java.util.Iterator;
+
+/* loaded from: classes.dex */
+public class DynamicTableModel extends TableModel {
+    private int a;
+    private int b;
+
+    public DynamicTableModel(int i, int i2) {
+        this(i, i2, TableOrder.ROW_MAJOR);
+    }
+
+    public DynamicTableModel(int i, int i2, TableOrder tableOrder) {
+        super(tableOrder);
+        this.b = i;
+        this.a = i2;
+    }
+
+    public int getNumColumns() {
+        return this.b;
+    }
+
+    public void setNumColumns(int i) {
+        this.b = i;
+    }
+
+    public int getNumRows() {
+        return this.a;
+    }
+
+    public void setNumRows(int i) {
+        this.a = i;
+    }
+
+    @Override // com.androidplot.ui.TableModel
+    public a getIterator(RectF rectF, int i) {
+        return new a(this, this, rectF, i);
+    }
+
+    public RectF getCellRect(RectF rectF, int i) {
+        RectF rectF2 = new RectF();
+        rectF2.left = rectF.left;
+        rectF2.top = rectF.top;
+        rectF2.bottom = rectF.top + a(rectF, TableModel.Axis.ROW, i);
+        rectF2.right = rectF.left + a(rectF, TableModel.Axis.COLUMN, i);
+        return rectF2;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:11:0x0023  */
+    /* JADX WARN: Removed duplicated region for block: B:14:0x0026  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private float a(android.graphics.RectF r3, com.androidplot.ui.TableModel.Axis r4, int r5) {
+        /*
+            r2 = this;
+            int[] r0 = com.androidplot.ui.DynamicTableModel.b.a
+            int r4 = r4.ordinal()
+            r4 = r0[r4]
+            r0 = 1
+            if (r4 == r0) goto L18
+            r0 = 2
+            if (r4 == r0) goto L11
+            r3 = 0
+            r4 = 0
+            goto L21
+        L11:
+            int r4 = r2.b
+            float r3 = r3.width()
+            goto L1e
+        L18:
+            int r4 = r2.a
+            float r3 = r3.height()
+        L1e:
+            r1 = r4
+            r4 = r3
+            r3 = r1
+        L21:
+            if (r3 == 0) goto L26
+            float r3 = (float) r3
+        L24:
+            float r4 = r4 / r3
+            return r4
+        L26:
+            float r3 = (float) r5
+            goto L24
+        */
+        throw new UnsupportedOperationException("Method not decompiled: com.androidplot.ui.DynamicTableModel.a(android.graphics.RectF, com.androidplot.ui.TableModel$Axis, int):float");
+    }
+
+    static /* synthetic */ class b {
+        static final /* synthetic */ int[] a;
+        static final /* synthetic */ int[] b;
+
+        static {
+            int[] iArr = new int[TableOrder.values().length];
+            b = iArr;
+            try {
+                iArr[TableOrder.ROW_MAJOR.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                b[TableOrder.COLUMN_MAJOR.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            int[] iArr2 = new int[TableModel.Axis.values().length];
+            a = iArr2;
+            try {
+                iArr2[TableModel.Axis.ROW.ordinal()] = 1;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                a[TableModel.Axis.COLUMN.ordinal()] = 2;
+            } catch (NoSuchFieldError unused4) {
+            }
+        }
+    }
+
+    private class a implements Iterator<RectF> {
+        private boolean a = true;
+        private int b = 0;
+        private int c = 0;
+        private int d = 0;
+        private DynamicTableModel e;
+        private RectF f;
+        private RectF g;
+        private TableOrder h;
+        private int i;
+        private int j;
+        private int k;
+
+        public a(DynamicTableModel dynamicTableModel, DynamicTableModel dynamicTableModel2, RectF rectF, int i) {
+            this.e = dynamicTableModel2;
+            this.f = rectF;
+            this.h = dynamicTableModel2.getOrder();
+            if (dynamicTableModel2.getNumColumns() == 0 && dynamicTableModel2.getNumRows() >= 1) {
+                this.j = dynamicTableModel2.getNumRows();
+                this.k = new Float((i / r6) + 0.5d).intValue();
+            } else if (dynamicTableModel2.getNumRows() == 0 && dynamicTableModel2.getNumColumns() >= 1) {
+                this.k = dynamicTableModel2.getNumColumns();
+                this.j = new Float((i / r6) + 0.5d).intValue();
+            } else if (dynamicTableModel2.getNumColumns() == 0 && dynamicTableModel2.getNumRows() == 0) {
+                this.j = 1;
+                this.k = i;
+            } else {
+                this.j = dynamicTableModel2.getNumRows();
+                this.k = dynamicTableModel2.getNumColumns();
+            }
+            this.i = this.j * this.k;
+            this.g = dynamicTableModel2.getCellRect(rectF, i);
+        }
+
+        @Override // java.util.Iterator
+        public final boolean hasNext() {
+            return this.a && this.d < this.i;
+        }
+
+        @Override // java.util.Iterator
+        public final /* bridge */ /* synthetic */ RectF next() {
+            if (!hasNext()) {
+                this.a = false;
+                throw new IndexOutOfBoundsException();
+            }
+            int i = this.d;
+            if (i == 0) {
+                this.d = i + 1;
+                return this.g;
+            }
+            RectF rectF = new RectF(this.g);
+            int i2 = b.b[this.h.ordinal()];
+            if (i2 != 1) {
+                if (i2 != 2) {
+                    this.a = false;
+                    throw new IllegalArgumentException();
+                }
+                if (this.e.getNumRows() <= 0 || this.c < this.e.getNumRows() - 1) {
+                    rectF.offsetTo(this.g.left, this.g.bottom);
+                    this.c++;
+                } else {
+                    rectF.offsetTo(this.g.right, this.f.top);
+                    this.c = 0;
+                    this.b++;
+                }
+            } else if (this.e.getNumColumns() <= 0 || this.b < this.e.getNumColumns() - 1) {
+                rectF.offsetTo(this.g.right, this.g.top);
+                this.b++;
+            } else {
+                rectF.offsetTo(this.f.left, this.g.bottom);
+                this.b = 0;
+                this.c++;
+            }
+            this.d++;
+            this.g = rectF;
+            return rectF;
+        }
+
+        @Override // java.util.Iterator
+        public final void remove() {
+            throw new UnsupportedOperationException();
+        }
+    }
+}

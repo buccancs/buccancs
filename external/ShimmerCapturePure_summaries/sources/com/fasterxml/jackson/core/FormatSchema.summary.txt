@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/FormatSchema.java
+// Size: 136 bytes
+// Modified: 2025-10-21 16:32:00.046654800 +0100
+
+package com.fasterxml.jackson.core;
+
+/* loaded from: classes.dex */
+public interface FormatSchema {
+    String getSchemaType();
+}

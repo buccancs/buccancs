@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/app/BundleCompat.java
+// Size: 451 bytes
+// Modified: 2025-10-21 16:31:59.944510600 +0100
+
+package androidx.core.app;
+
+import android.os.Bundle;
+import android.os.IBinder;
+
+@Deprecated
+/* loaded from: classes.dex */
+public final class BundleCompat {
+    private BundleCompat() {
+    }
+
+    public static IBinder getBinder(Bundle bundle, String str) {
+        return bundle.getBinder(str);
+    }
+
+    public static void putBinder(Bundle bundle, String str, IBinder iBinder) {
+        bundle.putBinder(str, iBinder);
+    }
+}

@@ -1,0 +1,93 @@
+package org.apache.commons.math3.ode.nonstiff;
+
+import java.util.Arrays;
+
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.linear.FieldMatrixPreservingVisitor;
+import org.apache.commons.math3.util.MathUtils;
+
+/* loaded from: classes5.dex */
+public class AdamsMoultonFieldIntegrator<T extends RealFieldElement<T>> extends AdamsFieldIntegrator<T> {
+    private static final String METHOD_NAME = "Adams-Moulton";
+
+    public AdamsMoultonFieldIntegrator(Field<T> field, int i, double d, double d2, double d3, double d4) throws NumberIsTooSmallException {
+        super(field, METHOD_NAME, i, i + 1, d, d2, d3, d4);
+    }
+
+    public AdamsMoultonFieldIntegrator(Field<T> field, int i, double d, double d2, double[] dArr, double[] dArr2) throws IllegalArgumentException {
+        super(field, METHOD_NAME, i, i + 1, d, d2, dArr, dArr2);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:42:0x01fc A[PHI: r9
+  0x01fc: PHI (r9v5 double) = (r9v4 double), (r9v7 double) binds: [B:41:0x01fa, B:38:0x01e9] A[DONT_GENERATE, DONT_INLINE]] */
+    /* JADX WARN: Type inference failed for: r13v1 */
+    /* JADX WARN: Type inference failed for: r13v4, types: [org.apache.commons.math3.RealFieldElement[]] */
+    /* JADX WARN: Type inference failed for: r7v5, types: [org.apache.commons.math3.RealFieldElement] */
+    @Override
+    // org.apache.commons.math3.ode.nonstiff.AdamsFieldIntegrator, org.apache.commons.math3.ode.FirstOrderFieldIntegrator
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public org.apache.commons.math3.ode.FieldODEStateAndDerivative<T> integrate(org.apache.commons.math3.ode.FieldExpandableODE<T> r21, org.apache.commons.math3.ode.FieldODEState<T> r22, T r23) throws org.apache.commons.math3.exception.MaxCountExceededException, org.apache.commons.math3.exception.MathIllegalArgumentException {
+        /*
+            Method dump skipped, instructions count: 586
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.ode.nonstiff.AdamsMoultonFieldIntegrator.integrate(org.apache.commons.math3.ode.FieldExpandableODE, org.apache.commons.math3.ode.FieldODEState, org.apache.commons.math3.RealFieldElement):org.apache.commons.math3.ode.FieldODEStateAndDerivative");
+    }
+
+    private class Corrector implements FieldMatrixPreservingVisitor<T> {
+        private final T[] after;
+        private final T[] before;
+        private final T[] previous;
+        private final T[] scaled;
+
+        Corrector(T[] tArr, T[] tArr2, T[] tArr3) {
+            this.previous = tArr;
+            this.scaled = tArr2;
+            this.after = tArr3;
+            this.before = (T[]) ((RealFieldElement[]) tArr3.clone());
+        }
+
+        @Override // org.apache.commons.math3.linear.FieldMatrixPreservingVisitor
+        public void start(int i, int i2, int i3, int i4, int i5, int i6) {
+            Arrays.fill(this.after, AdamsMoultonFieldIntegrator.this.getField().getZero());
+        }
+
+        @Override // org.apache.commons.math3.linear.FieldMatrixPreservingVisitor
+        public void visit(int i, int i2, T t) {
+            if ((i & 1) == 0) {
+                FieldElement[] fieldElementArr = this.after;
+                fieldElementArr[i2] = (RealFieldElement) fieldElementArr[i2].subtract(t);
+            } else {
+                FieldElement[] fieldElementArr2 = this.after;
+                fieldElementArr2[i2] = (RealFieldElement) fieldElementArr2[i2].add(t);
+            }
+        }
+
+        @Override // org.apache.commons.math3.linear.FieldMatrixPreservingVisitor
+        public T end() {
+            RealFieldElement realFieldElement = (RealFieldElement) AdamsMoultonFieldIntegrator.this.getField().getZero();
+            int i = 0;
+            while (true) {
+                FieldElement[] fieldElementArr = this.after;
+                if (i < fieldElementArr.length) {
+                    fieldElementArr[i] = (RealFieldElement) fieldElementArr[i].add(this.previous[i].add(this.scaled[i]));
+                    if (i < AdamsMoultonFieldIntegrator.this.mainSetDimension) {
+                        RealFieldElement realFieldElementMax = MathUtils.max((RealFieldElement) this.previous[i].abs(), (RealFieldElement) this.after[i].abs());
+                        RealFieldElement realFieldElement2 = (RealFieldElement) ((RealFieldElement) this.after[i].subtract(this.before[i])).divide((RealFieldElement) (AdamsMoultonFieldIntegrator.this.vecAbsoluteTolerance == null ? ((RealFieldElement) realFieldElementMax.multiply(AdamsMoultonFieldIntegrator.this.scalRelativeTolerance)).add(AdamsMoultonFieldIntegrator.this.scalAbsoluteTolerance) : ((RealFieldElement) realFieldElementMax.multiply(AdamsMoultonFieldIntegrator.this.vecRelativeTolerance[i])).add(AdamsMoultonFieldIntegrator.this.vecAbsoluteTolerance[i])));
+                        realFieldElement = (RealFieldElement) realFieldElement.add((RealFieldElement) realFieldElement2.multiply(realFieldElement2));
+                    }
+                    i++;
+                } else {
+                    return (T) ((RealFieldElement) realFieldElement.divide(AdamsMoultonFieldIntegrator.this.mainSetDimension)).sqrt();
+                }
+            }
+        }
+    }
+}

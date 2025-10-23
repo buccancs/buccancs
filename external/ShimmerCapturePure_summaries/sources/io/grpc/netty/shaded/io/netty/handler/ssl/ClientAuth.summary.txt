@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ssl/ClientAuth.java
+// Size: 155 bytes
+// Modified: 2025-10-21 16:32:00.246749400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+/* loaded from: classes3.dex */
+public enum ClientAuth {
+    NONE,
+    OPTIONAL,
+    REQUIRE
+}

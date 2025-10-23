@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/CMSEncryptedDataGenerator.java
+// Size: 1735 bytes
+// Modified: 2025-10-21 16:32:13.391267000 +0100
+
+package org.bouncycastle.cms;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.HashMap;
+import org.bouncycastle.asn1.BEROctetString;
+import org.bouncycastle.asn1.BERSet;
+import org.bouncycastle.asn1.cms.CMSObjectIdentifiers;
+import org.bouncycastle.asn1.cms.ContentInfo;
+import org.bouncycastle.asn1.cms.EncryptedContentInfo;
+import org.bouncycastle.asn1.cms.EncryptedData;
+import org.bouncycastle.operator.OutputEncryptor;
+
+/* loaded from: classes5.dex */
+public class CMSEncryptedDataGenerator extends CMSEncryptedGenerator {
+    private CMSEncryptedData doGenerate(CMSTypedData cMSTypedData, OutputEncryptor outputEncryptor) throws CMSException, IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        try {
+            OutputStream outputStream = outputEncryptor.getOutputStream(byteArrayOutputStream);
+            cMSTypedData.write(outputStream);
+            outputStream.close();
+            return new CMSEncryptedData(new ContentInfo(CMSObjectIdentifiers.encryptedData, new EncryptedData(new EncryptedContentInfo(cMSTypedData.getContentType(), outputEncryptor.getAlgorithmIdentifier(), new BEROctetString(byteArrayOutputStream.toByteArray())), this.unprotectedAttributeGenerator != null ? new BERSet(this.unprotectedAttributeGenerator.getAttributes(new HashMap()).toASN1EncodableVector()) : null)));
+        } catch (IOException unused) {
+            throw new CMSException("");
+        }
+    }
+
+    public CMSEncryptedData generate(CMSTypedData cMSTypedData, OutputEncryptor outputEncryptor) throws CMSException {
+        return doGenerate(cMSTypedData, outputEncryptor);
+    }
+}

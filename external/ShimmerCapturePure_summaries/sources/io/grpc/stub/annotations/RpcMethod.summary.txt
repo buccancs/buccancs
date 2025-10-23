@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/stub/annotations/RpcMethod.java
+// Size: 513 bytes
+// Modified: 2025-10-21 16:32:03.403161900 +0100
+
+package io.grpc.stub.annotations;
+
+import io.grpc.MethodDescriptor;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.CLASS)
+/* loaded from: classes3.dex */
+public @interface RpcMethod {
+    String fullMethodName();
+
+    MethodDescriptor.MethodType methodType();
+
+    Class<?> requestType();
+
+    Class<?> responseType();
+}

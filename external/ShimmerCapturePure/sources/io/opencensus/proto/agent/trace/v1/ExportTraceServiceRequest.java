@@ -1,0 +1,1018 @@
+package io.opencensus.proto.agent.trace.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.opencensus.proto.agent.common.v1.Node;
+import io.opencensus.proto.agent.common.v1.NodeOrBuilder;
+import io.opencensus.proto.resource.v1.Resource;
+import io.opencensus.proto.resource.v1.ResourceOrBuilder;
+import io.opencensus.proto.trace.v1.Span;
+import io.opencensus.proto.trace.v1.SpanOrBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public final class ExportTraceServiceRequest extends GeneratedMessageV3 implements ExportTraceServiceRequestOrBuilder {
+    public static final int NODE_FIELD_NUMBER = 1;
+    public static final int RESOURCE_FIELD_NUMBER = 3;
+    public static final int SPANS_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final ExportTraceServiceRequest DEFAULT_INSTANCE = new ExportTraceServiceRequest();
+    private static final Parser<ExportTraceServiceRequest> PARSER = new AbstractParser<ExportTraceServiceRequest>() { // from class: io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ExportTraceServiceRequest m36642parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ExportTraceServiceRequest(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private int bitField0_;
+    private byte memoizedIsInitialized;
+    private Node node_;
+    private Resource resource_;
+    private List<Span> spans_;
+
+    private ExportTraceServiceRequest(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ExportTraceServiceRequest() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.spans_ = Collections.emptyList();
+    }
+
+    private ExportTraceServiceRequest(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (true) {
+            if (z) {
+                break;
+            }
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            Node node = this.node_;
+                            Node.Builder builderM36364toBuilder = node != null ? node.m36364toBuilder() : null;
+                            Node node2 = (Node) codedInputStream.readMessage(Node.parser(), extensionRegistryLite);
+                            this.node_ = node2;
+                            if (builderM36364toBuilder != null) {
+                                builderM36364toBuilder.mergeFrom(node2);
+                                this.node_ = builderM36364toBuilder.m36371buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            if ((i & 2) != 2) {
+                                this.spans_ = new ArrayList();
+                                i |= 2;
+                            }
+                            this.spans_.add(codedInputStream.readMessage(Span.parser(), extensionRegistryLite));
+                        } else if (tag != 26) {
+                            if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            Resource resource = this.resource_;
+                            Resource.Builder builderM37423toBuilder = resource != null ? resource.m37423toBuilder() : null;
+                            Resource resource2 = (Resource) codedInputStream.readMessage(Resource.parser(), extensionRegistryLite);
+                            this.resource_ = resource2;
+                            if (builderM37423toBuilder != null) {
+                                builderM37423toBuilder.mergeFrom(resource2);
+                                this.resource_ = builderM37423toBuilder.m37430buildPartial();
+                            }
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 2) == 2) {
+                    this.spans_ = Collections.unmodifiableList(this.spans_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ExportTraceServiceRequest getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ExportTraceServiceRequest> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_ExportTraceServiceRequest_descriptor;
+    }
+
+    public static ExportTraceServiceRequest parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ExportTraceServiceRequest) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ExportTraceServiceRequest) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ExportTraceServiceRequest) PARSER.parseFrom(byteString);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ExportTraceServiceRequest) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ExportTraceServiceRequest) PARSER.parseFrom(bArr);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ExportTraceServiceRequest) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ExportTraceServiceRequest parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ExportTraceServiceRequest parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ExportTraceServiceRequest parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m36640toBuilder();
+    }
+
+    public static Builder newBuilder(ExportTraceServiceRequest exportTraceServiceRequest) {
+        return DEFAULT_INSTANCE.m36640toBuilder().mergeFrom(exportTraceServiceRequest);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ExportTraceServiceRequest m36635getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ExportTraceServiceRequest> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public List<Span> getSpansList() {
+        return this.spans_;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public List<? extends SpanOrBuilder> getSpansOrBuilderList() {
+        return this.spans_;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public boolean hasNode() {
+        return this.node_ != null;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public boolean hasResource() {
+        return this.resource_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_ExportTraceServiceRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(ExportTraceServiceRequest.class, Builder.class);
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public Node getNode() {
+        Node node = this.node_;
+        return node == null ? Node.getDefaultInstance() : node;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public NodeOrBuilder getNodeOrBuilder() {
+        return getNode();
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public int getSpansCount() {
+        return this.spans_.size();
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public Span getSpans(int i) {
+        return this.spans_.get(i);
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public SpanOrBuilder getSpansOrBuilder(int i) {
+        return this.spans_.get(i);
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public Resource getResource() {
+        Resource resource = this.resource_;
+        return resource == null ? Resource.getDefaultInstance() : resource;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+    public ResourceOrBuilder getResourceOrBuilder() {
+        return getResource();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.node_ != null) {
+            codedOutputStream.writeMessage(1, getNode());
+        }
+        for (int i = 0; i < this.spans_.size(); i++) {
+            codedOutputStream.writeMessage(2, this.spans_.get(i));
+        }
+        if (this.resource_ != null) {
+            codedOutputStream.writeMessage(3, getResource());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.node_ != null ? CodedOutputStream.computeMessageSize(1, getNode()) : 0;
+        for (int i2 = 0; i2 < this.spans_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, this.spans_.get(i2));
+        }
+        if (this.resource_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, getResource());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:25:0x0050  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public boolean equals(java.lang.Object r5) {
+        /*
+            r4 = this;
+            r0 = 1
+            if (r5 != r4) goto L4
+            return r0
+        L4:
+            boolean r1 = r5 instanceof io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest
+            if (r1 != 0) goto Ld
+            boolean r5 = super.equals(r5)
+            return r5
+        Ld:
+            io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest r5 = (io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest) r5
+            boolean r1 = r4.hasNode()
+            boolean r2 = r5.hasNode()
+            r3 = 0
+            if (r1 != r2) goto L1c
+            r1 = 1
+            goto L1d
+        L1c:
+            r1 = 0
+        L1d:
+            boolean r2 = r4.hasNode()
+            if (r2 == 0) goto L34
+            if (r1 == 0) goto L50
+            io.opencensus.proto.agent.common.v1.Node r1 = r4.getNode()
+            io.opencensus.proto.agent.common.v1.Node r2 = r5.getNode()
+            boolean r1 = r1.equals(r2)
+            if (r1 == 0) goto L50
+            goto L36
+        L34:
+            if (r1 == 0) goto L50
+        L36:
+            java.util.List r1 = r4.getSpansList()
+            java.util.List r2 = r5.getSpansList()
+            boolean r1 = r1.equals(r2)
+            if (r1 == 0) goto L50
+            boolean r1 = r4.hasResource()
+            boolean r2 = r5.hasResource()
+            if (r1 != r2) goto L50
+            r1 = 1
+            goto L51
+        L50:
+            r1 = 0
+        L51:
+            boolean r2 = r4.hasResource()
+            if (r2 == 0) goto L68
+            if (r1 == 0) goto L75
+            io.opencensus.proto.resource.v1.Resource r1 = r4.getResource()
+            io.opencensus.proto.resource.v1.Resource r2 = r5.getResource()
+            boolean r1 = r1.equals(r2)
+            if (r1 == 0) goto L75
+            goto L6a
+        L68:
+            if (r1 == 0) goto L75
+        L6a:
+            com.google.protobuf.UnknownFieldSet r1 = r4.unknownFields
+            com.google.protobuf.UnknownFieldSet r5 = r5.unknownFields
+            boolean r5 = r1.equals(r5)
+            if (r5 == 0) goto L75
+            goto L76
+        L75:
+            r0 = 0
+        L76:
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest.equals(java.lang.Object):boolean");
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasNode()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getNode().hashCode();
+        }
+        if (getSpansCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getSpansList().hashCode();
+        }
+        if (hasResource()) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + getResource().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m36637newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m36640toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ExportTraceServiceRequestOrBuilder {
+        private int bitField0_;
+        private SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> nodeBuilder_;
+        private Node node_;
+        private SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> resourceBuilder_;
+        private Resource resource_;
+        private RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> spansBuilder_;
+        private List<Span> spans_;
+
+        private Builder() {
+            this.node_ = null;
+            this.spans_ = Collections.emptyList();
+            this.resource_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.node_ = null;
+            this.spans_ = Collections.emptyList();
+            this.resource_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_ExportTraceServiceRequest_descriptor;
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public boolean hasNode() {
+            return (this.nodeBuilder_ == null && this.node_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public boolean hasResource() {
+            return (this.resourceBuilder_ == null && this.resource_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_ExportTraceServiceRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(ExportTraceServiceRequest.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (ExportTraceServiceRequest.alwaysUseFieldBuilders) {
+                getSpansFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36651clear() {
+            super.clear();
+            if (this.nodeBuilder_ == null) {
+                this.node_ = null;
+            } else {
+                this.node_ = null;
+                this.nodeBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.spans_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            if (this.resourceBuilder_ == null) {
+                this.resource_ = null;
+            } else {
+                this.resource_ = null;
+                this.resourceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_ExportTraceServiceRequest_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ExportTraceServiceRequest m36664getDefaultInstanceForType() {
+            return ExportTraceServiceRequest.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ExportTraceServiceRequest m36645build() throws UninitializedMessageException {
+            ExportTraceServiceRequest exportTraceServiceRequestM36647buildPartial = m36647buildPartial();
+            if (exportTraceServiceRequestM36647buildPartial.isInitialized()) {
+                return exportTraceServiceRequestM36647buildPartial;
+            }
+            throw newUninitializedMessageException(exportTraceServiceRequestM36647buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ExportTraceServiceRequest m36647buildPartial() {
+            ExportTraceServiceRequest exportTraceServiceRequest = new ExportTraceServiceRequest(this);
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                exportTraceServiceRequest.node_ = this.node_;
+            } else {
+                exportTraceServiceRequest.node_ = singleFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 2) == 2) {
+                    this.spans_ = Collections.unmodifiableList(this.spans_);
+                    this.bitField0_ &= -3;
+                }
+                exportTraceServiceRequest.spans_ = this.spans_;
+            } else {
+                exportTraceServiceRequest.spans_ = repeatedFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV32 = this.resourceBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                exportTraceServiceRequest.resource_ = this.resource_;
+            } else {
+                exportTraceServiceRequest.resource_ = singleFieldBuilderV32.build();
+            }
+            exportTraceServiceRequest.bitField0_ = 0;
+            onBuilt();
+            return exportTraceServiceRequest;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36663clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36675setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36653clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36656clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36677setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36643addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36668mergeFrom(Message message) {
+            if (message instanceof ExportTraceServiceRequest) {
+                return mergeFrom((ExportTraceServiceRequest) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ExportTraceServiceRequest exportTraceServiceRequest) {
+            if (exportTraceServiceRequest == ExportTraceServiceRequest.getDefaultInstance()) {
+                return this;
+            }
+            if (exportTraceServiceRequest.hasNode()) {
+                mergeNode(exportTraceServiceRequest.getNode());
+            }
+            if (this.spansBuilder_ == null) {
+                if (!exportTraceServiceRequest.spans_.isEmpty()) {
+                    if (this.spans_.isEmpty()) {
+                        this.spans_ = exportTraceServiceRequest.spans_;
+                        this.bitField0_ &= -3;
+                    } else {
+                        ensureSpansIsMutable();
+                        this.spans_.addAll(exportTraceServiceRequest.spans_);
+                    }
+                    onChanged();
+                }
+            } else if (!exportTraceServiceRequest.spans_.isEmpty()) {
+                if (!this.spansBuilder_.isEmpty()) {
+                    this.spansBuilder_.addAllMessages(exportTraceServiceRequest.spans_);
+                } else {
+                    this.spansBuilder_.dispose();
+                    this.spansBuilder_ = null;
+                    this.spans_ = exportTraceServiceRequest.spans_;
+                    this.bitField0_ &= -3;
+                    this.spansBuilder_ = ExportTraceServiceRequest.alwaysUseFieldBuilders ? getSpansFieldBuilder() : null;
+                }
+            }
+            if (exportTraceServiceRequest.hasResource()) {
+                mergeResource(exportTraceServiceRequest.getResource());
+            }
+            m36673mergeUnknownFields(exportTraceServiceRequest.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest.Builder m36669mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest.access$1000()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest r3 = (io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest r4 = (io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest.Builder.m36669mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequest$Builder");
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public Node getNode() {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Node node = this.node_;
+            return node == null ? Node.getDefaultInstance() : node;
+        }
+
+        public Builder setNode(Node node) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                node.getClass();
+                this.node_ = node;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(node);
+            }
+            return this;
+        }
+
+        public Builder setNode(Node.Builder builder) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.node_ = builder.m36369build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m36369build());
+            }
+            return this;
+        }
+
+        public Builder mergeNode(Node node) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Node node2 = this.node_;
+                if (node2 != null) {
+                    this.node_ = Node.newBuilder(node2).mergeFrom(node).m36371buildPartial();
+                } else {
+                    this.node_ = node;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(node);
+            }
+            return this;
+        }
+
+        public Builder clearNode() {
+            if (this.nodeBuilder_ == null) {
+                this.node_ = null;
+                onChanged();
+            } else {
+                this.node_ = null;
+                this.nodeBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Node.Builder getNodeBuilder() {
+            onChanged();
+            return getNodeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public NodeOrBuilder getNodeOrBuilder() {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (NodeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Node node = this.node_;
+            return node == null ? Node.getDefaultInstance() : node;
+        }
+
+        private SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> getNodeFieldBuilder() {
+            if (this.nodeBuilder_ == null) {
+                this.nodeBuilder_ = new SingleFieldBuilderV3<>(getNode(), getParentForChildren(), isClean());
+                this.node_ = null;
+            }
+            return this.nodeBuilder_;
+        }
+
+        private void ensureSpansIsMutable() {
+            if ((this.bitField0_ & 2) != 2) {
+                this.spans_ = new ArrayList(this.spans_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public List<Span> getSpansList() {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.spans_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public int getSpansCount() {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.spans_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public Span getSpans(int i) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.spans_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setSpans(int i, Span span) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                span.getClass();
+                ensureSpansIsMutable();
+                this.spans_.set(i, span);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, span);
+            }
+            return this;
+        }
+
+        public Builder setSpans(int i, Span.Builder builder) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSpansIsMutable();
+                this.spans_.set(i, builder.m38121build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m38121build());
+            }
+            return this;
+        }
+
+        public Builder addSpans(Span span) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                span.getClass();
+                ensureSpansIsMutable();
+                this.spans_.add(span);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(span);
+            }
+            return this;
+        }
+
+        public Builder addSpans(int i, Span span) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                span.getClass();
+                ensureSpansIsMutable();
+                this.spans_.add(i, span);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, span);
+            }
+            return this;
+        }
+
+        public Builder addSpans(Span.Builder builder) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSpansIsMutable();
+                this.spans_.add(builder.m38121build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m38121build());
+            }
+            return this;
+        }
+
+        public Builder addSpans(int i, Span.Builder builder) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSpansIsMutable();
+                this.spans_.add(i, builder.m38121build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m38121build());
+            }
+            return this;
+        }
+
+        public Builder addAllSpans(Iterable<? extends Span> iterable) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSpansIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.spans_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearSpans() {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.spans_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeSpans(int i) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSpansIsMutable();
+                this.spans_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public Span.Builder getSpansBuilder(int i) {
+            return getSpansFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public SpanOrBuilder getSpansOrBuilder(int i) {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.spans_.get(i);
+            }
+            return (SpanOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public List<? extends SpanOrBuilder> getSpansOrBuilderList() {
+            RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> repeatedFieldBuilderV3 = this.spansBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.spans_);
+        }
+
+        public Span.Builder addSpansBuilder() {
+            return getSpansFieldBuilder().addBuilder(Span.getDefaultInstance());
+        }
+
+        public Span.Builder addSpansBuilder(int i) {
+            return getSpansFieldBuilder().addBuilder(i, Span.getDefaultInstance());
+        }
+
+        public List<Span.Builder> getSpansBuilderList() {
+            return getSpansFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<Span, Span.Builder, SpanOrBuilder> getSpansFieldBuilder() {
+            if (this.spansBuilder_ == null) {
+                this.spansBuilder_ = new RepeatedFieldBuilderV3<>(this.spans_, (this.bitField0_ & 2) == 2, getParentForChildren(), isClean());
+                this.spans_ = null;
+            }
+            return this.spansBuilder_;
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public Resource getResource() {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Resource resource = this.resource_;
+            return resource == null ? Resource.getDefaultInstance() : resource;
+        }
+
+        public Builder setResource(Resource resource) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                resource.getClass();
+                this.resource_ = resource;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(resource);
+            }
+            return this;
+        }
+
+        public Builder setResource(Resource.Builder builder) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.resource_ = builder.m37428build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m37428build());
+            }
+            return this;
+        }
+
+        public Builder mergeResource(Resource resource) {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Resource resource2 = this.resource_;
+                if (resource2 != null) {
+                    this.resource_ = Resource.newBuilder(resource2).mergeFrom(resource).m37430buildPartial();
+                } else {
+                    this.resource_ = resource;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(resource);
+            }
+            return this;
+        }
+
+        public Builder clearResource() {
+            if (this.resourceBuilder_ == null) {
+                this.resource_ = null;
+                onChanged();
+            } else {
+                this.resource_ = null;
+                this.resourceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Resource.Builder getResourceBuilder() {
+            onChanged();
+            return getResourceFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.ExportTraceServiceRequestOrBuilder
+        public ResourceOrBuilder getResourceOrBuilder() {
+            SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ResourceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Resource resource = this.resource_;
+            return resource == null ? Resource.getDefaultInstance() : resource;
+        }
+
+        private SingleFieldBuilderV3<Resource, Resource.Builder, ResourceOrBuilder> getResourceFieldBuilder() {
+            if (this.resourceBuilder_ == null) {
+                this.resourceBuilder_ = new SingleFieldBuilderV3<>(getResource(), getParentForChildren(), isClean());
+                this.resource_ = null;
+            }
+            return this.resourceBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m36679setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m36673mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

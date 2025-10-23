@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/sphincs/SPHINCSPublicKeyParameters.java
+// Size: 601 bytes
+// Modified: 2025-10-21 16:32:03.024216500 +0100
+
+package org.bouncycastle.pqc.crypto.sphincs;
+
+import org.bouncycastle.util.Arrays;
+
+/* loaded from: classes5.dex */
+public class SPHINCSPublicKeyParameters extends SPHINCSKeyParameters {
+    private final byte[] keyData;
+
+    public SPHINCSPublicKeyParameters(byte[] bArr) {
+        super(false, null);
+        this.keyData = Arrays.clone(bArr);
+    }
+
+    public SPHINCSPublicKeyParameters(byte[] bArr, String str) {
+        super(false, str);
+        this.keyData = Arrays.clone(bArr);
+    }
+
+    public byte[] getKeyData() {
+        return Arrays.clone(this.keyData);
+    }
+}

@@ -1,0 +1,3 @@
+io.grpc.xds.XdsNameResolverProvider
+io.grpc.grpclb.SecretGrpclbNameResolverProvider$Provider
+io.grpc.internal.DnsNameResolverProvider

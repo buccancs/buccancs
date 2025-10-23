@@ -1,0 +1,111 @@
+package com.shimmerresearch.driverUtilities;
+
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.driverUtilities.HwDriverShimmerDeviceDetails;
+
+/* loaded from: classes2.dex */
+public class BluetoothDeviceDetails {
+    public boolean isBleDevice;
+    public boolean mAttemptingConnection;
+    public String mComPort;
+    public String mComPortDescription;
+    public HwDriverShimmerDeviceDetails.DEVICE_TYPE mDeviceTypeDetected;
+    public String mFriendlyName;
+    public ShimmerBluetooth.BT_STATE mLastConnectionSate;
+    public String mShimmerMacId;
+    public String mShimmerMacIdParsed;
+
+    public BluetoothDeviceDetails(String str, String str2) {
+        this.mComPort = "";
+        this.mComPortDescription = "";
+        this.mFriendlyName = "";
+        this.mShimmerMacId = "";
+        this.mShimmerMacIdParsed = "";
+        this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.UNKOWN;
+        this.mAttemptingConnection = false;
+        this.mLastConnectionSate = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.isBleDevice = false;
+        this.mComPort = str;
+        this.mComPortDescription = str2;
+    }
+
+    public BluetoothDeviceDetails(String str, String str2, String str3) {
+        this.mComPort = "";
+        this.mComPortDescription = "";
+        this.mFriendlyName = "";
+        this.mShimmerMacId = "";
+        this.mShimmerMacIdParsed = "";
+        this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.UNKOWN;
+        this.mAttemptingConnection = false;
+        this.mLastConnectionSate = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.isBleDevice = false;
+        this.mComPort = str;
+        this.mFriendlyName = str3;
+        setMacId(str2);
+        checkDeviceType();
+    }
+
+    public void setMacId(String str) {
+        String strReplace = str.replace("-", "");
+        if (strReplace.length() >= 12) {
+            this.mShimmerMacId = strReplace.toUpperCase();
+            this.mShimmerMacIdParsed = strReplace.replace(":", "").toUpperCase().substring(8);
+        }
+    }
+
+    public String getGuiName() {
+        return !this.mFriendlyName.isEmpty() ? this.mFriendlyName : this.mShimmerMacIdParsed;
+    }
+
+    public void checkDeviceType() {
+        if (!this.mShimmerMacId.equals(UtilShimmer.MAC_ADDRESS_ZEROS)) {
+            if (this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.SH_SEARCH.BT.SHIMMER3) || this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.SH_SEARCH.BT.SHIMMER3_RN4678_BLE)) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3;
+                return;
+            }
+            if (this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3_OUTPUT.getLabel())) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER3_OUTPUT;
+                return;
+            }
+            if (this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.SH_SEARCH.BT.SHIMMER4)) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER4;
+                return;
+            }
+            if (this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.SH_SEARCH.BT.SHIMMER_ECG_MD)) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.SHIMMER_ECG_MD;
+                return;
+            }
+            if (this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.SH_SEARCH.BT.RN42)) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.RN42;
+                return;
+            }
+            if (this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.SH_SEARCH.BT.RNBT)) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.RNBT;
+                return;
+            }
+            if (this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.SH_SEARCH.BT.MANUFACTURER_LUMAFIT)) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.LUMAFIT;
+                return;
+            }
+            if (this.mFriendlyName.contains(HwDriverShimmerDeviceDetails.SH_SEARCH.BT.MANUFACTURER_NONIN)) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.NONIN_ONYX_II;
+                return;
+            } else if (this.mFriendlyName.contains("Verisense")) {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.VERISENSE;
+                return;
+            } else {
+                this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.UNKOWN;
+                return;
+            }
+        }
+        this.mDeviceTypeDetected = HwDriverShimmerDeviceDetails.DEVICE_TYPE.UNKOWN;
+    }
+
+    public void update(BluetoothDeviceDetails bluetoothDeviceDetails) {
+        this.mComPort = bluetoothDeviceDetails.mComPort;
+        setMacId(bluetoothDeviceDetails.mShimmerMacId);
+        this.mFriendlyName = bluetoothDeviceDetails.mFriendlyName;
+        this.mComPortDescription = bluetoothDeviceDetails.mComPortDescription;
+        checkDeviceType();
+    }
+}

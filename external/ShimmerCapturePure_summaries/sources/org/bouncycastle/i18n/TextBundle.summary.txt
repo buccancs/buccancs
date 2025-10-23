@@ -1,0 +1,38 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/i18n/TextBundle.java
+// Size: 1189 bytes
+// Modified: 2025-10-21 16:32:03.599242400 +0100
+
+package org.bouncycastle.i18n;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Locale;
+import java.util.TimeZone;
+
+/* loaded from: classes5.dex */
+public class TextBundle extends LocalizedMessage {
+    public static final String TEXT_ENTRY = "text";
+
+    public TextBundle(String str, String str2) throws NullPointerException {
+        super(str, str2);
+    }
+
+    public TextBundle(String str, String str2, String str3) throws UnsupportedEncodingException, NullPointerException {
+        super(str, str2, str3);
+    }
+
+    public TextBundle(String str, String str2, String str3, Object[] objArr) throws UnsupportedEncodingException, NullPointerException {
+        super(str, str2, str3, objArr);
+    }
+
+    public TextBundle(String str, String str2, Object[] objArr) throws NullPointerException {
+        super(str, str2, objArr);
+    }
+
+    public String getText(Locale locale) throws MissingEntryException {
+        return getEntry(TEXT_ENTRY, locale, TimeZone.getDefault());
+    }
+
+    public String getText(Locale locale, TimeZone timeZone) throws MissingEntryException {
+        return getEntry(TEXT_ENTRY, locale, timeZone);
+    }
+}

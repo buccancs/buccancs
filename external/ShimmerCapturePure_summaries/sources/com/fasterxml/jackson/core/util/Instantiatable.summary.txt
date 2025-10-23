@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/util/Instantiatable.java
+// Size: 142 bytes
+// Modified: 2025-10-21 16:32:00.090909900 +0100
+
+package com.fasterxml.jackson.core.util;
+
+/* loaded from: classes.dex */
+public interface Instantiatable<T> {
+    T createInstance();
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/ASN1ApplicationSpecificParser.java
+// Size: 248 bytes
+// Modified: 2025-10-21 16:32:03.296024900 +0100
+
+package org.bouncycastle.asn1;
+
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public interface ASN1ApplicationSpecificParser extends ASN1Encodable, InMemoryRepresentable {
+    ASN1Encodable readObject() throws IOException;
+}

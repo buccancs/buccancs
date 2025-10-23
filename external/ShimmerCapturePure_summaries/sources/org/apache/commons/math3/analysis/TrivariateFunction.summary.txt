@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/TrivariateFunction.java
+// Size: 172 bytes
+// Modified: 2025-10-21 16:32:00.765270700 +0100
+
+package org.apache.commons.math3.analysis;
+
+/* loaded from: classes5.dex */
+public interface TrivariateFunction {
+    double value(double d, double d2, double d3);
+}

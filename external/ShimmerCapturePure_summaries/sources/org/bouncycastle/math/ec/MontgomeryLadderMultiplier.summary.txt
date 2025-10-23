@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/math/ec/MontgomeryLadderMultiplier.java
+// Size: 941 bytes
+// Modified: 2025-10-21 16:32:09.315589700 +0100
+
+package org.bouncycastle.math.ec;
+
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public class MontgomeryLadderMultiplier extends AbstractECMultiplier {
+    @Override // org.bouncycastle.math.ec.AbstractECMultiplier
+    protected ECPoint multiplyPositive(ECPoint eCPoint, BigInteger bigInteger) {
+        ECPoint[] eCPointArr = new ECPoint[2];
+        eCPointArr[0] = eCPoint.getCurve().getInfinity();
+        eCPointArr[1] = eCPoint;
+        int iBitLength = bigInteger.bitLength();
+        while (true) {
+            iBitLength--;
+            if (iBitLength < 0) {
+                return eCPointArr[0];
+            }
+            boolean zTestBit = bigInteger.testBit(iBitLength);
+            int i = 1 - (zTestBit ? 1 : 0);
+            eCPointArr[i] = eCPointArr[i].add(eCPointArr[zTestBit ? 1 : 0]);
+            eCPointArr[zTestBit ? 1 : 0] = eCPointArr[zTestBit ? 1 : 0].twice();
+        }
+    }
+}

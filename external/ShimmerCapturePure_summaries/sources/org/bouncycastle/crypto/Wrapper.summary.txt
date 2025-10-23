@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/Wrapper.java
+// Size: 328 bytes
+// Modified: 2025-10-21 16:32:00.988599300 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface Wrapper {
+    String getAlgorithmName();
+
+    void init(boolean z, CipherParameters cipherParameters);
+
+    byte[] unwrap(byte[] bArr, int i, int i2) throws InvalidCipherTextException;
+
+    byte[] wrap(byte[] bArr, int i, int i2);
+}

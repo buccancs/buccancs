@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/spec/ECPublicKeySpec.java
+// Size: 454 bytes
+// Modified: 2025-10-21 16:32:09.314589300 +0100
+
+package org.bouncycastle.jce.spec;
+
+import org.bouncycastle.math.ec.ECPoint;
+
+/* loaded from: classes5.dex */
+public class ECPublicKeySpec extends ECKeySpec {
+    private ECPoint q;
+
+    public ECPublicKeySpec(ECPoint eCPoint, ECParameterSpec eCParameterSpec) {
+        super(eCParameterSpec);
+        this.q = eCPoint.getCurve() != null ? eCPoint.normalize() : eCPoint;
+    }
+
+    public ECPoint getQ() {
+        return this.q;
+    }
+}

@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/HttpContent.java
+// Size: 550 bytes
+// Modified: 2025-10-21 16:32:03.719647500 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder;
+
+/* loaded from: classes3.dex */
+public interface HttpContent extends HttpObject, ByteBufHolder {
+    HttpContent copy();
+
+    HttpContent duplicate();
+
+    HttpContent replace(ByteBuf byteBuf);
+
+    HttpContent retain();
+
+    HttpContent retain(int i);
+
+    HttpContent retainedDuplicate();
+
+    HttpContent touch();
+
+    HttpContent touch(Object obj);
+}

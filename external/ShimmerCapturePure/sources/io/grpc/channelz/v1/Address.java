@@ -1,0 +1,2457 @@
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class Address extends GeneratedMessageV3 implements AddressOrBuilder {
+    public static final int OTHER_ADDRESS_FIELD_NUMBER = 3;
+    public static final int TCPIP_ADDRESS_FIELD_NUMBER = 1;
+    public static final int UDS_ADDRESS_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final Address DEFAULT_INSTANCE = new Address();
+    private static final Parser<Address> PARSER = new AbstractParser<Address>() { // from class: io.grpc.channelz.v1.Address.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Address m7308parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Address(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private int addressCase_;
+    private Object address_;
+    private byte memoizedIsInitialized;
+
+    private Address(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.addressCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Address() {
+        this.addressCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Address(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                TcpIpAddress.Builder builderM7398toBuilder = this.addressCase_ == 1 ? ((TcpIpAddress) this.address_).m7398toBuilder() : null;
+                                MessageLite message = codedInputStream.readMessage(TcpIpAddress.parser(), extensionRegistryLite);
+                                this.address_ = message;
+                                if (builderM7398toBuilder != null) {
+                                    builderM7398toBuilder.mergeFrom((TcpIpAddress) message);
+                                    this.address_ = builderM7398toBuilder.m7405buildPartial();
+                                }
+                                this.addressCase_ = 1;
+                            } else if (tag == 18) {
+                                UdsAddress.Builder builderM7444toBuilder = this.addressCase_ == 2 ? ((UdsAddress) this.address_).m7444toBuilder() : null;
+                                MessageLite message2 = codedInputStream.readMessage(UdsAddress.parser(), extensionRegistryLite);
+                                this.address_ = message2;
+                                if (builderM7444toBuilder != null) {
+                                    builderM7444toBuilder.mergeFrom((UdsAddress) message2);
+                                    this.address_ = builderM7444toBuilder.m7451buildPartial();
+                                }
+                                this.addressCase_ = 2;
+                            } else if (tag == 26) {
+                                OtherAddress.Builder builderM7352toBuilder = this.addressCase_ == 3 ? ((OtherAddress) this.address_).m7352toBuilder() : null;
+                                MessageLite message3 = codedInputStream.readMessage(OtherAddress.parser(), extensionRegistryLite);
+                                this.address_ = message3;
+                                if (builderM7352toBuilder != null) {
+                                    builderM7352toBuilder.mergeFrom((OtherAddress) message3);
+                                    this.address_ = builderM7352toBuilder.m7359buildPartial();
+                                }
+                                this.addressCase_ = 3;
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Address getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Address> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_Address_descriptor;
+    }
+
+    public static Address parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Address) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Address parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Address) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Address parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Address) PARSER.parseFrom(byteString);
+    }
+
+    public static Address parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Address) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Address parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Address) PARSER.parseFrom(bArr);
+    }
+
+    public static Address parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Address) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Address parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Address parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Address parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Address parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Address parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Address parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m7306toBuilder();
+    }
+
+    public static Builder newBuilder(Address address) {
+        return DEFAULT_INSTANCE.m7306toBuilder().mergeFrom(address);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Address m7301getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Address> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public boolean hasOtherAddress() {
+        return this.addressCase_ == 3;
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public boolean hasTcpipAddress() {
+        return this.addressCase_ == 1;
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public boolean hasUdsAddress() {
+        return this.addressCase_ == 2;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Address();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_Address_fieldAccessorTable.ensureFieldAccessorsInitialized(Address.class, Builder.class);
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public AddressCase getAddressCase() {
+        return AddressCase.forNumber(this.addressCase_);
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public TcpIpAddress getTcpipAddress() {
+        if (this.addressCase_ == 1) {
+            return (TcpIpAddress) this.address_;
+        }
+        return TcpIpAddress.getDefaultInstance();
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public TcpIpAddressOrBuilder getTcpipAddressOrBuilder() {
+        if (this.addressCase_ == 1) {
+            return (TcpIpAddress) this.address_;
+        }
+        return TcpIpAddress.getDefaultInstance();
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public UdsAddress getUdsAddress() {
+        if (this.addressCase_ == 2) {
+            return (UdsAddress) this.address_;
+        }
+        return UdsAddress.getDefaultInstance();
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public UdsAddressOrBuilder getUdsAddressOrBuilder() {
+        if (this.addressCase_ == 2) {
+            return (UdsAddress) this.address_;
+        }
+        return UdsAddress.getDefaultInstance();
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public OtherAddress getOtherAddress() {
+        if (this.addressCase_ == 3) {
+            return (OtherAddress) this.address_;
+        }
+        return OtherAddress.getDefaultInstance();
+    }
+
+    @Override // io.grpc.channelz.v1.AddressOrBuilder
+    public OtherAddressOrBuilder getOtherAddressOrBuilder() {
+        if (this.addressCase_ == 3) {
+            return (OtherAddress) this.address_;
+        }
+        return OtherAddress.getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.addressCase_ == 1) {
+            codedOutputStream.writeMessage(1, (TcpIpAddress) this.address_);
+        }
+        if (this.addressCase_ == 2) {
+            codedOutputStream.writeMessage(2, (UdsAddress) this.address_);
+        }
+        if (this.addressCase_ == 3) {
+            codedOutputStream.writeMessage(3, (OtherAddress) this.address_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.addressCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (TcpIpAddress) this.address_) : 0;
+        if (this.addressCase_ == 2) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (UdsAddress) this.address_);
+        }
+        if (this.addressCase_ == 3) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, (OtherAddress) this.address_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Address)) {
+            return super.equals(obj);
+        }
+        Address address = (Address) obj;
+        if (!getAddressCase().equals(address.getAddressCase())) {
+            return false;
+        }
+        int i = this.addressCase_;
+        if (i != 1) {
+            if (i == 2) {
+                if (!getUdsAddress().equals(address.getUdsAddress())) {
+                    return false;
+                }
+            } else if (i == 3 && !getOtherAddress().equals(address.getOtherAddress())) {
+                return false;
+            }
+        } else if (!getTcpipAddress().equals(address.getTcpipAddress())) {
+            return false;
+        }
+        return this.unknownFields.equals(address.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        int i2 = this.addressCase_;
+        if (i2 == 1) {
+            i = ((iHashCode2 * 37) + 1) * 53;
+            iHashCode = getTcpipAddress().hashCode();
+        } else if (i2 == 2) {
+            i = ((iHashCode2 * 37) + 2) * 53;
+            iHashCode = getUdsAddress().hashCode();
+        } else {
+            if (i2 == 3) {
+                i = ((iHashCode2 * 37) + 3) * 53;
+                iHashCode = getOtherAddress().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m7303newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m7306toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum AddressCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        TCPIP_ADDRESS(1),
+        UDS_ADDRESS(2),
+        OTHER_ADDRESS(3),
+        ADDRESS_NOT_SET(0);
+
+        private final int value;
+
+        AddressCase(int i) {
+            this.value = i;
+        }
+
+        public static AddressCase forNumber(int i) {
+            if (i == 0) {
+                return ADDRESS_NOT_SET;
+            }
+            if (i == 1) {
+                return TCPIP_ADDRESS;
+            }
+            if (i == 2) {
+                return UDS_ADDRESS;
+            }
+            if (i != 3) {
+                return null;
+            }
+            return OTHER_ADDRESS;
+        }
+
+        @Deprecated
+        public static AddressCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public interface OtherAddressOrBuilder extends MessageOrBuilder {
+        String getName();
+
+        ByteString getNameBytes();
+
+        Any getValue();
+
+        AnyOrBuilder getValueOrBuilder();
+
+        boolean hasValue();
+    }
+
+    public interface TcpIpAddressOrBuilder extends MessageOrBuilder {
+        ByteString getIpAddress();
+
+        int getPort();
+    }
+
+    public interface UdsAddressOrBuilder extends MessageOrBuilder {
+        String getFilename();
+
+        ByteString getFilenameBytes();
+    }
+
+    public static final class TcpIpAddress extends GeneratedMessageV3 implements TcpIpAddressOrBuilder {
+        public static final int IP_ADDRESS_FIELD_NUMBER = 1;
+        public static final int PORT_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final TcpIpAddress DEFAULT_INSTANCE = new TcpIpAddress();
+        private static final Parser<TcpIpAddress> PARSER = new AbstractParser<TcpIpAddress>() { // from class: io.grpc.channelz.v1.Address.TcpIpAddress.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public TcpIpAddress m7400parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new TcpIpAddress(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private ByteString ipAddress_;
+        private byte memoizedIsInitialized;
+        private int port_;
+
+        private TcpIpAddress(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private TcpIpAddress() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.ipAddress_ = ByteString.EMPTY;
+        }
+
+        private TcpIpAddress(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    this.ipAddress_ = codedInputStream.readBytes();
+                                } else if (tag == 16) {
+                                    this.port_ = codedInputStream.readInt32();
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static TcpIpAddress getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<TcpIpAddress> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_TcpIpAddress_descriptor;
+        }
+
+        public static TcpIpAddress parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (TcpIpAddress) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static TcpIpAddress parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TcpIpAddress) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static TcpIpAddress parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (TcpIpAddress) PARSER.parseFrom(byteString);
+        }
+
+        public static TcpIpAddress parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TcpIpAddress) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static TcpIpAddress parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (TcpIpAddress) PARSER.parseFrom(bArr);
+        }
+
+        public static TcpIpAddress parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TcpIpAddress) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static TcpIpAddress parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static TcpIpAddress parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static TcpIpAddress parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static TcpIpAddress parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static TcpIpAddress parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static TcpIpAddress parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m7398toBuilder();
+        }
+
+        public static Builder newBuilder(TcpIpAddress tcpIpAddress) {
+            return DEFAULT_INSTANCE.m7398toBuilder().mergeFrom(tcpIpAddress);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public TcpIpAddress m7393getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.grpc.channelz.v1.Address.TcpIpAddressOrBuilder
+        public ByteString getIpAddress() {
+            return this.ipAddress_;
+        }
+
+        public Parser<TcpIpAddress> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.channelz.v1.Address.TcpIpAddressOrBuilder
+        public int getPort() {
+            return this.port_;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new TcpIpAddress();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_TcpIpAddress_fieldAccessorTable.ensureFieldAccessorsInitialized(TcpIpAddress.class, Builder.class);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!this.ipAddress_.isEmpty()) {
+                codedOutputStream.writeBytes(1, this.ipAddress_);
+            }
+            int i = this.port_;
+            if (i != 0) {
+                codedOutputStream.writeInt32(2, i);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeBytesSize = !this.ipAddress_.isEmpty() ? CodedOutputStream.computeBytesSize(1, this.ipAddress_) : 0;
+            int i2 = this.port_;
+            if (i2 != 0) {
+                iComputeBytesSize += CodedOutputStream.computeInt32Size(2, i2);
+            }
+            int serializedSize = iComputeBytesSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof TcpIpAddress)) {
+                return super.equals(obj);
+            }
+            TcpIpAddress tcpIpAddress = (TcpIpAddress) obj;
+            return getIpAddress().equals(tcpIpAddress.getIpAddress()) && getPort() == tcpIpAddress.getPort() && this.unknownFields.equals(tcpIpAddress.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getIpAddress().hashCode()) * 37) + 2) * 53) + getPort()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7395newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7398toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements TcpIpAddressOrBuilder {
+            private ByteString ipAddress_;
+            private int port_;
+
+            private Builder() {
+                this.ipAddress_ = ByteString.EMPTY;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.ipAddress_ = ByteString.EMPTY;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_TcpIpAddress_descriptor;
+            }
+
+            @Override // io.grpc.channelz.v1.Address.TcpIpAddressOrBuilder
+            public ByteString getIpAddress() {
+                return this.ipAddress_;
+            }
+
+            public Builder setIpAddress(ByteString byteString) {
+                byteString.getClass();
+                this.ipAddress_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Address.TcpIpAddressOrBuilder
+            public int getPort() {
+                return this.port_;
+            }
+
+            public Builder setPort(int i) {
+                this.port_ = i;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_TcpIpAddress_fieldAccessorTable.ensureFieldAccessorsInitialized(TcpIpAddress.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = TcpIpAddress.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7409clear() {
+                super.clear();
+                this.ipAddress_ = ByteString.EMPTY;
+                this.port_ = 0;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_TcpIpAddress_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TcpIpAddress m7422getDefaultInstanceForType() {
+                return TcpIpAddress.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TcpIpAddress m7403build() throws UninitializedMessageException {
+                TcpIpAddress tcpIpAddressM7405buildPartial = m7405buildPartial();
+                if (tcpIpAddressM7405buildPartial.isInitialized()) {
+                    return tcpIpAddressM7405buildPartial;
+                }
+                throw newUninitializedMessageException(tcpIpAddressM7405buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TcpIpAddress m7405buildPartial() {
+                TcpIpAddress tcpIpAddress = new TcpIpAddress(this);
+                tcpIpAddress.ipAddress_ = this.ipAddress_;
+                tcpIpAddress.port_ = this.port_;
+                onBuilt();
+                return tcpIpAddress;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7421clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7433setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7411clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7414clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7435setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7401addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7426mergeFrom(Message message) {
+                if (message instanceof TcpIpAddress) {
+                    return mergeFrom((TcpIpAddress) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(TcpIpAddress tcpIpAddress) {
+                if (tcpIpAddress == TcpIpAddress.getDefaultInstance()) {
+                    return this;
+                }
+                if (tcpIpAddress.getIpAddress() != ByteString.EMPTY) {
+                    setIpAddress(tcpIpAddress.getIpAddress());
+                }
+                if (tcpIpAddress.getPort() != 0) {
+                    setPort(tcpIpAddress.getPort());
+                }
+                m7431mergeUnknownFields(tcpIpAddress.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.channelz.v1.Address.TcpIpAddress.Builder m7427mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.channelz.v1.Address.TcpIpAddress.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.channelz.v1.Address$TcpIpAddress r3 = (io.grpc.channelz.v1.Address.TcpIpAddress) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.channelz.v1.Address$TcpIpAddress r4 = (io.grpc.channelz.v1.Address.TcpIpAddress) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.Address.TcpIpAddress.Builder.m7427mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.Address$TcpIpAddress$Builder");
+            }
+
+            public Builder clearIpAddress() {
+                this.ipAddress_ = TcpIpAddress.getDefaultInstance().getIpAddress();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearPort() {
+                this.port_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m7437setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m7431mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class UdsAddress extends GeneratedMessageV3 implements UdsAddressOrBuilder {
+        public static final int FILENAME_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final UdsAddress DEFAULT_INSTANCE = new UdsAddress();
+        private static final Parser<UdsAddress> PARSER = new AbstractParser<UdsAddress>() { // from class: io.grpc.channelz.v1.Address.UdsAddress.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public UdsAddress m7446parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new UdsAddress(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private volatile Object filename_;
+        private byte memoizedIsInitialized;
+
+        private UdsAddress(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private UdsAddress() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.filename_ = "";
+        }
+
+        private UdsAddress(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.filename_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static UdsAddress getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<UdsAddress> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_UdsAddress_descriptor;
+        }
+
+        public static UdsAddress parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (UdsAddress) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static UdsAddress parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (UdsAddress) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static UdsAddress parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (UdsAddress) PARSER.parseFrom(byteString);
+        }
+
+        public static UdsAddress parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (UdsAddress) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static UdsAddress parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (UdsAddress) PARSER.parseFrom(bArr);
+        }
+
+        public static UdsAddress parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (UdsAddress) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static UdsAddress parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static UdsAddress parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static UdsAddress parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static UdsAddress parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static UdsAddress parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static UdsAddress parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m7444toBuilder();
+        }
+
+        public static Builder newBuilder(UdsAddress udsAddress) {
+            return DEFAULT_INSTANCE.m7444toBuilder().mergeFrom(udsAddress);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UdsAddress m7439getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<UdsAddress> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new UdsAddress();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_UdsAddress_fieldAccessorTable.ensureFieldAccessorsInitialized(UdsAddress.class, Builder.class);
+        }
+
+        @Override // io.grpc.channelz.v1.Address.UdsAddressOrBuilder
+        public String getFilename() {
+            Object obj = this.filename_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.filename_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.channelz.v1.Address.UdsAddressOrBuilder
+        public ByteString getFilenameBytes() {
+            Object obj = this.filename_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.filename_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getFilenameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.filename_);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = (!getFilenameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.filename_) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeStringSize;
+            return iComputeStringSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof UdsAddress)) {
+                return super.equals(obj);
+            }
+            UdsAddress udsAddress = (UdsAddress) obj;
+            return getFilename().equals(udsAddress.getFilename()) && this.unknownFields.equals(udsAddress.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getFilename().hashCode()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7441newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7444toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements UdsAddressOrBuilder {
+            private Object filename_;
+
+            private Builder() {
+                this.filename_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.filename_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_UdsAddress_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_UdsAddress_fieldAccessorTable.ensureFieldAccessorsInitialized(UdsAddress.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = UdsAddress.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7455clear() {
+                super.clear();
+                this.filename_ = "";
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_UdsAddress_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public UdsAddress m7468getDefaultInstanceForType() {
+                return UdsAddress.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public UdsAddress m7449build() throws UninitializedMessageException {
+                UdsAddress udsAddressM7451buildPartial = m7451buildPartial();
+                if (udsAddressM7451buildPartial.isInitialized()) {
+                    return udsAddressM7451buildPartial;
+                }
+                throw newUninitializedMessageException(udsAddressM7451buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public UdsAddress m7451buildPartial() {
+                UdsAddress udsAddress = new UdsAddress(this);
+                udsAddress.filename_ = this.filename_;
+                onBuilt();
+                return udsAddress;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7467clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7479setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7457clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7460clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7481setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7447addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7472mergeFrom(Message message) {
+                if (message instanceof UdsAddress) {
+                    return mergeFrom((UdsAddress) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(UdsAddress udsAddress) {
+                if (udsAddress == UdsAddress.getDefaultInstance()) {
+                    return this;
+                }
+                if (!udsAddress.getFilename().isEmpty()) {
+                    this.filename_ = udsAddress.filename_;
+                    onChanged();
+                }
+                m7477mergeUnknownFields(udsAddress.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.channelz.v1.Address.UdsAddress.Builder m7473mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.channelz.v1.Address.UdsAddress.access$1500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.channelz.v1.Address$UdsAddress r3 = (io.grpc.channelz.v1.Address.UdsAddress) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.channelz.v1.Address$UdsAddress r4 = (io.grpc.channelz.v1.Address.UdsAddress) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.Address.UdsAddress.Builder.m7473mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.Address$UdsAddress$Builder");
+            }
+
+            @Override // io.grpc.channelz.v1.Address.UdsAddressOrBuilder
+            public String getFilename() {
+                Object obj = this.filename_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.filename_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setFilename(String str) {
+                str.getClass();
+                this.filename_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Address.UdsAddressOrBuilder
+            public ByteString getFilenameBytes() {
+                Object obj = this.filename_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.filename_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setFilenameBytes(ByteString byteString) {
+                byteString.getClass();
+                UdsAddress.checkByteStringIsUtf8(byteString);
+                this.filename_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearFilename() {
+                this.filename_ = UdsAddress.getDefaultInstance().getFilename();
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m7483setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m7477mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class OtherAddress extends GeneratedMessageV3 implements OtherAddressOrBuilder {
+        public static final int NAME_FIELD_NUMBER = 1;
+        public static final int VALUE_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final OtherAddress DEFAULT_INSTANCE = new OtherAddress();
+        private static final Parser<OtherAddress> PARSER = new AbstractParser<OtherAddress>() { // from class: io.grpc.channelz.v1.Address.OtherAddress.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public OtherAddress m7354parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new OtherAddress(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object name_;
+        private Any value_;
+
+        private OtherAddress(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private OtherAddress() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.name_ = "";
+        }
+
+        private OtherAddress(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.name_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                Any any = this.value_;
+                                Any.Builder builder = any != null ? any.toBuilder() : null;
+                                Any message = codedInputStream.readMessage(Any.parser(), extensionRegistryLite);
+                                this.value_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.value_ = builder.buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static OtherAddress getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<OtherAddress> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_OtherAddress_descriptor;
+        }
+
+        public static OtherAddress parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (OtherAddress) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static OtherAddress parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OtherAddress) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static OtherAddress parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (OtherAddress) PARSER.parseFrom(byteString);
+        }
+
+        public static OtherAddress parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OtherAddress) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static OtherAddress parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (OtherAddress) PARSER.parseFrom(bArr);
+        }
+
+        public static OtherAddress parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OtherAddress) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static OtherAddress parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static OtherAddress parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static OtherAddress parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static OtherAddress parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static OtherAddress parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static OtherAddress parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m7352toBuilder();
+        }
+
+        public static Builder newBuilder(OtherAddress otherAddress) {
+            return DEFAULT_INSTANCE.m7352toBuilder().mergeFrom(otherAddress);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OtherAddress m7347getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<OtherAddress> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+        public boolean hasValue() {
+            return this.value_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new OtherAddress();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_OtherAddress_fieldAccessorTable.ensureFieldAccessorsInitialized(OtherAddress.class, Builder.class);
+        }
+
+        @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.name_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+        public Any getValue() {
+            Any any = this.value_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+        public AnyOrBuilder getValueOrBuilder() {
+            return getValue();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getNameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+            }
+            if (this.value_ != null) {
+                codedOutputStream.writeMessage(2, getValue());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0;
+            if (this.value_ != null) {
+                iComputeStringSize += CodedOutputStream.computeMessageSize(2, getValue());
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof OtherAddress)) {
+                return super.equals(obj);
+            }
+            OtherAddress otherAddress = (OtherAddress) obj;
+            if (getName().equals(otherAddress.getName()) && hasValue() == otherAddress.hasValue()) {
+                return (!hasValue() || getValue().equals(otherAddress.getValue())) && this.unknownFields.equals(otherAddress.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getName().hashCode();
+            if (hasValue()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getValue().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7349newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7352toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements OtherAddressOrBuilder {
+            private Object name_;
+            private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> valueBuilder_;
+            private Any value_;
+
+            private Builder() {
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_OtherAddress_descriptor;
+            }
+
+            @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+            public boolean hasValue() {
+                return (this.valueBuilder_ == null && this.value_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_OtherAddress_fieldAccessorTable.ensureFieldAccessorsInitialized(OtherAddress.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = OtherAddress.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7363clear() {
+                super.clear();
+                this.name_ = "";
+                if (this.valueBuilder_ == null) {
+                    this.value_ = null;
+                } else {
+                    this.value_ = null;
+                    this.valueBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ChannelzProto.internal_static_grpc_channelz_v1_Address_OtherAddress_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OtherAddress m7376getDefaultInstanceForType() {
+                return OtherAddress.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OtherAddress m7357build() throws UninitializedMessageException {
+                OtherAddress otherAddressM7359buildPartial = m7359buildPartial();
+                if (otherAddressM7359buildPartial.isInitialized()) {
+                    return otherAddressM7359buildPartial;
+                }
+                throw newUninitializedMessageException(otherAddressM7359buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OtherAddress m7359buildPartial() {
+                OtherAddress otherAddress = new OtherAddress(this);
+                otherAddress.name_ = this.name_;
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    otherAddress.value_ = this.value_;
+                } else {
+                    otherAddress.value_ = singleFieldBuilderV3.build();
+                }
+                onBuilt();
+                return otherAddress;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7375clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7387setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7365clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7368clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7389setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7355addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m7380mergeFrom(Message message) {
+                if (message instanceof OtherAddress) {
+                    return mergeFrom((OtherAddress) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(OtherAddress otherAddress) {
+                if (otherAddress == OtherAddress.getDefaultInstance()) {
+                    return this;
+                }
+                if (!otherAddress.getName().isEmpty()) {
+                    this.name_ = otherAddress.name_;
+                    onChanged();
+                }
+                if (otherAddress.hasValue()) {
+                    mergeValue(otherAddress.getValue());
+                }
+                m7385mergeUnknownFields(otherAddress.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.channelz.v1.Address.OtherAddress.Builder m7381mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.channelz.v1.Address.OtherAddress.access$2500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.channelz.v1.Address$OtherAddress r3 = (io.grpc.channelz.v1.Address.OtherAddress) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.channelz.v1.Address$OtherAddress r4 = (io.grpc.channelz.v1.Address.OtherAddress) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.Address.OtherAddress.Builder.m7381mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.Address$OtherAddress$Builder");
+            }
+
+            @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+            public String getName() {
+                Object obj = this.name_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.name_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setName(String str) {
+                str.getClass();
+                this.name_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+            public ByteString getNameBytes() {
+                Object obj = this.name_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.name_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setNameBytes(ByteString byteString) {
+                byteString.getClass();
+                OtherAddress.checkByteStringIsUtf8(byteString);
+                this.name_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearName() {
+                this.name_ = OtherAddress.getDefaultInstance().getName();
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+            public Any getValue() {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Any any = this.value_;
+                return any == null ? Any.getDefaultInstance() : any;
+            }
+
+            public Builder setValue(Any any) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    any.getClass();
+                    this.value_ = any;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(any);
+                }
+                return this;
+            }
+
+            public Builder setValue(Any.Builder builder) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.value_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeValue(Any any) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Any any2 = this.value_;
+                    if (any2 != null) {
+                        this.value_ = Any.newBuilder(any2).mergeFrom(any).buildPartial();
+                    } else {
+                        this.value_ = any;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(any);
+                }
+                return this;
+            }
+
+            public Builder clearValue() {
+                if (this.valueBuilder_ == null) {
+                    this.value_ = null;
+                    onChanged();
+                } else {
+                    this.value_ = null;
+                    this.valueBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Any.Builder getValueBuilder() {
+                onChanged();
+                return getValueFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.channelz.v1.Address.OtherAddressOrBuilder
+            public AnyOrBuilder getValueOrBuilder() {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.valueBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Any any = this.value_;
+                return any == null ? Any.getDefaultInstance() : any;
+            }
+
+            private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> getValueFieldBuilder() {
+                if (this.valueBuilder_ == null) {
+                    this.valueBuilder_ = new SingleFieldBuilderV3<>(getValue(), getParentForChildren(), isClean());
+                    this.value_ = null;
+                }
+                return this.valueBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m7391setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m7385mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements AddressOrBuilder {
+        private int addressCase_;
+        private Object address_;
+        private SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> otherAddressBuilder_;
+        private SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> tcpipAddressBuilder_;
+        private SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> udsAddressBuilder_;
+
+        private Builder() {
+            this.addressCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.addressCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_descriptor;
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public boolean hasOtherAddress() {
+            return this.addressCase_ == 3;
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public boolean hasTcpipAddress() {
+            return this.addressCase_ == 1;
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public boolean hasUdsAddress() {
+            return this.addressCase_ == 2;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_fieldAccessorTable.ensureFieldAccessorsInitialized(Address.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = Address.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7317clear() {
+            super.clear();
+            this.addressCase_ = 0;
+            this.address_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Address_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Address m7330getDefaultInstanceForType() {
+            return Address.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Address m7311build() throws UninitializedMessageException {
+            Address addressM7313buildPartial = m7313buildPartial();
+            if (addressM7313buildPartial.isInitialized()) {
+                return addressM7313buildPartial;
+            }
+            throw newUninitializedMessageException(addressM7313buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Address m7313buildPartial() {
+            Address address = new Address(this);
+            if (this.addressCase_ == 1) {
+                SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> singleFieldBuilderV3 = this.tcpipAddressBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    address.address_ = this.address_;
+                } else {
+                    address.address_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.addressCase_ == 2) {
+                SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> singleFieldBuilderV32 = this.udsAddressBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    address.address_ = this.address_;
+                } else {
+                    address.address_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.addressCase_ == 3) {
+                SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> singleFieldBuilderV33 = this.otherAddressBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    address.address_ = this.address_;
+                } else {
+                    address.address_ = singleFieldBuilderV33.build();
+                }
+            }
+            address.addressCase_ = this.addressCase_;
+            onBuilt();
+            return address;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7329clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7341setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7319clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7322clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7343setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7309addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7334mergeFrom(Message message) {
+            if (message instanceof Address) {
+                return mergeFrom((Address) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Address address) {
+            if (address == Address.getDefaultInstance()) {
+                return this;
+            }
+            int i = AnonymousClass2.$SwitchMap$io$grpc$channelz$v1$Address$AddressCase[address.getAddressCase().ordinal()];
+            if (i == 1) {
+                mergeTcpipAddress(address.getTcpipAddress());
+            } else if (i == 2) {
+                mergeUdsAddress(address.getUdsAddress());
+            } else if (i == 3) {
+                mergeOtherAddress(address.getOtherAddress());
+            }
+            m7339mergeUnknownFields(address.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.channelz.v1.Address.Builder m7335mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.channelz.v1.Address.access$3500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.channelz.v1.Address r3 = (io.grpc.channelz.v1.Address) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.channelz.v1.Address r4 = (io.grpc.channelz.v1.Address) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.Address.Builder.m7335mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.Address$Builder");
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public AddressCase getAddressCase() {
+            return AddressCase.forNumber(this.addressCase_);
+        }
+
+        public Builder clearAddress() {
+            this.addressCase_ = 0;
+            this.address_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public TcpIpAddress getTcpipAddress() {
+            SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> singleFieldBuilderV3 = this.tcpipAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.addressCase_ == 1) {
+                    return (TcpIpAddress) this.address_;
+                }
+                return TcpIpAddress.getDefaultInstance();
+            }
+            if (this.addressCase_ == 1) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return TcpIpAddress.getDefaultInstance();
+        }
+
+        public Builder setTcpipAddress(TcpIpAddress tcpIpAddress) {
+            SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> singleFieldBuilderV3 = this.tcpipAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                tcpIpAddress.getClass();
+                this.address_ = tcpIpAddress;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(tcpIpAddress);
+            }
+            this.addressCase_ = 1;
+            return this;
+        }
+
+        public Builder setTcpipAddress(TcpIpAddress.Builder builder) {
+            SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> singleFieldBuilderV3 = this.tcpipAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.address_ = builder.m7403build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7403build());
+            }
+            this.addressCase_ = 1;
+            return this;
+        }
+
+        public Builder mergeTcpipAddress(TcpIpAddress tcpIpAddress) {
+            SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> singleFieldBuilderV3 = this.tcpipAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.addressCase_ != 1 || this.address_ == TcpIpAddress.getDefaultInstance()) {
+                    this.address_ = tcpIpAddress;
+                } else {
+                    this.address_ = TcpIpAddress.newBuilder((TcpIpAddress) this.address_).mergeFrom(tcpIpAddress).m7405buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.addressCase_ == 1) {
+                    singleFieldBuilderV3.mergeFrom(tcpIpAddress);
+                }
+                this.tcpipAddressBuilder_.setMessage(tcpIpAddress);
+            }
+            this.addressCase_ = 1;
+            return this;
+        }
+
+        public Builder clearTcpipAddress() {
+            SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> singleFieldBuilderV3 = this.tcpipAddressBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.addressCase_ == 1) {
+                    this.addressCase_ = 0;
+                    this.address_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.addressCase_ == 1) {
+                this.addressCase_ = 0;
+                this.address_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public TcpIpAddress.Builder getTcpipAddressBuilder() {
+            return getTcpipAddressFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public TcpIpAddressOrBuilder getTcpipAddressOrBuilder() {
+            SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> singleFieldBuilderV3;
+            int i = this.addressCase_;
+            if (i == 1 && (singleFieldBuilderV3 = this.tcpipAddressBuilder_) != null) {
+                return (TcpIpAddressOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 1) {
+                return (TcpIpAddress) this.address_;
+            }
+            return TcpIpAddress.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<TcpIpAddress, TcpIpAddress.Builder, TcpIpAddressOrBuilder> getTcpipAddressFieldBuilder() {
+            if (this.tcpipAddressBuilder_ == null) {
+                if (this.addressCase_ != 1) {
+                    this.address_ = TcpIpAddress.getDefaultInstance();
+                }
+                this.tcpipAddressBuilder_ = new SingleFieldBuilderV3<>((TcpIpAddress) this.address_, getParentForChildren(), isClean());
+                this.address_ = null;
+            }
+            this.addressCase_ = 1;
+            onChanged();
+            return this.tcpipAddressBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public UdsAddress getUdsAddress() {
+            SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> singleFieldBuilderV3 = this.udsAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.addressCase_ == 2) {
+                    return (UdsAddress) this.address_;
+                }
+                return UdsAddress.getDefaultInstance();
+            }
+            if (this.addressCase_ == 2) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return UdsAddress.getDefaultInstance();
+        }
+
+        public Builder setUdsAddress(UdsAddress udsAddress) {
+            SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> singleFieldBuilderV3 = this.udsAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                udsAddress.getClass();
+                this.address_ = udsAddress;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(udsAddress);
+            }
+            this.addressCase_ = 2;
+            return this;
+        }
+
+        public Builder setUdsAddress(UdsAddress.Builder builder) {
+            SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> singleFieldBuilderV3 = this.udsAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.address_ = builder.m7449build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7449build());
+            }
+            this.addressCase_ = 2;
+            return this;
+        }
+
+        public Builder mergeUdsAddress(UdsAddress udsAddress) {
+            SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> singleFieldBuilderV3 = this.udsAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.addressCase_ != 2 || this.address_ == UdsAddress.getDefaultInstance()) {
+                    this.address_ = udsAddress;
+                } else {
+                    this.address_ = UdsAddress.newBuilder((UdsAddress) this.address_).mergeFrom(udsAddress).m7451buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.addressCase_ == 2) {
+                    singleFieldBuilderV3.mergeFrom(udsAddress);
+                }
+                this.udsAddressBuilder_.setMessage(udsAddress);
+            }
+            this.addressCase_ = 2;
+            return this;
+        }
+
+        public Builder clearUdsAddress() {
+            SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> singleFieldBuilderV3 = this.udsAddressBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.addressCase_ == 2) {
+                    this.addressCase_ = 0;
+                    this.address_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.addressCase_ == 2) {
+                this.addressCase_ = 0;
+                this.address_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public UdsAddress.Builder getUdsAddressBuilder() {
+            return getUdsAddressFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public UdsAddressOrBuilder getUdsAddressOrBuilder() {
+            SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> singleFieldBuilderV3;
+            int i = this.addressCase_;
+            if (i == 2 && (singleFieldBuilderV3 = this.udsAddressBuilder_) != null) {
+                return (UdsAddressOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 2) {
+                return (UdsAddress) this.address_;
+            }
+            return UdsAddress.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<UdsAddress, UdsAddress.Builder, UdsAddressOrBuilder> getUdsAddressFieldBuilder() {
+            if (this.udsAddressBuilder_ == null) {
+                if (this.addressCase_ != 2) {
+                    this.address_ = UdsAddress.getDefaultInstance();
+                }
+                this.udsAddressBuilder_ = new SingleFieldBuilderV3<>((UdsAddress) this.address_, getParentForChildren(), isClean());
+                this.address_ = null;
+            }
+            this.addressCase_ = 2;
+            onChanged();
+            return this.udsAddressBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public OtherAddress getOtherAddress() {
+            SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> singleFieldBuilderV3 = this.otherAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.addressCase_ == 3) {
+                    return (OtherAddress) this.address_;
+                }
+                return OtherAddress.getDefaultInstance();
+            }
+            if (this.addressCase_ == 3) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return OtherAddress.getDefaultInstance();
+        }
+
+        public Builder setOtherAddress(OtherAddress otherAddress) {
+            SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> singleFieldBuilderV3 = this.otherAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                otherAddress.getClass();
+                this.address_ = otherAddress;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(otherAddress);
+            }
+            this.addressCase_ = 3;
+            return this;
+        }
+
+        public Builder setOtherAddress(OtherAddress.Builder builder) {
+            SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> singleFieldBuilderV3 = this.otherAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.address_ = builder.m7357build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7357build());
+            }
+            this.addressCase_ = 3;
+            return this;
+        }
+
+        public Builder mergeOtherAddress(OtherAddress otherAddress) {
+            SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> singleFieldBuilderV3 = this.otherAddressBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.addressCase_ != 3 || this.address_ == OtherAddress.getDefaultInstance()) {
+                    this.address_ = otherAddress;
+                } else {
+                    this.address_ = OtherAddress.newBuilder((OtherAddress) this.address_).mergeFrom(otherAddress).m7359buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.addressCase_ == 3) {
+                    singleFieldBuilderV3.mergeFrom(otherAddress);
+                }
+                this.otherAddressBuilder_.setMessage(otherAddress);
+            }
+            this.addressCase_ = 3;
+            return this;
+        }
+
+        public Builder clearOtherAddress() {
+            SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> singleFieldBuilderV3 = this.otherAddressBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.addressCase_ == 3) {
+                    this.addressCase_ = 0;
+                    this.address_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.addressCase_ == 3) {
+                this.addressCase_ = 0;
+                this.address_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public OtherAddress.Builder getOtherAddressBuilder() {
+            return getOtherAddressFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.AddressOrBuilder
+        public OtherAddressOrBuilder getOtherAddressOrBuilder() {
+            SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> singleFieldBuilderV3;
+            int i = this.addressCase_;
+            if (i == 3 && (singleFieldBuilderV3 = this.otherAddressBuilder_) != null) {
+                return (OtherAddressOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 3) {
+                return (OtherAddress) this.address_;
+            }
+            return OtherAddress.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<OtherAddress, OtherAddress.Builder, OtherAddressOrBuilder> getOtherAddressFieldBuilder() {
+            if (this.otherAddressBuilder_ == null) {
+                if (this.addressCase_ != 3) {
+                    this.address_ = OtherAddress.getDefaultInstance();
+                }
+                this.otherAddressBuilder_ = new SingleFieldBuilderV3<>((OtherAddress) this.address_, getParentForChildren(), isClean());
+                this.address_ = null;
+            }
+            this.addressCase_ = 3;
+            onChanged();
+            return this.otherAddressBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7345setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7339mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.channelz.v1.Address$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$grpc$channelz$v1$Address$AddressCase;
+
+        static {
+            int[] iArr = new int[AddressCase.values().length];
+            $SwitchMap$io$grpc$channelz$v1$Address$AddressCase = iArr;
+            try {
+                iArr[AddressCase.TCPIP_ADDRESS.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$grpc$channelz$v1$Address$AddressCase[AddressCase.UDS_ADDRESS.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$grpc$channelz$v1$Address$AddressCase[AddressCase.OTHER_ADDRESS.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$grpc$channelz$v1$Address$AddressCase[AddressCase.ADDRESS_NOT_SET.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+        }
+    }
+}

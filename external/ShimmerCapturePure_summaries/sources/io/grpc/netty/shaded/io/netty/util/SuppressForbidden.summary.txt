@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/SuppressForbidden.java
+// Size: 439 bytes
+// Modified: 2025-10-21 16:32:00.255780100 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.CONSTRUCTOR, ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
+@Retention(RetentionPolicy.CLASS)
+/* loaded from: classes3.dex */
+public @interface SuppressForbidden {
+    String reason();
+}

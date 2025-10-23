@@ -1,0 +1,136 @@
+package com.shimmerresearch.driverUtilities;
+
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ShimmerDevice;
+
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public class AssembleShimmerConfig {
+    public static List<ShimmerDevice> listForConfiguringDocked = new ArrayList();
+    public static List<ShimmerDevice> listForConfiguringBT = new ArrayList();
+
+    public static void generateSingleShimmerConfig(ShimmerDevice shimmerDevice, Configuration.COMMUNICATION_TYPE communication_type) {
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(0, shimmerDevice);
+        generateMultipleShimmerConfig(arrayList, communication_type);
+    }
+
+    public static void generateMultipleShimmerConfig(List<ShimmerDevice> list, Configuration.COMMUNICATION_TYPE communication_type) {
+        generateMultipleShimmerConfig(list, communication_type, true, true, true);
+    }
+
+    public static void generateMultipleShimmerConfig(List<ShimmerDevice> list, Configuration.COMMUNICATION_TYPE communication_type, boolean z, boolean z2, boolean z3) {
+        boolean z4;
+        listForConfiguringDocked.clear();
+        listForConfiguringBT.clear();
+        if (list.size() > 0) {
+            Iterator<ShimmerDevice> it2 = list.iterator();
+            while (true) {
+                if (!it2.hasNext()) {
+                    z4 = true;
+                    break;
+                }
+                ShimmerDevice next = it2.next();
+                if ((next instanceof ShimmerBluetooth) && !((ShimmerBluetooth) next).isSyncWhenLogging()) {
+                    z4 = false;
+                    break;
+                }
+            }
+            ArrayList arrayList = new ArrayList();
+            if (z4) {
+                if (list.get(0) instanceof ShimmerBluetooth) {
+                    ShimmerBluetooth shimmerBluetooth = (ShimmerBluetooth) list.get(0);
+                    if (z) {
+                        shimmerBluetooth.setSyncWhenLogging(false);
+                    }
+                    if (shimmerBluetooth.isSyncWhenLogging()) {
+                        for (ShimmerDevice shimmerDevice : list) {
+                            if (shimmerDevice.isSupportedSdLogSync() && (shimmerDevice instanceof ShimmerBluetooth)) {
+                                if (((ShimmerBluetooth) shimmerDevice).isMasterShimmer()) {
+                                    arrayList.add(0, shimmerDevice.getMacId());
+                                } else {
+                                    arrayList.add(shimmerDevice.getMacId());
+                                }
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (ShimmerDevice shimmerDevice2 : list) {
+                    if (shimmerDevice2 instanceof ShimmerBluetooth) {
+                        ShimmerBluetooth shimmerBluetooth2 = (ShimmerBluetooth) shimmerDevice2;
+                        shimmerBluetooth2.setSyncWhenLogging(false);
+                        shimmerBluetooth2.setMasterShimmer(false);
+                    }
+                }
+            }
+            for (ShimmerDevice shimmerDevice3 : list) {
+                if (shimmerDevice3 instanceof ShimmerBluetooth) {
+                    ShimmerBluetooth shimmerBluetooth3 = (ShimmerBluetooth) shimmerDevice3;
+                    if (shimmerBluetooth3.isSyncWhenLogging() && !arrayList.isEmpty()) {
+                        shimmerBluetooth3.setSyncNodesList(arrayList);
+                    } else {
+                        shimmerBluetooth3.setSyncNodesList(new ArrayList());
+                    }
+                }
+            }
+            correctShimmerNameDuplicates(list);
+            long jCurrentTimeMillis = System.currentTimeMillis() / 1000;
+            int i = 1;
+            for (ShimmerDevice shimmerDevice4 : list) {
+                shimmerDevice4.setConfigTime(jCurrentTimeMillis);
+                shimmerDevice4.checkShimmerConfigBeforeConfiguring();
+                if (z) {
+                    shimmerDevice4.disableAllAlgorithms();
+                }
+                if (shimmerDevice4 instanceof ShimmerBluetooth) {
+                    ShimmerBluetooth shimmerBluetooth4 = (ShimmerBluetooth) shimmerDevice4;
+                    shimmerBluetooth4.setExperimentId(i);
+                    shimmerBluetooth4.setExperimentNumberOfShimmers(list.size());
+                    shimmerBluetooth4.setIsOverrideShowErrorLedsRtc(z2);
+                    shimmerBluetooth4.setIsOverrideShowErrorLedsSd(z3);
+                    if (communication_type == Configuration.COMMUNICATION_TYPE.DOCK) {
+                        shimmerBluetooth4.setBluetoothBaudRate(9);
+                    }
+                    shimmerBluetooth4.setConfigFileCreationFlag(true);
+                    shimmerBluetooth4.generateConfigBytesForWritingToShimmer();
+                    i++;
+                } else {
+                    shimmerDevice4.configBytesGenerate(true);
+                }
+            }
+            if (list.size() > 0) {
+                for (ShimmerDevice shimmerDevice5 : list) {
+                    if (communication_type == Configuration.COMMUNICATION_TYPE.DOCK && shimmerDevice5.isDocked() && !shimmerDevice5.isStreaming()) {
+                        listForConfiguringDocked.add(shimmerDevice5.deepClone());
+                    } else if (communication_type == Configuration.COMMUNICATION_TYPE.BLUETOOTH && shimmerDevice5.isInitialised() && !shimmerDevice5.isStreaming()) {
+                        listForConfiguringBT.add(shimmerDevice5.deepClone());
+                    }
+                }
+            }
+        }
+    }
+
+    public static void correctShimmerNameDuplicates(List<ShimmerDevice> list) {
+        ArrayList arrayList = new ArrayList();
+        for (ShimmerDevice shimmerDevice : list) {
+            String shimmerUserAssignedName = shimmerDevice.getShimmerUserAssignedName();
+            if (shimmerUserAssignedName.isEmpty()) {
+                shimmerDevice.setShimmerUserAssignedName(ShimmerDevice.DEFAULT_SHIMMER_NAME);
+                shimmerUserAssignedName = shimmerDevice.getShimmerUserAssignedName();
+            }
+            if (!arrayList.contains(shimmerUserAssignedName)) {
+                arrayList.add(shimmerUserAssignedName);
+            } else {
+                if (shimmerUserAssignedName.length() > 7) {
+                    shimmerUserAssignedName = shimmerUserAssignedName.substring(0, 7);
+                }
+                shimmerDevice.setShimmerUserAssignedName(shimmerUserAssignedName + "_" + shimmerDevice.getMacIdFromUartParsed());
+            }
+        }
+    }
+}

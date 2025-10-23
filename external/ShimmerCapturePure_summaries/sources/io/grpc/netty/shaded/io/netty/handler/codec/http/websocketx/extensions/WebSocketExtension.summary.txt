@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/extensions/WebSocketExtension.java
+// Size: 405 bytes
+// Modified: 2025-10-21 16:32:02.234836800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.extensions;
+
+/* loaded from: classes3.dex */
+public interface WebSocketExtension {
+    public static final int RSV1 = 4;
+    public static final int RSV2 = 2;
+    public static final int RSV3 = 1;
+
+    WebSocketExtensionDecoder newExtensionDecoder();
+
+    WebSocketExtensionEncoder newExtensionEncoder();
+
+    int rsv();
+}

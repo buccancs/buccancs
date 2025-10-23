@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/ReferenceCounted.java
+// Size: 345 bytes
+// Modified: 2025-10-21 16:32:00.243749000 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+/* loaded from: classes3.dex */
+public interface ReferenceCounted {
+    int refCnt();
+
+    boolean release();
+
+    boolean release(int i);
+
+    ReferenceCounted retain();
+
+    ReferenceCounted retain(int i);
+
+    ReferenceCounted touch();
+
+    ReferenceCounted touch(Object obj);
+}

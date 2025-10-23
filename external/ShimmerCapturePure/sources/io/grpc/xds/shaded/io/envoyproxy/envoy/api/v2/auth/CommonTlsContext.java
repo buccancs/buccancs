@@ -1,0 +1,2488 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CertificateValidationContext;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.SdsSecretConfig;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.TlsCertificate;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.TlsParameters;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public final class CommonTlsContext extends GeneratedMessageV3 implements CommonTlsContextOrBuilder {
+    public static final int ALPN_PROTOCOLS_FIELD_NUMBER = 4;
+    public static final int COMBINED_VALIDATION_CONTEXT_FIELD_NUMBER = 8;
+    public static final int TLS_CERTIFICATES_FIELD_NUMBER = 2;
+    public static final int TLS_CERTIFICATE_SDS_SECRET_CONFIGS_FIELD_NUMBER = 6;
+    public static final int TLS_PARAMS_FIELD_NUMBER = 1;
+    public static final int VALIDATION_CONTEXT_FIELD_NUMBER = 3;
+    public static final int VALIDATION_CONTEXT_SDS_SECRET_CONFIG_FIELD_NUMBER = 7;
+    private static final CommonTlsContext DEFAULT_INSTANCE = new CommonTlsContext();
+    private static final Parser<CommonTlsContext> PARSER = new AbstractParser<CommonTlsContext>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public CommonTlsContext m13520parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new CommonTlsContext(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private LazyStringList alpnProtocols_;
+    private byte memoizedIsInitialized;
+    private List<SdsSecretConfig> tlsCertificateSdsSecretConfigs_;
+    private List<TlsCertificate> tlsCertificates_;
+    private TlsParameters tlsParams_;
+    private int validationContextTypeCase_;
+    private Object validationContextType_;
+
+    private CommonTlsContext(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.validationContextTypeCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private CommonTlsContext() {
+        this.validationContextTypeCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.tlsCertificates_ = Collections.emptyList();
+        this.tlsCertificateSdsSecretConfigs_ = Collections.emptyList();
+        this.alpnProtocols_ = LazyStringArrayList.EMPTY;
+    }
+
+    private CommonTlsContext(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            TlsParameters tlsParameters = this.tlsParams_;
+                            TlsParameters.Builder builderM13888toBuilder = tlsParameters != null ? tlsParameters.m13888toBuilder() : null;
+                            TlsParameters tlsParameters2 = (TlsParameters) codedInputStream.readMessage(TlsParameters.parser(), extensionRegistryLite);
+                            this.tlsParams_ = tlsParameters2;
+                            if (builderM13888toBuilder != null) {
+                                builderM13888toBuilder.mergeFrom(tlsParameters2);
+                                this.tlsParams_ = builderM13888toBuilder.m13895buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            if ((i & 1) == 0) {
+                                this.tlsCertificates_ = new ArrayList();
+                                i |= 1;
+                            }
+                            this.tlsCertificates_.add(codedInputStream.readMessage(TlsCertificate.parser(), extensionRegistryLite));
+                        } else if (tag == 26) {
+                            CertificateValidationContext.Builder builderM13470toBuilder = this.validationContextTypeCase_ == 3 ? ((CertificateValidationContext) this.validationContextType_).m13470toBuilder() : null;
+                            MessageLite message = codedInputStream.readMessage(CertificateValidationContext.parser(), extensionRegistryLite);
+                            this.validationContextType_ = message;
+                            if (builderM13470toBuilder != null) {
+                                builderM13470toBuilder.mergeFrom((CertificateValidationContext) message);
+                                this.validationContextType_ = builderM13470toBuilder.m13477buildPartial();
+                            }
+                            this.validationContextTypeCase_ = 3;
+                        } else if (tag == 34) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 4) == 0) {
+                                this.alpnProtocols_ = new LazyStringArrayList();
+                                i |= 4;
+                            }
+                            this.alpnProtocols_.add(stringRequireUtf8);
+                        } else if (tag == 50) {
+                            if ((i & 2) == 0) {
+                                this.tlsCertificateSdsSecretConfigs_ = new ArrayList();
+                                i |= 2;
+                            }
+                            this.tlsCertificateSdsSecretConfigs_.add(codedInputStream.readMessage(SdsSecretConfig.parser(), extensionRegistryLite));
+                        } else if (tag == 58) {
+                            SdsSecretConfig.Builder builderM13749toBuilder = this.validationContextTypeCase_ == 7 ? ((SdsSecretConfig) this.validationContextType_).m13748toBuilder() : null;
+                            MessageLite message2 = codedInputStream.readMessage(SdsSecretConfig.parser(), extensionRegistryLite);
+                            this.validationContextType_ = message2;
+                            if (builderM13749toBuilder != null) {
+                                builderM13749toBuilder.mergeFrom((SdsSecretConfig) message2);
+                                this.validationContextType_ = builderM13749toBuilder.m13755buildPartial();
+                            }
+                            this.validationContextTypeCase_ = 7;
+                        } else if (tag == 66) {
+                            CombinedCertificateValidationContext.Builder builderM13564toBuilder = this.validationContextTypeCase_ == 8 ? ((CombinedCertificateValidationContext) this.validationContextType_).m13564toBuilder() : null;
+                            MessageLite message3 = codedInputStream.readMessage(CombinedCertificateValidationContext.parser(), extensionRegistryLite);
+                            this.validationContextType_ = message3;
+                            if (builderM13564toBuilder != null) {
+                                builderM13564toBuilder.mergeFrom((CombinedCertificateValidationContext) message3);
+                                this.validationContextType_ = builderM13564toBuilder.m13571buildPartial();
+                            }
+                            this.validationContextTypeCase_ = 8;
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.tlsCertificates_ = Collections.unmodifiableList(this.tlsCertificates_);
+                }
+                if ((i & 4) != 0) {
+                    this.alpnProtocols_ = this.alpnProtocols_.getUnmodifiableView();
+                }
+                if ((i & 2) != 0) {
+                    this.tlsCertificateSdsSecretConfigs_ = Collections.unmodifiableList(this.tlsCertificateSdsSecretConfigs_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static CommonTlsContext getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<CommonTlsContext> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_descriptor;
+    }
+
+    public static CommonTlsContext parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (CommonTlsContext) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static CommonTlsContext parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CommonTlsContext) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static CommonTlsContext parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (CommonTlsContext) PARSER.parseFrom(byteString);
+    }
+
+    public static CommonTlsContext parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CommonTlsContext) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static CommonTlsContext parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (CommonTlsContext) PARSER.parseFrom(bArr);
+    }
+
+    public static CommonTlsContext parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (CommonTlsContext) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static CommonTlsContext parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static CommonTlsContext parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CommonTlsContext parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static CommonTlsContext parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static CommonTlsContext parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static CommonTlsContext parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m13518toBuilder();
+    }
+
+    public static Builder newBuilder(CommonTlsContext commonTlsContext) {
+        return DEFAULT_INSTANCE.m13518toBuilder().mergeFrom(commonTlsContext);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    /* renamed from: getAlpnProtocolsList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo13512getAlpnProtocolsList() {
+        return this.alpnProtocols_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public CommonTlsContext m13513getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<CommonTlsContext> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public List<SdsSecretConfig> getTlsCertificateSdsSecretConfigsList() {
+        return this.tlsCertificateSdsSecretConfigs_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public List<? extends SdsSecretConfigOrBuilder> getTlsCertificateSdsSecretConfigsOrBuilderList() {
+        return this.tlsCertificateSdsSecretConfigs_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public List<TlsCertificate> getTlsCertificatesList() {
+        return this.tlsCertificates_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public List<? extends TlsCertificateOrBuilder> getTlsCertificatesOrBuilderList() {
+        return this.tlsCertificates_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public boolean hasCombinedValidationContext() {
+        return this.validationContextTypeCase_ == 8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public boolean hasTlsParams() {
+        return this.tlsParams_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public boolean hasValidationContext() {
+        return this.validationContextTypeCase_ == 3;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public boolean hasValidationContextSdsSecretConfig() {
+        return this.validationContextTypeCase_ == 7;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new CommonTlsContext();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_fieldAccessorTable.ensureFieldAccessorsInitialized(CommonTlsContext.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public ValidationContextTypeCase getValidationContextTypeCase() {
+        return ValidationContextTypeCase.forNumber(this.validationContextTypeCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public TlsParameters getTlsParams() {
+        TlsParameters tlsParameters = this.tlsParams_;
+        return tlsParameters == null ? TlsParameters.getDefaultInstance() : tlsParameters;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public TlsParametersOrBuilder getTlsParamsOrBuilder() {
+        return getTlsParams();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public int getTlsCertificatesCount() {
+        return this.tlsCertificates_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public TlsCertificate getTlsCertificates(int i) {
+        return this.tlsCertificates_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public TlsCertificateOrBuilder getTlsCertificatesOrBuilder(int i) {
+        return this.tlsCertificates_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public int getTlsCertificateSdsSecretConfigsCount() {
+        return this.tlsCertificateSdsSecretConfigs_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public SdsSecretConfig getTlsCertificateSdsSecretConfigs(int i) {
+        return this.tlsCertificateSdsSecretConfigs_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public SdsSecretConfigOrBuilder getTlsCertificateSdsSecretConfigsOrBuilder(int i) {
+        return this.tlsCertificateSdsSecretConfigs_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public CertificateValidationContext getValidationContext() {
+        if (this.validationContextTypeCase_ == 3) {
+            return (CertificateValidationContext) this.validationContextType_;
+        }
+        return CertificateValidationContext.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public CertificateValidationContextOrBuilder getValidationContextOrBuilder() {
+        if (this.validationContextTypeCase_ == 3) {
+            return (CertificateValidationContext) this.validationContextType_;
+        }
+        return CertificateValidationContext.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public SdsSecretConfig getValidationContextSdsSecretConfig() {
+        if (this.validationContextTypeCase_ == 7) {
+            return (SdsSecretConfig) this.validationContextType_;
+        }
+        return SdsSecretConfig.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public SdsSecretConfigOrBuilder getValidationContextSdsSecretConfigOrBuilder() {
+        if (this.validationContextTypeCase_ == 7) {
+            return (SdsSecretConfig) this.validationContextType_;
+        }
+        return SdsSecretConfig.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public CombinedCertificateValidationContext getCombinedValidationContext() {
+        if (this.validationContextTypeCase_ == 8) {
+            return (CombinedCertificateValidationContext) this.validationContextType_;
+        }
+        return CombinedCertificateValidationContext.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public CombinedCertificateValidationContextOrBuilder getCombinedValidationContextOrBuilder() {
+        if (this.validationContextTypeCase_ == 8) {
+            return (CombinedCertificateValidationContext) this.validationContextType_;
+        }
+        return CombinedCertificateValidationContext.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public int getAlpnProtocolsCount() {
+        return this.alpnProtocols_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public String getAlpnProtocols(int i) {
+        return (String) this.alpnProtocols_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+    public ByteString getAlpnProtocolsBytes(int i) {
+        return this.alpnProtocols_.getByteString(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.tlsParams_ != null) {
+            codedOutputStream.writeMessage(1, getTlsParams());
+        }
+        for (int i = 0; i < this.tlsCertificates_.size(); i++) {
+            codedOutputStream.writeMessage(2, this.tlsCertificates_.get(i));
+        }
+        if (this.validationContextTypeCase_ == 3) {
+            codedOutputStream.writeMessage(3, (CertificateValidationContext) this.validationContextType_);
+        }
+        for (int i2 = 0; i2 < this.alpnProtocols_.size(); i2++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 4, this.alpnProtocols_.getRaw(i2));
+        }
+        for (int i3 = 0; i3 < this.tlsCertificateSdsSecretConfigs_.size(); i3++) {
+            codedOutputStream.writeMessage(6, this.tlsCertificateSdsSecretConfigs_.get(i3));
+        }
+        if (this.validationContextTypeCase_ == 7) {
+            codedOutputStream.writeMessage(7, (SdsSecretConfig) this.validationContextType_);
+        }
+        if (this.validationContextTypeCase_ == 8) {
+            codedOutputStream.writeMessage(8, (CombinedCertificateValidationContext) this.validationContextType_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.tlsParams_ != null ? CodedOutputStream.computeMessageSize(1, getTlsParams()) : 0;
+        for (int i2 = 0; i2 < this.tlsCertificates_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, this.tlsCertificates_.get(i2));
+        }
+        if (this.validationContextTypeCase_ == 3) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, (CertificateValidationContext) this.validationContextType_);
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i3 = 0; i3 < this.alpnProtocols_.size(); i3++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.alpnProtocols_.getRaw(i3));
+        }
+        int size = iComputeMessageSize + iComputeStringSizeNoTag + mo13512getAlpnProtocolsList().size();
+        for (int i4 = 0; i4 < this.tlsCertificateSdsSecretConfigs_.size(); i4++) {
+            size += CodedOutputStream.computeMessageSize(6, this.tlsCertificateSdsSecretConfigs_.get(i4));
+        }
+        if (this.validationContextTypeCase_ == 7) {
+            size += CodedOutputStream.computeMessageSize(7, (SdsSecretConfig) this.validationContextType_);
+        }
+        if (this.validationContextTypeCase_ == 8) {
+            size += CodedOutputStream.computeMessageSize(8, (CombinedCertificateValidationContext) this.validationContextType_);
+        }
+        int serializedSize = size + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof CommonTlsContext)) {
+            return super.equals(obj);
+        }
+        CommonTlsContext commonTlsContext = (CommonTlsContext) obj;
+        if (hasTlsParams() != commonTlsContext.hasTlsParams()) {
+            return false;
+        }
+        if ((hasTlsParams() && !getTlsParams().equals(commonTlsContext.getTlsParams())) || !getTlsCertificatesList().equals(commonTlsContext.getTlsCertificatesList()) || !getTlsCertificateSdsSecretConfigsList().equals(commonTlsContext.getTlsCertificateSdsSecretConfigsList()) || !mo13512getAlpnProtocolsList().equals(commonTlsContext.mo13512getAlpnProtocolsList()) || !getValidationContextTypeCase().equals(commonTlsContext.getValidationContextTypeCase())) {
+            return false;
+        }
+        int i = this.validationContextTypeCase_;
+        if (i != 3) {
+            if (i == 7) {
+                if (!getValidationContextSdsSecretConfig().equals(commonTlsContext.getValidationContextSdsSecretConfig())) {
+                    return false;
+                }
+            } else if (i == 8 && !getCombinedValidationContext().equals(commonTlsContext.getCombinedValidationContext())) {
+                return false;
+            }
+        } else if (!getValidationContext().equals(commonTlsContext.getValidationContext())) {
+            return false;
+        }
+        return this.unknownFields.equals(commonTlsContext.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        if (hasTlsParams()) {
+            iHashCode2 = (((iHashCode2 * 37) + 1) * 53) + getTlsParams().hashCode();
+        }
+        if (getTlsCertificatesCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 2) * 53) + getTlsCertificatesList().hashCode();
+        }
+        if (getTlsCertificateSdsSecretConfigsCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 6) * 53) + getTlsCertificateSdsSecretConfigsList().hashCode();
+        }
+        if (getAlpnProtocolsCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + mo13512getAlpnProtocolsList().hashCode();
+        }
+        int i2 = this.validationContextTypeCase_;
+        if (i2 == 3) {
+            i = ((iHashCode2 * 37) + 3) * 53;
+            iHashCode = getValidationContext().hashCode();
+        } else if (i2 == 7) {
+            i = ((iHashCode2 * 37) + 7) * 53;
+            iHashCode = getValidationContextSdsSecretConfig().hashCode();
+        } else {
+            if (i2 == 8) {
+                i = ((iHashCode2 * 37) + 8) * 53;
+                iHashCode = getCombinedValidationContext().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m13515newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m13518toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum ValidationContextTypeCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        VALIDATION_CONTEXT(3),
+        VALIDATION_CONTEXT_SDS_SECRET_CONFIG(7),
+        COMBINED_VALIDATION_CONTEXT(8),
+        VALIDATIONCONTEXTTYPE_NOT_SET(0);
+
+        private final int value;
+
+        ValidationContextTypeCase(int i) {
+            this.value = i;
+        }
+
+        public static ValidationContextTypeCase forNumber(int i) {
+            if (i == 0) {
+                return VALIDATIONCONTEXTTYPE_NOT_SET;
+            }
+            if (i == 3) {
+                return VALIDATION_CONTEXT;
+            }
+            if (i == 7) {
+                return VALIDATION_CONTEXT_SDS_SECRET_CONFIG;
+            }
+            if (i != 8) {
+                return null;
+            }
+            return COMBINED_VALIDATION_CONTEXT;
+        }
+
+        @Deprecated
+        public static ValidationContextTypeCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public interface CombinedCertificateValidationContextOrBuilder extends MessageOrBuilder {
+        CertificateValidationContext getDefaultValidationContext();
+
+        CertificateValidationContextOrBuilder getDefaultValidationContextOrBuilder();
+
+        SdsSecretConfig getValidationContextSdsSecretConfig();
+
+        SdsSecretConfigOrBuilder getValidationContextSdsSecretConfigOrBuilder();
+
+        boolean hasDefaultValidationContext();
+
+        boolean hasValidationContextSdsSecretConfig();
+    }
+
+    public static final class CombinedCertificateValidationContext extends GeneratedMessageV3 implements CombinedCertificateValidationContextOrBuilder {
+        public static final int DEFAULT_VALIDATION_CONTEXT_FIELD_NUMBER = 1;
+        public static final int VALIDATION_CONTEXT_SDS_SECRET_CONFIG_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final CombinedCertificateValidationContext DEFAULT_INSTANCE = new CombinedCertificateValidationContext();
+        private static final Parser<CombinedCertificateValidationContext> PARSER = new AbstractParser<CombinedCertificateValidationContext>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContext.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public CombinedCertificateValidationContext m13566parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new CombinedCertificateValidationContext(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private CertificateValidationContext defaultValidationContext_;
+        private byte memoizedIsInitialized;
+        private SdsSecretConfig validationContextSdsSecretConfig_;
+
+        private CombinedCertificateValidationContext(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private CombinedCertificateValidationContext() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private CombinedCertificateValidationContext(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                CertificateValidationContext certificateValidationContext = this.defaultValidationContext_;
+                                CertificateValidationContext.Builder builderM13470toBuilder = certificateValidationContext != null ? certificateValidationContext.m13470toBuilder() : null;
+                                CertificateValidationContext certificateValidationContext2 = (CertificateValidationContext) codedInputStream.readMessage(CertificateValidationContext.parser(), extensionRegistryLite);
+                                this.defaultValidationContext_ = certificateValidationContext2;
+                                if (builderM13470toBuilder != null) {
+                                    builderM13470toBuilder.mergeFrom(certificateValidationContext2);
+                                    this.defaultValidationContext_ = builderM13470toBuilder.m13477buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                SdsSecretConfig sdsSecretConfig = this.validationContextSdsSecretConfig_;
+                                SdsSecretConfig.Builder builderM13749toBuilder = sdsSecretConfig != null ? sdsSecretConfig.m13748toBuilder() : null;
+                                SdsSecretConfig sdsSecretConfig2 = (SdsSecretConfig) codedInputStream.readMessage(SdsSecretConfig.parser(), extensionRegistryLite);
+                                this.validationContextSdsSecretConfig_ = sdsSecretConfig2;
+                                if (builderM13749toBuilder != null) {
+                                    builderM13749toBuilder.mergeFrom(sdsSecretConfig2);
+                                    this.validationContextSdsSecretConfig_ = builderM13749toBuilder.m13755buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static CombinedCertificateValidationContext getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<CombinedCertificateValidationContext> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_CombinedCertificateValidationContext_descriptor;
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (CombinedCertificateValidationContext) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CombinedCertificateValidationContext) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (CombinedCertificateValidationContext) PARSER.parseFrom(byteString);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CombinedCertificateValidationContext) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (CombinedCertificateValidationContext) PARSER.parseFrom(bArr);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CombinedCertificateValidationContext) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static CombinedCertificateValidationContext parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static CombinedCertificateValidationContext parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static CombinedCertificateValidationContext parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m13564toBuilder();
+        }
+
+        public static Builder newBuilder(CombinedCertificateValidationContext combinedCertificateValidationContext) {
+            return DEFAULT_INSTANCE.m13564toBuilder().mergeFrom(combinedCertificateValidationContext);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CombinedCertificateValidationContext m13559getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<CombinedCertificateValidationContext> getParserForType() {
+            return PARSER;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+        public boolean hasDefaultValidationContext() {
+            return this.defaultValidationContext_ != null;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+        public boolean hasValidationContextSdsSecretConfig() {
+            return this.validationContextSdsSecretConfig_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new CombinedCertificateValidationContext();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_CombinedCertificateValidationContext_fieldAccessorTable.ensureFieldAccessorsInitialized(CombinedCertificateValidationContext.class, Builder.class);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+        public CertificateValidationContext getDefaultValidationContext() {
+            CertificateValidationContext certificateValidationContext = this.defaultValidationContext_;
+            return certificateValidationContext == null ? CertificateValidationContext.getDefaultInstance() : certificateValidationContext;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+        public CertificateValidationContextOrBuilder getDefaultValidationContextOrBuilder() {
+            return getDefaultValidationContext();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+        public SdsSecretConfig getValidationContextSdsSecretConfig() {
+            SdsSecretConfig sdsSecretConfig = this.validationContextSdsSecretConfig_;
+            return sdsSecretConfig == null ? SdsSecretConfig.getDefaultInstance() : sdsSecretConfig;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+        public SdsSecretConfigOrBuilder getValidationContextSdsSecretConfigOrBuilder() {
+            return getValidationContextSdsSecretConfig();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.defaultValidationContext_ != null) {
+                codedOutputStream.writeMessage(1, getDefaultValidationContext());
+            }
+            if (this.validationContextSdsSecretConfig_ != null) {
+                codedOutputStream.writeMessage(2, getValidationContextSdsSecretConfig());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.defaultValidationContext_ != null ? CodedOutputStream.computeMessageSize(1, getDefaultValidationContext()) : 0;
+            if (this.validationContextSdsSecretConfig_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getValidationContextSdsSecretConfig());
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof CombinedCertificateValidationContext)) {
+                return super.equals(obj);
+            }
+            CombinedCertificateValidationContext combinedCertificateValidationContext = (CombinedCertificateValidationContext) obj;
+            if (hasDefaultValidationContext() != combinedCertificateValidationContext.hasDefaultValidationContext()) {
+                return false;
+            }
+            if ((!hasDefaultValidationContext() || getDefaultValidationContext().equals(combinedCertificateValidationContext.getDefaultValidationContext())) && hasValidationContextSdsSecretConfig() == combinedCertificateValidationContext.hasValidationContextSdsSecretConfig()) {
+                return (!hasValidationContextSdsSecretConfig() || getValidationContextSdsSecretConfig().equals(combinedCertificateValidationContext.getValidationContextSdsSecretConfig())) && this.unknownFields.equals(combinedCertificateValidationContext.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasDefaultValidationContext()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getDefaultValidationContext().hashCode();
+            }
+            if (hasValidationContextSdsSecretConfig()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getValidationContextSdsSecretConfig().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13561newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13564toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements CombinedCertificateValidationContextOrBuilder {
+            private SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> defaultValidationContextBuilder_;
+            private CertificateValidationContext defaultValidationContext_;
+            private SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> validationContextSdsSecretConfigBuilder_;
+            private SdsSecretConfig validationContextSdsSecretConfig_;
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_CombinedCertificateValidationContext_descriptor;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+            public boolean hasDefaultValidationContext() {
+                return (this.defaultValidationContextBuilder_ == null && this.defaultValidationContext_ == null) ? false : true;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+            public boolean hasValidationContextSdsSecretConfig() {
+                return (this.validationContextSdsSecretConfigBuilder_ == null && this.validationContextSdsSecretConfig_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_CombinedCertificateValidationContext_fieldAccessorTable.ensureFieldAccessorsInitialized(CombinedCertificateValidationContext.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = CombinedCertificateValidationContext.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m13575clear() {
+                super.clear();
+                if (this.defaultValidationContextBuilder_ == null) {
+                    this.defaultValidationContext_ = null;
+                } else {
+                    this.defaultValidationContext_ = null;
+                    this.defaultValidationContextBuilder_ = null;
+                }
+                if (this.validationContextSdsSecretConfigBuilder_ == null) {
+                    this.validationContextSdsSecretConfig_ = null;
+                } else {
+                    this.validationContextSdsSecretConfig_ = null;
+                    this.validationContextSdsSecretConfigBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_CombinedCertificateValidationContext_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CombinedCertificateValidationContext m13588getDefaultInstanceForType() {
+                return CombinedCertificateValidationContext.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CombinedCertificateValidationContext m13569build() throws UninitializedMessageException {
+                CombinedCertificateValidationContext combinedCertificateValidationContextM13571buildPartial = m13571buildPartial();
+                if (combinedCertificateValidationContextM13571buildPartial.isInitialized()) {
+                    return combinedCertificateValidationContextM13571buildPartial;
+                }
+                throw newUninitializedMessageException(combinedCertificateValidationContextM13571buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CombinedCertificateValidationContext m13571buildPartial() {
+                CombinedCertificateValidationContext combinedCertificateValidationContext = new CombinedCertificateValidationContext(this);
+                SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.defaultValidationContextBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    combinedCertificateValidationContext.defaultValidationContext_ = this.defaultValidationContext_;
+                } else {
+                    combinedCertificateValidationContext.defaultValidationContext_ = singleFieldBuilderV3.build();
+                }
+                SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV32 = this.validationContextSdsSecretConfigBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    combinedCertificateValidationContext.validationContextSdsSecretConfig_ = this.validationContextSdsSecretConfig_;
+                } else {
+                    combinedCertificateValidationContext.validationContextSdsSecretConfig_ = singleFieldBuilderV32.build();
+                }
+                onBuilt();
+                return combinedCertificateValidationContext;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m13587clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m13599setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m13577clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m13580clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m13601setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m13567addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m13592mergeFrom(Message message) {
+                if (message instanceof CombinedCertificateValidationContext) {
+                    return mergeFrom((CombinedCertificateValidationContext) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(CombinedCertificateValidationContext combinedCertificateValidationContext) {
+                if (combinedCertificateValidationContext == CombinedCertificateValidationContext.getDefaultInstance()) {
+                    return this;
+                }
+                if (combinedCertificateValidationContext.hasDefaultValidationContext()) {
+                    mergeDefaultValidationContext(combinedCertificateValidationContext.getDefaultValidationContext());
+                }
+                if (combinedCertificateValidationContext.hasValidationContextSdsSecretConfig()) {
+                    mergeValidationContextSdsSecretConfig(combinedCertificateValidationContext.getValidationContextSdsSecretConfig());
+                }
+                m13597mergeUnknownFields(combinedCertificateValidationContext.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContext.Builder m13593mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContext.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext$CombinedCertificateValidationContext r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContext) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext$CombinedCertificateValidationContext r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContext) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContext.Builder.m13593mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext$CombinedCertificateValidationContext$Builder");
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+            public CertificateValidationContext getDefaultValidationContext() {
+                SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.defaultValidationContextBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                CertificateValidationContext certificateValidationContext = this.defaultValidationContext_;
+                return certificateValidationContext == null ? CertificateValidationContext.getDefaultInstance() : certificateValidationContext;
+            }
+
+            public Builder setDefaultValidationContext(CertificateValidationContext certificateValidationContext) {
+                SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.defaultValidationContextBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    certificateValidationContext.getClass();
+                    this.defaultValidationContext_ = certificateValidationContext;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(certificateValidationContext);
+                }
+                return this;
+            }
+
+            public Builder setDefaultValidationContext(CertificateValidationContext.Builder builder) {
+                SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.defaultValidationContextBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.defaultValidationContext_ = builder.m13475build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m13475build());
+                }
+                return this;
+            }
+
+            public Builder mergeDefaultValidationContext(CertificateValidationContext certificateValidationContext) {
+                SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.defaultValidationContextBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    CertificateValidationContext certificateValidationContext2 = this.defaultValidationContext_;
+                    if (certificateValidationContext2 != null) {
+                        this.defaultValidationContext_ = CertificateValidationContext.newBuilder(certificateValidationContext2).mergeFrom(certificateValidationContext).m13477buildPartial();
+                    } else {
+                        this.defaultValidationContext_ = certificateValidationContext;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(certificateValidationContext);
+                }
+                return this;
+            }
+
+            public Builder clearDefaultValidationContext() {
+                if (this.defaultValidationContextBuilder_ == null) {
+                    this.defaultValidationContext_ = null;
+                    onChanged();
+                } else {
+                    this.defaultValidationContext_ = null;
+                    this.defaultValidationContextBuilder_ = null;
+                }
+                return this;
+            }
+
+            public CertificateValidationContext.Builder getDefaultValidationContextBuilder() {
+                onChanged();
+                return getDefaultValidationContextFieldBuilder().getBuilder();
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+            public CertificateValidationContextOrBuilder getDefaultValidationContextOrBuilder() {
+                SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.defaultValidationContextBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (CertificateValidationContextOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                CertificateValidationContext certificateValidationContext = this.defaultValidationContext_;
+                return certificateValidationContext == null ? CertificateValidationContext.getDefaultInstance() : certificateValidationContext;
+            }
+
+            private SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> getDefaultValidationContextFieldBuilder() {
+                if (this.defaultValidationContextBuilder_ == null) {
+                    this.defaultValidationContextBuilder_ = new SingleFieldBuilderV3<>(getDefaultValidationContext(), getParentForChildren(), isClean());
+                    this.defaultValidationContext_ = null;
+                }
+                return this.defaultValidationContextBuilder_;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+            public SdsSecretConfig getValidationContextSdsSecretConfig() {
+                SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                SdsSecretConfig sdsSecretConfig = this.validationContextSdsSecretConfig_;
+                return sdsSecretConfig == null ? SdsSecretConfig.getDefaultInstance() : sdsSecretConfig;
+            }
+
+            public Builder setValidationContextSdsSecretConfig(SdsSecretConfig sdsSecretConfig) {
+                SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    sdsSecretConfig.getClass();
+                    this.validationContextSdsSecretConfig_ = sdsSecretConfig;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(sdsSecretConfig);
+                }
+                return this;
+            }
+
+            public Builder setValidationContextSdsSecretConfig(SdsSecretConfig.Builder builder) {
+                SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.validationContextSdsSecretConfig_ = builder.m13753build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m13753build());
+                }
+                return this;
+            }
+
+            public Builder mergeValidationContextSdsSecretConfig(SdsSecretConfig sdsSecretConfig) {
+                SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    SdsSecretConfig sdsSecretConfig2 = this.validationContextSdsSecretConfig_;
+                    if (sdsSecretConfig2 != null) {
+                        this.validationContextSdsSecretConfig_ = SdsSecretConfig.newBuilder(sdsSecretConfig2).mergeFrom(sdsSecretConfig).m13755buildPartial();
+                    } else {
+                        this.validationContextSdsSecretConfig_ = sdsSecretConfig;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(sdsSecretConfig);
+                }
+                return this;
+            }
+
+            public Builder clearValidationContextSdsSecretConfig() {
+                if (this.validationContextSdsSecretConfigBuilder_ == null) {
+                    this.validationContextSdsSecretConfig_ = null;
+                    onChanged();
+                } else {
+                    this.validationContextSdsSecretConfig_ = null;
+                    this.validationContextSdsSecretConfigBuilder_ = null;
+                }
+                return this;
+            }
+
+            public SdsSecretConfig.Builder getValidationContextSdsSecretConfigBuilder() {
+                onChanged();
+                return getValidationContextSdsSecretConfigFieldBuilder().getBuilder();
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.CombinedCertificateValidationContextOrBuilder
+            public SdsSecretConfigOrBuilder getValidationContextSdsSecretConfigOrBuilder() {
+                SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (SdsSecretConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                SdsSecretConfig sdsSecretConfig = this.validationContextSdsSecretConfig_;
+                return sdsSecretConfig == null ? SdsSecretConfig.getDefaultInstance() : sdsSecretConfig;
+            }
+
+            private SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> getValidationContextSdsSecretConfigFieldBuilder() {
+                if (this.validationContextSdsSecretConfigBuilder_ == null) {
+                    this.validationContextSdsSecretConfigBuilder_ = new SingleFieldBuilderV3<>(getValidationContextSdsSecretConfig(), getParentForChildren(), isClean());
+                    this.validationContextSdsSecretConfig_ = null;
+                }
+                return this.validationContextSdsSecretConfigBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m13603setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m13597mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements CommonTlsContextOrBuilder {
+        private LazyStringList alpnProtocols_;
+        private int bitField0_;
+        private SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> combinedValidationContextBuilder_;
+        private RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> tlsCertificateSdsSecretConfigsBuilder_;
+        private List<SdsSecretConfig> tlsCertificateSdsSecretConfigs_;
+        private RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> tlsCertificatesBuilder_;
+        private List<TlsCertificate> tlsCertificates_;
+        private SingleFieldBuilderV3<TlsParameters, TlsParameters.Builder, TlsParametersOrBuilder> tlsParamsBuilder_;
+        private TlsParameters tlsParams_;
+        private SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> validationContextBuilder_;
+        private SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> validationContextSdsSecretConfigBuilder_;
+        private int validationContextTypeCase_;
+        private Object validationContextType_;
+
+        private Builder() {
+            this.validationContextTypeCase_ = 0;
+            this.tlsCertificates_ = Collections.emptyList();
+            this.tlsCertificateSdsSecretConfigs_ = Collections.emptyList();
+            this.alpnProtocols_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.validationContextTypeCase_ = 0;
+            this.tlsCertificates_ = Collections.emptyList();
+            this.tlsCertificateSdsSecretConfigs_ = Collections.emptyList();
+            this.alpnProtocols_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public boolean hasCombinedValidationContext() {
+            return this.validationContextTypeCase_ == 8;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public boolean hasTlsParams() {
+            return (this.tlsParamsBuilder_ == null && this.tlsParams_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public boolean hasValidationContext() {
+            return this.validationContextTypeCase_ == 3;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public boolean hasValidationContextSdsSecretConfig() {
+            return this.validationContextTypeCase_ == 7;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_fieldAccessorTable.ensureFieldAccessorsInitialized(CommonTlsContext.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (CommonTlsContext.alwaysUseFieldBuilders) {
+                getTlsCertificatesFieldBuilder();
+                getTlsCertificateSdsSecretConfigsFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13529clear() {
+            super.clear();
+            if (this.tlsParamsBuilder_ == null) {
+                this.tlsParams_ = null;
+            } else {
+                this.tlsParams_ = null;
+                this.tlsParamsBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.tlsCertificates_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV32 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                this.tlsCertificateSdsSecretConfigs_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+            } else {
+                repeatedFieldBuilderV32.clear();
+            }
+            this.alpnProtocols_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -5;
+            this.validationContextTypeCase_ = 0;
+            this.validationContextType_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return TlsProto.internal_static_envoy_api_v2_auth_CommonTlsContext_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CommonTlsContext m13542getDefaultInstanceForType() {
+            return CommonTlsContext.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CommonTlsContext m13523build() throws UninitializedMessageException {
+            CommonTlsContext commonTlsContextM13525buildPartial = m13525buildPartial();
+            if (commonTlsContextM13525buildPartial.isInitialized()) {
+                return commonTlsContextM13525buildPartial;
+            }
+            throw newUninitializedMessageException(commonTlsContextM13525buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CommonTlsContext m13525buildPartial() {
+            CommonTlsContext commonTlsContext = new CommonTlsContext(this);
+            SingleFieldBuilderV3<TlsParameters, TlsParameters.Builder, TlsParametersOrBuilder> singleFieldBuilderV3 = this.tlsParamsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                commonTlsContext.tlsParams_ = this.tlsParams_;
+            } else {
+                commonTlsContext.tlsParams_ = singleFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.tlsCertificates_ = Collections.unmodifiableList(this.tlsCertificates_);
+                    this.bitField0_ &= -2;
+                }
+                commonTlsContext.tlsCertificates_ = this.tlsCertificates_;
+            } else {
+                commonTlsContext.tlsCertificates_ = repeatedFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV32 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                if ((this.bitField0_ & 2) != 0) {
+                    this.tlsCertificateSdsSecretConfigs_ = Collections.unmodifiableList(this.tlsCertificateSdsSecretConfigs_);
+                    this.bitField0_ &= -3;
+                }
+                commonTlsContext.tlsCertificateSdsSecretConfigs_ = this.tlsCertificateSdsSecretConfigs_;
+            } else {
+                commonTlsContext.tlsCertificateSdsSecretConfigs_ = repeatedFieldBuilderV32.build();
+            }
+            if (this.validationContextTypeCase_ == 3) {
+                SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV32 = this.validationContextBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    commonTlsContext.validationContextType_ = this.validationContextType_;
+                } else {
+                    commonTlsContext.validationContextType_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.validationContextTypeCase_ == 7) {
+                SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV33 = this.validationContextSdsSecretConfigBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    commonTlsContext.validationContextType_ = this.validationContextType_;
+                } else {
+                    commonTlsContext.validationContextType_ = singleFieldBuilderV33.build();
+                }
+            }
+            if (this.validationContextTypeCase_ == 8) {
+                SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> singleFieldBuilderV34 = this.combinedValidationContextBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    commonTlsContext.validationContextType_ = this.validationContextType_;
+                } else {
+                    commonTlsContext.validationContextType_ = singleFieldBuilderV34.build();
+                }
+            }
+            if ((this.bitField0_ & 4) != 0) {
+                this.alpnProtocols_ = this.alpnProtocols_.getUnmodifiableView();
+                this.bitField0_ &= -5;
+            }
+            commonTlsContext.alpnProtocols_ = this.alpnProtocols_;
+            commonTlsContext.validationContextTypeCase_ = this.validationContextTypeCase_;
+            onBuilt();
+            return commonTlsContext;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13541clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13553setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13531clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13534clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13555setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13521addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13546mergeFrom(Message message) {
+            if (message instanceof CommonTlsContext) {
+                return mergeFrom((CommonTlsContext) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(CommonTlsContext commonTlsContext) {
+            if (commonTlsContext == CommonTlsContext.getDefaultInstance()) {
+                return this;
+            }
+            if (commonTlsContext.hasTlsParams()) {
+                mergeTlsParams(commonTlsContext.getTlsParams());
+            }
+            if (this.tlsCertificatesBuilder_ == null) {
+                if (!commonTlsContext.tlsCertificates_.isEmpty()) {
+                    if (this.tlsCertificates_.isEmpty()) {
+                        this.tlsCertificates_ = commonTlsContext.tlsCertificates_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureTlsCertificatesIsMutable();
+                        this.tlsCertificates_.addAll(commonTlsContext.tlsCertificates_);
+                    }
+                    onChanged();
+                }
+            } else if (!commonTlsContext.tlsCertificates_.isEmpty()) {
+                if (!this.tlsCertificatesBuilder_.isEmpty()) {
+                    this.tlsCertificatesBuilder_.addAllMessages(commonTlsContext.tlsCertificates_);
+                } else {
+                    this.tlsCertificatesBuilder_.dispose();
+                    this.tlsCertificatesBuilder_ = null;
+                    this.tlsCertificates_ = commonTlsContext.tlsCertificates_;
+                    this.bitField0_ &= -2;
+                    this.tlsCertificatesBuilder_ = CommonTlsContext.alwaysUseFieldBuilders ? getTlsCertificatesFieldBuilder() : null;
+                }
+            }
+            if (this.tlsCertificateSdsSecretConfigsBuilder_ == null) {
+                if (!commonTlsContext.tlsCertificateSdsSecretConfigs_.isEmpty()) {
+                    if (this.tlsCertificateSdsSecretConfigs_.isEmpty()) {
+                        this.tlsCertificateSdsSecretConfigs_ = commonTlsContext.tlsCertificateSdsSecretConfigs_;
+                        this.bitField0_ &= -3;
+                    } else {
+                        ensureTlsCertificateSdsSecretConfigsIsMutable();
+                        this.tlsCertificateSdsSecretConfigs_.addAll(commonTlsContext.tlsCertificateSdsSecretConfigs_);
+                    }
+                    onChanged();
+                }
+            } else if (!commonTlsContext.tlsCertificateSdsSecretConfigs_.isEmpty()) {
+                if (!this.tlsCertificateSdsSecretConfigsBuilder_.isEmpty()) {
+                    this.tlsCertificateSdsSecretConfigsBuilder_.addAllMessages(commonTlsContext.tlsCertificateSdsSecretConfigs_);
+                } else {
+                    this.tlsCertificateSdsSecretConfigsBuilder_.dispose();
+                    this.tlsCertificateSdsSecretConfigsBuilder_ = null;
+                    this.tlsCertificateSdsSecretConfigs_ = commonTlsContext.tlsCertificateSdsSecretConfigs_;
+                    this.bitField0_ &= -3;
+                    this.tlsCertificateSdsSecretConfigsBuilder_ = CommonTlsContext.alwaysUseFieldBuilders ? getTlsCertificateSdsSecretConfigsFieldBuilder() : null;
+                }
+            }
+            if (!commonTlsContext.alpnProtocols_.isEmpty()) {
+                if (this.alpnProtocols_.isEmpty()) {
+                    this.alpnProtocols_ = commonTlsContext.alpnProtocols_;
+                    this.bitField0_ &= -5;
+                } else {
+                    ensureAlpnProtocolsIsMutable();
+                    this.alpnProtocols_.addAll(commonTlsContext.alpnProtocols_);
+                }
+                onChanged();
+            }
+            int i = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$api$v2$auth$CommonTlsContext$ValidationContextTypeCase[commonTlsContext.getValidationContextTypeCase().ordinal()];
+            if (i == 1) {
+                mergeValidationContext(commonTlsContext.getValidationContext());
+            } else if (i == 2) {
+                mergeValidationContextSdsSecretConfig(commonTlsContext.getValidationContextSdsSecretConfig());
+            } else if (i == 3) {
+                mergeCombinedValidationContext(commonTlsContext.getCombinedValidationContext());
+            }
+            m13551mergeUnknownFields(commonTlsContext.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.Builder m13547mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.access$2200()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext.Builder.m13547mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public ValidationContextTypeCase getValidationContextTypeCase() {
+            return ValidationContextTypeCase.forNumber(this.validationContextTypeCase_);
+        }
+
+        public Builder clearValidationContextType() {
+            this.validationContextTypeCase_ = 0;
+            this.validationContextType_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public TlsParameters getTlsParams() {
+            SingleFieldBuilderV3<TlsParameters, TlsParameters.Builder, TlsParametersOrBuilder> singleFieldBuilderV3 = this.tlsParamsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            TlsParameters tlsParameters = this.tlsParams_;
+            return tlsParameters == null ? TlsParameters.getDefaultInstance() : tlsParameters;
+        }
+
+        public Builder setTlsParams(TlsParameters tlsParameters) {
+            SingleFieldBuilderV3<TlsParameters, TlsParameters.Builder, TlsParametersOrBuilder> singleFieldBuilderV3 = this.tlsParamsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                tlsParameters.getClass();
+                this.tlsParams_ = tlsParameters;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(tlsParameters);
+            }
+            return this;
+        }
+
+        public Builder setTlsParams(TlsParameters.Builder builder) {
+            SingleFieldBuilderV3<TlsParameters, TlsParameters.Builder, TlsParametersOrBuilder> singleFieldBuilderV3 = this.tlsParamsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.tlsParams_ = builder.m13893build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m13893build());
+            }
+            return this;
+        }
+
+        public Builder mergeTlsParams(TlsParameters tlsParameters) {
+            SingleFieldBuilderV3<TlsParameters, TlsParameters.Builder, TlsParametersOrBuilder> singleFieldBuilderV3 = this.tlsParamsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                TlsParameters tlsParameters2 = this.tlsParams_;
+                if (tlsParameters2 != null) {
+                    this.tlsParams_ = TlsParameters.newBuilder(tlsParameters2).mergeFrom(tlsParameters).m13895buildPartial();
+                } else {
+                    this.tlsParams_ = tlsParameters;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(tlsParameters);
+            }
+            return this;
+        }
+
+        public Builder clearTlsParams() {
+            if (this.tlsParamsBuilder_ == null) {
+                this.tlsParams_ = null;
+                onChanged();
+            } else {
+                this.tlsParams_ = null;
+                this.tlsParamsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public TlsParameters.Builder getTlsParamsBuilder() {
+            onChanged();
+            return getTlsParamsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public TlsParametersOrBuilder getTlsParamsOrBuilder() {
+            SingleFieldBuilderV3<TlsParameters, TlsParameters.Builder, TlsParametersOrBuilder> singleFieldBuilderV3 = this.tlsParamsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TlsParametersOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            TlsParameters tlsParameters = this.tlsParams_;
+            return tlsParameters == null ? TlsParameters.getDefaultInstance() : tlsParameters;
+        }
+
+        private SingleFieldBuilderV3<TlsParameters, TlsParameters.Builder, TlsParametersOrBuilder> getTlsParamsFieldBuilder() {
+            if (this.tlsParamsBuilder_ == null) {
+                this.tlsParamsBuilder_ = new SingleFieldBuilderV3<>(getTlsParams(), getParentForChildren(), isClean());
+                this.tlsParams_ = null;
+            }
+            return this.tlsParamsBuilder_;
+        }
+
+        private void ensureTlsCertificatesIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.tlsCertificates_ = new ArrayList(this.tlsCertificates_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public List<TlsCertificate> getTlsCertificatesList() {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.tlsCertificates_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public int getTlsCertificatesCount() {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.tlsCertificates_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public TlsCertificate getTlsCertificates(int i) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.tlsCertificates_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setTlsCertificates(int i, TlsCertificate tlsCertificate) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                tlsCertificate.getClass();
+                ensureTlsCertificatesIsMutable();
+                this.tlsCertificates_.set(i, tlsCertificate);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, tlsCertificate);
+            }
+            return this;
+        }
+
+        public Builder setTlsCertificates(int i, TlsCertificate.Builder builder) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificatesIsMutable();
+                this.tlsCertificates_.set(i, builder.m13845build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m13845build());
+            }
+            return this;
+        }
+
+        public Builder addTlsCertificates(TlsCertificate tlsCertificate) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                tlsCertificate.getClass();
+                ensureTlsCertificatesIsMutable();
+                this.tlsCertificates_.add(tlsCertificate);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(tlsCertificate);
+            }
+            return this;
+        }
+
+        public Builder addTlsCertificates(int i, TlsCertificate tlsCertificate) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                tlsCertificate.getClass();
+                ensureTlsCertificatesIsMutable();
+                this.tlsCertificates_.add(i, tlsCertificate);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, tlsCertificate);
+            }
+            return this;
+        }
+
+        public Builder addTlsCertificates(TlsCertificate.Builder builder) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificatesIsMutable();
+                this.tlsCertificates_.add(builder.m13845build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m13845build());
+            }
+            return this;
+        }
+
+        public Builder addTlsCertificates(int i, TlsCertificate.Builder builder) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificatesIsMutable();
+                this.tlsCertificates_.add(i, builder.m13845build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m13845build());
+            }
+            return this;
+        }
+
+        public Builder addAllTlsCertificates(Iterable<? extends TlsCertificate> iterable) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificatesIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.tlsCertificates_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearTlsCertificates() {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.tlsCertificates_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeTlsCertificates(int i) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificatesIsMutable();
+                this.tlsCertificates_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public TlsCertificate.Builder getTlsCertificatesBuilder(int i) {
+            return getTlsCertificatesFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public TlsCertificateOrBuilder getTlsCertificatesOrBuilder(int i) {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.tlsCertificates_.get(i);
+            }
+            return (TlsCertificateOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public List<? extends TlsCertificateOrBuilder> getTlsCertificatesOrBuilderList() {
+            RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificatesBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.tlsCertificates_);
+        }
+
+        public TlsCertificate.Builder addTlsCertificatesBuilder() {
+            return getTlsCertificatesFieldBuilder().addBuilder(TlsCertificate.getDefaultInstance());
+        }
+
+        public TlsCertificate.Builder addTlsCertificatesBuilder(int i) {
+            return getTlsCertificatesFieldBuilder().addBuilder(i, TlsCertificate.getDefaultInstance());
+        }
+
+        public List<TlsCertificate.Builder> getTlsCertificatesBuilderList() {
+            return getTlsCertificatesFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<TlsCertificate, TlsCertificate.Builder, TlsCertificateOrBuilder> getTlsCertificatesFieldBuilder() {
+            if (this.tlsCertificatesBuilder_ == null) {
+                this.tlsCertificatesBuilder_ = new RepeatedFieldBuilderV3<>(this.tlsCertificates_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.tlsCertificates_ = null;
+            }
+            return this.tlsCertificatesBuilder_;
+        }
+
+        private void ensureTlsCertificateSdsSecretConfigsIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.tlsCertificateSdsSecretConfigs_ = new ArrayList(this.tlsCertificateSdsSecretConfigs_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public List<SdsSecretConfig> getTlsCertificateSdsSecretConfigsList() {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.tlsCertificateSdsSecretConfigs_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public int getTlsCertificateSdsSecretConfigsCount() {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.tlsCertificateSdsSecretConfigs_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public SdsSecretConfig getTlsCertificateSdsSecretConfigs(int i) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.tlsCertificateSdsSecretConfigs_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setTlsCertificateSdsSecretConfigs(int i, SdsSecretConfig sdsSecretConfig) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                sdsSecretConfig.getClass();
+                ensureTlsCertificateSdsSecretConfigsIsMutable();
+                this.tlsCertificateSdsSecretConfigs_.set(i, sdsSecretConfig);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, sdsSecretConfig);
+            }
+            return this;
+        }
+
+        public Builder setTlsCertificateSdsSecretConfigs(int i, SdsSecretConfig.Builder builder) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificateSdsSecretConfigsIsMutable();
+                this.tlsCertificateSdsSecretConfigs_.set(i, builder.m13753build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m13753build());
+            }
+            return this;
+        }
+
+        public Builder addTlsCertificateSdsSecretConfigs(SdsSecretConfig sdsSecretConfig) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                sdsSecretConfig.getClass();
+                ensureTlsCertificateSdsSecretConfigsIsMutable();
+                this.tlsCertificateSdsSecretConfigs_.add(sdsSecretConfig);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(sdsSecretConfig);
+            }
+            return this;
+        }
+
+        public Builder addTlsCertificateSdsSecretConfigs(int i, SdsSecretConfig sdsSecretConfig) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                sdsSecretConfig.getClass();
+                ensureTlsCertificateSdsSecretConfigsIsMutable();
+                this.tlsCertificateSdsSecretConfigs_.add(i, sdsSecretConfig);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, sdsSecretConfig);
+            }
+            return this;
+        }
+
+        public Builder addTlsCertificateSdsSecretConfigs(SdsSecretConfig.Builder builder) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificateSdsSecretConfigsIsMutable();
+                this.tlsCertificateSdsSecretConfigs_.add(builder.m13753build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m13753build());
+            }
+            return this;
+        }
+
+        public Builder addTlsCertificateSdsSecretConfigs(int i, SdsSecretConfig.Builder builder) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificateSdsSecretConfigsIsMutable();
+                this.tlsCertificateSdsSecretConfigs_.add(i, builder.m13753build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m13753build());
+            }
+            return this;
+        }
+
+        public Builder addAllTlsCertificateSdsSecretConfigs(Iterable<? extends SdsSecretConfig> iterable) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificateSdsSecretConfigsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.tlsCertificateSdsSecretConfigs_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearTlsCertificateSdsSecretConfigs() {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.tlsCertificateSdsSecretConfigs_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeTlsCertificateSdsSecretConfigs(int i) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTlsCertificateSdsSecretConfigsIsMutable();
+                this.tlsCertificateSdsSecretConfigs_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public SdsSecretConfig.Builder getTlsCertificateSdsSecretConfigsBuilder(int i) {
+            return getTlsCertificateSdsSecretConfigsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public SdsSecretConfigOrBuilder getTlsCertificateSdsSecretConfigsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.tlsCertificateSdsSecretConfigs_.get(i);
+            }
+            return (SdsSecretConfigOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public List<? extends SdsSecretConfigOrBuilder> getTlsCertificateSdsSecretConfigsOrBuilderList() {
+            RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> repeatedFieldBuilderV3 = this.tlsCertificateSdsSecretConfigsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.tlsCertificateSdsSecretConfigs_);
+        }
+
+        public SdsSecretConfig.Builder addTlsCertificateSdsSecretConfigsBuilder() {
+            return getTlsCertificateSdsSecretConfigsFieldBuilder().addBuilder(SdsSecretConfig.getDefaultInstance());
+        }
+
+        public SdsSecretConfig.Builder addTlsCertificateSdsSecretConfigsBuilder(int i) {
+            return getTlsCertificateSdsSecretConfigsFieldBuilder().addBuilder(i, SdsSecretConfig.getDefaultInstance());
+        }
+
+        public List<SdsSecretConfig.Builder> getTlsCertificateSdsSecretConfigsBuilderList() {
+            return getTlsCertificateSdsSecretConfigsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> getTlsCertificateSdsSecretConfigsFieldBuilder() {
+            if (this.tlsCertificateSdsSecretConfigsBuilder_ == null) {
+                this.tlsCertificateSdsSecretConfigsBuilder_ = new RepeatedFieldBuilderV3<>(this.tlsCertificateSdsSecretConfigs_, (this.bitField0_ & 2) != 0, getParentForChildren(), isClean());
+                this.tlsCertificateSdsSecretConfigs_ = null;
+            }
+            return this.tlsCertificateSdsSecretConfigsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public CertificateValidationContext getValidationContext() {
+            SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.validationContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.validationContextTypeCase_ == 3) {
+                    return (CertificateValidationContext) this.validationContextType_;
+                }
+                return CertificateValidationContext.getDefaultInstance();
+            }
+            if (this.validationContextTypeCase_ == 3) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return CertificateValidationContext.getDefaultInstance();
+        }
+
+        public Builder setValidationContext(CertificateValidationContext certificateValidationContext) {
+            SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.validationContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                certificateValidationContext.getClass();
+                this.validationContextType_ = certificateValidationContext;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(certificateValidationContext);
+            }
+            this.validationContextTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder setValidationContext(CertificateValidationContext.Builder builder) {
+            SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.validationContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.validationContextType_ = builder.m13475build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m13475build());
+            }
+            this.validationContextTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder mergeValidationContext(CertificateValidationContext certificateValidationContext) {
+            SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.validationContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.validationContextTypeCase_ != 3 || this.validationContextType_ == CertificateValidationContext.getDefaultInstance()) {
+                    this.validationContextType_ = certificateValidationContext;
+                } else {
+                    this.validationContextType_ = CertificateValidationContext.newBuilder((CertificateValidationContext) this.validationContextType_).mergeFrom(certificateValidationContext).m13477buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.validationContextTypeCase_ == 3) {
+                    singleFieldBuilderV3.mergeFrom(certificateValidationContext);
+                }
+                this.validationContextBuilder_.setMessage(certificateValidationContext);
+            }
+            this.validationContextTypeCase_ = 3;
+            return this;
+        }
+
+        public Builder clearValidationContext() {
+            SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.validationContextBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.validationContextTypeCase_ == 3) {
+                    this.validationContextTypeCase_ = 0;
+                    this.validationContextType_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.validationContextTypeCase_ == 3) {
+                this.validationContextTypeCase_ = 0;
+                this.validationContextType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public CertificateValidationContext.Builder getValidationContextBuilder() {
+            return getValidationContextFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public CertificateValidationContextOrBuilder getValidationContextOrBuilder() {
+            SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> singleFieldBuilderV3;
+            int i = this.validationContextTypeCase_;
+            if (i == 3 && (singleFieldBuilderV3 = this.validationContextBuilder_) != null) {
+                return (CertificateValidationContextOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 3) {
+                return (CertificateValidationContext) this.validationContextType_;
+            }
+            return CertificateValidationContext.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<CertificateValidationContext, CertificateValidationContext.Builder, CertificateValidationContextOrBuilder> getValidationContextFieldBuilder() {
+            if (this.validationContextBuilder_ == null) {
+                if (this.validationContextTypeCase_ != 3) {
+                    this.validationContextType_ = CertificateValidationContext.getDefaultInstance();
+                }
+                this.validationContextBuilder_ = new SingleFieldBuilderV3<>((CertificateValidationContext) this.validationContextType_, getParentForChildren(), isClean());
+                this.validationContextType_ = null;
+            }
+            this.validationContextTypeCase_ = 3;
+            onChanged();
+            return this.validationContextBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public SdsSecretConfig getValidationContextSdsSecretConfig() {
+            SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.validationContextTypeCase_ == 7) {
+                    return (SdsSecretConfig) this.validationContextType_;
+                }
+                return SdsSecretConfig.getDefaultInstance();
+            }
+            if (this.validationContextTypeCase_ == 7) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return SdsSecretConfig.getDefaultInstance();
+        }
+
+        public Builder setValidationContextSdsSecretConfig(SdsSecretConfig sdsSecretConfig) {
+            SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                sdsSecretConfig.getClass();
+                this.validationContextType_ = sdsSecretConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(sdsSecretConfig);
+            }
+            this.validationContextTypeCase_ = 7;
+            return this;
+        }
+
+        public Builder setValidationContextSdsSecretConfig(SdsSecretConfig.Builder builder) {
+            SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.validationContextType_ = builder.m13753build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m13753build());
+            }
+            this.validationContextTypeCase_ = 7;
+            return this;
+        }
+
+        public Builder mergeValidationContextSdsSecretConfig(SdsSecretConfig sdsSecretConfig) {
+            SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.validationContextTypeCase_ != 7 || this.validationContextType_ == SdsSecretConfig.getDefaultInstance()) {
+                    this.validationContextType_ = sdsSecretConfig;
+                } else {
+                    this.validationContextType_ = SdsSecretConfig.newBuilder((SdsSecretConfig) this.validationContextType_).mergeFrom(sdsSecretConfig).m13755buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.validationContextTypeCase_ == 7) {
+                    singleFieldBuilderV3.mergeFrom(sdsSecretConfig);
+                }
+                this.validationContextSdsSecretConfigBuilder_.setMessage(sdsSecretConfig);
+            }
+            this.validationContextTypeCase_ = 7;
+            return this;
+        }
+
+        public Builder clearValidationContextSdsSecretConfig() {
+            SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.validationContextTypeCase_ == 7) {
+                    this.validationContextTypeCase_ = 0;
+                    this.validationContextType_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.validationContextTypeCase_ == 7) {
+                this.validationContextTypeCase_ = 0;
+                this.validationContextType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public SdsSecretConfig.Builder getValidationContextSdsSecretConfigBuilder() {
+            return getValidationContextSdsSecretConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public SdsSecretConfigOrBuilder getValidationContextSdsSecretConfigOrBuilder() {
+            SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> singleFieldBuilderV3;
+            int i = this.validationContextTypeCase_;
+            if (i == 7 && (singleFieldBuilderV3 = this.validationContextSdsSecretConfigBuilder_) != null) {
+                return (SdsSecretConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 7) {
+                return (SdsSecretConfig) this.validationContextType_;
+            }
+            return SdsSecretConfig.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<SdsSecretConfig, SdsSecretConfig.Builder, SdsSecretConfigOrBuilder> getValidationContextSdsSecretConfigFieldBuilder() {
+            if (this.validationContextSdsSecretConfigBuilder_ == null) {
+                if (this.validationContextTypeCase_ != 7) {
+                    this.validationContextType_ = SdsSecretConfig.getDefaultInstance();
+                }
+                this.validationContextSdsSecretConfigBuilder_ = new SingleFieldBuilderV3<>((SdsSecretConfig) this.validationContextType_, getParentForChildren(), isClean());
+                this.validationContextType_ = null;
+            }
+            this.validationContextTypeCase_ = 7;
+            onChanged();
+            return this.validationContextSdsSecretConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public CombinedCertificateValidationContext getCombinedValidationContext() {
+            SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.combinedValidationContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.validationContextTypeCase_ == 8) {
+                    return (CombinedCertificateValidationContext) this.validationContextType_;
+                }
+                return CombinedCertificateValidationContext.getDefaultInstance();
+            }
+            if (this.validationContextTypeCase_ == 8) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return CombinedCertificateValidationContext.getDefaultInstance();
+        }
+
+        public Builder setCombinedValidationContext(CombinedCertificateValidationContext combinedCertificateValidationContext) {
+            SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.combinedValidationContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                combinedCertificateValidationContext.getClass();
+                this.validationContextType_ = combinedCertificateValidationContext;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(combinedCertificateValidationContext);
+            }
+            this.validationContextTypeCase_ = 8;
+            return this;
+        }
+
+        public Builder setCombinedValidationContext(CombinedCertificateValidationContext.Builder builder) {
+            SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.combinedValidationContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.validationContextType_ = builder.m13569build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m13569build());
+            }
+            this.validationContextTypeCase_ = 8;
+            return this;
+        }
+
+        public Builder mergeCombinedValidationContext(CombinedCertificateValidationContext combinedCertificateValidationContext) {
+            SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.combinedValidationContextBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.validationContextTypeCase_ != 8 || this.validationContextType_ == CombinedCertificateValidationContext.getDefaultInstance()) {
+                    this.validationContextType_ = combinedCertificateValidationContext;
+                } else {
+                    this.validationContextType_ = CombinedCertificateValidationContext.newBuilder((CombinedCertificateValidationContext) this.validationContextType_).mergeFrom(combinedCertificateValidationContext).m13571buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.validationContextTypeCase_ == 8) {
+                    singleFieldBuilderV3.mergeFrom(combinedCertificateValidationContext);
+                }
+                this.combinedValidationContextBuilder_.setMessage(combinedCertificateValidationContext);
+            }
+            this.validationContextTypeCase_ = 8;
+            return this;
+        }
+
+        public Builder clearCombinedValidationContext() {
+            SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> singleFieldBuilderV3 = this.combinedValidationContextBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.validationContextTypeCase_ == 8) {
+                    this.validationContextTypeCase_ = 0;
+                    this.validationContextType_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.validationContextTypeCase_ == 8) {
+                this.validationContextTypeCase_ = 0;
+                this.validationContextType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public CombinedCertificateValidationContext.Builder getCombinedValidationContextBuilder() {
+            return getCombinedValidationContextFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public CombinedCertificateValidationContextOrBuilder getCombinedValidationContextOrBuilder() {
+            SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> singleFieldBuilderV3;
+            int i = this.validationContextTypeCase_;
+            if (i == 8 && (singleFieldBuilderV3 = this.combinedValidationContextBuilder_) != null) {
+                return (CombinedCertificateValidationContextOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 8) {
+                return (CombinedCertificateValidationContext) this.validationContextType_;
+            }
+            return CombinedCertificateValidationContext.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<CombinedCertificateValidationContext, CombinedCertificateValidationContext.Builder, CombinedCertificateValidationContextOrBuilder> getCombinedValidationContextFieldBuilder() {
+            if (this.combinedValidationContextBuilder_ == null) {
+                if (this.validationContextTypeCase_ != 8) {
+                    this.validationContextType_ = CombinedCertificateValidationContext.getDefaultInstance();
+                }
+                this.combinedValidationContextBuilder_ = new SingleFieldBuilderV3<>((CombinedCertificateValidationContext) this.validationContextType_, getParentForChildren(), isClean());
+                this.validationContextType_ = null;
+            }
+            this.validationContextTypeCase_ = 8;
+            onChanged();
+            return this.combinedValidationContextBuilder_;
+        }
+
+        private void ensureAlpnProtocolsIsMutable() {
+            if ((this.bitField0_ & 4) == 0) {
+                this.alpnProtocols_ = new LazyStringArrayList(this.alpnProtocols_);
+                this.bitField0_ |= 4;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        /* renamed from: getAlpnProtocolsList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo13512getAlpnProtocolsList() {
+            return this.alpnProtocols_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public int getAlpnProtocolsCount() {
+            return this.alpnProtocols_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public String getAlpnProtocols(int i) {
+            return (String) this.alpnProtocols_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContextOrBuilder
+        public ByteString getAlpnProtocolsBytes(int i) {
+            return this.alpnProtocols_.getByteString(i);
+        }
+
+        public Builder setAlpnProtocols(int i, String str) {
+            str.getClass();
+            ensureAlpnProtocolsIsMutable();
+            this.alpnProtocols_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAlpnProtocols(String str) {
+            str.getClass();
+            ensureAlpnProtocolsIsMutable();
+            this.alpnProtocols_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllAlpnProtocols(Iterable<String> iterable) {
+            ensureAlpnProtocolsIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.alpnProtocols_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAlpnProtocols() {
+            this.alpnProtocols_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -5;
+            onChanged();
+            return this;
+        }
+
+        public Builder addAlpnProtocolsBytes(ByteString byteString) {
+            byteString.getClass();
+            CommonTlsContext.checkByteStringIsUtf8(byteString);
+            ensureAlpnProtocolsIsMutable();
+            this.alpnProtocols_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m13557setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m13551mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$api$v2$auth$CommonTlsContext$ValidationContextTypeCase;
+
+        static {
+            int[] iArr = new int[ValidationContextTypeCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$api$v2$auth$CommonTlsContext$ValidationContextTypeCase = iArr;
+            try {
+                iArr[ValidationContextTypeCase.VALIDATION_CONTEXT.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$auth$CommonTlsContext$ValidationContextTypeCase[ValidationContextTypeCase.VALIDATION_CONTEXT_SDS_SECRET_CONFIG.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$auth$CommonTlsContext$ValidationContextTypeCase[ValidationContextTypeCase.COMBINED_VALIDATION_CONTEXT.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$auth$CommonTlsContext$ValidationContextTypeCase[ValidationContextTypeCase.VALIDATIONCONTEXTTYPE_NOT_SET.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+        }
+    }
+}

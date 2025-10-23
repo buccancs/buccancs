@@ -1,0 +1,66 @@
+package io.grpc.netty.shaded.io.netty.channel.epoll;
+
+import io.grpc.netty.shaded.io.netty.channel.unix.FileDescriptor;
+import io.grpc.netty.shaded.io.netty.util.internal.SystemPropertyUtil;
+
+/* loaded from: classes3.dex */
+public final class Epoll {
+    private static final Throwable UNAVAILABILITY_CAUSE;
+
+    static {
+        UnsupportedOperationException th;
+        FileDescriptor fileDescriptorNewEpollCreate;
+        FileDescriptor fileDescriptorNewEventFd;
+        if (SystemPropertyUtil.getBoolean("io.grpc.netty.shaded.io.netty.transport.noNative", false)) {
+            th = new UnsupportedOperationException("Native transport was explicit disabled with -Dio.netty.transport.noNative=true");
+        } else {
+            th = null;
+            try {
+                try {
+                    fileDescriptorNewEpollCreate = Native.newEpollCreate();
+                    try {
+                        fileDescriptorNewEventFd = Native.newEventFd();
+                        if (fileDescriptorNewEpollCreate != null) {
+                            try {
+                                fileDescriptorNewEpollCreate.close();
+                            } catch (Exception unused) {
+                            }
+                        }
+                    } catch (Throwable th2) {
+                        th = th2;
+                        if (fileDescriptorNewEpollCreate != null) {
+                            fileDescriptorNewEpollCreate.close();
+                        }
+                        UNAVAILABILITY_CAUSE = th;
+                    }
+                } catch (Throwable th3) {
+                    fileDescriptorNewEpollCreate = null;
+                    th = th3;
+                }
+                if (fileDescriptorNewEventFd != null) {
+                    fileDescriptorNewEventFd.close();
+                }
+            } catch (Exception unused2) {
+            }
+        }
+        UNAVAILABILITY_CAUSE = th;
+    }
+
+    private Epoll() {
+    }
+
+    public static boolean isAvailable() {
+        return UNAVAILABILITY_CAUSE == null;
+    }
+
+    public static Throwable unavailabilityCause() {
+        return UNAVAILABILITY_CAUSE;
+    }
+
+    public static void ensureAvailability() {
+        Throwable th = UNAVAILABILITY_CAUSE;
+        if (th != null) {
+            throw ((Error) new UnsatisfiedLinkError("failed to load the required native library").initCause(th));
+        }
+    }
+}

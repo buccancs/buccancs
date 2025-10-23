@@ -1,0 +1,41 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/listener/ListenerFilterChainMatchPredicateOrBuilder.java
+// Size: 1230 bytes
+// Modified: 2025-10-21 16:32:04.759982800 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.Int32Range;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.Int32RangeOrBuilder;
+
+/* loaded from: classes5.dex */
+public interface ListenerFilterChainMatchPredicateOrBuilder extends MessageOrBuilder {
+    ListenerFilterChainMatchPredicate.MatchSet getAndMatch();
+
+    ListenerFilterChainMatchPredicate.MatchSetOrBuilder getAndMatchOrBuilder();
+
+    boolean getAnyMatch();
+
+    Int32Range getDestinationPortRange();
+
+    Int32RangeOrBuilder getDestinationPortRangeOrBuilder();
+
+    ListenerFilterChainMatchPredicate getNotMatch();
+
+    ListenerFilterChainMatchPredicateOrBuilder getNotMatchOrBuilder();
+
+    ListenerFilterChainMatchPredicate.MatchSet getOrMatch();
+
+    ListenerFilterChainMatchPredicate.MatchSetOrBuilder getOrMatchOrBuilder();
+
+    ListenerFilterChainMatchPredicate.RuleCase getRuleCase();
+
+    boolean hasAndMatch();
+
+    boolean hasDestinationPortRange();
+
+    boolean hasNotMatch();
+
+    boolean hasOrMatch();
+}

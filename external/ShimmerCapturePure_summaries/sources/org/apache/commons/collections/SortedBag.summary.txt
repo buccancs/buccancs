@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/SortedBag.java
+// Size: 228 bytes
+// Modified: 2025-10-21 16:32:00.898674700 +0100
+
+package org.apache.commons.collections;
+
+import java.util.Comparator;
+
+/* loaded from: classes5.dex */
+public interface SortedBag extends Bag {
+    Comparator comparator();
+
+    Object first();
+
+    Object last();
+}

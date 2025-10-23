@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/channelz/v1/ChannelTraceOrBuilder.java
+// Size: 722 bytes
+// Modified: 2025-10-21 16:32:04.433684300 +0100
+
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface ChannelTraceOrBuilder extends MessageOrBuilder {
+    Timestamp getCreationTimestamp();
+
+    TimestampOrBuilder getCreationTimestampOrBuilder();
+
+    ChannelTraceEvent getEvents(int i);
+
+    int getEventsCount();
+
+    List<ChannelTraceEvent> getEventsList();
+
+    ChannelTraceEventOrBuilder getEventsOrBuilder(int i);
+
+    List<? extends ChannelTraceEventOrBuilder> getEventsOrBuilderList();
+
+    long getNumEventsLogged();
+
+    boolean hasCreationTimestamp();
+}

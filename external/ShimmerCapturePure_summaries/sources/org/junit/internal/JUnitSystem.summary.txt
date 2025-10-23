@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/JUnitSystem.java
+// Size: 196 bytes
+// Modified: 2025-10-21 16:32:00.694135300 +0100
+
+package org.junit.internal;
+
+import java.io.PrintStream;
+
+/* loaded from: classes2.dex */
+public interface JUnitSystem {
+    @Deprecated
+    void exit(int i);
+
+    PrintStream out();
+}

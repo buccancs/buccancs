@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/route/v3/DirectResponseActionOrBuilder.java
+// Size: 507 bytes
+// Modified: 2025-10-21 16:32:03.470931100 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.DataSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.DataSourceOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface DirectResponseActionOrBuilder extends MessageOrBuilder {
+    DataSource getBody();
+
+    DataSourceOrBuilder getBodyOrBuilder();
+
+    int getStatus();
+
+    boolean hasBody();
+}

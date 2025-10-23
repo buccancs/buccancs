@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/ExchangePairGenerator.java
+// Size: 351 bytes
+// Modified: 2025-10-21 16:32:03.612761500 +0100
+
+package org.bouncycastle.pqc.crypto;
+
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+
+/* loaded from: classes5.dex */
+public interface ExchangePairGenerator {
+    ExchangePair GenerateExchange(AsymmetricKeyParameter asymmetricKeyParameter);
+
+    ExchangePair generateExchange(AsymmetricKeyParameter asymmetricKeyParameter);
+}

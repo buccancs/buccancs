@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/alts/internal/AltsHandshakerOptions.java
+// Size: 475 bytes
+// Modified: 2025-10-21 16:32:03.743734000 +0100
+
+package io.grpc.alts.internal;
+
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public class AltsHandshakerOptions {
+
+    @Nullable
+    private final RpcProtocolVersions rpcProtocolVersions;
+
+    public RpcProtocolVersions getRpcProtocolVersions() {
+        return this.rpcProtocolVersions;
+    }
+
+    public AltsHandshakerOptions(RpcProtocolVersions rpcProtocolVersions) {
+        this.rpcProtocolVersions = rpcProtocolVersions;
+    }
+}

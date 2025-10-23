@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/series/VectorSeries.java
+// Size: 147 bytes
+// Modified: 2025-10-21 16:32:00.777813700 +0100
+
+package com.androidplot.series;
+
+/* loaded from: classes.dex */
+public interface VectorSeries extends Series {
+    Number getValue(int i);
+}

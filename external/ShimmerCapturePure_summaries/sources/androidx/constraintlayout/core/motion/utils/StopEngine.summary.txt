@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/motion/utils/StopEngine.java
+// Size: 293 bytes
+// Modified: 2025-10-21 16:31:59.975774700 +0100
+
+package androidx.constraintlayout.core.motion.utils;
+
+/* loaded from: classes.dex */
+public interface StopEngine {
+    String debug(String str, float f);
+
+    float getInterpolation(float f);
+
+    float getVelocity();
+
+    float getVelocity(float f);
+
+    boolean isStopped();
+}

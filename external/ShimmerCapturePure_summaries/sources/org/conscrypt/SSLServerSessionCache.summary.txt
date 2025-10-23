@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/SSLServerSessionCache.java
+// Size: 238 bytes
+// Modified: 2025-10-21 16:32:00.678312800 +0100
+
+package org.conscrypt;
+
+import javax.net.ssl.SSLSession;
+
+/* loaded from: classes5.dex */
+interface SSLServerSessionCache {
+    byte[] getSessionData(byte[] bArr);
+
+    void putSessionData(SSLSession sSLSession, byte[] bArr);
+}

@@ -1,0 +1,56 @@
+package com.shimmerresearch.verisense.communication.payloads;
+
+import com.shimmerresearch.verisense.communication.VerisenseMessage;
+
+/* loaded from: classes2.dex */
+public class PendingEventsPayload extends AbstractPayload {
+    public boolean pendingEventStatus = false;
+    public boolean pendingEventData = false;
+    public boolean pendingEventTimeSync = false;
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public byte[] generatePayloadContents() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public boolean parsePayloadContents(byte[] bArr) {
+        this.payloadContents = bArr;
+        this.isSuccess = false;
+        this.pendingEventStatus = false;
+        this.pendingEventData = false;
+        this.pendingEventTimeSync = false;
+        for (byte b : bArr) {
+            if (b == VerisenseMessage.VERISENSE_PROPERTY.STATUS.getPropertyMask()) {
+                this.pendingEventStatus = true;
+            } else if (b == VerisenseMessage.VERISENSE_PROPERTY.DATA.getPropertyMask()) {
+                this.pendingEventData = true;
+            } else if (b == VerisenseMessage.VERISENSE_PROPERTY.TIME.getPropertyMask()) {
+                this.pendingEventTimeSync = true;
+            }
+        }
+        this.isSuccess = true;
+        return this.isSuccess;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.payloads.AbstractPayload
+    public String generateDebugString() {
+        StringBuilder sb = new StringBuilder("Pending Events Response:\n");
+        boolean z = this.pendingEventStatus;
+        if (!z && !this.pendingEventData && !this.pendingEventTimeSync) {
+            sb.append("\tNone\n");
+        } else {
+            if (z) {
+                sb.append("\tStatus\n");
+            }
+            if (this.pendingEventData) {
+                sb.append("\tData\n");
+            }
+            if (this.pendingEventTimeSync) {
+                sb.append("\tTime sync\n");
+            }
+            sb.append("********************************************************\n");
+        }
+        return sb.toString();
+    }
+}

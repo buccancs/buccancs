@@ -1,0 +1,88 @@
+package com.shimmerresearch.grpc;
+
+import com.google.protobuf.UninitializedMessageException;
+import com.shimmerresearch.driver.BasicProcessWithCallBack;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerMsg;
+import com.shimmerresearch.grpc.ShimmerGRPC;
+import com.shimmerresearch.grpc.ShimmerServerGrpc;
+import io.grpc.ManagedChannel;
+import io.grpc.ManagedChannelBuilder;
+import io.grpc.stub.StreamObserver;
+
+/* loaded from: classes2.dex */
+public class ShimmerClientGrpcStream extends BasicProcessWithCallBack {
+    private final ManagedChannel channel;
+    private final ShimmerServerGrpc.ShimmerServerStub stub;
+    ObjectCluster mLastRXOJC;
+    StreamObserver<ShimmerGRPC.ObjectCluster2> requestObserver;
+    StreamObserver<ShimmerGRPC.FileByteTransfer> requestObserverFile;
+
+    public ShimmerClientGrpcStream(String str, int i) throws UninitializedMessageException {
+        ManagedChannel managedChannelBuild = ManagedChannelBuilder.forAddress(str, i).usePlaintext().build();
+        this.channel = managedChannelBuild;
+        ShimmerServerGrpc.ShimmerServerStub shimmerServerStubNewStub = ShimmerServerGrpc.newStub(managedChannelBuild);
+        this.stub = shimmerServerStubNewStub;
+        ShimmerGRPC.StreamRequest streamRequestM6094build = ShimmerGRPC.StreamRequest.newBuilder().setMessage("All").m6094build();
+        StreamObserver<ShimmerGRPC.HelloReply> streamObserver = new StreamObserver<ShimmerGRPC.HelloReply>() { // from class: com.shimmerresearch.grpc.ShimmerClientGrpcStream.1
+            @Override // io.grpc.stub.StreamObserver
+            public void onCompleted() {
+            }
+
+            @Override // io.grpc.stub.StreamObserver
+            public void onError(Throwable th) {
+            }
+
+            @Override // io.grpc.stub.StreamObserver
+            public void onNext(ShimmerGRPC.HelloReply helloReply) {
+            }
+        };
+        StreamObserver<ShimmerGRPC.HelloReply> streamObserver2 = new StreamObserver<ShimmerGRPC.HelloReply>() { // from class: com.shimmerresearch.grpc.ShimmerClientGrpcStream.2
+            @Override // io.grpc.stub.StreamObserver
+            public void onCompleted() {
+            }
+
+            @Override // io.grpc.stub.StreamObserver
+            public void onError(Throwable th) {
+            }
+
+            @Override // io.grpc.stub.StreamObserver
+            public void onNext(ShimmerGRPC.HelloReply helloReply) {
+            }
+        };
+        this.requestObserver = shimmerServerStubNewStub.sendDataStream(streamObserver);
+        this.requestObserverFile = shimmerServerStubNewStub.sendFileStream(streamObserver2);
+        shimmerServerStubNewStub.getDataStream(streamRequestM6094build, new StreamObserver<ShimmerGRPC.ObjectCluster2>() { // from class: com.shimmerresearch.grpc.ShimmerClientGrpcStream.3
+            @Override // io.grpc.stub.StreamObserver
+            public void onCompleted() {
+            }
+
+            @Override // io.grpc.stub.StreamObserver
+            public void onError(Throwable th) {
+            }
+
+            @Override // io.grpc.stub.StreamObserver
+            public void onNext(ShimmerGRPC.ObjectCluster2 objectCluster2) {
+                ObjectCluster objectCluster = new ObjectCluster(objectCluster2);
+                ShimmerClientGrpcStream.this.mLastRXOJC = objectCluster;
+                ShimmerClientGrpcStream.this.sendCallBackMsg(2, objectCluster);
+            }
+        });
+    }
+
+    public ObjectCluster getLastReceivedOJC() {
+        return this.mLastRXOJC;
+    }
+
+    @Override // com.shimmerresearch.driver.BasicProcessWithCallBack
+    protected void processMsgFromCallback(ShimmerMsg shimmerMsg) {
+    }
+
+    public void sendFile(ShimmerGRPC.FileByteTransfer fileByteTransfer) {
+        this.requestObserverFile.onNext(fileByteTransfer);
+    }
+
+    public void sendOJCToServer(ShimmerGRPC.ObjectCluster2 objectCluster2) {
+        this.requestObserver.onNext(objectCluster2);
+    }
+}

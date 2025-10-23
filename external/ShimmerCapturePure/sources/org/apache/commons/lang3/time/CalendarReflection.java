@@ -1,0 +1,52 @@
+package org.apache.commons.lang3.time;
+
+import java.lang.reflect.Method;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
+/* loaded from: classes5.dex */
+class CalendarReflection {
+    private static final Method IS_WEEK_DATE_SUPPORTED = getCalendarMethod("isWeekDateSupported", new Class[0]);
+    private static final Method GET_WEEK_YEAR = getCalendarMethod("getWeekYear", new Class[0]);
+
+    CalendarReflection() {
+    }
+
+    private static Method getCalendarMethod(String str, Class<?>... clsArr) {
+        try {
+            return Calendar.class.getMethod(str, clsArr);
+        } catch (Exception unused) {
+            return null;
+        }
+    }
+
+    static boolean isWeekDateSupported(Calendar calendar) {
+        try {
+            Method method = IS_WEEK_DATE_SUPPORTED;
+            if (method != null) {
+                return ((Boolean) method.invoke(calendar, new Object[0])).booleanValue();
+            }
+            return false;
+        } catch (Exception e) {
+            return ((Boolean) ExceptionUtils.rethrow(e)).booleanValue();
+        }
+    }
+
+    public static int getWeekYear(Calendar calendar) {
+        try {
+            if (isWeekDateSupported(calendar)) {
+                return ((Integer) GET_WEEK_YEAR.invoke(calendar, new Object[0])).intValue();
+            }
+            int i = calendar.get(1);
+            if (IS_WEEK_DATE_SUPPORTED != null || !(calendar instanceof GregorianCalendar)) {
+                return i;
+            }
+            int i2 = calendar.get(2);
+            return i2 != 0 ? (i2 == 11 && calendar.get(3) == 1) ? i + 1 : i : calendar.get(3) >= 52 ? i - 1 : i;
+        } catch (Exception e) {
+            return ((Integer) ExceptionUtils.rethrow(e)).intValue();
+        }
+    }
+}

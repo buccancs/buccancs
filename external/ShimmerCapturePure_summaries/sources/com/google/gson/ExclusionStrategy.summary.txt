@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/ExclusionStrategy.java
+// Size: 210 bytes
+// Modified: 2025-10-21 16:32:01.297860900 +0100
+
+package com.google.gson;
+
+/* loaded from: classes.dex */
+public interface ExclusionStrategy {
+    boolean shouldSkipClass(Class<?> cls);
+
+    boolean shouldSkipField(FieldAttributes fieldAttributes);
+}

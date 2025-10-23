@@ -1,0 +1,1506 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/channelz/v1/Channel.java
+// Size: 70050 bytes
+// Modified: 2025-10-21 16:32:06.721791400 +0100
+
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.channelz.v1.ChannelData;
+import io.grpc.channelz.v1.ChannelRef;
+import io.grpc.channelz.v1.SocketRef;
+import io.grpc.channelz.v1.SubchannelRef;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public final class Channel extends GeneratedMessageV3 implements ChannelOrBuilder {
+    public static final int CHANNEL_REF_FIELD_NUMBER = 3;
+    public static final int DATA_FIELD_NUMBER = 2;
+    private static final Channel DEFAULT_INSTANCE = new Channel();
+    private static final Parser<Channel> PARSER = new AbstractParser<Channel>() { // from class: io.grpc.channelz.v1.Channel.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Channel m7492parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Channel(codedInputStream, extensionRegistryLite);
+        }
+    };
+    public static final int REF_FIELD_NUMBER = 1;
+    public static final int SOCKET_REF_FIELD_NUMBER = 5;
+    public static final int SUBCHANNEL_REF_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0;
+    private List<ChannelRef> channelRef_;
+    private ChannelData data_;
+    private byte memoizedIsInitialized;
+    private ChannelRef ref_;
+    private List<SocketRef> socketRef_;
+    private List<SubchannelRef> subchannelRef_;
+
+    public static Channel getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Channel> parser() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public List<ChannelRef> getChannelRefList() {
+        return this.channelRef_;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public List<? extends ChannelRefOrBuilder> getChannelRefOrBuilderList() {
+        return this.channelRef_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Channel m7485getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Channel> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public List<SocketRef> getSocketRefList() {
+        return this.socketRef_;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public List<? extends SocketRefOrBuilder> getSocketRefOrBuilderList() {
+        return this.socketRef_;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public List<SubchannelRef> getSubchannelRefList() {
+        return this.subchannelRef_;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public List<? extends SubchannelRefOrBuilder> getSubchannelRefOrBuilderList() {
+        return this.subchannelRef_;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public boolean hasData() {
+        return this.data_ != null;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public boolean hasRef() {
+        return this.ref_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private Channel(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Channel() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.channelRef_ = Collections.emptyList();
+        this.subchannelRef_ = Collections.emptyList();
+        this.socketRef_ = Collections.emptyList();
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Channel();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private Channel(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            ChannelRef channelRef = this.ref_;
+                            ChannelRef.Builder builderM7629toBuilder = channelRef != null ? channelRef.m7629toBuilder() : null;
+                            ChannelRef channelRef2 = (ChannelRef) codedInputStream.readMessage(ChannelRef.parser(), extensionRegistryLite);
+                            this.ref_ = channelRef2;
+                            if (builderM7629toBuilder != null) {
+                                builderM7629toBuilder.mergeFrom(channelRef2);
+                                this.ref_ = builderM7629toBuilder.m7636buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            ChannelData channelData = this.data_;
+                            ChannelData.Builder builderM7583toBuilder = channelData != null ? channelData.m7583toBuilder() : null;
+                            ChannelData channelData2 = (ChannelData) codedInputStream.readMessage(ChannelData.parser(), extensionRegistryLite);
+                            this.data_ = channelData2;
+                            if (builderM7583toBuilder != null) {
+                                builderM7583toBuilder.mergeFrom(channelData2);
+                                this.data_ = builderM7583toBuilder.m7590buildPartial();
+                            }
+                        } else if (tag == 26) {
+                            if ((i & 1) == 0) {
+                                this.channelRef_ = new ArrayList();
+                                i |= 1;
+                            }
+                            this.channelRef_.add(codedInputStream.readMessage(ChannelRef.parser(), extensionRegistryLite));
+                        } else if (tag == 34) {
+                            if ((i & 2) == 0) {
+                                this.subchannelRef_ = new ArrayList();
+                                i |= 2;
+                            }
+                            this.subchannelRef_.add(codedInputStream.readMessage(SubchannelRef.parser(), extensionRegistryLite));
+                        } else if (tag == 42) {
+                            if ((i & 4) == 0) {
+                                this.socketRef_ = new ArrayList();
+                                i |= 4;
+                            }
+                            this.socketRef_.add(codedInputStream.readMessage(SocketRef.parser(), extensionRegistryLite));
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.channelRef_ = Collections.unmodifiableList(this.channelRef_);
+                }
+                if ((i & 2) != 0) {
+                    this.subchannelRef_ = Collections.unmodifiableList(this.subchannelRef_);
+                }
+                if ((i & 4) != 0) {
+                    this.socketRef_ = Collections.unmodifiableList(this.socketRef_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_Channel_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ChannelzProto.internal_static_grpc_channelz_v1_Channel_fieldAccessorTable.ensureFieldAccessorsInitialized(Channel.class, Builder.class);
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public ChannelRef getRef() {
+        ChannelRef channelRef = this.ref_;
+        return channelRef == null ? ChannelRef.getDefaultInstance() : channelRef;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public ChannelRefOrBuilder getRefOrBuilder() {
+        return getRef();
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public ChannelData getData() {
+        ChannelData channelData = this.data_;
+        return channelData == null ? ChannelData.getDefaultInstance() : channelData;
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public ChannelDataOrBuilder getDataOrBuilder() {
+        return getData();
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public int getChannelRefCount() {
+        return this.channelRef_.size();
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public ChannelRef getChannelRef(int i) {
+        return this.channelRef_.get(i);
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public ChannelRefOrBuilder getChannelRefOrBuilder(int i) {
+        return this.channelRef_.get(i);
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public int getSubchannelRefCount() {
+        return this.subchannelRef_.size();
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public SubchannelRef getSubchannelRef(int i) {
+        return this.subchannelRef_.get(i);
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public SubchannelRefOrBuilder getSubchannelRefOrBuilder(int i) {
+        return this.subchannelRef_.get(i);
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public int getSocketRefCount() {
+        return this.socketRef_.size();
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public SocketRef getSocketRef(int i) {
+        return this.socketRef_.get(i);
+    }
+
+    @Override // io.grpc.channelz.v1.ChannelOrBuilder
+    public SocketRefOrBuilder getSocketRefOrBuilder(int i) {
+        return this.socketRef_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.ref_ != null) {
+            codedOutputStream.writeMessage(1, getRef());
+        }
+        if (this.data_ != null) {
+            codedOutputStream.writeMessage(2, getData());
+        }
+        for (int i = 0; i < this.channelRef_.size(); i++) {
+            codedOutputStream.writeMessage(3, this.channelRef_.get(i));
+        }
+        for (int i2 = 0; i2 < this.subchannelRef_.size(); i2++) {
+            codedOutputStream.writeMessage(4, this.subchannelRef_.get(i2));
+        }
+        for (int i3 = 0; i3 < this.socketRef_.size(); i3++) {
+            codedOutputStream.writeMessage(5, this.socketRef_.get(i3));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.ref_ != null ? CodedOutputStream.computeMessageSize(1, getRef()) : 0;
+        if (this.data_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getData());
+        }
+        for (int i2 = 0; i2 < this.channelRef_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, this.channelRef_.get(i2));
+        }
+        for (int i3 = 0; i3 < this.subchannelRef_.size(); i3++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, this.subchannelRef_.get(i3));
+        }
+        for (int i4 = 0; i4 < this.socketRef_.size(); i4++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(5, this.socketRef_.get(i4));
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Channel)) {
+            return super.equals(obj);
+        }
+        Channel channel = (Channel) obj;
+        if (hasRef() != channel.hasRef()) {
+            return false;
+        }
+        if ((!hasRef() || getRef().equals(channel.getRef())) && hasData() == channel.hasData()) {
+            return (!hasData() || getData().equals(channel.getData())) && getChannelRefList().equals(channel.getChannelRefList()) && getSubchannelRefList().equals(channel.getSubchannelRefList()) && getSocketRefList().equals(channel.getSocketRefList()) && this.unknownFields.equals(channel.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasRef()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getRef().hashCode();
+        }
+        if (hasData()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getData().hashCode();
+        }
+        if (getChannelRefCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + getChannelRefList().hashCode();
+        }
+        if (getSubchannelRefCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + getSubchannelRefList().hashCode();
+        }
+        if (getSocketRefCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 5) * 53) + getSocketRefList().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    public static Channel parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Channel) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Channel parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Channel) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Channel parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Channel) PARSER.parseFrom(byteString);
+    }
+
+    public static Channel parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Channel) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Channel parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Channel) PARSER.parseFrom(bArr);
+    }
+
+    public static Channel parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Channel) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Channel parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Channel parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Channel parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Channel parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Channel parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Channel parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m7487newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m7490toBuilder();
+    }
+
+    public static Builder newBuilder(Channel channel) {
+        return DEFAULT_INSTANCE.m7490toBuilder().mergeFrom(channel);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m7490toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ChannelOrBuilder {
+        private int bitField0_;
+        private RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> channelRefBuilder_;
+        private List<ChannelRef> channelRef_;
+        private SingleFieldBuilderV3<ChannelData, ChannelData.Builder, ChannelDataOrBuilder> dataBuilder_;
+        private ChannelData data_;
+        private SingleFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> refBuilder_;
+        private ChannelRef ref_;
+        private RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> socketRefBuilder_;
+        private List<SocketRef> socketRef_;
+        private RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> subchannelRefBuilder_;
+        private List<SubchannelRef> subchannelRef_;
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public boolean hasData() {
+            return (this.dataBuilder_ == null && this.data_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public boolean hasRef() {
+            return (this.refBuilder_ == null && this.ref_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Channel_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Channel_fieldAccessorTable.ensureFieldAccessorsInitialized(Channel.class, Builder.class);
+        }
+
+        private Builder() {
+            this.channelRef_ = Collections.emptyList();
+            this.subchannelRef_ = Collections.emptyList();
+            this.socketRef_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.channelRef_ = Collections.emptyList();
+            this.subchannelRef_ = Collections.emptyList();
+            this.socketRef_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (Channel.alwaysUseFieldBuilders) {
+                getChannelRefFieldBuilder();
+                getSubchannelRefFieldBuilder();
+                getSocketRefFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7501clear() {
+            super.clear();
+            if (this.refBuilder_ == null) {
+                this.ref_ = null;
+            } else {
+                this.ref_ = null;
+                this.refBuilder_ = null;
+            }
+            if (this.dataBuilder_ == null) {
+                this.data_ = null;
+            } else {
+                this.data_ = null;
+                this.dataBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.channelRef_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV32 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                this.subchannelRef_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+            } else {
+                repeatedFieldBuilderV32.clear();
+            }
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV33 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV33 == null) {
+                this.socketRef_ = Collections.emptyList();
+                this.bitField0_ &= -5;
+            } else {
+                repeatedFieldBuilderV33.clear();
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ChannelzProto.internal_static_grpc_channelz_v1_Channel_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Channel m7514getDefaultInstanceForType() {
+            return Channel.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Channel m7495build() throws UninitializedMessageException {
+            Channel channelM7497buildPartial = m7497buildPartial();
+            if (channelM7497buildPartial.isInitialized()) {
+                return channelM7497buildPartial;
+            }
+            throw newUninitializedMessageException(channelM7497buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Channel m7497buildPartial() {
+            Channel channel = new Channel(this);
+            SingleFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> singleFieldBuilderV3 = this.refBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                channel.ref_ = this.ref_;
+            } else {
+                channel.ref_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<ChannelData, ChannelData.Builder, ChannelDataOrBuilder> singleFieldBuilderV32 = this.dataBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                channel.data_ = this.data_;
+            } else {
+                channel.data_ = singleFieldBuilderV32.build();
+            }
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.channelRef_ = Collections.unmodifiableList(this.channelRef_);
+                    this.bitField0_ &= -2;
+                }
+                channel.channelRef_ = this.channelRef_;
+            } else {
+                channel.channelRef_ = repeatedFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV32 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                if ((this.bitField0_ & 2) != 0) {
+                    this.subchannelRef_ = Collections.unmodifiableList(this.subchannelRef_);
+                    this.bitField0_ &= -3;
+                }
+                channel.subchannelRef_ = this.subchannelRef_;
+            } else {
+                channel.subchannelRef_ = repeatedFieldBuilderV32.build();
+            }
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV33 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV33 == null) {
+                if ((this.bitField0_ & 4) != 0) {
+                    this.socketRef_ = Collections.unmodifiableList(this.socketRef_);
+                    this.bitField0_ &= -5;
+                }
+                channel.socketRef_ = this.socketRef_;
+            } else {
+                channel.socketRef_ = repeatedFieldBuilderV33.build();
+            }
+            onBuilt();
+            return channel;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7513clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7525setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7503clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7506clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7527setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7493addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7518mergeFrom(Message message) {
+            if (message instanceof Channel) {
+                return mergeFrom((Channel) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Channel channel) {
+            if (channel == Channel.getDefaultInstance()) {
+                return this;
+            }
+            if (channel.hasRef()) {
+                mergeRef(channel.getRef());
+            }
+            if (channel.hasData()) {
+                mergeData(channel.getData());
+            }
+            if (this.channelRefBuilder_ == null) {
+                if (!channel.channelRef_.isEmpty()) {
+                    if (this.channelRef_.isEmpty()) {
+                        this.channelRef_ = channel.channelRef_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureChannelRefIsMutable();
+                        this.channelRef_.addAll(channel.channelRef_);
+                    }
+                    onChanged();
+                }
+            } else if (!channel.channelRef_.isEmpty()) {
+                if (!this.channelRefBuilder_.isEmpty()) {
+                    this.channelRefBuilder_.addAllMessages(channel.channelRef_);
+                } else {
+                    this.channelRefBuilder_.dispose();
+                    this.channelRefBuilder_ = null;
+                    this.channelRef_ = channel.channelRef_;
+                    this.bitField0_ &= -2;
+                    this.channelRefBuilder_ = Channel.alwaysUseFieldBuilders ? getChannelRefFieldBuilder() : null;
+                }
+            }
+            if (this.subchannelRefBuilder_ == null) {
+                if (!channel.subchannelRef_.isEmpty()) {
+                    if (this.subchannelRef_.isEmpty()) {
+                        this.subchannelRef_ = channel.subchannelRef_;
+                        this.bitField0_ &= -3;
+                    } else {
+                        ensureSubchannelRefIsMutable();
+                        this.subchannelRef_.addAll(channel.subchannelRef_);
+                    }
+                    onChanged();
+                }
+            } else if (!channel.subchannelRef_.isEmpty()) {
+                if (!this.subchannelRefBuilder_.isEmpty()) {
+                    this.subchannelRefBuilder_.addAllMessages(channel.subchannelRef_);
+                } else {
+                    this.subchannelRefBuilder_.dispose();
+                    this.subchannelRefBuilder_ = null;
+                    this.subchannelRef_ = channel.subchannelRef_;
+                    this.bitField0_ &= -3;
+                    this.subchannelRefBuilder_ = Channel.alwaysUseFieldBuilders ? getSubchannelRefFieldBuilder() : null;
+                }
+            }
+            if (this.socketRefBuilder_ == null) {
+                if (!channel.socketRef_.isEmpty()) {
+                    if (this.socketRef_.isEmpty()) {
+                        this.socketRef_ = channel.socketRef_;
+                        this.bitField0_ &= -5;
+                    } else {
+                        ensureSocketRefIsMutable();
+                        this.socketRef_.addAll(channel.socketRef_);
+                    }
+                    onChanged();
+                }
+            } else if (!channel.socketRef_.isEmpty()) {
+                if (!this.socketRefBuilder_.isEmpty()) {
+                    this.socketRefBuilder_.addAllMessages(channel.socketRef_);
+                } else {
+                    this.socketRefBuilder_.dispose();
+                    this.socketRefBuilder_ = null;
+                    this.socketRef_ = channel.socketRef_;
+                    this.bitField0_ &= -5;
+                    this.socketRefBuilder_ = Channel.alwaysUseFieldBuilders ? getSocketRefFieldBuilder() : null;
+                }
+            }
+            m7523mergeUnknownFields(channel.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.channelz.v1.Channel.Builder m7519mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.channelz.v1.Channel.access$1300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.channelz.v1.Channel r3 = (io.grpc.channelz.v1.Channel) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.channelz.v1.Channel r4 = (io.grpc.channelz.v1.Channel) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.channelz.v1.Channel.Builder.m7519mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.channelz.v1.Channel$Builder");
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public ChannelRef getRef() {
+            SingleFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> singleFieldBuilderV3 = this.refBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            ChannelRef channelRef = this.ref_;
+            return channelRef == null ? ChannelRef.getDefaultInstance() : channelRef;
+        }
+
+        public Builder setRef(ChannelRef channelRef) {
+            SingleFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> singleFieldBuilderV3 = this.refBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                channelRef.getClass();
+                this.ref_ = channelRef;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(channelRef);
+            }
+            return this;
+        }
+
+        public Builder setRef(ChannelRef.Builder builder) {
+            SingleFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> singleFieldBuilderV3 = this.refBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.ref_ = builder.m7634build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7634build());
+            }
+            return this;
+        }
+
+        public Builder mergeRef(ChannelRef channelRef) {
+            SingleFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> singleFieldBuilderV3 = this.refBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                ChannelRef channelRef2 = this.ref_;
+                if (channelRef2 != null) {
+                    this.ref_ = ChannelRef.newBuilder(channelRef2).mergeFrom(channelRef).m7636buildPartial();
+                } else {
+                    this.ref_ = channelRef;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(channelRef);
+            }
+            return this;
+        }
+
+        public Builder clearRef() {
+            if (this.refBuilder_ == null) {
+                this.ref_ = null;
+                onChanged();
+            } else {
+                this.ref_ = null;
+                this.refBuilder_ = null;
+            }
+            return this;
+        }
+
+        public ChannelRef.Builder getRefBuilder() {
+            onChanged();
+            return getRefFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public ChannelRefOrBuilder getRefOrBuilder() {
+            SingleFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> singleFieldBuilderV3 = this.refBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ChannelRefOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            ChannelRef channelRef = this.ref_;
+            return channelRef == null ? ChannelRef.getDefaultInstance() : channelRef;
+        }
+
+        private SingleFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> getRefFieldBuilder() {
+            if (this.refBuilder_ == null) {
+                this.refBuilder_ = new SingleFieldBuilderV3<>(getRef(), getParentForChildren(), isClean());
+                this.ref_ = null;
+            }
+            return this.refBuilder_;
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public ChannelData getData() {
+            SingleFieldBuilderV3<ChannelData, ChannelData.Builder, ChannelDataOrBuilder> singleFieldBuilderV3 = this.dataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            ChannelData channelData = this.data_;
+            return channelData == null ? ChannelData.getDefaultInstance() : channelData;
+        }
+
+        public Builder setData(ChannelData channelData) {
+            SingleFieldBuilderV3<ChannelData, ChannelData.Builder, ChannelDataOrBuilder> singleFieldBuilderV3 = this.dataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                channelData.getClass();
+                this.data_ = channelData;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(channelData);
+            }
+            return this;
+        }
+
+        public Builder setData(ChannelData.Builder builder) {
+            SingleFieldBuilderV3<ChannelData, ChannelData.Builder, ChannelDataOrBuilder> singleFieldBuilderV3 = this.dataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.data_ = builder.m7588build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7588build());
+            }
+            return this;
+        }
+
+        public Builder mergeData(ChannelData channelData) {
+            SingleFieldBuilderV3<ChannelData, ChannelData.Builder, ChannelDataOrBuilder> singleFieldBuilderV3 = this.dataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                ChannelData channelData2 = this.data_;
+                if (channelData2 != null) {
+                    this.data_ = ChannelData.newBuilder(channelData2).mergeFrom(channelData).m7590buildPartial();
+                } else {
+                    this.data_ = channelData;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(channelData);
+            }
+            return this;
+        }
+
+        public Builder clearData() {
+            if (this.dataBuilder_ == null) {
+                this.data_ = null;
+                onChanged();
+            } else {
+                this.data_ = null;
+                this.dataBuilder_ = null;
+            }
+            return this;
+        }
+
+        public ChannelData.Builder getDataBuilder() {
+            onChanged();
+            return getDataFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public ChannelDataOrBuilder getDataOrBuilder() {
+            SingleFieldBuilderV3<ChannelData, ChannelData.Builder, ChannelDataOrBuilder> singleFieldBuilderV3 = this.dataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ChannelDataOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            ChannelData channelData = this.data_;
+            return channelData == null ? ChannelData.getDefaultInstance() : channelData;
+        }
+
+        private SingleFieldBuilderV3<ChannelData, ChannelData.Builder, ChannelDataOrBuilder> getDataFieldBuilder() {
+            if (this.dataBuilder_ == null) {
+                this.dataBuilder_ = new SingleFieldBuilderV3<>(getData(), getParentForChildren(), isClean());
+                this.data_ = null;
+            }
+            return this.dataBuilder_;
+        }
+
+        private void ensureChannelRefIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.channelRef_ = new ArrayList(this.channelRef_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public List<ChannelRef> getChannelRefList() {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.channelRef_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public int getChannelRefCount() {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.channelRef_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public ChannelRef getChannelRef(int i) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.channelRef_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setChannelRef(int i, ChannelRef channelRef) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                channelRef.getClass();
+                ensureChannelRefIsMutable();
+                this.channelRef_.set(i, channelRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, channelRef);
+            }
+            return this;
+        }
+
+        public Builder setChannelRef(int i, ChannelRef.Builder builder) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureChannelRefIsMutable();
+                this.channelRef_.set(i, builder.m7634build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m7634build());
+            }
+            return this;
+        }
+
+        public Builder addChannelRef(ChannelRef channelRef) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                channelRef.getClass();
+                ensureChannelRefIsMutable();
+                this.channelRef_.add(channelRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(channelRef);
+            }
+            return this;
+        }
+
+        public Builder addChannelRef(int i, ChannelRef channelRef) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                channelRef.getClass();
+                ensureChannelRefIsMutable();
+                this.channelRef_.add(i, channelRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, channelRef);
+            }
+            return this;
+        }
+
+        public Builder addChannelRef(ChannelRef.Builder builder) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureChannelRefIsMutable();
+                this.channelRef_.add(builder.m7634build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m7634build());
+            }
+            return this;
+        }
+
+        public Builder addChannelRef(int i, ChannelRef.Builder builder) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureChannelRefIsMutable();
+                this.channelRef_.add(i, builder.m7634build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m7634build());
+            }
+            return this;
+        }
+
+        public Builder addAllChannelRef(Iterable<? extends ChannelRef> iterable) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureChannelRefIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.channelRef_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearChannelRef() {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.channelRef_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeChannelRef(int i) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureChannelRefIsMutable();
+                this.channelRef_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public ChannelRef.Builder getChannelRefBuilder(int i) {
+            return getChannelRefFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public ChannelRefOrBuilder getChannelRefOrBuilder(int i) {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.channelRef_.get(i);
+            }
+            return (ChannelRefOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public List<? extends ChannelRefOrBuilder> getChannelRefOrBuilderList() {
+            RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> repeatedFieldBuilderV3 = this.channelRefBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.channelRef_);
+        }
+
+        public ChannelRef.Builder addChannelRefBuilder() {
+            return getChannelRefFieldBuilder().addBuilder(ChannelRef.getDefaultInstance());
+        }
+
+        public ChannelRef.Builder addChannelRefBuilder(int i) {
+            return getChannelRefFieldBuilder().addBuilder(i, ChannelRef.getDefaultInstance());
+        }
+
+        public List<ChannelRef.Builder> getChannelRefBuilderList() {
+            return getChannelRefFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<ChannelRef, ChannelRef.Builder, ChannelRefOrBuilder> getChannelRefFieldBuilder() {
+            if (this.channelRefBuilder_ == null) {
+                this.channelRefBuilder_ = new RepeatedFieldBuilderV3<>(this.channelRef_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.channelRef_ = null;
+            }
+            return this.channelRefBuilder_;
+        }
+
+        private void ensureSubchannelRefIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.subchannelRef_ = new ArrayList(this.subchannelRef_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public List<SubchannelRef> getSubchannelRefList() {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.subchannelRef_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public int getSubchannelRefCount() {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.subchannelRef_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public SubchannelRef getSubchannelRef(int i) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.subchannelRef_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setSubchannelRef(int i, SubchannelRef subchannelRef) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                subchannelRef.getClass();
+                ensureSubchannelRefIsMutable();
+                this.subchannelRef_.set(i, subchannelRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, subchannelRef);
+            }
+            return this;
+        }
+
+        public Builder setSubchannelRef(int i, SubchannelRef.Builder builder) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSubchannelRefIsMutable();
+                this.subchannelRef_.set(i, builder.m9061build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m9061build());
+            }
+            return this;
+        }
+
+        public Builder addSubchannelRef(SubchannelRef subchannelRef) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                subchannelRef.getClass();
+                ensureSubchannelRefIsMutable();
+                this.subchannelRef_.add(subchannelRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(subchannelRef);
+            }
+            return this;
+        }
+
+        public Builder addSubchannelRef(int i, SubchannelRef subchannelRef) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                subchannelRef.getClass();
+                ensureSubchannelRefIsMutable();
+                this.subchannelRef_.add(i, subchannelRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, subchannelRef);
+            }
+            return this;
+        }
+
+        public Builder addSubchannelRef(SubchannelRef.Builder builder) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSubchannelRefIsMutable();
+                this.subchannelRef_.add(builder.m9061build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m9061build());
+            }
+            return this;
+        }
+
+        public Builder addSubchannelRef(int i, SubchannelRef.Builder builder) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSubchannelRefIsMutable();
+                this.subchannelRef_.add(i, builder.m9061build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m9061build());
+            }
+            return this;
+        }
+
+        public Builder addAllSubchannelRef(Iterable<? extends SubchannelRef> iterable) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSubchannelRefIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.subchannelRef_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearSubchannelRef() {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.subchannelRef_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeSubchannelRef(int i) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSubchannelRefIsMutable();
+                this.subchannelRef_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public SubchannelRef.Builder getSubchannelRefBuilder(int i) {
+            return getSubchannelRefFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public SubchannelRefOrBuilder getSubchannelRefOrBuilder(int i) {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.subchannelRef_.get(i);
+            }
+            return (SubchannelRefOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public List<? extends SubchannelRefOrBuilder> getSubchannelRefOrBuilderList() {
+            RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> repeatedFieldBuilderV3 = this.subchannelRefBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.subchannelRef_);
+        }
+
+        public SubchannelRef.Builder addSubchannelRefBuilder() {
+            return getSubchannelRefFieldBuilder().addBuilder(SubchannelRef.getDefaultInstance());
+        }
+
+        public SubchannelRef.Builder addSubchannelRefBuilder(int i) {
+            return getSubchannelRefFieldBuilder().addBuilder(i, SubchannelRef.getDefaultInstance());
+        }
+
+        public List<SubchannelRef.Builder> getSubchannelRefBuilderList() {
+            return getSubchannelRefFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<SubchannelRef, SubchannelRef.Builder, SubchannelRefOrBuilder> getSubchannelRefFieldBuilder() {
+            if (this.subchannelRefBuilder_ == null) {
+                this.subchannelRefBuilder_ = new RepeatedFieldBuilderV3<>(this.subchannelRef_, (this.bitField0_ & 2) != 0, getParentForChildren(), isClean());
+                this.subchannelRef_ = null;
+            }
+            return this.subchannelRefBuilder_;
+        }
+
+        private void ensureSocketRefIsMutable() {
+            if ((this.bitField0_ & 4) == 0) {
+                this.socketRef_ = new ArrayList(this.socketRef_);
+                this.bitField0_ |= 4;
+            }
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public List<SocketRef> getSocketRefList() {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.socketRef_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public int getSocketRefCount() {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.socketRef_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public SocketRef getSocketRef(int i) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.socketRef_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setSocketRef(int i, SocketRef socketRef) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketRef.getClass();
+                ensureSocketRefIsMutable();
+                this.socketRef_.set(i, socketRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, socketRef);
+            }
+            return this;
+        }
+
+        public Builder setSocketRef(int i, SocketRef.Builder builder) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketRefIsMutable();
+                this.socketRef_.set(i, builder.m8969build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m8969build());
+            }
+            return this;
+        }
+
+        public Builder addSocketRef(SocketRef socketRef) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketRef.getClass();
+                ensureSocketRefIsMutable();
+                this.socketRef_.add(socketRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(socketRef);
+            }
+            return this;
+        }
+
+        public Builder addSocketRef(int i, SocketRef socketRef) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                socketRef.getClass();
+                ensureSocketRefIsMutable();
+                this.socketRef_.add(i, socketRef);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, socketRef);
+            }
+            return this;
+        }
+
+        public Builder addSocketRef(SocketRef.Builder builder) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketRefIsMutable();
+                this.socketRef_.add(builder.m8969build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m8969build());
+            }
+            return this;
+        }
+
+        public Builder addSocketRef(int i, SocketRef.Builder builder) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketRefIsMutable();
+                this.socketRef_.add(i, builder.m8969build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m8969build());
+            }
+            return this;
+        }
+
+        public Builder addAllSocketRef(Iterable<? extends SocketRef> iterable) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketRefIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.socketRef_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearSocketRef() {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.socketRef_ = Collections.emptyList();
+                this.bitField0_ &= -5;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeSocketRef(int i) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureSocketRefIsMutable();
+                this.socketRef_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public SocketRef.Builder getSocketRefBuilder(int i) {
+            return getSocketRefFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public SocketRefOrBuilder getSocketRefOrBuilder(int i) {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.socketRef_.get(i);
+            }
+            return (SocketRefOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.channelz.v1.ChannelOrBuilder
+        public List<? extends SocketRefOrBuilder> getSocketRefOrBuilderList() {
+            RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> repeatedFieldBuilderV3 = this.socketRefBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.socketRef_);
+        }
+
+        public SocketRef.Builder addSocketRefBuilder() {
+            return getSocketRefFieldBuilder().addBuilder(SocketRef.getDefaultInstance());
+        }
+
+        public SocketRef.Builder addSocketRefBuilder(int i) {
+            return getSocketRefFieldBuilder().addBuilder(i, SocketRef.getDefaultInstance());
+        }
+
+        public List<SocketRef.Builder> getSocketRefBuilderList() {
+            return getSocketRefFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<SocketRef, SocketRef.Builder, SocketRefOrBuilder> getSocketRefFieldBuilder() {
+            if (this.socketRefBuilder_ == null) {
+                this.socketRefBuilder_ = new RepeatedFieldBuilderV3<>(this.socketRef_, (this.bitField0_ & 4) != 0, getParentForChildren(), isClean());
+                this.socketRef_ = null;
+            }
+            return this.socketRefBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7529setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7523mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

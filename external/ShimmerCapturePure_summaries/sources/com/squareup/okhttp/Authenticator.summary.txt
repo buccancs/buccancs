@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/squareup/okhttp/Authenticator.java
+// Size: 320 bytes
+// Modified: 2025-10-21 16:32:05.925315400 +0100
+
+package com.squareup.okhttp;
+
+import java.io.IOException;
+import java.net.Proxy;
+
+/* loaded from: classes2.dex */
+public interface Authenticator {
+    Request authenticate(Proxy proxy, Response response) throws IOException;
+
+    Request authenticateProxy(Proxy proxy, Response response) throws IOException;
+}

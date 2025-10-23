@@ -1,0 +1,664 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValue;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class HeaderValueOption extends GeneratedMessageV3 implements HeaderValueOptionOrBuilder {
+    public static final int APPEND_FIELD_NUMBER = 2;
+    public static final int HEADER_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final HeaderValueOption DEFAULT_INSTANCE = new HeaderValueOption();
+    private static final Parser<HeaderValueOption> PARSER = new AbstractParser<HeaderValueOption>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public HeaderValueOption m15504parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new HeaderValueOption(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private BoolValue append_;
+    private HeaderValue header_;
+    private byte memoizedIsInitialized;
+
+    private HeaderValueOption(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private HeaderValueOption() {
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private HeaderValueOption(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        HeaderValue.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            HeaderValue headerValue = this.header_;
+                            builder = headerValue != null ? headerValue.m15456toBuilder() : null;
+                            HeaderValue headerValue2 = (HeaderValue) codedInputStream.readMessage(HeaderValue.parser(), extensionRegistryLite);
+                            this.header_ = headerValue2;
+                            if (builder != null) {
+                                builder.mergeFrom(headerValue2);
+                                this.header_ = builder.m15463buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            BoolValue boolValue = this.append_;
+                            builder = boolValue != null ? boolValue.toBuilder() : null;
+                            BoolValue message = codedInputStream.readMessage(BoolValue.parser(), extensionRegistryLite);
+                            this.append_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.append_ = builder.buildPartial();
+                            }
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static HeaderValueOption getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<HeaderValueOption> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return BaseProto.internal_static_envoy_api_v2_core_HeaderValueOption_descriptor;
+    }
+
+    public static HeaderValueOption parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (HeaderValueOption) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static HeaderValueOption parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HeaderValueOption) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static HeaderValueOption parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (HeaderValueOption) PARSER.parseFrom(byteString);
+    }
+
+    public static HeaderValueOption parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HeaderValueOption) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static HeaderValueOption parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (HeaderValueOption) PARSER.parseFrom(bArr);
+    }
+
+    public static HeaderValueOption parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HeaderValueOption) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static HeaderValueOption parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static HeaderValueOption parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static HeaderValueOption parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static HeaderValueOption parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static HeaderValueOption parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static HeaderValueOption parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m15502toBuilder();
+    }
+
+    public static Builder newBuilder(HeaderValueOption headerValueOption) {
+        return DEFAULT_INSTANCE.m15502toBuilder().mergeFrom(headerValueOption);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public HeaderValueOption m15497getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<HeaderValueOption> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+    public boolean hasAppend() {
+        return this.append_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+    public boolean hasHeader() {
+        return this.header_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new HeaderValueOption();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return BaseProto.internal_static_envoy_api_v2_core_HeaderValueOption_fieldAccessorTable.ensureFieldAccessorsInitialized(HeaderValueOption.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+    public HeaderValue getHeader() {
+        HeaderValue headerValue = this.header_;
+        return headerValue == null ? HeaderValue.getDefaultInstance() : headerValue;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+    public HeaderValueOrBuilder getHeaderOrBuilder() {
+        return getHeader();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+    public BoolValue getAppend() {
+        BoolValue boolValue = this.append_;
+        return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+    public BoolValueOrBuilder getAppendOrBuilder() {
+        return getAppend();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.header_ != null) {
+            codedOutputStream.writeMessage(1, getHeader());
+        }
+        if (this.append_ != null) {
+            codedOutputStream.writeMessage(2, getAppend());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.header_ != null ? CodedOutputStream.computeMessageSize(1, getHeader()) : 0;
+        if (this.append_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getAppend());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof HeaderValueOption)) {
+            return super.equals(obj);
+        }
+        HeaderValueOption headerValueOption = (HeaderValueOption) obj;
+        if (hasHeader() != headerValueOption.hasHeader()) {
+            return false;
+        }
+        if ((!hasHeader() || getHeader().equals(headerValueOption.getHeader())) && hasAppend() == headerValueOption.hasAppend()) {
+            return (!hasAppend() || getAppend().equals(headerValueOption.getAppend())) && this.unknownFields.equals(headerValueOption.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasHeader()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getHeader().hashCode();
+        }
+        if (hasAppend()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getAppend().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m15499newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m15502toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements HeaderValueOptionOrBuilder {
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> appendBuilder_;
+        private BoolValue append_;
+        private SingleFieldBuilderV3<HeaderValue, HeaderValue.Builder, HeaderValueOrBuilder> headerBuilder_;
+        private HeaderValue header_;
+
+        private Builder() {
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return BaseProto.internal_static_envoy_api_v2_core_HeaderValueOption_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+        public boolean hasAppend() {
+            return (this.appendBuilder_ == null && this.append_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+        public boolean hasHeader() {
+            return (this.headerBuilder_ == null && this.header_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return BaseProto.internal_static_envoy_api_v2_core_HeaderValueOption_fieldAccessorTable.ensureFieldAccessorsInitialized(HeaderValueOption.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = HeaderValueOption.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m15513clear() {
+            super.clear();
+            if (this.headerBuilder_ == null) {
+                this.header_ = null;
+            } else {
+                this.header_ = null;
+                this.headerBuilder_ = null;
+            }
+            if (this.appendBuilder_ == null) {
+                this.append_ = null;
+            } else {
+                this.append_ = null;
+                this.appendBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return BaseProto.internal_static_envoy_api_v2_core_HeaderValueOption_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HeaderValueOption m15526getDefaultInstanceForType() {
+            return HeaderValueOption.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HeaderValueOption m15507build() throws UninitializedMessageException {
+            HeaderValueOption headerValueOptionM15509buildPartial = m15509buildPartial();
+            if (headerValueOptionM15509buildPartial.isInitialized()) {
+                return headerValueOptionM15509buildPartial;
+            }
+            throw newUninitializedMessageException(headerValueOptionM15509buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HeaderValueOption m15509buildPartial() {
+            HeaderValueOption headerValueOption = new HeaderValueOption(this);
+            SingleFieldBuilderV3<HeaderValue, HeaderValue.Builder, HeaderValueOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                headerValueOption.header_ = this.header_;
+            } else {
+                headerValueOption.header_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV32 = this.appendBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                headerValueOption.append_ = this.append_;
+            } else {
+                headerValueOption.append_ = singleFieldBuilderV32.build();
+            }
+            onBuilt();
+            return headerValueOption;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m15525clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m15537setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m15515clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m15518clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m15539setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m15505addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m15530mergeFrom(Message message) {
+            if (message instanceof HeaderValueOption) {
+                return mergeFrom((HeaderValueOption) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(HeaderValueOption headerValueOption) {
+            if (headerValueOption == HeaderValueOption.getDefaultInstance()) {
+                return this;
+            }
+            if (headerValueOption.hasHeader()) {
+                mergeHeader(headerValueOption.getHeader());
+            }
+            if (headerValueOption.hasAppend()) {
+                mergeAppend(headerValueOption.getAppend());
+            }
+            m15535mergeUnknownFields(headerValueOption.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption.Builder m15531mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption.Builder.m15531mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+        public HeaderValue getHeader() {
+            SingleFieldBuilderV3<HeaderValue, HeaderValue.Builder, HeaderValueOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            HeaderValue headerValue = this.header_;
+            return headerValue == null ? HeaderValue.getDefaultInstance() : headerValue;
+        }
+
+        public Builder setHeader(HeaderValue headerValue) {
+            SingleFieldBuilderV3<HeaderValue, HeaderValue.Builder, HeaderValueOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                headerValue.getClass();
+                this.header_ = headerValue;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(headerValue);
+            }
+            return this;
+        }
+
+        public Builder setHeader(HeaderValue.Builder builder) {
+            SingleFieldBuilderV3<HeaderValue, HeaderValue.Builder, HeaderValueOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.header_ = builder.m15461build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m15461build());
+            }
+            return this;
+        }
+
+        public Builder mergeHeader(HeaderValue headerValue) {
+            SingleFieldBuilderV3<HeaderValue, HeaderValue.Builder, HeaderValueOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                HeaderValue headerValue2 = this.header_;
+                if (headerValue2 != null) {
+                    this.header_ = HeaderValue.newBuilder(headerValue2).mergeFrom(headerValue).m15463buildPartial();
+                } else {
+                    this.header_ = headerValue;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(headerValue);
+            }
+            return this;
+        }
+
+        public Builder clearHeader() {
+            if (this.headerBuilder_ == null) {
+                this.header_ = null;
+                onChanged();
+            } else {
+                this.header_ = null;
+                this.headerBuilder_ = null;
+            }
+            return this;
+        }
+
+        public HeaderValue.Builder getHeaderBuilder() {
+            onChanged();
+            return getHeaderFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+        public HeaderValueOrBuilder getHeaderOrBuilder() {
+            SingleFieldBuilderV3<HeaderValue, HeaderValue.Builder, HeaderValueOrBuilder> singleFieldBuilderV3 = this.headerBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (HeaderValueOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            HeaderValue headerValue = this.header_;
+            return headerValue == null ? HeaderValue.getDefaultInstance() : headerValue;
+        }
+
+        private SingleFieldBuilderV3<HeaderValue, HeaderValue.Builder, HeaderValueOrBuilder> getHeaderFieldBuilder() {
+            if (this.headerBuilder_ == null) {
+                this.headerBuilder_ = new SingleFieldBuilderV3<>(getHeader(), getParentForChildren(), isClean());
+                this.header_ = null;
+            }
+            return this.headerBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+        public BoolValue getAppend() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.appendBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BoolValue boolValue = this.append_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        public Builder setAppend(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.appendBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                boolValue.getClass();
+                this.append_ = boolValue;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(boolValue);
+            }
+            return this;
+        }
+
+        public Builder setAppend(BoolValue.Builder builder) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.appendBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.append_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeAppend(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.appendBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BoolValue boolValue2 = this.append_;
+                if (boolValue2 != null) {
+                    this.append_ = BoolValue.newBuilder(boolValue2).mergeFrom(boolValue).buildPartial();
+                } else {
+                    this.append_ = boolValue;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(boolValue);
+            }
+            return this;
+        }
+
+        public Builder clearAppend() {
+            if (this.appendBuilder_ == null) {
+                this.append_ = null;
+                onChanged();
+            } else {
+                this.append_ = null;
+                this.appendBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BoolValue.Builder getAppendBuilder() {
+            onChanged();
+            return getAppendFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder
+        public BoolValueOrBuilder getAppendOrBuilder() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.appendBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BoolValue boolValue = this.append_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> getAppendFieldBuilder() {
+            if (this.appendBuilder_ == null) {
+                this.appendBuilder_ = new SingleFieldBuilderV3<>(getAppend(), getParentForChildren(), isClean());
+                this.append_ = null;
+            }
+            return this.appendBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m15541setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m15535mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

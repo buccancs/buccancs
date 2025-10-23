@@ -1,0 +1,748 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/communication/VerisenseProtocolByteCommunication.java
+// Size: 42126 bytes
+// Modified: 2025-10-21 16:32:10.054733400 +0100
+
+package com.shimmerresearch.verisense.communication;
+
+import bolts.Task;
+import bolts.TaskCompletionSource;
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.comms.radioProtocol.RadioListener;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ExpansionBoardDetails;
+import com.shimmerresearch.exceptions.ShimmerException;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import com.shimmerresearch.verisense.VerisenseDevice;
+import com.shimmerresearch.verisense.communication.VerisenseMessage;
+import com.shimmerresearch.verisense.communication.payloads.AbstractPayload;
+import com.shimmerresearch.verisense.communication.payloads.EventLogPayload;
+import com.shimmerresearch.verisense.communication.payloads.MemoryLookupTablePayload;
+import com.shimmerresearch.verisense.communication.payloads.OperationalConfigPayload;
+import com.shimmerresearch.verisense.communication.payloads.PendingEventsPayload;
+import com.shimmerresearch.verisense.communication.payloads.ProductionConfigPayload;
+import com.shimmerresearch.verisense.communication.payloads.RecordBufferDetailsPayload;
+import com.shimmerresearch.verisense.communication.payloads.RwcSchedulePayload;
+import com.shimmerresearch.verisense.communication.payloads.StatusPayload;
+import com.shimmerresearch.verisense.communication.payloads.TimePayload;
+import java.io.File;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Files;
+import java.nio.file.LinkOption;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.FileAttribute;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import org.apache.commons.collections.buffer.CircularFifoBuffer;
+
+/* loaded from: classes2.dex */
+public class VerisenseProtocolByteCommunication implements Serializable {
+    private static final boolean DEBUG_TX_RX_BYTES = false;
+    private static final boolean DEBUG_TX_RX_MESSAGES = true;
+    public static final String ERROR_MSG_TASK_ONGOING = "A task is still ongoing";
+    public static final String ERROR_MSG_TCS_INTERRUPTED = "TCS Interrupted";
+    public int PreviouslyWrittenPayloadIndex;
+    private EventLogPayload latestEventLogPayload;
+    private MemoryLookupTablePayload latestMemoryLookupTablePayload;
+    private OperationalConfigPayload latestOperationalConfigPayload;
+    private ProductionConfigPayload latestProductionConfigPayload;
+    private RecordBufferDetailsPayload latestRecordBufferDetailsPayload;
+    private RwcSchedulePayload latestRwcSchedulePayload;
+    private StatusPayload latestStatusPayload;
+    private TimePayload latestTimePayload;
+    protected transient AbstractByteCommunication mByteCommunication;
+    int mNACKCRCcounter;
+    int mNACKcounter;
+    transient TaskCompletionSource<VerisenseMessage> mTaskWriteBytes;
+    public VerisenseMessage rxVerisenseMessageInProgress;
+    public VerisenseMessage txVerisenseMessageInProgress;
+    public transient List<RadioListener> mRadioListenerList = new ArrayList();
+    public CircularFifoBuffer rxVerisenseMessageBuffer = new CircularFifoBuffer(5);
+    protected String dataFileName = "";
+    protected String dataFilePath = "";
+    String binFileFolderDir = "";
+    private String trialName = ShimmerDevice.DEFAULT_EXPERIMENT_NAME;
+    public String participantID = "DefaultParticipant";
+    protected final String BadCRC = "BadCRC";
+    private String mRootPathForBinFile = "";
+    int MaximumNumberOfBytesPerBinFile = 100000000;
+    public String dataTransferRate = "";
+    VerisenseProtocolState mState = VerisenseProtocolState.None;
+
+    public enum VerisenseProtocolState {
+        None,
+        Disconnected,
+        Connecting,
+        Connected,
+        Streaming,
+        StreamingLoggedData,
+        Limited,
+        SpeedTest
+    }
+
+    public String getDataFilePath() {
+        return this.dataFilePath;
+    }
+
+    public String getParticipantID() {
+        return this.participantID;
+    }
+
+    public String getTrialName() {
+        return this.trialName;
+    }
+
+    public void resetFileNameOnStreamingLoggedDataFinish() {
+        this.dataFileName = "";
+    }
+
+    public void setParticipantID(String str) {
+        this.participantID = str;
+    }
+
+    public void setRootPathForBinFile(String str) {
+        this.mRootPathForBinFile = str;
+    }
+
+    public void setTrialName(String str) {
+        this.trialName = str;
+    }
+
+    public class VERISENSE_EVENT_ACK_RECEIVED {
+        public static final int VERISENSE_CLEAR_PENDING_EVENTS_ACK = 2313;
+        public static final int VERISENSE_ERASE_FLASH_AND_LOOKUP_ACK = 2569;
+        public static final int VERISENSE_WRITE_OP_ACK = 68;
+
+        public VERISENSE_EVENT_ACK_RECEIVED() {
+        }
+    }
+
+    public VerisenseProtocolByteCommunication(AbstractByteCommunication abstractByteCommunication) {
+        this.mByteCommunication = abstractByteCommunication;
+        abstractByteCommunication.setByteCommunicationListener(new ByteCommunicationListener() { // from class: com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication.1
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventNewBytesReceived(byte[] bArr) throws Exception {
+                long jCurrentTimeMillis = System.currentTimeMillis();
+                if (VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress == null || VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress.isExpired(jCurrentTimeMillis)) {
+                    if (VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress != null && VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress.isExpired(jCurrentTimeMillis)) {
+                        System.out.println("Timeout on RX buf [" + VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress.generateDebugString() + "], starting new buf");
+                    }
+                    VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress = new VerisenseMessage(bArr, jCurrentTimeMillis);
+                } else {
+                    VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress.appendToDataChuck(bArr, jCurrentTimeMillis);
+                }
+                if (VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress.isCurrentLengthGreaterThanExpectedLength()) {
+                    System.out.println("Unexpected payload size for RX buf [" + VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress.generateDebugString() + "]");
+                    VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress = null;
+                    return;
+                }
+                if (VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress.isCurrentLengthEqualToExpectedLength()) {
+                    System.out.println("RX:" + VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress.generateDebugString());
+                    VerisenseProtocolByteCommunication verisenseProtocolByteCommunication = VerisenseProtocolByteCommunication.this;
+                    verisenseProtocolByteCommunication.handleResponse(verisenseProtocolByteCommunication.rxVerisenseMessageInProgress);
+                    VerisenseProtocolByteCommunication.this.rxVerisenseMessageInProgress = null;
+                }
+            }
+
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventDisconnected() {
+                System.out.println("PROTOCOL DISCONNECTED");
+                VerisenseProtocolByteCommunication.this.stateChange(VerisenseProtocolState.Disconnected);
+            }
+
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventConnected() {
+                System.out.println("PROTOCOL CONNECTED");
+                VerisenseProtocolByteCommunication.this.stateChange(VerisenseProtocolState.Connected);
+            }
+        });
+    }
+
+    public void addRadioListener(RadioListener radioListener) {
+        this.mRadioListenerList.add(radioListener);
+    }
+
+    protected void stateChange(VerisenseProtocolState verisenseProtocolState) {
+        System.out.println("State Change: " + verisenseProtocolState.toString());
+        if (this.mState.equals(verisenseProtocolState)) {
+            return;
+        }
+        this.mState = verisenseProtocolState;
+        if (verisenseProtocolState.equals(VerisenseProtocolState.StreamingLoggedData)) {
+            Iterator<RadioListener> it2 = this.mRadioListenerList.iterator();
+            while (it2.hasNext()) {
+                it2.next().isNowStreamLoggedDataCallback();
+            }
+        }
+        if (this.mState.equals(VerisenseProtocolState.Disconnected)) {
+            TaskCompletionSource<VerisenseMessage> taskCompletionSource = this.mTaskWriteBytes;
+            if (taskCompletionSource != null && !taskCompletionSource.getTask().isCompleted()) {
+                this.mTaskWriteBytes.setCancelled();
+            }
+            Iterator<RadioListener> it3 = this.mRadioListenerList.iterator();
+            while (it3.hasNext()) {
+                it3.next().disconnected();
+            }
+        }
+    }
+
+    public void removeRadioListenerList() {
+        this.mRadioListenerList.clear();
+    }
+
+    void handleResponse(VerisenseMessage verisenseMessage) throws Exception {
+        try {
+            if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.STATUS.responseByte()) {
+                this.latestStatusPayload = new StatusPayload();
+                ProductionConfigPayload productionConfigPayload = this.latestProductionConfigPayload;
+                if (productionConfigPayload != null) {
+                    ExpansionBoardDetails expansionBoardDetails = productionConfigPayload.expansionBoardDetails;
+                    this.latestStatusPayload.setShimmerHwVer(expansionBoardDetails.mExpansionBoardId, expansionBoardDetails.mExpansionBoardRev, expansionBoardDetails.mExpansionBoardRevSpecial);
+                }
+                if (this.latestStatusPayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                    sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, this.latestStatusPayload);
+                }
+            } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.DATA.ackByte()) {
+                if (this.mState.equals(VerisenseProtocolState.StreamingLoggedData)) {
+                    resetFileNameOnStreamingLoggedDataFinish();
+                    stateChange(VerisenseProtocolState.Connected);
+                    Iterator<RadioListener> it2 = this.mRadioListenerList.iterator();
+                    while (it2.hasNext()) {
+                        it2.next().hasStopStreamLoggedDataCallback(getDataFilePath());
+                    }
+                }
+            } else {
+                if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.DATA.responseByte()) {
+                    stateChange(VerisenseProtocolState.StreamingLoggedData);
+                    verisenseMessage.consolePrintTransferTime(this.mByteCommunication.getUuid());
+                    if (!verisenseMessage.CRCCheck()) {
+                        writeLoggedDataNack();
+                        return;
+                    }
+                    if (this.dataFileName.isEmpty() || this.dataFileName.contains("BadCRC") || new File(this.dataFilePath).length() > this.MaximumNumberOfBytesPerBinFile) {
+                        createBinFile(verisenseMessage, false);
+                    }
+                    FinishPayload(verisenseMessage, false);
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.CONFIG_PROD.responseByte()) {
+                    ProductionConfigPayload productionConfigPayload2 = new ProductionConfigPayload();
+                    this.latestProductionConfigPayload = productionConfigPayload2;
+                    if (productionConfigPayload2.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                        sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, this.latestProductionConfigPayload);
+                    }
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.CONFIG_OPER.responseByte()) {
+                    OperationalConfigPayload operationalConfigPayload = new OperationalConfigPayload();
+                    this.latestOperationalConfigPayload = operationalConfigPayload;
+                    if (operationalConfigPayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                        sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, this.latestOperationalConfigPayload);
+                        Iterator<RadioListener> it3 = this.mRadioListenerList.iterator();
+                        while (it3.hasNext()) {
+                            it3.next().finishOperationCallback(ShimmerBluetooth.BT_STATE.CONFIGURING);
+                        }
+                    }
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.CONFIG_OPER.ackByte()) {
+                    Iterator<RadioListener> it4 = this.mRadioListenerList.iterator();
+                    while (it4.hasNext()) {
+                        it4.next().eventAckReceived(68);
+                    }
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.TIME.responseByte()) {
+                    TimePayload timePayload = new TimePayload();
+                    this.latestTimePayload = timePayload;
+                    if (timePayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                        sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, this.latestTimePayload);
+                    }
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.PENDING_EVENTS.responseByte()) {
+                    PendingEventsPayload pendingEventsPayload = new PendingEventsPayload();
+                    if (pendingEventsPayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                        sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, pendingEventsPayload);
+                    }
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.responseByte()) {
+                    VerisenseMessage verisenseMessage2 = this.txVerisenseMessageInProgress;
+                    if (verisenseMessage2 != null) {
+                        byte b = verisenseMessage2.payloadBytes[0];
+                        if (b == 1) {
+                            this.dataTransferRate = verisenseMessage.consolePrintTransferTime(this.mByteCommunication.getUuid());
+                            MemoryLookupTablePayload memoryLookupTablePayload = new MemoryLookupTablePayload();
+                            this.latestMemoryLookupTablePayload = memoryLookupTablePayload;
+                            if (memoryLookupTablePayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                                sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, this.latestMemoryLookupTablePayload);
+                            }
+                        } else if (b == 3) {
+                            RwcSchedulePayload rwcSchedulePayload = new RwcSchedulePayload();
+                            this.latestRwcSchedulePayload = rwcSchedulePayload;
+                            if (rwcSchedulePayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                                sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, this.latestRwcSchedulePayload);
+                            }
+                        } else if (b == 18) {
+                            RecordBufferDetailsPayload recordBufferDetailsPayload = new RecordBufferDetailsPayload();
+                            if (recordBufferDetailsPayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                                System.out.println(recordBufferDetailsPayload.generateDebugString());
+                                sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, recordBufferDetailsPayload);
+                            }
+                        } else if (b == 15) {
+                            ArrayList arrayList = new ArrayList();
+                            for (int i = 0; i < verisenseMessage.payloadBytes.length; i += 2) {
+                                arrayList.add(Long.valueOf(AbstractPayload.parseByteArrayAtIndex(verisenseMessage.payloadBytes, i, ChannelDetails.CHANNEL_DATA_TYPE.UINT16)));
+                            }
+                        } else if (b == 16) {
+                            EventLogPayload eventLogPayload = new EventLogPayload();
+                            this.latestEventLogPayload = eventLogPayload;
+                            if (eventLogPayload.parsePayloadContents(verisenseMessage.payloadBytes)) {
+                                System.out.println(this.latestEventLogPayload.generateDebugString());
+                                sendObjectToRadioListenerList(verisenseMessage.commandAndProperty, this.latestEventLogPayload);
+                            }
+                        }
+                    }
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.ackByte()) {
+                    VerisenseMessage verisenseMessage3 = this.txVerisenseMessageInProgress;
+                    if (verisenseMessage3 != null && verisenseMessage3.generatePacket()[3] == 10) {
+                        Iterator<RadioListener> it5 = this.mRadioListenerList.iterator();
+                        while (it5.hasNext()) {
+                            it5.next().eventAckReceived(VERISENSE_EVENT_ACK_RECEIVED.VERISENSE_ERASE_FLASH_AND_LOOKUP_ACK);
+                        }
+                        this.txVerisenseMessageInProgress = null;
+                    }
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.STREAMING.responseByte()) {
+                    System.out.println("New Streaming Payload: " + System.currentTimeMillis());
+                    Iterator<RadioListener> it6 = this.mRadioListenerList.iterator();
+                    while (it6.hasNext()) {
+                        it6.next().eventNewPacket(verisenseMessage.payloadBytes, System.currentTimeMillis());
+                    }
+                } else if (verisenseMessage.commandAndProperty == VerisenseMessage.VERISENSE_PROPERTY.STREAMING.ackByte()) {
+                    if (this.mState.equals(VerisenseProtocolState.Streaming)) {
+                        stateChange(VerisenseProtocolState.Connected);
+                        Iterator<RadioListener> it7 = this.mRadioListenerList.iterator();
+                        while (it7.hasNext()) {
+                            it7.next().hasStopStreamingCallback();
+                        }
+                    } else {
+                        stateChange(VerisenseProtocolState.Streaming);
+                        Iterator<RadioListener> it8 = this.mRadioListenerList.iterator();
+                        while (it8.hasNext()) {
+                            it8.next().isNowStreamingCallback();
+                        }
+                    }
+                } else if (verisenseMessage.commandMask != VerisenseMessage.VERISENSE_COMMAND.ACK.getCommandMask()) {
+                    throw new Exception();
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        this.rxVerisenseMessageBuffer.add(verisenseMessage);
+    }
+
+    private void sendObjectToRadioListenerList(byte b, Object obj) {
+        Iterator<RadioListener> it2 = this.mRadioListenerList.iterator();
+        while (it2.hasNext()) {
+            it2.next().eventResponseReceived(b, obj);
+        }
+    }
+
+    void FinishPayload(VerisenseMessage verisenseMessage, boolean z) throws ShimmerException {
+        if (z) {
+            verisenseMessage.mCRCErrorPayload = true;
+        }
+        Iterator<RadioListener> it2 = this.mRadioListenerList.iterator();
+        while (it2.hasNext()) {
+            it2.next().eventNewSyncPayloadReceived(verisenseMessage.payloadIndex, z, verisenseMessage.mTransferRateByes, getDataFilePath());
+        }
+        try {
+            WritePayloadToBinFile(verisenseMessage);
+            writeLoggedDataAck();
+            this.mNACKcounter = 0;
+            this.mNACKCRCcounter = 0;
+        } catch (Exception unused) {
+        }
+    }
+
+    protected void createBinFile(VerisenseMessage verisenseMessage, boolean z) throws IOException {
+        try {
+            if (this.mRootPathForBinFile.isEmpty()) {
+                this.binFileFolderDir = String.format("%s/%s/%s/BinaryFiles", getTrialName(), getParticipantID(), this.mByteCommunication.getUuid());
+            } else {
+                this.binFileFolderDir = String.format("%s/%s/%s/%s/BinaryFiles", this.mRootPathForBinFile, getTrialName(), getParticipantID(), this.mByteCommunication.getUuid());
+            }
+            Path path = Paths.get(this.binFileFolderDir, new String[0]);
+            Files.createDirectories(path, new FileAttribute[0]);
+            if (!Files.exists(path, new LinkOption[0])) {
+                Files.createDirectories(path, new FileAttribute[0]);
+            }
+            String str = String.format("%05d", Integer.valueOf(verisenseMessage.payloadIndex));
+            if (z) {
+                this.dataFileName = String.format("%s_%s_%s.bin", new SimpleDateFormat(UtilVerisenseDriver.DATE_FORMAT_FILENAME).format(new Date()), str, "BadCRC");
+            } else {
+                this.dataFileName = String.format("%s_%s.bin", new SimpleDateFormat(UtilVerisenseDriver.DATE_FORMAT_FILENAME).format(new Date()), str);
+            }
+            this.dataFilePath = Paths.get(this.binFileFolderDir, new String[0]).resolve(Paths.get(this.dataFileName, new String[0])).toString();
+        } catch (Exception unused) {
+        }
+    }
+
+    protected void WritePayloadToBinFile(VerisenseMessage verisenseMessage) throws IOException {
+        if (this.PreviouslyWrittenPayloadIndex != verisenseMessage.payloadIndex) {
+            try {
+                File file = new File(this.dataFilePath);
+                if (!file.exists()) {
+                    file.createNewFile();
+                }
+                Files.write(Paths.get(this.dataFilePath, new String[0]), verisenseMessage.payloadBytes, StandardOpenOption.APPEND);
+                if (verisenseMessage.mCRCErrorPayload) {
+                    return;
+                }
+                this.PreviouslyWrittenPayloadIndex = verisenseMessage.payloadIndex;
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+
+    public void connect() throws ShimmerException {
+        this.mByteCommunication.connect();
+    }
+
+    public void disconnect() throws ShimmerException {
+        this.mByteCommunication.disconnect();
+    }
+
+    public void stop() {
+        this.mByteCommunication.stop();
+    }
+
+    protected void writeMessageWithoutPayload(byte b) throws ShimmerException {
+        writeMessageWithPayload(b, new byte[0]);
+    }
+
+    protected void writeMessageWithPayload(byte b, byte[] bArr) throws ShimmerException {
+        TaskCompletionSource<VerisenseMessage> taskCompletionSource = this.mTaskWriteBytes;
+        if (taskCompletionSource != null && !taskCompletionSource.getTask().isCompleted()) {
+            System.out.println(ERROR_MSG_TASK_ONGOING);
+            throw new ShimmerException(ERROR_MSG_TASK_ONGOING);
+        }
+        VerisenseMessage verisenseMessage = new VerisenseMessage(b, bArr);
+        this.txVerisenseMessageInProgress = verisenseMessage;
+        byte[] bArrGeneratePacket = verisenseMessage.generatePacket();
+        System.out.println("TX:" + this.txVerisenseMessageInProgress.generateDebugString());
+        this.mByteCommunication.writeBytes(bArrGeneratePacket);
+    }
+
+    public StatusPayload readStatus() throws ShimmerException {
+        writeMessageWithoutPayload(VerisenseMessage.VERISENSE_PROPERTY.STATUS.readByte());
+        waitForResponse(VerisenseMessage.VERISENSE_PROPERTY.STATUS, 1000L, true);
+        return this.latestStatusPayload;
+    }
+
+    public void startStreaming() throws ShimmerException {
+        if (!this.mState.equals(VerisenseProtocolState.Streaming)) {
+            writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.STREAMING.writeByte(), new byte[]{1});
+            waitForAck(VerisenseMessage.VERISENSE_PROPERTY.STREAMING, 1000L, true);
+            return;
+        }
+        throw new ShimmerException("Device is already streaming");
+    }
+
+    public void stopStreaming() throws ShimmerException {
+        if (this.mState.equals(VerisenseProtocolState.Streaming)) {
+            writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.STREAMING.writeByte(), new byte[]{2});
+            waitForAck(VerisenseMessage.VERISENSE_PROPERTY.STREAMING, 1000L, true);
+            return;
+        }
+        throw new ShimmerException("Device is not streaming");
+    }
+
+    public void startSpeedTest() throws ShimmerException {
+        if (!this.mState.equals(VerisenseProtocolState.SpeedTest)) {
+            stateChange(VerisenseProtocolState.SpeedTest);
+            readFlashLookupTable();
+            return;
+        }
+        throw new ShimmerException("Device is already running speed test");
+    }
+
+    public void stopSpeedTest() throws ShimmerException {
+        if (this.mState.equals(VerisenseProtocolState.SpeedTest)) {
+            stateChange(VerisenseProtocolState.Connected);
+            return;
+        }
+        throw new ShimmerException("Device is not running speed test");
+    }
+
+    public void writeTime() throws ShimmerException {
+        TimePayload timePayload = new TimePayload();
+        timePayload.setTimeMs(System.currentTimeMillis());
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.TIME.writeByte(), timePayload.getPayloadContents());
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.TIME, 1000L, true);
+    }
+
+    public TimePayload readTime() throws ShimmerException {
+        writeMessageWithoutPayload(VerisenseMessage.VERISENSE_PROPERTY.TIME.readByte());
+        waitForResponse(VerisenseMessage.VERISENSE_PROPERTY.TIME, 1000L, true);
+        return this.latestTimePayload;
+    }
+
+    public void readLoggedData() throws ShimmerException {
+        writeMessageWithoutPayload(VerisenseMessage.VERISENSE_PROPERTY.DATA.readByte());
+    }
+
+    public void writeLoggedDataAck() throws ShimmerException {
+        writeMessageWithoutPayload(VerisenseMessage.VERISENSE_PROPERTY.DATA.ackNextStageByte());
+    }
+
+    public void writeLoggedDataNack() throws ShimmerException {
+        writeMessageWithoutPayload(VerisenseMessage.VERISENSE_PROPERTY.DATA.nackByte());
+    }
+
+    public void writeProductionConfig(byte[] bArr) throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.CONFIG_PROD.writeByte(), bArr);
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.CONFIG_PROD, 1000L, true);
+    }
+
+    public ProductionConfigPayload readProductionConfig() throws ShimmerException {
+        writeMessageWithoutPayload(VerisenseMessage.VERISENSE_PROPERTY.CONFIG_PROD.readByte());
+        waitForResponse(VerisenseMessage.VERISENSE_PROPERTY.CONFIG_PROD, 1000L, true);
+        return this.latestProductionConfigPayload;
+    }
+
+    public OperationalConfigPayload readOperationalConfig() throws ShimmerException {
+        writeMessageWithoutPayload(VerisenseMessage.VERISENSE_PROPERTY.CONFIG_OPER.readByte());
+        waitForResponse(VerisenseMessage.VERISENSE_PROPERTY.CONFIG_OPER, 1000L, true);
+        return this.latestOperationalConfigPayload;
+    }
+
+    public void writeAndReadOperationalConfig(byte[] bArr) throws ShimmerException {
+        writeOperationalConfig(bArr);
+        readOperationalConfig();
+    }
+
+    public void writeOperationalConfig(byte[] bArr) throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.CONFIG_OPER.writeByte(), bArr);
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.CONFIG_OPER, 1000L, true);
+    }
+
+    public void writeDisconnectDeviceSide() throws ShimmerException {
+        writeMessageWithoutPayload(VerisenseMessage.VERISENSE_PROPERTY.DEVICE_DISCONNECT.writeByte());
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.DEVICE_DISCONNECT, 1000L, true);
+    }
+
+    public RwcSchedulePayload readRwcSchedule() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{3});
+        waitForResponse(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, 1000L, true);
+        return this.latestRwcSchedulePayload;
+    }
+
+    public MemoryLookupTablePayload readFlashLookupTable() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{1});
+        waitForResponse(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, VerisenseMessage.TIMEOUT_MS.READ_LOOKUP_TABLE, true);
+        return this.latestMemoryLookupTablePayload;
+    }
+
+    public EventLogPayload readSensorEventLog() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{16});
+        waitForResponse(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, VerisenseMessage.TIMEOUT_MS.READ_LOOKUP_TABLE, true);
+        return this.latestEventLogPayload;
+    }
+
+    public void writeEraseProductionConfiguration() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{8});
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, 1000L, true);
+    }
+
+    public void writeEraseOperationalConfiguration() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{7});
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, 1000L, true);
+    }
+
+    public void writeClearPendingEvents() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{9});
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, 1000L, true);
+    }
+
+    public Task<VerisenseMessage> eraseDataTask() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{10});
+        return waitForAck(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, 40000L, false);
+    }
+
+    public void writeEraseLoggedData() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{10});
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, 40000L, true);
+    }
+
+    public RecordBufferDetailsPayload readRecordBufferDetails() throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{18});
+        waitForResponse(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, 1000L, true);
+        return this.latestRecordBufferDetailsPayload;
+    }
+
+    public boolean writeRunHardwareTestAll(int i, int i2) throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_TEST.writeByte(), new byte[]{VerisenseMessage.VERISENSE_TEST_MODE.ALL.getTestId().byteValue(), (byte) i, (byte) i2});
+        Task<VerisenseMessage> taskWaitForVerisenseMessage = waitForVerisenseMessage(VerisenseMessage.VERISENSE_PROPERTY.FW_TEST, null, VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT);
+        try {
+            taskWaitForVerisenseMessage.waitForCompletion();
+            return taskWaitForVerisenseMessage.getResult().commandMask == VerisenseMessage.VERISENSE_COMMAND.ACK.getCommandMask();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            throw new ShimmerException(ERROR_MSG_TCS_INTERRUPTED);
+        }
+    }
+
+    public LinkedHashMap<VerisenseMessage.VERISENSE_TEST_MODE, Boolean> writeRunHardwareTestsSeparately(VerisenseDevice verisenseDevice) throws ShimmerException {
+        LinkedHashMap<VerisenseMessage.VERISENSE_TEST_MODE, Boolean> linkedHashMap = new LinkedHashMap<>();
+        if (verisenseDevice.doesHwSupportShortTermFlash()) {
+            linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.SHORT_TERM_FLASH1, false);
+            linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.SHORT_TERM_FLASH2, false);
+        }
+        linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.LONG_TERM_FLASH, false);
+        linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.EEPROM, false);
+        linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.ACCEL_1, false);
+        linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.BATT_VOLTAGE, false);
+        if (verisenseDevice.doesHwSupportUsb()) {
+            linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.USB_POWER_GOOD, false);
+        }
+        if (verisenseDevice.doesHwSupportLsm6ds3()) {
+            linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.ACCEL2_AND_GYRO, false);
+        }
+        if (verisenseDevice.doesHwSupportMax86xxx()) {
+            linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.MAX86XXX, false);
+        }
+        if (verisenseDevice.doesHwSupportMax30002()) {
+            linkedHashMap.put(VerisenseMessage.VERISENSE_TEST_MODE.MAX30002, false);
+        }
+        for (VerisenseMessage.VERISENSE_TEST_MODE verisense_test_mode : linkedHashMap.keySet()) {
+            boolean z = true;
+            writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_TEST.writeByte(), new byte[]{verisense_test_mode.getTestId().byteValue(), (byte) verisenseDevice.getExpansionBoardId(), (byte) verisenseDevice.getExpansionBoardRev()});
+            Task<VerisenseMessage> taskWaitForVerisenseMessage = waitForVerisenseMessage(VerisenseMessage.VERISENSE_PROPERTY.FW_TEST, null, VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT);
+            try {
+                taskWaitForVerisenseMessage.waitForCompletion();
+                if (taskWaitForVerisenseMessage.getResult().commandMask != VerisenseMessage.VERISENSE_COMMAND.ACK.getCommandMask()) {
+                    z = false;
+                }
+                linkedHashMap.put(verisense_test_mode, Boolean.valueOf(z));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                throw new ShimmerException(ERROR_MSG_TCS_INTERRUPTED);
+            }
+        }
+        return linkedHashMap;
+    }
+
+    public void writeRunMax86XXXLedTest(boolean z) throws ShimmerException {
+        writeMessageWithPayload(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG.writeByte(), new byte[]{14, z ? (byte) 1 : (byte) 0});
+        waitForAck(VerisenseMessage.VERISENSE_PROPERTY.FW_DEBUG, 1000L, true);
+    }
+
+    private Task<VerisenseMessage> waitForResponse(VerisenseMessage.VERISENSE_PROPERTY verisense_property, long j, boolean z) throws ShimmerException {
+        if (z) {
+            Task<VerisenseMessage> taskWaitForVerisenseMessage = waitForVerisenseMessage(verisense_property, VerisenseMessage.VERISENSE_COMMAND.RESPONSE, j);
+            try {
+                taskWaitForVerisenseMessage.waitForCompletion();
+                return null;
+            } catch (InterruptedException unused) {
+                throw ((ShimmerException) taskWaitForVerisenseMessage.getError());
+            }
+        }
+        return waitForVerisenseMessage(verisense_property, VerisenseMessage.VERISENSE_COMMAND.RESPONSE, j);
+    }
+
+    private Task<VerisenseMessage> waitForAck(VerisenseMessage.VERISENSE_PROPERTY verisense_property, long j, boolean z) throws ShimmerException {
+        if (z) {
+            Task<VerisenseMessage> taskWaitForVerisenseMessage = waitForVerisenseMessage(verisense_property, VerisenseMessage.VERISENSE_COMMAND.ACK, j);
+            try {
+                taskWaitForVerisenseMessage.waitForCompletion();
+                return null;
+            } catch (InterruptedException unused) {
+                throw ((ShimmerException) taskWaitForVerisenseMessage.getError());
+            }
+        }
+        return waitForVerisenseMessage(verisense_property, VerisenseMessage.VERISENSE_COMMAND.ACK, j);
+    }
+
+    private Task<VerisenseMessage> waitForVerisenseMessage(final VerisenseMessage.VERISENSE_PROPERTY verisense_property, final VerisenseMessage.VERISENSE_COMMAND verisense_command, final long j) throws ShimmerException {
+        this.rxVerisenseMessageBuffer.clear();
+        TaskCompletionSource<VerisenseMessage> taskCompletionSource = this.mTaskWriteBytes;
+        if (taskCompletionSource != null && !taskCompletionSource.getTask().isCompleted()) {
+            throw new ShimmerException(ERROR_MSG_TASK_ONGOING);
+        }
+        this.mTaskWriteBytes = new TaskCompletionSource<>();
+        new Thread(new Runnable() { // from class: com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication.2
+            @Override // java.lang.Runnable
+            public void run() throws InterruptedException {
+                String str;
+                long j2 = 100;
+                int i = (int) (j / j2);
+                int i2 = 0;
+                VerisenseMessage verisenseMessage = null;
+                boolean z = false;
+                boolean z2 = false;
+                do {
+                    try {
+                        Thread.sleep(j2);
+                    } catch (InterruptedException unused) {
+                        System.out.println("Thread sleep FAIL");
+                    }
+                    i2++;
+                    if (i2 < i) {
+                        Iterator it2 = VerisenseProtocolByteCommunication.this.rxVerisenseMessageBuffer.iterator();
+                        while (true) {
+                            if (!it2.hasNext()) {
+                                break;
+                            }
+                            VerisenseMessage verisenseMessage2 = (VerisenseMessage) it2.next();
+                            if (verisenseMessage2.propertyMask == verisense_property.getPropertyMask()) {
+                                if (verisense_command == null || verisenseMessage2.commandMask == verisense_command.getCommandMask()) {
+                                    verisenseMessage = verisenseMessage2;
+                                    z = true;
+                                } else {
+                                    verisenseMessage = verisenseMessage2;
+                                    z2 = true;
+                                }
+                            }
+                        }
+                        if (z) {
+                            break;
+                        }
+                    } else {
+                        break;
+                    }
+                } while (!z2);
+                if (z) {
+                    System.out.println("TCS Set Result: " + verisenseMessage.generateDebugString());
+                    VerisenseProtocolByteCommunication.this.mTaskWriteBytes.setResult(verisenseMessage);
+                    if (VerisenseProtocolByteCommunication.this.mState.equals(VerisenseProtocolState.SpeedTest)) {
+                        try {
+                            VerisenseProtocolByteCommunication.this.readFlashLookupTable();
+                            return;
+                        } catch (ShimmerException e) {
+                            e.printStackTrace();
+                            return;
+                        }
+                    }
+                    return;
+                }
+                if (z2) {
+                    VerisenseMessage.VERISENSE_COMMAND verisense_commandLookupByMask = VerisenseMessage.VERISENSE_COMMAND.lookupByMask(verisenseMessage.commandMask);
+                    if (verisense_commandLookupByMask == null) {
+                        str = "UNKNOWN";
+                    } else {
+                        str = verisense_commandLookupByMask.toString() + " received for Property = " + verisense_property.toString() + ", expected = " + verisense_command.toString();
+                    }
+                    System.out.println("TCS ERROR: " + str);
+                    VerisenseProtocolByteCommunication.this.mTaskWriteBytes.setError(new ShimmerException(str));
+                    return;
+                }
+                if (VerisenseProtocolByteCommunication.this.mTaskWriteBytes.getTask().isCompleted()) {
+                    return;
+                }
+                String str2 = "TIMEOUT for Property = " + verisense_property.toString() + ", expected = " + verisense_command.toString();
+                System.out.println("TCS TIMEOUT: " + str2);
+                VerisenseProtocolByteCommunication.this.mTaskWriteBytes.setError(new ShimmerException(str2));
+            }
+        }).start();
+        return this.mTaskWriteBytes.getTask();
+    }
+}

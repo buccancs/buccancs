@@ -1,0 +1,143 @@
+package org.apache.commons.math3.ode.nonstiff;
+
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.ode.AbstractFieldIntegrator;
+import org.apache.commons.math3.ode.FieldEquationsMapper;
+import org.apache.commons.math3.ode.FieldODEState;
+import org.apache.commons.math3.ode.FieldODEStateAndDerivative;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.MathUtils;
+
+/* loaded from: classes5.dex */
+public abstract class AdaptiveStepsizeFieldIntegrator<T extends RealFieldElement<T>> extends AbstractFieldIntegrator<T> {
+    protected int mainSetDimension;
+    protected double scalAbsoluteTolerance;
+    protected double scalRelativeTolerance;
+    protected double[] vecAbsoluteTolerance;
+    protected double[] vecRelativeTolerance;
+    private T initialStep;
+    private T maxStep;
+    private T minStep;
+
+    public AdaptiveStepsizeFieldIntegrator(Field<T> field, String str, double d, double d2, double d3, double d4) {
+        super(field, str);
+        setStepSizeControl(d, d2, d3, d4);
+        resetInternalState();
+    }
+
+    public AdaptiveStepsizeFieldIntegrator(Field<T> field, String str, double d, double d2, double[] dArr, double[] dArr2) {
+        super(field, str);
+        setStepSizeControl(d, d2, dArr, dArr2);
+        resetInternalState();
+    }
+
+    public T getMaxStep() {
+        return this.maxStep;
+    }
+
+    public T getMinStep() {
+        return this.minStep;
+    }
+
+    public void setStepSizeControl(double d, double d2, double d3, double d4) {
+        this.minStep = (T) getField().getZero().add(FastMath.abs(d));
+        this.maxStep = (T) getField().getZero().add(FastMath.abs(d2));
+        this.initialStep = (T) getField().getOne().negate();
+        this.scalAbsoluteTolerance = d3;
+        this.scalRelativeTolerance = d4;
+        this.vecAbsoluteTolerance = null;
+        this.vecRelativeTolerance = null;
+    }
+
+    public void setStepSizeControl(double d, double d2, double[] dArr, double[] dArr2) {
+        this.minStep = (T) getField().getZero().add(FastMath.abs(d));
+        this.maxStep = (T) getField().getZero().add(FastMath.abs(d2));
+        this.initialStep = (T) getField().getOne().negate();
+        this.scalAbsoluteTolerance = 0.0d;
+        this.scalRelativeTolerance = 0.0d;
+        this.vecAbsoluteTolerance = (double[]) dArr.clone();
+        this.vecRelativeTolerance = (double[]) dArr2.clone();
+    }
+
+    public void setInitialStepSize(T t) {
+        if (((RealFieldElement) t.subtract(this.minStep)).getReal() < 0.0d || ((RealFieldElement) t.subtract(this.maxStep)).getReal() > 0.0d) {
+            this.initialStep = (T) getField().getOne().negate();
+        } else {
+            this.initialStep = t;
+        }
+    }
+
+    @Override // org.apache.commons.math3.ode.AbstractFieldIntegrator
+    protected void sanityChecks(FieldODEState<T> fieldODEState, T t) throws NumberIsTooSmallException, DimensionMismatchException {
+        super.sanityChecks(fieldODEState, t);
+        int stateDimension = fieldODEState.getStateDimension();
+        this.mainSetDimension = stateDimension;
+        double[] dArr = this.vecAbsoluteTolerance;
+        if (dArr != null && dArr.length != stateDimension) {
+            throw new DimensionMismatchException(this.mainSetDimension, this.vecAbsoluteTolerance.length);
+        }
+        double[] dArr2 = this.vecRelativeTolerance;
+        if (dArr2 != null && dArr2.length != stateDimension) {
+            throw new DimensionMismatchException(this.mainSetDimension, this.vecRelativeTolerance.length);
+        }
+    }
+
+    public T initializeStep(boolean z, int i, T[] tArr, FieldODEStateAndDerivative<T> fieldODEStateAndDerivative, FieldEquationsMapper<T> fieldEquationsMapper) throws MaxCountExceededException, MathIllegalArgumentException {
+        if (this.initialStep.getReal() > 0.0d) {
+            T t = this.initialStep;
+            return z ? t : (T) t.negate();
+        }
+        RealFieldElement[] realFieldElementArrMapState = fieldEquationsMapper.mapState(fieldODEStateAndDerivative);
+        RealFieldElement[] realFieldElementArrMapDerivative = fieldEquationsMapper.mapDerivative(fieldODEStateAndDerivative);
+        T zero = getField().getZero();
+        T zero2 = getField().getZero();
+        for (int i2 = 0; i2 < tArr.length; i2++) {
+            RealFieldElement realFieldElement = (RealFieldElement) realFieldElementArrMapState[i2].divide(tArr[i2]);
+            zero = (T) zero.add(realFieldElement.multiply(realFieldElement));
+            RealFieldElement realFieldElement2 = (RealFieldElement) realFieldElementArrMapDerivative[i2].divide(tArr[i2]);
+            zero2 = (T) zero2.add(realFieldElement2.multiply(realFieldElement2));
+        }
+        RealFieldElement realFieldElement3 = (RealFieldElement) ((zero.getReal() < 1.0E-10d || zero2.getReal() < 1.0E-10d) ? getField().getZero().add(1.0E-6d) : ((RealFieldElement) ((RealFieldElement) zero.divide(zero2)).sqrt()).multiply(0.01d));
+        if (!z) {
+            realFieldElement3 = (RealFieldElement) realFieldElement3.negate();
+        }
+        RealFieldElement[] realFieldElementArr = (RealFieldElement[]) MathArrays.buildArray(getField(), realFieldElementArrMapState.length);
+        for (int i3 = 0; i3 < realFieldElementArrMapState.length; i3++) {
+            realFieldElementArr[i3] = (RealFieldElement) realFieldElementArrMapState[i3].add((RealFieldElement) realFieldElementArrMapDerivative[i3].multiply(realFieldElement3));
+        }
+        T[] tArrComputeDerivatives = computeDerivatives((RealFieldElement) fieldODEStateAndDerivative.getTime().add(realFieldElement3), realFieldElementArr);
+        T zero3 = getField().getZero();
+        for (int i4 = 0; i4 < tArr.length; i4++) {
+            RealFieldElement realFieldElement4 = (RealFieldElement) ((RealFieldElement) tArrComputeDerivatives[i4].subtract(realFieldElementArrMapDerivative[i4])).divide(tArr[i4]);
+            zero3 = (T) zero3.add(realFieldElement4.multiply(realFieldElement4));
+        }
+        RealFieldElement realFieldElementMax = MathUtils.max((RealFieldElement) zero2.sqrt(), (RealFieldElement) ((RealFieldElement) zero3.sqrt()).divide(realFieldElement3));
+        T t2 = (T) MathUtils.max(this.minStep, MathUtils.min(this.maxStep, MathUtils.max(MathUtils.min((RealFieldElement) ((RealFieldElement) realFieldElement3.abs()).multiply(100), realFieldElementMax.getReal() < 1.0E-15d ? MathUtils.max((RealFieldElement) getField().getZero().add(1.0E-6d), (RealFieldElement) ((RealFieldElement) realFieldElement3.abs()).multiply(0.001d)) : (RealFieldElement) ((RealFieldElement) ((RealFieldElement) realFieldElementMax.multiply(100)).reciprocal()).pow(1.0d / i)), (RealFieldElement) ((RealFieldElement) fieldODEStateAndDerivative.getTime().abs()).multiply(1.0E-12d))));
+        return !z ? (T) t2.negate() : t2;
+    }
+
+    protected T filterStep(T t, boolean z, boolean z2) throws NumberIsTooSmallException {
+        if (((RealFieldElement) ((RealFieldElement) t.abs()).subtract(this.minStep)).getReal() < 0.0d) {
+            if (!z2) {
+                throw new NumberIsTooSmallException(LocalizedFormats.MINIMAL_STEPSIZE_REACHED_DURING_INTEGRATION, Double.valueOf(((RealFieldElement) t.abs()).getReal()), Double.valueOf(this.minStep.getReal()), true);
+            }
+            t = this.minStep;
+            if (!z) {
+                t = (T) t.negate();
+            }
+        }
+        return ((RealFieldElement) t.subtract(this.maxStep)).getReal() > 0.0d ? this.maxStep : ((RealFieldElement) t.add(this.maxStep)).getReal() < 0.0d ? (T) this.maxStep.negate() : t;
+    }
+
+    protected void resetInternalState() {
+        setStepStart(null);
+        setStepSize((RealFieldElement) ((RealFieldElement) this.minStep.multiply(this.maxStep)).sqrt());
+    }
+}

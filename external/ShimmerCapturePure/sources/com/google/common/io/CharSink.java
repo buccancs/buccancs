@@ -1,0 +1,60 @@
+package com.google.common.io;
+
+import com.google.common.base.Preconditions;
+
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.util.Iterator;
+
+/* loaded from: classes.dex */
+public abstract class CharSink {
+    protected CharSink() {
+    }
+
+    public abstract Writer openStream() throws IOException;
+
+    public Writer openBufferedStream() throws IOException {
+        Writer writerOpenStream = openStream();
+        return writerOpenStream instanceof BufferedWriter ? (BufferedWriter) writerOpenStream : new BufferedWriter(writerOpenStream);
+    }
+
+    public void write(CharSequence charSequence) throws Throwable {
+        Preconditions.checkNotNull(charSequence);
+        try {
+            Writer writer = (Writer) Closer.create().register(openStream());
+            writer.append(charSequence);
+            writer.flush();
+        } finally {
+        }
+    }
+
+    public void writeLines(Iterable<? extends CharSequence> iterable) throws Throwable {
+        writeLines(iterable, System.getProperty("line.separator"));
+    }
+
+    public void writeLines(Iterable<? extends CharSequence> iterable, String str) throws Throwable {
+        Preconditions.checkNotNull(iterable);
+        Preconditions.checkNotNull(str);
+        try {
+            Writer writer = (Writer) Closer.create().register(openBufferedStream());
+            Iterator<? extends CharSequence> it2 = iterable.iterator();
+            while (it2.hasNext()) {
+                writer.append(it2.next()).append((CharSequence) str);
+            }
+            writer.flush();
+        } finally {
+        }
+    }
+
+    public long writeFrom(Readable readable) throws Throwable {
+        Preconditions.checkNotNull(readable);
+        try {
+            Writer writer = (Writer) Closer.create().register(openStream());
+            long jCopy = CharStreams.copy(readable, writer);
+            writer.flush();
+            return jCopy;
+        } finally {
+        }
+    }
+}

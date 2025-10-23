@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/pool/ConnPool.java
+// Size: 304 bytes
+// Modified: 2025-10-21 16:32:00.976056200 +0100
+
+package org.apache.http.pool;
+
+import java.util.concurrent.Future;
+import org.apache.http.concurrent.FutureCallback;
+
+/* loaded from: classes5.dex */
+public interface ConnPool<T, E> {
+    Future<E> lease(T t, Object obj, FutureCallback<E> futureCallback);
+
+    void release(E e, boolean z);
+}

@@ -1,0 +1,83 @@
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.extensions;
+
+import io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.handler.codec.CodecException;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpHeaderNames;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpRequest;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpResponse;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public class WebSocketClientExtensionHandler extends ChannelDuplexHandler {
+    private final List<WebSocketClientExtensionHandshaker> extensionHandshakers;
+
+    public WebSocketClientExtensionHandler(WebSocketClientExtensionHandshaker... webSocketClientExtensionHandshakerArr) {
+        ObjectUtil.checkNotNull(webSocketClientExtensionHandshakerArr, "extensionHandshakers");
+        if (webSocketClientExtensionHandshakerArr.length == 0) {
+            throw new IllegalArgumentException("extensionHandshakers must contains at least one handshaker");
+        }
+        this.extensionHandshakers = Arrays.asList(webSocketClientExtensionHandshakerArr);
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.ChannelDuplexHandler, io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandler
+    public void write(ChannelHandlerContext channelHandlerContext, Object obj, ChannelPromise channelPromise) throws Exception {
+        if (obj instanceof HttpRequest) {
+            HttpRequest httpRequest = (HttpRequest) obj;
+            if (WebSocketExtensionUtil.isWebsocketUpgrade(httpRequest.headers())) {
+                String asString = httpRequest.headers().getAsString(HttpHeaderNames.SEC_WEBSOCKET_EXTENSIONS);
+                Iterator<WebSocketClientExtensionHandshaker> it2 = this.extensionHandshakers.iterator();
+                while (it2.hasNext()) {
+                    WebSocketExtensionData webSocketExtensionDataNewRequestData = it2.next().newRequestData();
+                    asString = WebSocketExtensionUtil.appendExtension(asString, webSocketExtensionDataNewRequestData.name(), webSocketExtensionDataNewRequestData.parameters());
+                }
+                httpRequest.headers().set(HttpHeaderNames.SEC_WEBSOCKET_EXTENSIONS, asString);
+            }
+        }
+        super.write(channelHandlerContext, obj, channelPromise);
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelInboundHandler
+    public void channelRead(ChannelHandlerContext channelHandlerContext, Object obj) throws Exception {
+        if (obj instanceof HttpResponse) {
+            HttpResponse httpResponse = (HttpResponse) obj;
+            if (WebSocketExtensionUtil.isWebsocketUpgrade(httpResponse.headers())) {
+                String asString = httpResponse.headers().getAsString(HttpHeaderNames.SEC_WEBSOCKET_EXTENSIONS);
+                if (asString != null) {
+                    List<WebSocketExtensionData> listExtractExtensions = WebSocketExtensionUtil.extractExtensions(asString);
+                    ArrayList<WebSocketClientExtension> arrayList = new ArrayList(listExtractExtensions.size());
+                    int iRsv = 0;
+                    for (WebSocketExtensionData webSocketExtensionData : listExtractExtensions) {
+                        Iterator<WebSocketClientExtensionHandshaker> it2 = this.extensionHandshakers.iterator();
+                        WebSocketClientExtension webSocketClientExtensionHandshakeExtension = null;
+                        while (webSocketClientExtensionHandshakeExtension == null && it2.hasNext()) {
+                            webSocketClientExtensionHandshakeExtension = it2.next().handshakeExtension(webSocketExtensionData);
+                        }
+                        if (webSocketClientExtensionHandshakeExtension != null && (webSocketClientExtensionHandshakeExtension.rsv() & iRsv) == 0) {
+                            iRsv |= webSocketClientExtensionHandshakeExtension.rsv();
+                            arrayList.add(webSocketClientExtensionHandshakeExtension);
+                        } else {
+                            throw new CodecException("invalid WebSocket Extension handshake for \"" + asString + '\"');
+                        }
+                    }
+                    for (WebSocketClientExtension webSocketClientExtension : arrayList) {
+                        WebSocketExtensionDecoder webSocketExtensionDecoderNewExtensionDecoder = webSocketClientExtension.newExtensionDecoder();
+                        WebSocketExtensionEncoder webSocketExtensionEncoderNewExtensionEncoder = webSocketClientExtension.newExtensionEncoder();
+                        channelHandlerContext.pipeline().addAfter(channelHandlerContext.name(), webSocketExtensionDecoderNewExtensionDecoder.getClass().getName(), webSocketExtensionDecoderNewExtensionDecoder);
+                        channelHandlerContext.pipeline().addAfter(channelHandlerContext.name(), webSocketExtensionEncoderNewExtensionEncoder.getClass().getName(), webSocketExtensionEncoderNewExtensionEncoder);
+                    }
+                }
+                channelHandlerContext.pipeline().remove(channelHandlerContext.name());
+            }
+        }
+        super.channelRead(channelHandlerContext, obj);
+    }
+}

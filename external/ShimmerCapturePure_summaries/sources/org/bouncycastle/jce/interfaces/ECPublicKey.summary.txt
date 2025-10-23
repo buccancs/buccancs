@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/interfaces/ECPublicKey.java
+// Size: 235 bytes
+// Modified: 2025-10-21 16:32:05.162322300 +0100
+
+package org.bouncycastle.jce.interfaces;
+
+import java.security.PublicKey;
+import org.bouncycastle.math.ec.ECPoint;
+
+/* loaded from: classes5.dex */
+public interface ECPublicKey extends ECKey, PublicKey {
+    ECPoint getQ();
+}

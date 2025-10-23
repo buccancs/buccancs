@@ -1,0 +1,15 @@
+package org.apache.commons.math;
+
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ArgumentOutsideDomainException.class */
+public class ArgumentOutsideDomainException extends FunctionEvaluationException {
+    private static final long serialVersionUID = -4965972841162580234L;
+
+    public ArgumentOutsideDomainException(double argument, double lower, double upper) {
+        super(argument, LocalizedFormats.ARGUMENT_OUTSIDE_DOMAIN, Double.valueOf(argument), Double.valueOf(lower), Double.valueOf(upper));
+    }
+}

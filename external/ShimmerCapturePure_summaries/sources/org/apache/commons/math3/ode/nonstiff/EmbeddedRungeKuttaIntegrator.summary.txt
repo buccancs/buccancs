@@ -1,0 +1,255 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ode/nonstiff/EmbeddedRungeKuttaIntegrator.java
+// Size: 10917 bytes
+// Modified: 2025-10-21 16:32:08.887201000 +0100
+
+package org.apache.commons.math3.ode.nonstiff;
+
+import java.lang.reflect.Array;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.ode.ExpandableStatefulODE;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public abstract class EmbeddedRungeKuttaIntegrator extends AdaptiveStepsizeIntegrator {
+    private final double[][] a;
+    private final double[] b;
+    private final double[] c;
+    private final double exp;
+    private final boolean fsal;
+    private double maxGrowth;
+    private double minReduction;
+    private final RungeKuttaStepInterpolator prototype;
+    private double safety;
+
+    protected abstract double estimateError(double[][] dArr, double[] dArr2, double[] dArr3, double d);
+
+    public double getMaxGrowth() {
+        return this.maxGrowth;
+    }
+
+    public double getMinReduction() {
+        return this.minReduction;
+    }
+
+    public abstract int getOrder();
+
+    public double getSafety() {
+        return this.safety;
+    }
+
+    public void setMaxGrowth(double d) {
+        this.maxGrowth = d;
+    }
+
+    public void setMinReduction(double d) {
+        this.minReduction = d;
+    }
+
+    public void setSafety(double d) {
+        this.safety = d;
+    }
+
+    protected EmbeddedRungeKuttaIntegrator(String str, boolean z, double[] dArr, double[][] dArr2, double[] dArr3, RungeKuttaStepInterpolator rungeKuttaStepInterpolator, double d, double d2, double d3, double d4) {
+        super(str, d, d2, d3, d4);
+        this.fsal = z;
+        this.c = dArr;
+        this.a = dArr2;
+        this.b = dArr3;
+        this.prototype = rungeKuttaStepInterpolator;
+        this.exp = (-1.0d) / getOrder();
+        setSafety(0.9d);
+        setMinReduction(0.2d);
+        setMaxGrowth(10.0d);
+    }
+
+    protected EmbeddedRungeKuttaIntegrator(String str, boolean z, double[] dArr, double[][] dArr2, double[] dArr3, RungeKuttaStepInterpolator rungeKuttaStepInterpolator, double d, double d2, double[] dArr4, double[] dArr5) {
+        super(str, d, d2, dArr4, dArr5);
+        this.fsal = z;
+        this.c = dArr;
+        this.a = dArr2;
+        this.b = dArr3;
+        this.prototype = rungeKuttaStepInterpolator;
+        this.exp = (-1.0d) / getOrder();
+        setSafety(0.9d);
+        setMinReduction(0.2d);
+        setMaxGrowth(10.0d);
+    }
+
+    @Override // org.apache.commons.math3.ode.nonstiff.AdaptiveStepsizeIntegrator, org.apache.commons.math3.ode.AbstractIntegrator
+    public void integrate(ExpandableStatefulODE expandableStatefulODE, double d) throws NumberIsTooSmallException, DimensionMismatchException, MaxCountExceededException, NoBracketingException {
+        int i;
+        double[] dArr;
+        RungeKuttaStepInterpolator rungeKuttaStepInterpolator;
+        int i2;
+        double[] dArr2;
+        boolean z;
+        int i3;
+        double dInitializeStep;
+        sanityChecks(expandableStatefulODE, d);
+        setEquations(expandableStatefulODE);
+        char c = 0;
+        boolean z2 = d > expandableStatefulODE.getTime();
+        double[] completeState = expandableStatefulODE.getCompleteState();
+        double[] dArr3 = (double[]) completeState.clone();
+        int length = this.c.length;
+        int i4 = length + 1;
+        double[][] dArr4 = (double[][]) Array.newInstance((Class<?>) Double.TYPE, i4, dArr3.length);
+        double[] dArr5 = (double[]) completeState.clone();
+        double[] dArr6 = new double[dArr3.length];
+        RungeKuttaStepInterpolator rungeKuttaStepInterpolator2 = (RungeKuttaStepInterpolator) this.prototype.copy();
+        RungeKuttaStepInterpolator rungeKuttaStepInterpolator3 = rungeKuttaStepInterpolator2;
+        double[] dArr7 = dArr6;
+        double[] dArr8 = dArr5;
+        rungeKuttaStepInterpolator2.reinitialize(this, dArr5, dArr4, z2, expandableStatefulODE.getPrimaryMapper(), expandableStatefulODE.getSecondaryMappers());
+        rungeKuttaStepInterpolator3.storeTime(expandableStatefulODE.getTime());
+        this.stepStart = expandableStatefulODE.getTime();
+        initIntegration(expandableStatefulODE.getTime(), completeState, d);
+        this.isLastStep = false;
+        double dFilterStep = 0.0d;
+        boolean z3 = true;
+        while (true) {
+            rungeKuttaStepInterpolator3.shift();
+            double dFilterStep2 = dFilterStep;
+            boolean z4 = z3;
+            double dEstimateError = 10.0d;
+            while (dEstimateError >= 1.0d) {
+                if (z4 || !this.fsal) {
+                    computeDerivatives(this.stepStart, dArr3, dArr4[c]);
+                }
+                if (z4) {
+                    int i5 = this.mainSetDimension;
+                    double[] dArr9 = new double[i5];
+                    if (this.vecAbsoluteTolerance == null) {
+                        int i6 = 0;
+                        while (i6 < i5) {
+                            dArr9[i6] = this.scalAbsoluteTolerance + (this.scalRelativeTolerance * FastMath.abs(dArr3[i6]));
+                            i6++;
+                            z2 = z2;
+                        }
+                        z = z2;
+                    } else {
+                        z = z2;
+                        for (int i7 = 0; i7 < i5; i7++) {
+                            dArr9[i7] = this.vecAbsoluteTolerance[i7] + (this.vecRelativeTolerance[i7] * FastMath.abs(dArr3[i7]));
+                        }
+                    }
+                    i3 = i4;
+                    i2 = length;
+                    dArr2 = dArr3;
+                    dInitializeStep = initializeStep(z, getOrder(), dArr9, this.stepStart, dArr3, dArr4[0], dArr8, dArr4[1]);
+                    z4 = false;
+                } else {
+                    i2 = length;
+                    dArr2 = dArr3;
+                    z = z2;
+                    i3 = i4;
+                    dInitializeStep = dFilterStep2;
+                }
+                this.stepSize = dInitializeStep;
+                if (z) {
+                    if (this.stepStart + this.stepSize >= d) {
+                        this.stepSize = d - this.stepStart;
+                    }
+                } else if (this.stepStart + this.stepSize <= d) {
+                    this.stepSize = d - this.stepStart;
+                }
+                int i8 = 1;
+                while (i8 < i3) {
+                    for (int i9 = 0; i9 < completeState.length; i9++) {
+                        int i10 = i8 - 1;
+                        double d2 = this.a[i10][0] * dArr4[0][i9];
+                        for (int i11 = 1; i11 < i8; i11++) {
+                            d2 += this.a[i10][i11] * dArr4[i11][i9];
+                        }
+                        dArr8[i9] = dArr2[i9] + (this.stepSize * d2);
+                    }
+                    double[] dArr10 = dArr8;
+                    computeDerivatives(this.stepStart + (this.c[i8 - 1] * this.stepSize), dArr10, dArr4[i8]);
+                    i8++;
+                    z4 = z4;
+                    dInitializeStep = dInitializeStep;
+                    dArr8 = dArr10;
+                }
+                dFilterStep2 = dInitializeStep;
+                double[] dArr11 = dArr8;
+                boolean z5 = z4;
+                for (int i12 = 0; i12 < completeState.length; i12++) {
+                    double d3 = this.b[0] * dArr4[0][i12];
+                    for (int i13 = 1; i13 < i3; i13++) {
+                        d3 += this.b[i13] * dArr4[i13][i12];
+                    }
+                    dArr11[i12] = dArr2[i12] + (this.stepSize * d3);
+                }
+                dEstimateError = estimateError(dArr4, dArr2, dArr11, this.stepSize);
+                if (dEstimateError >= 1.0d) {
+                    int i14 = i2;
+                    boolean z6 = z;
+                    dFilterStep2 = filterStep(this.stepSize * FastMath.min(this.maxGrowth, FastMath.max(this.minReduction, this.safety * FastMath.pow(dEstimateError, this.exp))), z6, false);
+                    i4 = i3;
+                    z2 = z6;
+                    z4 = z5;
+                    length = i14;
+                } else {
+                    length = i2;
+                    i4 = i3;
+                    z4 = z5;
+                    z2 = z;
+                }
+                c = 0;
+                dArr8 = dArr11;
+                dArr3 = dArr2;
+            }
+            int i15 = length;
+            double[] dArr12 = dArr3;
+            boolean z7 = z2;
+            double[] dArr13 = dArr8;
+            int i16 = i4;
+            rungeKuttaStepInterpolator3.storeTime(this.stepStart + this.stepSize);
+            System.arraycopy(dArr13, 0, dArr12, 0, completeState.length);
+            double[] dArr14 = dArr7;
+            System.arraycopy(dArr4[i15], 0, dArr14, 0, completeState.length);
+            double d4 = dEstimateError;
+            this.stepStart = acceptStep(rungeKuttaStepInterpolator3, dArr12, dArr14, d);
+            System.arraycopy(dArr12, 0, dArr13, 0, dArr12.length);
+            if (this.isLastStep) {
+                i = i16;
+                dArr = dArr12;
+                rungeKuttaStepInterpolator = rungeKuttaStepInterpolator3;
+                dFilterStep = dFilterStep2;
+            } else {
+                rungeKuttaStepInterpolator3.storeTime(this.stepStart);
+                if (this.fsal) {
+                    System.arraycopy(dArr14, 0, dArr4[0], 0, completeState.length);
+                }
+                i = i16;
+                dArr = dArr12;
+                rungeKuttaStepInterpolator = rungeKuttaStepInterpolator3;
+                double dMin = this.stepSize * FastMath.min(this.maxGrowth, FastMath.max(this.minReduction, this.safety * FastMath.pow(d4, this.exp)));
+                double d5 = this.stepStart + dMin;
+                dFilterStep = filterStep(dMin, z7, !z7 ? d5 > d : d5 < d);
+                double d6 = this.stepStart + dFilterStep;
+                if (!z7 ? d6 <= d : d6 >= d) {
+                    dFilterStep = d - this.stepStart;
+                }
+            }
+            if (this.isLastStep) {
+                expandableStatefulODE.setTime(this.stepStart);
+                expandableStatefulODE.setCompleteState(dArr);
+                resetInternalState();
+                return;
+            }
+            z3 = z4;
+            i4 = i;
+            length = i15;
+            rungeKuttaStepInterpolator3 = rungeKuttaStepInterpolator;
+            dArr8 = dArr13;
+            dArr7 = dArr14;
+            dArr3 = dArr;
+            z2 = z7;
+            c = 0;
+        }
+    }
+}

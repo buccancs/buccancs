@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runners/MethodSorters.java
+// Size: 539 bytes
+// Modified: 2025-10-21 16:32:01.918068600 +0100
+
+package org.junit.runners;
+
+import java.lang.reflect.Method;
+import java.util.Comparator;
+import org.junit.internal.MethodSorter;
+
+/* loaded from: classes2.dex */
+public enum MethodSorters {
+    NAME_ASCENDING(MethodSorter.NAME_ASCENDING),
+    JVM(null),
+    DEFAULT(MethodSorter.DEFAULT);
+
+    private final Comparator<Method> comparator;
+
+    public Comparator<Method> getComparator() {
+        return this.comparator;
+    }
+
+    MethodSorters(Comparator comparator) {
+        this.comparator = comparator;
+    }
+}

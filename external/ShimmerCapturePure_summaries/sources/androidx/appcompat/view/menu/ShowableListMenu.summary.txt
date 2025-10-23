@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/appcompat/view/menu/ShowableListMenu.java
+// Size: 248 bytes
+// Modified: 2025-10-21 16:31:59.977280500 +0100
+
+package androidx.appcompat.view.menu;
+
+import android.widget.ListView;
+
+/* loaded from: classes.dex */
+public interface ShowableListMenu {
+    void dismiss();
+
+    ListView getListView();
+
+    boolean isShowing();
+
+    void show();
+}

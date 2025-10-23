@@ -1,0 +1,104 @@
+package org.apache.commons.math3.optimization.direct;
+
+import org.apache.commons.math3.analysis.MultivariateFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.GoalType;
+import org.apache.commons.math3.optimization.MultivariateOptimizer;
+import org.apache.commons.math3.optimization.PointValuePair;
+import org.apache.commons.math3.optimization.univariate.BracketFinder;
+import org.apache.commons.math3.optimization.univariate.BrentOptimizer;
+import org.apache.commons.math3.optimization.univariate.SimpleUnivariateValueChecker;
+import org.apache.commons.math3.optimization.univariate.UnivariatePointValuePair;
+import org.apache.commons.math3.util.FastMath;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class PowellOptimizer extends BaseAbstractMultivariateOptimizer<MultivariateFunction> implements MultivariateOptimizer {
+    private static final double MIN_RELATIVE_TOLERANCE = FastMath.ulp(1.0d) * 2.0d;
+    private final double absoluteThreshold;
+    private final LineSearch line;
+    private final double relativeThreshold;
+
+    public PowellOptimizer(double d, double d2, ConvergenceChecker<PointValuePair> convergenceChecker) {
+        this(d, d2, FastMath.sqrt(d), FastMath.sqrt(d2), convergenceChecker);
+    }
+
+    public PowellOptimizer(double d, double d2, double d3, double d4, ConvergenceChecker<PointValuePair> convergenceChecker) {
+        super(convergenceChecker);
+        double d5 = MIN_RELATIVE_TOLERANCE;
+        if (d < d5) {
+            throw new NumberIsTooSmallException(Double.valueOf(d), Double.valueOf(d5), true);
+        }
+        if (d2 <= 0.0d) {
+            throw new NotStrictlyPositiveException(Double.valueOf(d2));
+        }
+        this.relativeThreshold = d;
+        this.absoluteThreshold = d2;
+        this.line = new LineSearch(d3, d4);
+    }
+
+    public PowellOptimizer(double d, double d2) {
+        this(d, d2, null);
+    }
+
+    public PowellOptimizer(double d, double d2, double d3, double d4) {
+        this(d, d2, d3, d4, null);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:39:0x0119  */
+    @Override // org.apache.commons.math3.optimization.direct.BaseAbstractMultivariateOptimizer
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    protected org.apache.commons.math3.optimization.PointValuePair doOptimize() {
+        /*
+            Method dump skipped, instructions count: 287
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.optimization.direct.PowellOptimizer.doOptimize():org.apache.commons.math3.optimization.PointValuePair");
+    }
+
+    private double[][] newPointAndDirection(double[] dArr, double[] dArr2, double d) {
+        int length = dArr.length;
+        double[] dArr3 = new double[length];
+        double[] dArr4 = new double[length];
+        for (int i = 0; i < length; i++) {
+            double d2 = dArr2[i] * d;
+            dArr4[i] = d2;
+            dArr3[i] = dArr[i] + d2;
+        }
+        return new double[][]{dArr3, dArr4};
+    }
+
+    private class LineSearch extends BrentOptimizer {
+        private static final double ABS_TOL_UNUSED = Double.MIN_VALUE;
+        private static final double REL_TOL_UNUSED = 1.0E-15d;
+        private final BracketFinder bracket;
+
+        LineSearch(double d, double d2) {
+            super(1.0E-15d, Double.MIN_VALUE, new SimpleUnivariateValueChecker(d, d2));
+            this.bracket = new BracketFinder();
+        }
+
+        public UnivariatePointValuePair search(final double[] dArr, final double[] dArr2) {
+            final int length = dArr.length;
+            UnivariateFunction univariateFunction = new UnivariateFunction() { // from class: org.apache.commons.math3.optimization.direct.PowellOptimizer.LineSearch.1
+                @Override // org.apache.commons.math3.analysis.UnivariateFunction
+                public double value(double d) {
+                    double[] dArr3 = new double[length];
+                    for (int i = 0; i < length; i++) {
+                        dArr3[i] = dArr[i] + (dArr2[i] * d);
+                    }
+                    return PowellOptimizer.this.computeObjectiveValue(dArr3);
+                }
+            };
+            GoalType goalType = PowellOptimizer.this.getGoalType();
+            this.bracket.search(univariateFunction, goalType, 0.0d, 1.0d);
+            return optimize(Integer.MAX_VALUE, univariateFunction, goalType, this.bracket.getLo(), this.bracket.getHi(), this.bracket.getMid());
+        }
+    }
+}

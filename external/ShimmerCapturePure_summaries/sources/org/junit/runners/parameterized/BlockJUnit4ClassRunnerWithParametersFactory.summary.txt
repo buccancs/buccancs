@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runners/parameterized/BlockJUnit4ClassRunnerWithParametersFactory.java
+// Size: 543 bytes
+// Modified: 2025-10-21 16:32:06.640361900 +0100
+
+package org.junit.runners.parameterized;
+
+import org.junit.runner.Runner;
+import org.junit.runners.model.InitializationError;
+
+/* loaded from: classes2.dex */
+public class BlockJUnit4ClassRunnerWithParametersFactory implements ParametersRunnerFactory {
+    @Override // org.junit.runners.parameterized.ParametersRunnerFactory
+    public Runner createRunnerForTestWithParameters(TestWithParameters testWithParameters) throws InitializationError {
+        return new BlockJUnit4ClassRunnerWithParameters(testWithParameters);
+    }
+}

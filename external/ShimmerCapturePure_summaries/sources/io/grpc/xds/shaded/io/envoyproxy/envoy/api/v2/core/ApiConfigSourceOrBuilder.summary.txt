@@ -1,0 +1,62 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/core/ApiConfigSourceOrBuilder.java
+// Size: 1531 bytes
+// Modified: 2025-10-21 16:32:07.869514100 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.ApiConfigSource;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface ApiConfigSourceOrBuilder extends MessageOrBuilder {
+    ApiConfigSource.ApiType getApiType();
+
+    int getApiTypeValue();
+
+    String getClusterNames(int i);
+
+    ByteString getClusterNamesBytes(int i);
+
+    int getClusterNamesCount();
+
+    /* renamed from: getClusterNamesList */
+    List<String> mo14344getClusterNamesList();
+
+    GrpcService getGrpcServices(int i);
+
+    int getGrpcServicesCount();
+
+    List<GrpcService> getGrpcServicesList();
+
+    GrpcServiceOrBuilder getGrpcServicesOrBuilder(int i);
+
+    List<? extends GrpcServiceOrBuilder> getGrpcServicesOrBuilderList();
+
+    RateLimitSettings getRateLimitSettings();
+
+    RateLimitSettingsOrBuilder getRateLimitSettingsOrBuilder();
+
+    Duration getRefreshDelay();
+
+    DurationOrBuilder getRefreshDelayOrBuilder();
+
+    Duration getRequestTimeout();
+
+    DurationOrBuilder getRequestTimeoutOrBuilder();
+
+    boolean getSetNodeOnFirstMessageOnly();
+
+    ApiVersion getTransportApiVersion();
+
+    int getTransportApiVersionValue();
+
+    boolean hasRateLimitSettings();
+
+    boolean hasRefreshDelay();
+
+    boolean hasRequestTimeout();
+}

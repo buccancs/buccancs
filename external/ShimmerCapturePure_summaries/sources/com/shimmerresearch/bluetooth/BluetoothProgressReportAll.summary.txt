@@ -1,0 +1,90 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/bluetooth/BluetoothProgressReportAll.java
+// Size: 3778 bytes
+// Modified: 2025-10-21 16:32:11.438731600 +0100
+
+package com.shimmerresearch.bluetooth;
+
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.driver.ShimmerDevice;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.LinkedHashMap;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public class BluetoothProgressReportAll implements Serializable {
+    public static final String[] mListOfOperationStates = {ShimmerDevice.STRING_CONSTANT_PENDING, "In Progress", "Finished", "Cancelling", "Cancelled"};
+    private static final long serialVersionUID = 2543348738920447317L;
+    public ShimmerBluetooth.BT_STATE currentOperationBtState;
+    public List<ShimmerDevice> mListOfShimmers;
+    public LinkedHashMap<String, BluetoothProgressReportPerDevice> mMapOfOperationProgressInfo = new LinkedHashMap<>();
+    public OperationState mOperationState = OperationState.PENDING;
+    public int mProgressEndValue = 100;
+    public int mProgressCounter = 0;
+    public int mNumberOfFails = 0;
+    public int mProgressPercentageComplete = 0;
+
+    public enum OperationState {
+        PENDING,
+        INPROGRESS,
+        FINISHED,
+        CANCELLING,
+        CANCELLED
+    }
+
+    public void updateProgressCount() {
+        int i = this.mProgressCounter + 1;
+        this.mProgressCounter = i;
+        this.mProgressPercentageComplete = (int) ((i / this.mProgressEndValue) * 100.0d);
+    }
+
+    public BluetoothProgressReportAll(ShimmerBluetooth.BT_STATE bt_state, List<ShimmerDevice> list) {
+        this.currentOperationBtState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.currentOperationBtState = bt_state;
+        this.mListOfShimmers = list;
+        this.mMapOfOperationProgressInfo.clear();
+        for (ShimmerDevice shimmerDevice : list) {
+            this.mMapOfOperationProgressInfo.put(shimmerDevice.getComPort(), new BluetoothProgressReportPerDevice(shimmerDevice, bt_state, 1));
+        }
+        updateProgressTotal();
+    }
+
+    public BluetoothProgressReportAll(List<String> list, ShimmerBluetooth.BT_STATE bt_state) {
+        this.currentOperationBtState = ShimmerBluetooth.BT_STATE.DISCONNECTED;
+        this.currentOperationBtState = bt_state;
+        this.mMapOfOperationProgressInfo.clear();
+        for (String str : list) {
+            this.mMapOfOperationProgressInfo.put(str, new BluetoothProgressReportPerDevice(str, bt_state, 1));
+        }
+        updateProgressTotal();
+    }
+
+    public void updateProgressTotal() {
+        this.mProgressEndValue = this.mMapOfOperationProgressInfo.keySet().size();
+    }
+
+    public void updateProgressPerDevice(String str, BluetoothProgressReportPerDevice bluetoothProgressReportPerDevice) {
+        this.mMapOfOperationProgressInfo.put(str, bluetoothProgressReportPerDevice);
+        if (this.mMapOfOperationProgressInfo.get(str).mProgressCounter == this.mMapOfOperationProgressInfo.get(str).mProgressEndValue) {
+            updateProgressCount();
+        }
+    }
+
+    public BluetoothProgressReportAll deepClone() throws IOException {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            new ObjectOutputStream(byteArrayOutputStream).writeObject(this);
+            return (BluetoothProgressReportAll) new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray())).readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e2) {
+            e2.printStackTrace();
+            return null;
+        }
+    }
+}

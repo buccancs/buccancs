@@ -1,0 +1,282 @@
+package org.bouncycastle.crypto.engines;
+
+import com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper;
+import com.google.common.base.Ascii;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.sensors.adxl371.SensorADXL371;
+import com.shimmerresearch.sensors.lisxmdl.SensorLIS3MDL;
+import com.shimmerresearch.sensors.lsm6dsv.SensorLSM6DSV;
+
+import java.lang.reflect.Array;
+
+import org.bouncycastle.crypto.BlockCipher;
+import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.crypto.DataLengthException;
+import org.bouncycastle.crypto.OutputLengthException;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.signers.PSSSigner;
+import org.bouncycastle.util.encoders.Hex;
+
+/* loaded from: classes5.dex */
+public class ARIAEngine implements BlockCipher {
+    protected static final int BLOCK_SIZE = 16;
+    private static final byte[][] C = {Hex.decode("517cc1b727220a94fe13abe8fa9a6ee0"), Hex.decode("6db14acc9e21c820ff28b1d5ef5de2b0"), Hex.decode("db92371d2126e9700324977504e8c90e")};
+    private static final byte[] SB1_sbox = {ShimmerObject.GET_EXG_REGS_COMMAND, ShimmerObject.SET_EXPID_COMMAND, ShimmerObject.CENTER_RESPONSE, ShimmerObject.GET_SHIMMERNAME_COMMAND, -14, ShimmerObject.BAUD_RATE_RESPONSE, ShimmerObject.GET_DERIVED_CHANNEL_BYTES, -59, ShimmerObject.SET_BLINK_LED, 1, 103, ShimmerObject.GET_ECG_CALIBRATION_COMMAND, -2, -41, SensorADXL371.GET_ALT_ACCEL_CALIBRATION_COMMAND, ShimmerObject.SET_CENTER_COMMAND, -54, ShimmerObject.SET_NSHIMMER_COMMAND, -55, ShimmerObject.EXPID_RESPONSE, -6, 89, 71, -16, SensorADXL371.ALT_ACCEL_SAMPLING_RATE_RESPONSE, -44, ShimmerObject.BT_FW_VERSION_STR_RESPONSE, SensorLIS3MDL.SET_ALT_MAG_CALIBRATION_COMMAND, ShimmerObject.UPD_SDLOG_CFG_COMMAND, -92, ShimmerObject.GET_STATUS_COMMAND, -64, -73, -3, ShimmerObject.STOP_LOGGING_ONLY_COMMAND, ShimmerObject.SET_EMG_CALIBRATION_COMMAND, ShimmerObject.GET_BUFFER_SIZE_COMMAND, ShimmerObject.GET_SHIMMER_VERSION_COMMAND_NEW, -9, -52, ShimmerObject.SET_BUFFER_SIZE_COMMAND, -91, -27, -15, ShimmerObject.STATUS_RESPONSE, -40, ShimmerObject.BLINK_LED_RESPONSE, 21, 4, -57, 35, -61, 24, ShimmerObject.TEST_CONNECTION_COMMAND, 5, ShimmerObject.GET_CALIB_DUMP_COMMAND, 7, 18, -128, -30, -21, ShimmerObject.EMG_CALIBRATION_RESPONSE, SensorLIS3MDL.SET_ALT_MAG_SAMPLING_RATE_COMMAND, ShimmerObject.GET_TRIAL_CONFIG_COMMAND, 9, ShimmerObject.NSHIMMER_RESPONSE, 44, 26, 27, ShimmerObject.DERIVED_CHANNEL_BYTES_RESPONSE, 90, ShimmerObject.GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND, 82, 59, -42, SensorLIS3MDL.ALT_MAG_SAMPLING_RATE_RESPONSE, ShimmerObject.SET_ECG_CALIBRATION_COMMAND, -29, ShimmerObject.FW_VERSION_RESPONSE, ShimmerObject.GET_NSHIMMER_COMMAND, 83, -47, 0, -19, 32, -4, SensorLIS3MDL.GET_ALT_MAG_CALIBRATION_COMMAND, ShimmerObject.RESET_CALIBRATION_VALUE_COMMAND, ShimmerObject.SET_BAUD_RATE_COMMAND, -53, -66, 57, 74, 76, 88, -49, -48, ByteSourceJsonBootstrapper.UTF8_BOM_1, SensorADXL371.ALT_ACCEL_CALIBRATION_RESPONSE, -5, 67, 77, 51, ShimmerObject.SET_CONFIGTIME_COMMAND, 69, -7, 2, 127, SensorLSM6DSV.ALT_ACCEL_RANGE_RESPONSE, 60, ShimmerObject.BMP280_CALIBRATION_COEFFICIENTS_RESPONSE, ShimmerObject.SET_TEST, SensorLSM6DSV.GET_ALT_ACCEL_RANGE_COMMAND, -93, 64, ShimmerObject.SET_RWC_COMMAND, ShimmerObject.START_LOGGING_ONLY_COMMAND, -99, 56, -11, PSSSigner.TRAILER_IMPLICIT, -74, -38, 33, 16, -1, -13, -46, -51, 12, 19, -20, ShimmerObject.INTERNAL_EXP_POWER_ENABLE_RESPONSE, ShimmerObject.STOP_SDBT_COMMAND, 68, 23, -60, -89, ShimmerObject.GET_EXPID_COMMAND, 61, 100, 93, 25, ShimmerObject.SET_TRIAL_CONFIG_COMMAND, ShimmerObject.GET_INTERNAL_EXP_POWER_ENABLE_COMMAND, ShimmerObject.GET_MYID_COMMAND, SensorLSM6DSV.SET_ALT_ACCEL_RANGE_COMMAND, -36, 34, ShimmerObject.ECG_CALIBRATION_RESPONSE, ShimmerObject.RWC_RESPONSE, ShimmerObject.DIR_RESPONSE, 70, -18, -72, 20, -34, ShimmerObject.SET_INTERNAL_EXP_POWER_ENABLE_COMMAND, 11, -37, ShimmerObject.ROUTINE_COMMUNICATION, ShimmerObject.GET_BLINK_LED, 58, 10, 73, 6, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 92, -62, -45, SensorADXL371.SET_ALT_ACCEL_SAMPLING_RATE_COMMAND, ShimmerObject.EXG_REGS_RESPONSE, ShimmerObject.GET_RWC_COMMAND, -107, -28, ShimmerObject.SET_SHIMMERNAME_COMMAND, -25, -56, 55, ShimmerObject.SET_DERIVED_CHANNEL_BYTES, ShimmerObject.INFOMEM_RESPONSE, -43, 78, SensorADXL371.SET_ALT_ACCEL_CALIBRATION_COMMAND, ShimmerObject.GET_BAUD_RATE_COMMAND, 86, -12, -22, ShimmerObject.DAUGHTER_CARD_ID_RESPONSE, ShimmerObject.SHIMMERNAME_RESPONSE, SensorADXL371.GET_ALT_ACCEL_SAMPLING_RATE_COMMAND, 8, -70, ShimmerObject.GET_CENTER_COMMAND, ShimmerObject.GET_SHIMMER_VERSION_RESPONSE, ShimmerObject.GET_FW_VERSION_COMMAND, 28, -90, SensorLIS3MDL.GET_ALT_MAG_SAMPLING_RATE_COMMAND, -58, -24, -35, ShimmerObject.TRIAL_CONFIG_RESPONSE, Ascii.US, 75, -67, ShimmerObject.SET_CRC_COMMAND, ShimmerObject.INSTREAM_CMD_RESPONSE, ShimmerObject.START_SDBT_COMMAND, 62, -75, ShimmerObject.GET_DAUGHTER_CARD_ID_COMMAND, 72, 3, -10, 14, ShimmerObject.SET_EXG_REGS_COMMAND, ShimmerObject.BUFFER_SIZE_RESPONSE, 87, -71, ShimmerObject.CONFIGTIME_RESPONSE, -63, Ascii.GS, -98, -31, -8, ShimmerObject.SET_CALIB_DUMP_COMMAND, 17, 105, -39, ShimmerObject.GET_INFOMEM_COMMAND, -108, ShimmerObject.UPD_CALIB_DUMP_COMMAND, Ascii.RS, ShimmerObject.GET_CONFIGTIME_COMMAND, -23, -50, 85, ShimmerObject.GET_EMG_CALIBRATION_COMMAND, -33, ShimmerObject.SET_INFOMEM_COMMAND, ShimmerObject.GET_BT_FW_VERSION_STR_COMMAND, ShimmerObject.GET_DIR_COMMAND, 13, ByteSourceJsonBootstrapper.UTF8_BOM_3, -26, 66, 104, 65, ShimmerObject.RSP_CALIB_DUMP_COMMAND, ShimmerObject.ALL_CALIBRATION_RESPONSE, 15, SensorLIS3MDL.ALT_MAG_CALIBRATION_RESPONSE, 84, ByteSourceJsonBootstrapper.UTF8_BOM_2, 22};
+    private static final byte[] SB2_sbox = {-30, 78, 84, -4, -108, -62, 74, -52, ShimmerObject.EXG_REGS_RESPONSE, 13, ShimmerObject.SET_BAUD_RATE_COMMAND, 70, 60, 77, ShimmerObject.SET_CRC_COMMAND, -47, ShimmerObject.SET_INTERNAL_EXP_POWER_ENABLE_COMMAND, -6, 100, -53, SensorLIS3MDL.GET_ALT_MAG_SAMPLING_RATE_COMMAND, ShimmerObject.STOP_SDBT_COMMAND, -66, ShimmerObject.GET_ECG_CALIBRATION_COMMAND, PSSSigner.TRAILER_IMPLICIT, ShimmerObject.CENTER_RESPONSE, ShimmerObject.GET_FW_VERSION_COMMAND, 3, -45, 25, 89, -63, Ascii.GS, 6, 65, ShimmerObject.BAUD_RATE_RESPONSE, 85, -16, ShimmerObject.RSP_CALIB_DUMP_COMMAND, 105, -22, ShimmerObject.UPD_SDLOG_CFG_COMMAND, 24, SensorADXL371.GET_ALT_ACCEL_SAMPLING_RATE_COMMAND, ShimmerObject.GET_EXG_REGS_COMMAND, -33, -25, ByteSourceJsonBootstrapper.UTF8_BOM_2, 0, ShimmerObject.SET_TRIAL_CONFIG_COMMAND, ShimmerObject.GET_DAUGHTER_CARD_ID_COMMAND, -5, ShimmerObject.TEST_CONNECTION_COMMAND, 76, ShimmerObject.SET_CONFIGTIME_COMMAND, -28, 58, 9, 69, SensorADXL371.ALT_ACCEL_CALIBRATION_RESPONSE, 15, -18, 16, -21, ShimmerObject.ALL_CALIBRATION_RESPONSE, 127, -12, ShimmerObject.SET_ECG_CALIBRATION_COMMAND, SensorADXL371.SET_ALT_ACCEL_SAMPLING_RATE_COMMAND, -49, SensorADXL371.ALT_ACCEL_SAMPLING_RATE_RESPONSE, ShimmerObject.GET_RWC_COMMAND, ShimmerObject.INFOMEM_RESPONSE, ShimmerObject.GET_CENTER_COMMAND, -56, -107, -7, ShimmerObject.FW_VERSION_RESPONSE, -50, -51, 8, ShimmerObject.SHIMMERNAME_RESPONSE, ShimmerObject.DIR_RESPONSE, 56, 92, ShimmerObject.NSHIMMER_RESPONSE, ShimmerObject.ECG_CALIBRATION_RESPONSE, ShimmerObject.GET_EMG_CALIBRATION_COMMAND, 71, -37, -72, -57, ShimmerObject.STOP_LOGGING_ONLY_COMMAND, -92, 18, 83, -1, ShimmerObject.GET_CONFIGTIME_COMMAND, 14, ShimmerObject.BLINK_LED_RESPONSE, ShimmerObject.GET_BUFFER_SIZE_COMMAND, 33, 88, 72, 1, ShimmerObject.GET_INFOMEM_COMMAND, 55, ShimmerObject.TRIAL_CONFIG_RESPONSE, ShimmerObject.GET_BLINK_LED, -54, -23, SensorLIS3MDL.GET_ALT_MAG_CALIBRATION_COMMAND, -73, SensorADXL371.GET_ALT_ACCEL_CALIBRATION_COMMAND, 12, -41, -60, 86, 66, ShimmerObject.SET_EMG_CALIBRATION_COMMAND, 7, ShimmerObject.SET_CALIB_DUMP_COMMAND, ShimmerObject.GET_INTERNAL_EXP_POWER_ENABLE_COMMAND, -39, -74, -71, 17, 64, -20, 32, ShimmerObject.SET_INFOMEM_COMMAND, -67, ShimmerObject.GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND, -55, ShimmerObject.GET_NSHIMMER_COMMAND, 4, 73, 35, -15, SensorLSM6DSV.SET_ALT_ACCEL_RANGE_COMMAND, SensorLSM6DSV.ALT_ACCEL_RANGE_RESPONSE, Ascii.US, 19, -36, -40, -64, -98, 87, -29, -61, ShimmerObject.GET_SHIMMERNAME_COMMAND, ShimmerObject.DAUGHTER_CARD_ID_RESPONSE, 59, 2, ShimmerObject.SET_RWC_COMMAND, 62, -24, ShimmerObject.GET_SHIMMER_VERSION_RESPONSE, ShimmerObject.START_LOGGING_ONLY_COMMAND, -27, 21, -35, -3, 23, SensorADXL371.SET_ALT_ACCEL_CALIBRATION_COMMAND, ByteSourceJsonBootstrapper.UTF8_BOM_3, -44, ShimmerObject.GET_CALIB_DUMP_COMMAND, ShimmerObject.GET_EXPID_COMMAND, -59, 57, 103, -2, ShimmerObject.SET_CENTER_COMMAND, -99, 67, -89, -31, -48, -11, 104, -14, 27, ShimmerObject.SET_BUFFER_SIZE_COMMAND, ShimmerObject.START_SDBT_COMMAND, 5, -93, ShimmerObject.INSTREAM_CMD_RESPONSE, -43, ShimmerObject.SET_SHIMMERNAME_COMMAND, ShimmerObject.CONFIGTIME_RESPONSE, ShimmerObject.SET_TEST, ShimmerObject.SET_BLINK_LED, -58, SensorLSM6DSV.GET_ALT_ACCEL_RANGE_COMMAND, 75, Ascii.RS, -90, ShimmerObject.EMG_CALIBRATION_RESPONSE, -10, ShimmerObject.BUFFER_SIZE_RESPONSE, -46, ShimmerObject.DERIVED_CHANNEL_BYTES_RESPONSE, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 22, ShimmerObject.SET_NSHIMMER_COMMAND, ShimmerObject.INTERNAL_EXP_POWER_ENABLE_RESPONSE, -38, -26, ShimmerObject.GET_TRIAL_CONFIG_COMMAND, ShimmerObject.BT_FW_VERSION_STR_RESPONSE, ByteSourceJsonBootstrapper.UTF8_BOM_1, 44, SensorLIS3MDL.SET_ALT_MAG_SAMPLING_RATE_COMMAND, 28, ShimmerObject.BMP280_CALIBRATION_COEFFICIENTS_RESPONSE, 93, ShimmerObject.GET_DERIVED_CHANNEL_BYTES, -128, 10, ShimmerObject.GET_STATUS_COMMAND, 68, ShimmerObject.UPD_CALIB_DUMP_COMMAND, ShimmerObject.GET_BAUD_RATE_COMMAND, ShimmerObject.RWC_RESPONSE, 11, ShimmerObject.RESET_CALIBRATION_VALUE_COMMAND, 51, ShimmerObject.EXPID_RESPONSE, 90, 82, -13, ShimmerObject.SET_EXG_REGS_COMMAND, ShimmerObject.GET_BT_FW_VERSION_STR_COMMAND, -9, SensorLIS3MDL.ALT_MAG_CALIBRATION_RESPONSE, -42, ShimmerObject.GET_SHIMMER_VERSION_COMMAND_NEW, ShimmerObject.SET_EXPID_COMMAND, ShimmerObject.SET_DERIVED_CHANNEL_BYTES, -19, 20, ShimmerObject.ROUTINE_COMMUNICATION, -91, 61, 34, SensorLIS3MDL.ALT_MAG_SAMPLING_RATE_RESPONSE, -8, ShimmerObject.GET_DIR_COMMAND, -34, ShimmerObject.STATUS_RESPONSE, 26, SensorLIS3MDL.SET_ALT_MAG_CALIBRATION_COMMAND, -70, -75, ShimmerObject.GET_MYID_COMMAND};
+    private static final byte[] SB3_sbox = {82, 9, ShimmerObject.SET_BAUD_RATE_COMMAND, -43, ShimmerObject.SET_BLINK_LED, ShimmerObject.GET_BUFFER_SIZE_COMMAND, -91, 56, ByteSourceJsonBootstrapper.UTF8_BOM_3, 64, -93, -98, ShimmerObject.GET_MYID_COMMAND, -13, -41, -5, ShimmerObject.SET_EXPID_COMMAND, -29, 57, ShimmerObject.SET_NSHIMMER_COMMAND, ShimmerObject.UPD_CALIB_DUMP_COMMAND, ShimmerObject.FW_VERSION_RESPONSE, -1, ShimmerObject.GET_CONFIGTIME_COMMAND, ShimmerObject.SET_BUFFER_SIZE_COMMAND, ShimmerObject.GET_INFOMEM_COMMAND, 67, 68, -60, -34, -23, -53, 84, ShimmerObject.GET_SHIMMERNAME_COMMAND, -108, ShimmerObject.GET_BLINK_LED, -90, -62, 35, 61, -18, 76, -107, 11, 66, -6, -61, 78, 8, ShimmerObject.GET_FW_VERSION_COMMAND, ShimmerObject.GET_BT_FW_VERSION_STR_COMMAND, ShimmerObject.GET_DAUGHTER_CARD_ID_COMMAND, ShimmerObject.GET_EMG_CALIBRATION_COMMAND, -39, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, SensorLIS3MDL.SET_ALT_MAG_SAMPLING_RATE_COMMAND, ShimmerObject.SET_CENTER_COMMAND, ShimmerObject.RESET_CALIBRATION_VALUE_COMMAND, ShimmerObject.BT_FW_VERSION_STR_RESPONSE, 73, ShimmerObject.SET_DERIVED_CHANNEL_BYTES, ShimmerObject.SET_CRC_COMMAND, -47, ShimmerObject.GET_SHIMMER_VERSION_RESPONSE, ShimmerObject.GET_STATUS_COMMAND, -8, -10, 100, ShimmerObject.CONFIGTIME_RESPONSE, 104, ShimmerObject.SET_CALIB_DUMP_COMMAND, 22, -44, -92, 92, -52, 93, ShimmerObject.DAUGHTER_CARD_ID_RESPONSE, -74, ShimmerObject.START_LOGGING_ONLY_COMMAND, ShimmerObject.GET_BAUD_RATE_COMMAND, ShimmerObject.START_SDBT_COMMAND, 72, SensorLSM6DSV.ALT_ACCEL_RANGE_RESPONSE, -3, -19, -71, -38, ShimmerObject.SET_INTERNAL_EXP_POWER_ENABLE_COMMAND, 21, 70, 87, -89, ShimmerObject.INFOMEM_RESPONSE, -99, ShimmerObject.GET_NSHIMMER_COMMAND, ShimmerObject.RWC_RESPONSE, -40, SensorADXL371.GET_ALT_ACCEL_CALIBRATION_COMMAND, 0, ShimmerObject.SET_INFOMEM_COMMAND, PSSSigner.TRAILER_IMPLICIT, -45, 10, -9, -28, 88, 5, -72, SensorLIS3MDL.ALT_MAG_SAMPLING_RATE_RESPONSE, 69, 6, -48, 44, Ascii.RS, ShimmerObject.SET_RWC_COMMAND, -54, ShimmerObject.GET_SHIMMER_VERSION_COMMAND_NEW, 15, 2, -63, SensorLIS3MDL.SET_ALT_MAG_CALIBRATION_COMMAND, -67, 3, 1, 19, ShimmerObject.INSTREAM_CMD_RESPONSE, ShimmerObject.BAUD_RATE_RESPONSE, 58, ShimmerObject.GET_RWC_COMMAND, 17, 65, SensorLSM6DSV.SET_ALT_ACCEL_RANGE_COMMAND, 103, -36, -22, ShimmerObject.STOP_SDBT_COMMAND, -14, -49, -50, -16, SensorLIS3MDL.GET_ALT_MAG_SAMPLING_RATE_COMMAND, -26, ShimmerObject.SET_TRIAL_CONFIG_COMMAND, ShimmerObject.TEST_CONNECTION_COMMAND, SensorADXL371.SET_ALT_ACCEL_SAMPLING_RATE_COMMAND, ShimmerObject.TRIAL_CONFIG_RESPONSE, 34, -25, SensorADXL371.ALT_ACCEL_SAMPLING_RATE_RESPONSE, ShimmerObject.BUFFER_SIZE_RESPONSE, ShimmerObject.SET_CONFIGTIME_COMMAND, -30, -7, 55, -24, 28, ShimmerObject.GET_TRIAL_CONFIG_COMMAND, -33, ShimmerObject.DERIVED_CHANNEL_BYTES_RESPONSE, 71, -15, 26, ShimmerObject.STATUS_RESPONSE, Ascii.GS, ShimmerObject.SET_ECG_CALIBRATION_COMMAND, -59, ShimmerObject.GET_DIR_COMMAND, ShimmerObject.GET_DERIVED_CHANNEL_BYTES, -73, ShimmerObject.EXG_REGS_RESPONSE, 14, SensorADXL371.ALT_ACCEL_CALIBRATION_RESPONSE, 24, -66, 27, -4, 86, 62, 75, -58, -46, ShimmerObject.SET_SHIMMERNAME_COMMAND, 32, ShimmerObject.GET_CALIB_DUMP_COMMAND, -37, -64, -2, ShimmerObject.GET_CENTER_COMMAND, -51, 90, -12, Ascii.US, -35, ShimmerObject.SET_TEST, 51, ShimmerObject.DIR_RESPONSE, 7, -57, ShimmerObject.BLINK_LED_RESPONSE, SensorLIS3MDL.GET_ALT_MAG_CALIBRATION_COMMAND, 18, 16, 89, ShimmerObject.EMG_CALIBRATION_RESPONSE, -128, -20, ShimmerObject.INTERNAL_EXP_POWER_ENABLE_RESPONSE, ShimmerObject.GET_INTERNAL_EXP_POWER_ENABLE_COMMAND, SensorLSM6DSV.GET_ALT_ACCEL_RANGE_COMMAND, 127, SensorADXL371.SET_ALT_ACCEL_CALIBRATION_COMMAND, 25, -75, 74, 13, ShimmerObject.ALL_CALIBRATION_RESPONSE, -27, ShimmerObject.SHIMMERNAME_RESPONSE, ShimmerObject.BMP280_CALIBRATION_COEFFICIENTS_RESPONSE, ShimmerObject.STOP_LOGGING_ONLY_COMMAND, -55, ShimmerObject.UPD_SDLOG_CFG_COMMAND, ByteSourceJsonBootstrapper.UTF8_BOM_1, ShimmerObject.GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND, ShimmerObject.ROUTINE_COMMUNICATION, 59, 77, SensorADXL371.GET_ALT_ACCEL_SAMPLING_RATE_COMMAND, ShimmerObject.ECG_CALIBRATION_RESPONSE, -11, SensorLIS3MDL.ALT_MAG_CALIBRATION_RESPONSE, -56, -21, ByteSourceJsonBootstrapper.UTF8_BOM_2, 60, ShimmerObject.NSHIMMER_RESPONSE, 83, ShimmerObject.RSP_CALIB_DUMP_COMMAND, ShimmerObject.SET_EXG_REGS_COMMAND, 23, ShimmerObject.GET_ECG_CALIBRATION_COMMAND, 4, ShimmerObject.GET_EXPID_COMMAND, -70, ShimmerObject.CENTER_RESPONSE, -42, ShimmerObject.SET_EMG_CALIBRATION_COMMAND, -31, 105, 20, ShimmerObject.GET_EXG_REGS_COMMAND, 85, 33, 12, ShimmerObject.EXPID_RESPONSE};
+    private static final byte[] SB4_sbox = {ShimmerObject.SET_BLINK_LED, 104, ShimmerObject.RSP_CALIB_DUMP_COMMAND, 27, ShimmerObject.GET_CONFIGTIME_COMMAND, -71, 33, ShimmerObject.GET_CENTER_COMMAND, SensorLSM6DSV.ALT_ACCEL_RANGE_RESPONSE, 57, -37, -31, ShimmerObject.GET_STATUS_COMMAND, 9, ShimmerObject.EXG_REGS_RESPONSE, 60, 62, ShimmerObject.GET_EXPID_COMMAND, ShimmerObject.SET_INTERNAL_EXP_POWER_ENABLE_COMMAND, ShimmerObject.GET_INFOMEM_COMMAND, -15, ShimmerObject.GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND, -52, -93, ShimmerObject.ECG_CALIBRATION_RESPONSE, Ascii.GS, -5, -74, -42, 32, -60, ShimmerObject.INFOMEM_RESPONSE, ShimmerObject.GET_MYID_COMMAND, ShimmerObject.DAUGHTER_CARD_ID_RESPONSE, -11, ShimmerObject.GET_DIR_COMMAND, -53, -99, ShimmerObject.CENTER_RESPONSE, -58, 87, 67, 86, 23, -44, 64, 26, 77, -64, ShimmerObject.GET_EXG_REGS_COMMAND, ShimmerObject.GET_BAUD_RATE_COMMAND, -29, -73, -56, 100, ShimmerObject.SET_BAUD_RATE_COMMAND, 83, SensorADXL371.ALT_ACCEL_CALIBRATION_RESPONSE, 56, ShimmerObject.SET_CALIB_DUMP_COMMAND, 12, -12, ShimmerObject.UPD_CALIB_DUMP_COMMAND, -19, 127, 34, ShimmerObject.SET_CENTER_COMMAND, SensorLIS3MDL.SET_ALT_MAG_CALIBRATION_COMMAND, -35, 58, 11, 88, 103, ShimmerObject.DIR_RESPONSE, 6, -61, ShimmerObject.BUFFER_SIZE_RESPONSE, 13, 1, ShimmerObject.SET_CRC_COMMAND, ShimmerObject.SET_INFOMEM_COMMAND, -62, -26, ShimmerObject.INTERNAL_EXP_POWER_ENABLE_RESPONSE, 2, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, ShimmerObject.GET_TRIAL_CONFIG_COMMAND, ShimmerObject.STOP_LOGGING_ONLY_COMMAND, ShimmerObject.GET_DAUGHTER_CARD_ID_COMMAND, Ascii.RS, -27, -30, 84, -40, 16, -50, ShimmerObject.SHIMMERNAME_RESPONSE, -24, 8, 44, 18, ShimmerObject.STOP_SDBT_COMMAND, ShimmerObject.GET_BLINK_LED, SensorADXL371.GET_ALT_ACCEL_CALIBRATION_COMMAND, SensorLIS3MDL.GET_ALT_MAG_SAMPLING_RATE_COMMAND, ShimmerObject.EMG_CALIBRATION_RESPONSE, 10, 35, -33, ByteSourceJsonBootstrapper.UTF8_BOM_1, -54, -39, -72, -6, -36, ShimmerObject.BLINK_LED_RESPONSE, ShimmerObject.BAUD_RATE_RESPONSE, -47, SensorADXL371.ALT_ACCEL_SAMPLING_RATE_RESPONSE, 25, 73, -67, SensorLSM6DSV.GET_ALT_ACCEL_RANGE_COMMAND, ShimmerObject.TEST_CONNECTION_COMMAND, -18, -28, ShimmerObject.SET_TEST, 65, -38, -1, -51, 85, ShimmerObject.CONFIGTIME_RESPONSE, ShimmerObject.GET_BUFFER_SIZE_COMMAND, -66, ShimmerObject.SET_EXG_REGS_COMMAND, 82, -8, ByteSourceJsonBootstrapper.UTF8_BOM_2, 14, ShimmerObject.SET_NSHIMMER_COMMAND, 72, 105, ShimmerObject.GET_CALIB_DUMP_COMMAND, ShimmerObject.ROUTINE_COMMUNICATION, 71, -98, 92, 4, 75, ShimmerObject.SET_BUFFER_SIZE_COMMAND, 21, ShimmerObject.SET_SHIMMERNAME_COMMAND, ShimmerObject.SET_EMG_CALIBRATION_COMMAND, -89, -34, ShimmerObject.SET_ECG_CALIBRATION_COMMAND, SensorADXL371.GET_ALT_ACCEL_SAMPLING_RATE_COMMAND, ShimmerObject.START_LOGGING_ONLY_COMMAND, -41, ShimmerObject.GET_NSHIMMER_COMMAND, -23, -46, -70, 93, -13, -59, SensorLIS3MDL.ALT_MAG_CALIBRATION_RESPONSE, ByteSourceJsonBootstrapper.UTF8_BOM_3, -92, 59, ShimmerObject.STATUS_RESPONSE, 68, 70, ShimmerObject.GET_ECG_CALIBRATION_COMMAND, -4, -21, ShimmerObject.GET_DERIVED_CHANNEL_BYTES, -43, -10, 20, -2, ShimmerObject.SET_EXPID_COMMAND, ShimmerObject.START_SDBT_COMMAND, 90, ShimmerObject.EXPID_RESPONSE, -3, ShimmerObject.FW_VERSION_RESPONSE, 24, ShimmerObject.NSHIMMER_RESPONSE, 22, -91, ShimmerObject.GET_RWC_COMMAND, Ascii.US, 5, -107, ShimmerObject.TRIAL_CONFIG_RESPONSE, SensorADXL371.SET_ALT_ACCEL_CALIBRATION_COMMAND, -63, ShimmerObject.RESET_CALIBRATION_VALUE_COMMAND, 74, ShimmerObject.SET_CONFIGTIME_COMMAND, ShimmerObject.SET_DERIVED_CHANNEL_BYTES, 19, 7, SensorLSM6DSV.SET_ALT_ACCEL_RANGE_COMMAND, 78, 69, SensorLIS3MDL.SET_ALT_MAG_SAMPLING_RATE_COMMAND, 15, -55, 28, -90, PSSSigner.TRAILER_IMPLICIT, -20, ShimmerObject.SET_TRIAL_CONFIG_COMMAND, ShimmerObject.RWC_RESPONSE, ShimmerObject.GET_SHIMMERNAME_COMMAND, -49, 89, ShimmerObject.SET_RWC_COMMAND, ShimmerObject.GET_BT_FW_VERSION_STR_COMMAND, -7, ShimmerObject.ALL_CALIBRATION_RESPONSE, -14, SensorLIS3MDL.GET_ALT_MAG_CALIBRATION_COMMAND, 0, -108, 55, ShimmerObject.BMP280_CALIBRATION_COEFFICIENTS_RESPONSE, -48, ShimmerObject.GET_FW_VERSION_COMMAND, ShimmerObject.UPD_SDLOG_CFG_COMMAND, ShimmerObject.DERIVED_CHANNEL_BYTES_RESPONSE, ShimmerObject.GET_EMG_CALIBRATION_COMMAND, ShimmerObject.GET_SHIMMER_VERSION_COMMAND_NEW, -128, -16, 61, -45, ShimmerObject.GET_SHIMMER_VERSION_RESPONSE, ShimmerObject.INSTREAM_CMD_RESPONSE, -75, -25, 66, SensorLIS3MDL.ALT_MAG_SAMPLING_RATE_RESPONSE, -57, -22, -9, 76, 17, 51, 3, ShimmerObject.BT_FW_VERSION_STR_RESPONSE, SensorADXL371.SET_ALT_ACCEL_SAMPLING_RATE_COMMAND, ShimmerObject.GET_INTERNAL_EXP_POWER_ENABLE_COMMAND};
+    private byte[][] roundKeys;
+
+    protected static void A(byte[] bArr) {
+        byte b = bArr[0];
+        byte b2 = bArr[1];
+        byte b3 = bArr[2];
+        byte b4 = bArr[3];
+        byte b5 = bArr[4];
+        byte b6 = bArr[5];
+        byte b7 = bArr[6];
+        byte b8 = bArr[7];
+        byte b9 = bArr[8];
+        byte b10 = bArr[9];
+        byte b11 = bArr[10];
+        byte b12 = bArr[11];
+        byte b13 = bArr[12];
+        byte b14 = bArr[13];
+        byte b15 = bArr[14];
+        byte b16 = bArr[15];
+        bArr[0] = (byte) ((((((b4 ^ b5) ^ b7) ^ b9) ^ b10) ^ b14) ^ b15);
+        bArr[1] = (byte) ((((((b3 ^ b6) ^ b8) ^ b9) ^ b10) ^ b13) ^ b16);
+        bArr[2] = (byte) ((((((b2 ^ b5) ^ b7) ^ b11) ^ b12) ^ b13) ^ b16);
+        bArr[3] = (byte) ((((((b ^ b6) ^ b8) ^ b11) ^ b12) ^ b14) ^ b15);
+        int i = b ^ b3;
+        bArr[4] = (byte) (((((i ^ b6) ^ b9) ^ b12) ^ b15) ^ b16);
+        int i2 = b2 ^ b4;
+        bArr[5] = (byte) (((((i2 ^ b5) ^ b10) ^ b11) ^ b15) ^ b16);
+        bArr[6] = (byte) (((((i ^ b8) ^ b10) ^ b11) ^ b13) ^ b14);
+        bArr[7] = (byte) (((((i2 ^ b7) ^ b9) ^ b12) ^ b13) ^ b14);
+        int i3 = b ^ b2;
+        bArr[8] = (byte) (((((i3 ^ b5) ^ b8) ^ b11) ^ b14) ^ b16);
+        bArr[9] = (byte) (((((i3 ^ b6) ^ b7) ^ b12) ^ b13) ^ b15);
+        int i4 = b3 ^ b4;
+        bArr[10] = (byte) (((((i4 ^ b6) ^ b7) ^ b9) ^ b14) ^ b16);
+        bArr[11] = (byte) (((((i4 ^ b5) ^ b8) ^ b10) ^ b13) ^ b15);
+        int i5 = b2 ^ b3;
+        bArr[12] = (byte) (((((i5 ^ b7) ^ b8) ^ b10) ^ b12) ^ b13);
+        int i6 = b ^ b4;
+        bArr[13] = (byte) (((((i6 ^ b7) ^ b8) ^ b9) ^ b11) ^ b14);
+        bArr[14] = (byte) (((((i6 ^ b5) ^ b6) ^ b10) ^ b12) ^ b15);
+        bArr[15] = (byte) (((((i5 ^ b5) ^ b6) ^ b9) ^ b11) ^ b16);
+    }
+
+    protected static void FE(byte[] bArr, byte[] bArr2) {
+        xor(bArr, bArr2);
+        SL2(bArr);
+        A(bArr);
+    }
+
+    protected static void FO(byte[] bArr, byte[] bArr2) {
+        xor(bArr, bArr2);
+        SL1(bArr);
+        A(bArr);
+    }
+
+    protected static byte SB1(byte b) {
+        return SB1_sbox[b & 255];
+    }
+
+    protected static byte SB2(byte b) {
+        return SB2_sbox[b & 255];
+    }
+
+    protected static byte SB3(byte b) {
+        return SB3_sbox[b & 255];
+    }
+
+    protected static byte SB4(byte b) {
+        return SB4_sbox[b & 255];
+    }
+
+    protected static void SL1(byte[] bArr) {
+        bArr[0] = SB1(bArr[0]);
+        bArr[1] = SB2(bArr[1]);
+        bArr[2] = SB3(bArr[2]);
+        bArr[3] = SB4(bArr[3]);
+        bArr[4] = SB1(bArr[4]);
+        bArr[5] = SB2(bArr[5]);
+        bArr[6] = SB3(bArr[6]);
+        bArr[7] = SB4(bArr[7]);
+        bArr[8] = SB1(bArr[8]);
+        bArr[9] = SB2(bArr[9]);
+        bArr[10] = SB3(bArr[10]);
+        bArr[11] = SB4(bArr[11]);
+        bArr[12] = SB1(bArr[12]);
+        bArr[13] = SB2(bArr[13]);
+        bArr[14] = SB3(bArr[14]);
+        bArr[15] = SB4(bArr[15]);
+    }
+
+    protected static void SL2(byte[] bArr) {
+        bArr[0] = SB3(bArr[0]);
+        bArr[1] = SB4(bArr[1]);
+        bArr[2] = SB1(bArr[2]);
+        bArr[3] = SB2(bArr[3]);
+        bArr[4] = SB3(bArr[4]);
+        bArr[5] = SB4(bArr[5]);
+        bArr[6] = SB1(bArr[6]);
+        bArr[7] = SB2(bArr[7]);
+        bArr[8] = SB3(bArr[8]);
+        bArr[9] = SB4(bArr[9]);
+        bArr[10] = SB1(bArr[10]);
+        bArr[11] = SB2(bArr[11]);
+        bArr[12] = SB3(bArr[12]);
+        bArr[13] = SB4(bArr[13]);
+        bArr[14] = SB1(bArr[14]);
+        bArr[15] = SB2(bArr[15]);
+    }
+
+    protected static byte[][] keySchedule(boolean z, byte[] bArr) {
+        int length = bArr.length;
+        if (length < 16 || length > 32 || (length & 7) != 0) {
+            throw new IllegalArgumentException("Key length not 128/192/256 bits.");
+        }
+        int i = length >>> 3;
+        int i2 = i - 2;
+        byte[][] bArr2 = C;
+        byte[] bArr3 = bArr2[i2];
+        byte[] bArr4 = bArr2[(i - 1) % 3];
+        byte[] bArr5 = bArr2[i % 3];
+        byte[] bArr6 = new byte[16];
+        byte[] bArr7 = new byte[16];
+        System.arraycopy(bArr, 0, bArr6, 0, 16);
+        System.arraycopy(bArr, 16, bArr7, 0, length - 16);
+        byte[] bArr8 = new byte[16];
+        byte[] bArr9 = new byte[16];
+        byte[] bArr10 = new byte[16];
+        byte[] bArr11 = new byte[16];
+        System.arraycopy(bArr6, 0, bArr8, 0, 16);
+        System.arraycopy(bArr8, 0, bArr9, 0, 16);
+        FO(bArr9, bArr3);
+        xor(bArr9, bArr7);
+        System.arraycopy(bArr9, 0, bArr10, 0, 16);
+        FE(bArr10, bArr4);
+        xor(bArr10, bArr8);
+        System.arraycopy(bArr10, 0, bArr11, 0, 16);
+        FO(bArr11, bArr5);
+        xor(bArr11, bArr9);
+        int i3 = i2 * 2;
+        int i4 = i3 + 12;
+        byte[][] bArr12 = (byte[][]) Array.newInstance((Class<?>) Byte.TYPE, i3 + 13, 16);
+        keyScheduleRound(bArr12[0], bArr8, bArr9, 19);
+        keyScheduleRound(bArr12[1], bArr9, bArr10, 19);
+        keyScheduleRound(bArr12[2], bArr10, bArr11, 19);
+        keyScheduleRound(bArr12[3], bArr11, bArr8, 19);
+        keyScheduleRound(bArr12[4], bArr8, bArr9, 31);
+        keyScheduleRound(bArr12[5], bArr9, bArr10, 31);
+        keyScheduleRound(bArr12[6], bArr10, bArr11, 31);
+        keyScheduleRound(bArr12[7], bArr11, bArr8, 31);
+        keyScheduleRound(bArr12[8], bArr8, bArr9, 67);
+        keyScheduleRound(bArr12[9], bArr9, bArr10, 67);
+        keyScheduleRound(bArr12[10], bArr10, bArr11, 67);
+        keyScheduleRound(bArr12[11], bArr11, bArr8, 67);
+        keyScheduleRound(bArr12[12], bArr8, bArr9, 97);
+        if (i4 > 12) {
+            keyScheduleRound(bArr12[13], bArr9, bArr10, 97);
+            keyScheduleRound(bArr12[14], bArr10, bArr11, 97);
+            if (i4 > 14) {
+                keyScheduleRound(bArr12[15], bArr11, bArr8, 97);
+                keyScheduleRound(bArr12[16], bArr8, bArr9, 109);
+            }
+        }
+        if (!z) {
+            reverseKeys(bArr12);
+            for (int i5 = 1; i5 < i4; i5++) {
+                A(bArr12[i5]);
+            }
+        }
+        return bArr12;
+    }
+
+    protected static void keyScheduleRound(byte[] bArr, byte[] bArr2, byte[] bArr3, int i) {
+        int i2 = i >>> 3;
+        int i3 = i & 7;
+        int i4 = 8 - i3;
+        int i5 = bArr3[15 - i2] & 255;
+        int i6 = 0;
+        while (i6 < 16) {
+            int i7 = bArr3[(i6 - i2) & 15] & 255;
+            bArr[i6] = (byte) (((i5 << i4) | (i7 >>> i3)) ^ (bArr2[i6] & 255));
+            i6++;
+            i5 = i7;
+        }
+    }
+
+    protected static void reverseKeys(byte[][] bArr) {
+        int length = bArr.length;
+        int i = length / 2;
+        int i2 = length - 1;
+        for (int i3 = 0; i3 < i; i3++) {
+            byte[] bArr2 = bArr[i3];
+            int i4 = i2 - i3;
+            bArr[i3] = bArr[i4];
+            bArr[i4] = bArr2;
+        }
+    }
+
+    protected static void xor(byte[] bArr, byte[] bArr2) {
+        for (int i = 0; i < 16; i++) {
+            bArr[i] = (byte) (bArr[i] ^ bArr2[i]);
+        }
+    }
+
+    @Override // org.bouncycastle.crypto.BlockCipher
+    public String getAlgorithmName() {
+        return "ARIA";
+    }
+
+    @Override // org.bouncycastle.crypto.BlockCipher
+    public int getBlockSize() {
+        return 16;
+    }
+
+    @Override // org.bouncycastle.crypto.BlockCipher
+    public void init(boolean z, CipherParameters cipherParameters) throws IllegalArgumentException {
+        if (cipherParameters instanceof KeyParameter) {
+            this.roundKeys = keySchedule(z, ((KeyParameter) cipherParameters).getKey());
+        } else {
+            throw new IllegalArgumentException("invalid parameter passed to ARIA init - " + cipherParameters.getClass().getName());
+        }
+    }
+
+    @Override // org.bouncycastle.crypto.BlockCipher
+    public int processBlock(byte[] bArr, int i, byte[] bArr2, int i2) throws IllegalStateException, DataLengthException {
+        if (this.roundKeys == null) {
+            throw new IllegalStateException("ARIA engine not initialised");
+        }
+        if (i > bArr.length - 16) {
+            throw new DataLengthException("input buffer too short");
+        }
+        if (i2 > bArr2.length - 16) {
+            throw new OutputLengthException("output buffer too short");
+        }
+        byte[] bArr3 = new byte[16];
+        System.arraycopy(bArr, i, bArr3, 0, 16);
+        int length = this.roundKeys.length - 3;
+        int i3 = 0;
+        while (i3 < length) {
+            int i4 = i3 + 1;
+            FO(bArr3, this.roundKeys[i3]);
+            i3 += 2;
+            FE(bArr3, this.roundKeys[i4]);
+        }
+        FO(bArr3, this.roundKeys[i3]);
+        xor(bArr3, this.roundKeys[i3 + 1]);
+        SL2(bArr3);
+        xor(bArr3, this.roundKeys[i3 + 2]);
+        System.arraycopy(bArr3, 0, bArr2, i2, 16);
+        return 16;
+    }
+
+    @Override // org.bouncycastle.crypto.BlockCipher
+    public void reset() {
+    }
+}

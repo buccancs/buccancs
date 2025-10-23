@@ -1,0 +1,102 @@
+package org.bouncycastle.math.ec.custom.djb;
+
+import java.math.BigInteger;
+
+import org.bouncycastle.math.ec.ECCurve;
+import org.bouncycastle.math.ec.ECFieldElement;
+import org.bouncycastle.math.ec.ECLookupTable;
+import org.bouncycastle.math.ec.ECPoint;
+import org.bouncycastle.math.raw.Nat256;
+import org.bouncycastle.util.encoders.Hex;
+
+/* loaded from: classes5.dex */
+public class Curve25519 extends ECCurve.AbstractFp {
+    public static final BigInteger q = Nat256.toBigInteger(Curve25519Field.P);
+    private static final int Curve25519_DEFAULT_COORDS = 4;
+    protected Curve25519Point infinity;
+
+    public Curve25519() {
+        super(q);
+        this.infinity = new Curve25519Point(this, null, null);
+        this.a = fromBigInteger(new BigInteger(1, Hex.decode("2AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA984914A144")));
+        this.b = fromBigInteger(new BigInteger(1, Hex.decode("7B425ED097B425ED097B425ED097B425ED097B425ED097B4260B5E9C7710C864")));
+        this.order = new BigInteger(1, Hex.decode("1000000000000000000000000000000014DEF9DEA2F79CD65812631A5CF5D3ED"));
+        this.cofactor = BigInteger.valueOf(8L);
+        this.coord = 4;
+    }
+
+    @Override // org.bouncycastle.math.ec.ECCurve
+    protected ECCurve cloneCurve() {
+        return new Curve25519();
+    }
+
+    @Override // org.bouncycastle.math.ec.ECCurve
+    public ECLookupTable createCacheSafeLookupTable(ECPoint[] eCPointArr, int i, final int i2) {
+        final int[] iArr = new int[i2 * 16];
+        int i3 = 0;
+        for (int i4 = 0; i4 < i2; i4++) {
+            ECPoint eCPoint = eCPointArr[i + i4];
+            Nat256.copy(((Curve25519FieldElement) eCPoint.getRawXCoord()).x, 0, iArr, i3);
+            Nat256.copy(((Curve25519FieldElement) eCPoint.getRawYCoord()).x, 0, iArr, i3 + 8);
+            i3 += 16;
+        }
+        return new ECLookupTable() { // from class: org.bouncycastle.math.ec.custom.djb.Curve25519.1
+            @Override // org.bouncycastle.math.ec.ECLookupTable
+            public int getSize() {
+                return i2;
+            }
+
+            @Override // org.bouncycastle.math.ec.ECLookupTable
+            public ECPoint lookup(int i5) {
+                int[] iArrCreate = Nat256.create();
+                int[] iArrCreate2 = Nat256.create();
+                int i6 = 0;
+                for (int i7 = 0; i7 < i2; i7++) {
+                    int i8 = ((i7 ^ i5) - 1) >> 31;
+                    for (int i9 = 0; i9 < 8; i9++) {
+                        int i10 = iArrCreate[i9];
+                        int[] iArr2 = iArr;
+                        iArrCreate[i9] = i10 ^ (iArr2[i6 + i9] & i8);
+                        iArrCreate2[i9] = iArrCreate2[i9] ^ (iArr2[(i6 + 8) + i9] & i8);
+                    }
+                    i6 += 16;
+                }
+                return Curve25519.this.createRawPoint(new Curve25519FieldElement(iArrCreate), new Curve25519FieldElement(iArrCreate2), false);
+            }
+        };
+    }
+
+    @Override // org.bouncycastle.math.ec.ECCurve
+    protected ECPoint createRawPoint(ECFieldElement eCFieldElement, ECFieldElement eCFieldElement2, boolean z) {
+        return new Curve25519Point(this, eCFieldElement, eCFieldElement2, z);
+    }
+
+    @Override // org.bouncycastle.math.ec.ECCurve
+    protected ECPoint createRawPoint(ECFieldElement eCFieldElement, ECFieldElement eCFieldElement2, ECFieldElement[] eCFieldElementArr, boolean z) {
+        return new Curve25519Point(this, eCFieldElement, eCFieldElement2, eCFieldElementArr, z);
+    }
+
+    @Override // org.bouncycastle.math.ec.ECCurve
+    public ECFieldElement fromBigInteger(BigInteger bigInteger) {
+        return new Curve25519FieldElement(bigInteger);
+    }
+
+    @Override // org.bouncycastle.math.ec.ECCurve
+    public int getFieldSize() {
+        return q.bitLength();
+    }
+
+    @Override // org.bouncycastle.math.ec.ECCurve
+    public ECPoint getInfinity() {
+        return this.infinity;
+    }
+
+    public BigInteger getQ() {
+        return q;
+    }
+
+    @Override // org.bouncycastle.math.ec.ECCurve
+    public boolean supportsCoordinateSystem(int i) {
+        return i == 4;
+    }
+}

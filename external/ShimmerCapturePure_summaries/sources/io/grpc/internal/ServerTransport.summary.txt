@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/ServerTransport.java
+// Size: 438 bytes
+// Modified: 2025-10-21 16:32:04.428682800 +0100
+
+package io.grpc.internal;
+
+import io.grpc.InternalChannelz;
+import io.grpc.InternalInstrumented;
+import io.grpc.Status;
+import java.util.concurrent.ScheduledExecutorService;
+
+/* loaded from: classes2.dex */
+public interface ServerTransport extends InternalInstrumented<InternalChannelz.SocketStats> {
+    ScheduledExecutorService getScheduledExecutorService();
+
+    void shutdown();
+
+    void shutdownNow(Status status);
+}

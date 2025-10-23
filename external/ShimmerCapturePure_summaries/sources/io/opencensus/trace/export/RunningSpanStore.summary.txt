@@ -1,0 +1,89 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/trace/export/RunningSpanStore.java
+// Size: 2727 bytes
+// Modified: 2025-10-21 16:32:03.777854300 +0100
+
+package io.opencensus.trace.export;
+
+import io.opencensus.internal.Utils;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+
+/* loaded from: classes4.dex */
+public abstract class RunningSpanStore {
+    private static final RunningSpanStore NOOP_RUNNING_SPAN_STORE = new NoopRunningSpanStore();
+
+    static RunningSpanStore getNoopRunningSpanStore() {
+        return NOOP_RUNNING_SPAN_STORE;
+    }
+
+    public abstract Collection<SpanData> getRunningSpans(Filter filter);
+
+    public abstract Summary getSummary();
+
+    public abstract void setMaxNumberOfSpans(int i);
+
+    protected RunningSpanStore() {
+    }
+
+    public static abstract class Summary {
+        public abstract Map<String, PerSpanNameSummary> getPerSpanNameSummary();
+
+        Summary() {
+        }
+
+        public static Summary create(Map<String, PerSpanNameSummary> map) {
+            return new AutoValue_RunningSpanStore_Summary(Collections.unmodifiableMap(new HashMap((Map) Utils.checkNotNull(map, "perSpanNameSummary"))));
+        }
+    }
+
+    public static abstract class PerSpanNameSummary {
+        public abstract int getNumRunningSpans();
+
+        PerSpanNameSummary() {
+        }
+
+        public static PerSpanNameSummary create(int i) {
+            Utils.checkArgument(i >= 0, "Negative numRunningSpans.");
+            return new AutoValue_RunningSpanStore_PerSpanNameSummary(i);
+        }
+    }
+
+    public static abstract class Filter {
+        public abstract int getMaxSpansToReturn();
+
+        public abstract String getSpanName();
+
+        Filter() {
+        }
+
+        public static Filter create(String str, int i) {
+            Utils.checkArgument(i >= 0, "Negative maxSpansToReturn.");
+            return new AutoValue_RunningSpanStore_Filter(str, i);
+        }
+    }
+
+    private static final class NoopRunningSpanStore extends RunningSpanStore {
+        private static final Summary EMPTY_SUMMARY = Summary.create(Collections.emptyMap());
+
+        @Override // io.opencensus.trace.export.RunningSpanStore
+        public Summary getSummary() {
+            return EMPTY_SUMMARY;
+        }
+
+        private NoopRunningSpanStore() {
+        }
+
+        @Override // io.opencensus.trace.export.RunningSpanStore
+        public Collection<SpanData> getRunningSpans(Filter filter) {
+            Utils.checkNotNull(filter, "filter");
+            return Collections.emptyList();
+        }
+
+        @Override // io.opencensus.trace.export.RunningSpanStore
+        public void setMaxNumberOfSpans(int i) {
+            Utils.checkArgument(i >= 0, "Invalid negative maxNumberOfElements");
+        }
+    }
+}

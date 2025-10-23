@@ -1,0 +1,90 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.VirtualHost;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.VirtualHostOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface RouteConfigurationOrBuilder extends MessageOrBuilder {
+    String getInternalOnlyHeaders(int i);
+
+    ByteString getInternalOnlyHeadersBytes(int i);
+
+    int getInternalOnlyHeadersCount();
+
+    /* renamed from: getInternalOnlyHeadersList */
+    List<String> mo13093getInternalOnlyHeadersList();
+
+    boolean getMostSpecificHeaderMutationsWins();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    HeaderValueOption getRequestHeadersToAdd(int i);
+
+    int getRequestHeadersToAddCount();
+
+    List<HeaderValueOption> getRequestHeadersToAddList();
+
+    HeaderValueOptionOrBuilder getRequestHeadersToAddOrBuilder(int i);
+
+    List<? extends HeaderValueOptionOrBuilder> getRequestHeadersToAddOrBuilderList();
+
+    String getRequestHeadersToRemove(int i);
+
+    ByteString getRequestHeadersToRemoveBytes(int i);
+
+    int getRequestHeadersToRemoveCount();
+
+    /* renamed from: getRequestHeadersToRemoveList */
+    List<String> mo13094getRequestHeadersToRemoveList();
+
+    HeaderValueOption getResponseHeadersToAdd(int i);
+
+    int getResponseHeadersToAddCount();
+
+    List<HeaderValueOption> getResponseHeadersToAddList();
+
+    HeaderValueOptionOrBuilder getResponseHeadersToAddOrBuilder(int i);
+
+    List<? extends HeaderValueOptionOrBuilder> getResponseHeadersToAddOrBuilderList();
+
+    String getResponseHeadersToRemove(int i);
+
+    ByteString getResponseHeadersToRemoveBytes(int i);
+
+    int getResponseHeadersToRemoveCount();
+
+    /* renamed from: getResponseHeadersToRemoveList */
+    List<String> mo13095getResponseHeadersToRemoveList();
+
+    BoolValue getValidateClusters();
+
+    BoolValueOrBuilder getValidateClustersOrBuilder();
+
+    Vhds getVhds();
+
+    VhdsOrBuilder getVhdsOrBuilder();
+
+    VirtualHost getVirtualHosts(int i);
+
+    int getVirtualHostsCount();
+
+    List<VirtualHost> getVirtualHostsList();
+
+    VirtualHostOrBuilder getVirtualHostsOrBuilder(int i);
+
+    List<? extends VirtualHostOrBuilder> getVirtualHostsOrBuilderList();
+
+    boolean hasValidateClusters();
+
+    boolean hasVhds();
+}

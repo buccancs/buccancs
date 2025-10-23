@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/functors/InstanceofPredicate.java
+// Size: 901 bytes
+// Modified: 2025-10-21 16:32:00.905675300 +0100
+
+package org.apache.commons.collections.functors;
+
+import java.io.Serializable;
+import org.apache.commons.collections.Predicate;
+
+/* loaded from: classes5.dex */
+public final class InstanceofPredicate implements Predicate, Serializable {
+    private static final long serialVersionUID = -6682656911025165584L;
+    private final Class iType;
+
+    public Class getType() {
+        return this.iType;
+    }
+
+    public static Predicate getInstance(Class cls) {
+        if (cls == null) {
+            throw new IllegalArgumentException("The type to check instanceof must not be null");
+        }
+        return new InstanceofPredicate(cls);
+    }
+
+    public InstanceofPredicate(Class cls) {
+        this.iType = cls;
+    }
+
+    @Override // org.apache.commons.collections.Predicate
+    public boolean evaluate(Object obj) {
+        return this.iType.isInstance(obj);
+    }
+}

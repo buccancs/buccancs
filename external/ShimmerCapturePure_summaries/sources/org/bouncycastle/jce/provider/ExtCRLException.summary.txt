@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/provider/ExtCRLException.java
+// Size: 404 bytes
+// Modified: 2025-10-21 16:32:00.619853400 +0100
+
+package org.bouncycastle.jce.provider;
+
+import java.security.cert.CRLException;
+
+/* loaded from: classes5.dex */
+class ExtCRLException extends CRLException {
+    Throwable cause;
+
+    ExtCRLException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

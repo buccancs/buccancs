@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/rbac/engine/cel/DescriptorMessageProvider.java
+// Size: 363 bytes
+// Modified: 2025-10-21 16:32:00.878104100 +0100
+
+package io.grpc.xds.internal.rbac.engine.cel;
+
+import com.google.protobuf.Descriptors;
+
+/* loaded from: classes3.dex */
+public class DescriptorMessageProvider implements RuntimeTypeProvider {
+    public static DescriptorMessageProvider dynamicMessages(Iterable<Descriptors.Descriptor> iterable) {
+        return new DescriptorMessageProvider();
+    }
+}

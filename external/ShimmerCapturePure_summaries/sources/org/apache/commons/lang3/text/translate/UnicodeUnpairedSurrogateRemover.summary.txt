@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang3/text/translate/UnicodeUnpairedSurrogateRemover.java
+// Size: 419 bytes
+// Modified: 2025-10-21 16:32:01.738176700 +0100
+
+package org.apache.commons.lang3.text.translate;
+
+import java.io.IOException;
+import java.io.Writer;
+
+/* loaded from: classes5.dex */
+public class UnicodeUnpairedSurrogateRemover extends CodePointTranslator {
+    @Override // org.apache.commons.lang3.text.translate.CodePointTranslator
+    public boolean translate(int i, Writer writer) throws IOException {
+        return i >= 55296 && i <= 57343;
+    }
+}

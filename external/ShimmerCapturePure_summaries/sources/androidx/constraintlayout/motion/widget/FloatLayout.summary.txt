@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/motion/widget/FloatLayout.java
+// Size: 176 bytes
+// Modified: 2025-10-21 16:31:59.830513800 +0100
+
+package androidx.constraintlayout.motion.widget;
+
+/* loaded from: classes.dex */
+public interface FloatLayout {
+    void layout(float f, float f2, float f3, float f4);
+}

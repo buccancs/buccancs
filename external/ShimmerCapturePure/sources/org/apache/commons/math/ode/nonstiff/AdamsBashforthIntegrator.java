@@ -1,0 +1,118 @@
+package org.apache.commons.math.ode.nonstiff;
+
+import org.apache.commons.math.linear.Array2DRowRealMatrix;
+import org.apache.commons.math.ode.DerivativeException;
+import org.apache.commons.math.ode.FirstOrderDifferentialEquations;
+import org.apache.commons.math.ode.IntegratorException;
+import org.apache.commons.math.ode.sampling.NordsieckStepInterpolator;
+import org.apache.commons.math.ode.sampling.StepHandler;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/ode/nonstiff/AdamsBashforthIntegrator.class */
+public class AdamsBashforthIntegrator extends AdamsIntegrator {
+    private static final String METHOD_NAME = "Adams-Bashforth";
+
+    public AdamsBashforthIntegrator(int nSteps, double minStep, double maxStep, double scalAbsoluteTolerance, double scalRelativeTolerance) throws IllegalArgumentException {
+        super(METHOD_NAME, nSteps, nSteps, minStep, maxStep, scalAbsoluteTolerance, scalRelativeTolerance);
+    }
+
+    public AdamsBashforthIntegrator(int nSteps, double minStep, double maxStep, double[] vecAbsoluteTolerance, double[] vecRelativeTolerance) throws IllegalArgumentException {
+        super(METHOD_NAME, nSteps, nSteps, minStep, maxStep, vecAbsoluteTolerance, vecRelativeTolerance);
+    }
+
+    @Override
+    // org.apache.commons.math.ode.nonstiff.AdamsIntegrator, org.apache.commons.math.ode.nonstiff.AdaptiveStepsizeIntegrator, org.apache.commons.math.ode.FirstOrderIntegrator
+    public double integrate(FirstOrderDifferentialEquations equations, double t0, double[] y0, double t, double[] y) throws DerivativeException, IntegratorException {
+        double d;
+        double d2;
+        int n = y0.length;
+        sanityChecks(equations, t0, y0, t, y);
+        setEquations(equations);
+        resetEvaluations();
+        boolean forward = t > t0;
+        if (y != y0) {
+            System.arraycopy(y0, 0, y, 0, n);
+        }
+        double[] yDot = new double[n];
+        NordsieckStepInterpolator interpolator = new NordsieckStepInterpolator();
+        interpolator.reinitialize(y, forward);
+        for (StepHandler handler : this.stepHandlers) {
+            handler.reset();
+        }
+        setStateInitialized(false);
+        start(t0, y, t);
+        interpolator.reinitialize(this.stepStart, this.stepSize, this.scaled, this.nordsieck);
+        interpolator.storeTime(this.stepStart);
+        int lastRow = this.nordsieck.getRowDimension() - 1;
+        double hNew = this.stepSize;
+        interpolator.rescale(hNew);
+        this.isLastStep = false;
+        do {
+            double error = 10.0d;
+            while (error >= 1.0d) {
+                this.stepSize = hNew;
+                double error2 = 0.0d;
+                for (int i = 0; i < this.mainSetDimension; i++) {
+                    double yScale = FastMath.abs(y[i]);
+                    if (this.vecAbsoluteTolerance == null) {
+                        d = this.scalAbsoluteTolerance;
+                        d2 = this.scalRelativeTolerance;
+                    } else {
+                        d = this.vecAbsoluteTolerance[i];
+                        d2 = this.vecRelativeTolerance[i];
+                    }
+                    double tol = d + (d2 * yScale);
+                    double ratio = this.nordsieck.getEntry(lastRow, i) / tol;
+                    error2 += ratio * ratio;
+                }
+                error = FastMath.sqrt(error2 / this.mainSetDimension);
+                if (error >= 1.0d) {
+                    double factor = computeStepGrowShrinkFactor(error);
+                    hNew = filterStep(this.stepSize * factor, forward, false);
+                    interpolator.rescale(hNew);
+                }
+            }
+            double stepEnd = this.stepStart + this.stepSize;
+            interpolator.shift();
+            interpolator.setInterpolatedTime(stepEnd);
+            System.arraycopy(interpolator.getInterpolatedState(), 0, y, 0, y0.length);
+            computeDerivatives(stepEnd, y, yDot);
+            double[] predictedScaled = new double[y0.length];
+            for (int j = 0; j < y0.length; j++) {
+                predictedScaled[j] = this.stepSize * yDot[j];
+            }
+            Array2DRowRealMatrix nordsieckTmp = updateHighOrderDerivativesPhase1(this.nordsieck);
+            updateHighOrderDerivativesPhase2(this.scaled, predictedScaled, nordsieckTmp);
+            interpolator.reinitialize(stepEnd, this.stepSize, predictedScaled, nordsieckTmp);
+            interpolator.storeTime(stepEnd);
+            this.stepStart = acceptStep(interpolator, y, yDot, t);
+            this.scaled = predictedScaled;
+            this.nordsieck = nordsieckTmp;
+            interpolator.reinitialize(stepEnd, this.stepSize, this.scaled, this.nordsieck);
+            if (!this.isLastStep) {
+                interpolator.storeTime(this.stepStart);
+                if (this.resetOccurred) {
+                    start(this.stepStart, y, t);
+                    interpolator.reinitialize(this.stepStart, this.stepSize, this.scaled, this.nordsieck);
+                }
+                double factor2 = computeStepGrowShrinkFactor(error);
+                double scaledH = this.stepSize * factor2;
+                double nextT = this.stepStart + scaledH;
+                boolean nextIsLast = forward ? nextT >= t : nextT <= t;
+                hNew = filterStep(scaledH, forward, nextIsLast);
+                double filteredNextT = this.stepStart + hNew;
+                boolean filteredNextIsLast = forward ? filteredNextT >= t : filteredNextT <= t;
+                if (filteredNextIsLast) {
+                    hNew = t - this.stepStart;
+                }
+                interpolator.rescale(hNew);
+            }
+        } while (!this.isLastStep);
+        double stopTime = this.stepStart;
+        resetInternalState();
+        return stopTime;
+    }
+}

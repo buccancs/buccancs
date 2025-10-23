@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/MessageSizeEstimator.java
+// Size: 225 bytes
+// Modified: 2025-10-21 16:32:00.193081300 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+/* loaded from: classes3.dex */
+public interface MessageSizeEstimator {
+
+    public interface Handle {
+        int size(Object obj);
+    }
+
+    Handle newHandle();
+}

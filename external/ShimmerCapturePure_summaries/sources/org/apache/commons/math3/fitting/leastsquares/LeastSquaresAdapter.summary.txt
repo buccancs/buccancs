@@ -1,0 +1,54 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/fitting/leastsquares/LeastSquaresAdapter.java
+// Size: 1909 bytes
+// Modified: 2025-10-21 16:32:09.045458300 +0100
+
+package org.apache.commons.math3.fitting.leastsquares;
+
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math3.linear.RealVector;
+import org.apache.commons.math3.optim.ConvergenceChecker;
+import org.apache.commons.math3.util.Incrementor;
+
+/* loaded from: classes5.dex */
+public class LeastSquaresAdapter implements LeastSquaresProblem {
+    private final LeastSquaresProblem problem;
+
+    public LeastSquaresAdapter(LeastSquaresProblem leastSquaresProblem) {
+        this.problem = leastSquaresProblem;
+    }
+
+    @Override // org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem
+    public RealVector getStart() {
+        return this.problem.getStart();
+    }
+
+    @Override // org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem
+    public int getObservationSize() {
+        return this.problem.getObservationSize();
+    }
+
+    @Override // org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem
+    public int getParameterSize() {
+        return this.problem.getParameterSize();
+    }
+
+    @Override // org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem
+    public LeastSquaresProblem.Evaluation evaluate(RealVector realVector) {
+        return this.problem.evaluate(realVector);
+    }
+
+    @Override // org.apache.commons.math3.optim.OptimizationProblem
+    public Incrementor getEvaluationCounter() {
+        return this.problem.getEvaluationCounter();
+    }
+
+    @Override // org.apache.commons.math3.optim.OptimizationProblem
+    public Incrementor getIterationCounter() {
+        return this.problem.getIterationCounter();
+    }
+
+    @Override // org.apache.commons.math3.optim.OptimizationProblem
+    public ConvergenceChecker<LeastSquaresProblem.Evaluation> getConvergenceChecker() {
+        return this.problem.getConvergenceChecker();
+    }
+}

@@ -1,0 +1,33 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/channelz/v1/ServerOrBuilder.java
+// Size: 653 bytes
+// Modified: 2025-10-21 16:32:06.140690500 +0100
+
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface ServerOrBuilder extends MessageOrBuilder {
+    ServerData getData();
+
+    ServerDataOrBuilder getDataOrBuilder();
+
+    SocketRef getListenSocket(int i);
+
+    int getListenSocketCount();
+
+    List<SocketRef> getListenSocketList();
+
+    SocketRefOrBuilder getListenSocketOrBuilder(int i);
+
+    List<? extends SocketRefOrBuilder> getListenSocketOrBuilderList();
+
+    ServerRef getRef();
+
+    ServerRefOrBuilder getRefOrBuilder();
+
+    boolean hasData();
+
+    boolean hasRef();
+}

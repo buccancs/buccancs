@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/params/HttpConnectionParamBean.java
+// Size: 954 bytes
+// Modified: 2025-10-21 16:32:04.519684400 +0100
+
+package org.apache.http.params;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class HttpConnectionParamBean extends HttpAbstractParamBean {
+    public HttpConnectionParamBean(HttpParams httpParams) {
+        super(httpParams);
+    }
+
+    public void setSoTimeout(int i) {
+        HttpConnectionParams.setSoTimeout(this.params, i);
+    }
+
+    public void setTcpNoDelay(boolean z) {
+        HttpConnectionParams.setTcpNoDelay(this.params, z);
+    }
+
+    public void setSocketBufferSize(int i) {
+        HttpConnectionParams.setSocketBufferSize(this.params, i);
+    }
+
+    public void setLinger(int i) {
+        HttpConnectionParams.setLinger(this.params, i);
+    }
+
+    public void setConnectionTimeout(int i) {
+        HttpConnectionParams.setConnectionTimeout(this.params, i);
+    }
+
+    public void setStaleCheckingEnabled(boolean z) {
+        HttpConnectionParams.setStaleCheckingEnabled(this.params, z);
+    }
+}

@@ -1,0 +1,71 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/config/MessageConstraints.java
+// Size: 2025 bytes
+// Modified: 2025-10-21 16:32:01.794157800 +0100
+
+package org.apache.http.config;
+
+import org.apache.http.util.Args;
+
+/* loaded from: classes5.dex */
+public class MessageConstraints implements Cloneable {
+    public static final MessageConstraints DEFAULT = new Builder().build();
+    private final int maxHeaderCount;
+    private final int maxLineLength;
+
+    public int getMaxHeaderCount() {
+        return this.maxHeaderCount;
+    }
+
+    public int getMaxLineLength() {
+        return this.maxLineLength;
+    }
+
+    MessageConstraints(int i, int i2) {
+        this.maxLineLength = i;
+        this.maxHeaderCount = i2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public MessageConstraints clone() throws CloneNotSupportedException {
+        return (MessageConstraints) super.clone();
+    }
+
+    public String toString() {
+        return "[maxLineLength=" + this.maxLineLength + ", maxHeaderCount=" + this.maxHeaderCount + "]";
+    }
+
+    public static MessageConstraints lineLen(int i) {
+        return new MessageConstraints(Args.notNegative(i, "Max line length"), -1);
+    }
+
+    public static Builder custom() {
+        return new Builder();
+    }
+
+    public static Builder copy(MessageConstraints messageConstraints) {
+        Args.notNull(messageConstraints, "Message constraints");
+        return new Builder().setMaxHeaderCount(messageConstraints.getMaxHeaderCount()).setMaxLineLength(messageConstraints.getMaxLineLength());
+    }
+
+    public static class Builder {
+        private int maxLineLength = -1;
+        private int maxHeaderCount = -1;
+
+        public Builder setMaxHeaderCount(int i) {
+            this.maxHeaderCount = i;
+            return this;
+        }
+
+        public Builder setMaxLineLength(int i) {
+            this.maxLineLength = i;
+            return this;
+        }
+
+        Builder() {
+        }
+
+        public MessageConstraints build() {
+            return new MessageConstraints(this.maxLineLength, this.maxHeaderCount);
+        }
+    }
+}

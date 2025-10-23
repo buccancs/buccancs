@@ -1,0 +1,228 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/payloaddesign/DatasetToSave.java
+// Size: 10687 bytes
+// Modified: 2025-10-21 16:32:08.841989600 +0100
+
+package com.shimmerresearch.verisense.payloaddesign;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+/* loaded from: classes2.dex */
+public class DatasetToSave implements Serializable {
+    private static final long serialVersionUID = -7451676654204282601L;
+    private TreeMap<AbstractSensor.SENSORS, List<DataSegmentDetails>> mapOfDataSegmentsPerSensor = new TreeMap<>();
+
+    public TreeMap<AbstractSensor.SENSORS, List<DataSegmentDetails>> getMapOfDataSegmentsPerSensor() {
+        return this.mapOfDataSegmentsPerSensor;
+    }
+
+    public List<DataSegmentDetails> getListOfDataSegmentsForSensorClassKey(AbstractSensor.SENSORS sensors) {
+        return this.mapOfDataSegmentsPerSensor.get(sensors);
+    }
+
+    public double getStartTimeRwcMsPerSensor(AbstractSensor.SENSORS sensors) {
+        return this.mapOfDataSegmentsPerSensor.get(sensors).get(0).getStartTimeRwcMs();
+    }
+
+    public double getEndTimeRwcMsPerSensor(AbstractSensor.SENSORS sensors) {
+        return this.mapOfDataSegmentsPerSensor.get(sensors).get(r3.size() - 1).getEndTimeRwcMs();
+    }
+
+    public double getStartTimeUcClockMsPerSensor(AbstractSensor.SENSORS sensors) {
+        return this.mapOfDataSegmentsPerSensor.get(sensors).get(0).getStartTimeUcClockMs();
+    }
+
+    public double getEndTimeUcClockMsPerSensor(AbstractSensor.SENSORS sensors) {
+        return this.mapOfDataSegmentsPerSensor.get(sensors).get(r3.size() - 1).getEndTimeUcClockMs();
+    }
+
+    public double findCsvStartTimeRwcMs() {
+        Iterator<List<DataSegmentDetails>> it2 = this.mapOfDataSegmentsPerSensor.values().iterator();
+        double dMin = Double.MAX_VALUE;
+        while (it2.hasNext()) {
+            Iterator<DataSegmentDetails> it3 = it2.next().iterator();
+            while (it3.hasNext()) {
+                dMin = Math.min(dMin, it3.next().getStartTimeRwcMs());
+            }
+        }
+        return dMin;
+    }
+
+    public double findCsvEndTimeRwcMs() {
+        Iterator<List<DataSegmentDetails>> it2 = this.mapOfDataSegmentsPerSensor.values().iterator();
+        double dMax = Double.MIN_VALUE;
+        while (it2.hasNext()) {
+            Iterator<DataSegmentDetails> it3 = it2.next().iterator();
+            while (it3.hasNext()) {
+                dMax = Math.max(dMax, it3.next().getEndTimeRwcMs());
+            }
+        }
+        return dMax;
+    }
+
+    public double findCsvStartTimeUcClockMs() {
+        Iterator<List<DataSegmentDetails>> it2 = this.mapOfDataSegmentsPerSensor.values().iterator();
+        double dMin = Double.MAX_VALUE;
+        while (it2.hasNext()) {
+            Iterator<DataSegmentDetails> it3 = it2.next().iterator();
+            while (it3.hasNext()) {
+                dMin = Math.min(dMin, it3.next().getStartTimeUcClockMs());
+            }
+        }
+        return dMin;
+    }
+
+    public double findCsvEndTimeUcClockMs() {
+        Iterator<List<DataSegmentDetails>> it2 = this.mapOfDataSegmentsPerSensor.values().iterator();
+        double dMax = Double.MIN_VALUE;
+        while (it2.hasNext()) {
+            Iterator<DataSegmentDetails> it3 = it2.next().iterator();
+            while (it3.hasNext()) {
+                dMax = Math.max(dMax, it3.next().getEndTimeUcClockMs());
+            }
+        }
+        return dMax;
+    }
+
+    public void reset() {
+        this.mapOfDataSegmentsPerSensor.clear();
+    }
+
+    public void addDataSegmentsForSensorClassKey(AbstractSensor.SENSORS sensors, List<DataSegmentDetails> list, boolean z) {
+        List<DataSegmentDetails> arrayList = this.mapOfDataSegmentsPerSensor.get(sensors);
+        if (arrayList == null) {
+            arrayList = new ArrayList<>();
+            putInMapOfDataSegmentsPerSensor(sensors, arrayList);
+        }
+        int i = 0;
+        if (arrayList.size() > 0) {
+            DataSegmentDetails dataSegmentDetails = arrayList.get(arrayList.size() - 1);
+            DataSegmentDetails dataSegmentDetails2 = list.get(0);
+            if (!z || UtilCsvSplitting.isDataBlockContinuous(sensors, dataSegmentDetails, dataSegmentDetails2.getListOfDataBlocks().get(0)).isEmpty()) {
+                dataSegmentDetails.addDataBlocks(dataSegmentDetails2.getListOfDataBlocks());
+                i = 1;
+            }
+        }
+        while (i < list.size()) {
+            DataSegmentDetails dataSegmentDetails3 = list.get(i);
+            DataSegmentDetails dataSegmentDetails4 = new DataSegmentDetails();
+            dataSegmentDetails4.addDataBlocks(dataSegmentDetails3.getListOfDataBlocks());
+            arrayList.add(dataSegmentDetails4);
+            i++;
+        }
+    }
+
+    public void printListOfDataBlockDetailsBySensor() {
+        for (Map.Entry<AbstractSensor.SENSORS, List<DataSegmentDetails>> entry : this.mapOfDataSegmentsPerSensor.entrySet()) {
+            System.out.println("Sorted in temporal order for sensor = " + entry.getKey() + ":");
+            for (DataSegmentDetails dataSegmentDetails : entry.getValue()) {
+                System.out.println("DataSegmentIndex=1, " + dataSegmentDetails.generateReport());
+                DataSegmentDetails.printListOfDataBlockDetails(dataSegmentDetails.getListOfDataBlocks(), true);
+                System.out.println("");
+            }
+        }
+    }
+
+    public void printReportOfDataSegments() {
+        TreeMap<AbstractSensor.SENSORS, List<DataSegmentDetails>> mapOfDataSegmentsPerSensor = getMapOfDataSegmentsPerSensor();
+        System.out.println(" |_ Contents:");
+        for (AbstractSensor.SENSORS sensors : mapOfDataSegmentsPerSensor.keySet()) {
+            System.out.println("   |_ Sensor=" + sensors + ":");
+            int i = 0;
+            for (DataSegmentDetails dataSegmentDetails : mapOfDataSegmentsPerSensor.get(sensors)) {
+                System.out.println("     |_ DataSegmentIndex=" + i + ", " + dataSegmentDetails.generateReport());
+                i++;
+            }
+        }
+        for (Map.Entry<AbstractSensor.SENSORS, List<DataSegmentDetails>> entry : mapOfDataSegmentsPerSensor.entrySet()) {
+            List<DataSegmentDetails> value = entry.getValue();
+            if (value.size() > 1) {
+                for (int i2 = 1; i2 < value.size(); i2++) {
+                    DataSegmentDetails dataSegmentDetails2 = value.get(i2);
+                    int i3 = i2 - 1;
+                    DataSegmentDetails dataSegmentDetails3 = value.get(i3);
+                    if (dataSegmentDetails2.isResultOfSplitAtMiddayOrMidnight()) {
+                        System.out.println("   |_ WARNING! Midday/Midnight Transition Detected for sensor=" + entry.getKey() + " between DataSegment " + i3 + " and " + i2);
+                    } else {
+                        double startTimeRwcMs = dataSegmentDetails2.getStartTimeRwcMs() - dataSegmentDetails3.getEndTimeRwcMs();
+                        System.out.println("   |_ WARNING! Time-gap in middle of payload for sensor=" + entry.getKey() + " between DataSegment " + i3 + " and " + i2 + " of " + UtilVerisenseDriver.convertSecondsToHHmmssSSS(startTimeRwcMs / 1000.0d) + " (HH:mm:ss.SSS)");
+                    }
+                }
+            }
+        }
+    }
+
+    public void putInMapOfDataSegmentsPerSensor(AbstractSensor.SENSORS sensors, List<DataSegmentDetails> list) {
+        this.mapOfDataSegmentsPerSensor.put(sensors, list);
+    }
+
+    public void updateSampleCountForEachDataSegmentDetails() {
+        Iterator<List<DataSegmentDetails>> it2 = getMapOfDataSegmentsPerSensor().values().iterator();
+        while (it2.hasNext()) {
+            Iterator<DataSegmentDetails> it3 = it2.next().iterator();
+            while (it3.hasNext()) {
+                it3.next().updateSampleCount();
+            }
+        }
+    }
+
+    public double calculateSamplingRateForSensor(AbstractSensor.SENSORS sensors) {
+        System.out.println("  |_ Calculating average sampling rate for sensor=" + sensors);
+        List<DataSegmentDetails> list = this.mapOfDataSegmentsPerSensor.get(sensors);
+        if (list == null || list.size() <= 0) {
+            return Double.NaN;
+        }
+        ArrayList arrayList = new ArrayList();
+        for (int i = 0; i < list.size(); i++) {
+            DataSegmentDetails dataSegmentDetails = list.get(i);
+            dataSegmentDetails.updateCalculatedSamplingRate();
+            double calculatedSamplingRate = dataSegmentDetails.getCalculatedSamplingRate();
+            System.out.println("    |_ DataSegmentIndex=" + i + ", " + dataSegmentDetails.generateReport() + " => SamplingRate=" + (Double.isNaN(calculatedSamplingRate) ? UtilVerisenseDriver.UNAVAILABLE : UtilVerisenseDriver.formatDoubleToNdecimalPlaces(calculatedSamplingRate, 3) + Configuration.CHANNEL_UNITS.FREQUENCY));
+            if (!Double.isNaN(calculatedSamplingRate)) {
+                arrayList.add(Double.valueOf(calculatedSamplingRate));
+            }
+        }
+        double dCalculateAverage = UtilVerisenseDriver.calculateAverage(arrayList);
+        System.out.println("      |_ AverageSamplingRate=" + UtilVerisenseDriver.formatDoubleToNdecimalPlaces(dCalculateAverage, 3) + Configuration.CHANNEL_UNITS.FREQUENCY);
+        return dCalculateAverage;
+    }
+
+    public long calculateSampleCount() {
+        Iterator<List<DataSegmentDetails>> it2 = getMapOfDataSegmentsPerSensor().values().iterator();
+        long sampleCount = 0;
+        while (it2.hasNext()) {
+            while (it2.next().iterator().hasNext()) {
+                sampleCount += r3.next().getSampleCount();
+            }
+        }
+        return sampleCount;
+    }
+
+    public long calculateDataBlockCount() {
+        Iterator<List<DataSegmentDetails>> it2 = getMapOfDataSegmentsPerSensor().values().iterator();
+        long size = 0;
+        while (it2.hasNext()) {
+            while (it2.next().iterator().hasNext()) {
+                size += r3.next().listOfDataBlocks.size();
+            }
+        }
+        return size;
+    }
+
+    public List<DataSegmentDetails> getOfCreateListOfDataSegmentsForSensor(AbstractSensor.SENSORS sensors) {
+        List<DataSegmentDetails> list = this.mapOfDataSegmentsPerSensor.get(sensors);
+        if (list != null) {
+            return list;
+        }
+        ArrayList arrayList = new ArrayList();
+        putInMapOfDataSegmentsPerSensor(sensors, arrayList);
+        return arrayList;
+    }
+}

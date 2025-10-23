@@ -1,0 +1,46 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/DistributionOrBuilder.java
+// Size: 1009 bytes
+// Modified: 2025-10-21 16:32:02.124796100 +0100
+
+package com.google.api;
+
+import com.google.api.Distribution;
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public interface DistributionOrBuilder extends MessageOrBuilder {
+    long getBucketCounts(int i);
+
+    int getBucketCountsCount();
+
+    List<Long> getBucketCountsList();
+
+    Distribution.BucketOptions getBucketOptions();
+
+    Distribution.BucketOptionsOrBuilder getBucketOptionsOrBuilder();
+
+    long getCount();
+
+    Distribution.Exemplar getExemplars(int i);
+
+    int getExemplarsCount();
+
+    List<Distribution.Exemplar> getExemplarsList();
+
+    Distribution.ExemplarOrBuilder getExemplarsOrBuilder(int i);
+
+    List<? extends Distribution.ExemplarOrBuilder> getExemplarsOrBuilderList();
+
+    double getMean();
+
+    Distribution.Range getRange();
+
+    Distribution.RangeOrBuilder getRangeOrBuilder();
+
+    double getSumOfSquaredDeviation();
+
+    boolean hasBucketOptions();
+
+    boolean hasRange();
+}

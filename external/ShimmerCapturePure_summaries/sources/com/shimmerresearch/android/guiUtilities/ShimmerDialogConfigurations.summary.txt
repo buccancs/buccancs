@@ -1,0 +1,747 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/android/guiUtilities/ShimmerDialogConfigurations.java
+// Size: 45378 bytes
+// Modified: 2025-10-21 16:32:14.582635000 +0100
+
+package com.shimmerresearch.android.guiUtilities;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import com.androidplot.xy.XYPlot;
+import com.shimmerresearch.android.Shimmer;
+import com.shimmerresearch.android.Shimmer4Android;
+import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid;
+import com.shimmerresearch.android.shimmerService.ShimmerService;
+import com.shimmerresearch.androidinstrumentdriver.R;
+import com.shimmerresearch.androidradiodriver.Shimmer3BLEAndroid;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.AssembleShimmerConfig;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class ShimmerDialogConfigurations {
+    protected static List<String[]> mAdditionalSignalsList;
+    protected static List<String[]> mFilteredSignalsList;
+
+    public void setADBuilderTheme(Context context, AlertDialog.Builder builder, String str) {
+    }
+
+    public void setDialogAndButtonsTheme(Context context, AlertDialog alertDialog, Button button, Button button2) {
+    }
+
+    @Deprecated
+    public static void buildShimmerSensorEnableDetails(final ShimmerDevice shimmerDevice, Context context) {
+        final ArrayList arrayList = new ArrayList();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        LinkedHashMap<Integer, SensorDetails> sensorMap = shimmerDevice.getSensorMap();
+        Iterator<SensorDetails> it2 = sensorMap.values().iterator();
+        int i = 0;
+        int i2 = 0;
+        while (it2.hasNext()) {
+            if (shimmerDevice.isVerCompatibleWithAnyOf(it2.next().mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
+                i2++;
+            }
+        }
+        String[] strArr = new String[i2];
+        final boolean[] zArr = new boolean[i2];
+        final int[] iArr = new int[i2];
+        Iterator<Integer> it3 = sensorMap.keySet().iterator();
+        while (it3.hasNext()) {
+            int iIntValue = it3.next().intValue();
+            SensorDetails sensorDetails = sensorMap.get(Integer.valueOf(iIntValue));
+            if (shimmerDevice.isVerCompatibleWithAnyOf(sensorDetails.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
+                strArr[i] = sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel;
+                zArr[i] = sensorDetails.isEnabled();
+                iArr[i] = iIntValue;
+                i++;
+            }
+        }
+        builder.setTitle("Sensors").setMultiChoiceItems(strArr, zArr, new DialogInterface.OnMultiChoiceClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.3
+            @Override // android.content.DialogInterface.OnMultiChoiceClickListener
+            public void onClick(DialogInterface dialogInterface, int i3, boolean z) {
+                if (arrayList.contains(Integer.valueOf(i3))) {
+                    arrayList.remove(Integer.valueOf(i3));
+                } else {
+                    arrayList.add(Integer.valueOf(i3));
+                }
+            }
+        }).setPositiveButton("ok", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.2
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i3) {
+                ShimmerDevice shimmerDeviceDeepClone = shimmerDevice.deepClone();
+                Iterator it4 = arrayList.iterator();
+                while (it4.hasNext()) {
+                    int iIntValue2 = ((Integer) it4.next()).intValue();
+                    shimmerDeviceDeepClone.setSensorEnabledState(iArr[iIntValue2], zArr[iIntValue2]);
+                }
+                ArrayList arrayList2 = new ArrayList();
+                arrayList2.add(0, shimmerDeviceDeepClone);
+                AssembleShimmerConfig.generateMultipleShimmerConfig(arrayList2, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+                ShimmerDevice shimmerDevice2 = shimmerDevice;
+                if (shimmerDevice2 instanceof Shimmer) {
+                    ((Shimmer) shimmerDevice2).writeEnabledSensors(shimmerDeviceDeepClone.getEnabledSensors());
+                } else {
+                    boolean z = shimmerDevice2 instanceof Shimmer4Android;
+                }
+            }
+        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.1
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i3) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.create().show();
+    }
+
+    public static void buildShimmerSensorEnableDetails(ShimmerDevice shimmerDevice, Context context, final ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        final ShimmerDevice shimmerDeviceDeepClone = shimmerDevice.deepClone();
+        LinkedHashMap<Integer, SensorDetails> sensorMap = shimmerDeviceDeepClone.getSensorMap();
+        Iterator<SensorDetails> it2 = sensorMap.values().iterator();
+        int i = 0;
+        while (it2.hasNext()) {
+            if (shimmerDevice.isVerCompatibleWithAnyOf(it2.next().mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
+                i++;
+            }
+        }
+        String[] strArr = new String[i];
+        boolean[] zArr = new boolean[i];
+        final int[] iArr = new int[i];
+        Iterator<Integer> it3 = sensorMap.keySet().iterator();
+        int i2 = 0;
+        while (it3.hasNext()) {
+            int iIntValue = it3.next().intValue();
+            SensorDetails sensorDetails = sensorMap.get(Integer.valueOf(iIntValue));
+            if (shimmerDevice.isVerCompatibleWithAnyOf(sensorDetails.mSensorDetailsRef.mListOfCompatibleVersionInfo)) {
+                strArr[i2] = sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel;
+                zArr[i2] = sensorDetails.isEnabled();
+                iArr[i2] = iIntValue;
+                i2++;
+            }
+        }
+        builder.setTitle("Sensors");
+        builder.setMultiChoiceItems(strArr, (boolean[]) null, new DialogInterface.OnMultiChoiceClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.4
+            @Override // android.content.DialogInterface.OnMultiChoiceClickListener
+            public void onClick(DialogInterface dialogInterface, int i3, boolean z) {
+                if (z) {
+                    shimmerDeviceDeepClone.setSensorEnabledState(iArr[i3], true);
+                } else {
+                    shimmerDeviceDeepClone.setSensorEnabledState(iArr[i3], false);
+                }
+                ListView listView = ((AlertDialog) dialogInterface).getListView();
+                for (int i4 = 0; i4 < listView.getAdapter().getCount(); i4++) {
+                    if (shimmerDeviceDeepClone.isSensorEnabled(iArr[i4])) {
+                        listView.setItemChecked(i4, true);
+                    } else {
+                        listView.setItemChecked(i4, false);
+                    }
+                }
+            }
+        }).setPositiveButton("ok", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.6
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i3) {
+                ArrayList arrayList = new ArrayList();
+                arrayList.add(0, shimmerDeviceDeepClone);
+                AssembleShimmerConfig.generateMultipleShimmerConfig(arrayList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+                ShimmerDevice shimmerDevice2 = shimmerDeviceDeepClone;
+                if (shimmerDevice2 instanceof Shimmer) {
+                    shimmerBluetoothManagerAndroid.configureShimmer(shimmerDevice2);
+                } else if (shimmerDevice2 instanceof Shimmer3BLEAndroid) {
+                    shimmerBluetoothManagerAndroid.configureShimmer(shimmerDevice2);
+                }
+            }
+        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.5
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i3) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog alertDialogCreate = builder.create();
+        alertDialogCreate.show();
+        ListView listView = alertDialogCreate.getListView();
+        for (int i3 = 0; i3 < listView.getCount(); i3++) {
+            if (shimmerDeviceDeepClone.isSensorEnabled(iArr[i3])) {
+                listView.setItemChecked(i3, true);
+            } else {
+                listView.setItemChecked(i3, false);
+            }
+        }
+    }
+
+    public static void buildShimmerConfigOptions(final ShimmerDevice shimmerDevice, final Context context, final ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid) {
+        final Map<String, ConfigOptionDetailsSensor> configOptionsMap = shimmerDevice.getConfigOptionsMap();
+        final ShimmerDevice shimmerDeviceDeepClone = shimmerDevice.deepClone();
+        LinkedHashMap<Integer, SensorDetails> sensorMap = shimmerDevice.getSensorMap();
+        ArrayList arrayList = new ArrayList();
+        for (SensorDetails sensorDetails : sensorMap.values()) {
+            if (sensorDetails.mSensorDetailsRef.mListOfConfigOptionKeysAssociated != null && sensorDetails.isEnabled()) {
+                arrayList.addAll(sensorDetails.mSensorDetailsRef.mListOfConfigOptionKeysAssociated);
+            }
+        }
+        final CharSequence[] charSequenceArr = (CharSequence[]) arrayList.toArray(new CharSequence[arrayList.size()]);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Configuration");
+        builder.setItems(charSequenceArr, new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.7
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(context, charSequenceArr[i], 0).show();
+                ShimmerDialogConfigurations.buildConfigOptionDetailsSensor(charSequenceArr[i].toString(), (Map<String, ConfigOptionDetailsSensor>) configOptionsMap, context, shimmerDevice, shimmerDeviceDeepClone, shimmerBluetoothManagerAndroid);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.8
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.create().show();
+    }
+
+    @Deprecated
+    public static void buildConfigOptionDetailsSensor(final String str, Map<String, ConfigOptionDetailsSensor> map, final Context context, final ShimmerDevice shimmerDevice, final ShimmerDevice shimmerDevice2) {
+        Object configValueUsingConfigLabel;
+        final ConfigOptionDetailsSensor configOptionDetailsSensor = map.get(str);
+        final String[] guiValues = configOptionDetailsSensor.getGuiValues();
+        String configValueLabelFromConfigLabel = getConfigValueLabelFromConfigLabel(str, shimmerDevice2);
+        if (configOptionDetailsSensor.mGuiComponentType == ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX) {
+            if (shimmerDevice.getConfigValueUsingConfigLabel(str) != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                shimmerDevice.getConfigValueUsingConfigLabel(str);
+                builder.setTitle(configValueLabelFromConfigLabel);
+                builder.setItems(guiValues, new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.9
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(context, guiValues[i], 0).show();
+                        shimmerDevice2.setConfigValueUsingConfigLabel(str, configOptionDetailsSensor.mConfigValues[i]);
+                        ArrayList arrayList = new ArrayList();
+                        arrayList.add(0, shimmerDevice2);
+                        AssembleShimmerConfig.generateMultipleShimmerConfig(arrayList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+                        ShimmerDevice shimmerDevice3 = shimmerDevice;
+                        if (shimmerDevice3 instanceof Shimmer) {
+                            ((Shimmer) shimmerDevice3).writeConfigBytes(shimmerDevice2.getShimmerConfigBytes());
+                            return;
+                        }
+                        if (shimmerDevice3 instanceof Shimmer4Android) {
+                            ((Shimmer4Android) shimmerDevice3).writeConfigBytes(shimmerDevice2.getShimmerConfigBytes());
+                            return;
+                        }
+                        ShimmerDevice shimmerDevice4 = shimmerDevice2;
+                        if (shimmerDevice4 instanceof Shimmer3BLEAndroid) {
+                            ((Shimmer3BLEAndroid) shimmerDevice3).writeBytes(shimmerDevice4.getShimmerConfigBytes());
+                        }
+                    }
+                });
+                builder.create().show();
+                return;
+            }
+            return;
+        }
+        if (configOptionDetailsSensor.mGuiComponentType != ConfigOptionDetails.GUI_COMPONENT_TYPE.TEXTFIELD || (configValueUsingConfigLabel = shimmerDevice.getConfigValueUsingConfigLabel(str)) == null) {
+            return;
+        }
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
+        String str2 = (String) configValueUsingConfigLabel;
+        builder2.setTitle(str2);
+        new LinearLayout.LayoutParams(-1, -2);
+        final EditText editText = new EditText(context);
+        editText.setText(str2);
+        LinearLayout linearLayout = new LinearLayout(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
+        linearLayout.setOrientation(1);
+        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setGravity(128);
+        linearLayout.setPadding(2, 2, 2, 2);
+        linearLayout.addView(editText, new LinearLayout.LayoutParams(-1, -2));
+        builder2.setView(linearLayout);
+        builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.10
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                shimmerDevice2.setConfigValueUsingConfigLabel(str, editText.getText().toString());
+                ArrayList arrayList = new ArrayList();
+                arrayList.add(0, shimmerDevice2);
+                AssembleShimmerConfig.generateMultipleShimmerConfig(arrayList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+                ShimmerDevice shimmerDevice3 = shimmerDevice;
+                if (shimmerDevice3 instanceof Shimmer) {
+                    ((Shimmer) shimmerDevice3).writeConfigBytes(shimmerDevice2.getShimmerConfigBytes());
+                    return;
+                }
+                if (shimmerDevice3 instanceof Shimmer4Android) {
+                    ((Shimmer4Android) shimmerDevice3).writeConfigBytes(shimmerDevice2.getShimmerConfigBytes());
+                    return;
+                }
+                ShimmerDevice shimmerDevice4 = shimmerDevice2;
+                if (shimmerDevice4 instanceof Shimmer3BLEAndroid) {
+                    ((Shimmer3BLEAndroid) shimmerDevice3).writeBytes(shimmerDevice4.getShimmerConfigBytes());
+                }
+            }
+        });
+        builder2.create().show();
+    }
+
+    public static void buildConfigOptionDetailsSensor(final String str, Map<String, ConfigOptionDetailsSensor> map, final Context context, final ShimmerDevice shimmerDevice, final ShimmerDevice shimmerDevice2, final ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid) {
+        Object configValueUsingConfigLabel;
+        final ConfigOptionDetailsSensor configOptionDetailsSensor = map.get(str);
+        final String[] guiValues = configOptionDetailsSensor.getGuiValues();
+        String configValueLabelFromConfigLabel = getConfigValueLabelFromConfigLabel(str, shimmerDevice2);
+        if (configOptionDetailsSensor.mGuiComponentType == ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX) {
+            if (shimmerDevice.getConfigValueUsingConfigLabel(str) != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                shimmerDevice.getConfigValueUsingConfigLabel(str);
+                builder.setTitle(configValueLabelFromConfigLabel);
+                builder.setItems(guiValues, new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.11
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(context, guiValues[i], 0).show();
+                        shimmerDevice2.setConfigValueUsingConfigLabel(str, configOptionDetailsSensor.mConfigValues[i]);
+                        ArrayList arrayList = new ArrayList();
+                        arrayList.add(0, shimmerDevice2);
+                        AssembleShimmerConfig.generateMultipleShimmerConfig(arrayList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+                        ShimmerDevice shimmerDevice3 = shimmerDevice;
+                        if (shimmerDevice3 instanceof Shimmer) {
+                            shimmerBluetoothManagerAndroid.configureShimmer(shimmerDevice2);
+                        } else if (shimmerDevice3 instanceof Shimmer4Android) {
+                            shimmerBluetoothManagerAndroid.configureShimmer(shimmerDevice2);
+                        } else if (shimmerDevice3 instanceof Shimmer3BLEAndroid) {
+                            shimmerBluetoothManagerAndroid.configureShimmer(shimmerDevice2);
+                        }
+                    }
+                });
+                builder.create().show();
+                return;
+            }
+            return;
+        }
+        if (configOptionDetailsSensor.mGuiComponentType != ConfigOptionDetails.GUI_COMPONENT_TYPE.TEXTFIELD || (configValueUsingConfigLabel = shimmerDevice.getConfigValueUsingConfigLabel(str)) == null) {
+            return;
+        }
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
+        String str2 = (String) configValueUsingConfigLabel;
+        builder2.setTitle(str2);
+        new LinearLayout.LayoutParams(-1, -2);
+        final EditText editText = new EditText(context);
+        editText.setText(str2);
+        LinearLayout linearLayout = new LinearLayout(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
+        linearLayout.setOrientation(1);
+        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setGravity(128);
+        linearLayout.setPadding(2, 2, 2, 2);
+        linearLayout.addView(editText, new LinearLayout.LayoutParams(-1, -2));
+        builder2.setView(linearLayout);
+        builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.12
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                shimmerDevice2.setConfigValueUsingConfigLabel(str, editText.getText().toString());
+                ArrayList arrayList = new ArrayList();
+                arrayList.add(0, shimmerDevice2);
+                AssembleShimmerConfig.generateMultipleShimmerConfig(arrayList, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+                ShimmerDevice shimmerDevice3 = shimmerDevice;
+                if (shimmerDevice3 instanceof Shimmer) {
+                    ((Shimmer) shimmerDevice3).writeConfigBytes(shimmerDevice2.getShimmerConfigBytes());
+                } else if (shimmerDevice3 instanceof Shimmer4Android) {
+                    ((Shimmer4Android) shimmerDevice3).writeConfigBytes(shimmerDevice2.getShimmerConfigBytes());
+                }
+            }
+        });
+        builder2.create().show();
+    }
+
+    public static void buildConfigOptionDetailsSensor(final String str, Map<String, ConfigOptionDetailsSensor> map, final Context context, final ShimmerDevice shimmerDevice, final ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid, final ShimmerDialogConfigurations shimmerDialogConfigurations) {
+        Object configValueUsingConfigLabel;
+        final ConfigOptionDetailsSensor configOptionDetailsSensor = map.get(str);
+        final CharSequence[] guiValues = configOptionDetailsSensor.getGuiValues();
+        String configValueLabelFromConfigLabel = getConfigValueLabelFromConfigLabel(str, shimmerDevice);
+        if (configOptionDetailsSensor.mGuiComponentType == ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX) {
+            if (shimmerDevice.getConfigValueUsingConfigLabel(str) != null) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                shimmerDevice.getConfigValueUsingConfigLabel(str);
+                builder.setTitle(configValueLabelFromConfigLabel);
+                builder.setItems(guiValues, new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.13
+                    @Override // android.content.DialogInterface.OnClickListener
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        Toast.makeText(context, guiValues[i], 0).show();
+                        shimmerDevice.setConfigValueUsingConfigLabel(str, configOptionDetailsSensor.mConfigValues[i]);
+                        shimmerDialogConfigurations.writeConfigToShimmer(shimmerDevice, shimmerBluetoothManagerAndroid);
+                    }
+                });
+                shimmerDialogConfigurations.setADBuilderTheme(context, builder, configValueLabelFromConfigLabel);
+                builder.create().show();
+                return;
+            }
+            return;
+        }
+        if (configOptionDetailsSensor.mGuiComponentType != ConfigOptionDetails.GUI_COMPONENT_TYPE.TEXTFIELD || (configValueUsingConfigLabel = shimmerDevice.getConfigValueUsingConfigLabel(str)) == null) {
+            return;
+        }
+        AlertDialog.Builder builder2 = new AlertDialog.Builder(context);
+        String str2 = (String) configValueUsingConfigLabel;
+        builder2.setTitle(str2);
+        final EditText editText = new EditText(context);
+        editText.setText(str2);
+        LinearLayout linearLayout = new LinearLayout(context);
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(-1, -2);
+        linearLayout.setOrientation(1);
+        linearLayout.setLayoutParams(layoutParams);
+        linearLayout.setGravity(128);
+        linearLayout.setPadding(2, 2, 2, 2);
+        linearLayout.addView(editText, new LinearLayout.LayoutParams(-1, -2));
+        builder2.setView(linearLayout);
+        builder2.setPositiveButton("OK", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.14
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                shimmerDevice.setConfigValueUsingConfigLabel(str, editText.getText().toString());
+                shimmerDialogConfigurations.writeConfigToShimmer(shimmerDevice, shimmerBluetoothManagerAndroid);
+            }
+        });
+        shimmerDialogConfigurations.setADBuilderTheme(context, builder2, str2);
+        builder2.create().show();
+    }
+
+    public void writeConfigToShimmer(ShimmerDevice shimmerDevice, ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid) {
+        AssembleShimmerConfig.generateSingleShimmerConfig(shimmerDevice, Configuration.COMMUNICATION_TYPE.BLUETOOTH);
+        if (shimmerDevice instanceof Shimmer) {
+            shimmerBluetoothManagerAndroid.configureShimmer(shimmerDevice);
+        } else if (shimmerDevice instanceof Shimmer4Android) {
+            shimmerBluetoothManagerAndroid.configureShimmer(shimmerDevice);
+        } else if (shimmerDevice instanceof Shimmer3BLEAndroid) {
+            shimmerBluetoothManagerAndroid.configureShimmer(shimmerDevice);
+        }
+    }
+
+    private static String getConfigValueLabelFromConfigLabel(String str, ShimmerDevice shimmerDevice) {
+        ConfigOptionDetailsSensor configOptionDetailsSensor = shimmerDevice.getConfigOptionsMap().get(str);
+        int iIntValue = ((Integer) shimmerDevice.getConfigValueUsingConfigLabel(str)).intValue();
+        Integer[] configValues = configOptionDetailsSensor.getConfigValues();
+        String[] guiValues = configOptionDetailsSensor.getGuiValues();
+        int i = -1;
+        for (int i2 = 0; i2 < configValues.length; i2++) {
+            if (iIntValue == configValues[i2].intValue()) {
+                i = i2;
+            }
+        }
+        if (i == -1) {
+            System.out.println();
+            return "";
+        }
+        return guiValues[i];
+    }
+
+    private static int getConfigValueIntFromConfigGuiIndex(int i, String str, ShimmerDevice shimmerDevice) {
+        return shimmerDevice.getConfigOptionsMap().get(str).getConfigValues()[i].intValue();
+    }
+
+    public static void showSelectSensorPlotWithAddSignals(Context context, ShimmerService shimmerService, String str, XYPlot xYPlot, List<String[]> list) {
+        mAdditionalSignalsList = list;
+        showSelectSensorPlot(context, shimmerService, str, xYPlot);
+    }
+
+    public static void showSelectSensorPlotWithFilter(Context context, ShimmerService shimmerService, String str, XYPlot xYPlot, List<String[]> list) {
+        mFilteredSignalsList = list;
+        showSelectSensorPlot(context, shimmerService, str, xYPlot);
+    }
+
+    public static void showSelectSensorPlotWithFilterAddSignals(Context context, ShimmerService shimmerService, String str, XYPlot xYPlot, List<String[]> list, List<String[]> list2) {
+        mFilteredSignalsList = list2;
+        mAdditionalSignalsList = list;
+        showSelectSensorPlot(context, shimmerService, str, xYPlot);
+    }
+
+    public static void showSelectSensorPlot(Context context, final ShimmerService shimmerService, final String str, final XYPlot xYPlot) {
+        final Dialog dialog = new Dialog(context);
+        dialog.setContentView(R.layout.dialog_sensor_view);
+        Button button = (Button) dialog.findViewById(R.id.ButtonFilterPlotSignal);
+        Button button2 = (Button) dialog.findViewById(R.id.buttonResetFilterPlotSignal);
+        Button button3 = (Button) dialog.findViewById(R.id.button_done);
+        final EditText editText = (EditText) dialog.findViewById(R.id.editTextFilterPlotSignal);
+        char c = 1;
+        dialog.setCanceledOnTouchOutside(true);
+        TextView textView = (TextView) dialog.findViewById(android.R.id.title);
+        if (textView != null) {
+            textView.setText("Select Signal");
+        } else {
+            Log.e("DialogConfigurations", "Title TextView is null!");
+        }
+        final ListView listView = (ListView) dialog.findViewById(android.R.id.list);
+        listView.setChoiceMode(1);
+        List<String[]> listofEnabledSensorSignals = shimmerService.getListofEnabledSensorSignals(str);
+        List<String[]> list = mAdditionalSignalsList;
+        if (list != null && list.size() > 0) {
+            Iterator<String[]> it2 = mAdditionalSignalsList.iterator();
+            while (it2.hasNext()) {
+                listofEnabledSensorSignals.add(it2.next());
+            }
+        }
+        final ArrayList arrayList = new ArrayList();
+        Iterator<String[]> it3 = listofEnabledSensorSignals.iterator();
+        while (it3.hasNext()) {
+            arrayList.add(it3.next());
+        }
+        List<String[]> list2 = mFilteredSignalsList;
+        if (list2 != null && list2.size() > 0) {
+            for (String[] strArr : mFilteredSignalsList) {
+                for (String[] strArr2 : listofEnabledSensorSignals) {
+                    List<String[]> list3 = listofEnabledSensorSignals;
+                    if (strArr2[c].equals(strArr[c]) && strArr2[2].equals(strArr[2])) {
+                        arrayList.remove(strArr2);
+                    }
+                    listofEnabledSensorSignals = list3;
+                    c = 1;
+                }
+            }
+        }
+        ArrayList arrayList2 = new ArrayList();
+        for (int i = 0; i < arrayList.size(); i++) {
+            arrayList2.add(joinStrings((String[]) arrayList.get(i)));
+        }
+        listView.setAdapter((ListAdapter) new ArrayAdapter(context, android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, (String[]) arrayList2.toArray(new String[arrayList2.size()])));
+        listView.setChoiceMode(2);
+        for (int i2 = 0; i2 < arrayList.size(); i2++) {
+            if (shimmerService.mPlotManager.checkIfPropertyExist((String[]) arrayList.get(i2))) {
+                listView.setItemChecked(i2, true);
+            }
+        }
+        button3.setOnClickListener(new View.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.15
+            @Override // android.view.View.OnClickListener
+            public void onClick(View view) {
+                dialog.hide();
+            }
+        });
+        button.setOnClickListener(new View.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.16
+            @Override // android.view.View.OnClickListener
+            public void onClick(View view) {
+                ArrayList arrayList3 = new ArrayList();
+                String string = editText.getText().toString();
+                for (int size = arrayList.size() - 1; size > -1; size--) {
+                    if (!ShimmerDialogConfigurations.joinStrings((String[]) arrayList.get(size)).toLowerCase().contains(string.toLowerCase())) {
+                        arrayList.remove(size);
+                    }
+                }
+                for (int i3 = 0; i3 < arrayList.size(); i3++) {
+                    arrayList3.add(ShimmerDialogConfigurations.joinStrings((String[]) arrayList.get(i3)));
+                }
+                listView.setAdapter((ListAdapter) new ArrayAdapter(dialog.getContext(), android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, (String[]) arrayList3.toArray(new String[arrayList3.size()])));
+                listView.setChoiceMode(2);
+                for (int i4 = 0; i4 < arrayList.size(); i4++) {
+                    if (shimmerService.mPlotManager.checkIfPropertyExist((String[]) arrayList.get(i4))) {
+                        listView.setItemChecked(i4, true);
+                    }
+                }
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.16.1
+                    @Override // android.widget.AdapterView.OnItemClickListener
+                    public void onItemClick(AdapterView<?> adapterView, View view2, int i5, long j) {
+                        if (!shimmerService.mPlotManager.checkIfPropertyExist((String[]) arrayList.get(i5))) {
+                            try {
+                                shimmerService.mPlotManager.addSignal((String[]) arrayList.get(i5), xYPlot);
+                                return;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                return;
+                            }
+                        }
+                        shimmerService.mPlotManager.removeSignal((String[]) arrayList.get(i5));
+                    }
+                });
+            }
+        });
+        button2.setOnClickListener(new View.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.17
+            @Override // android.view.View.OnClickListener
+            public void onClick(View view) {
+                final List<String[]> listofEnabledSensorSignals2 = shimmerService.getListofEnabledSensorSignals(str);
+                ArrayList arrayList3 = new ArrayList();
+                for (int i3 = 0; i3 < listofEnabledSensorSignals2.size(); i3++) {
+                    arrayList3.add(ShimmerDialogConfigurations.joinStrings(listofEnabledSensorSignals2.get(i3)));
+                }
+                listView.setAdapter((ListAdapter) new ArrayAdapter(dialog.getContext(), android.R.layout.simple_list_item_multiple_choice, android.R.id.text1, (String[]) arrayList3.toArray(new String[arrayList3.size()])));
+                listView.setChoiceMode(2);
+                for (int i4 = 0; i4 < listofEnabledSensorSignals2.size(); i4++) {
+                    if (shimmerService.mPlotManager.checkIfPropertyExist(listofEnabledSensorSignals2.get(i4))) {
+                        listView.setItemChecked(i4, true);
+                    }
+                }
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.17.1
+                    @Override // android.widget.AdapterView.OnItemClickListener
+                    public void onItemClick(AdapterView<?> adapterView, View view2, int i5, long j) {
+                        if (!shimmerService.mPlotManager.checkIfPropertyExist((String[]) listofEnabledSensorSignals2.get(i5))) {
+                            try {
+                                shimmerService.mPlotManager.addSignal((String[]) listofEnabledSensorSignals2.get(i5), xYPlot);
+                                return;
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                return;
+                            }
+                        }
+                        shimmerService.mPlotManager.removeSignal((String[]) listofEnabledSensorSignals2.get(i5));
+                    }
+                });
+            }
+        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.18
+            @Override // android.widget.AdapterView.OnItemClickListener
+            public void onItemClick(AdapterView<?> adapterView, View view, int i3, long j) {
+                if (!shimmerService.mPlotManager.checkIfPropertyExist((String[]) arrayList.get(i3))) {
+                    try {
+                        shimmerService.mPlotManager.addSignal((String[]) arrayList.get(i3), xYPlot);
+                        return;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return;
+                    }
+                }
+                shimmerService.mPlotManager.removeSignal((String[]) arrayList.get(i3));
+            }
+        });
+        dialog.show();
+    }
+
+    public void buildShimmersConnectedList(final List<ShimmerDevice> list, final Context context, final ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid) {
+        int size = list.size();
+        CharSequence[] charSequenceArr = new CharSequence[size];
+        CharSequence[] charSequenceArr2 = new CharSequence[list.size()];
+        CharSequence[] charSequenceArr3 = new CharSequence[list.size()];
+        for (int i = 0; i < size; i++) {
+            charSequenceArr[i] = list.get(i).getShimmerUserAssignedName();
+            charSequenceArr2[i] = list.get(i).getMacId();
+            charSequenceArr3[i] = ((Object) charSequenceArr[i]) + StringUtils.LF + ((Object) charSequenceArr2[i]);
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Connected Shimmers");
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.19
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i2) {
+                dialogInterface.cancel();
+            }
+        });
+        builder.setItems(charSequenceArr3, new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.20
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i2) {
+                ShimmerDialogConfigurations.this.buildSensorOrConfigOptions((ShimmerDevice) list.get(i2), context, shimmerBluetoothManagerAndroid);
+            }
+        });
+        builder.create().show();
+    }
+
+    public void buildSensorOrConfigOptions(final ShimmerDevice shimmerDevice, final Context context, final ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle("Options");
+        builder.setItems(new CharSequence[]{"Enable/Disable Sensors", "Device Configuration"}, new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.21
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (i == 0) {
+                    ShimmerDialogConfigurations.buildShimmerSensorEnableDetails(shimmerDevice, context, shimmerBluetoothManagerAndroid);
+                } else if (i == 1) {
+                    ShimmerDialogConfigurations.buildShimmerConfigOptions(shimmerDevice, context, shimmerBluetoothManagerAndroid);
+                }
+            }
+        });
+        builder.create().show();
+    }
+
+    public void buildSamplingRateDialog(final ShimmerDevice shimmerDevice, final Context context, final ShimmerBluetoothManagerAndroid shimmerBluetoothManagerAndroid) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        double samplingRateShimmer = shimmerDevice.getSamplingRateShimmer();
+        final String[] strArr = {"8", "16", "51.2", "102.4", "128", "204.8", "256", "512", "1024"};
+        final EditText editText = new EditText(context);
+        Button button = new Button(context);
+        final ListView listView = new ListView(context);
+        TextView textView = new TextView(context);
+        button.setText("Validate");
+        textView.setText("Custom: ");
+        textView.setTextSize(18.0f);
+        listView.setChoiceMode(1);
+        listView.setAdapter((ListAdapter) new ArrayAdapter(context, android.R.layout.simple_list_item_1, strArr));
+        button.setOnClickListener(new View.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.22
+            @Override // android.view.View.OnClickListener
+            public void onClick(View view) throws NumberFormatException {
+                double d;
+                String string = editText.getText().toString();
+                if (string == null || string.isEmpty()) {
+                    d = -1.0d;
+                } else {
+                    try {
+                        d = Double.parseDouble(string);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+                if (d != -1.0d) {
+                    shimmerDevice.setShimmerAndSensorsSamplingRate(d);
+                }
+                editText.setText(Double.toString(shimmerDevice.getSamplingRateShimmer()));
+            }
+        });
+        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(400, -1);
+        LinearLayout linearLayout = new LinearLayout(context, null);
+        LinearLayout linearLayout2 = new LinearLayout(context, null);
+        linearLayout.setOrientation(1);
+        linearLayout2.setOrientation(0);
+        editText.setLayoutParams(layoutParams);
+        editText.setInputType(8194);
+        linearLayout2.addView(textView);
+        linearLayout2.addView(editText);
+        linearLayout2.addView(button);
+        linearLayout.addView(listView);
+        linearLayout.addView(linearLayout2);
+        builder.setView(linearLayout);
+        builder.setPositiveButton("Set", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.23
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Toast.makeText(context, shimmerDevice.getSamplingRateShimmer() + "Hz selected", 0).show();
+                ShimmerDialogConfigurations.this.writeConfigToShimmer(shimmerDevice, shimmerBluetoothManagerAndroid);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.24
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        setADBuilderTheme(context, builder, Double.toString(samplingRateShimmer) + Configuration.CHANNEL_UNITS.FREQUENCY);
+        final AlertDialog alertDialogCreate = builder.create();
+        alertDialogCreate.setOnShowListener(new DialogInterface.OnShowListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.25
+            @Override // android.content.DialogInterface.OnShowListener
+            public void onShow(final DialogInterface dialogInterface) {
+                ShimmerDialogConfigurations.this.setDialogAndButtonsTheme(context, alertDialogCreate, alertDialogCreate.getButton(-1), alertDialogCreate.getButton(-2));
+                listView.setOnItemClickListener(new AdapterView.OnItemClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerDialogConfigurations.25.1
+                    @Override // android.widget.AdapterView.OnItemClickListener
+                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long j) {
+                        Double dValueOf = Double.valueOf(Double.parseDouble(strArr[i]));
+                        shimmerDevice.setShimmerAndSensorsSamplingRate(dValueOf.doubleValue());
+                        Toast.makeText(context, dValueOf + "Hz selected", 0).show();
+                        ShimmerDialogConfigurations.this.writeConfigToShimmer(shimmerDevice, shimmerBluetoothManagerAndroid);
+                        dialogInterface.dismiss();
+                    }
+                });
+            }
+        });
+        alertDialogCreate.show();
+    }
+
+    public static String joinStrings(String[] strArr) {
+        String str = "";
+        for (int i = 0; i < strArr.length; i++) {
+            str = i == 0 ? strArr[i] : str + StringUtils.SPACE + strArr[i];
+        }
+        return str;
+    }
+}

@@ -1,0 +1,271 @@
+package com.shimmerresearch.algorithms.gyroOnTheFlyCal;
+
+import com.shimmerresearch.algorithms.AbstractAlgorithm;
+import com.shimmerresearch.algorithms.AlgorithmDetails;
+import com.shimmerresearch.algorithms.AlgorithmResultObject;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.ShimmerMsg;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driver.calibration.CalibDetailsKinematic;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.SensorGroupingDetails;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.mpu9x50.SensorMPU9X50;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public class GyroOnTheFlyCalModule extends AbstractAlgorithm {
+    public static final AlgorithmDetails algoGyroOnTheFlyCal;
+    public static final ConfigOptionDetails configOptionGyroOnTheFlyCalibBufferSize;
+    public static final ConfigOptionDetails configOptionGyroOnTheFlyCalibThreshold;
+    public static final Map<String, AlgorithmDetails> mAlgorithmMapRef;
+    private static final SensorGroupingDetails sGDGyroOnTheFlyCalib;
+    private static final long serialVersionUID = 5109697319098246753L;
+    public static String GENERAL_ALGORITHM_NAME = "Gyro on-the-fly calibration";
+
+    static {
+        AlgorithmDetails algorithmDetails = new AlgorithmDetails(Arrays.asList(30, 38), Configuration.CHANNEL_UNITS.NO_UNITS, AlgorithmDetails.SENSOR_CHECK_METHOD.ANY);
+        algoGyroOnTheFlyCal = algorithmDetails;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put(algorithmDetails.mAlgorithmName, algorithmDetails);
+        mAlgorithmMapRef = Collections.unmodifiableMap(linkedHashMap);
+        sGDGyroOnTheFlyCalib = new SensorGroupingDetails(Configuration.Shimmer3.GuiLabelAlgorithmGrouping.GYRO_ON_THE_FLY_CAL.getTileText(), (List<AlgorithmDetails>) Arrays.asList(algorithmDetails), (List<String>) Arrays.asList(GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_THRESHOLD, GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE), (Integer) 0);
+        configOptionGyroOnTheFlyCalibThreshold = new ConfigOptionDetails(GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_THRESHOLD, DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_THRESHOLD, ConfigOptionDetails.GUI_COMPONENT_TYPE.INFO, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
+        configOptionGyroOnTheFlyCalibBufferSize = new ConfigOptionDetails(GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE, DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE, ConfigOptionDetails.GUI_COMPONENT_TYPE.INFO, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoAnyExpBoardStandardFW);
+    }
+
+    public String ojcNameGyroX;
+    public String ojcNameGyroY;
+    public String ojcNameGyroZ;
+    public int sensorId;
+    protected OnTheFlyGyroOffsetCal mOnTheFlyGyroOffsetCal;
+    private AbstractSensor.SENSORS sensorClass;
+
+    public GyroOnTheFlyCalModule(ShimmerDevice shimmerDevice, AlgorithmDetails algorithmDetails, double d) {
+        super(shimmerDevice, algorithmDetails);
+        this.sensorClass = AbstractSensor.SENSORS.MPU9X50;
+        this.sensorId = -1;
+        this.ojcNameGyroX = SensorMPU9X50.ObjectClusterSensorName.GYRO_X;
+        this.ojcNameGyroY = SensorMPU9X50.ObjectClusterSensorName.GYRO_Y;
+        this.ojcNameGyroZ = SensorMPU9X50.ObjectClusterSensorName.GYRO_Z;
+        this.mOnTheFlyGyroOffsetCal = new OnTheFlyGyroOffsetCal();
+        AlgorithmDetails algorithmDetails2 = algoGyroOnTheFlyCal;
+        algorithmDetails2.mAlgorithmName = GENERAL_ALGORITHM_NAME;
+        algorithmDetails2.mDerivedSensorBitmapID = 536870912L;
+        setupAlgorithm();
+        setShimmerSamplingRate(d);
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void eventDataReceived(ShimmerMsg shimmerMsg) {
+    }
+
+    public OnTheFlyGyroOffsetCal getOnTheFlyCalGyro() {
+        return this.mOnTheFlyGyroOffsetCal;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public String printBatchMetrics() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public AlgorithmResultObject processDataPostCapture(Object obj) throws Exception {
+        return null;
+    }
+
+    public void setGyroAxisLabels(String str, String str2, String str3) {
+        this.ojcNameGyroX = str;
+        this.ojcNameGyroY = str2;
+        this.ojcNameGyroZ = str3;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void setMinSamplingRateForAlgorithm() {
+    }
+
+    public void setSensorId(int i) {
+        this.sensorId = i;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void setSupportedVerInfo() {
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void setGeneralAlgorithmName() {
+        super.setGeneralAlgorithmName(GENERAL_ALGORITHM_NAME);
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void setFilteringOption() {
+        this.mFilteringOptions = AbstractAlgorithm.FILTERING_OPTION.NONE;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void generateConfigOptionsMap() {
+        addConfigOption(configOptionGyroOnTheFlyCalibThreshold);
+        addConfigOption(configOptionGyroOnTheFlyCalibBufferSize);
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void generateAlgorithmGroupingMap() {
+        this.mMapOfAlgorithmGrouping.put(Integer.valueOf(Configuration.Shimmer3.GuiLabelAlgorithmGrouping.GYRO_ON_THE_FLY_CAL.ordinal()), sGDGyroOnTheFlyCalib);
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void initialize() throws Exception {
+        setBufferSizeFromSamplingRate(this.mShimmerSamplingRate);
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void resetAlgorithm() throws Exception {
+        resetAlgorithmBuffers();
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void resetAlgorithmBuffers() {
+        this.mOnTheFlyGyroOffsetCal.setupBuffers();
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public Object getSettings(String str) {
+        str.hashCode();
+        if (str.equals(GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE)) {
+            return Integer.valueOf(this.mOnTheFlyGyroOffsetCal.getBufferSize());
+        }
+        if (str.equals(GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_THRESHOLD)) {
+            return Double.valueOf(this.mOnTheFlyGyroOffsetCal.getOffsetThreshold());
+        }
+        return null;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void setSettings(String str, Object obj) {
+        str.hashCode();
+        switch (str) {
+            case "GyroOTFCal BufferSize":
+                if (obj instanceof Integer) {
+                    this.mOnTheFlyGyroOffsetCal.setBufferSize(((Integer) obj).intValue());
+                    break;
+                }
+                break;
+            case "GyroOTFCal Threshold(deg/s)":
+                if (obj instanceof Double) {
+                    this.mOnTheFlyGyroOffsetCal.setOffsetThreshold(((Double) obj).doubleValue());
+                    break;
+                }
+                break;
+            case "Sampling Rate":
+                if (obj instanceof Double) {
+                    this.mOnTheFlyGyroOffsetCal.setBufferSizeFromSamplingRate(((Double) obj).doubleValue());
+                    break;
+                }
+                break;
+        }
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public Object getDefaultSettings(String str) {
+        str.hashCode();
+        if (str.equals(GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE)) {
+            return Double.valueOf(this.mShimmerSamplingRate);
+        }
+        if (str.equals(GuiLabelConfig.GYRO_ON_THE_FLY_CALIB_THRESHOLD)) {
+            return Double.valueOf(1.2d);
+        }
+        return null;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public AlgorithmResultObject processDataRealTime(ObjectCluster objectCluster) throws Exception {
+        double[] dArr = {objectCluster.getFormatClusterValue(this.ojcNameGyroX, ChannelDetails.CHANNEL_TYPE.CAL.toString()), objectCluster.getFormatClusterValue(this.ojcNameGyroY, ChannelDetails.CHANNEL_TYPE.CAL.toString()), objectCluster.getFormatClusterValue(this.ojcNameGyroZ, ChannelDetails.CHANNEL_TYPE.CAL.toString())};
+        double[] dArr2 = {objectCluster.getFormatClusterValue(this.ojcNameGyroX, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()), objectCluster.getFormatClusterValue(this.ojcNameGyroY, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()), objectCluster.getFormatClusterValue(this.ojcNameGyroZ, ChannelDetails.CHANNEL_TYPE.UNCAL.toString())};
+        if (this.mShimmerDevice instanceof ShimmerObject) {
+            this.mOnTheFlyGyroOffsetCal.updateGyroOnTheFlyGyroOVCal(((ShimmerObject) this.mShimmerDevice).getCurrentCalibDetailsGyro(), dArr, dArr2);
+            return null;
+        }
+        Object configValueUsingConfigLabel = this.mShimmerDevice.getConfigValueUsingConfigLabel(Integer.toString(this.sensorId), AbstractSensor.GuiLabelConfigCommon.CALIBRATION_CURRENT_PER_SENSOR);
+        if (configValueUsingConfigLabel == null || !(configValueUsingConfigLabel instanceof CalibDetails)) {
+            return null;
+        }
+        this.mOnTheFlyGyroOffsetCal.updateGyroOnTheFlyGyroOVCal((CalibDetailsKinematic) ((CalibDetails) configValueUsingConfigLabel), dArr, dArr2);
+        return null;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>();
+        linkedHashMap.put(DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_THRESHOLD, Double.valueOf(getOffsetThreshold()));
+        linkedHashMap.put(DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE, Integer.valueOf(this.mOnTheFlyGyroOffsetCal.getBufferSize()));
+        return linkedHashMap;
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void parseConfigMapFromDb(LinkedHashMap<String, Object> linkedHashMap) {
+        if (linkedHashMap.containsKey(DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_THRESHOLD)) {
+            setOffsetThreshold(((Double) linkedHashMap.get(DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_THRESHOLD)).doubleValue());
+        }
+        if (linkedHashMap.containsKey(DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE)) {
+            setBufferSizeFromSamplingRate(((Double) linkedHashMap.get(DatabaseConfigHandle.GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE)).doubleValue());
+        }
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void setIsEnabled(boolean z) {
+        super.setIsEnabled(z);
+        setOnTheFlyGyroCal(z);
+    }
+
+    @Override // com.shimmerresearch.algorithms.AbstractAlgorithm
+    public void setShimmerSamplingRate(double d) {
+        super.setShimmerSamplingRate(d);
+        setBufferSizeFromSamplingRate(d);
+    }
+
+    public void enableOnTheFlyGyroCal(boolean z, int i, double d) {
+        this.mOnTheFlyGyroOffsetCal.setIsEnabled(z, i, d);
+    }
+
+    public void setOnTheFlyGyroCal(boolean z) {
+        this.mOnTheFlyGyroOffsetCal.setIsEnabled(z);
+    }
+
+    public boolean isGyroOnTheFlyCalEnabled() {
+        return this.mOnTheFlyGyroOffsetCal.isEnabled();
+    }
+
+    public void setBufferSizeFromSamplingRate(double d) {
+        this.mOnTheFlyGyroOffsetCal.setBufferSizeFromSamplingRate(d);
+    }
+
+    public double getOffsetThreshold() {
+        return this.mOnTheFlyGyroOffsetCal.getOffsetThreshold();
+    }
+
+    public void setOffsetThreshold(double d) {
+        this.mOnTheFlyGyroOffsetCal.setOffsetThreshold(d);
+    }
+
+    public static final class DatabaseConfigHandle {
+        public static final String GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE = "Gyro_on_the_fly_offset_cal_BufferSize";
+        public static final String GYRO_ON_THE_FLY_CALIB_THRESHOLD = "Gyro_on_the_fly_offset_cal_Threshold";
+    }
+
+    public class GuiLabelConfig {
+        public static final String GYRO_ON_THE_FLY_CALIB_BUFFER_SIZE = "GyroOTFCal BufferSize";
+        public static final String GYRO_ON_THE_FLY_CALIB_THRESHOLD = "GyroOTFCal Threshold(deg/s)";
+
+        public GuiLabelConfig() {
+        }
+    }
+}

@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/stats/StatsCollectionState.java
+// Size: 132 bytes
+// Modified: 2025-10-21 16:32:00.430526500 +0100
+
+package io.opencensus.stats;
+
+/* loaded from: classes4.dex */
+public enum StatsCollectionState {
+    ENABLED,
+    DISABLED
+}

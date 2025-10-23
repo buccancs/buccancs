@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/set/TypedSortedSet.java
+// Size: 426 bytes
+// Modified: 2025-10-21 16:32:04.495543200 +0100
+
+package org.apache.commons.collections.set;
+
+import java.util.SortedSet;
+import org.apache.commons.collections.functors.InstanceofPredicate;
+
+/* loaded from: classes5.dex */
+public class TypedSortedSet {
+    public static SortedSet decorate(SortedSet sortedSet, Class cls) {
+        return new PredicatedSortedSet(sortedSet, InstanceofPredicate.getInstance(cls));
+    }
+
+    protected TypedSortedSet() {
+    }
+}

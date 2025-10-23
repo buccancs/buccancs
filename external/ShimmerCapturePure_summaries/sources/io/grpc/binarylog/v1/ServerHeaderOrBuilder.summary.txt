@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/binarylog/v1/ServerHeaderOrBuilder.java
+// Size: 264 bytes
+// Modified: 2025-10-21 16:32:04.429683400 +0100
+
+package io.grpc.binarylog.v1;
+
+/* loaded from: classes2.dex */
+public interface ServerHeaderOrBuilder extends com.google.protobuf.MessageOrBuilder {
+    Metadata getMetadata();
+
+    MetadataOrBuilder getMetadataOrBuilder();
+
+    boolean hasMetadata();
+}

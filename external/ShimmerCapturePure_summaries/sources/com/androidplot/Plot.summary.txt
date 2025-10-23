@@ -1,0 +1,513 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/Plot.java
+// Size: 16340 bytes
+// Modified: 2025-10-21 16:32:07.259016900 +0100
+
+package com.androidplot;
+
+import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import android.util.AttributeSet;
+import android.view.View;
+import com.androidplot.PlotEvent;
+import com.androidplot.exception.PlotRenderException;
+import com.androidplot.series.Series;
+import com.androidplot.ui.AnchorPosition;
+import com.androidplot.ui.BoxModel;
+import com.androidplot.ui.DataRenderer;
+import com.androidplot.ui.LayoutManager;
+import com.androidplot.ui.SeriesAndFormatterList;
+import com.androidplot.ui.SizeLayoutType;
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.TextOrientationType;
+import com.androidplot.ui.widget.TitleWidget;
+import com.androidplot.ui.widget.Widget;
+import com.androidplot.xy.XLayoutStyle;
+import com.androidplot.xy.YLayoutStyle;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Set;
+import org.bouncycastle.i18n.MessageBundle;
+
+/* loaded from: classes.dex */
+public abstract class Plot<SeriesType extends Series, FormatterType, RendererType extends DataRenderer> extends View {
+    private String a;
+    private BoxModel b;
+    private BorderStyle c;
+    private float d;
+    private float e;
+    private boolean f;
+    private Paint g;
+    private Paint h;
+    private LayoutManager i;
+    private TitleWidget j;
+    private LinkedList<RendererType> k;
+    private LinkedHashMap<Class, SeriesAndFormatterList<SeriesType, FormatterType>> l;
+    private final ArrayList<PlotListener> m;
+
+    public enum BorderStyle {
+        ROUNDED,
+        SQUARE,
+        NONE
+    }
+
+    protected abstract RendererType a(Class cls);
+
+    protected abstract void a();
+
+    public Paint getBackgroundPaint() {
+        return this.h;
+    }
+
+    public Paint getBorderPaint() {
+        return this.g;
+    }
+
+    public LayoutManager getLayoutManager() {
+        return this.i;
+    }
+
+    public List<RendererType> getRendererList() {
+        return this.k;
+    }
+
+    public String getTitle() {
+        return this.a;
+    }
+
+    public TitleWidget getTitleWidget() {
+        return this.j;
+    }
+
+    public boolean isDrawBorderEnabled() {
+        return this.f;
+    }
+
+    public void setBackgroundPaint(Paint paint) {
+        this.h = paint;
+    }
+
+    public void setDrawBorderEnabled(boolean z) {
+        this.f = z;
+    }
+
+    public void setLayoutManager(LayoutManager layoutManager) {
+        this.i = layoutManager;
+    }
+
+    public void setTitle(String str) {
+        this.a = str;
+    }
+
+    public void setTitleWidget(TitleWidget titleWidget) {
+        this.j = titleWidget;
+    }
+
+    public Plot(Context context, String str) {
+        super(context);
+        this.b = new BoxModel(3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f);
+        this.c = BorderStyle.ROUNDED;
+        this.d = 15.0f;
+        this.e = 15.0f;
+        this.f = true;
+        this.m = new ArrayList<>();
+        this.l = new LinkedHashMap<>();
+        this.k = new LinkedList<>();
+        Paint paint = new Paint();
+        this.g = paint;
+        paint.setColor(Color.rgb(150, 150, 150));
+        this.g.setStyle(Paint.Style.STROKE);
+        this.g.setStrokeWidth(3.3f);
+        this.g.setAntiAlias(true);
+        Paint paint2 = new Paint();
+        this.h = paint2;
+        paint2.setColor(-12303292);
+        this.h.setStyle(Paint.Style.FILL);
+        this.a = str;
+        b();
+    }
+
+    public Plot(Context context, AttributeSet attributeSet) {
+        super(context, attributeSet);
+        this.b = new BoxModel(3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f);
+        this.c = BorderStyle.ROUNDED;
+        this.d = 15.0f;
+        this.e = 15.0f;
+        this.f = true;
+        this.m = new ArrayList<>();
+        this.l = new LinkedHashMap<>();
+        this.k = new LinkedList<>();
+        Paint paint = new Paint();
+        this.g = paint;
+        paint.setColor(Color.rgb(150, 150, 150));
+        this.g.setStyle(Paint.Style.STROKE);
+        this.g.setStrokeWidth(3.3f);
+        this.g.setAntiAlias(true);
+        Paint paint2 = new Paint();
+        this.h = paint2;
+        paint2.setColor(-12303292);
+        this.h.setStyle(Paint.Style.FILL);
+        a(attributeSet);
+        b();
+    }
+
+    public Plot(Context context, AttributeSet attributeSet, int i) {
+        super(context, attributeSet, i);
+        this.b = new BoxModel(3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f, 3.0f);
+        this.c = BorderStyle.ROUNDED;
+        this.d = 15.0f;
+        this.e = 15.0f;
+        this.f = true;
+        this.m = new ArrayList<>();
+        this.l = new LinkedHashMap<>();
+        this.k = new LinkedList<>();
+        Paint paint = new Paint();
+        this.g = paint;
+        paint.setColor(Color.rgb(150, 150, 150));
+        this.g.setStyle(Paint.Style.STROKE);
+        this.g.setStrokeWidth(3.3f);
+        this.g.setAntiAlias(true);
+        Paint paint2 = new Paint();
+        this.h = paint2;
+        paint2.setColor(-12303292);
+        this.h.setStyle(Paint.Style.FILL);
+        a(attributeSet);
+        b();
+    }
+
+    private void b() {
+        this.j = new TitleWidget(this, new SizeMetrics(25.0f, SizeLayoutType.ABSOLUTE, 100.0f, SizeLayoutType.ABSOLUTE), TextOrientationType.HORIZONTAL);
+        LayoutManager layoutManager = new LayoutManager();
+        this.i = layoutManager;
+        layoutManager.position(this.j, 0.0f, XLayoutStyle.RELATIVE_TO_CENTER, 0.0f, YLayoutStyle.ABSOLUTE_FROM_TOP, AnchorPosition.TOP_MIDDLE);
+    }
+
+    private void a(AttributeSet attributeSet) {
+        this.a = attributeSet.getAttributeValue(null, MessageBundle.TITLE_ENTRY);
+    }
+
+    public boolean addListener(PlotListener plotListener) {
+        boolean z;
+        synchronized (this.m) {
+            z = !this.m.contains(plotListener) && this.m.add(plotListener);
+        }
+        return z;
+    }
+
+    public boolean removeListener(PlotListener plotListener) {
+        boolean zRemove;
+        synchronized (this.m) {
+            zRemove = this.m.remove(plotListener);
+        }
+        return zRemove;
+    }
+
+    private void a(PlotEvent plotEvent) {
+        synchronized (this.m) {
+            Iterator<PlotListener> it2 = this.m.iterator();
+            while (it2.hasNext()) {
+                it2.next().onPlotUpdate(plotEvent);
+            }
+        }
+    }
+
+    public void position(Widget widget, float f, XLayoutStyle xLayoutStyle, float f2, YLayoutStyle yLayoutStyle) {
+        this.i.position(widget, f, xLayoutStyle, f2, yLayoutStyle, AnchorPosition.LEFT_TOP);
+    }
+
+    public void position(Widget widget, float f, XLayoutStyle xLayoutStyle, float f2, YLayoutStyle yLayoutStyle, AnchorPosition anchorPosition) {
+        this.i.position(widget, f, xLayoutStyle, f2, yLayoutStyle, anchorPosition);
+    }
+
+    public synchronized boolean addSeries(SeriesType seriestype, Class cls, FormatterType formattertype) {
+        cls.cast(null);
+        SeriesAndFormatterList<SeriesType, FormatterType> seriesAndFormatterList = this.l.get(cls);
+        if (seriesAndFormatterList == null) {
+            if (getRenderer(cls) == null) {
+                LinkedList<RendererType> linkedList = this.k;
+                DataRenderer dataRendererA = a(cls);
+                if (dataRendererA == null) {
+                    throw new IllegalArgumentException("Unrecognized Renderer: " + cls.getCanonicalName());
+                }
+                linkedList.add(dataRendererA);
+            }
+            seriesAndFormatterList = new SeriesAndFormatterList<>();
+            this.l.put(cls, seriesAndFormatterList);
+        }
+        if (seriesAndFormatterList.contains(seriestype)) {
+            return false;
+        }
+        seriesAndFormatterList.add(seriestype, formattertype);
+        return true;
+    }
+
+    public synchronized boolean removeSeries(SeriesType seriestype, Class cls) {
+        boolean zRemove;
+        zRemove = this.l.get(cls).remove(seriestype);
+        if (this.l.get(cls).size() <= 0) {
+            this.l.remove(cls);
+        }
+        return zRemove;
+    }
+
+    public synchronized void removeSeries(SeriesType seriestype) {
+        Iterator<Class> it2 = this.l.keySet().iterator();
+        while (it2.hasNext()) {
+            this.l.get(it2.next()).remove(seriestype);
+        }
+        Iterator<SeriesAndFormatterList<SeriesType, FormatterType>> it3 = this.l.values().iterator();
+        while (it3.hasNext()) {
+            if (it3.next().size() <= 0) {
+                it3.remove();
+            }
+        }
+    }
+
+    public void clear() {
+        Iterator<SeriesAndFormatterList<SeriesType, FormatterType>> it2 = this.l.values().iterator();
+        while (it2.hasNext()) {
+            it2.next();
+            it2.remove();
+        }
+    }
+
+    public boolean isEmpty() {
+        return this.l.isEmpty();
+    }
+
+    public FormatterType getFormatter(SeriesType seriestype, Class cls) {
+        return this.l.get(cls).getFormatter((SeriesAndFormatterList<SeriesType, FormatterType>) seriestype);
+    }
+
+    public boolean setFormatter(SeriesType seriestype, Class cls, FormatterType formattertype) {
+        throw new UnsupportedOperationException();
+    }
+
+    public SeriesAndFormatterList<SeriesType, FormatterType> getSeriesAndFormatterListForRenderer(Class cls) {
+        return this.l.get(cls);
+    }
+
+    public Set<SeriesType> getSeriesSet() {
+        LinkedHashSet linkedHashSet = new LinkedHashSet();
+        Iterator<RendererType> it2 = getRendererList().iterator();
+        while (it2.hasNext()) {
+            List<SeriesType> seriesListForRenderer = getSeriesListForRenderer(it2.next().getClass());
+            if (seriesListForRenderer != null) {
+                Iterator<SeriesType> it3 = seriesListForRenderer.iterator();
+                while (it3.hasNext()) {
+                    linkedHashSet.add(it3.next());
+                }
+            }
+        }
+        return linkedHashSet;
+    }
+
+    public List<SeriesType> getSeriesListForRenderer(Class cls) {
+        SeriesAndFormatterList<SeriesType, FormatterType> seriesAndFormatterList = this.l.get(cls);
+        if (seriesAndFormatterList == null) {
+            return null;
+        }
+        return seriesAndFormatterList.getSeriesList();
+    }
+
+    public RendererType getRenderer(Class cls) {
+        Iterator<RendererType> it2 = this.k.iterator();
+        while (it2.hasNext()) {
+            RendererType next = it2.next();
+            if (next.getClass() == cls) {
+                return next;
+            }
+        }
+        return null;
+    }
+
+    public void disableAllMarkup() {
+        this.i.disableAllMarkup();
+    }
+
+    public void redraw() {
+        invalidate();
+    }
+
+    public void postRedraw() throws InterruptedException {
+        postRedraw(true);
+    }
+
+    public void postRedraw(boolean z) throws InterruptedException {
+        synchronized (this) {
+            postInvalidate();
+            if (z) {
+                wait();
+            }
+        }
+    }
+
+    @Override // android.view.View
+    protected void onDraw(Canvas canvas) {
+        a();
+        try {
+            try {
+                RectF rectF = new RectF(0.0f, 0.0f, getWidth(), getHeight());
+                RectF marginatedRect = this.b.getMarginatedRect(rectF);
+                RectF paddedRect = this.b.getPaddedRect(marginatedRect);
+                if (this.h != null) {
+                    int i = a.a[this.c.ordinal()];
+                    if (i == 1) {
+                        canvas.drawRoundRect(marginatedRect, this.d, this.e, this.h);
+                    } else if (i == 2) {
+                        canvas.drawRect(marginatedRect, this.h);
+                    }
+                }
+                synchronized (this) {
+                    this.i.draw(canvas, rectF, marginatedRect, paddedRect);
+                }
+                if (isDrawBorderEnabled() && getBorderPaint() != null) {
+                    int i2 = a.a[this.c.ordinal()];
+                    if (i2 == 1) {
+                        canvas.drawRoundRect(marginatedRect, this.d, this.e, this.g);
+                    } else if (i2 == 2) {
+                        canvas.drawRect(marginatedRect, this.g);
+                    }
+                }
+                a(new PlotEvent(this, PlotEvent.Type.PLOT_REDRAWN));
+                synchronized (this) {
+                    notify();
+                }
+            } catch (PlotRenderException e) {
+                e.printStackTrace();
+                a(new PlotEvent(this, PlotEvent.Type.PLOT_REDRAWN));
+                synchronized (this) {
+                    notify();
+                }
+            }
+        } catch (Throwable th) {
+            a(new PlotEvent(this, PlotEvent.Type.PLOT_REDRAWN));
+            synchronized (this) {
+                notify();
+                throw th;
+            }
+        }
+    }
+
+    public void setBorderStyle(BorderStyle borderStyle, Float f, Float f2) {
+        if (borderStyle == BorderStyle.ROUNDED) {
+            if (f == null || f2 == null) {
+                throw new IllegalArgumentException("radiusX and radiusY cannot be null when using BorderStyle.ROUNDED");
+            }
+            this.d = f.floatValue();
+            this.e = f2.floatValue();
+        }
+        this.c = borderStyle;
+    }
+
+    static /* synthetic */ class a {
+        static final /* synthetic */ int[] a;
+
+        static {
+            int[] iArr = new int[BorderStyle.values().length];
+            a = iArr;
+            try {
+                iArr[BorderStyle.ROUNDED.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                a[BorderStyle.SQUARE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
+    }
+
+    public void setPlotMargins(float f, float f2, float f3, float f4) {
+        setPlotMarginLeft(f);
+        setPlotMarginTop(f2);
+        setPlotMarginRight(f3);
+        setPlotMarginBottom(f4);
+    }
+
+    public void setPlotPadding(float f, float f2, float f3, float f4) {
+        setPlotPaddingLeft(f);
+        setPlotPaddingTop(f2);
+        setPlotPaddingRight(f3);
+        setPlotPaddingBottom(f4);
+    }
+
+    public float getPlotMarginTop() {
+        return this.b.getMarginTop();
+    }
+
+    public void setPlotMarginTop(float f) {
+        this.b.setMarginTop(f);
+    }
+
+    public float getPlotMarginBottom() {
+        return this.b.getMarginBottom();
+    }
+
+    public void setPlotMarginBottom(float f) {
+        this.b.setMarginBottom(f);
+    }
+
+    public float getPlotMarginLeft() {
+        return this.b.getMarginLeft();
+    }
+
+    public void setPlotMarginLeft(float f) {
+        this.b.setMarginLeft(f);
+    }
+
+    public float getPlotMarginRight() {
+        return this.b.getMarginRight();
+    }
+
+    public void setPlotMarginRight(float f) {
+        this.b.setMarginRight(f);
+    }
+
+    public float getPlotPaddingTop() {
+        return this.b.getPaddingTop();
+    }
+
+    public void setPlotPaddingTop(float f) {
+        this.b.setPaddingTop(f);
+    }
+
+    public float getPlotPaddingBottom() {
+        return this.b.getPaddingBottom();
+    }
+
+    public void setPlotPaddingBottom(float f) {
+        this.b.setPaddingBottom(f);
+    }
+
+    public float getPlotPaddingLeft() {
+        return this.b.getPaddingLeft();
+    }
+
+    public void setPlotPaddingLeft(float f) {
+        this.b.setPaddingLeft(f);
+    }
+
+    public float getPlotPaddingRight() {
+        return this.b.getPaddingRight();
+    }
+
+    public void setPlotPaddingRight(float f) {
+        this.b.setPaddingRight(f);
+    }
+
+    public void setBorderPaint(Paint paint) {
+        if (paint == null) {
+            this.g = null;
+            return;
+        }
+        Paint paint2 = new Paint(paint);
+        this.g = paint2;
+        paint2.setStyle(Paint.Style.STROKE);
+    }
+}

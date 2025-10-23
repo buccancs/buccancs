@@ -1,0 +1,123 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/iterators/ObjectGraphIterator.java
+// Size: 3630 bytes
+// Modified: 2025-10-21 16:32:03.228734100 +0100
+
+package org.apache.commons.collections.iterators;
+
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+import org.apache.commons.collections.ArrayStack;
+import org.apache.commons.collections.Transformer;
+
+/* loaded from: classes5.dex */
+public class ObjectGraphIterator implements Iterator {
+    protected Iterator currentIterator;
+    protected Object currentValue;
+    protected boolean hasNext;
+    protected Iterator lastUsedIterator;
+    protected Object root;
+    protected final ArrayStack stack;
+    protected Transformer transformer;
+
+    public ObjectGraphIterator(Object obj, Transformer transformer) {
+        this.stack = new ArrayStack(8);
+        this.hasNext = false;
+        if (obj instanceof Iterator) {
+            this.currentIterator = (Iterator) obj;
+        } else {
+            this.root = obj;
+        }
+        this.transformer = transformer;
+    }
+
+    public ObjectGraphIterator(Iterator it2) {
+        this.stack = new ArrayStack(8);
+        this.hasNext = false;
+        this.currentIterator = it2;
+        this.transformer = null;
+    }
+
+    protected void updateCurrentIterator() {
+        if (this.hasNext) {
+            return;
+        }
+        Iterator it2 = this.currentIterator;
+        if (it2 != null) {
+            findNextByIterator(it2);
+            return;
+        }
+        Object obj = this.root;
+        if (obj == null) {
+            return;
+        }
+        Transformer transformer = this.transformer;
+        if (transformer == null) {
+            findNext(obj);
+        } else {
+            findNext(transformer.transform(obj));
+        }
+        this.root = null;
+    }
+
+    protected void findNext(Object obj) {
+        if (obj instanceof Iterator) {
+            findNextByIterator((Iterator) obj);
+        } else {
+            this.currentValue = obj;
+            this.hasNext = true;
+        }
+    }
+
+    protected void findNextByIterator(Iterator it2) {
+        Iterator it3 = this.currentIterator;
+        if (it2 != it3) {
+            if (it3 != null) {
+                this.stack.push(it3);
+            }
+            this.currentIterator = it2;
+        }
+        while (this.currentIterator.hasNext() && !this.hasNext) {
+            Object next = this.currentIterator.next();
+            Transformer transformer = this.transformer;
+            if (transformer != null) {
+                next = transformer.transform(next);
+            }
+            findNext(next);
+        }
+        if (this.hasNext || this.stack.isEmpty()) {
+            return;
+        }
+        Iterator it4 = (Iterator) this.stack.pop();
+        this.currentIterator = it4;
+        findNextByIterator(it4);
+    }
+
+    @Override // java.util.Iterator
+    public boolean hasNext() {
+        updateCurrentIterator();
+        return this.hasNext;
+    }
+
+    @Override // java.util.Iterator
+    public Object next() {
+        updateCurrentIterator();
+        if (!this.hasNext) {
+            throw new NoSuchElementException("No more elements in the iteration");
+        }
+        this.lastUsedIterator = this.currentIterator;
+        Object obj = this.currentValue;
+        this.currentValue = null;
+        this.hasNext = false;
+        return obj;
+    }
+
+    @Override // java.util.Iterator
+    public void remove() {
+        Iterator it2 = this.lastUsedIterator;
+        if (it2 == null) {
+            throw new IllegalStateException("Iterator remove() cannot be called at this time");
+        }
+        it2.remove();
+        this.lastUsedIterator = null;
+    }
+}

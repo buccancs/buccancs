@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/buffer/PoolChunkListMetric.java
+// Size: 203 bytes
+// Modified: 2025-10-21 16:32:00.831634100 +0100
+
+package io.grpc.netty.shaded.io.netty.buffer;
+
+/* loaded from: classes3.dex */
+public interface PoolChunkListMetric extends Iterable<PoolChunkMetric> {
+    int maxUsage();
+
+    int minUsage();
+}

@@ -1,0 +1,379 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/javax/vecmath/Tuple3d.java
+// Size: 9610 bytes
+// Modified: 2025-10-21 16:32:02.855742500 +0100
+
+package javax.vecmath;
+
+import java.io.Serializable;
+
+/* loaded from: classes4.dex */
+public abstract class Tuple3d implements Serializable, Cloneable {
+    static final long serialVersionUID = 5542096614926168415L;
+    public double x;
+    public double y;
+    public double z;
+
+    public final void clamp(double d, double d2) {
+        double d3 = this.x;
+        if (d3 > d2) {
+            this.x = d2;
+        } else if (d3 < d) {
+            this.x = d;
+        }
+        double d4 = this.y;
+        if (d4 > d2) {
+            this.y = d2;
+        } else if (d4 < d) {
+            this.y = d;
+        }
+        double d5 = this.z;
+        if (d5 > d2) {
+            this.z = d2;
+        } else if (d5 < d) {
+            this.z = d;
+        }
+    }
+
+    public final void clampMax(double d) {
+        if (this.x > d) {
+            this.x = d;
+        }
+        if (this.y > d) {
+            this.y = d;
+        }
+        if (this.z > d) {
+            this.z = d;
+        }
+    }
+
+    public final void clampMin(double d) {
+        if (this.x < d) {
+            this.x = d;
+        }
+        if (this.y < d) {
+            this.y = d;
+        }
+        if (this.z < d) {
+            this.z = d;
+        }
+    }
+
+    public final void negate() {
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
+    }
+
+    public final void scale(double d) {
+        this.x *= d;
+        this.y *= d;
+        this.z *= d;
+    }
+
+    public final void set(double d, double d2, double d3) {
+        this.x = d;
+        this.y = d2;
+        this.z = d3;
+    }
+
+    public Tuple3d(double d, double d2, double d3) {
+        this.x = d;
+        this.y = d2;
+        this.z = d3;
+    }
+
+    public Tuple3d(double[] dArr) {
+        this.x = dArr[0];
+        this.y = dArr[1];
+        this.z = dArr[2];
+    }
+
+    public Tuple3d(Tuple3d tuple3d) {
+        this.x = tuple3d.x;
+        this.y = tuple3d.y;
+        this.z = tuple3d.z;
+    }
+
+    public Tuple3d(Tuple3f tuple3f) {
+        this.x = tuple3f.x;
+        this.y = tuple3f.y;
+        this.z = tuple3f.z;
+    }
+
+    public Tuple3d() {
+        this.x = 0.0d;
+        this.y = 0.0d;
+        this.z = 0.0d;
+    }
+
+    public final void set(double[] dArr) {
+        this.x = dArr[0];
+        this.y = dArr[1];
+        this.z = dArr[2];
+    }
+
+    public final void set(Tuple3d tuple3d) {
+        this.x = tuple3d.x;
+        this.y = tuple3d.y;
+        this.z = tuple3d.z;
+    }
+
+    public final void set(Tuple3f tuple3f) {
+        this.x = tuple3f.x;
+        this.y = tuple3f.y;
+        this.z = tuple3f.z;
+    }
+
+    public final void get(double[] dArr) {
+        dArr[0] = this.x;
+        dArr[1] = this.y;
+        dArr[2] = this.z;
+    }
+
+    public final void get(Tuple3d tuple3d) {
+        tuple3d.x = this.x;
+        tuple3d.y = this.y;
+        tuple3d.z = this.z;
+    }
+
+    public final void add(Tuple3d tuple3d, Tuple3d tuple3d2) {
+        this.x = tuple3d.x + tuple3d2.x;
+        this.y = tuple3d.y + tuple3d2.y;
+        this.z = tuple3d.z + tuple3d2.z;
+    }
+
+    public final void add(Tuple3d tuple3d) {
+        this.x += tuple3d.x;
+        this.y += tuple3d.y;
+        this.z += tuple3d.z;
+    }
+
+    public final void sub(Tuple3d tuple3d, Tuple3d tuple3d2) {
+        this.x = tuple3d.x - tuple3d2.x;
+        this.y = tuple3d.y - tuple3d2.y;
+        this.z = tuple3d.z - tuple3d2.z;
+    }
+
+    public final void sub(Tuple3d tuple3d) {
+        this.x -= tuple3d.x;
+        this.y -= tuple3d.y;
+        this.z -= tuple3d.z;
+    }
+
+    public final void negate(Tuple3d tuple3d) {
+        this.x = -tuple3d.x;
+        this.y = -tuple3d.y;
+        this.z = -tuple3d.z;
+    }
+
+    public final void scale(double d, Tuple3d tuple3d) {
+        this.x = tuple3d.x * d;
+        this.y = tuple3d.y * d;
+        this.z = d * tuple3d.z;
+    }
+
+    public final void scaleAdd(double d, Tuple3d tuple3d, Tuple3d tuple3d2) {
+        this.x = (tuple3d.x * d) + tuple3d2.x;
+        this.y = (tuple3d.y * d) + tuple3d2.y;
+        this.z = (d * tuple3d.z) + tuple3d2.z;
+    }
+
+    public final void scaleAdd(double d, Tuple3f tuple3f) {
+        scaleAdd(d, new Point3d(tuple3f));
+    }
+
+    public final void scaleAdd(double d, Tuple3d tuple3d) {
+        this.x = (this.x * d) + tuple3d.x;
+        this.y = (this.y * d) + tuple3d.y;
+        this.z = (d * this.z) + tuple3d.z;
+    }
+
+    public String toString() {
+        return new StringBuffer("(").append(this.x).append(", ").append(this.y).append(", ").append(this.z).append(")").toString();
+    }
+
+    public int hashCode() {
+        long jDoubleToLongBits = ((((Double.doubleToLongBits(this.x) + 31) * 31) + Double.doubleToLongBits(this.y)) * 31) + Double.doubleToLongBits(this.z);
+        return (int) (jDoubleToLongBits ^ (jDoubleToLongBits >> 32));
+    }
+
+    public boolean equals(Tuple3d tuple3d) {
+        try {
+            if (this.x == tuple3d.x && this.y == tuple3d.y) {
+                return this.z == tuple3d.z;
+            }
+            return false;
+        } catch (NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean equals(Object obj) {
+        try {
+            Tuple3d tuple3d = (Tuple3d) obj;
+            if (this.x == tuple3d.x && this.y == tuple3d.y) {
+                return this.z == tuple3d.z;
+            }
+            return false;
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public boolean epsilonEquals(Tuple3d tuple3d, double d) {
+        double d2 = this.x - tuple3d.x;
+        if (d2 < 0.0d) {
+            d2 = -d2;
+        }
+        if (d2 > d) {
+            return false;
+        }
+        double d3 = this.y - tuple3d.y;
+        if (d3 < 0.0d) {
+            d3 = -d3;
+        }
+        if (d3 > d) {
+            return false;
+        }
+        double d4 = this.z - tuple3d.z;
+        if (d4 < 0.0d) {
+            d4 = -d4;
+        }
+        return d4 <= d;
+    }
+
+    public final void clamp(float f, float f2, Tuple3d tuple3d) {
+        clamp(f, f2, tuple3d);
+    }
+
+    public final void clamp(double d, double d2, Tuple3d tuple3d) {
+        double d3 = tuple3d.x;
+        if (d3 > d2) {
+            this.x = d2;
+        } else if (d3 < d) {
+            this.x = d;
+        } else {
+            this.x = d3;
+        }
+        double d4 = tuple3d.y;
+        if (d4 > d2) {
+            this.y = d2;
+        } else if (d4 < d) {
+            this.y = d;
+        } else {
+            this.y = d4;
+        }
+        double d5 = tuple3d.z;
+        if (d5 > d2) {
+            this.z = d2;
+        } else if (d5 < d) {
+            this.z = d;
+        } else {
+            this.z = d5;
+        }
+    }
+
+    public final void clampMin(float f, Tuple3d tuple3d) {
+        clampMin(f, tuple3d);
+    }
+
+    public final void clampMin(double d, Tuple3d tuple3d) {
+        double d2 = tuple3d.x;
+        if (d2 < d) {
+            this.x = d;
+        } else {
+            this.x = d2;
+        }
+        double d3 = tuple3d.y;
+        if (d3 < d) {
+            this.y = d;
+        } else {
+            this.y = d3;
+        }
+        double d4 = tuple3d.z;
+        if (d4 < d) {
+            this.z = d;
+        } else {
+            this.z = d4;
+        }
+    }
+
+    public final void clampMax(float f, Tuple3d tuple3d) {
+        clampMax(f, tuple3d);
+    }
+
+    public final void clampMax(double d, Tuple3d tuple3d) {
+        double d2 = tuple3d.x;
+        if (d2 > d) {
+            this.x = d;
+        } else {
+            this.x = d2;
+        }
+        double d3 = tuple3d.y;
+        if (d3 > d) {
+            this.y = d;
+        } else {
+            this.y = d3;
+        }
+        double d4 = tuple3d.z;
+        if (d4 > d) {
+            this.z = d;
+        } else {
+            this.z = d4;
+        }
+    }
+
+    public final void absolute(Tuple3d tuple3d) {
+        this.x = Math.abs(tuple3d.x);
+        this.y = Math.abs(tuple3d.y);
+        this.z = Math.abs(tuple3d.z);
+    }
+
+    public final void clamp(float f, float f2) {
+        clamp(f, f2);
+    }
+
+    public final void clampMin(float f) {
+        clampMin(f);
+    }
+
+    public final void clampMax(float f) {
+        clampMax(f);
+    }
+
+    public final void absolute() {
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        this.z = Math.abs(this.z);
+    }
+
+    public final void interpolate(Tuple3d tuple3d, Tuple3d tuple3d2, float f) {
+        interpolate(tuple3d, tuple3d2, f);
+    }
+
+    public final void interpolate(Tuple3d tuple3d, Tuple3d tuple3d2, double d) {
+        double d2 = 1.0d - d;
+        this.x = (tuple3d.x * d2) + (tuple3d2.x * d);
+        this.y = (tuple3d.y * d2) + (tuple3d2.y * d);
+        this.z = (d2 * tuple3d.z) + (d * tuple3d2.z);
+    }
+
+    public final void interpolate(Tuple3d tuple3d, float f) {
+        interpolate(tuple3d, f);
+    }
+
+    public final void interpolate(Tuple3d tuple3d, double d) {
+        double d2 = 1.0d - d;
+        this.x = (this.x * d2) + (tuple3d.x * d);
+        this.y = (this.y * d2) + (tuple3d.y * d);
+        this.z = (d2 * this.z) + (d * tuple3d.z);
+    }
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException unused) {
+            throw new InternalError();
+        }
+    }
+}

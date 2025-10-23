@@ -1,0 +1,299 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/XdsNameResolver2.java
+// Size: 15785 bytes
+// Modified: 2025-10-21 16:32:14.416907200 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.Sets;
+import com.google.gson.Gson;
+import com.shimmerresearch.driver.Configuration;
+import io.grpc.Attributes;
+import io.grpc.CallOptions;
+import io.grpc.InternalConfigSelector;
+import io.grpc.InternalLogId;
+import io.grpc.LoadBalancer;
+import io.grpc.Metadata;
+import io.grpc.NameResolver;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.internal.ObjectPool;
+import io.grpc.netty.shaded.io.netty.handler.codec.rtsp.RtspHeaders;
+import io.grpc.xds.EnvoyProtoData;
+import io.grpc.xds.ThreadSafeRandom;
+import io.grpc.xds.XdsClient;
+import io.grpc.xds.XdsLogger;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.atomic.AtomicInteger;
+
+/* loaded from: classes3.dex */
+final class XdsNameResolver2 extends NameResolver {
+    static final CallOptions.Key<String> CLUSTER_SELECTION_KEY = CallOptions.Key.create("io.grpc.xds.CLUSTER_SELECTION_KEY");
+    private final String authority;
+    private final Bootstrapper bootstrapper;
+    private final ConcurrentMap<String, AtomicInteger> clusterRefs;
+    private final ConfigSelector configSelector;
+    private NameResolver.Listener2 listener;
+    private final XdsLogger logger;
+    private final ThreadSafeRandom random;
+    private volatile List<EnvoyProtoData.Route> routes;
+    private final NameResolver.ServiceConfigParser serviceConfigParser;
+    private final SynchronizationContext syncContext;
+    private XdsClient xdsClient;
+    private ObjectPool<XdsClient> xdsClientPool;
+    private final XdsClient.XdsClientPoolFactory xdsClientPoolFactory;
+
+    @Override // io.grpc.NameResolver
+    public String getServiceAuthority() {
+        return this.authority;
+    }
+
+    XdsClient getXdsClient() {
+        return this.xdsClient;
+    }
+
+    XdsNameResolver2(String str, NameResolver.ServiceConfigParser serviceConfigParser, SynchronizationContext synchronizationContext, XdsClient.XdsClientPoolFactory xdsClientPoolFactory) {
+        this(str, serviceConfigParser, synchronizationContext, Bootstrapper.getInstance(), xdsClientPoolFactory, ThreadSafeRandom.ThreadSafeRandomImpl.instance);
+    }
+
+    XdsNameResolver2(String str, NameResolver.ServiceConfigParser serviceConfigParser, SynchronizationContext synchronizationContext, Bootstrapper bootstrapper, XdsClient.XdsClientPoolFactory xdsClientPoolFactory, ThreadSafeRandom threadSafeRandom) {
+        this.clusterRefs = new ConcurrentHashMap();
+        this.configSelector = new ConfigSelector();
+        this.routes = Collections.emptyList();
+        this.authority = GrpcUtil.checkAuthority((String) Preconditions.checkNotNull(str, "name"));
+        this.serviceConfigParser = (NameResolver.ServiceConfigParser) Preconditions.checkNotNull(serviceConfigParser, "serviceConfigParser");
+        this.syncContext = (SynchronizationContext) Preconditions.checkNotNull(synchronizationContext, "syncContext");
+        this.bootstrapper = (Bootstrapper) Preconditions.checkNotNull(bootstrapper, "bootstrapper");
+        this.xdsClientPoolFactory = (XdsClient.XdsClientPoolFactory) Preconditions.checkNotNull(xdsClientPoolFactory, "xdsClientPoolFactory");
+        this.random = (ThreadSafeRandom) Preconditions.checkNotNull(threadSafeRandom, "random");
+        XdsLogger xdsLoggerWithLogId = XdsLogger.withLogId(InternalLogId.allocate("xds-resolver", str));
+        this.logger = xdsLoggerWithLogId;
+        xdsLoggerWithLogId.log(XdsLogger.XdsLogLevel.INFO, "Created resolver for {0}", str);
+    }
+
+    @Override // io.grpc.NameResolver
+    public void start(NameResolver.Listener2 listener2) {
+        this.listener = (NameResolver.Listener2) Preconditions.checkNotNull(listener2, "listener");
+        try {
+            ObjectPool<XdsClient> objectPoolNewXdsClientObjectPool = this.xdsClientPoolFactory.newXdsClientObjectPool(this.bootstrapper.readBootstrap());
+            this.xdsClientPool = objectPoolNewXdsClientObjectPool;
+            XdsClient object = objectPoolNewXdsClientObjectPool.getObject();
+            this.xdsClient = object;
+            object.watchConfigData(this.authority, new ConfigWatcherImpl());
+        } catch (Exception e) {
+            listener2.onError(Status.UNAVAILABLE.withDescription("Failed to load xDS bootstrap").withCause(e));
+        }
+    }
+
+    @Override // io.grpc.NameResolver
+    public void shutdown() {
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Shutdown");
+        XdsClient xdsClient = this.xdsClient;
+        if (xdsClient != null) {
+            this.xdsClient = this.xdsClientPool.returnObject(xdsClient);
+        }
+    }
+
+    static Map<String, ?> generateServiceConfigWithMethodTimeoutConfig(long j) {
+        String str = (j / 1.0E9d) + Configuration.CHANNEL_UNITS.SECONDS;
+        HashMap map = new HashMap();
+        map.put("name", Collections.singletonList(Collections.emptyMap()));
+        map.put(RtspHeaders.Values.TIMEOUT, str);
+        return Collections.singletonMap("methodConfig", Collections.singletonList(Collections.unmodifiableMap(map)));
+    }
+
+    static Map<String, ?> generateServiceConfigWithLoadBalancingConfig(Collection<String> collection) {
+        HashMap map = new HashMap();
+        for (String str : collection) {
+            map.put(str, Collections.singletonMap("lbPolicy", Collections.singletonList(Collections.singletonMap("cds_experimental", Collections.singletonMap("cluster", str)))));
+        }
+        return Collections.singletonMap("loadBalancingConfig", Collections.singletonList(Collections.singletonMap("cluster_manager_experimental", Collections.singletonMap("childPolicy", Collections.unmodifiableMap(map)))));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void updateResolutionResult() {
+        Map<String, ?> mapGenerateServiceConfigWithLoadBalancingConfig = generateServiceConfigWithLoadBalancingConfig(this.clusterRefs.keySet());
+        if (this.logger.isLoggable(XdsLogger.XdsLogLevel.INFO)) {
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Generated service config:\n{0}", new Gson().toJson(mapGenerateServiceConfigWithLoadBalancingConfig));
+        }
+        this.listener.onResult(NameResolver.ResolutionResult.newBuilder().setAttributes(Attributes.newBuilder().set(XdsAttributes.XDS_CLIENT_POOL, this.xdsClientPool).set(InternalConfigSelector.KEY, this.configSelector).build()).setServiceConfig(this.serviceConfigParser.parseServiceConfig(mapGenerateServiceConfigWithLoadBalancingConfig)).build());
+    }
+
+    private final class ConfigSelector extends InternalConfigSelector {
+        private ConfigSelector() {
+        }
+
+        @Override // io.grpc.InternalConfigSelector
+        public InternalConfigSelector.Result selectConfig(LoadBalancer.PickSubchannelArgs pickSubchannelArgs) {
+            HashMap map = new HashMap();
+            Metadata headers = pickSubchannelArgs.getHeaders();
+            for (String str : headers.keys()) {
+                if (!str.endsWith(Metadata.BINARY_HEADER_SUFFIX)) {
+                    map.put(str, headers.getAll(Metadata.Key.of(str, Metadata.ASCII_STRING_MARSHALLER)));
+                }
+            }
+            EnvoyProtoData.Route route = null;
+            final String name = null;
+            do {
+                Iterator it2 = XdsNameResolver2.this.routes.iterator();
+                while (true) {
+                    if (!it2.hasNext()) {
+                        break;
+                    }
+                    EnvoyProtoData.Route route2 = (EnvoyProtoData.Route) it2.next();
+                    if (route2.getRouteMatch().matches("/" + pickSubchannelArgs.getMethodDescriptor().getFullMethodName(), map)) {
+                        route = route2;
+                        break;
+                    }
+                }
+                if (route == null) {
+                    return InternalConfigSelector.Result.forError(Status.UNAVAILABLE.withDescription("Could not find xDS route matching RPC"));
+                }
+                EnvoyProtoData.RouteAction routeAction = route.getRouteAction();
+                if (routeAction.getCluster() != null) {
+                    name = routeAction.getCluster();
+                } else if (routeAction.getWeightedCluster() != null) {
+                    Iterator<EnvoyProtoData.ClusterWeight> it3 = routeAction.getWeightedCluster().iterator();
+                    int weight = 0;
+                    while (it3.hasNext()) {
+                        weight += it3.next().getWeight();
+                    }
+                    int iNextInt = XdsNameResolver2.this.random.nextInt(weight);
+                    Iterator<EnvoyProtoData.ClusterWeight> it4 = routeAction.getWeightedCluster().iterator();
+                    int weight2 = 0;
+                    while (true) {
+                        if (!it4.hasNext()) {
+                            break;
+                        }
+                        EnvoyProtoData.ClusterWeight next = it4.next();
+                        weight2 += next.getWeight();
+                        if (iNextInt < weight2) {
+                            name = next.getName();
+                            break;
+                        }
+                    }
+                }
+            } while (!retainCluster(name));
+            Map<String, ?> mapGenerateServiceConfigWithMethodTimeoutConfig = XdsNameResolver2.generateServiceConfigWithMethodTimeoutConfig(route.getRouteAction().getTimeoutNano().longValue());
+            if (XdsNameResolver2.this.logger.isLoggable(XdsLogger.XdsLogLevel.INFO)) {
+                XdsNameResolver2.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Generated service config (method config):\n{0}", new Gson().toJson(mapGenerateServiceConfigWithMethodTimeoutConfig));
+            }
+            NameResolver.ConfigOrError serviceConfig = XdsNameResolver2.this.serviceConfigParser.parseServiceConfig(mapGenerateServiceConfigWithMethodTimeoutConfig);
+            Object config = serviceConfig.getConfig();
+            if (config == null) {
+                releaseCluster(name);
+                return InternalConfigSelector.Result.forError(serviceConfig.getError().augmentDescription("Failed to parse service config (method config)"));
+            }
+            return InternalConfigSelector.Result.newBuilder().setCallOptions(pickSubchannelArgs.getCallOptions().withOption(XdsNameResolver2.CLUSTER_SELECTION_KEY, name)).setConfig(config).setCommittedCallback(new Runnable() { // from class: io.grpc.xds.XdsNameResolver2.ConfigSelector.1SelectionCompleted
+                @Override // java.lang.Runnable
+                public void run() {
+                    ConfigSelector.this.releaseCluster(name);
+                }
+            }).build();
+        }
+
+        private boolean retainCluster(String str) {
+            int i;
+            AtomicInteger atomicInteger = (AtomicInteger) XdsNameResolver2.this.clusterRefs.get(str);
+            if (atomicInteger == null) {
+                return false;
+            }
+            do {
+                i = atomicInteger.get();
+                if (i == 0) {
+                    return false;
+                }
+            } while (!atomicInteger.compareAndSet(i, i + 1));
+            return true;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void releaseCluster(final String str) {
+            if (((AtomicInteger) XdsNameResolver2.this.clusterRefs.get(str)).decrementAndGet() == 0) {
+                XdsNameResolver2.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.XdsNameResolver2.ConfigSelector.1
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        if (((AtomicInteger) XdsNameResolver2.this.clusterRefs.get(str)).get() == 0) {
+                            XdsNameResolver2.this.clusterRefs.remove(str);
+                            XdsNameResolver2.this.updateResolutionResult();
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    private class ConfigWatcherImpl implements XdsClient.ConfigWatcher {
+        private Set<String> existingClusters;
+
+        private ConfigWatcherImpl() {
+        }
+
+        @Override // io.grpc.xds.XdsClient.ConfigWatcher
+        public void onConfigChanged(XdsClient.ConfigUpdate configUpdate) {
+            HashSet hashSet = new HashSet();
+            Iterator<EnvoyProtoData.Route> it2 = configUpdate.getRoutes().iterator();
+            while (it2.hasNext()) {
+                EnvoyProtoData.RouteAction routeAction = it2.next().getRouteAction();
+                if (routeAction.getCluster() != null) {
+                    hashSet.add(routeAction.getCluster());
+                } else if (routeAction.getWeightedCluster() != null) {
+                    Iterator<EnvoyProtoData.ClusterWeight> it3 = routeAction.getWeightedCluster().iterator();
+                    while (it3.hasNext()) {
+                        hashSet.add(it3.next().getName());
+                    }
+                }
+            }
+            Set<String> set = this.existingClusters;
+            Set<String> setDifference = set == null ? hashSet : Sets.difference(hashSet, set);
+            Set<String> set2 = this.existingClusters;
+            Set<String> setEmptySet = set2 == null ? Collections.emptySet() : Sets.difference(set2, hashSet);
+            this.existingClusters = hashSet;
+            boolean z = false;
+            boolean z2 = false;
+            for (String str : setDifference) {
+                if (XdsNameResolver2.this.clusterRefs.containsKey(str)) {
+                    ((AtomicInteger) XdsNameResolver2.this.clusterRefs.get(str)).incrementAndGet();
+                } else {
+                    XdsNameResolver2.this.clusterRefs.put(str, new AtomicInteger(1));
+                    z2 = true;
+                }
+            }
+            if (z2) {
+                XdsNameResolver2.this.updateResolutionResult();
+            }
+            XdsNameResolver2.this.routes = configUpdate.getRoutes();
+            for (String str2 : setEmptySet) {
+                if (((AtomicInteger) XdsNameResolver2.this.clusterRefs.get(str2)).decrementAndGet() == 0) {
+                    XdsNameResolver2.this.clusterRefs.remove(str2);
+                    z = true;
+                }
+            }
+            if (z) {
+                XdsNameResolver2.this.updateResolutionResult();
+            }
+        }
+
+        @Override // io.grpc.xds.XdsClient.ResourceWatcher
+        public void onResourceDoesNotExist(String str) {
+            XdsNameResolver2.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Resource {0} is unavailable", str);
+            XdsNameResolver2.this.listener.onResult(NameResolver.ResolutionResult.newBuilder().setServiceConfig(XdsNameResolver2.this.serviceConfigParser.parseServiceConfig(Collections.emptyMap())).build());
+        }
+
+        @Override // io.grpc.xds.XdsClient.ResourceWatcher
+        public void onError(Status status) {
+            XdsNameResolver2.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Received error from xDS client {0}: {1}", XdsNameResolver2.this.xdsClient, status.getDescription());
+            XdsNameResolver2.this.listener.onError(status);
+        }
+    }
+}

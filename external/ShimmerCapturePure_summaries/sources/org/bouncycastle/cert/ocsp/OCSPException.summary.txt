@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/ocsp/OCSPException.java
+// Size: 443 bytes
+// Modified: 2025-10-21 16:32:00.610832600 +0100
+
+package org.bouncycastle.cert.ocsp;
+
+/* loaded from: classes5.dex */
+public class OCSPException extends Exception {
+    private Throwable cause;
+
+    public OCSPException(String str) {
+        super(str);
+    }
+
+    public OCSPException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

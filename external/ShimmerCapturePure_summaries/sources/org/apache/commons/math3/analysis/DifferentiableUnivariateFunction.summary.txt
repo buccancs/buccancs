@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/DifferentiableUnivariateFunction.java
+// Size: 213 bytes
+// Modified: 2025-10-21 16:32:00.958395100 +0100
+
+package org.apache.commons.math3.analysis;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public interface DifferentiableUnivariateFunction extends UnivariateFunction {
+    UnivariateFunction derivative();
+}

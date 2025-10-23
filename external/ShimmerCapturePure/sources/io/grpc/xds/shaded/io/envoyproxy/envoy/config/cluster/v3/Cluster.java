@@ -1,0 +1,16154 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.MapEntry;
+import com.google.protobuf.MapField;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.Struct;
+import com.google.protobuf.StructOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import com.google.protobuf.UInt64Value;
+import com.google.protobuf.UInt64ValueOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import com.google.protobuf.WireFormat;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceLocator;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.ResourceLocatorOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.CircuitBreakers;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Filter;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.LoadBalancingPolicy;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.OutlierDetection;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.TrackClusterStats;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.UpstreamConnectionOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Address;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.AddressOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.BindConfig;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.BindConfigOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ConfigSource;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ConfigSourceOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HealthCheck;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HealthCheckOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Http1ProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Http1ProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Http2ProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Http2ProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HttpProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HttpProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Metadata;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.MetadataOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeDouble;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeDoubleOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TransportSocket;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TransportSocketOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TypedExtensionConfig;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.TypedExtensionConfigOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.UpstreamHttpProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.UpstreamHttpProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.ClusterLoadAssignment;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.ClusterLoadAssignmentOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3.Percent;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3.PercentOrBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
+import org.bouncycastle.crypto.tls.CipherSuite;
+
+/* loaded from: classes2.dex */
+public final class Cluster extends GeneratedMessageV3 implements ClusterOrBuilder {
+    public static final int ALT_STAT_NAME_FIELD_NUMBER = 28;
+    public static final int CIRCUIT_BREAKERS_FIELD_NUMBER = 10;
+    public static final int CLEANUP_INTERVAL_FIELD_NUMBER = 20;
+    public static final int CLOSE_CONNECTIONS_ON_HOST_HEALTH_FAILURE_FIELD_NUMBER = 31;
+    public static final int CLUSTER_TYPE_FIELD_NUMBER = 38;
+    public static final int COMMON_HTTP_PROTOCOL_OPTIONS_FIELD_NUMBER = 29;
+    public static final int COMMON_LB_CONFIG_FIELD_NUMBER = 27;
+    public static final int CONNECT_TIMEOUT_FIELD_NUMBER = 4;
+    public static final int DNS_FAILURE_REFRESH_RATE_FIELD_NUMBER = 44;
+    public static final int DNS_LOOKUP_FAMILY_FIELD_NUMBER = 17;
+    public static final int DNS_REFRESH_RATE_FIELD_NUMBER = 16;
+    public static final int DNS_RESOLVERS_FIELD_NUMBER = 18;
+    public static final int EDS_CLUSTER_CONFIG_FIELD_NUMBER = 3;
+    public static final int FILTERS_FIELD_NUMBER = 40;
+    public static final int HEALTH_CHECKS_FIELD_NUMBER = 8;
+    public static final int HTTP2_PROTOCOL_OPTIONS_FIELD_NUMBER = 14;
+    public static final int HTTP_PROTOCOL_OPTIONS_FIELD_NUMBER = 13;
+    public static final int IGNORE_HEALTH_ON_HOST_REMOVAL_FIELD_NUMBER = 32;
+    public static final int LB_POLICY_FIELD_NUMBER = 6;
+    public static final int LB_SUBSET_CONFIG_FIELD_NUMBER = 22;
+    public static final int LEAST_REQUEST_LB_CONFIG_FIELD_NUMBER = 37;
+    public static final int LOAD_ASSIGNMENT_FIELD_NUMBER = 33;
+    public static final int LOAD_BALANCING_POLICY_FIELD_NUMBER = 41;
+    public static final int LRS_SERVER_FIELD_NUMBER = 42;
+    public static final int MAX_REQUESTS_PER_CONNECTION_FIELD_NUMBER = 9;
+    public static final int METADATA_FIELD_NUMBER = 25;
+    public static final int NAME_FIELD_NUMBER = 1;
+    public static final int ORIGINAL_DST_LB_CONFIG_FIELD_NUMBER = 34;
+    public static final int OUTLIER_DETECTION_FIELD_NUMBER = 19;
+    public static final int PER_CONNECTION_BUFFER_LIMIT_BYTES_FIELD_NUMBER = 5;
+    public static final int PROTOCOL_SELECTION_FIELD_NUMBER = 26;
+    public static final int RESPECT_DNS_TTL_FIELD_NUMBER = 39;
+    public static final int RING_HASH_LB_CONFIG_FIELD_NUMBER = 23;
+    public static final int TRACK_CLUSTER_STATS_FIELD_NUMBER = 49;
+    public static final int TRACK_TIMEOUT_BUDGETS_FIELD_NUMBER = 47;
+    public static final int TRANSPORT_SOCKET_FIELD_NUMBER = 24;
+    public static final int TRANSPORT_SOCKET_MATCHES_FIELD_NUMBER = 43;
+    public static final int TYPED_EXTENSION_PROTOCOL_OPTIONS_FIELD_NUMBER = 36;
+    public static final int TYPE_FIELD_NUMBER = 2;
+    public static final int UPSTREAM_BIND_CONFIG_FIELD_NUMBER = 21;
+    public static final int UPSTREAM_CONFIG_FIELD_NUMBER = 48;
+    public static final int UPSTREAM_CONNECTION_OPTIONS_FIELD_NUMBER = 30;
+    public static final int UPSTREAM_HTTP_PROTOCOL_OPTIONS_FIELD_NUMBER = 46;
+    public static final int USE_TCP_FOR_DNS_LOOKUPS_FIELD_NUMBER = 45;
+    private static final long serialVersionUID = 0;
+    private static final Cluster DEFAULT_INSTANCE = new Cluster();
+    private static final Parser<Cluster> PARSER = new AbstractParser<Cluster>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Cluster m20409parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Cluster(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object altStatName_;
+    private CircuitBreakers circuitBreakers_;
+    private Duration cleanupInterval_;
+    private boolean closeConnectionsOnHostHealthFailure_;
+    private int clusterDiscoveryTypeCase_;
+    private Object clusterDiscoveryType_;
+    private HttpProtocolOptions commonHttpProtocolOptions_;
+    private CommonLbConfig commonLbConfig_;
+    private Duration connectTimeout_;
+    private RefreshRate dnsFailureRefreshRate_;
+    private int dnsLookupFamily_;
+    private Duration dnsRefreshRate_;
+    private List<Address> dnsResolvers_;
+    private EdsClusterConfig edsClusterConfig_;
+    private List<Filter> filters_;
+    private List<HealthCheck> healthChecks_;
+    private Http2ProtocolOptions http2ProtocolOptions_;
+    private Http1ProtocolOptions httpProtocolOptions_;
+    private boolean ignoreHealthOnHostRemoval_;
+    private int lbConfigCase_;
+    private Object lbConfig_;
+    private int lbPolicy_;
+    private LbSubsetConfig lbSubsetConfig_;
+    private ClusterLoadAssignment loadAssignment_;
+    private LoadBalancingPolicy loadBalancingPolicy_;
+    private ConfigSource lrsServer_;
+    private UInt32Value maxRequestsPerConnection_;
+    private byte memoizedIsInitialized;
+    private Metadata metadata_;
+    private volatile Object name_;
+    private OutlierDetection outlierDetection_;
+    private UInt32Value perConnectionBufferLimitBytes_;
+    private int protocolSelection_;
+    private boolean respectDnsTtl_;
+    private TrackClusterStats trackClusterStats_;
+    private boolean trackTimeoutBudgets_;
+    private List<TransportSocketMatch> transportSocketMatches_;
+    private TransportSocket transportSocket_;
+    private MapField<String, Any> typedExtensionProtocolOptions_;
+    private BindConfig upstreamBindConfig_;
+    private TypedExtensionConfig upstreamConfig_;
+    private UpstreamConnectionOptions upstreamConnectionOptions_;
+    private UpstreamHttpProtocolOptions upstreamHttpProtocolOptions_;
+    private boolean useTcpForDnsLookups_;
+
+    private Cluster(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.clusterDiscoveryTypeCase_ = 0;
+        this.lbConfigCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Cluster() {
+        this.clusterDiscoveryTypeCase_ = 0;
+        this.lbConfigCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.transportSocketMatches_ = Collections.emptyList();
+        this.name_ = "";
+        this.altStatName_ = "";
+        this.lbPolicy_ = 0;
+        this.healthChecks_ = Collections.emptyList();
+        this.dnsLookupFamily_ = 0;
+        this.dnsResolvers_ = Collections.emptyList();
+        this.protocolSelection_ = 0;
+        this.filters_ = Collections.emptyList();
+    }
+
+    private Cluster(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Duration.Builder builderM20686toBuilder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            this.name_ = codedInputStream.readStringRequireUtf8();
+                        case 16:
+                            int i2 = codedInputStream.readEnum();
+                            this.clusterDiscoveryTypeCase_ = 2;
+                            this.clusterDiscoveryType_ = Integer.valueOf(i2);
+                        case 26:
+                            EdsClusterConfig edsClusterConfig = this.edsClusterConfig_;
+                            builderM20686toBuilder = edsClusterConfig != null ? edsClusterConfig.m20686toBuilder() : null;
+                            EdsClusterConfig message = codedInputStream.readMessage(EdsClusterConfig.parser(), extensionRegistryLite);
+                            this.edsClusterConfig_ = message;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(message);
+                                this.edsClusterConfig_ = builderM20686toBuilder.m20693buildPartial();
+                            }
+                        case 34:
+                            Duration duration = this.connectTimeout_;
+                            builderM20686toBuilder = duration != null ? duration.toBuilder() : null;
+                            Duration message2 = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                            this.connectTimeout_ = message2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(message2);
+                                this.connectTimeout_ = builderM20686toBuilder.buildPartial();
+                            }
+                        case 42:
+                            UInt32Value uInt32Value = this.perConnectionBufferLimitBytes_;
+                            builderM20686toBuilder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                            UInt32Value message3 = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                            this.perConnectionBufferLimitBytes_ = message3;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(message3);
+                                this.perConnectionBufferLimitBytes_ = builderM20686toBuilder.buildPartial();
+                            }
+                        case 48:
+                            this.lbPolicy_ = codedInputStream.readEnum();
+                        case 66:
+                            if ((i & 2) == 0) {
+                                this.healthChecks_ = new ArrayList();
+                                i |= 2;
+                            }
+                            this.healthChecks_.add(codedInputStream.readMessage(HealthCheck.parser(), extensionRegistryLite));
+                        case 74:
+                            UInt32Value uInt32Value2 = this.maxRequestsPerConnection_;
+                            builderM20686toBuilder = uInt32Value2 != null ? uInt32Value2.toBuilder() : null;
+                            UInt32Value message4 = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                            this.maxRequestsPerConnection_ = message4;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(message4);
+                                this.maxRequestsPerConnection_ = builderM20686toBuilder.buildPartial();
+                            }
+                        case 82:
+                            CircuitBreakers circuitBreakers = this.circuitBreakers_;
+                            builderM20686toBuilder = circuitBreakers != null ? circuitBreakers.m20269toBuilder() : null;
+                            CircuitBreakers circuitBreakers2 = (CircuitBreakers) codedInputStream.readMessage(CircuitBreakers.parser(), extensionRegistryLite);
+                            this.circuitBreakers_ = circuitBreakers2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(circuitBreakers2);
+                                this.circuitBreakers_ = builderM20686toBuilder.m20276buildPartial();
+                            }
+                        case 106:
+                            Http1ProtocolOptions http1ProtocolOptions = this.httpProtocolOptions_;
+                            builderM20686toBuilder = http1ProtocolOptions != null ? http1ProtocolOptions.m23229toBuilder() : null;
+                            Http1ProtocolOptions http1ProtocolOptions2 = (Http1ProtocolOptions) codedInputStream.readMessage(Http1ProtocolOptions.parser(), extensionRegistryLite);
+                            this.httpProtocolOptions_ = http1ProtocolOptions2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(http1ProtocolOptions2);
+                                this.httpProtocolOptions_ = builderM20686toBuilder.m23236buildPartial();
+                            }
+                        case 114:
+                            Http2ProtocolOptions http2ProtocolOptions = this.http2ProtocolOptions_;
+                            builderM20686toBuilder = http2ProtocolOptions != null ? http2ProtocolOptions.m23367toBuilder() : null;
+                            Http2ProtocolOptions http2ProtocolOptions2 = (Http2ProtocolOptions) codedInputStream.readMessage(Http2ProtocolOptions.parser(), extensionRegistryLite);
+                            this.http2ProtocolOptions_ = http2ProtocolOptions2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(http2ProtocolOptions2);
+                                this.http2ProtocolOptions_ = builderM20686toBuilder.m23374buildPartial();
+                            }
+                        case 130:
+                            Duration duration2 = this.dnsRefreshRate_;
+                            builderM20686toBuilder = duration2 != null ? duration2.toBuilder() : null;
+                            Duration message5 = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                            this.dnsRefreshRate_ = message5;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(message5);
+                                this.dnsRefreshRate_ = builderM20686toBuilder.buildPartial();
+                            }
+                        case 136:
+                            this.dnsLookupFamily_ = codedInputStream.readEnum();
+                        case 146:
+                            if ((i & 8) == 0) {
+                                this.dnsResolvers_ = new ArrayList();
+                                i |= 8;
+                            }
+                            this.dnsResolvers_.add(codedInputStream.readMessage(Address.parser(), extensionRegistryLite));
+                        case 154:
+                            OutlierDetection outlierDetection = this.outlierDetection_;
+                            builderM20686toBuilder = outlierDetection != null ? outlierDetection.m21244toBuilder() : null;
+                            OutlierDetection outlierDetection2 = (OutlierDetection) codedInputStream.readMessage(OutlierDetection.parser(), extensionRegistryLite);
+                            this.outlierDetection_ = outlierDetection2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(outlierDetection2);
+                                this.outlierDetection_ = builderM20686toBuilder.m21251buildPartial();
+                            }
+                        case 162:
+                            Duration duration3 = this.cleanupInterval_;
+                            builderM20686toBuilder = duration3 != null ? duration3.toBuilder() : null;
+                            Duration message6 = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                            this.cleanupInterval_ = message6;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(message6);
+                                this.cleanupInterval_ = builderM20686toBuilder.buildPartial();
+                            }
+                        case 170:
+                            BindConfig bindConfig = this.upstreamBindConfig_;
+                            builderM20686toBuilder = bindConfig != null ? bindConfig.m21661toBuilder() : null;
+                            BindConfig bindConfig2 = (BindConfig) codedInputStream.readMessage(BindConfig.parser(), extensionRegistryLite);
+                            this.upstreamBindConfig_ = bindConfig2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(bindConfig2);
+                                this.upstreamBindConfig_ = builderM20686toBuilder.m21668buildPartial();
+                            }
+                        case CipherSuite.TLS_DHE_PSK_WITH_AES_128_CBC_SHA256 /* 178 */:
+                            LbSubsetConfig lbSubsetConfig = this.lbSubsetConfig_;
+                            builderM20686toBuilder = lbSubsetConfig != null ? lbSubsetConfig.m20733toBuilder() : null;
+                            LbSubsetConfig lbSubsetConfig2 = (LbSubsetConfig) codedInputStream.readMessage(LbSubsetConfig.parser(), extensionRegistryLite);
+                            this.lbSubsetConfig_ = lbSubsetConfig2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(lbSubsetConfig2);
+                                this.lbSubsetConfig_ = builderM20686toBuilder.m20740buildPartial();
+                            }
+                        case 186:
+                            builderM20686toBuilder = this.lbConfigCase_ == 23 ? ((RingHashLbConfig) this.lbConfig_).m20967toBuilder() : null;
+                            MessageLite message7 = codedInputStream.readMessage(RingHashLbConfig.parser(), extensionRegistryLite);
+                            this.lbConfig_ = message7;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom((RingHashLbConfig) message7);
+                                this.lbConfig_ = builderM20686toBuilder.m20974buildPartial();
+                            }
+                            this.lbConfigCase_ = 23;
+                        case CipherSuite.TLS_DH_RSA_WITH_CAMELLIA_256_CBC_SHA256 /* 194 */:
+                            TransportSocket transportSocket = this.transportSocket_;
+                            builderM20686toBuilder = transportSocket != null ? transportSocket.m24387toBuilder() : null;
+                            TransportSocket transportSocket2 = (TransportSocket) codedInputStream.readMessage(TransportSocket.parser(), extensionRegistryLite);
+                            this.transportSocket_ = transportSocket2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(transportSocket2);
+                                this.transportSocket_ = builderM20686toBuilder.m24394buildPartial();
+                            }
+                        case 202:
+                            Metadata metadata = this.metadata_;
+                            builderM20686toBuilder = metadata != null ? metadata.m23598toBuilder() : null;
+                            Metadata metadata2 = (Metadata) codedInputStream.readMessage(Metadata.parser(), extensionRegistryLite);
+                            this.metadata_ = metadata2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(metadata2);
+                                this.metadata_ = builderM20686toBuilder.m23605buildPartial();
+                            }
+                        case 208:
+                            this.protocolSelection_ = codedInputStream.readEnum();
+                        case 218:
+                            CommonLbConfig commonLbConfig = this.commonLbConfig_;
+                            builderM20686toBuilder = commonLbConfig != null ? commonLbConfig.m20454toBuilder() : null;
+                            CommonLbConfig commonLbConfig2 = (CommonLbConfig) codedInputStream.readMessage(CommonLbConfig.parser(), extensionRegistryLite);
+                            this.commonLbConfig_ = commonLbConfig2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(commonLbConfig2);
+                                this.commonLbConfig_ = builderM20686toBuilder.m20461buildPartial();
+                            }
+                        case 226:
+                            this.altStatName_ = codedInputStream.readStringRequireUtf8();
+                        case 234:
+                            HttpProtocolOptions httpProtocolOptions = this.commonHttpProtocolOptions_;
+                            builderM20686toBuilder = httpProtocolOptions != null ? httpProtocolOptions.m23459toBuilder() : null;
+                            HttpProtocolOptions httpProtocolOptions2 = (HttpProtocolOptions) codedInputStream.readMessage(HttpProtocolOptions.parser(), extensionRegistryLite);
+                            this.commonHttpProtocolOptions_ = httpProtocolOptions2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(httpProtocolOptions2);
+                                this.commonHttpProtocolOptions_ = builderM20686toBuilder.m23466buildPartial();
+                            }
+                        case 242:
+                            UpstreamConnectionOptions upstreamConnectionOptions = this.upstreamConnectionOptions_;
+                            builderM20686toBuilder = upstreamConnectionOptions != null ? upstreamConnectionOptions.m21382toBuilder() : null;
+                            UpstreamConnectionOptions upstreamConnectionOptions2 = (UpstreamConnectionOptions) codedInputStream.readMessage(UpstreamConnectionOptions.parser(), extensionRegistryLite);
+                            this.upstreamConnectionOptions_ = upstreamConnectionOptions2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(upstreamConnectionOptions2);
+                                this.upstreamConnectionOptions_ = builderM20686toBuilder.m21389buildPartial();
+                            }
+                        case 248:
+                            this.closeConnectionsOnHostHealthFailure_ = codedInputStream.readBool();
+                        case 256:
+                            this.ignoreHealthOnHostRemoval_ = codedInputStream.readBool();
+                        case 266:
+                            ClusterLoadAssignment clusterLoadAssignment = this.loadAssignment_;
+                            builderM20686toBuilder = clusterLoadAssignment != null ? clusterLoadAssignment.m24525toBuilder() : null;
+                            ClusterLoadAssignment clusterLoadAssignment2 = (ClusterLoadAssignment) codedInputStream.readMessage(ClusterLoadAssignment.parser(), extensionRegistryLite);
+                            this.loadAssignment_ = clusterLoadAssignment2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(clusterLoadAssignment2);
+                                this.loadAssignment_ = builderM20686toBuilder.m24532buildPartial();
+                            }
+                        case 274:
+                            builderM20686toBuilder = this.lbConfigCase_ == 34 ? ((OriginalDstLbConfig) this.lbConfig_).m20875toBuilder() : null;
+                            MessageLite message8 = codedInputStream.readMessage(OriginalDstLbConfig.parser(), extensionRegistryLite);
+                            this.lbConfig_ = message8;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom((OriginalDstLbConfig) message8);
+                                this.lbConfig_ = builderM20686toBuilder.m20882buildPartial();
+                            }
+                            this.lbConfigCase_ = 34;
+                        case 290:
+                            if ((i & 4) == 0) {
+                                this.typedExtensionProtocolOptions_ = MapField.newMapField(TypedExtensionProtocolOptionsDefaultEntryHolder.defaultEntry);
+                                i |= 4;
+                            }
+                            MapEntry message9 = codedInputStream.readMessage(TypedExtensionProtocolOptionsDefaultEntryHolder.defaultEntry.getParserForType(), extensionRegistryLite);
+                            this.typedExtensionProtocolOptions_.getMutableMap().put(message9.getKey(), message9.getValue());
+                        case 298:
+                            builderM20686toBuilder = this.lbConfigCase_ == 37 ? ((LeastRequestLbConfig) this.lbConfig_).m20829toBuilder() : null;
+                            MessageLite message10 = codedInputStream.readMessage(LeastRequestLbConfig.parser(), extensionRegistryLite);
+                            this.lbConfig_ = message10;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom((LeastRequestLbConfig) message10);
+                                this.lbConfig_ = builderM20686toBuilder.m20836buildPartial();
+                            }
+                            this.lbConfigCase_ = 37;
+                        case 306:
+                            builderM20686toBuilder = this.clusterDiscoveryTypeCase_ == 38 ? ((CustomClusterType) this.clusterDiscoveryType_).m20638toBuilder() : null;
+                            MessageLite message11 = codedInputStream.readMessage(CustomClusterType.parser(), extensionRegistryLite);
+                            this.clusterDiscoveryType_ = message11;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom((CustomClusterType) message11);
+                                this.clusterDiscoveryType_ = builderM20686toBuilder.m20645buildPartial();
+                            }
+                            this.clusterDiscoveryTypeCase_ = 38;
+                        case 312:
+                            this.respectDnsTtl_ = codedInputStream.readBool();
+                        case 322:
+                            if ((i & 16) == 0) {
+                                this.filters_ = new ArrayList();
+                                i |= 16;
+                            }
+                            this.filters_.add(codedInputStream.readMessage(Filter.parser(), extensionRegistryLite));
+                        case 330:
+                            LoadBalancingPolicy loadBalancingPolicy = this.loadBalancingPolicy_;
+                            builderM20686toBuilder = loadBalancingPolicy != null ? loadBalancingPolicy.m21152toBuilder() : null;
+                            LoadBalancingPolicy loadBalancingPolicy2 = (LoadBalancingPolicy) codedInputStream.readMessage(LoadBalancingPolicy.parser(), extensionRegistryLite);
+                            this.loadBalancingPolicy_ = loadBalancingPolicy2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(loadBalancingPolicy2);
+                                this.loadBalancingPolicy_ = builderM20686toBuilder.m21159buildPartial();
+                            }
+                        case 338:
+                            ConfigSource configSource = this.lrsServer_;
+                            builderM20686toBuilder = configSource != null ? configSource.m21799toBuilder() : null;
+                            ConfigSource configSource2 = (ConfigSource) codedInputStream.readMessage(ConfigSource.parser(), extensionRegistryLite);
+                            this.lrsServer_ = configSource2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(configSource2);
+                                this.lrsServer_ = builderM20686toBuilder.m21806buildPartial();
+                            }
+                        case 346:
+                            if ((i & 1) == 0) {
+                                this.transportSocketMatches_ = new ArrayList();
+                                i |= 1;
+                            }
+                            this.transportSocketMatches_.add(codedInputStream.readMessage(TransportSocketMatch.parser(), extensionRegistryLite));
+                        case 354:
+                            RefreshRate refreshRate = this.dnsFailureRefreshRate_;
+                            builderM20686toBuilder = refreshRate != null ? refreshRate.m20921toBuilder() : null;
+                            RefreshRate refreshRate2 = (RefreshRate) codedInputStream.readMessage(RefreshRate.parser(), extensionRegistryLite);
+                            this.dnsFailureRefreshRate_ = refreshRate2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(refreshRate2);
+                                this.dnsFailureRefreshRate_ = builderM20686toBuilder.m20928buildPartial();
+                            }
+                        case 360:
+                            this.useTcpForDnsLookups_ = codedInputStream.readBool();
+                        case 370:
+                            UpstreamHttpProtocolOptions upstreamHttpProtocolOptions = this.upstreamHttpProtocolOptions_;
+                            builderM20686toBuilder = upstreamHttpProtocolOptions != null ? upstreamHttpProtocolOptions.m24479toBuilder() : null;
+                            UpstreamHttpProtocolOptions upstreamHttpProtocolOptions2 = (UpstreamHttpProtocolOptions) codedInputStream.readMessage(UpstreamHttpProtocolOptions.parser(), extensionRegistryLite);
+                            this.upstreamHttpProtocolOptions_ = upstreamHttpProtocolOptions2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(upstreamHttpProtocolOptions2);
+                                this.upstreamHttpProtocolOptions_ = builderM20686toBuilder.m24486buildPartial();
+                            }
+                        case 376:
+                            this.trackTimeoutBudgets_ = codedInputStream.readBool();
+                        case 386:
+                            TypedExtensionConfig typedExtensionConfig = this.upstreamConfig_;
+                            builderM20686toBuilder = typedExtensionConfig != null ? typedExtensionConfig.m24433toBuilder() : null;
+                            TypedExtensionConfig typedExtensionConfig2 = (TypedExtensionConfig) codedInputStream.readMessage(TypedExtensionConfig.parser(), extensionRegistryLite);
+                            this.upstreamConfig_ = typedExtensionConfig2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(typedExtensionConfig2);
+                                this.upstreamConfig_ = builderM20686toBuilder.m24440buildPartial();
+                            }
+                        case 394:
+                            TrackClusterStats trackClusterStats = this.trackClusterStats_;
+                            builderM20686toBuilder = trackClusterStats != null ? trackClusterStats.m21290toBuilder() : null;
+                            TrackClusterStats trackClusterStats2 = (TrackClusterStats) codedInputStream.readMessage(TrackClusterStats.parser(), extensionRegistryLite);
+                            this.trackClusterStats_ = trackClusterStats2;
+                            if (builderM20686toBuilder != null) {
+                                builderM20686toBuilder.mergeFrom(trackClusterStats2);
+                                this.trackClusterStats_ = builderM20686toBuilder.m21297buildPartial();
+                            }
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 2) != 0) {
+                    this.healthChecks_ = Collections.unmodifiableList(this.healthChecks_);
+                }
+                if ((i & 8) != 0) {
+                    this.dnsResolvers_ = Collections.unmodifiableList(this.dnsResolvers_);
+                }
+                if ((i & 16) != 0) {
+                    this.filters_ = Collections.unmodifiableList(this.filters_);
+                }
+                if ((i & 1) != 0) {
+                    this.transportSocketMatches_ = Collections.unmodifiableList(this.transportSocketMatches_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static Cluster getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Cluster> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_descriptor;
+    }
+
+    public static Cluster parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Cluster) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Cluster parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Cluster) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Cluster parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Cluster) PARSER.parseFrom(byteString);
+    }
+
+    public static Cluster parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Cluster) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Cluster parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Cluster) PARSER.parseFrom(bArr);
+    }
+
+    public static Cluster parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Cluster) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Cluster parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Cluster parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Cluster parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Cluster parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Cluster parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Cluster parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m20407toBuilder();
+    }
+
+    public static Builder newBuilder(Cluster cluster) {
+        return DEFAULT_INSTANCE.m20407toBuilder().mergeFrom(cluster);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean getCloseConnectionsOnHostHealthFailure() {
+        return this.closeConnectionsOnHostHealthFailure_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Cluster m20402getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getDnsLookupFamilyValue() {
+        return this.dnsLookupFamily_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public List<Address> getDnsResolversList() {
+        return this.dnsResolvers_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public List<? extends AddressOrBuilder> getDnsResolversOrBuilderList() {
+        return this.dnsResolvers_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public List<Filter> getFiltersList() {
+        return this.filters_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public List<? extends FilterOrBuilder> getFiltersOrBuilderList() {
+        return this.filters_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public List<HealthCheck> getHealthChecksList() {
+        return this.healthChecks_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public List<? extends HealthCheckOrBuilder> getHealthChecksOrBuilderList() {
+        return this.healthChecks_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean getIgnoreHealthOnHostRemoval() {
+        return this.ignoreHealthOnHostRemoval_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getLbPolicyValue() {
+        return this.lbPolicy_;
+    }
+
+    public Parser<Cluster> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getProtocolSelectionValue() {
+        return this.protocolSelection_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean getRespectDnsTtl() {
+        return this.respectDnsTtl_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    @Deprecated
+    public boolean getTrackTimeoutBudgets() {
+        return this.trackTimeoutBudgets_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public List<TransportSocketMatch> getTransportSocketMatchesList() {
+        return this.transportSocketMatches_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public List<? extends TransportSocketMatchOrBuilder> getTransportSocketMatchesOrBuilderList() {
+        return this.transportSocketMatches_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean getUseTcpForDnsLookups() {
+        return this.useTcpForDnsLookups_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasCircuitBreakers() {
+        return this.circuitBreakers_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasCleanupInterval() {
+        return this.cleanupInterval_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasClusterType() {
+        return this.clusterDiscoveryTypeCase_ == 38;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasCommonHttpProtocolOptions() {
+        return this.commonHttpProtocolOptions_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasCommonLbConfig() {
+        return this.commonLbConfig_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasConnectTimeout() {
+        return this.connectTimeout_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasDnsFailureRefreshRate() {
+        return this.dnsFailureRefreshRate_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasDnsRefreshRate() {
+        return this.dnsRefreshRate_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasEdsClusterConfig() {
+        return this.edsClusterConfig_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasHttp2ProtocolOptions() {
+        return this.http2ProtocolOptions_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasHttpProtocolOptions() {
+        return this.httpProtocolOptions_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasLbSubsetConfig() {
+        return this.lbSubsetConfig_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasLeastRequestLbConfig() {
+        return this.lbConfigCase_ == 37;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasLoadAssignment() {
+        return this.loadAssignment_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasLoadBalancingPolicy() {
+        return this.loadBalancingPolicy_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasLrsServer() {
+        return this.lrsServer_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasMaxRequestsPerConnection() {
+        return this.maxRequestsPerConnection_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasMetadata() {
+        return this.metadata_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasOriginalDstLbConfig() {
+        return this.lbConfigCase_ == 34;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasOutlierDetection() {
+        return this.outlierDetection_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasPerConnectionBufferLimitBytes() {
+        return this.perConnectionBufferLimitBytes_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasRingHashLbConfig() {
+        return this.lbConfigCase_ == 23;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasTrackClusterStats() {
+        return this.trackClusterStats_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasTransportSocket() {
+        return this.transportSocket_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasUpstreamBindConfig() {
+        return this.upstreamBindConfig_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasUpstreamConfig() {
+        return this.upstreamConfig_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasUpstreamConnectionOptions() {
+        return this.upstreamConnectionOptions_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean hasUpstreamHttpProtocolOptions() {
+        return this.upstreamHttpProtocolOptions_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Cluster();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected MapField internalGetMapField(int i) {
+        if (i == 36) {
+            return internalGetTypedExtensionProtocolOptions();
+        }
+        throw new RuntimeException("Invalid map field number: " + i);
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_fieldAccessorTable.ensureFieldAccessorsInitialized(Cluster.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public ClusterDiscoveryTypeCase getClusterDiscoveryTypeCase() {
+        return ClusterDiscoveryTypeCase.forNumber(this.clusterDiscoveryTypeCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public LbConfigCase getLbConfigCase() {
+        return LbConfigCase.forNumber(this.lbConfigCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getTransportSocketMatchesCount() {
+        return this.transportSocketMatches_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public TransportSocketMatch getTransportSocketMatches(int i) {
+        return this.transportSocketMatches_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public TransportSocketMatchOrBuilder getTransportSocketMatchesOrBuilder(int i) {
+        return this.transportSocketMatches_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public String getName() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.name_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public ByteString getNameBytes() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.name_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public String getAltStatName() {
+        Object obj = this.altStatName_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.altStatName_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public ByteString getAltStatNameBytes() {
+        Object obj = this.altStatName_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.altStatName_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getTypeValue() {
+        if (this.clusterDiscoveryTypeCase_ == 2) {
+            return ((Integer) this.clusterDiscoveryType_).intValue();
+        }
+        return 0;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public DiscoveryType getType() {
+        if (this.clusterDiscoveryTypeCase_ == 2) {
+            DiscoveryType discoveryTypeValueOf = DiscoveryType.valueOf(((Integer) this.clusterDiscoveryType_).intValue());
+            return discoveryTypeValueOf == null ? DiscoveryType.UNRECOGNIZED : discoveryTypeValueOf;
+        }
+        return DiscoveryType.STATIC;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public CustomClusterType getClusterType() {
+        if (this.clusterDiscoveryTypeCase_ == 38) {
+            return (CustomClusterType) this.clusterDiscoveryType_;
+        }
+        return CustomClusterType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public CustomClusterTypeOrBuilder getClusterTypeOrBuilder() {
+        if (this.clusterDiscoveryTypeCase_ == 38) {
+            return (CustomClusterType) this.clusterDiscoveryType_;
+        }
+        return CustomClusterType.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public EdsClusterConfig getEdsClusterConfig() {
+        EdsClusterConfig edsClusterConfig = this.edsClusterConfig_;
+        return edsClusterConfig == null ? EdsClusterConfig.getDefaultInstance() : edsClusterConfig;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public EdsClusterConfigOrBuilder getEdsClusterConfigOrBuilder() {
+        return getEdsClusterConfig();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Duration getConnectTimeout() {
+        Duration duration = this.connectTimeout_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public DurationOrBuilder getConnectTimeoutOrBuilder() {
+        return getConnectTimeout();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public UInt32Value getPerConnectionBufferLimitBytes() {
+        UInt32Value uInt32Value = this.perConnectionBufferLimitBytes_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public UInt32ValueOrBuilder getPerConnectionBufferLimitBytesOrBuilder() {
+        return getPerConnectionBufferLimitBytes();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public LbPolicy getLbPolicy() {
+        LbPolicy lbPolicyValueOf = LbPolicy.valueOf(this.lbPolicy_);
+        return lbPolicyValueOf == null ? LbPolicy.UNRECOGNIZED : lbPolicyValueOf;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public ClusterLoadAssignment getLoadAssignment() {
+        ClusterLoadAssignment clusterLoadAssignment = this.loadAssignment_;
+        return clusterLoadAssignment == null ? ClusterLoadAssignment.getDefaultInstance() : clusterLoadAssignment;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public ClusterLoadAssignmentOrBuilder getLoadAssignmentOrBuilder() {
+        return getLoadAssignment();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getHealthChecksCount() {
+        return this.healthChecks_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public HealthCheck getHealthChecks(int i) {
+        return this.healthChecks_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public HealthCheckOrBuilder getHealthChecksOrBuilder(int i) {
+        return this.healthChecks_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public UInt32Value getMaxRequestsPerConnection() {
+        UInt32Value uInt32Value = this.maxRequestsPerConnection_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public UInt32ValueOrBuilder getMaxRequestsPerConnectionOrBuilder() {
+        return getMaxRequestsPerConnection();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public CircuitBreakers getCircuitBreakers() {
+        CircuitBreakers circuitBreakers = this.circuitBreakers_;
+        return circuitBreakers == null ? CircuitBreakers.getDefaultInstance() : circuitBreakers;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public CircuitBreakersOrBuilder getCircuitBreakersOrBuilder() {
+        return getCircuitBreakers();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public UpstreamHttpProtocolOptions getUpstreamHttpProtocolOptions() {
+        UpstreamHttpProtocolOptions upstreamHttpProtocolOptions = this.upstreamHttpProtocolOptions_;
+        return upstreamHttpProtocolOptions == null ? UpstreamHttpProtocolOptions.getDefaultInstance() : upstreamHttpProtocolOptions;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public UpstreamHttpProtocolOptionsOrBuilder getUpstreamHttpProtocolOptionsOrBuilder() {
+        return getUpstreamHttpProtocolOptions();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public HttpProtocolOptions getCommonHttpProtocolOptions() {
+        HttpProtocolOptions httpProtocolOptions = this.commonHttpProtocolOptions_;
+        return httpProtocolOptions == null ? HttpProtocolOptions.getDefaultInstance() : httpProtocolOptions;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public HttpProtocolOptionsOrBuilder getCommonHttpProtocolOptionsOrBuilder() {
+        return getCommonHttpProtocolOptions();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Http1ProtocolOptions getHttpProtocolOptions() {
+        Http1ProtocolOptions http1ProtocolOptions = this.httpProtocolOptions_;
+        return http1ProtocolOptions == null ? Http1ProtocolOptions.getDefaultInstance() : http1ProtocolOptions;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Http1ProtocolOptionsOrBuilder getHttpProtocolOptionsOrBuilder() {
+        return getHttpProtocolOptions();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Http2ProtocolOptions getHttp2ProtocolOptions() {
+        Http2ProtocolOptions http2ProtocolOptions = this.http2ProtocolOptions_;
+        return http2ProtocolOptions == null ? Http2ProtocolOptions.getDefaultInstance() : http2ProtocolOptions;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Http2ProtocolOptionsOrBuilder getHttp2ProtocolOptionsOrBuilder() {
+        return getHttp2ProtocolOptions();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public MapField<String, Any> internalGetTypedExtensionProtocolOptions() {
+        MapField<String, Any> mapField = this.typedExtensionProtocolOptions_;
+        return mapField == null ? MapField.emptyMapField(TypedExtensionProtocolOptionsDefaultEntryHolder.defaultEntry) : mapField;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getTypedExtensionProtocolOptionsCount() {
+        return internalGetTypedExtensionProtocolOptions().getMap().size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public boolean containsTypedExtensionProtocolOptions(String str) {
+        str.getClass();
+        return internalGetTypedExtensionProtocolOptions().getMap().containsKey(str);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    @Deprecated
+    public Map<String, Any> getTypedExtensionProtocolOptions() {
+        return getTypedExtensionProtocolOptionsMap();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Map<String, Any> getTypedExtensionProtocolOptionsMap() {
+        return internalGetTypedExtensionProtocolOptions().getMap();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Any getTypedExtensionProtocolOptionsOrDefault(String str, Any any) {
+        str.getClass();
+        Map map = internalGetTypedExtensionProtocolOptions().getMap();
+        return map.containsKey(str) ? (Any) map.get(str) : any;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Any getTypedExtensionProtocolOptionsOrThrow(String str) {
+        str.getClass();
+        Map map = internalGetTypedExtensionProtocolOptions().getMap();
+        if (!map.containsKey(str)) {
+            throw new IllegalArgumentException();
+        }
+        return (Any) map.get(str);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Duration getDnsRefreshRate() {
+        Duration duration = this.dnsRefreshRate_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public DurationOrBuilder getDnsRefreshRateOrBuilder() {
+        return getDnsRefreshRate();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public RefreshRate getDnsFailureRefreshRate() {
+        RefreshRate refreshRate = this.dnsFailureRefreshRate_;
+        return refreshRate == null ? RefreshRate.getDefaultInstance() : refreshRate;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public RefreshRateOrBuilder getDnsFailureRefreshRateOrBuilder() {
+        return getDnsFailureRefreshRate();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public DnsLookupFamily getDnsLookupFamily() {
+        DnsLookupFamily dnsLookupFamilyValueOf = DnsLookupFamily.valueOf(this.dnsLookupFamily_);
+        return dnsLookupFamilyValueOf == null ? DnsLookupFamily.UNRECOGNIZED : dnsLookupFamilyValueOf;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getDnsResolversCount() {
+        return this.dnsResolvers_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Address getDnsResolvers(int i) {
+        return this.dnsResolvers_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public AddressOrBuilder getDnsResolversOrBuilder(int i) {
+        return this.dnsResolvers_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public OutlierDetection getOutlierDetection() {
+        OutlierDetection outlierDetection = this.outlierDetection_;
+        return outlierDetection == null ? OutlierDetection.getDefaultInstance() : outlierDetection;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public OutlierDetectionOrBuilder getOutlierDetectionOrBuilder() {
+        return getOutlierDetection();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Duration getCleanupInterval() {
+        Duration duration = this.cleanupInterval_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public DurationOrBuilder getCleanupIntervalOrBuilder() {
+        return getCleanupInterval();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public BindConfig getUpstreamBindConfig() {
+        BindConfig bindConfig = this.upstreamBindConfig_;
+        return bindConfig == null ? BindConfig.getDefaultInstance() : bindConfig;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public BindConfigOrBuilder getUpstreamBindConfigOrBuilder() {
+        return getUpstreamBindConfig();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public LbSubsetConfig getLbSubsetConfig() {
+        LbSubsetConfig lbSubsetConfig = this.lbSubsetConfig_;
+        return lbSubsetConfig == null ? LbSubsetConfig.getDefaultInstance() : lbSubsetConfig;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public LbSubsetConfigOrBuilder getLbSubsetConfigOrBuilder() {
+        return getLbSubsetConfig();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public RingHashLbConfig getRingHashLbConfig() {
+        if (this.lbConfigCase_ == 23) {
+            return (RingHashLbConfig) this.lbConfig_;
+        }
+        return RingHashLbConfig.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public RingHashLbConfigOrBuilder getRingHashLbConfigOrBuilder() {
+        if (this.lbConfigCase_ == 23) {
+            return (RingHashLbConfig) this.lbConfig_;
+        }
+        return RingHashLbConfig.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public OriginalDstLbConfig getOriginalDstLbConfig() {
+        if (this.lbConfigCase_ == 34) {
+            return (OriginalDstLbConfig) this.lbConfig_;
+        }
+        return OriginalDstLbConfig.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public OriginalDstLbConfigOrBuilder getOriginalDstLbConfigOrBuilder() {
+        if (this.lbConfigCase_ == 34) {
+            return (OriginalDstLbConfig) this.lbConfig_;
+        }
+        return OriginalDstLbConfig.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public LeastRequestLbConfig getLeastRequestLbConfig() {
+        if (this.lbConfigCase_ == 37) {
+            return (LeastRequestLbConfig) this.lbConfig_;
+        }
+        return LeastRequestLbConfig.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public LeastRequestLbConfigOrBuilder getLeastRequestLbConfigOrBuilder() {
+        if (this.lbConfigCase_ == 37) {
+            return (LeastRequestLbConfig) this.lbConfig_;
+        }
+        return LeastRequestLbConfig.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public CommonLbConfig getCommonLbConfig() {
+        CommonLbConfig commonLbConfig = this.commonLbConfig_;
+        return commonLbConfig == null ? CommonLbConfig.getDefaultInstance() : commonLbConfig;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public CommonLbConfigOrBuilder getCommonLbConfigOrBuilder() {
+        return getCommonLbConfig();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public TransportSocket getTransportSocket() {
+        TransportSocket transportSocket = this.transportSocket_;
+        return transportSocket == null ? TransportSocket.getDefaultInstance() : transportSocket;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public TransportSocketOrBuilder getTransportSocketOrBuilder() {
+        return getTransportSocket();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Metadata getMetadata() {
+        Metadata metadata = this.metadata_;
+        return metadata == null ? Metadata.getDefaultInstance() : metadata;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public MetadataOrBuilder getMetadataOrBuilder() {
+        return getMetadata();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public ClusterProtocolSelection getProtocolSelection() {
+        ClusterProtocolSelection clusterProtocolSelectionValueOf = ClusterProtocolSelection.valueOf(this.protocolSelection_);
+        return clusterProtocolSelectionValueOf == null ? ClusterProtocolSelection.UNRECOGNIZED : clusterProtocolSelectionValueOf;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public UpstreamConnectionOptions getUpstreamConnectionOptions() {
+        UpstreamConnectionOptions upstreamConnectionOptions = this.upstreamConnectionOptions_;
+        return upstreamConnectionOptions == null ? UpstreamConnectionOptions.getDefaultInstance() : upstreamConnectionOptions;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public UpstreamConnectionOptionsOrBuilder getUpstreamConnectionOptionsOrBuilder() {
+        return getUpstreamConnectionOptions();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public int getFiltersCount() {
+        return this.filters_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public Filter getFilters(int i) {
+        return this.filters_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public FilterOrBuilder getFiltersOrBuilder(int i) {
+        return this.filters_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public LoadBalancingPolicy getLoadBalancingPolicy() {
+        LoadBalancingPolicy loadBalancingPolicy = this.loadBalancingPolicy_;
+        return loadBalancingPolicy == null ? LoadBalancingPolicy.getDefaultInstance() : loadBalancingPolicy;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public LoadBalancingPolicyOrBuilder getLoadBalancingPolicyOrBuilder() {
+        return getLoadBalancingPolicy();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public ConfigSource getLrsServer() {
+        ConfigSource configSource = this.lrsServer_;
+        return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public ConfigSourceOrBuilder getLrsServerOrBuilder() {
+        return getLrsServer();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public TypedExtensionConfig getUpstreamConfig() {
+        TypedExtensionConfig typedExtensionConfig = this.upstreamConfig_;
+        return typedExtensionConfig == null ? TypedExtensionConfig.getDefaultInstance() : typedExtensionConfig;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public TypedExtensionConfigOrBuilder getUpstreamConfigOrBuilder() {
+        return getUpstreamConfig();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public TrackClusterStats getTrackClusterStats() {
+        TrackClusterStats trackClusterStats = this.trackClusterStats_;
+        return trackClusterStats == null ? TrackClusterStats.getDefaultInstance() : trackClusterStats;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+    public TrackClusterStatsOrBuilder getTrackClusterStatsOrBuilder() {
+        return getTrackClusterStats();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+        }
+        if (this.clusterDiscoveryTypeCase_ == 2) {
+            codedOutputStream.writeEnum(2, ((Integer) this.clusterDiscoveryType_).intValue());
+        }
+        if (this.edsClusterConfig_ != null) {
+            codedOutputStream.writeMessage(3, getEdsClusterConfig());
+        }
+        if (this.connectTimeout_ != null) {
+            codedOutputStream.writeMessage(4, getConnectTimeout());
+        }
+        if (this.perConnectionBufferLimitBytes_ != null) {
+            codedOutputStream.writeMessage(5, getPerConnectionBufferLimitBytes());
+        }
+        if (this.lbPolicy_ != LbPolicy.ROUND_ROBIN.getNumber()) {
+            codedOutputStream.writeEnum(6, this.lbPolicy_);
+        }
+        for (int i = 0; i < this.healthChecks_.size(); i++) {
+            codedOutputStream.writeMessage(8, this.healthChecks_.get(i));
+        }
+        if (this.maxRequestsPerConnection_ != null) {
+            codedOutputStream.writeMessage(9, getMaxRequestsPerConnection());
+        }
+        if (this.circuitBreakers_ != null) {
+            codedOutputStream.writeMessage(10, getCircuitBreakers());
+        }
+        if (this.httpProtocolOptions_ != null) {
+            codedOutputStream.writeMessage(13, getHttpProtocolOptions());
+        }
+        if (this.http2ProtocolOptions_ != null) {
+            codedOutputStream.writeMessage(14, getHttp2ProtocolOptions());
+        }
+        if (this.dnsRefreshRate_ != null) {
+            codedOutputStream.writeMessage(16, getDnsRefreshRate());
+        }
+        if (this.dnsLookupFamily_ != DnsLookupFamily.AUTO.getNumber()) {
+            codedOutputStream.writeEnum(17, this.dnsLookupFamily_);
+        }
+        for (int i2 = 0; i2 < this.dnsResolvers_.size(); i2++) {
+            codedOutputStream.writeMessage(18, this.dnsResolvers_.get(i2));
+        }
+        if (this.outlierDetection_ != null) {
+            codedOutputStream.writeMessage(19, getOutlierDetection());
+        }
+        if (this.cleanupInterval_ != null) {
+            codedOutputStream.writeMessage(20, getCleanupInterval());
+        }
+        if (this.upstreamBindConfig_ != null) {
+            codedOutputStream.writeMessage(21, getUpstreamBindConfig());
+        }
+        if (this.lbSubsetConfig_ != null) {
+            codedOutputStream.writeMessage(22, getLbSubsetConfig());
+        }
+        if (this.lbConfigCase_ == 23) {
+            codedOutputStream.writeMessage(23, (RingHashLbConfig) this.lbConfig_);
+        }
+        if (this.transportSocket_ != null) {
+            codedOutputStream.writeMessage(24, getTransportSocket());
+        }
+        if (this.metadata_ != null) {
+            codedOutputStream.writeMessage(25, getMetadata());
+        }
+        if (this.protocolSelection_ != ClusterProtocolSelection.USE_CONFIGURED_PROTOCOL.getNumber()) {
+            codedOutputStream.writeEnum(26, this.protocolSelection_);
+        }
+        if (this.commonLbConfig_ != null) {
+            codedOutputStream.writeMessage(27, getCommonLbConfig());
+        }
+        if (!getAltStatNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 28, this.altStatName_);
+        }
+        if (this.commonHttpProtocolOptions_ != null) {
+            codedOutputStream.writeMessage(29, getCommonHttpProtocolOptions());
+        }
+        if (this.upstreamConnectionOptions_ != null) {
+            codedOutputStream.writeMessage(30, getUpstreamConnectionOptions());
+        }
+        boolean z = this.closeConnectionsOnHostHealthFailure_;
+        if (z) {
+            codedOutputStream.writeBool(31, z);
+        }
+        boolean z2 = this.ignoreHealthOnHostRemoval_;
+        if (z2) {
+            codedOutputStream.writeBool(32, z2);
+        }
+        if (this.loadAssignment_ != null) {
+            codedOutputStream.writeMessage(33, getLoadAssignment());
+        }
+        if (this.lbConfigCase_ == 34) {
+            codedOutputStream.writeMessage(34, (OriginalDstLbConfig) this.lbConfig_);
+        }
+        GeneratedMessageV3.serializeStringMapTo(codedOutputStream, internalGetTypedExtensionProtocolOptions(), TypedExtensionProtocolOptionsDefaultEntryHolder.defaultEntry, 36);
+        if (this.lbConfigCase_ == 37) {
+            codedOutputStream.writeMessage(37, (LeastRequestLbConfig) this.lbConfig_);
+        }
+        if (this.clusterDiscoveryTypeCase_ == 38) {
+            codedOutputStream.writeMessage(38, (CustomClusterType) this.clusterDiscoveryType_);
+        }
+        boolean z3 = this.respectDnsTtl_;
+        if (z3) {
+            codedOutputStream.writeBool(39, z3);
+        }
+        for (int i3 = 0; i3 < this.filters_.size(); i3++) {
+            codedOutputStream.writeMessage(40, this.filters_.get(i3));
+        }
+        if (this.loadBalancingPolicy_ != null) {
+            codedOutputStream.writeMessage(41, getLoadBalancingPolicy());
+        }
+        if (this.lrsServer_ != null) {
+            codedOutputStream.writeMessage(42, getLrsServer());
+        }
+        for (int i4 = 0; i4 < this.transportSocketMatches_.size(); i4++) {
+            codedOutputStream.writeMessage(43, this.transportSocketMatches_.get(i4));
+        }
+        if (this.dnsFailureRefreshRate_ != null) {
+            codedOutputStream.writeMessage(44, getDnsFailureRefreshRate());
+        }
+        boolean z4 = this.useTcpForDnsLookups_;
+        if (z4) {
+            codedOutputStream.writeBool(45, z4);
+        }
+        if (this.upstreamHttpProtocolOptions_ != null) {
+            codedOutputStream.writeMessage(46, getUpstreamHttpProtocolOptions());
+        }
+        boolean z5 = this.trackTimeoutBudgets_;
+        if (z5) {
+            codedOutputStream.writeBool(47, z5);
+        }
+        if (this.upstreamConfig_ != null) {
+            codedOutputStream.writeMessage(48, getUpstreamConfig());
+        }
+        if (this.trackClusterStats_ != null) {
+            codedOutputStream.writeMessage(49, getTrackClusterStats());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0;
+        if (this.clusterDiscoveryTypeCase_ == 2) {
+            iComputeStringSize += CodedOutputStream.computeEnumSize(2, ((Integer) this.clusterDiscoveryType_).intValue());
+        }
+        if (this.edsClusterConfig_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(3, getEdsClusterConfig());
+        }
+        if (this.connectTimeout_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(4, getConnectTimeout());
+        }
+        if (this.perConnectionBufferLimitBytes_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(5, getPerConnectionBufferLimitBytes());
+        }
+        if (this.lbPolicy_ != LbPolicy.ROUND_ROBIN.getNumber()) {
+            iComputeStringSize += CodedOutputStream.computeEnumSize(6, this.lbPolicy_);
+        }
+        for (int i2 = 0; i2 < this.healthChecks_.size(); i2++) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(8, this.healthChecks_.get(i2));
+        }
+        if (this.maxRequestsPerConnection_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(9, getMaxRequestsPerConnection());
+        }
+        if (this.circuitBreakers_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(10, getCircuitBreakers());
+        }
+        if (this.httpProtocolOptions_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(13, getHttpProtocolOptions());
+        }
+        if (this.http2ProtocolOptions_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(14, getHttp2ProtocolOptions());
+        }
+        if (this.dnsRefreshRate_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(16, getDnsRefreshRate());
+        }
+        if (this.dnsLookupFamily_ != DnsLookupFamily.AUTO.getNumber()) {
+            iComputeStringSize += CodedOutputStream.computeEnumSize(17, this.dnsLookupFamily_);
+        }
+        for (int i3 = 0; i3 < this.dnsResolvers_.size(); i3++) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(18, this.dnsResolvers_.get(i3));
+        }
+        if (this.outlierDetection_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(19, getOutlierDetection());
+        }
+        if (this.cleanupInterval_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(20, getCleanupInterval());
+        }
+        if (this.upstreamBindConfig_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(21, getUpstreamBindConfig());
+        }
+        if (this.lbSubsetConfig_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(22, getLbSubsetConfig());
+        }
+        if (this.lbConfigCase_ == 23) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(23, (RingHashLbConfig) this.lbConfig_);
+        }
+        if (this.transportSocket_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(24, getTransportSocket());
+        }
+        if (this.metadata_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(25, getMetadata());
+        }
+        if (this.protocolSelection_ != ClusterProtocolSelection.USE_CONFIGURED_PROTOCOL.getNumber()) {
+            iComputeStringSize += CodedOutputStream.computeEnumSize(26, this.protocolSelection_);
+        }
+        if (this.commonLbConfig_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(27, getCommonLbConfig());
+        }
+        if (!getAltStatNameBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(28, this.altStatName_);
+        }
+        if (this.commonHttpProtocolOptions_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(29, getCommonHttpProtocolOptions());
+        }
+        if (this.upstreamConnectionOptions_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(30, getUpstreamConnectionOptions());
+        }
+        boolean z = this.closeConnectionsOnHostHealthFailure_;
+        if (z) {
+            iComputeStringSize += CodedOutputStream.computeBoolSize(31, z);
+        }
+        boolean z2 = this.ignoreHealthOnHostRemoval_;
+        if (z2) {
+            iComputeStringSize += CodedOutputStream.computeBoolSize(32, z2);
+        }
+        if (this.loadAssignment_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(33, getLoadAssignment());
+        }
+        if (this.lbConfigCase_ == 34) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(34, (OriginalDstLbConfig) this.lbConfig_);
+        }
+        for (Map.Entry entry : internalGetTypedExtensionProtocolOptions().getMap().entrySet()) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(36, TypedExtensionProtocolOptionsDefaultEntryHolder.defaultEntry.newBuilderForType().setKey(entry.getKey()).setValue(entry.getValue()).build());
+        }
+        if (this.lbConfigCase_ == 37) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(37, (LeastRequestLbConfig) this.lbConfig_);
+        }
+        if (this.clusterDiscoveryTypeCase_ == 38) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(38, (CustomClusterType) this.clusterDiscoveryType_);
+        }
+        boolean z3 = this.respectDnsTtl_;
+        if (z3) {
+            iComputeStringSize += CodedOutputStream.computeBoolSize(39, z3);
+        }
+        for (int i4 = 0; i4 < this.filters_.size(); i4++) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(40, this.filters_.get(i4));
+        }
+        if (this.loadBalancingPolicy_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(41, getLoadBalancingPolicy());
+        }
+        if (this.lrsServer_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(42, getLrsServer());
+        }
+        for (int i5 = 0; i5 < this.transportSocketMatches_.size(); i5++) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(43, this.transportSocketMatches_.get(i5));
+        }
+        if (this.dnsFailureRefreshRate_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(44, getDnsFailureRefreshRate());
+        }
+        boolean z4 = this.useTcpForDnsLookups_;
+        if (z4) {
+            iComputeStringSize += CodedOutputStream.computeBoolSize(45, z4);
+        }
+        if (this.upstreamHttpProtocolOptions_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(46, getUpstreamHttpProtocolOptions());
+        }
+        boolean z5 = this.trackTimeoutBudgets_;
+        if (z5) {
+            iComputeStringSize += CodedOutputStream.computeBoolSize(47, z5);
+        }
+        if (this.upstreamConfig_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(48, getUpstreamConfig());
+        }
+        if (this.trackClusterStats_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(49, getTrackClusterStats());
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Cluster)) {
+            return super.equals(obj);
+        }
+        Cluster cluster = (Cluster) obj;
+        if (!getTransportSocketMatchesList().equals(cluster.getTransportSocketMatchesList()) || !getName().equals(cluster.getName()) || !getAltStatName().equals(cluster.getAltStatName()) || hasEdsClusterConfig() != cluster.hasEdsClusterConfig()) {
+            return false;
+        }
+        if ((hasEdsClusterConfig() && !getEdsClusterConfig().equals(cluster.getEdsClusterConfig())) || hasConnectTimeout() != cluster.hasConnectTimeout()) {
+            return false;
+        }
+        if ((hasConnectTimeout() && !getConnectTimeout().equals(cluster.getConnectTimeout())) || hasPerConnectionBufferLimitBytes() != cluster.hasPerConnectionBufferLimitBytes()) {
+            return false;
+        }
+        if ((hasPerConnectionBufferLimitBytes() && !getPerConnectionBufferLimitBytes().equals(cluster.getPerConnectionBufferLimitBytes())) || this.lbPolicy_ != cluster.lbPolicy_ || hasLoadAssignment() != cluster.hasLoadAssignment()) {
+            return false;
+        }
+        if ((hasLoadAssignment() && !getLoadAssignment().equals(cluster.getLoadAssignment())) || !getHealthChecksList().equals(cluster.getHealthChecksList()) || hasMaxRequestsPerConnection() != cluster.hasMaxRequestsPerConnection()) {
+            return false;
+        }
+        if ((hasMaxRequestsPerConnection() && !getMaxRequestsPerConnection().equals(cluster.getMaxRequestsPerConnection())) || hasCircuitBreakers() != cluster.hasCircuitBreakers()) {
+            return false;
+        }
+        if ((hasCircuitBreakers() && !getCircuitBreakers().equals(cluster.getCircuitBreakers())) || hasUpstreamHttpProtocolOptions() != cluster.hasUpstreamHttpProtocolOptions()) {
+            return false;
+        }
+        if ((hasUpstreamHttpProtocolOptions() && !getUpstreamHttpProtocolOptions().equals(cluster.getUpstreamHttpProtocolOptions())) || hasCommonHttpProtocolOptions() != cluster.hasCommonHttpProtocolOptions()) {
+            return false;
+        }
+        if ((hasCommonHttpProtocolOptions() && !getCommonHttpProtocolOptions().equals(cluster.getCommonHttpProtocolOptions())) || hasHttpProtocolOptions() != cluster.hasHttpProtocolOptions()) {
+            return false;
+        }
+        if ((hasHttpProtocolOptions() && !getHttpProtocolOptions().equals(cluster.getHttpProtocolOptions())) || hasHttp2ProtocolOptions() != cluster.hasHttp2ProtocolOptions()) {
+            return false;
+        }
+        if ((hasHttp2ProtocolOptions() && !getHttp2ProtocolOptions().equals(cluster.getHttp2ProtocolOptions())) || !internalGetTypedExtensionProtocolOptions().equals(cluster.internalGetTypedExtensionProtocolOptions()) || hasDnsRefreshRate() != cluster.hasDnsRefreshRate()) {
+            return false;
+        }
+        if ((hasDnsRefreshRate() && !getDnsRefreshRate().equals(cluster.getDnsRefreshRate())) || hasDnsFailureRefreshRate() != cluster.hasDnsFailureRefreshRate()) {
+            return false;
+        }
+        if ((hasDnsFailureRefreshRate() && !getDnsFailureRefreshRate().equals(cluster.getDnsFailureRefreshRate())) || getRespectDnsTtl() != cluster.getRespectDnsTtl() || this.dnsLookupFamily_ != cluster.dnsLookupFamily_ || !getDnsResolversList().equals(cluster.getDnsResolversList()) || getUseTcpForDnsLookups() != cluster.getUseTcpForDnsLookups() || hasOutlierDetection() != cluster.hasOutlierDetection()) {
+            return false;
+        }
+        if ((hasOutlierDetection() && !getOutlierDetection().equals(cluster.getOutlierDetection())) || hasCleanupInterval() != cluster.hasCleanupInterval()) {
+            return false;
+        }
+        if ((hasCleanupInterval() && !getCleanupInterval().equals(cluster.getCleanupInterval())) || hasUpstreamBindConfig() != cluster.hasUpstreamBindConfig()) {
+            return false;
+        }
+        if ((hasUpstreamBindConfig() && !getUpstreamBindConfig().equals(cluster.getUpstreamBindConfig())) || hasLbSubsetConfig() != cluster.hasLbSubsetConfig()) {
+            return false;
+        }
+        if ((hasLbSubsetConfig() && !getLbSubsetConfig().equals(cluster.getLbSubsetConfig())) || hasCommonLbConfig() != cluster.hasCommonLbConfig()) {
+            return false;
+        }
+        if ((hasCommonLbConfig() && !getCommonLbConfig().equals(cluster.getCommonLbConfig())) || hasTransportSocket() != cluster.hasTransportSocket()) {
+            return false;
+        }
+        if ((hasTransportSocket() && !getTransportSocket().equals(cluster.getTransportSocket())) || hasMetadata() != cluster.hasMetadata()) {
+            return false;
+        }
+        if ((hasMetadata() && !getMetadata().equals(cluster.getMetadata())) || this.protocolSelection_ != cluster.protocolSelection_ || hasUpstreamConnectionOptions() != cluster.hasUpstreamConnectionOptions()) {
+            return false;
+        }
+        if ((hasUpstreamConnectionOptions() && !getUpstreamConnectionOptions().equals(cluster.getUpstreamConnectionOptions())) || getCloseConnectionsOnHostHealthFailure() != cluster.getCloseConnectionsOnHostHealthFailure() || getIgnoreHealthOnHostRemoval() != cluster.getIgnoreHealthOnHostRemoval() || !getFiltersList().equals(cluster.getFiltersList()) || hasLoadBalancingPolicy() != cluster.hasLoadBalancingPolicy()) {
+            return false;
+        }
+        if ((hasLoadBalancingPolicy() && !getLoadBalancingPolicy().equals(cluster.getLoadBalancingPolicy())) || hasLrsServer() != cluster.hasLrsServer()) {
+            return false;
+        }
+        if ((hasLrsServer() && !getLrsServer().equals(cluster.getLrsServer())) || getTrackTimeoutBudgets() != cluster.getTrackTimeoutBudgets() || hasUpstreamConfig() != cluster.hasUpstreamConfig()) {
+            return false;
+        }
+        if ((hasUpstreamConfig() && !getUpstreamConfig().equals(cluster.getUpstreamConfig())) || hasTrackClusterStats() != cluster.hasTrackClusterStats()) {
+            return false;
+        }
+        if ((hasTrackClusterStats() && !getTrackClusterStats().equals(cluster.getTrackClusterStats())) || !getClusterDiscoveryTypeCase().equals(cluster.getClusterDiscoveryTypeCase())) {
+            return false;
+        }
+        int i = this.clusterDiscoveryTypeCase_;
+        if (i == 2) {
+            if (getTypeValue() != cluster.getTypeValue()) {
+                return false;
+            }
+        } else if (i == 38 && !getClusterType().equals(cluster.getClusterType())) {
+            return false;
+        }
+        if (!getLbConfigCase().equals(cluster.getLbConfigCase())) {
+            return false;
+        }
+        int i2 = this.lbConfigCase_;
+        if (i2 != 23) {
+            if (i2 == 34) {
+                if (!getOriginalDstLbConfig().equals(cluster.getOriginalDstLbConfig())) {
+                    return false;
+                }
+            } else if (i2 == 37 && !getLeastRequestLbConfig().equals(cluster.getLeastRequestLbConfig())) {
+                return false;
+            }
+        } else if (!getRingHashLbConfig().equals(cluster.getRingHashLbConfig())) {
+            return false;
+        }
+        return this.unknownFields.equals(cluster.unknownFields);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:103:0x0329  */
+    /* JADX WARN: Removed duplicated region for block: B:109:0x034c  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public int hashCode() {
+        /*
+            Method dump skipped, instructions count: 870
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.hashCode():int");
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m20404newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m20407toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum DiscoveryType implements ProtocolMessageEnum {
+        STATIC(0),
+        STRICT_DNS(1),
+        LOGICAL_DNS(2),
+        EDS(3),
+        ORIGINAL_DST(4),
+        UNRECOGNIZED(-1);
+
+        public static final int EDS_VALUE = 3;
+        public static final int LOGICAL_DNS_VALUE = 2;
+        public static final int ORIGINAL_DST_VALUE = 4;
+        public static final int STATIC_VALUE = 0;
+        public static final int STRICT_DNS_VALUE = 1;
+        private static final Internal.EnumLiteMap<DiscoveryType> internalValueMap = new Internal.EnumLiteMap<DiscoveryType>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.DiscoveryType.1
+            public DiscoveryType findValueByNumber(int i) {
+                return DiscoveryType.forNumber(i);
+            }
+        };
+        private static final DiscoveryType[] VALUES = values();
+        private final int value;
+
+        DiscoveryType(int i) {
+            this.value = i;
+        }
+
+        public static DiscoveryType forNumber(int i) {
+            if (i == 0) {
+                return STATIC;
+            }
+            if (i == 1) {
+                return STRICT_DNS;
+            }
+            if (i == 2) {
+                return LOGICAL_DNS;
+            }
+            if (i == 3) {
+                return EDS;
+            }
+            if (i != 4) {
+                return null;
+            }
+            return ORIGINAL_DST;
+        }
+
+        public static Internal.EnumLiteMap<DiscoveryType> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static DiscoveryType valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) Cluster.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static DiscoveryType valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum LbPolicy implements ProtocolMessageEnum {
+        ROUND_ROBIN(0),
+        LEAST_REQUEST(1),
+        RING_HASH(2),
+        RANDOM(3),
+        MAGLEV(5),
+        CLUSTER_PROVIDED(6),
+        LOAD_BALANCING_POLICY_CONFIG(7),
+        UNRECOGNIZED(-1);
+
+        public static final int CLUSTER_PROVIDED_VALUE = 6;
+        public static final int LEAST_REQUEST_VALUE = 1;
+        public static final int LOAD_BALANCING_POLICY_CONFIG_VALUE = 7;
+        public static final int MAGLEV_VALUE = 5;
+        public static final int RANDOM_VALUE = 3;
+        public static final int RING_HASH_VALUE = 2;
+        public static final int ROUND_ROBIN_VALUE = 0;
+        private static final Internal.EnumLiteMap<LbPolicy> internalValueMap = new Internal.EnumLiteMap<LbPolicy>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbPolicy.1
+            public LbPolicy findValueByNumber(int i) {
+                return LbPolicy.forNumber(i);
+            }
+        };
+        private static final LbPolicy[] VALUES = values();
+        private final int value;
+
+        LbPolicy(int i) {
+            this.value = i;
+        }
+
+        public static LbPolicy forNumber(int i) {
+            if (i == 0) {
+                return ROUND_ROBIN;
+            }
+            if (i == 1) {
+                return LEAST_REQUEST;
+            }
+            if (i == 2) {
+                return RING_HASH;
+            }
+            if (i == 3) {
+                return RANDOM;
+            }
+            if (i == 5) {
+                return MAGLEV;
+            }
+            if (i == 6) {
+                return CLUSTER_PROVIDED;
+            }
+            if (i != 7) {
+                return null;
+            }
+            return LOAD_BALANCING_POLICY_CONFIG;
+        }
+
+        public static Internal.EnumLiteMap<LbPolicy> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static LbPolicy valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) Cluster.getDescriptor().getEnumTypes().get(1);
+        }
+
+        public static LbPolicy valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum DnsLookupFamily implements ProtocolMessageEnum {
+        AUTO(0),
+        V4_ONLY(1),
+        V6_ONLY(2),
+        UNRECOGNIZED(-1);
+
+        public static final int AUTO_VALUE = 0;
+        public static final int V4_ONLY_VALUE = 1;
+        public static final int V6_ONLY_VALUE = 2;
+        private static final Internal.EnumLiteMap<DnsLookupFamily> internalValueMap = new Internal.EnumLiteMap<DnsLookupFamily>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.DnsLookupFamily.1
+            public DnsLookupFamily findValueByNumber(int i) {
+                return DnsLookupFamily.forNumber(i);
+            }
+        };
+        private static final DnsLookupFamily[] VALUES = values();
+        private final int value;
+
+        DnsLookupFamily(int i) {
+            this.value = i;
+        }
+
+        public static DnsLookupFamily forNumber(int i) {
+            if (i == 0) {
+                return AUTO;
+            }
+            if (i == 1) {
+                return V4_ONLY;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return V6_ONLY;
+        }
+
+        public static Internal.EnumLiteMap<DnsLookupFamily> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static DnsLookupFamily valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) Cluster.getDescriptor().getEnumTypes().get(2);
+        }
+
+        public static DnsLookupFamily valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum ClusterProtocolSelection implements ProtocolMessageEnum {
+        USE_CONFIGURED_PROTOCOL(0),
+        USE_DOWNSTREAM_PROTOCOL(1),
+        UNRECOGNIZED(-1);
+
+        public static final int USE_CONFIGURED_PROTOCOL_VALUE = 0;
+        public static final int USE_DOWNSTREAM_PROTOCOL_VALUE = 1;
+        private static final Internal.EnumLiteMap<ClusterProtocolSelection> internalValueMap = new Internal.EnumLiteMap<ClusterProtocolSelection>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.ClusterProtocolSelection.1
+            public ClusterProtocolSelection findValueByNumber(int i) {
+                return ClusterProtocolSelection.forNumber(i);
+            }
+        };
+        private static final ClusterProtocolSelection[] VALUES = values();
+        private final int value;
+
+        ClusterProtocolSelection(int i) {
+            this.value = i;
+        }
+
+        public static ClusterProtocolSelection forNumber(int i) {
+            if (i == 0) {
+                return USE_CONFIGURED_PROTOCOL;
+            }
+            if (i != 1) {
+                return null;
+            }
+            return USE_DOWNSTREAM_PROTOCOL;
+        }
+
+        public static Internal.EnumLiteMap<ClusterProtocolSelection> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static ClusterProtocolSelection valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) Cluster.getDescriptor().getEnumTypes().get(3);
+        }
+
+        public static ClusterProtocolSelection valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public enum ClusterDiscoveryTypeCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        TYPE(2),
+        CLUSTER_TYPE(38),
+        CLUSTERDISCOVERYTYPE_NOT_SET(0);
+
+        private final int value;
+
+        ClusterDiscoveryTypeCase(int i) {
+            this.value = i;
+        }
+
+        public static ClusterDiscoveryTypeCase forNumber(int i) {
+            if (i == 0) {
+                return CLUSTERDISCOVERYTYPE_NOT_SET;
+            }
+            if (i == 2) {
+                return TYPE;
+            }
+            if (i != 38) {
+                return null;
+            }
+            return CLUSTER_TYPE;
+        }
+
+        @Deprecated
+        public static ClusterDiscoveryTypeCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public enum LbConfigCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        RING_HASH_LB_CONFIG(23),
+        ORIGINAL_DST_LB_CONFIG(34),
+        LEAST_REQUEST_LB_CONFIG(37),
+        LBCONFIG_NOT_SET(0);
+
+        private final int value;
+
+        LbConfigCase(int i) {
+            this.value = i;
+        }
+
+        public static LbConfigCase forNumber(int i) {
+            if (i == 0) {
+                return LBCONFIG_NOT_SET;
+            }
+            if (i == 23) {
+                return RING_HASH_LB_CONFIG;
+            }
+            if (i == 34) {
+                return ORIGINAL_DST_LB_CONFIG;
+            }
+            if (i != 37) {
+                return null;
+            }
+            return LEAST_REQUEST_LB_CONFIG;
+        }
+
+        @Deprecated
+        public static LbConfigCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public interface CommonLbConfigOrBuilder extends MessageOrBuilder {
+        boolean getCloseConnectionsOnHostSetChange();
+
+        CommonLbConfig.ConsistentHashingLbConfig getConsistentHashingLbConfig();
+
+        CommonLbConfig.ConsistentHashingLbConfigOrBuilder getConsistentHashingLbConfigOrBuilder();
+
+        Percent getHealthyPanicThreshold();
+
+        PercentOrBuilder getHealthyPanicThresholdOrBuilder();
+
+        boolean getIgnoreNewHostsUntilFirstHc();
+
+        CommonLbConfig.LocalityConfigSpecifierCase getLocalityConfigSpecifierCase();
+
+        CommonLbConfig.LocalityWeightedLbConfig getLocalityWeightedLbConfig();
+
+        CommonLbConfig.LocalityWeightedLbConfigOrBuilder getLocalityWeightedLbConfigOrBuilder();
+
+        Duration getUpdateMergeWindow();
+
+        DurationOrBuilder getUpdateMergeWindowOrBuilder();
+
+        CommonLbConfig.ZoneAwareLbConfig getZoneAwareLbConfig();
+
+        CommonLbConfig.ZoneAwareLbConfigOrBuilder getZoneAwareLbConfigOrBuilder();
+
+        boolean hasConsistentHashingLbConfig();
+
+        boolean hasHealthyPanicThreshold();
+
+        boolean hasLocalityWeightedLbConfig();
+
+        boolean hasUpdateMergeWindow();
+
+        boolean hasZoneAwareLbConfig();
+    }
+
+    public interface CustomClusterTypeOrBuilder extends MessageOrBuilder {
+        String getName();
+
+        ByteString getNameBytes();
+
+        Any getTypedConfig();
+
+        AnyOrBuilder getTypedConfigOrBuilder();
+
+        boolean hasTypedConfig();
+    }
+
+    public interface EdsClusterConfigOrBuilder extends MessageOrBuilder {
+        ConfigSource getEdsConfig();
+
+        ConfigSourceOrBuilder getEdsConfigOrBuilder();
+
+        ResourceLocator getEdsResourceLocator();
+
+        ResourceLocatorOrBuilder getEdsResourceLocatorOrBuilder();
+
+        String getServiceName();
+
+        ByteString getServiceNameBytes();
+
+        boolean hasEdsConfig();
+
+        boolean hasEdsResourceLocator();
+    }
+
+    public interface LbSubsetConfigOrBuilder extends MessageOrBuilder {
+        Struct getDefaultSubset();
+
+        StructOrBuilder getDefaultSubsetOrBuilder();
+
+        LbSubsetConfig.LbSubsetFallbackPolicy getFallbackPolicy();
+
+        int getFallbackPolicyValue();
+
+        boolean getListAsAny();
+
+        boolean getLocalityWeightAware();
+
+        boolean getPanicModeAny();
+
+        boolean getScaleLocalityWeight();
+
+        LbSubsetConfig.LbSubsetSelector getSubsetSelectors(int i);
+
+        int getSubsetSelectorsCount();
+
+        List<LbSubsetConfig.LbSubsetSelector> getSubsetSelectorsList();
+
+        LbSubsetConfig.LbSubsetSelectorOrBuilder getSubsetSelectorsOrBuilder(int i);
+
+        List<? extends LbSubsetConfig.LbSubsetSelectorOrBuilder> getSubsetSelectorsOrBuilderList();
+
+        boolean hasDefaultSubset();
+    }
+
+    public interface LeastRequestLbConfigOrBuilder extends MessageOrBuilder {
+        RuntimeDouble getActiveRequestBias();
+
+        RuntimeDoubleOrBuilder getActiveRequestBiasOrBuilder();
+
+        UInt32Value getChoiceCount();
+
+        UInt32ValueOrBuilder getChoiceCountOrBuilder();
+
+        boolean hasActiveRequestBias();
+
+        boolean hasChoiceCount();
+    }
+
+    public interface OriginalDstLbConfigOrBuilder extends MessageOrBuilder {
+        boolean getUseHttpHeader();
+    }
+
+    public interface RefreshRateOrBuilder extends MessageOrBuilder {
+        Duration getBaseInterval();
+
+        DurationOrBuilder getBaseIntervalOrBuilder();
+
+        Duration getMaxInterval();
+
+        DurationOrBuilder getMaxIntervalOrBuilder();
+
+        boolean hasBaseInterval();
+
+        boolean hasMaxInterval();
+    }
+
+    public interface RingHashLbConfigOrBuilder extends MessageOrBuilder {
+        RingHashLbConfig.HashFunction getHashFunction();
+
+        int getHashFunctionValue();
+
+        UInt64Value getMaximumRingSize();
+
+        UInt64ValueOrBuilder getMaximumRingSizeOrBuilder();
+
+        UInt64Value getMinimumRingSize();
+
+        UInt64ValueOrBuilder getMinimumRingSizeOrBuilder();
+
+        boolean hasMaximumRingSize();
+
+        boolean hasMinimumRingSize();
+    }
+
+    public interface TransportSocketMatchOrBuilder extends MessageOrBuilder {
+        Struct getMatch();
+
+        StructOrBuilder getMatchOrBuilder();
+
+        String getName();
+
+        ByteString getNameBytes();
+
+        TransportSocket getTransportSocket();
+
+        TransportSocketOrBuilder getTransportSocketOrBuilder();
+
+        boolean hasMatch();
+
+        boolean hasTransportSocket();
+    }
+
+    public static final class TransportSocketMatch extends GeneratedMessageV3 implements TransportSocketMatchOrBuilder {
+        public static final int MATCH_FIELD_NUMBER = 2;
+        public static final int NAME_FIELD_NUMBER = 1;
+        public static final int TRANSPORT_SOCKET_FIELD_NUMBER = 3;
+        private static final long serialVersionUID = 0;
+        private static final TransportSocketMatch DEFAULT_INSTANCE = new TransportSocketMatch();
+        private static final Parser<TransportSocketMatch> PARSER = new AbstractParser<TransportSocketMatch>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatch.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public TransportSocketMatch m21016parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new TransportSocketMatch(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private Struct match_;
+        private byte memoizedIsInitialized;
+        private volatile Object name_;
+        private TransportSocket transportSocket_;
+
+        private TransportSocketMatch(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private TransportSocketMatch() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.name_ = "";
+        }
+
+        private TransportSocketMatch(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            Struct.Builder builderM24387toBuilder;
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag != 10) {
+                                    if (tag == 18) {
+                                        Struct struct = this.match_;
+                                        builderM24387toBuilder = struct != null ? struct.toBuilder() : null;
+                                        Struct message = codedInputStream.readMessage(Struct.parser(), extensionRegistryLite);
+                                        this.match_ = message;
+                                        if (builderM24387toBuilder != null) {
+                                            builderM24387toBuilder.mergeFrom(message);
+                                            this.match_ = builderM24387toBuilder.buildPartial();
+                                        }
+                                    } else if (tag == 26) {
+                                        TransportSocket transportSocket = this.transportSocket_;
+                                        builderM24387toBuilder = transportSocket != null ? transportSocket.m24387toBuilder() : null;
+                                        TransportSocket transportSocket2 = (TransportSocket) codedInputStream.readMessage(TransportSocket.parser(), extensionRegistryLite);
+                                        this.transportSocket_ = transportSocket2;
+                                        if (builderM24387toBuilder != null) {
+                                            builderM24387toBuilder.mergeFrom(transportSocket2);
+                                            this.transportSocket_ = builderM24387toBuilder.m24394buildPartial();
+                                        }
+                                    } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    }
+                                } else {
+                                    this.name_ = codedInputStream.readStringRequireUtf8();
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static TransportSocketMatch getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<TransportSocketMatch> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_descriptor;
+        }
+
+        public static TransportSocketMatch parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (TransportSocketMatch) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static TransportSocketMatch parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TransportSocketMatch) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static TransportSocketMatch parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (TransportSocketMatch) PARSER.parseFrom(byteString);
+        }
+
+        public static TransportSocketMatch parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TransportSocketMatch) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static TransportSocketMatch parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (TransportSocketMatch) PARSER.parseFrom(bArr);
+        }
+
+        public static TransportSocketMatch parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (TransportSocketMatch) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static TransportSocketMatch parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static TransportSocketMatch parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static TransportSocketMatch parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static TransportSocketMatch parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static TransportSocketMatch parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static TransportSocketMatch parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m21014toBuilder();
+        }
+
+        public static Builder newBuilder(TransportSocketMatch transportSocketMatch) {
+            return DEFAULT_INSTANCE.m21014toBuilder().mergeFrom(transportSocketMatch);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public TransportSocketMatch m21009getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<TransportSocketMatch> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+        public boolean hasMatch() {
+            return this.match_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+        public boolean hasTransportSocket() {
+            return this.transportSocket_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new TransportSocketMatch();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_fieldAccessorTable.ensureFieldAccessorsInitialized(TransportSocketMatch.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.name_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+        public Struct getMatch() {
+            Struct struct = this.match_;
+            return struct == null ? Struct.getDefaultInstance() : struct;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+        public StructOrBuilder getMatchOrBuilder() {
+            return getMatch();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+        public TransportSocket getTransportSocket() {
+            TransportSocket transportSocket = this.transportSocket_;
+            return transportSocket == null ? TransportSocket.getDefaultInstance() : transportSocket;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+        public TransportSocketOrBuilder getTransportSocketOrBuilder() {
+            return getTransportSocket();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getNameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+            }
+            if (this.match_ != null) {
+                codedOutputStream.writeMessage(2, getMatch());
+            }
+            if (this.transportSocket_ != null) {
+                codedOutputStream.writeMessage(3, getTransportSocket());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0;
+            if (this.match_ != null) {
+                iComputeStringSize += CodedOutputStream.computeMessageSize(2, getMatch());
+            }
+            if (this.transportSocket_ != null) {
+                iComputeStringSize += CodedOutputStream.computeMessageSize(3, getTransportSocket());
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof TransportSocketMatch)) {
+                return super.equals(obj);
+            }
+            TransportSocketMatch transportSocketMatch = (TransportSocketMatch) obj;
+            if (!getName().equals(transportSocketMatch.getName()) || hasMatch() != transportSocketMatch.hasMatch()) {
+                return false;
+            }
+            if ((!hasMatch() || getMatch().equals(transportSocketMatch.getMatch())) && hasTransportSocket() == transportSocketMatch.hasTransportSocket()) {
+                return (!hasTransportSocket() || getTransportSocket().equals(transportSocketMatch.getTransportSocket())) && this.unknownFields.equals(transportSocketMatch.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getName().hashCode();
+            if (hasMatch()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getMatch().hashCode();
+            }
+            if (hasTransportSocket()) {
+                iHashCode = (((iHashCode * 37) + 3) * 53) + getTransportSocket().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m21011newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m21014toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements TransportSocketMatchOrBuilder {
+            private SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> matchBuilder_;
+            private Struct match_;
+            private Object name_;
+            private SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> transportSocketBuilder_;
+            private TransportSocket transportSocket_;
+
+            private Builder() {
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+            public boolean hasMatch() {
+                return (this.matchBuilder_ == null && this.match_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+            public boolean hasTransportSocket() {
+                return (this.transportSocketBuilder_ == null && this.transportSocket_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_fieldAccessorTable.ensureFieldAccessorsInitialized(TransportSocketMatch.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = TransportSocketMatch.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21025clear() {
+                super.clear();
+                this.name_ = "";
+                if (this.matchBuilder_ == null) {
+                    this.match_ = null;
+                } else {
+                    this.match_ = null;
+                    this.matchBuilder_ = null;
+                }
+                if (this.transportSocketBuilder_ == null) {
+                    this.transportSocket_ = null;
+                } else {
+                    this.transportSocket_ = null;
+                    this.transportSocketBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_TransportSocketMatch_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TransportSocketMatch m21038getDefaultInstanceForType() {
+                return TransportSocketMatch.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TransportSocketMatch m21019build() throws UninitializedMessageException {
+                TransportSocketMatch transportSocketMatchM21021buildPartial = m21021buildPartial();
+                if (transportSocketMatchM21021buildPartial.isInitialized()) {
+                    return transportSocketMatchM21021buildPartial;
+                }
+                throw newUninitializedMessageException(transportSocketMatchM21021buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public TransportSocketMatch m21021buildPartial() {
+                TransportSocketMatch transportSocketMatch = new TransportSocketMatch(this);
+                transportSocketMatch.name_ = this.name_;
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    transportSocketMatch.match_ = this.match_;
+                } else {
+                    transportSocketMatch.match_ = singleFieldBuilderV3.build();
+                }
+                SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV32 = this.transportSocketBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    transportSocketMatch.transportSocket_ = this.transportSocket_;
+                } else {
+                    transportSocketMatch.transportSocket_ = singleFieldBuilderV32.build();
+                }
+                onBuilt();
+                return transportSocketMatch;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21037clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21049setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21027clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21030clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21051setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21017addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21042mergeFrom(Message message) {
+                if (message instanceof TransportSocketMatch) {
+                    return mergeFrom((TransportSocketMatch) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(TransportSocketMatch transportSocketMatch) {
+                if (transportSocketMatch == TransportSocketMatch.getDefaultInstance()) {
+                    return this;
+                }
+                if (!transportSocketMatch.getName().isEmpty()) {
+                    this.name_ = transportSocketMatch.name_;
+                    onChanged();
+                }
+                if (transportSocketMatch.hasMatch()) {
+                    mergeMatch(transportSocketMatch.getMatch());
+                }
+                if (transportSocketMatch.hasTransportSocket()) {
+                    mergeTransportSocket(transportSocketMatch.getTransportSocket());
+                }
+                m21047mergeUnknownFields(transportSocketMatch.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatch.Builder m21043mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatch.access$800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$TransportSocketMatch r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatch) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$TransportSocketMatch r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatch) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatch.Builder.m21043mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$TransportSocketMatch$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+            public String getName() {
+                Object obj = this.name_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.name_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setName(String str) {
+                str.getClass();
+                this.name_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+            public ByteString getNameBytes() {
+                Object obj = this.name_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.name_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setNameBytes(ByteString byteString) {
+                byteString.getClass();
+                TransportSocketMatch.checkByteStringIsUtf8(byteString);
+                this.name_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearName() {
+                this.name_ = TransportSocketMatch.getDefaultInstance().getName();
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+            public Struct getMatch() {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Struct struct = this.match_;
+                return struct == null ? Struct.getDefaultInstance() : struct;
+            }
+
+            public Builder setMatch(Struct struct) {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    struct.getClass();
+                    this.match_ = struct;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(struct);
+                }
+                return this;
+            }
+
+            public Builder setMatch(Struct.Builder builder) {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.match_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeMatch(Struct struct) {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Struct struct2 = this.match_;
+                    if (struct2 != null) {
+                        this.match_ = Struct.newBuilder(struct2).mergeFrom(struct).buildPartial();
+                    } else {
+                        this.match_ = struct;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(struct);
+                }
+                return this;
+            }
+
+            public Builder clearMatch() {
+                if (this.matchBuilder_ == null) {
+                    this.match_ = null;
+                    onChanged();
+                } else {
+                    this.match_ = null;
+                    this.matchBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Struct.Builder getMatchBuilder() {
+                onChanged();
+                return getMatchFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+            public StructOrBuilder getMatchOrBuilder() {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.matchBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Struct struct = this.match_;
+                return struct == null ? Struct.getDefaultInstance() : struct;
+            }
+
+            private SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> getMatchFieldBuilder() {
+                if (this.matchBuilder_ == null) {
+                    this.matchBuilder_ = new SingleFieldBuilderV3<>(getMatch(), getParentForChildren(), isClean());
+                    this.match_ = null;
+                }
+                return this.matchBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+            public TransportSocket getTransportSocket() {
+                SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                TransportSocket transportSocket = this.transportSocket_;
+                return transportSocket == null ? TransportSocket.getDefaultInstance() : transportSocket;
+            }
+
+            public Builder setTransportSocket(TransportSocket transportSocket) {
+                SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    transportSocket.getClass();
+                    this.transportSocket_ = transportSocket;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(transportSocket);
+                }
+                return this;
+            }
+
+            public Builder setTransportSocket(TransportSocket.Builder builder) {
+                SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.transportSocket_ = builder.m24392build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m24392build());
+                }
+                return this;
+            }
+
+            public Builder mergeTransportSocket(TransportSocket transportSocket) {
+                SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    TransportSocket transportSocket2 = this.transportSocket_;
+                    if (transportSocket2 != null) {
+                        this.transportSocket_ = TransportSocket.newBuilder(transportSocket2).mergeFrom(transportSocket).m24394buildPartial();
+                    } else {
+                        this.transportSocket_ = transportSocket;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(transportSocket);
+                }
+                return this;
+            }
+
+            public Builder clearTransportSocket() {
+                if (this.transportSocketBuilder_ == null) {
+                    this.transportSocket_ = null;
+                    onChanged();
+                } else {
+                    this.transportSocket_ = null;
+                    this.transportSocketBuilder_ = null;
+                }
+                return this;
+            }
+
+            public TransportSocket.Builder getTransportSocketBuilder() {
+                onChanged();
+                return getTransportSocketFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.TransportSocketMatchOrBuilder
+            public TransportSocketOrBuilder getTransportSocketOrBuilder() {
+                SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TransportSocketOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                TransportSocket transportSocket = this.transportSocket_;
+                return transportSocket == null ? TransportSocket.getDefaultInstance() : transportSocket;
+            }
+
+            private SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> getTransportSocketFieldBuilder() {
+                if (this.transportSocketBuilder_ == null) {
+                    this.transportSocketBuilder_ = new SingleFieldBuilderV3<>(getTransportSocket(), getParentForChildren(), isClean());
+                    this.transportSocket_ = null;
+                }
+                return this.transportSocketBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m21053setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m21047mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class CustomClusterType extends GeneratedMessageV3 implements CustomClusterTypeOrBuilder {
+        public static final int NAME_FIELD_NUMBER = 1;
+        public static final int TYPED_CONFIG_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final CustomClusterType DEFAULT_INSTANCE = new CustomClusterType();
+        private static final Parser<CustomClusterType> PARSER = new AbstractParser<CustomClusterType>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterType.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public CustomClusterType m20640parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new CustomClusterType(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private byte memoizedIsInitialized;
+        private volatile Object name_;
+        private Any typedConfig_;
+
+        private CustomClusterType(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private CustomClusterType() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.name_ = "";
+        }
+
+        private CustomClusterType(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.name_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                Any any = this.typedConfig_;
+                                Any.Builder builder = any != null ? any.toBuilder() : null;
+                                Any message = codedInputStream.readMessage(Any.parser(), extensionRegistryLite);
+                                this.typedConfig_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.typedConfig_ = builder.buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static CustomClusterType getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<CustomClusterType> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_descriptor;
+        }
+
+        public static CustomClusterType parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (CustomClusterType) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static CustomClusterType parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CustomClusterType) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static CustomClusterType parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (CustomClusterType) PARSER.parseFrom(byteString);
+        }
+
+        public static CustomClusterType parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CustomClusterType) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static CustomClusterType parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (CustomClusterType) PARSER.parseFrom(bArr);
+        }
+
+        public static CustomClusterType parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CustomClusterType) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static CustomClusterType parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static CustomClusterType parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static CustomClusterType parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static CustomClusterType parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static CustomClusterType parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static CustomClusterType parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m20638toBuilder();
+        }
+
+        public static Builder newBuilder(CustomClusterType customClusterType) {
+            return DEFAULT_INSTANCE.m20638toBuilder().mergeFrom(customClusterType);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CustomClusterType m20633getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<CustomClusterType> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+        public boolean hasTypedConfig() {
+            return this.typedConfig_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new CustomClusterType();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_fieldAccessorTable.ensureFieldAccessorsInitialized(CustomClusterType.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.name_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+        public Any getTypedConfig() {
+            Any any = this.typedConfig_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+        public AnyOrBuilder getTypedConfigOrBuilder() {
+            return getTypedConfig();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (!getNameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+            }
+            if (this.typedConfig_ != null) {
+                codedOutputStream.writeMessage(2, getTypedConfig());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0;
+            if (this.typedConfig_ != null) {
+                iComputeStringSize += CodedOutputStream.computeMessageSize(2, getTypedConfig());
+            }
+            int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof CustomClusterType)) {
+                return super.equals(obj);
+            }
+            CustomClusterType customClusterType = (CustomClusterType) obj;
+            if (getName().equals(customClusterType.getName()) && hasTypedConfig() == customClusterType.hasTypedConfig()) {
+                return (!hasTypedConfig() || getTypedConfig().equals(customClusterType.getTypedConfig())) && this.unknownFields.equals(customClusterType.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getName().hashCode();
+            if (hasTypedConfig()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getTypedConfig().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20635newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20638toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements CustomClusterTypeOrBuilder {
+            private Object name_;
+            private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> typedConfigBuilder_;
+            private Any typedConfig_;
+
+            private Builder() {
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.name_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+            public boolean hasTypedConfig() {
+                return (this.typedConfigBuilder_ == null && this.typedConfig_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_fieldAccessorTable.ensureFieldAccessorsInitialized(CustomClusterType.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = CustomClusterType.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20649clear() {
+                super.clear();
+                this.name_ = "";
+                if (this.typedConfigBuilder_ == null) {
+                    this.typedConfig_ = null;
+                } else {
+                    this.typedConfig_ = null;
+                    this.typedConfigBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CustomClusterType_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CustomClusterType m20662getDefaultInstanceForType() {
+                return CustomClusterType.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CustomClusterType m20643build() throws UninitializedMessageException {
+                CustomClusterType customClusterTypeM20645buildPartial = m20645buildPartial();
+                if (customClusterTypeM20645buildPartial.isInitialized()) {
+                    return customClusterTypeM20645buildPartial;
+                }
+                throw newUninitializedMessageException(customClusterTypeM20645buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CustomClusterType m20645buildPartial() {
+                CustomClusterType customClusterType = new CustomClusterType(this);
+                customClusterType.name_ = this.name_;
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    customClusterType.typedConfig_ = this.typedConfig_;
+                } else {
+                    customClusterType.typedConfig_ = singleFieldBuilderV3.build();
+                }
+                onBuilt();
+                return customClusterType;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20661clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20673setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20651clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20654clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20675setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20641addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20666mergeFrom(Message message) {
+                if (message instanceof CustomClusterType) {
+                    return mergeFrom((CustomClusterType) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(CustomClusterType customClusterType) {
+                if (customClusterType == CustomClusterType.getDefaultInstance()) {
+                    return this;
+                }
+                if (!customClusterType.getName().isEmpty()) {
+                    this.name_ = customClusterType.name_;
+                    onChanged();
+                }
+                if (customClusterType.hasTypedConfig()) {
+                    mergeTypedConfig(customClusterType.getTypedConfig());
+                }
+                m20671mergeUnknownFields(customClusterType.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterType.Builder m20667mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterType.access$1800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CustomClusterType r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterType) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CustomClusterType r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterType) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterType.Builder.m20667mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CustomClusterType$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+            public String getName() {
+                Object obj = this.name_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.name_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setName(String str) {
+                str.getClass();
+                this.name_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+            public ByteString getNameBytes() {
+                Object obj = this.name_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.name_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setNameBytes(ByteString byteString) {
+                byteString.getClass();
+                CustomClusterType.checkByteStringIsUtf8(byteString);
+                this.name_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearName() {
+                this.name_ = CustomClusterType.getDefaultInstance().getName();
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+            public Any getTypedConfig() {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Any any = this.typedConfig_;
+                return any == null ? Any.getDefaultInstance() : any;
+            }
+
+            public Builder setTypedConfig(Any any) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    any.getClass();
+                    this.typedConfig_ = any;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(any);
+                }
+                return this;
+            }
+
+            public Builder setTypedConfig(Any.Builder builder) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.typedConfig_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeTypedConfig(Any any) {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Any any2 = this.typedConfig_;
+                    if (any2 != null) {
+                        this.typedConfig_ = Any.newBuilder(any2).mergeFrom(any).buildPartial();
+                    } else {
+                        this.typedConfig_ = any;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(any);
+                }
+                return this;
+            }
+
+            public Builder clearTypedConfig() {
+                if (this.typedConfigBuilder_ == null) {
+                    this.typedConfig_ = null;
+                    onChanged();
+                } else {
+                    this.typedConfig_ = null;
+                    this.typedConfigBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Any.Builder getTypedConfigBuilder() {
+                onChanged();
+                return getTypedConfigFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CustomClusterTypeOrBuilder
+            public AnyOrBuilder getTypedConfigOrBuilder() {
+                SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.typedConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Any any = this.typedConfig_;
+                return any == null ? Any.getDefaultInstance() : any;
+            }
+
+            private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> getTypedConfigFieldBuilder() {
+                if (this.typedConfigBuilder_ == null) {
+                    this.typedConfigBuilder_ = new SingleFieldBuilderV3<>(getTypedConfig(), getParentForChildren(), isClean());
+                    this.typedConfig_ = null;
+                }
+                return this.typedConfigBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20677setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20671mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class EdsClusterConfig extends GeneratedMessageV3 implements EdsClusterConfigOrBuilder {
+        public static final int EDS_CONFIG_FIELD_NUMBER = 1;
+        public static final int EDS_RESOURCE_LOCATOR_FIELD_NUMBER = 3;
+        public static final int SERVICE_NAME_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final EdsClusterConfig DEFAULT_INSTANCE = new EdsClusterConfig();
+        private static final Parser<EdsClusterConfig> PARSER = new AbstractParser<EdsClusterConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfig.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public EdsClusterConfig m20688parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new EdsClusterConfig(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private ConfigSource edsConfig_;
+        private ResourceLocator edsResourceLocator_;
+        private byte memoizedIsInitialized;
+        private volatile Object serviceName_;
+
+        private EdsClusterConfig(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private EdsClusterConfig() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.serviceName_ = "";
+        }
+
+        private EdsClusterConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    ConfigSource configSource = this.edsConfig_;
+                                    ConfigSource.Builder builderM21799toBuilder = configSource != null ? configSource.m21799toBuilder() : null;
+                                    ConfigSource configSource2 = (ConfigSource) codedInputStream.readMessage(ConfigSource.parser(), extensionRegistryLite);
+                                    this.edsConfig_ = configSource2;
+                                    if (builderM21799toBuilder != null) {
+                                        builderM21799toBuilder.mergeFrom(configSource2);
+                                        this.edsConfig_ = builderM21799toBuilder.m21806buildPartial();
+                                    }
+                                } else if (tag == 18) {
+                                    this.serviceName_ = codedInputStream.readStringRequireUtf8();
+                                } else if (tag == 26) {
+                                    ResourceLocator resourceLocator = this.edsResourceLocator_;
+                                    ResourceLocator.Builder builderM10221toBuilder = resourceLocator != null ? resourceLocator.m10221toBuilder() : null;
+                                    ResourceLocator resourceLocator2 = (ResourceLocator) codedInputStream.readMessage(ResourceLocator.parser(), extensionRegistryLite);
+                                    this.edsResourceLocator_ = resourceLocator2;
+                                    if (builderM10221toBuilder != null) {
+                                        builderM10221toBuilder.mergeFrom(resourceLocator2);
+                                        this.edsResourceLocator_ = builderM10221toBuilder.m10228buildPartial();
+                                    }
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static EdsClusterConfig getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<EdsClusterConfig> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_descriptor;
+        }
+
+        public static EdsClusterConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (EdsClusterConfig) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static EdsClusterConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (EdsClusterConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static EdsClusterConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (EdsClusterConfig) PARSER.parseFrom(byteString);
+        }
+
+        public static EdsClusterConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (EdsClusterConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static EdsClusterConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (EdsClusterConfig) PARSER.parseFrom(bArr);
+        }
+
+        public static EdsClusterConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (EdsClusterConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static EdsClusterConfig parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static EdsClusterConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static EdsClusterConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static EdsClusterConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static EdsClusterConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static EdsClusterConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m20686toBuilder();
+        }
+
+        public static Builder newBuilder(EdsClusterConfig edsClusterConfig) {
+            return DEFAULT_INSTANCE.m20686toBuilder().mergeFrom(edsClusterConfig);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public EdsClusterConfig m20681getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<EdsClusterConfig> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+        public boolean hasEdsConfig() {
+            return this.edsConfig_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+        public boolean hasEdsResourceLocator() {
+            return this.edsResourceLocator_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new EdsClusterConfig();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(EdsClusterConfig.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+        public ConfigSource getEdsConfig() {
+            ConfigSource configSource = this.edsConfig_;
+            return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+        public ConfigSourceOrBuilder getEdsConfigOrBuilder() {
+            return getEdsConfig();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+        public String getServiceName() {
+            Object obj = this.serviceName_;
+            if (obj instanceof String) {
+                return (String) obj;
+            }
+            String stringUtf8 = ((ByteString) obj).toStringUtf8();
+            this.serviceName_ = stringUtf8;
+            return stringUtf8;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+        public ByteString getServiceNameBytes() {
+            Object obj = this.serviceName_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.serviceName_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+        public ResourceLocator getEdsResourceLocator() {
+            ResourceLocator resourceLocator = this.edsResourceLocator_;
+            return resourceLocator == null ? ResourceLocator.getDefaultInstance() : resourceLocator;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+        public ResourceLocatorOrBuilder getEdsResourceLocatorOrBuilder() {
+            return getEdsResourceLocator();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.edsConfig_ != null) {
+                codedOutputStream.writeMessage(1, getEdsConfig());
+            }
+            if (!getServiceNameBytes().isEmpty()) {
+                GeneratedMessageV3.writeString(codedOutputStream, 2, this.serviceName_);
+            }
+            if (this.edsResourceLocator_ != null) {
+                codedOutputStream.writeMessage(3, getEdsResourceLocator());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.edsConfig_ != null ? CodedOutputStream.computeMessageSize(1, getEdsConfig()) : 0;
+            if (!getServiceNameBytes().isEmpty()) {
+                iComputeMessageSize += GeneratedMessageV3.computeStringSize(2, this.serviceName_);
+            }
+            if (this.edsResourceLocator_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(3, getEdsResourceLocator());
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof EdsClusterConfig)) {
+                return super.equals(obj);
+            }
+            EdsClusterConfig edsClusterConfig = (EdsClusterConfig) obj;
+            if (hasEdsConfig() != edsClusterConfig.hasEdsConfig()) {
+                return false;
+            }
+            if ((!hasEdsConfig() || getEdsConfig().equals(edsClusterConfig.getEdsConfig())) && getServiceName().equals(edsClusterConfig.getServiceName()) && hasEdsResourceLocator() == edsClusterConfig.hasEdsResourceLocator()) {
+                return (!hasEdsResourceLocator() || getEdsResourceLocator().equals(edsClusterConfig.getEdsResourceLocator())) && this.unknownFields.equals(edsClusterConfig.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasEdsConfig()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getEdsConfig().hashCode();
+            }
+            int iHashCode2 = (((iHashCode * 37) + 2) * 53) + getServiceName().hashCode();
+            if (hasEdsResourceLocator()) {
+                iHashCode2 = (((iHashCode2 * 37) + 3) * 53) + getEdsResourceLocator().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20683newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20686toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements EdsClusterConfigOrBuilder {
+            private SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> edsConfigBuilder_;
+            private ConfigSource edsConfig_;
+            private SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> edsResourceLocatorBuilder_;
+            private ResourceLocator edsResourceLocator_;
+            private Object serviceName_;
+
+            private Builder() {
+                this.serviceName_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.serviceName_ = "";
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+            public boolean hasEdsConfig() {
+                return (this.edsConfigBuilder_ == null && this.edsConfig_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+            public boolean hasEdsResourceLocator() {
+                return (this.edsResourceLocatorBuilder_ == null && this.edsResourceLocator_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(EdsClusterConfig.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = EdsClusterConfig.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20697clear() {
+                super.clear();
+                if (this.edsConfigBuilder_ == null) {
+                    this.edsConfig_ = null;
+                } else {
+                    this.edsConfig_ = null;
+                    this.edsConfigBuilder_ = null;
+                }
+                this.serviceName_ = "";
+                if (this.edsResourceLocatorBuilder_ == null) {
+                    this.edsResourceLocator_ = null;
+                } else {
+                    this.edsResourceLocator_ = null;
+                    this.edsResourceLocatorBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_EdsClusterConfig_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public EdsClusterConfig m20710getDefaultInstanceForType() {
+                return EdsClusterConfig.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public EdsClusterConfig m20691build() throws UninitializedMessageException {
+                EdsClusterConfig edsClusterConfigM20693buildPartial = m20693buildPartial();
+                if (edsClusterConfigM20693buildPartial.isInitialized()) {
+                    return edsClusterConfigM20693buildPartial;
+                }
+                throw newUninitializedMessageException(edsClusterConfigM20693buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public EdsClusterConfig m20693buildPartial() {
+                EdsClusterConfig edsClusterConfig = new EdsClusterConfig(this);
+                SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.edsConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    edsClusterConfig.edsConfig_ = this.edsConfig_;
+                } else {
+                    edsClusterConfig.edsConfig_ = singleFieldBuilderV3.build();
+                }
+                edsClusterConfig.serviceName_ = this.serviceName_;
+                SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV32 = this.edsResourceLocatorBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    edsClusterConfig.edsResourceLocator_ = this.edsResourceLocator_;
+                } else {
+                    edsClusterConfig.edsResourceLocator_ = singleFieldBuilderV32.build();
+                }
+                onBuilt();
+                return edsClusterConfig;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20709clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20721setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20699clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20702clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20723setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20689addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20714mergeFrom(Message message) {
+                if (message instanceof EdsClusterConfig) {
+                    return mergeFrom((EdsClusterConfig) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(EdsClusterConfig edsClusterConfig) {
+                if (edsClusterConfig == EdsClusterConfig.getDefaultInstance()) {
+                    return this;
+                }
+                if (edsClusterConfig.hasEdsConfig()) {
+                    mergeEdsConfig(edsClusterConfig.getEdsConfig());
+                }
+                if (!edsClusterConfig.getServiceName().isEmpty()) {
+                    this.serviceName_ = edsClusterConfig.serviceName_;
+                    onChanged();
+                }
+                if (edsClusterConfig.hasEdsResourceLocator()) {
+                    mergeEdsResourceLocator(edsClusterConfig.getEdsResourceLocator());
+                }
+                m20719mergeUnknownFields(edsClusterConfig.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfig.Builder m20715mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfig.access$2900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$EdsClusterConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$EdsClusterConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfig) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfig.Builder.m20715mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$EdsClusterConfig$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+            public ConfigSource getEdsConfig() {
+                SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.edsConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                ConfigSource configSource = this.edsConfig_;
+                return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+            }
+
+            public Builder setEdsConfig(ConfigSource configSource) {
+                SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.edsConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    configSource.getClass();
+                    this.edsConfig_ = configSource;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(configSource);
+                }
+                return this;
+            }
+
+            public Builder setEdsConfig(ConfigSource.Builder builder) {
+                SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.edsConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.edsConfig_ = builder.m21804build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m21804build());
+                }
+                return this;
+            }
+
+            public Builder mergeEdsConfig(ConfigSource configSource) {
+                SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.edsConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    ConfigSource configSource2 = this.edsConfig_;
+                    if (configSource2 != null) {
+                        this.edsConfig_ = ConfigSource.newBuilder(configSource2).mergeFrom(configSource).m21806buildPartial();
+                    } else {
+                        this.edsConfig_ = configSource;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(configSource);
+                }
+                return this;
+            }
+
+            public Builder clearEdsConfig() {
+                if (this.edsConfigBuilder_ == null) {
+                    this.edsConfig_ = null;
+                    onChanged();
+                } else {
+                    this.edsConfig_ = null;
+                    this.edsConfigBuilder_ = null;
+                }
+                return this;
+            }
+
+            public ConfigSource.Builder getEdsConfigBuilder() {
+                onChanged();
+                return getEdsConfigFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+            public ConfigSourceOrBuilder getEdsConfigOrBuilder() {
+                SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.edsConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (ConfigSourceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                ConfigSource configSource = this.edsConfig_;
+                return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+            }
+
+            private SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> getEdsConfigFieldBuilder() {
+                if (this.edsConfigBuilder_ == null) {
+                    this.edsConfigBuilder_ = new SingleFieldBuilderV3<>(getEdsConfig(), getParentForChildren(), isClean());
+                    this.edsConfig_ = null;
+                }
+                return this.edsConfigBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+            public String getServiceName() {
+                Object obj = this.serviceName_;
+                if (!(obj instanceof String)) {
+                    String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                    this.serviceName_ = stringUtf8;
+                    return stringUtf8;
+                }
+                return (String) obj;
+            }
+
+            public Builder setServiceName(String str) {
+                str.getClass();
+                this.serviceName_ = str;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+            public ByteString getServiceNameBytes() {
+                Object obj = this.serviceName_;
+                if (obj instanceof String) {
+                    ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                    this.serviceName_ = byteStringCopyFromUtf8;
+                    return byteStringCopyFromUtf8;
+                }
+                return (ByteString) obj;
+            }
+
+            public Builder setServiceNameBytes(ByteString byteString) {
+                byteString.getClass();
+                EdsClusterConfig.checkByteStringIsUtf8(byteString);
+                this.serviceName_ = byteString;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearServiceName() {
+                this.serviceName_ = EdsClusterConfig.getDefaultInstance().getServiceName();
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+            public ResourceLocator getEdsResourceLocator() {
+                SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.edsResourceLocatorBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                ResourceLocator resourceLocator = this.edsResourceLocator_;
+                return resourceLocator == null ? ResourceLocator.getDefaultInstance() : resourceLocator;
+            }
+
+            public Builder setEdsResourceLocator(ResourceLocator resourceLocator) {
+                SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.edsResourceLocatorBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    resourceLocator.getClass();
+                    this.edsResourceLocator_ = resourceLocator;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(resourceLocator);
+                }
+                return this;
+            }
+
+            public Builder setEdsResourceLocator(ResourceLocator.Builder builder) {
+                SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.edsResourceLocatorBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.edsResourceLocator_ = builder.m10226build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m10226build());
+                }
+                return this;
+            }
+
+            public Builder mergeEdsResourceLocator(ResourceLocator resourceLocator) {
+                SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.edsResourceLocatorBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    ResourceLocator resourceLocator2 = this.edsResourceLocator_;
+                    if (resourceLocator2 != null) {
+                        this.edsResourceLocator_ = ResourceLocator.newBuilder(resourceLocator2).mergeFrom(resourceLocator).m10228buildPartial();
+                    } else {
+                        this.edsResourceLocator_ = resourceLocator;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(resourceLocator);
+                }
+                return this;
+            }
+
+            public Builder clearEdsResourceLocator() {
+                if (this.edsResourceLocatorBuilder_ == null) {
+                    this.edsResourceLocator_ = null;
+                    onChanged();
+                } else {
+                    this.edsResourceLocator_ = null;
+                    this.edsResourceLocatorBuilder_ = null;
+                }
+                return this;
+            }
+
+            public ResourceLocator.Builder getEdsResourceLocatorBuilder() {
+                onChanged();
+                return getEdsResourceLocatorFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.EdsClusterConfigOrBuilder
+            public ResourceLocatorOrBuilder getEdsResourceLocatorOrBuilder() {
+                SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> singleFieldBuilderV3 = this.edsResourceLocatorBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (ResourceLocatorOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                ResourceLocator resourceLocator = this.edsResourceLocator_;
+                return resourceLocator == null ? ResourceLocator.getDefaultInstance() : resourceLocator;
+            }
+
+            private SingleFieldBuilderV3<ResourceLocator, ResourceLocator.Builder, ResourceLocatorOrBuilder> getEdsResourceLocatorFieldBuilder() {
+                if (this.edsResourceLocatorBuilder_ == null) {
+                    this.edsResourceLocatorBuilder_ = new SingleFieldBuilderV3<>(getEdsResourceLocator(), getParentForChildren(), isClean());
+                    this.edsResourceLocator_ = null;
+                }
+                return this.edsResourceLocatorBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20725setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20719mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class LbSubsetConfig extends GeneratedMessageV3 implements LbSubsetConfigOrBuilder {
+        public static final int DEFAULT_SUBSET_FIELD_NUMBER = 2;
+        public static final int FALLBACK_POLICY_FIELD_NUMBER = 1;
+        public static final int LIST_AS_ANY_FIELD_NUMBER = 7;
+        public static final int LOCALITY_WEIGHT_AWARE_FIELD_NUMBER = 4;
+        public static final int PANIC_MODE_ANY_FIELD_NUMBER = 6;
+        public static final int SCALE_LOCALITY_WEIGHT_FIELD_NUMBER = 5;
+        public static final int SUBSET_SELECTORS_FIELD_NUMBER = 3;
+        private static final long serialVersionUID = 0;
+        private static final LbSubsetConfig DEFAULT_INSTANCE = new LbSubsetConfig();
+        private static final Parser<LbSubsetConfig> PARSER = new AbstractParser<LbSubsetConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public LbSubsetConfig m20735parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new LbSubsetConfig(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private Struct defaultSubset_;
+        private int fallbackPolicy_;
+        private boolean listAsAny_;
+        private boolean localityWeightAware_;
+        private byte memoizedIsInitialized;
+        private boolean panicModeAny_;
+        private boolean scaleLocalityWeight_;
+        private List<LbSubsetSelector> subsetSelectors_;
+
+        private LbSubsetConfig(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private LbSubsetConfig() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.fallbackPolicy_ = 0;
+            this.subsetSelectors_ = Collections.emptyList();
+        }
+
+        private LbSubsetConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 8) {
+                                this.fallbackPolicy_ = codedInputStream.readEnum();
+                            } else if (tag == 18) {
+                                Struct struct = this.defaultSubset_;
+                                Struct.Builder builder = struct != null ? struct.toBuilder() : null;
+                                Struct message = codedInputStream.readMessage(Struct.parser(), extensionRegistryLite);
+                                this.defaultSubset_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.defaultSubset_ = builder.buildPartial();
+                                }
+                            } else if (tag == 26) {
+                                if (!(z2 & true)) {
+                                    this.subsetSelectors_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.subsetSelectors_.add(codedInputStream.readMessage(LbSubsetSelector.parser(), extensionRegistryLite));
+                            } else if (tag == 32) {
+                                this.localityWeightAware_ = codedInputStream.readBool();
+                            } else if (tag == 40) {
+                                this.scaleLocalityWeight_ = codedInputStream.readBool();
+                            } else if (tag == 48) {
+                                this.panicModeAny_ = codedInputStream.readBool();
+                            } else if (tag == 56) {
+                                this.listAsAny_ = codedInputStream.readBool();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.subsetSelectors_ = Collections.unmodifiableList(this.subsetSelectors_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static LbSubsetConfig getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<LbSubsetConfig> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_descriptor;
+        }
+
+        public static LbSubsetConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (LbSubsetConfig) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static LbSubsetConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (LbSubsetConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static LbSubsetConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (LbSubsetConfig) PARSER.parseFrom(byteString);
+        }
+
+        public static LbSubsetConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (LbSubsetConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static LbSubsetConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (LbSubsetConfig) PARSER.parseFrom(bArr);
+        }
+
+        public static LbSubsetConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (LbSubsetConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static LbSubsetConfig parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static LbSubsetConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static LbSubsetConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static LbSubsetConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static LbSubsetConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static LbSubsetConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m20733toBuilder();
+        }
+
+        public static Builder newBuilder(LbSubsetConfig lbSubsetConfig) {
+            return DEFAULT_INSTANCE.m20733toBuilder().mergeFrom(lbSubsetConfig);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LbSubsetConfig m20728getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public int getFallbackPolicyValue() {
+            return this.fallbackPolicy_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public boolean getListAsAny() {
+            return this.listAsAny_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public boolean getLocalityWeightAware() {
+            return this.localityWeightAware_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public boolean getPanicModeAny() {
+            return this.panicModeAny_;
+        }
+
+        public Parser<LbSubsetConfig> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public boolean getScaleLocalityWeight() {
+            return this.scaleLocalityWeight_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public List<LbSubsetSelector> getSubsetSelectorsList() {
+            return this.subsetSelectors_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public List<? extends LbSubsetSelectorOrBuilder> getSubsetSelectorsOrBuilderList() {
+            return this.subsetSelectors_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public boolean hasDefaultSubset() {
+            return this.defaultSubset_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new LbSubsetConfig();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(LbSubsetConfig.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public LbSubsetFallbackPolicy getFallbackPolicy() {
+            LbSubsetFallbackPolicy lbSubsetFallbackPolicyValueOf = LbSubsetFallbackPolicy.valueOf(this.fallbackPolicy_);
+            return lbSubsetFallbackPolicyValueOf == null ? LbSubsetFallbackPolicy.UNRECOGNIZED : lbSubsetFallbackPolicyValueOf;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public Struct getDefaultSubset() {
+            Struct struct = this.defaultSubset_;
+            return struct == null ? Struct.getDefaultInstance() : struct;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public StructOrBuilder getDefaultSubsetOrBuilder() {
+            return getDefaultSubset();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public int getSubsetSelectorsCount() {
+            return this.subsetSelectors_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public LbSubsetSelector getSubsetSelectors(int i) {
+            return this.subsetSelectors_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+        public LbSubsetSelectorOrBuilder getSubsetSelectorsOrBuilder(int i) {
+            return this.subsetSelectors_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.fallbackPolicy_ != LbSubsetFallbackPolicy.NO_FALLBACK.getNumber()) {
+                codedOutputStream.writeEnum(1, this.fallbackPolicy_);
+            }
+            if (this.defaultSubset_ != null) {
+                codedOutputStream.writeMessage(2, getDefaultSubset());
+            }
+            for (int i = 0; i < this.subsetSelectors_.size(); i++) {
+                codedOutputStream.writeMessage(3, this.subsetSelectors_.get(i));
+            }
+            boolean z = this.localityWeightAware_;
+            if (z) {
+                codedOutputStream.writeBool(4, z);
+            }
+            boolean z2 = this.scaleLocalityWeight_;
+            if (z2) {
+                codedOutputStream.writeBool(5, z2);
+            }
+            boolean z3 = this.panicModeAny_;
+            if (z3) {
+                codedOutputStream.writeBool(6, z3);
+            }
+            boolean z4 = this.listAsAny_;
+            if (z4) {
+                codedOutputStream.writeBool(7, z4);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeEnumSize = this.fallbackPolicy_ != LbSubsetFallbackPolicy.NO_FALLBACK.getNumber() ? CodedOutputStream.computeEnumSize(1, this.fallbackPolicy_) : 0;
+            if (this.defaultSubset_ != null) {
+                iComputeEnumSize += CodedOutputStream.computeMessageSize(2, getDefaultSubset());
+            }
+            for (int i2 = 0; i2 < this.subsetSelectors_.size(); i2++) {
+                iComputeEnumSize += CodedOutputStream.computeMessageSize(3, this.subsetSelectors_.get(i2));
+            }
+            boolean z = this.localityWeightAware_;
+            if (z) {
+                iComputeEnumSize += CodedOutputStream.computeBoolSize(4, z);
+            }
+            boolean z2 = this.scaleLocalityWeight_;
+            if (z2) {
+                iComputeEnumSize += CodedOutputStream.computeBoolSize(5, z2);
+            }
+            boolean z3 = this.panicModeAny_;
+            if (z3) {
+                iComputeEnumSize += CodedOutputStream.computeBoolSize(6, z3);
+            }
+            boolean z4 = this.listAsAny_;
+            if (z4) {
+                iComputeEnumSize += CodedOutputStream.computeBoolSize(7, z4);
+            }
+            int serializedSize = iComputeEnumSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof LbSubsetConfig)) {
+                return super.equals(obj);
+            }
+            LbSubsetConfig lbSubsetConfig = (LbSubsetConfig) obj;
+            if (this.fallbackPolicy_ == lbSubsetConfig.fallbackPolicy_ && hasDefaultSubset() == lbSubsetConfig.hasDefaultSubset()) {
+                return (!hasDefaultSubset() || getDefaultSubset().equals(lbSubsetConfig.getDefaultSubset())) && getSubsetSelectorsList().equals(lbSubsetConfig.getSubsetSelectorsList()) && getLocalityWeightAware() == lbSubsetConfig.getLocalityWeightAware() && getScaleLocalityWeight() == lbSubsetConfig.getScaleLocalityWeight() && getPanicModeAny() == lbSubsetConfig.getPanicModeAny() && getListAsAny() == lbSubsetConfig.getListAsAny() && this.unknownFields.equals(lbSubsetConfig.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + this.fallbackPolicy_;
+            if (hasDefaultSubset()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getDefaultSubset().hashCode();
+            }
+            if (getSubsetSelectorsCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 3) * 53) + getSubsetSelectorsList().hashCode();
+            }
+            int iHashBoolean = (((((((((((((((((iHashCode * 37) + 4) * 53) + Internal.hashBoolean(getLocalityWeightAware())) * 37) + 5) * 53) + Internal.hashBoolean(getScaleLocalityWeight())) * 37) + 6) * 53) + Internal.hashBoolean(getPanicModeAny())) * 37) + 7) * 53) + Internal.hashBoolean(getListAsAny())) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashBoolean;
+            return iHashBoolean;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20730newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20733toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public enum LbSubsetFallbackPolicy implements ProtocolMessageEnum {
+            NO_FALLBACK(0),
+            ANY_ENDPOINT(1),
+            DEFAULT_SUBSET(2),
+            UNRECOGNIZED(-1);
+
+            public static final int ANY_ENDPOINT_VALUE = 1;
+            public static final int DEFAULT_SUBSET_VALUE = 2;
+            public static final int NO_FALLBACK_VALUE = 0;
+            private static final Internal.EnumLiteMap<LbSubsetFallbackPolicy> internalValueMap = new Internal.EnumLiteMap<LbSubsetFallbackPolicy>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetFallbackPolicy.1
+                public LbSubsetFallbackPolicy findValueByNumber(int i) {
+                    return LbSubsetFallbackPolicy.forNumber(i);
+                }
+            };
+            private static final LbSubsetFallbackPolicy[] VALUES = values();
+            private final int value;
+
+            LbSubsetFallbackPolicy(int i) {
+                this.value = i;
+            }
+
+            public static LbSubsetFallbackPolicy forNumber(int i) {
+                if (i == 0) {
+                    return NO_FALLBACK;
+                }
+                if (i == 1) {
+                    return ANY_ENDPOINT;
+                }
+                if (i != 2) {
+                    return null;
+                }
+                return DEFAULT_SUBSET;
+            }
+
+            public static Internal.EnumLiteMap<LbSubsetFallbackPolicy> internalGetValueMap() {
+                return internalValueMap;
+            }
+
+            @Deprecated
+            public static LbSubsetFallbackPolicy valueOf(int i) {
+                return forNumber(i);
+            }
+
+            public static final Descriptors.EnumDescriptor getDescriptor() {
+                return (Descriptors.EnumDescriptor) LbSubsetConfig.getDescriptor().getEnumTypes().get(0);
+            }
+
+            public static LbSubsetFallbackPolicy valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+                if (enumValueDescriptor.getType() == getDescriptor()) {
+                    return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+                }
+                throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+            }
+
+            public final int getNumber() {
+                if (this != UNRECOGNIZED) {
+                    return this.value;
+                }
+                throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+            }
+
+            public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+                if (this == UNRECOGNIZED) {
+                    throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+                }
+                return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+            }
+
+            public final Descriptors.EnumDescriptor getDescriptorForType() {
+                return getDescriptor();
+            }
+        }
+
+        public interface LbSubsetSelectorOrBuilder extends MessageOrBuilder {
+            String getFallbackKeysSubset(int i);
+
+            ByteString getFallbackKeysSubsetBytes(int i);
+
+            int getFallbackKeysSubsetCount();
+
+            /* renamed from: getFallbackKeysSubsetList */
+            List<String> mo20777getFallbackKeysSubsetList();
+
+            LbSubsetSelector.LbSubsetSelectorFallbackPolicy getFallbackPolicy();
+
+            int getFallbackPolicyValue();
+
+            String getKeys(int i);
+
+            ByteString getKeysBytes(int i);
+
+            int getKeysCount();
+
+            /* renamed from: getKeysList */
+            List<String> mo20778getKeysList();
+        }
+
+        public static final class LbSubsetSelector extends GeneratedMessageV3 implements LbSubsetSelectorOrBuilder {
+            public static final int FALLBACK_KEYS_SUBSET_FIELD_NUMBER = 3;
+            public static final int FALLBACK_POLICY_FIELD_NUMBER = 2;
+            public static final int KEYS_FIELD_NUMBER = 1;
+            private static final long serialVersionUID = 0;
+            private static final LbSubsetSelector DEFAULT_INSTANCE = new LbSubsetSelector();
+            private static final Parser<LbSubsetSelector> PARSER = new AbstractParser<LbSubsetSelector>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector.1
+                /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+                public LbSubsetSelector m20784parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                    return new LbSubsetSelector(codedInputStream, extensionRegistryLite);
+                }
+            };
+            private LazyStringList fallbackKeysSubset_;
+            private int fallbackPolicy_;
+            private LazyStringList keys_;
+            private byte memoizedIsInitialized;
+
+            private LbSubsetSelector(GeneratedMessageV3.Builder<?> builder) {
+                super(builder);
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private LbSubsetSelector() {
+                this.memoizedIsInitialized = (byte) -1;
+                this.keys_ = LazyStringArrayList.EMPTY;
+                this.fallbackPolicy_ = 0;
+                this.fallbackKeysSubset_ = LazyStringArrayList.EMPTY;
+            }
+
+            private LbSubsetSelector(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                this();
+                extensionRegistryLite.getClass();
+                UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+                boolean z = false;
+                int i = 0;
+                while (!z) {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                                    if ((i & 1) == 0) {
+                                        this.keys_ = new LazyStringArrayList();
+                                        i |= 1;
+                                    }
+                                    this.keys_.add(stringRequireUtf8);
+                                } else if (tag == 16) {
+                                    this.fallbackPolicy_ = codedInputStream.readEnum();
+                                } else if (tag == 26) {
+                                    String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                                    if ((i & 2) == 0) {
+                                        this.fallbackKeysSubset_ = new LazyStringArrayList();
+                                        i |= 2;
+                                    }
+                                    this.fallbackKeysSubset_.add(stringRequireUtf82);
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        } catch (InvalidProtocolBufferException e2) {
+                            throw e2.setUnfinishedMessage(this);
+                        }
+                    } finally {
+                        if ((i & 1) != 0) {
+                            this.keys_ = this.keys_.getUnmodifiableView();
+                        }
+                        if ((i & 2) != 0) {
+                            this.fallbackKeysSubset_ = this.fallbackKeysSubset_.getUnmodifiableView();
+                        }
+                        this.unknownFields = builderNewBuilder.build();
+                        makeExtensionsImmutable();
+                    }
+                }
+            }
+
+            public static LbSubsetSelector getDefaultInstance() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public static Parser<LbSubsetSelector> parser() {
+                return PARSER;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_descriptor;
+            }
+
+            public static LbSubsetSelector parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+                return (LbSubsetSelector) PARSER.parseFrom(byteBuffer);
+            }
+
+            public static LbSubsetSelector parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (LbSubsetSelector) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+            }
+
+            public static LbSubsetSelector parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+                return (LbSubsetSelector) PARSER.parseFrom(byteString);
+            }
+
+            public static LbSubsetSelector parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (LbSubsetSelector) PARSER.parseFrom(byteString, extensionRegistryLite);
+            }
+
+            public static LbSubsetSelector parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+                return (LbSubsetSelector) PARSER.parseFrom(bArr);
+            }
+
+            public static LbSubsetSelector parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (LbSubsetSelector) PARSER.parseFrom(bArr, extensionRegistryLite);
+            }
+
+            public static LbSubsetSelector parseFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+            }
+
+            public static LbSubsetSelector parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static LbSubsetSelector parseDelimitedFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+            }
+
+            public static LbSubsetSelector parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static LbSubsetSelector parseFrom(CodedInputStream codedInputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+            }
+
+            public static LbSubsetSelector parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+            }
+
+            public static Builder newBuilder() {
+                return DEFAULT_INSTANCE.m20782toBuilder();
+            }
+
+            public static Builder newBuilder(LbSubsetSelector lbSubsetSelector) {
+                return DEFAULT_INSTANCE.m20782toBuilder().mergeFrom(lbSubsetSelector);
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public LbSubsetSelector m20775getDefaultInstanceForType() {
+                return DEFAULT_INSTANCE;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            /* renamed from: getFallbackKeysSubsetList, reason: merged with bridge method [inline-methods] */
+            public ProtocolStringList mo20777getFallbackKeysSubsetList() {
+                return this.fallbackKeysSubset_;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            public int getFallbackPolicyValue() {
+                return this.fallbackPolicy_;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            /* renamed from: getKeysList, reason: merged with bridge method [inline-methods] */
+            public ProtocolStringList mo20778getKeysList() {
+                return this.keys_;
+            }
+
+            public Parser<LbSubsetSelector> getParserForType() {
+                return PARSER;
+            }
+
+            public final boolean isInitialized() {
+                byte b = this.memoizedIsInitialized;
+                if (b == 1) {
+                    return true;
+                }
+                if (b == 0) {
+                    return false;
+                }
+                this.memoizedIsInitialized = (byte) 1;
+                return true;
+            }
+
+            protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+                return new LbSubsetSelector();
+            }
+
+            public final UnknownFieldSet getUnknownFields() {
+                return this.unknownFields;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_fieldAccessorTable.ensureFieldAccessorsInitialized(LbSubsetSelector.class, Builder.class);
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            public int getKeysCount() {
+                return this.keys_.size();
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            public String getKeys(int i) {
+                return (String) this.keys_.get(i);
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            public ByteString getKeysBytes(int i) {
+                return this.keys_.getByteString(i);
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            public LbSubsetSelectorFallbackPolicy getFallbackPolicy() {
+                LbSubsetSelectorFallbackPolicy lbSubsetSelectorFallbackPolicyValueOf = LbSubsetSelectorFallbackPolicy.valueOf(this.fallbackPolicy_);
+                return lbSubsetSelectorFallbackPolicyValueOf == null ? LbSubsetSelectorFallbackPolicy.UNRECOGNIZED : lbSubsetSelectorFallbackPolicyValueOf;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            public int getFallbackKeysSubsetCount() {
+                return this.fallbackKeysSubset_.size();
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            public String getFallbackKeysSubset(int i) {
+                return (String) this.fallbackKeysSubset_.get(i);
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+            public ByteString getFallbackKeysSubsetBytes(int i) {
+                return this.fallbackKeysSubset_.getByteString(i);
+            }
+
+            public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+                for (int i = 0; i < this.keys_.size(); i++) {
+                    GeneratedMessageV3.writeString(codedOutputStream, 1, this.keys_.getRaw(i));
+                }
+                if (this.fallbackPolicy_ != LbSubsetSelectorFallbackPolicy.NOT_DEFINED.getNumber()) {
+                    codedOutputStream.writeEnum(2, this.fallbackPolicy_);
+                }
+                for (int i2 = 0; i2 < this.fallbackKeysSubset_.size(); i2++) {
+                    GeneratedMessageV3.writeString(codedOutputStream, 3, this.fallbackKeysSubset_.getRaw(i2));
+                }
+                this.unknownFields.writeTo(codedOutputStream);
+            }
+
+            public int getSerializedSize() {
+                int i = this.memoizedSize;
+                if (i != -1) {
+                    return i;
+                }
+                int iComputeStringSizeNoTag = 0;
+                for (int i2 = 0; i2 < this.keys_.size(); i2++) {
+                    iComputeStringSizeNoTag += computeStringSizeNoTag(this.keys_.getRaw(i2));
+                }
+                int size = iComputeStringSizeNoTag + mo20778getKeysList().size();
+                if (this.fallbackPolicy_ != LbSubsetSelectorFallbackPolicy.NOT_DEFINED.getNumber()) {
+                    size += CodedOutputStream.computeEnumSize(2, this.fallbackPolicy_);
+                }
+                int iComputeStringSizeNoTag2 = 0;
+                for (int i3 = 0; i3 < this.fallbackKeysSubset_.size(); i3++) {
+                    iComputeStringSizeNoTag2 += computeStringSizeNoTag(this.fallbackKeysSubset_.getRaw(i3));
+                }
+                int size2 = size + iComputeStringSizeNoTag2 + mo20777getFallbackKeysSubsetList().size() + this.unknownFields.getSerializedSize();
+                this.memoizedSize = size2;
+                return size2;
+            }
+
+            public boolean equals(Object obj) {
+                if (obj == this) {
+                    return true;
+                }
+                if (!(obj instanceof LbSubsetSelector)) {
+                    return super.equals(obj);
+                }
+                LbSubsetSelector lbSubsetSelector = (LbSubsetSelector) obj;
+                return mo20778getKeysList().equals(lbSubsetSelector.mo20778getKeysList()) && this.fallbackPolicy_ == lbSubsetSelector.fallbackPolicy_ && mo20777getFallbackKeysSubsetList().equals(lbSubsetSelector.mo20777getFallbackKeysSubsetList()) && this.unknownFields.equals(lbSubsetSelector.unknownFields);
+            }
+
+            public int hashCode() {
+                if (this.memoizedHashCode != 0) {
+                    return this.memoizedHashCode;
+                }
+                int iHashCode = 779 + getDescriptor().hashCode();
+                if (getKeysCount() > 0) {
+                    iHashCode = (((iHashCode * 37) + 1) * 53) + mo20778getKeysList().hashCode();
+                }
+                int iHashCode2 = (((iHashCode * 37) + 2) * 53) + this.fallbackPolicy_;
+                if (getFallbackKeysSubsetCount() > 0) {
+                    iHashCode2 = (((iHashCode2 * 37) + 3) * 53) + mo20777getFallbackKeysSubsetList().hashCode();
+                }
+                int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode3;
+                return iHashCode3;
+            }
+
+            /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20779newBuilderForType() {
+                return newBuilder();
+            }
+
+            /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20782toBuilder() {
+                return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+                return new Builder(builderParent);
+            }
+
+            public enum LbSubsetSelectorFallbackPolicy implements ProtocolMessageEnum {
+                NOT_DEFINED(0),
+                NO_FALLBACK(1),
+                ANY_ENDPOINT(2),
+                DEFAULT_SUBSET(3),
+                KEYS_SUBSET(4),
+                UNRECOGNIZED(-1);
+
+                public static final int ANY_ENDPOINT_VALUE = 2;
+                public static final int DEFAULT_SUBSET_VALUE = 3;
+                public static final int KEYS_SUBSET_VALUE = 4;
+                public static final int NOT_DEFINED_VALUE = 0;
+                public static final int NO_FALLBACK_VALUE = 1;
+                private static final Internal.EnumLiteMap<LbSubsetSelectorFallbackPolicy> internalValueMap = new Internal.EnumLiteMap<LbSubsetSelectorFallbackPolicy>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector.LbSubsetSelectorFallbackPolicy.1
+                    public LbSubsetSelectorFallbackPolicy findValueByNumber(int i) {
+                        return LbSubsetSelectorFallbackPolicy.forNumber(i);
+                    }
+                };
+                private static final LbSubsetSelectorFallbackPolicy[] VALUES = values();
+                private final int value;
+
+                LbSubsetSelectorFallbackPolicy(int i) {
+                    this.value = i;
+                }
+
+                public static LbSubsetSelectorFallbackPolicy forNumber(int i) {
+                    if (i == 0) {
+                        return NOT_DEFINED;
+                    }
+                    if (i == 1) {
+                        return NO_FALLBACK;
+                    }
+                    if (i == 2) {
+                        return ANY_ENDPOINT;
+                    }
+                    if (i == 3) {
+                        return DEFAULT_SUBSET;
+                    }
+                    if (i != 4) {
+                        return null;
+                    }
+                    return KEYS_SUBSET;
+                }
+
+                public static Internal.EnumLiteMap<LbSubsetSelectorFallbackPolicy> internalGetValueMap() {
+                    return internalValueMap;
+                }
+
+                @Deprecated
+                public static LbSubsetSelectorFallbackPolicy valueOf(int i) {
+                    return forNumber(i);
+                }
+
+                public static final Descriptors.EnumDescriptor getDescriptor() {
+                    return (Descriptors.EnumDescriptor) LbSubsetSelector.getDescriptor().getEnumTypes().get(0);
+                }
+
+                public static LbSubsetSelectorFallbackPolicy valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+                    if (enumValueDescriptor.getType() == getDescriptor()) {
+                        return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+                    }
+                    throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+                }
+
+                public final int getNumber() {
+                    if (this != UNRECOGNIZED) {
+                        return this.value;
+                    }
+                    throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+                }
+
+                public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+                    if (this == UNRECOGNIZED) {
+                        throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+                    }
+                    return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+                }
+
+                public final Descriptors.EnumDescriptor getDescriptorForType() {
+                    return getDescriptor();
+                }
+            }
+
+            public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LbSubsetSelectorOrBuilder {
+                private int bitField0_;
+                private LazyStringList fallbackKeysSubset_;
+                private int fallbackPolicy_;
+                private LazyStringList keys_;
+
+                private Builder() {
+                    this.keys_ = LazyStringArrayList.EMPTY;
+                    this.fallbackPolicy_ = 0;
+                    this.fallbackKeysSubset_ = LazyStringArrayList.EMPTY;
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                    super(builderParent);
+                    this.keys_ = LazyStringArrayList.EMPTY;
+                    this.fallbackPolicy_ = 0;
+                    this.fallbackKeysSubset_ = LazyStringArrayList.EMPTY;
+                    maybeForceBuilderInitialization();
+                }
+
+                public static final Descriptors.Descriptor getDescriptor() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_descriptor;
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                public int getFallbackPolicyValue() {
+                    return this.fallbackPolicy_;
+                }
+
+                public Builder setFallbackPolicyValue(int i) {
+                    this.fallbackPolicy_ = i;
+                    onChanged();
+                    return this;
+                }
+
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_fieldAccessorTable.ensureFieldAccessorsInitialized(LbSubsetSelector.class, Builder.class);
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    boolean unused = LbSubsetSelector.alwaysUseFieldBuilders;
+                }
+
+                /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20793clear() {
+                    super.clear();
+                    this.keys_ = LazyStringArrayList.EMPTY;
+                    this.bitField0_ &= -2;
+                    this.fallbackPolicy_ = 0;
+                    this.fallbackKeysSubset_ = LazyStringArrayList.EMPTY;
+                    this.bitField0_ &= -3;
+                    return this;
+                }
+
+                public Descriptors.Descriptor getDescriptorForType() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_LbSubsetSelector_descriptor;
+                }
+
+                /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public LbSubsetSelector m20806getDefaultInstanceForType() {
+                    return LbSubsetSelector.getDefaultInstance();
+                }
+
+                /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+                /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public LbSubsetSelector m20787build() throws UninitializedMessageException {
+                    LbSubsetSelector lbSubsetSelectorM20789buildPartial = m20789buildPartial();
+                    if (lbSubsetSelectorM20789buildPartial.isInitialized()) {
+                        return lbSubsetSelectorM20789buildPartial;
+                    }
+                    throw newUninitializedMessageException(lbSubsetSelectorM20789buildPartial);
+                }
+
+                /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public LbSubsetSelector m20789buildPartial() {
+                    LbSubsetSelector lbSubsetSelector = new LbSubsetSelector(this);
+                    if ((this.bitField0_ & 1) != 0) {
+                        this.keys_ = this.keys_.getUnmodifiableView();
+                        this.bitField0_ &= -2;
+                    }
+                    lbSubsetSelector.keys_ = this.keys_;
+                    lbSubsetSelector.fallbackPolicy_ = this.fallbackPolicy_;
+                    if ((this.bitField0_ & 2) != 0) {
+                        this.fallbackKeysSubset_ = this.fallbackKeysSubset_.getUnmodifiableView();
+                        this.bitField0_ &= -3;
+                    }
+                    lbSubsetSelector.fallbackKeysSubset_ = this.fallbackKeysSubset_;
+                    onBuilt();
+                    return lbSubsetSelector;
+                }
+
+                /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20805clone() {
+                    return (Builder) super.clone();
+                }
+
+                /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20817setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.setField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20795clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                    return (Builder) super.clearField(fieldDescriptor);
+                }
+
+                /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20798clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                    return (Builder) super.clearOneof(oneofDescriptor);
+                }
+
+                /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20819setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                    return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+                }
+
+                /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20785addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20810mergeFrom(Message message) {
+                    if (message instanceof LbSubsetSelector) {
+                        return mergeFrom((LbSubsetSelector) message);
+                    }
+                    super.mergeFrom(message);
+                    return this;
+                }
+
+                public Builder mergeFrom(LbSubsetSelector lbSubsetSelector) {
+                    if (lbSubsetSelector == LbSubsetSelector.getDefaultInstance()) {
+                        return this;
+                    }
+                    if (!lbSubsetSelector.keys_.isEmpty()) {
+                        if (this.keys_.isEmpty()) {
+                            this.keys_ = lbSubsetSelector.keys_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureKeysIsMutable();
+                            this.keys_.addAll(lbSubsetSelector.keys_);
+                        }
+                        onChanged();
+                    }
+                    if (lbSubsetSelector.fallbackPolicy_ != 0) {
+                        setFallbackPolicyValue(lbSubsetSelector.getFallbackPolicyValue());
+                    }
+                    if (!lbSubsetSelector.fallbackKeysSubset_.isEmpty()) {
+                        if (this.fallbackKeysSubset_.isEmpty()) {
+                            this.fallbackKeysSubset_ = lbSubsetSelector.fallbackKeysSubset_;
+                            this.bitField0_ &= -3;
+                        } else {
+                            ensureFallbackKeysSubsetIsMutable();
+                            this.fallbackKeysSubset_.addAll(lbSubsetSelector.fallbackKeysSubset_);
+                        }
+                        onChanged();
+                    }
+                    m20815mergeUnknownFields(lbSubsetSelector.unknownFields);
+                    onChanged();
+                    return this;
+                }
+
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector.Builder m20811mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                    /*
+                        r2 = this;
+                        r0 = 0
+                        com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector.access$4000()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LbSubsetConfig$LbSubsetSelector r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        if (r3 == 0) goto L10
+                        r2.mergeFrom(r3)
+                    L10:
+                        return r2
+                    L11:
+                        r3 = move-exception
+                        goto L21
+                    L13:
+                        r3 = move-exception
+                        com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                        io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LbSubsetConfig$LbSubsetSelector r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector) r4     // Catch: java.lang.Throwable -> L11
+                        java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                        throw r3     // Catch: java.lang.Throwable -> L1f
+                    L1f:
+                        r3 = move-exception
+                        r0 = r4
+                    L21:
+                        if (r0 == 0) goto L26
+                        r2.mergeFrom(r0)
+                    L26:
+                        throw r3
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelector.Builder.m20811mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LbSubsetConfig$LbSubsetSelector$Builder");
+                }
+
+                private void ensureKeysIsMutable() {
+                    if ((this.bitField0_ & 1) == 0) {
+                        this.keys_ = new LazyStringArrayList(this.keys_);
+                        this.bitField0_ |= 1;
+                    }
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                /* renamed from: getKeysList, reason: merged with bridge method [inline-methods] */
+                public ProtocolStringList mo20778getKeysList() {
+                    return this.keys_.getUnmodifiableView();
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                public int getKeysCount() {
+                    return this.keys_.size();
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                public String getKeys(int i) {
+                    return (String) this.keys_.get(i);
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                public ByteString getKeysBytes(int i) {
+                    return this.keys_.getByteString(i);
+                }
+
+                public Builder setKeys(int i, String str) {
+                    str.getClass();
+                    ensureKeysIsMutable();
+                    this.keys_.set(i, str);
+                    onChanged();
+                    return this;
+                }
+
+                public Builder addKeys(String str) {
+                    str.getClass();
+                    ensureKeysIsMutable();
+                    this.keys_.add(str);
+                    onChanged();
+                    return this;
+                }
+
+                public Builder addAllKeys(Iterable<String> iterable) {
+                    ensureKeysIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.keys_);
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearKeys() {
+                    this.keys_ = LazyStringArrayList.EMPTY;
+                    this.bitField0_ &= -2;
+                    onChanged();
+                    return this;
+                }
+
+                public Builder addKeysBytes(ByteString byteString) {
+                    byteString.getClass();
+                    LbSubsetSelector.checkByteStringIsUtf8(byteString);
+                    ensureKeysIsMutable();
+                    this.keys_.add(byteString);
+                    onChanged();
+                    return this;
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                public LbSubsetSelectorFallbackPolicy getFallbackPolicy() {
+                    LbSubsetSelectorFallbackPolicy lbSubsetSelectorFallbackPolicyValueOf = LbSubsetSelectorFallbackPolicy.valueOf(this.fallbackPolicy_);
+                    return lbSubsetSelectorFallbackPolicyValueOf == null ? LbSubsetSelectorFallbackPolicy.UNRECOGNIZED : lbSubsetSelectorFallbackPolicyValueOf;
+                }
+
+                public Builder setFallbackPolicy(LbSubsetSelectorFallbackPolicy lbSubsetSelectorFallbackPolicy) {
+                    lbSubsetSelectorFallbackPolicy.getClass();
+                    this.fallbackPolicy_ = lbSubsetSelectorFallbackPolicy.getNumber();
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearFallbackPolicy() {
+                    this.fallbackPolicy_ = 0;
+                    onChanged();
+                    return this;
+                }
+
+                private void ensureFallbackKeysSubsetIsMutable() {
+                    if ((this.bitField0_ & 2) == 0) {
+                        this.fallbackKeysSubset_ = new LazyStringArrayList(this.fallbackKeysSubset_);
+                        this.bitField0_ |= 2;
+                    }
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                /* renamed from: getFallbackKeysSubsetList, reason: merged with bridge method [inline-methods] */
+                public ProtocolStringList mo20777getFallbackKeysSubsetList() {
+                    return this.fallbackKeysSubset_.getUnmodifiableView();
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                public int getFallbackKeysSubsetCount() {
+                    return this.fallbackKeysSubset_.size();
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                public String getFallbackKeysSubset(int i) {
+                    return (String) this.fallbackKeysSubset_.get(i);
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.LbSubsetSelectorOrBuilder
+                public ByteString getFallbackKeysSubsetBytes(int i) {
+                    return this.fallbackKeysSubset_.getByteString(i);
+                }
+
+                public Builder setFallbackKeysSubset(int i, String str) {
+                    str.getClass();
+                    ensureFallbackKeysSubsetIsMutable();
+                    this.fallbackKeysSubset_.set(i, str);
+                    onChanged();
+                    return this;
+                }
+
+                public Builder addFallbackKeysSubset(String str) {
+                    str.getClass();
+                    ensureFallbackKeysSubsetIsMutable();
+                    this.fallbackKeysSubset_.add(str);
+                    onChanged();
+                    return this;
+                }
+
+                public Builder addAllFallbackKeysSubset(Iterable<String> iterable) {
+                    ensureFallbackKeysSubsetIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.fallbackKeysSubset_);
+                    onChanged();
+                    return this;
+                }
+
+                public Builder clearFallbackKeysSubset() {
+                    this.fallbackKeysSubset_ = LazyStringArrayList.EMPTY;
+                    this.bitField0_ &= -3;
+                    onChanged();
+                    return this;
+                }
+
+                public Builder addFallbackKeysSubsetBytes(ByteString byteString) {
+                    byteString.getClass();
+                    LbSubsetSelector.checkByteStringIsUtf8(byteString);
+                    ensureFallbackKeysSubsetIsMutable();
+                    this.fallbackKeysSubset_.add(byteString);
+                    onChanged();
+                    return this;
+                }
+
+                /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m20821setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.setUnknownFields(unknownFieldSet);
+                }
+
+                /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m20815mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.mergeUnknownFields(unknownFieldSet);
+                }
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LbSubsetConfigOrBuilder {
+            private int bitField0_;
+            private SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> defaultSubsetBuilder_;
+            private Struct defaultSubset_;
+            private int fallbackPolicy_;
+            private boolean listAsAny_;
+            private boolean localityWeightAware_;
+            private boolean panicModeAny_;
+            private boolean scaleLocalityWeight_;
+            private RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> subsetSelectorsBuilder_;
+            private List<LbSubsetSelector> subsetSelectors_;
+
+            private Builder() {
+                this.fallbackPolicy_ = 0;
+                this.subsetSelectors_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.fallbackPolicy_ = 0;
+                this.subsetSelectors_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public int getFallbackPolicyValue() {
+                return this.fallbackPolicy_;
+            }
+
+            public Builder setFallbackPolicyValue(int i) {
+                this.fallbackPolicy_ = i;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public boolean getListAsAny() {
+                return this.listAsAny_;
+            }
+
+            public Builder setListAsAny(boolean z) {
+                this.listAsAny_ = z;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public boolean getLocalityWeightAware() {
+                return this.localityWeightAware_;
+            }
+
+            public Builder setLocalityWeightAware(boolean z) {
+                this.localityWeightAware_ = z;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public boolean getPanicModeAny() {
+                return this.panicModeAny_;
+            }
+
+            public Builder setPanicModeAny(boolean z) {
+                this.panicModeAny_ = z;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public boolean getScaleLocalityWeight() {
+                return this.scaleLocalityWeight_;
+            }
+
+            public Builder setScaleLocalityWeight(boolean z) {
+                this.scaleLocalityWeight_ = z;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public boolean hasDefaultSubset() {
+                return (this.defaultSubsetBuilder_ == null && this.defaultSubset_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(LbSubsetConfig.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (LbSubsetConfig.alwaysUseFieldBuilders) {
+                    getSubsetSelectorsFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20744clear() {
+                super.clear();
+                this.fallbackPolicy_ = 0;
+                if (this.defaultSubsetBuilder_ == null) {
+                    this.defaultSubset_ = null;
+                } else {
+                    this.defaultSubset_ = null;
+                    this.defaultSubsetBuilder_ = null;
+                }
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.subsetSelectors_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                this.localityWeightAware_ = false;
+                this.scaleLocalityWeight_ = false;
+                this.panicModeAny_ = false;
+                this.listAsAny_ = false;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LbSubsetConfig_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public LbSubsetConfig m20757getDefaultInstanceForType() {
+                return LbSubsetConfig.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public LbSubsetConfig m20738build() throws UninitializedMessageException {
+                LbSubsetConfig lbSubsetConfigM20740buildPartial = m20740buildPartial();
+                if (lbSubsetConfigM20740buildPartial.isInitialized()) {
+                    return lbSubsetConfigM20740buildPartial;
+                }
+                throw newUninitializedMessageException(lbSubsetConfigM20740buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public LbSubsetConfig m20740buildPartial() {
+                LbSubsetConfig lbSubsetConfig = new LbSubsetConfig(this);
+                lbSubsetConfig.fallbackPolicy_ = this.fallbackPolicy_;
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.defaultSubsetBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    lbSubsetConfig.defaultSubset_ = this.defaultSubset_;
+                } else {
+                    lbSubsetConfig.defaultSubset_ = singleFieldBuilderV3.build();
+                }
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((this.bitField0_ & 1) != 0) {
+                        this.subsetSelectors_ = Collections.unmodifiableList(this.subsetSelectors_);
+                        this.bitField0_ &= -2;
+                    }
+                    lbSubsetConfig.subsetSelectors_ = this.subsetSelectors_;
+                } else {
+                    lbSubsetConfig.subsetSelectors_ = repeatedFieldBuilderV3.build();
+                }
+                lbSubsetConfig.localityWeightAware_ = this.localityWeightAware_;
+                lbSubsetConfig.scaleLocalityWeight_ = this.scaleLocalityWeight_;
+                lbSubsetConfig.panicModeAny_ = this.panicModeAny_;
+                lbSubsetConfig.listAsAny_ = this.listAsAny_;
+                onBuilt();
+                return lbSubsetConfig;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20756clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20768setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20746clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20749clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20770setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20736addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20761mergeFrom(Message message) {
+                if (message instanceof LbSubsetConfig) {
+                    return mergeFrom((LbSubsetConfig) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(LbSubsetConfig lbSubsetConfig) {
+                if (lbSubsetConfig == LbSubsetConfig.getDefaultInstance()) {
+                    return this;
+                }
+                if (lbSubsetConfig.fallbackPolicy_ != 0) {
+                    setFallbackPolicyValue(lbSubsetConfig.getFallbackPolicyValue());
+                }
+                if (lbSubsetConfig.hasDefaultSubset()) {
+                    mergeDefaultSubset(lbSubsetConfig.getDefaultSubset());
+                }
+                if (this.subsetSelectorsBuilder_ == null) {
+                    if (!lbSubsetConfig.subsetSelectors_.isEmpty()) {
+                        if (this.subsetSelectors_.isEmpty()) {
+                            this.subsetSelectors_ = lbSubsetConfig.subsetSelectors_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureSubsetSelectorsIsMutable();
+                            this.subsetSelectors_.addAll(lbSubsetConfig.subsetSelectors_);
+                        }
+                        onChanged();
+                    }
+                } else if (!lbSubsetConfig.subsetSelectors_.isEmpty()) {
+                    if (!this.subsetSelectorsBuilder_.isEmpty()) {
+                        this.subsetSelectorsBuilder_.addAllMessages(lbSubsetConfig.subsetSelectors_);
+                    } else {
+                        this.subsetSelectorsBuilder_.dispose();
+                        this.subsetSelectorsBuilder_ = null;
+                        this.subsetSelectors_ = lbSubsetConfig.subsetSelectors_;
+                        this.bitField0_ &= -2;
+                        this.subsetSelectorsBuilder_ = LbSubsetConfig.alwaysUseFieldBuilders ? getSubsetSelectorsFieldBuilder() : null;
+                    }
+                }
+                if (lbSubsetConfig.getLocalityWeightAware()) {
+                    setLocalityWeightAware(lbSubsetConfig.getLocalityWeightAware());
+                }
+                if (lbSubsetConfig.getScaleLocalityWeight()) {
+                    setScaleLocalityWeight(lbSubsetConfig.getScaleLocalityWeight());
+                }
+                if (lbSubsetConfig.getPanicModeAny()) {
+                    setPanicModeAny(lbSubsetConfig.getPanicModeAny());
+                }
+                if (lbSubsetConfig.getListAsAny()) {
+                    setListAsAny(lbSubsetConfig.getListAsAny());
+                }
+                m20766mergeUnknownFields(lbSubsetConfig.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.Builder m20762mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.access$5700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LbSubsetConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LbSubsetConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfig.Builder.m20762mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LbSubsetConfig$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public LbSubsetFallbackPolicy getFallbackPolicy() {
+                LbSubsetFallbackPolicy lbSubsetFallbackPolicyValueOf = LbSubsetFallbackPolicy.valueOf(this.fallbackPolicy_);
+                return lbSubsetFallbackPolicyValueOf == null ? LbSubsetFallbackPolicy.UNRECOGNIZED : lbSubsetFallbackPolicyValueOf;
+            }
+
+            public Builder setFallbackPolicy(LbSubsetFallbackPolicy lbSubsetFallbackPolicy) {
+                lbSubsetFallbackPolicy.getClass();
+                this.fallbackPolicy_ = lbSubsetFallbackPolicy.getNumber();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearFallbackPolicy() {
+                this.fallbackPolicy_ = 0;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public Struct getDefaultSubset() {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.defaultSubsetBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Struct struct = this.defaultSubset_;
+                return struct == null ? Struct.getDefaultInstance() : struct;
+            }
+
+            public Builder setDefaultSubset(Struct struct) {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.defaultSubsetBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    struct.getClass();
+                    this.defaultSubset_ = struct;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(struct);
+                }
+                return this;
+            }
+
+            public Builder setDefaultSubset(Struct.Builder builder) {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.defaultSubsetBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.defaultSubset_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeDefaultSubset(Struct struct) {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.defaultSubsetBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Struct struct2 = this.defaultSubset_;
+                    if (struct2 != null) {
+                        this.defaultSubset_ = Struct.newBuilder(struct2).mergeFrom(struct).buildPartial();
+                    } else {
+                        this.defaultSubset_ = struct;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(struct);
+                }
+                return this;
+            }
+
+            public Builder clearDefaultSubset() {
+                if (this.defaultSubsetBuilder_ == null) {
+                    this.defaultSubset_ = null;
+                    onChanged();
+                } else {
+                    this.defaultSubset_ = null;
+                    this.defaultSubsetBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Struct.Builder getDefaultSubsetBuilder() {
+                onChanged();
+                return getDefaultSubsetFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public StructOrBuilder getDefaultSubsetOrBuilder() {
+                SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> singleFieldBuilderV3 = this.defaultSubsetBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Struct struct = this.defaultSubset_;
+                return struct == null ? Struct.getDefaultInstance() : struct;
+            }
+
+            private SingleFieldBuilderV3<Struct, Struct.Builder, StructOrBuilder> getDefaultSubsetFieldBuilder() {
+                if (this.defaultSubsetBuilder_ == null) {
+                    this.defaultSubsetBuilder_ = new SingleFieldBuilderV3<>(getDefaultSubset(), getParentForChildren(), isClean());
+                    this.defaultSubset_ = null;
+                }
+                return this.defaultSubsetBuilder_;
+            }
+
+            private void ensureSubsetSelectorsIsMutable() {
+                if ((this.bitField0_ & 1) == 0) {
+                    this.subsetSelectors_ = new ArrayList(this.subsetSelectors_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public List<LbSubsetSelector> getSubsetSelectorsList() {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.subsetSelectors_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public int getSubsetSelectorsCount() {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.subsetSelectors_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public LbSubsetSelector getSubsetSelectors(int i) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.subsetSelectors_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setSubsetSelectors(int i, LbSubsetSelector lbSubsetSelector) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    lbSubsetSelector.getClass();
+                    ensureSubsetSelectorsIsMutable();
+                    this.subsetSelectors_.set(i, lbSubsetSelector);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, lbSubsetSelector);
+                }
+                return this;
+            }
+
+            public Builder setSubsetSelectors(int i, LbSubsetSelector.Builder builder) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureSubsetSelectorsIsMutable();
+                    this.subsetSelectors_.set(i, builder.m20787build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m20787build());
+                }
+                return this;
+            }
+
+            public Builder addSubsetSelectors(LbSubsetSelector lbSubsetSelector) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    lbSubsetSelector.getClass();
+                    ensureSubsetSelectorsIsMutable();
+                    this.subsetSelectors_.add(lbSubsetSelector);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(lbSubsetSelector);
+                }
+                return this;
+            }
+
+            public Builder addSubsetSelectors(int i, LbSubsetSelector lbSubsetSelector) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    lbSubsetSelector.getClass();
+                    ensureSubsetSelectorsIsMutable();
+                    this.subsetSelectors_.add(i, lbSubsetSelector);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, lbSubsetSelector);
+                }
+                return this;
+            }
+
+            public Builder addSubsetSelectors(LbSubsetSelector.Builder builder) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureSubsetSelectorsIsMutable();
+                    this.subsetSelectors_.add(builder.m20787build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m20787build());
+                }
+                return this;
+            }
+
+            public Builder addSubsetSelectors(int i, LbSubsetSelector.Builder builder) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureSubsetSelectorsIsMutable();
+                    this.subsetSelectors_.add(i, builder.m20787build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m20787build());
+                }
+                return this;
+            }
+
+            public Builder addAllSubsetSelectors(Iterable<? extends LbSubsetSelector> iterable) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureSubsetSelectorsIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.subsetSelectors_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearSubsetSelectors() {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.subsetSelectors_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeSubsetSelectors(int i) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureSubsetSelectorsIsMutable();
+                    this.subsetSelectors_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public LbSubsetSelector.Builder getSubsetSelectorsBuilder(int i) {
+                return getSubsetSelectorsFieldBuilder().getBuilder(i);
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public LbSubsetSelectorOrBuilder getSubsetSelectorsOrBuilder(int i) {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.subsetSelectors_.get(i);
+                }
+                return (LbSubsetSelectorOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LbSubsetConfigOrBuilder
+            public List<? extends LbSubsetSelectorOrBuilder> getSubsetSelectorsOrBuilderList() {
+                RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> repeatedFieldBuilderV3 = this.subsetSelectorsBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.subsetSelectors_);
+            }
+
+            public LbSubsetSelector.Builder addSubsetSelectorsBuilder() {
+                return getSubsetSelectorsFieldBuilder().addBuilder(LbSubsetSelector.getDefaultInstance());
+            }
+
+            public LbSubsetSelector.Builder addSubsetSelectorsBuilder(int i) {
+                return getSubsetSelectorsFieldBuilder().addBuilder(i, LbSubsetSelector.getDefaultInstance());
+            }
+
+            public List<LbSubsetSelector.Builder> getSubsetSelectorsBuilderList() {
+                return getSubsetSelectorsFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<LbSubsetSelector, LbSubsetSelector.Builder, LbSubsetSelectorOrBuilder> getSubsetSelectorsFieldBuilder() {
+                if (this.subsetSelectorsBuilder_ == null) {
+                    this.subsetSelectorsBuilder_ = new RepeatedFieldBuilderV3<>(this.subsetSelectors_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                    this.subsetSelectors_ = null;
+                }
+                return this.subsetSelectorsBuilder_;
+            }
+
+            public Builder clearLocalityWeightAware() {
+                this.localityWeightAware_ = false;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearScaleLocalityWeight() {
+                this.scaleLocalityWeight_ = false;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearPanicModeAny() {
+                this.panicModeAny_ = false;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearListAsAny() {
+                this.listAsAny_ = false;
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20772setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20766mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class LeastRequestLbConfig extends GeneratedMessageV3 implements LeastRequestLbConfigOrBuilder {
+        public static final int ACTIVE_REQUEST_BIAS_FIELD_NUMBER = 2;
+        public static final int CHOICE_COUNT_FIELD_NUMBER = 1;
+        private static final LeastRequestLbConfig DEFAULT_INSTANCE = new LeastRequestLbConfig();
+        private static final Parser<LeastRequestLbConfig> PARSER = new AbstractParser<LeastRequestLbConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfig.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public LeastRequestLbConfig m20831parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new LeastRequestLbConfig(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private RuntimeDouble activeRequestBias_;
+        private UInt32Value choiceCount_;
+        private byte memoizedIsInitialized;
+
+        private LeastRequestLbConfig(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private LeastRequestLbConfig() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private LeastRequestLbConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            UInt32Value.Builder builderM23924toBuilder;
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                UInt32Value uInt32Value = this.choiceCount_;
+                                builderM23924toBuilder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                                UInt32Value message = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                                this.choiceCount_ = message;
+                                if (builderM23924toBuilder != null) {
+                                    builderM23924toBuilder.mergeFrom(message);
+                                    this.choiceCount_ = builderM23924toBuilder.buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                RuntimeDouble runtimeDouble = this.activeRequestBias_;
+                                builderM23924toBuilder = runtimeDouble != null ? runtimeDouble.m23924toBuilder() : null;
+                                RuntimeDouble runtimeDouble2 = (RuntimeDouble) codedInputStream.readMessage(RuntimeDouble.parser(), extensionRegistryLite);
+                                this.activeRequestBias_ = runtimeDouble2;
+                                if (builderM23924toBuilder != null) {
+                                    builderM23924toBuilder.mergeFrom(runtimeDouble2);
+                                    this.activeRequestBias_ = builderM23924toBuilder.m23931buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static LeastRequestLbConfig getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<LeastRequestLbConfig> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_descriptor;
+        }
+
+        public static LeastRequestLbConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (LeastRequestLbConfig) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static LeastRequestLbConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (LeastRequestLbConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static LeastRequestLbConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (LeastRequestLbConfig) PARSER.parseFrom(byteString);
+        }
+
+        public static LeastRequestLbConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (LeastRequestLbConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static LeastRequestLbConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (LeastRequestLbConfig) PARSER.parseFrom(bArr);
+        }
+
+        public static LeastRequestLbConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (LeastRequestLbConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static LeastRequestLbConfig parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static LeastRequestLbConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static LeastRequestLbConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static LeastRequestLbConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static LeastRequestLbConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static LeastRequestLbConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m20829toBuilder();
+        }
+
+        public static Builder newBuilder(LeastRequestLbConfig leastRequestLbConfig) {
+            return DEFAULT_INSTANCE.m20829toBuilder().mergeFrom(leastRequestLbConfig);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LeastRequestLbConfig m20824getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<LeastRequestLbConfig> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+        public boolean hasActiveRequestBias() {
+            return this.activeRequestBias_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+        public boolean hasChoiceCount() {
+            return this.choiceCount_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new LeastRequestLbConfig();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(LeastRequestLbConfig.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+        public UInt32Value getChoiceCount() {
+            UInt32Value uInt32Value = this.choiceCount_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+        public UInt32ValueOrBuilder getChoiceCountOrBuilder() {
+            return getChoiceCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+        public RuntimeDouble getActiveRequestBias() {
+            RuntimeDouble runtimeDouble = this.activeRequestBias_;
+            return runtimeDouble == null ? RuntimeDouble.getDefaultInstance() : runtimeDouble;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+        public RuntimeDoubleOrBuilder getActiveRequestBiasOrBuilder() {
+            return getActiveRequestBias();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.choiceCount_ != null) {
+                codedOutputStream.writeMessage(1, getChoiceCount());
+            }
+            if (this.activeRequestBias_ != null) {
+                codedOutputStream.writeMessage(2, getActiveRequestBias());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.choiceCount_ != null ? CodedOutputStream.computeMessageSize(1, getChoiceCount()) : 0;
+            if (this.activeRequestBias_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getActiveRequestBias());
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof LeastRequestLbConfig)) {
+                return super.equals(obj);
+            }
+            LeastRequestLbConfig leastRequestLbConfig = (LeastRequestLbConfig) obj;
+            if (hasChoiceCount() != leastRequestLbConfig.hasChoiceCount()) {
+                return false;
+            }
+            if ((!hasChoiceCount() || getChoiceCount().equals(leastRequestLbConfig.getChoiceCount())) && hasActiveRequestBias() == leastRequestLbConfig.hasActiveRequestBias()) {
+                return (!hasActiveRequestBias() || getActiveRequestBias().equals(leastRequestLbConfig.getActiveRequestBias())) && this.unknownFields.equals(leastRequestLbConfig.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasChoiceCount()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getChoiceCount().hashCode();
+            }
+            if (hasActiveRequestBias()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getActiveRequestBias().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20826newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20829toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LeastRequestLbConfigOrBuilder {
+            private SingleFieldBuilderV3<RuntimeDouble, RuntimeDouble.Builder, RuntimeDoubleOrBuilder> activeRequestBiasBuilder_;
+            private RuntimeDouble activeRequestBias_;
+            private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> choiceCountBuilder_;
+            private UInt32Value choiceCount_;
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+            public boolean hasActiveRequestBias() {
+                return (this.activeRequestBiasBuilder_ == null && this.activeRequestBias_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+            public boolean hasChoiceCount() {
+                return (this.choiceCountBuilder_ == null && this.choiceCount_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(LeastRequestLbConfig.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = LeastRequestLbConfig.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20840clear() {
+                super.clear();
+                if (this.choiceCountBuilder_ == null) {
+                    this.choiceCount_ = null;
+                } else {
+                    this.choiceCount_ = null;
+                    this.choiceCountBuilder_ = null;
+                }
+                if (this.activeRequestBiasBuilder_ == null) {
+                    this.activeRequestBias_ = null;
+                } else {
+                    this.activeRequestBias_ = null;
+                    this.activeRequestBiasBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_LeastRequestLbConfig_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public LeastRequestLbConfig m20853getDefaultInstanceForType() {
+                return LeastRequestLbConfig.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public LeastRequestLbConfig m20834build() throws UninitializedMessageException {
+                LeastRequestLbConfig leastRequestLbConfigM20836buildPartial = m20836buildPartial();
+                if (leastRequestLbConfigM20836buildPartial.isInitialized()) {
+                    return leastRequestLbConfigM20836buildPartial;
+                }
+                throw newUninitializedMessageException(leastRequestLbConfigM20836buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public LeastRequestLbConfig m20836buildPartial() {
+                LeastRequestLbConfig leastRequestLbConfig = new LeastRequestLbConfig(this);
+                SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.choiceCountBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    leastRequestLbConfig.choiceCount_ = this.choiceCount_;
+                } else {
+                    leastRequestLbConfig.choiceCount_ = singleFieldBuilderV3.build();
+                }
+                SingleFieldBuilderV3<RuntimeDouble, RuntimeDouble.Builder, RuntimeDoubleOrBuilder> singleFieldBuilderV32 = this.activeRequestBiasBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    leastRequestLbConfig.activeRequestBias_ = this.activeRequestBias_;
+                } else {
+                    leastRequestLbConfig.activeRequestBias_ = singleFieldBuilderV32.build();
+                }
+                onBuilt();
+                return leastRequestLbConfig;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20852clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20864setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20842clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20845clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20866setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20832addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20857mergeFrom(Message message) {
+                if (message instanceof LeastRequestLbConfig) {
+                    return mergeFrom((LeastRequestLbConfig) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(LeastRequestLbConfig leastRequestLbConfig) {
+                if (leastRequestLbConfig == LeastRequestLbConfig.getDefaultInstance()) {
+                    return this;
+                }
+                if (leastRequestLbConfig.hasChoiceCount()) {
+                    mergeChoiceCount(leastRequestLbConfig.getChoiceCount());
+                }
+                if (leastRequestLbConfig.hasActiveRequestBias()) {
+                    mergeActiveRequestBias(leastRequestLbConfig.getActiveRequestBias());
+                }
+                m20862mergeUnknownFields(leastRequestLbConfig.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfig.Builder m20858mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfig.access$6600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LeastRequestLbConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LeastRequestLbConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfig) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfig.Builder.m20858mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$LeastRequestLbConfig$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+            public UInt32Value getChoiceCount() {
+                SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.choiceCountBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                UInt32Value uInt32Value = this.choiceCount_;
+                return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+            }
+
+            public Builder setChoiceCount(UInt32Value uInt32Value) {
+                SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.choiceCountBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    uInt32Value.getClass();
+                    this.choiceCount_ = uInt32Value;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(uInt32Value);
+                }
+                return this;
+            }
+
+            public Builder setChoiceCount(UInt32Value.Builder builder) {
+                SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.choiceCountBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.choiceCount_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeChoiceCount(UInt32Value uInt32Value) {
+                SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.choiceCountBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    UInt32Value uInt32Value2 = this.choiceCount_;
+                    if (uInt32Value2 != null) {
+                        this.choiceCount_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                    } else {
+                        this.choiceCount_ = uInt32Value;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(uInt32Value);
+                }
+                return this;
+            }
+
+            public Builder clearChoiceCount() {
+                if (this.choiceCountBuilder_ == null) {
+                    this.choiceCount_ = null;
+                    onChanged();
+                } else {
+                    this.choiceCount_ = null;
+                    this.choiceCountBuilder_ = null;
+                }
+                return this;
+            }
+
+            public UInt32Value.Builder getChoiceCountBuilder() {
+                onChanged();
+                return getChoiceCountFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+            public UInt32ValueOrBuilder getChoiceCountOrBuilder() {
+                SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.choiceCountBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                UInt32Value uInt32Value = this.choiceCount_;
+                return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+            }
+
+            private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getChoiceCountFieldBuilder() {
+                if (this.choiceCountBuilder_ == null) {
+                    this.choiceCountBuilder_ = new SingleFieldBuilderV3<>(getChoiceCount(), getParentForChildren(), isClean());
+                    this.choiceCount_ = null;
+                }
+                return this.choiceCountBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+            public RuntimeDouble getActiveRequestBias() {
+                SingleFieldBuilderV3<RuntimeDouble, RuntimeDouble.Builder, RuntimeDoubleOrBuilder> singleFieldBuilderV3 = this.activeRequestBiasBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                RuntimeDouble runtimeDouble = this.activeRequestBias_;
+                return runtimeDouble == null ? RuntimeDouble.getDefaultInstance() : runtimeDouble;
+            }
+
+            public Builder setActiveRequestBias(RuntimeDouble runtimeDouble) {
+                SingleFieldBuilderV3<RuntimeDouble, RuntimeDouble.Builder, RuntimeDoubleOrBuilder> singleFieldBuilderV3 = this.activeRequestBiasBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    runtimeDouble.getClass();
+                    this.activeRequestBias_ = runtimeDouble;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(runtimeDouble);
+                }
+                return this;
+            }
+
+            public Builder setActiveRequestBias(RuntimeDouble.Builder builder) {
+                SingleFieldBuilderV3<RuntimeDouble, RuntimeDouble.Builder, RuntimeDoubleOrBuilder> singleFieldBuilderV3 = this.activeRequestBiasBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.activeRequestBias_ = builder.m23929build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m23929build());
+                }
+                return this;
+            }
+
+            public Builder mergeActiveRequestBias(RuntimeDouble runtimeDouble) {
+                SingleFieldBuilderV3<RuntimeDouble, RuntimeDouble.Builder, RuntimeDoubleOrBuilder> singleFieldBuilderV3 = this.activeRequestBiasBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    RuntimeDouble runtimeDouble2 = this.activeRequestBias_;
+                    if (runtimeDouble2 != null) {
+                        this.activeRequestBias_ = RuntimeDouble.newBuilder(runtimeDouble2).mergeFrom(runtimeDouble).m23931buildPartial();
+                    } else {
+                        this.activeRequestBias_ = runtimeDouble;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(runtimeDouble);
+                }
+                return this;
+            }
+
+            public Builder clearActiveRequestBias() {
+                if (this.activeRequestBiasBuilder_ == null) {
+                    this.activeRequestBias_ = null;
+                    onChanged();
+                } else {
+                    this.activeRequestBias_ = null;
+                    this.activeRequestBiasBuilder_ = null;
+                }
+                return this;
+            }
+
+            public RuntimeDouble.Builder getActiveRequestBiasBuilder() {
+                onChanged();
+                return getActiveRequestBiasFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.LeastRequestLbConfigOrBuilder
+            public RuntimeDoubleOrBuilder getActiveRequestBiasOrBuilder() {
+                SingleFieldBuilderV3<RuntimeDouble, RuntimeDouble.Builder, RuntimeDoubleOrBuilder> singleFieldBuilderV3 = this.activeRequestBiasBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (RuntimeDoubleOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                RuntimeDouble runtimeDouble = this.activeRequestBias_;
+                return runtimeDouble == null ? RuntimeDouble.getDefaultInstance() : runtimeDouble;
+            }
+
+            private SingleFieldBuilderV3<RuntimeDouble, RuntimeDouble.Builder, RuntimeDoubleOrBuilder> getActiveRequestBiasFieldBuilder() {
+                if (this.activeRequestBiasBuilder_ == null) {
+                    this.activeRequestBiasBuilder_ = new SingleFieldBuilderV3<>(getActiveRequestBias(), getParentForChildren(), isClean());
+                    this.activeRequestBias_ = null;
+                }
+                return this.activeRequestBiasBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20868setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20862mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class RingHashLbConfig extends GeneratedMessageV3 implements RingHashLbConfigOrBuilder {
+        public static final int HASH_FUNCTION_FIELD_NUMBER = 3;
+        public static final int MAXIMUM_RING_SIZE_FIELD_NUMBER = 4;
+        public static final int MINIMUM_RING_SIZE_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final RingHashLbConfig DEFAULT_INSTANCE = new RingHashLbConfig();
+        private static final Parser<RingHashLbConfig> PARSER = new AbstractParser<RingHashLbConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfig.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public RingHashLbConfig m20969parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new RingHashLbConfig(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private int hashFunction_;
+        private UInt64Value maximumRingSize_;
+        private byte memoizedIsInitialized;
+        private UInt64Value minimumRingSize_;
+
+        private RingHashLbConfig(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private RingHashLbConfig() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.hashFunction_ = 0;
+        }
+
+        private RingHashLbConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            UInt64Value.Builder builder;
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 10) {
+                                    UInt64Value uInt64Value = this.minimumRingSize_;
+                                    builder = uInt64Value != null ? uInt64Value.toBuilder() : null;
+                                    UInt64Value message = codedInputStream.readMessage(UInt64Value.parser(), extensionRegistryLite);
+                                    this.minimumRingSize_ = message;
+                                    if (builder != null) {
+                                        builder.mergeFrom(message);
+                                        this.minimumRingSize_ = builder.buildPartial();
+                                    }
+                                } else if (tag == 24) {
+                                    this.hashFunction_ = codedInputStream.readEnum();
+                                } else if (tag == 34) {
+                                    UInt64Value uInt64Value2 = this.maximumRingSize_;
+                                    builder = uInt64Value2 != null ? uInt64Value2.toBuilder() : null;
+                                    UInt64Value message2 = codedInputStream.readMessage(UInt64Value.parser(), extensionRegistryLite);
+                                    this.maximumRingSize_ = message2;
+                                    if (builder != null) {
+                                        builder.mergeFrom(message2);
+                                        this.maximumRingSize_ = builder.buildPartial();
+                                    }
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (IOException e) {
+                            throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                        }
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static RingHashLbConfig getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<RingHashLbConfig> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_descriptor;
+        }
+
+        public static RingHashLbConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (RingHashLbConfig) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static RingHashLbConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (RingHashLbConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static RingHashLbConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (RingHashLbConfig) PARSER.parseFrom(byteString);
+        }
+
+        public static RingHashLbConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (RingHashLbConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static RingHashLbConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (RingHashLbConfig) PARSER.parseFrom(bArr);
+        }
+
+        public static RingHashLbConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (RingHashLbConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static RingHashLbConfig parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static RingHashLbConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static RingHashLbConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static RingHashLbConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static RingHashLbConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static RingHashLbConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m20967toBuilder();
+        }
+
+        public static Builder newBuilder(RingHashLbConfig ringHashLbConfig) {
+            return DEFAULT_INSTANCE.m20967toBuilder().mergeFrom(ringHashLbConfig);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RingHashLbConfig m20962getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+        public int getHashFunctionValue() {
+            return this.hashFunction_;
+        }
+
+        public Parser<RingHashLbConfig> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+        public boolean hasMaximumRingSize() {
+            return this.maximumRingSize_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+        public boolean hasMinimumRingSize() {
+            return this.minimumRingSize_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new RingHashLbConfig();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(RingHashLbConfig.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+        public UInt64Value getMinimumRingSize() {
+            UInt64Value uInt64Value = this.minimumRingSize_;
+            return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+        public UInt64ValueOrBuilder getMinimumRingSizeOrBuilder() {
+            return getMinimumRingSize();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+        public HashFunction getHashFunction() {
+            HashFunction hashFunctionValueOf = HashFunction.valueOf(this.hashFunction_);
+            return hashFunctionValueOf == null ? HashFunction.UNRECOGNIZED : hashFunctionValueOf;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+        public UInt64Value getMaximumRingSize() {
+            UInt64Value uInt64Value = this.maximumRingSize_;
+            return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+        public UInt64ValueOrBuilder getMaximumRingSizeOrBuilder() {
+            return getMaximumRingSize();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.minimumRingSize_ != null) {
+                codedOutputStream.writeMessage(1, getMinimumRingSize());
+            }
+            if (this.hashFunction_ != HashFunction.XX_HASH.getNumber()) {
+                codedOutputStream.writeEnum(3, this.hashFunction_);
+            }
+            if (this.maximumRingSize_ != null) {
+                codedOutputStream.writeMessage(4, getMaximumRingSize());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.minimumRingSize_ != null ? CodedOutputStream.computeMessageSize(1, getMinimumRingSize()) : 0;
+            if (this.hashFunction_ != HashFunction.XX_HASH.getNumber()) {
+                iComputeMessageSize += CodedOutputStream.computeEnumSize(3, this.hashFunction_);
+            }
+            if (this.maximumRingSize_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(4, getMaximumRingSize());
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof RingHashLbConfig)) {
+                return super.equals(obj);
+            }
+            RingHashLbConfig ringHashLbConfig = (RingHashLbConfig) obj;
+            if (hasMinimumRingSize() != ringHashLbConfig.hasMinimumRingSize()) {
+                return false;
+            }
+            if ((!hasMinimumRingSize() || getMinimumRingSize().equals(ringHashLbConfig.getMinimumRingSize())) && this.hashFunction_ == ringHashLbConfig.hashFunction_ && hasMaximumRingSize() == ringHashLbConfig.hasMaximumRingSize()) {
+                return (!hasMaximumRingSize() || getMaximumRingSize().equals(ringHashLbConfig.getMaximumRingSize())) && this.unknownFields.equals(ringHashLbConfig.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasMinimumRingSize()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getMinimumRingSize().hashCode();
+            }
+            int iHashCode2 = (((iHashCode * 37) + 3) * 53) + this.hashFunction_;
+            if (hasMaximumRingSize()) {
+                iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getMaximumRingSize().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20964newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20967toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public enum HashFunction implements ProtocolMessageEnum {
+            XX_HASH(0),
+            MURMUR_HASH_2(1),
+            UNRECOGNIZED(-1);
+
+            public static final int MURMUR_HASH_2_VALUE = 1;
+            public static final int XX_HASH_VALUE = 0;
+            private static final Internal.EnumLiteMap<HashFunction> internalValueMap = new Internal.EnumLiteMap<HashFunction>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfig.HashFunction.1
+                public HashFunction findValueByNumber(int i) {
+                    return HashFunction.forNumber(i);
+                }
+            };
+            private static final HashFunction[] VALUES = values();
+            private final int value;
+
+            HashFunction(int i) {
+                this.value = i;
+            }
+
+            public static HashFunction forNumber(int i) {
+                if (i == 0) {
+                    return XX_HASH;
+                }
+                if (i != 1) {
+                    return null;
+                }
+                return MURMUR_HASH_2;
+            }
+
+            public static Internal.EnumLiteMap<HashFunction> internalGetValueMap() {
+                return internalValueMap;
+            }
+
+            @Deprecated
+            public static HashFunction valueOf(int i) {
+                return forNumber(i);
+            }
+
+            public static final Descriptors.EnumDescriptor getDescriptor() {
+                return (Descriptors.EnumDescriptor) RingHashLbConfig.getDescriptor().getEnumTypes().get(0);
+            }
+
+            public static HashFunction valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+                if (enumValueDescriptor.getType() == getDescriptor()) {
+                    return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+                }
+                throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+            }
+
+            public final int getNumber() {
+                if (this != UNRECOGNIZED) {
+                    return this.value;
+                }
+                throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+            }
+
+            public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+                if (this == UNRECOGNIZED) {
+                    throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+                }
+                return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+            }
+
+            public final Descriptors.EnumDescriptor getDescriptorForType() {
+                return getDescriptor();
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RingHashLbConfigOrBuilder {
+            private int hashFunction_;
+            private SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> maximumRingSizeBuilder_;
+            private UInt64Value maximumRingSize_;
+            private SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> minimumRingSizeBuilder_;
+            private UInt64Value minimumRingSize_;
+
+            private Builder() {
+                this.hashFunction_ = 0;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.hashFunction_ = 0;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+            public int getHashFunctionValue() {
+                return this.hashFunction_;
+            }
+
+            public Builder setHashFunctionValue(int i) {
+                this.hashFunction_ = i;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+            public boolean hasMaximumRingSize() {
+                return (this.maximumRingSizeBuilder_ == null && this.maximumRingSize_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+            public boolean hasMinimumRingSize() {
+                return (this.minimumRingSizeBuilder_ == null && this.minimumRingSize_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(RingHashLbConfig.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = RingHashLbConfig.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20978clear() {
+                super.clear();
+                if (this.minimumRingSizeBuilder_ == null) {
+                    this.minimumRingSize_ = null;
+                } else {
+                    this.minimumRingSize_ = null;
+                    this.minimumRingSizeBuilder_ = null;
+                }
+                this.hashFunction_ = 0;
+                if (this.maximumRingSizeBuilder_ == null) {
+                    this.maximumRingSize_ = null;
+                } else {
+                    this.maximumRingSize_ = null;
+                    this.maximumRingSizeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RingHashLbConfig_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public RingHashLbConfig m20991getDefaultInstanceForType() {
+                return RingHashLbConfig.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public RingHashLbConfig m20972build() throws UninitializedMessageException {
+                RingHashLbConfig ringHashLbConfigM20974buildPartial = m20974buildPartial();
+                if (ringHashLbConfigM20974buildPartial.isInitialized()) {
+                    return ringHashLbConfigM20974buildPartial;
+                }
+                throw newUninitializedMessageException(ringHashLbConfigM20974buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public RingHashLbConfig m20974buildPartial() {
+                RingHashLbConfig ringHashLbConfig = new RingHashLbConfig(this);
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minimumRingSizeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    ringHashLbConfig.minimumRingSize_ = this.minimumRingSize_;
+                } else {
+                    ringHashLbConfig.minimumRingSize_ = singleFieldBuilderV3.build();
+                }
+                ringHashLbConfig.hashFunction_ = this.hashFunction_;
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV32 = this.maximumRingSizeBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    ringHashLbConfig.maximumRingSize_ = this.maximumRingSize_;
+                } else {
+                    ringHashLbConfig.maximumRingSize_ = singleFieldBuilderV32.build();
+                }
+                onBuilt();
+                return ringHashLbConfig;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20990clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21002setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20980clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20983clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m21004setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20970addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20995mergeFrom(Message message) {
+                if (message instanceof RingHashLbConfig) {
+                    return mergeFrom((RingHashLbConfig) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(RingHashLbConfig ringHashLbConfig) {
+                if (ringHashLbConfig == RingHashLbConfig.getDefaultInstance()) {
+                    return this;
+                }
+                if (ringHashLbConfig.hasMinimumRingSize()) {
+                    mergeMinimumRingSize(ringHashLbConfig.getMinimumRingSize());
+                }
+                if (ringHashLbConfig.hashFunction_ != 0) {
+                    setHashFunctionValue(ringHashLbConfig.getHashFunctionValue());
+                }
+                if (ringHashLbConfig.hasMaximumRingSize()) {
+                    mergeMaximumRingSize(ringHashLbConfig.getMaximumRingSize());
+                }
+                m21000mergeUnknownFields(ringHashLbConfig.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfig.Builder m20996mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfig.access$7600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$RingHashLbConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$RingHashLbConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfig) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfig.Builder.m20996mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$RingHashLbConfig$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+            public UInt64Value getMinimumRingSize() {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minimumRingSizeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                UInt64Value uInt64Value = this.minimumRingSize_;
+                return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+            }
+
+            public Builder setMinimumRingSize(UInt64Value uInt64Value) {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minimumRingSizeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    uInt64Value.getClass();
+                    this.minimumRingSize_ = uInt64Value;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(uInt64Value);
+                }
+                return this;
+            }
+
+            public Builder setMinimumRingSize(UInt64Value.Builder builder) {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minimumRingSizeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.minimumRingSize_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeMinimumRingSize(UInt64Value uInt64Value) {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minimumRingSizeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    UInt64Value uInt64Value2 = this.minimumRingSize_;
+                    if (uInt64Value2 != null) {
+                        this.minimumRingSize_ = UInt64Value.newBuilder(uInt64Value2).mergeFrom(uInt64Value).buildPartial();
+                    } else {
+                        this.minimumRingSize_ = uInt64Value;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(uInt64Value);
+                }
+                return this;
+            }
+
+            public Builder clearMinimumRingSize() {
+                if (this.minimumRingSizeBuilder_ == null) {
+                    this.minimumRingSize_ = null;
+                    onChanged();
+                } else {
+                    this.minimumRingSize_ = null;
+                    this.minimumRingSizeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public UInt64Value.Builder getMinimumRingSizeBuilder() {
+                onChanged();
+                return getMinimumRingSizeFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+            public UInt64ValueOrBuilder getMinimumRingSizeOrBuilder() {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minimumRingSizeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                UInt64Value uInt64Value = this.minimumRingSize_;
+                return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+            }
+
+            private SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> getMinimumRingSizeFieldBuilder() {
+                if (this.minimumRingSizeBuilder_ == null) {
+                    this.minimumRingSizeBuilder_ = new SingleFieldBuilderV3<>(getMinimumRingSize(), getParentForChildren(), isClean());
+                    this.minimumRingSize_ = null;
+                }
+                return this.minimumRingSizeBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+            public HashFunction getHashFunction() {
+                HashFunction hashFunctionValueOf = HashFunction.valueOf(this.hashFunction_);
+                return hashFunctionValueOf == null ? HashFunction.UNRECOGNIZED : hashFunctionValueOf;
+            }
+
+            public Builder setHashFunction(HashFunction hashFunction) {
+                hashFunction.getClass();
+                this.hashFunction_ = hashFunction.getNumber();
+                onChanged();
+                return this;
+            }
+
+            public Builder clearHashFunction() {
+                this.hashFunction_ = 0;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+            public UInt64Value getMaximumRingSize() {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.maximumRingSizeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                UInt64Value uInt64Value = this.maximumRingSize_;
+                return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+            }
+
+            public Builder setMaximumRingSize(UInt64Value uInt64Value) {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.maximumRingSizeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    uInt64Value.getClass();
+                    this.maximumRingSize_ = uInt64Value;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(uInt64Value);
+                }
+                return this;
+            }
+
+            public Builder setMaximumRingSize(UInt64Value.Builder builder) {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.maximumRingSizeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.maximumRingSize_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeMaximumRingSize(UInt64Value uInt64Value) {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.maximumRingSizeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    UInt64Value uInt64Value2 = this.maximumRingSize_;
+                    if (uInt64Value2 != null) {
+                        this.maximumRingSize_ = UInt64Value.newBuilder(uInt64Value2).mergeFrom(uInt64Value).buildPartial();
+                    } else {
+                        this.maximumRingSize_ = uInt64Value;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(uInt64Value);
+                }
+                return this;
+            }
+
+            public Builder clearMaximumRingSize() {
+                if (this.maximumRingSizeBuilder_ == null) {
+                    this.maximumRingSize_ = null;
+                    onChanged();
+                } else {
+                    this.maximumRingSize_ = null;
+                    this.maximumRingSizeBuilder_ = null;
+                }
+                return this;
+            }
+
+            public UInt64Value.Builder getMaximumRingSizeBuilder() {
+                onChanged();
+                return getMaximumRingSizeFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RingHashLbConfigOrBuilder
+            public UInt64ValueOrBuilder getMaximumRingSizeOrBuilder() {
+                SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.maximumRingSizeBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                UInt64Value uInt64Value = this.maximumRingSize_;
+                return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+            }
+
+            private SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> getMaximumRingSizeFieldBuilder() {
+                if (this.maximumRingSizeBuilder_ == null) {
+                    this.maximumRingSizeBuilder_ = new SingleFieldBuilderV3<>(getMaximumRingSize(), getParentForChildren(), isClean());
+                    this.maximumRingSize_ = null;
+                }
+                return this.maximumRingSizeBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m21006setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m21000mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class OriginalDstLbConfig extends GeneratedMessageV3 implements OriginalDstLbConfigOrBuilder {
+        public static final int USE_HTTP_HEADER_FIELD_NUMBER = 1;
+        private static final OriginalDstLbConfig DEFAULT_INSTANCE = new OriginalDstLbConfig();
+        private static final Parser<OriginalDstLbConfig> PARSER = new AbstractParser<OriginalDstLbConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.OriginalDstLbConfig.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public OriginalDstLbConfig m20877parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new OriginalDstLbConfig(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private byte memoizedIsInitialized;
+        private boolean useHttpHeader_;
+
+        private OriginalDstLbConfig(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private OriginalDstLbConfig() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private OriginalDstLbConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 8) {
+                                this.useHttpHeader_ = codedInputStream.readBool();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static OriginalDstLbConfig getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<OriginalDstLbConfig> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_descriptor;
+        }
+
+        public static OriginalDstLbConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (OriginalDstLbConfig) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static OriginalDstLbConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OriginalDstLbConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static OriginalDstLbConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (OriginalDstLbConfig) PARSER.parseFrom(byteString);
+        }
+
+        public static OriginalDstLbConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OriginalDstLbConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static OriginalDstLbConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (OriginalDstLbConfig) PARSER.parseFrom(bArr);
+        }
+
+        public static OriginalDstLbConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (OriginalDstLbConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static OriginalDstLbConfig parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static OriginalDstLbConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static OriginalDstLbConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static OriginalDstLbConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static OriginalDstLbConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static OriginalDstLbConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m20875toBuilder();
+        }
+
+        public static Builder newBuilder(OriginalDstLbConfig originalDstLbConfig) {
+            return DEFAULT_INSTANCE.m20875toBuilder().mergeFrom(originalDstLbConfig);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OriginalDstLbConfig m20870getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<OriginalDstLbConfig> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.OriginalDstLbConfigOrBuilder
+        public boolean getUseHttpHeader() {
+            return this.useHttpHeader_;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new OriginalDstLbConfig();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(OriginalDstLbConfig.class, Builder.class);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            boolean z = this.useHttpHeader_;
+            if (z) {
+                codedOutputStream.writeBool(1, z);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            boolean z = this.useHttpHeader_;
+            int iComputeBoolSize = (z ? CodedOutputStream.computeBoolSize(1, z) : 0) + this.unknownFields.getSerializedSize();
+            this.memoizedSize = iComputeBoolSize;
+            return iComputeBoolSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof OriginalDstLbConfig)) {
+                return super.equals(obj);
+            }
+            OriginalDstLbConfig originalDstLbConfig = (OriginalDstLbConfig) obj;
+            return getUseHttpHeader() == originalDstLbConfig.getUseHttpHeader() && this.unknownFields.equals(originalDstLbConfig.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + Internal.hashBoolean(getUseHttpHeader())) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode;
+            return iHashCode;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20872newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20875toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements OriginalDstLbConfigOrBuilder {
+            private boolean useHttpHeader_;
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.OriginalDstLbConfigOrBuilder
+            public boolean getUseHttpHeader() {
+                return this.useHttpHeader_;
+            }
+
+            public Builder setUseHttpHeader(boolean z) {
+                this.useHttpHeader_ = z;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(OriginalDstLbConfig.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = OriginalDstLbConfig.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20886clear() {
+                super.clear();
+                this.useHttpHeader_ = false;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_OriginalDstLbConfig_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OriginalDstLbConfig m20899getDefaultInstanceForType() {
+                return OriginalDstLbConfig.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OriginalDstLbConfig m20880build() throws UninitializedMessageException {
+                OriginalDstLbConfig originalDstLbConfigM20882buildPartial = m20882buildPartial();
+                if (originalDstLbConfigM20882buildPartial.isInitialized()) {
+                    return originalDstLbConfigM20882buildPartial;
+                }
+                throw newUninitializedMessageException(originalDstLbConfigM20882buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public OriginalDstLbConfig m20882buildPartial() {
+                OriginalDstLbConfig originalDstLbConfig = new OriginalDstLbConfig(this);
+                originalDstLbConfig.useHttpHeader_ = this.useHttpHeader_;
+                onBuilt();
+                return originalDstLbConfig;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20898clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20910setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20888clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20891clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20912setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20878addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20903mergeFrom(Message message) {
+                if (message instanceof OriginalDstLbConfig) {
+                    return mergeFrom((OriginalDstLbConfig) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(OriginalDstLbConfig originalDstLbConfig) {
+                if (originalDstLbConfig == OriginalDstLbConfig.getDefaultInstance()) {
+                    return this;
+                }
+                if (originalDstLbConfig.getUseHttpHeader()) {
+                    setUseHttpHeader(originalDstLbConfig.getUseHttpHeader());
+                }
+                m20908mergeUnknownFields(originalDstLbConfig.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.OriginalDstLbConfig.Builder m20904mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.OriginalDstLbConfig.access$8400()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$OriginalDstLbConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.OriginalDstLbConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$OriginalDstLbConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.OriginalDstLbConfig) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.OriginalDstLbConfig.Builder.m20904mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$OriginalDstLbConfig$Builder");
+            }
+
+            public Builder clearUseHttpHeader() {
+                this.useHttpHeader_ = false;
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20914setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20908mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class CommonLbConfig extends GeneratedMessageV3 implements CommonLbConfigOrBuilder {
+        public static final int CLOSE_CONNECTIONS_ON_HOST_SET_CHANGE_FIELD_NUMBER = 6;
+        public static final int CONSISTENT_HASHING_LB_CONFIG_FIELD_NUMBER = 7;
+        public static final int HEALTHY_PANIC_THRESHOLD_FIELD_NUMBER = 1;
+        public static final int IGNORE_NEW_HOSTS_UNTIL_FIRST_HC_FIELD_NUMBER = 5;
+        public static final int LOCALITY_WEIGHTED_LB_CONFIG_FIELD_NUMBER = 3;
+        public static final int UPDATE_MERGE_WINDOW_FIELD_NUMBER = 4;
+        public static final int ZONE_AWARE_LB_CONFIG_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final CommonLbConfig DEFAULT_INSTANCE = new CommonLbConfig();
+        private static final Parser<CommonLbConfig> PARSER = new AbstractParser<CommonLbConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public CommonLbConfig m20456parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new CommonLbConfig(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private boolean closeConnectionsOnHostSetChange_;
+        private ConsistentHashingLbConfig consistentHashingLbConfig_;
+        private Percent healthyPanicThreshold_;
+        private boolean ignoreNewHostsUntilFirstHc_;
+        private int localityConfigSpecifierCase_;
+        private Object localityConfigSpecifier_;
+        private byte memoizedIsInitialized;
+        private Duration updateMergeWindow_;
+
+        private CommonLbConfig(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.localityConfigSpecifierCase_ = 0;
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private CommonLbConfig() {
+            this.localityConfigSpecifierCase_ = 0;
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private CommonLbConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            Duration.Builder builderM20500toBuilder;
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                Percent percent = this.healthyPanicThreshold_;
+                                builderM20500toBuilder = percent != null ? percent.m35162toBuilder() : null;
+                                Percent percent2 = (Percent) codedInputStream.readMessage(Percent.parser(), extensionRegistryLite);
+                                this.healthyPanicThreshold_ = percent2;
+                                if (builderM20500toBuilder != null) {
+                                    builderM20500toBuilder.mergeFrom(percent2);
+                                    this.healthyPanicThreshold_ = builderM20500toBuilder.m35169buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                builderM20500toBuilder = this.localityConfigSpecifierCase_ == 2 ? ((ZoneAwareLbConfig) this.localityConfigSpecifier_).m20592toBuilder() : null;
+                                MessageLite message = codedInputStream.readMessage(ZoneAwareLbConfig.parser(), extensionRegistryLite);
+                                this.localityConfigSpecifier_ = message;
+                                if (builderM20500toBuilder != null) {
+                                    builderM20500toBuilder.mergeFrom((ZoneAwareLbConfig) message);
+                                    this.localityConfigSpecifier_ = builderM20500toBuilder.m20599buildPartial();
+                                }
+                                this.localityConfigSpecifierCase_ = 2;
+                            } else if (tag == 26) {
+                                builderM20500toBuilder = this.localityConfigSpecifierCase_ == 3 ? ((LocalityWeightedLbConfig) this.localityConfigSpecifier_).m20546toBuilder() : null;
+                                MessageLite message2 = codedInputStream.readMessage(LocalityWeightedLbConfig.parser(), extensionRegistryLite);
+                                this.localityConfigSpecifier_ = message2;
+                                if (builderM20500toBuilder != null) {
+                                    builderM20500toBuilder.mergeFrom((LocalityWeightedLbConfig) message2);
+                                    this.localityConfigSpecifier_ = builderM20500toBuilder.m20553buildPartial();
+                                }
+                                this.localityConfigSpecifierCase_ = 3;
+                            } else if (tag == 34) {
+                                Duration duration = this.updateMergeWindow_;
+                                builderM20500toBuilder = duration != null ? duration.toBuilder() : null;
+                                Duration message3 = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                                this.updateMergeWindow_ = message3;
+                                if (builderM20500toBuilder != null) {
+                                    builderM20500toBuilder.mergeFrom(message3);
+                                    this.updateMergeWindow_ = builderM20500toBuilder.buildPartial();
+                                }
+                            } else if (tag == 40) {
+                                this.ignoreNewHostsUntilFirstHc_ = codedInputStream.readBool();
+                            } else if (tag == 48) {
+                                this.closeConnectionsOnHostSetChange_ = codedInputStream.readBool();
+                            } else if (tag == 58) {
+                                ConsistentHashingLbConfig consistentHashingLbConfig = this.consistentHashingLbConfig_;
+                                builderM20500toBuilder = consistentHashingLbConfig != null ? consistentHashingLbConfig.m20500toBuilder() : null;
+                                ConsistentHashingLbConfig message4 = codedInputStream.readMessage(ConsistentHashingLbConfig.parser(), extensionRegistryLite);
+                                this.consistentHashingLbConfig_ = message4;
+                                if (builderM20500toBuilder != null) {
+                                    builderM20500toBuilder.mergeFrom(message4);
+                                    this.consistentHashingLbConfig_ = builderM20500toBuilder.m20507buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static CommonLbConfig getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<CommonLbConfig> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_descriptor;
+        }
+
+        public static CommonLbConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (CommonLbConfig) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static CommonLbConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CommonLbConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static CommonLbConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (CommonLbConfig) PARSER.parseFrom(byteString);
+        }
+
+        public static CommonLbConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CommonLbConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static CommonLbConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (CommonLbConfig) PARSER.parseFrom(bArr);
+        }
+
+        public static CommonLbConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (CommonLbConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static CommonLbConfig parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static CommonLbConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static CommonLbConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static CommonLbConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static CommonLbConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static CommonLbConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m20454toBuilder();
+        }
+
+        public static Builder newBuilder(CommonLbConfig commonLbConfig) {
+            return DEFAULT_INSTANCE.m20454toBuilder().mergeFrom(commonLbConfig);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public boolean getCloseConnectionsOnHostSetChange() {
+            return this.closeConnectionsOnHostSetChange_;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public CommonLbConfig m20449getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public boolean getIgnoreNewHostsUntilFirstHc() {
+            return this.ignoreNewHostsUntilFirstHc_;
+        }
+
+        public Parser<CommonLbConfig> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public boolean hasConsistentHashingLbConfig() {
+            return this.consistentHashingLbConfig_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public boolean hasHealthyPanicThreshold() {
+            return this.healthyPanicThreshold_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public boolean hasLocalityWeightedLbConfig() {
+            return this.localityConfigSpecifierCase_ == 3;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public boolean hasUpdateMergeWindow() {
+            return this.updateMergeWindow_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public boolean hasZoneAwareLbConfig() {
+            return this.localityConfigSpecifierCase_ == 2;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new CommonLbConfig();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(CommonLbConfig.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public LocalityConfigSpecifierCase getLocalityConfigSpecifierCase() {
+            return LocalityConfigSpecifierCase.forNumber(this.localityConfigSpecifierCase_);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public Percent getHealthyPanicThreshold() {
+            Percent percent = this.healthyPanicThreshold_;
+            return percent == null ? Percent.getDefaultInstance() : percent;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public PercentOrBuilder getHealthyPanicThresholdOrBuilder() {
+            return getHealthyPanicThreshold();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public ZoneAwareLbConfig getZoneAwareLbConfig() {
+            if (this.localityConfigSpecifierCase_ == 2) {
+                return (ZoneAwareLbConfig) this.localityConfigSpecifier_;
+            }
+            return ZoneAwareLbConfig.getDefaultInstance();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public ZoneAwareLbConfigOrBuilder getZoneAwareLbConfigOrBuilder() {
+            if (this.localityConfigSpecifierCase_ == 2) {
+                return (ZoneAwareLbConfig) this.localityConfigSpecifier_;
+            }
+            return ZoneAwareLbConfig.getDefaultInstance();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public LocalityWeightedLbConfig getLocalityWeightedLbConfig() {
+            if (this.localityConfigSpecifierCase_ == 3) {
+                return (LocalityWeightedLbConfig) this.localityConfigSpecifier_;
+            }
+            return LocalityWeightedLbConfig.getDefaultInstance();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public LocalityWeightedLbConfigOrBuilder getLocalityWeightedLbConfigOrBuilder() {
+            if (this.localityConfigSpecifierCase_ == 3) {
+                return (LocalityWeightedLbConfig) this.localityConfigSpecifier_;
+            }
+            return LocalityWeightedLbConfig.getDefaultInstance();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public Duration getUpdateMergeWindow() {
+            Duration duration = this.updateMergeWindow_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public DurationOrBuilder getUpdateMergeWindowOrBuilder() {
+            return getUpdateMergeWindow();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public ConsistentHashingLbConfig getConsistentHashingLbConfig() {
+            ConsistentHashingLbConfig consistentHashingLbConfig = this.consistentHashingLbConfig_;
+            return consistentHashingLbConfig == null ? ConsistentHashingLbConfig.getDefaultInstance() : consistentHashingLbConfig;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+        public ConsistentHashingLbConfigOrBuilder getConsistentHashingLbConfigOrBuilder() {
+            return getConsistentHashingLbConfig();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.healthyPanicThreshold_ != null) {
+                codedOutputStream.writeMessage(1, getHealthyPanicThreshold());
+            }
+            if (this.localityConfigSpecifierCase_ == 2) {
+                codedOutputStream.writeMessage(2, (ZoneAwareLbConfig) this.localityConfigSpecifier_);
+            }
+            if (this.localityConfigSpecifierCase_ == 3) {
+                codedOutputStream.writeMessage(3, (LocalityWeightedLbConfig) this.localityConfigSpecifier_);
+            }
+            if (this.updateMergeWindow_ != null) {
+                codedOutputStream.writeMessage(4, getUpdateMergeWindow());
+            }
+            boolean z = this.ignoreNewHostsUntilFirstHc_;
+            if (z) {
+                codedOutputStream.writeBool(5, z);
+            }
+            boolean z2 = this.closeConnectionsOnHostSetChange_;
+            if (z2) {
+                codedOutputStream.writeBool(6, z2);
+            }
+            if (this.consistentHashingLbConfig_ != null) {
+                codedOutputStream.writeMessage(7, getConsistentHashingLbConfig());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.healthyPanicThreshold_ != null ? CodedOutputStream.computeMessageSize(1, getHealthyPanicThreshold()) : 0;
+            if (this.localityConfigSpecifierCase_ == 2) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (ZoneAwareLbConfig) this.localityConfigSpecifier_);
+            }
+            if (this.localityConfigSpecifierCase_ == 3) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(3, (LocalityWeightedLbConfig) this.localityConfigSpecifier_);
+            }
+            if (this.updateMergeWindow_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(4, getUpdateMergeWindow());
+            }
+            boolean z = this.ignoreNewHostsUntilFirstHc_;
+            if (z) {
+                iComputeMessageSize += CodedOutputStream.computeBoolSize(5, z);
+            }
+            boolean z2 = this.closeConnectionsOnHostSetChange_;
+            if (z2) {
+                iComputeMessageSize += CodedOutputStream.computeBoolSize(6, z2);
+            }
+            if (this.consistentHashingLbConfig_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(7, getConsistentHashingLbConfig());
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof CommonLbConfig)) {
+                return super.equals(obj);
+            }
+            CommonLbConfig commonLbConfig = (CommonLbConfig) obj;
+            if (hasHealthyPanicThreshold() != commonLbConfig.hasHealthyPanicThreshold()) {
+                return false;
+            }
+            if ((hasHealthyPanicThreshold() && !getHealthyPanicThreshold().equals(commonLbConfig.getHealthyPanicThreshold())) || hasUpdateMergeWindow() != commonLbConfig.hasUpdateMergeWindow()) {
+                return false;
+            }
+            if ((hasUpdateMergeWindow() && !getUpdateMergeWindow().equals(commonLbConfig.getUpdateMergeWindow())) || getIgnoreNewHostsUntilFirstHc() != commonLbConfig.getIgnoreNewHostsUntilFirstHc() || getCloseConnectionsOnHostSetChange() != commonLbConfig.getCloseConnectionsOnHostSetChange() || hasConsistentHashingLbConfig() != commonLbConfig.hasConsistentHashingLbConfig()) {
+                return false;
+            }
+            if ((hasConsistentHashingLbConfig() && !getConsistentHashingLbConfig().equals(commonLbConfig.getConsistentHashingLbConfig())) || !getLocalityConfigSpecifierCase().equals(commonLbConfig.getLocalityConfigSpecifierCase())) {
+                return false;
+            }
+            int i = this.localityConfigSpecifierCase_;
+            if (i == 2) {
+                if (!getZoneAwareLbConfig().equals(commonLbConfig.getZoneAwareLbConfig())) {
+                    return false;
+                }
+            } else if (i == 3 && !getLocalityWeightedLbConfig().equals(commonLbConfig.getLocalityWeightedLbConfig())) {
+                return false;
+            }
+            return this.unknownFields.equals(commonLbConfig.unknownFields);
+        }
+
+        public int hashCode() {
+            int i;
+            int iHashCode;
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode2 = 779 + getDescriptor().hashCode();
+            if (hasHealthyPanicThreshold()) {
+                iHashCode2 = (((iHashCode2 * 37) + 1) * 53) + getHealthyPanicThreshold().hashCode();
+            }
+            if (hasUpdateMergeWindow()) {
+                iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getUpdateMergeWindow().hashCode();
+            }
+            int iHashBoolean = (((((((iHashCode2 * 37) + 5) * 53) + Internal.hashBoolean(getIgnoreNewHostsUntilFirstHc())) * 37) + 6) * 53) + Internal.hashBoolean(getCloseConnectionsOnHostSetChange());
+            if (hasConsistentHashingLbConfig()) {
+                iHashBoolean = (((iHashBoolean * 37) + 7) * 53) + getConsistentHashingLbConfig().hashCode();
+            }
+            int i2 = this.localityConfigSpecifierCase_;
+            if (i2 == 2) {
+                i = ((iHashBoolean * 37) + 2) * 53;
+                iHashCode = getZoneAwareLbConfig().hashCode();
+            } else {
+                if (i2 == 3) {
+                    i = ((iHashBoolean * 37) + 3) * 53;
+                    iHashCode = getLocalityWeightedLbConfig().hashCode();
+                }
+                int iHashCode3 = (iHashBoolean * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode3;
+                return iHashCode3;
+            }
+            iHashBoolean = i + iHashCode;
+            int iHashCode32 = (iHashBoolean * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode32;
+            return iHashCode32;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20451newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20454toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public enum LocalityConfigSpecifierCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+            ZONE_AWARE_LB_CONFIG(2),
+            LOCALITY_WEIGHTED_LB_CONFIG(3),
+            LOCALITYCONFIGSPECIFIER_NOT_SET(0);
+
+            private final int value;
+
+            LocalityConfigSpecifierCase(int i) {
+                this.value = i;
+            }
+
+            public static LocalityConfigSpecifierCase forNumber(int i) {
+                if (i == 0) {
+                    return LOCALITYCONFIGSPECIFIER_NOT_SET;
+                }
+                if (i == 2) {
+                    return ZONE_AWARE_LB_CONFIG;
+                }
+                if (i != 3) {
+                    return null;
+                }
+                return LOCALITY_WEIGHTED_LB_CONFIG;
+            }
+
+            @Deprecated
+            public static LocalityConfigSpecifierCase valueOf(int i) {
+                return forNumber(i);
+            }
+
+            public int getNumber() {
+                return this.value;
+            }
+        }
+
+        public interface ConsistentHashingLbConfigOrBuilder extends MessageOrBuilder {
+            boolean getUseHostnameForHashing();
+        }
+
+        public interface LocalityWeightedLbConfigOrBuilder extends MessageOrBuilder {
+        }
+
+        public interface ZoneAwareLbConfigOrBuilder extends MessageOrBuilder {
+            boolean getFailTrafficOnPanic();
+
+            UInt64Value getMinClusterSize();
+
+            UInt64ValueOrBuilder getMinClusterSizeOrBuilder();
+
+            Percent getRoutingEnabled();
+
+            PercentOrBuilder getRoutingEnabledOrBuilder();
+
+            boolean hasMinClusterSize();
+
+            boolean hasRoutingEnabled();
+        }
+
+        public static final class ZoneAwareLbConfig extends GeneratedMessageV3 implements ZoneAwareLbConfigOrBuilder {
+            public static final int FAIL_TRAFFIC_ON_PANIC_FIELD_NUMBER = 3;
+            public static final int MIN_CLUSTER_SIZE_FIELD_NUMBER = 2;
+            public static final int ROUTING_ENABLED_FIELD_NUMBER = 1;
+            private static final long serialVersionUID = 0;
+            private static final ZoneAwareLbConfig DEFAULT_INSTANCE = new ZoneAwareLbConfig();
+            private static final Parser<ZoneAwareLbConfig> PARSER = new AbstractParser<ZoneAwareLbConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfig.1
+                /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+                public ZoneAwareLbConfig m20594parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                    return new ZoneAwareLbConfig(codedInputStream, extensionRegistryLite);
+                }
+            };
+            private boolean failTrafficOnPanic_;
+            private byte memoizedIsInitialized;
+            private UInt64Value minClusterSize_;
+            private Percent routingEnabled_;
+
+            private ZoneAwareLbConfig(GeneratedMessageV3.Builder<?> builder) {
+                super(builder);
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private ZoneAwareLbConfig() {
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private ZoneAwareLbConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                Percent.Builder builder;
+                this();
+                extensionRegistryLite.getClass();
+                UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+                boolean z = false;
+                while (!z) {
+                    try {
+                        try {
+                            try {
+                                int tag = codedInputStream.readTag();
+                                if (tag != 0) {
+                                    if (tag == 10) {
+                                        Percent percent = this.routingEnabled_;
+                                        builder = percent != null ? percent.m35162toBuilder() : null;
+                                        Percent percent2 = (Percent) codedInputStream.readMessage(Percent.parser(), extensionRegistryLite);
+                                        this.routingEnabled_ = percent2;
+                                        if (builder != null) {
+                                            builder.mergeFrom(percent2);
+                                            this.routingEnabled_ = builder.m35169buildPartial();
+                                        }
+                                    } else if (tag == 18) {
+                                        UInt64Value uInt64Value = this.minClusterSize_;
+                                        builder = uInt64Value != null ? uInt64Value.toBuilder() : null;
+                                        UInt64Value message = codedInputStream.readMessage(UInt64Value.parser(), extensionRegistryLite);
+                                        this.minClusterSize_ = message;
+                                        if (builder != null) {
+                                            builder.mergeFrom(message);
+                                            this.minClusterSize_ = builder.buildPartial();
+                                        }
+                                    } else if (tag == 24) {
+                                        this.failTrafficOnPanic_ = codedInputStream.readBool();
+                                    } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    }
+                                }
+                                z = true;
+                            } catch (IOException e) {
+                                throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                            }
+                        } catch (InvalidProtocolBufferException e2) {
+                            throw e2.setUnfinishedMessage(this);
+                        }
+                    } finally {
+                        this.unknownFields = builderNewBuilder.build();
+                        makeExtensionsImmutable();
+                    }
+                }
+            }
+
+            public static ZoneAwareLbConfig getDefaultInstance() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public static Parser<ZoneAwareLbConfig> parser() {
+                return PARSER;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_descriptor;
+            }
+
+            public static ZoneAwareLbConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+                return (ZoneAwareLbConfig) PARSER.parseFrom(byteBuffer);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (ZoneAwareLbConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+                return (ZoneAwareLbConfig) PARSER.parseFrom(byteString);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (ZoneAwareLbConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+                return (ZoneAwareLbConfig) PARSER.parseFrom(bArr);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (ZoneAwareLbConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static ZoneAwareLbConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+            }
+
+            public static ZoneAwareLbConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+            }
+
+            public static ZoneAwareLbConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+            }
+
+            public static Builder newBuilder() {
+                return DEFAULT_INSTANCE.m20592toBuilder();
+            }
+
+            public static Builder newBuilder(ZoneAwareLbConfig zoneAwareLbConfig) {
+                return DEFAULT_INSTANCE.m20592toBuilder().mergeFrom(zoneAwareLbConfig);
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public ZoneAwareLbConfig m20587getDefaultInstanceForType() {
+                return DEFAULT_INSTANCE;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+            public boolean getFailTrafficOnPanic() {
+                return this.failTrafficOnPanic_;
+            }
+
+            public Parser<ZoneAwareLbConfig> getParserForType() {
+                return PARSER;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+            public boolean hasMinClusterSize() {
+                return this.minClusterSize_ != null;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+            public boolean hasRoutingEnabled() {
+                return this.routingEnabled_ != null;
+            }
+
+            public final boolean isInitialized() {
+                byte b = this.memoizedIsInitialized;
+                if (b == 1) {
+                    return true;
+                }
+                if (b == 0) {
+                    return false;
+                }
+                this.memoizedIsInitialized = (byte) 1;
+                return true;
+            }
+
+            protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+                return new ZoneAwareLbConfig();
+            }
+
+            public final UnknownFieldSet getUnknownFields() {
+                return this.unknownFields;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(ZoneAwareLbConfig.class, Builder.class);
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+            public Percent getRoutingEnabled() {
+                Percent percent = this.routingEnabled_;
+                return percent == null ? Percent.getDefaultInstance() : percent;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+            public PercentOrBuilder getRoutingEnabledOrBuilder() {
+                return getRoutingEnabled();
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+            public UInt64Value getMinClusterSize() {
+                UInt64Value uInt64Value = this.minClusterSize_;
+                return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+            public UInt64ValueOrBuilder getMinClusterSizeOrBuilder() {
+                return getMinClusterSize();
+            }
+
+            public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+                if (this.routingEnabled_ != null) {
+                    codedOutputStream.writeMessage(1, getRoutingEnabled());
+                }
+                if (this.minClusterSize_ != null) {
+                    codedOutputStream.writeMessage(2, getMinClusterSize());
+                }
+                boolean z = this.failTrafficOnPanic_;
+                if (z) {
+                    codedOutputStream.writeBool(3, z);
+                }
+                this.unknownFields.writeTo(codedOutputStream);
+            }
+
+            public int getSerializedSize() {
+                int i = this.memoizedSize;
+                if (i != -1) {
+                    return i;
+                }
+                int iComputeMessageSize = this.routingEnabled_ != null ? CodedOutputStream.computeMessageSize(1, getRoutingEnabled()) : 0;
+                if (this.minClusterSize_ != null) {
+                    iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getMinClusterSize());
+                }
+                boolean z = this.failTrafficOnPanic_;
+                if (z) {
+                    iComputeMessageSize += CodedOutputStream.computeBoolSize(3, z);
+                }
+                int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+                this.memoizedSize = serializedSize;
+                return serializedSize;
+            }
+
+            public boolean equals(Object obj) {
+                if (obj == this) {
+                    return true;
+                }
+                if (!(obj instanceof ZoneAwareLbConfig)) {
+                    return super.equals(obj);
+                }
+                ZoneAwareLbConfig zoneAwareLbConfig = (ZoneAwareLbConfig) obj;
+                if (hasRoutingEnabled() != zoneAwareLbConfig.hasRoutingEnabled()) {
+                    return false;
+                }
+                if ((!hasRoutingEnabled() || getRoutingEnabled().equals(zoneAwareLbConfig.getRoutingEnabled())) && hasMinClusterSize() == zoneAwareLbConfig.hasMinClusterSize()) {
+                    return (!hasMinClusterSize() || getMinClusterSize().equals(zoneAwareLbConfig.getMinClusterSize())) && getFailTrafficOnPanic() == zoneAwareLbConfig.getFailTrafficOnPanic() && this.unknownFields.equals(zoneAwareLbConfig.unknownFields);
+                }
+                return false;
+            }
+
+            public int hashCode() {
+                if (this.memoizedHashCode != 0) {
+                    return this.memoizedHashCode;
+                }
+                int iHashCode = 779 + getDescriptor().hashCode();
+                if (hasRoutingEnabled()) {
+                    iHashCode = (((iHashCode * 37) + 1) * 53) + getRoutingEnabled().hashCode();
+                }
+                if (hasMinClusterSize()) {
+                    iHashCode = (((iHashCode * 37) + 2) * 53) + getMinClusterSize().hashCode();
+                }
+                int iHashBoolean = (((((iHashCode * 37) + 3) * 53) + Internal.hashBoolean(getFailTrafficOnPanic())) * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashBoolean;
+                return iHashBoolean;
+            }
+
+            /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20589newBuilderForType() {
+                return newBuilder();
+            }
+
+            /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20592toBuilder() {
+                return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+                return new Builder(builderParent);
+            }
+
+            public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ZoneAwareLbConfigOrBuilder {
+                private boolean failTrafficOnPanic_;
+                private SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> minClusterSizeBuilder_;
+                private UInt64Value minClusterSize_;
+                private SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> routingEnabledBuilder_;
+                private Percent routingEnabled_;
+
+                private Builder() {
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                    super(builderParent);
+                    maybeForceBuilderInitialization();
+                }
+
+                public static final Descriptors.Descriptor getDescriptor() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_descriptor;
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+                public boolean getFailTrafficOnPanic() {
+                    return this.failTrafficOnPanic_;
+                }
+
+                public Builder setFailTrafficOnPanic(boolean z) {
+                    this.failTrafficOnPanic_ = z;
+                    onChanged();
+                    return this;
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+                public boolean hasMinClusterSize() {
+                    return (this.minClusterSizeBuilder_ == null && this.minClusterSize_ == null) ? false : true;
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+                public boolean hasRoutingEnabled() {
+                    return (this.routingEnabledBuilder_ == null && this.routingEnabled_ == null) ? false : true;
+                }
+
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(ZoneAwareLbConfig.class, Builder.class);
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    boolean unused = ZoneAwareLbConfig.alwaysUseFieldBuilders;
+                }
+
+                /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20603clear() {
+                    super.clear();
+                    if (this.routingEnabledBuilder_ == null) {
+                        this.routingEnabled_ = null;
+                    } else {
+                        this.routingEnabled_ = null;
+                        this.routingEnabledBuilder_ = null;
+                    }
+                    if (this.minClusterSizeBuilder_ == null) {
+                        this.minClusterSize_ = null;
+                    } else {
+                        this.minClusterSize_ = null;
+                        this.minClusterSizeBuilder_ = null;
+                    }
+                    this.failTrafficOnPanic_ = false;
+                    return this;
+                }
+
+                public Descriptors.Descriptor getDescriptorForType() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ZoneAwareLbConfig_descriptor;
+                }
+
+                /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public ZoneAwareLbConfig m20616getDefaultInstanceForType() {
+                    return ZoneAwareLbConfig.getDefaultInstance();
+                }
+
+                /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+                /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public ZoneAwareLbConfig m20597build() throws UninitializedMessageException {
+                    ZoneAwareLbConfig zoneAwareLbConfigM20599buildPartial = m20599buildPartial();
+                    if (zoneAwareLbConfigM20599buildPartial.isInitialized()) {
+                        return zoneAwareLbConfigM20599buildPartial;
+                    }
+                    throw newUninitializedMessageException(zoneAwareLbConfigM20599buildPartial);
+                }
+
+                /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public ZoneAwareLbConfig m20599buildPartial() {
+                    ZoneAwareLbConfig zoneAwareLbConfig = new ZoneAwareLbConfig(this);
+                    SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.routingEnabledBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        zoneAwareLbConfig.routingEnabled_ = this.routingEnabled_;
+                    } else {
+                        zoneAwareLbConfig.routingEnabled_ = singleFieldBuilderV3.build();
+                    }
+                    SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV32 = this.minClusterSizeBuilder_;
+                    if (singleFieldBuilderV32 == null) {
+                        zoneAwareLbConfig.minClusterSize_ = this.minClusterSize_;
+                    } else {
+                        zoneAwareLbConfig.minClusterSize_ = singleFieldBuilderV32.build();
+                    }
+                    zoneAwareLbConfig.failTrafficOnPanic_ = this.failTrafficOnPanic_;
+                    onBuilt();
+                    return zoneAwareLbConfig;
+                }
+
+                /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20615clone() {
+                    return (Builder) super.clone();
+                }
+
+                /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20627setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.setField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20605clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                    return (Builder) super.clearField(fieldDescriptor);
+                }
+
+                /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20608clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                    return (Builder) super.clearOneof(oneofDescriptor);
+                }
+
+                /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20629setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                    return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+                }
+
+                /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20595addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20620mergeFrom(Message message) {
+                    if (message instanceof ZoneAwareLbConfig) {
+                        return mergeFrom((ZoneAwareLbConfig) message);
+                    }
+                    super.mergeFrom(message);
+                    return this;
+                }
+
+                public Builder mergeFrom(ZoneAwareLbConfig zoneAwareLbConfig) {
+                    if (zoneAwareLbConfig == ZoneAwareLbConfig.getDefaultInstance()) {
+                        return this;
+                    }
+                    if (zoneAwareLbConfig.hasRoutingEnabled()) {
+                        mergeRoutingEnabled(zoneAwareLbConfig.getRoutingEnabled());
+                    }
+                    if (zoneAwareLbConfig.hasMinClusterSize()) {
+                        mergeMinClusterSize(zoneAwareLbConfig.getMinClusterSize());
+                    }
+                    if (zoneAwareLbConfig.getFailTrafficOnPanic()) {
+                        setFailTrafficOnPanic(zoneAwareLbConfig.getFailTrafficOnPanic());
+                    }
+                    m20625mergeUnknownFields(zoneAwareLbConfig.unknownFields);
+                    onChanged();
+                    return this;
+                }
+
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfig.Builder m20621mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                    /*
+                        r2 = this;
+                        r0 = 0
+                        com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfig.access$9400()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$ZoneAwareLbConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        if (r3 == 0) goto L10
+                        r2.mergeFrom(r3)
+                    L10:
+                        return r2
+                    L11:
+                        r3 = move-exception
+                        goto L21
+                    L13:
+                        r3 = move-exception
+                        com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                        io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$ZoneAwareLbConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfig) r4     // Catch: java.lang.Throwable -> L11
+                        java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                        throw r3     // Catch: java.lang.Throwable -> L1f
+                    L1f:
+                        r3 = move-exception
+                        r0 = r4
+                    L21:
+                        if (r0 == 0) goto L26
+                        r2.mergeFrom(r0)
+                    L26:
+                        throw r3
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfig.Builder.m20621mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$ZoneAwareLbConfig$Builder");
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+                public Percent getRoutingEnabled() {
+                    SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.routingEnabledBuilder_;
+                    if (singleFieldBuilderV3 != null) {
+                        return singleFieldBuilderV3.getMessage();
+                    }
+                    Percent percent = this.routingEnabled_;
+                    return percent == null ? Percent.getDefaultInstance() : percent;
+                }
+
+                public Builder setRoutingEnabled(Percent percent) {
+                    SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.routingEnabledBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        percent.getClass();
+                        this.routingEnabled_ = percent;
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.setMessage(percent);
+                    }
+                    return this;
+                }
+
+                public Builder setRoutingEnabled(Percent.Builder builder) {
+                    SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.routingEnabledBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        this.routingEnabled_ = builder.m35167build();
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.setMessage(builder.m35167build());
+                    }
+                    return this;
+                }
+
+                public Builder mergeRoutingEnabled(Percent percent) {
+                    SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.routingEnabledBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        Percent percent2 = this.routingEnabled_;
+                        if (percent2 != null) {
+                            this.routingEnabled_ = Percent.newBuilder(percent2).mergeFrom(percent).m35169buildPartial();
+                        } else {
+                            this.routingEnabled_ = percent;
+                        }
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.mergeFrom(percent);
+                    }
+                    return this;
+                }
+
+                public Builder clearRoutingEnabled() {
+                    if (this.routingEnabledBuilder_ == null) {
+                        this.routingEnabled_ = null;
+                        onChanged();
+                    } else {
+                        this.routingEnabled_ = null;
+                        this.routingEnabledBuilder_ = null;
+                    }
+                    return this;
+                }
+
+                public Percent.Builder getRoutingEnabledBuilder() {
+                    onChanged();
+                    return getRoutingEnabledFieldBuilder().getBuilder();
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+                public PercentOrBuilder getRoutingEnabledOrBuilder() {
+                    SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.routingEnabledBuilder_;
+                    if (singleFieldBuilderV3 != null) {
+                        return (PercentOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                    }
+                    Percent percent = this.routingEnabled_;
+                    return percent == null ? Percent.getDefaultInstance() : percent;
+                }
+
+                private SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> getRoutingEnabledFieldBuilder() {
+                    if (this.routingEnabledBuilder_ == null) {
+                        this.routingEnabledBuilder_ = new SingleFieldBuilderV3<>(getRoutingEnabled(), getParentForChildren(), isClean());
+                        this.routingEnabled_ = null;
+                    }
+                    return this.routingEnabledBuilder_;
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+                public UInt64Value getMinClusterSize() {
+                    SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minClusterSizeBuilder_;
+                    if (singleFieldBuilderV3 != null) {
+                        return singleFieldBuilderV3.getMessage();
+                    }
+                    UInt64Value uInt64Value = this.minClusterSize_;
+                    return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+                }
+
+                public Builder setMinClusterSize(UInt64Value uInt64Value) {
+                    SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minClusterSizeBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        uInt64Value.getClass();
+                        this.minClusterSize_ = uInt64Value;
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.setMessage(uInt64Value);
+                    }
+                    return this;
+                }
+
+                public Builder setMinClusterSize(UInt64Value.Builder builder) {
+                    SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minClusterSizeBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        this.minClusterSize_ = builder.build();
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.setMessage(builder.build());
+                    }
+                    return this;
+                }
+
+                public Builder mergeMinClusterSize(UInt64Value uInt64Value) {
+                    SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minClusterSizeBuilder_;
+                    if (singleFieldBuilderV3 == null) {
+                        UInt64Value uInt64Value2 = this.minClusterSize_;
+                        if (uInt64Value2 != null) {
+                            this.minClusterSize_ = UInt64Value.newBuilder(uInt64Value2).mergeFrom(uInt64Value).buildPartial();
+                        } else {
+                            this.minClusterSize_ = uInt64Value;
+                        }
+                        onChanged();
+                    } else {
+                        singleFieldBuilderV3.mergeFrom(uInt64Value);
+                    }
+                    return this;
+                }
+
+                public Builder clearMinClusterSize() {
+                    if (this.minClusterSizeBuilder_ == null) {
+                        this.minClusterSize_ = null;
+                        onChanged();
+                    } else {
+                        this.minClusterSize_ = null;
+                        this.minClusterSizeBuilder_ = null;
+                    }
+                    return this;
+                }
+
+                public UInt64Value.Builder getMinClusterSizeBuilder() {
+                    onChanged();
+                    return getMinClusterSizeFieldBuilder().getBuilder();
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ZoneAwareLbConfigOrBuilder
+                public UInt64ValueOrBuilder getMinClusterSizeOrBuilder() {
+                    SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> singleFieldBuilderV3 = this.minClusterSizeBuilder_;
+                    if (singleFieldBuilderV3 != null) {
+                        return singleFieldBuilderV3.getMessageOrBuilder();
+                    }
+                    UInt64Value uInt64Value = this.minClusterSize_;
+                    return uInt64Value == null ? UInt64Value.getDefaultInstance() : uInt64Value;
+                }
+
+                private SingleFieldBuilderV3<UInt64Value, UInt64Value.Builder, UInt64ValueOrBuilder> getMinClusterSizeFieldBuilder() {
+                    if (this.minClusterSizeBuilder_ == null) {
+                        this.minClusterSizeBuilder_ = new SingleFieldBuilderV3<>(getMinClusterSize(), getParentForChildren(), isClean());
+                        this.minClusterSize_ = null;
+                    }
+                    return this.minClusterSizeBuilder_;
+                }
+
+                public Builder clearFailTrafficOnPanic() {
+                    this.failTrafficOnPanic_ = false;
+                    onChanged();
+                    return this;
+                }
+
+                /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m20631setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.setUnknownFields(unknownFieldSet);
+                }
+
+                /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m20625mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.mergeUnknownFields(unknownFieldSet);
+                }
+            }
+        }
+
+        public static final class LocalityWeightedLbConfig extends GeneratedMessageV3 implements LocalityWeightedLbConfigOrBuilder {
+            private static final LocalityWeightedLbConfig DEFAULT_INSTANCE = new LocalityWeightedLbConfig();
+            private static final Parser<LocalityWeightedLbConfig> PARSER = new AbstractParser<LocalityWeightedLbConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.LocalityWeightedLbConfig.1
+                /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+                public LocalityWeightedLbConfig m20548parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                    return new LocalityWeightedLbConfig(codedInputStream, extensionRegistryLite);
+                }
+            };
+            private static final long serialVersionUID = 0;
+            private byte memoizedIsInitialized;
+
+            private LocalityWeightedLbConfig(GeneratedMessageV3.Builder<?> builder) {
+                super(builder);
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private LocalityWeightedLbConfig() {
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private LocalityWeightedLbConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                this();
+                extensionRegistryLite.getClass();
+                UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+                boolean z = false;
+                while (!z) {
+                    try {
+                        try {
+                            try {
+                                int tag = codedInputStream.readTag();
+                                if (tag == 0 || !parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                    z = true;
+                                }
+                            } catch (InvalidProtocolBufferException e) {
+                                throw e.setUnfinishedMessage(this);
+                            }
+                        } catch (IOException e2) {
+                            throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                        }
+                    } finally {
+                        this.unknownFields = builderNewBuilder.build();
+                        makeExtensionsImmutable();
+                    }
+                }
+            }
+
+            public static LocalityWeightedLbConfig getDefaultInstance() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public static Parser<LocalityWeightedLbConfig> parser() {
+                return PARSER;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_descriptor;
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+                return (LocalityWeightedLbConfig) PARSER.parseFrom(byteBuffer);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (LocalityWeightedLbConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+                return (LocalityWeightedLbConfig) PARSER.parseFrom(byteString);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (LocalityWeightedLbConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+                return (LocalityWeightedLbConfig) PARSER.parseFrom(bArr);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (LocalityWeightedLbConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static LocalityWeightedLbConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+            }
+
+            public static LocalityWeightedLbConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+            }
+
+            public static LocalityWeightedLbConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+            }
+
+            public static Builder newBuilder() {
+                return DEFAULT_INSTANCE.m20546toBuilder();
+            }
+
+            public static Builder newBuilder(LocalityWeightedLbConfig localityWeightedLbConfig) {
+                return DEFAULT_INSTANCE.m20546toBuilder().mergeFrom(localityWeightedLbConfig);
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public LocalityWeightedLbConfig m20541getDefaultInstanceForType() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public Parser<LocalityWeightedLbConfig> getParserForType() {
+                return PARSER;
+            }
+
+            public final boolean isInitialized() {
+                byte b = this.memoizedIsInitialized;
+                if (b == 1) {
+                    return true;
+                }
+                if (b == 0) {
+                    return false;
+                }
+                this.memoizedIsInitialized = (byte) 1;
+                return true;
+            }
+
+            protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+                return new LocalityWeightedLbConfig();
+            }
+
+            public final UnknownFieldSet getUnknownFields() {
+                return this.unknownFields;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(LocalityWeightedLbConfig.class, Builder.class);
+            }
+
+            public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+                this.unknownFields.writeTo(codedOutputStream);
+            }
+
+            public int getSerializedSize() {
+                int i = this.memoizedSize;
+                if (i != -1) {
+                    return i;
+                }
+                int serializedSize = this.unknownFields.getSerializedSize();
+                this.memoizedSize = serializedSize;
+                return serializedSize;
+            }
+
+            public boolean equals(Object obj) {
+                if (obj == this) {
+                    return true;
+                }
+                if (obj instanceof LocalityWeightedLbConfig) {
+                    return this.unknownFields.equals(((LocalityWeightedLbConfig) obj).unknownFields);
+                }
+                return super.equals(obj);
+            }
+
+            public int hashCode() {
+                if (this.memoizedHashCode != 0) {
+                    return this.memoizedHashCode;
+                }
+                int iHashCode = ((779 + getDescriptor().hashCode()) * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode;
+                return iHashCode;
+            }
+
+            /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20543newBuilderForType() {
+                return newBuilder();
+            }
+
+            /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20546toBuilder() {
+                return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+                return new Builder(builderParent);
+            }
+
+            public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LocalityWeightedLbConfigOrBuilder {
+                private Builder() {
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                    super(builderParent);
+                    maybeForceBuilderInitialization();
+                }
+
+                public static final Descriptors.Descriptor getDescriptor() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_descriptor;
+                }
+
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(LocalityWeightedLbConfig.class, Builder.class);
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    boolean unused = LocalityWeightedLbConfig.alwaysUseFieldBuilders;
+                }
+
+                /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20557clear() {
+                    super.clear();
+                    return this;
+                }
+
+                public Descriptors.Descriptor getDescriptorForType() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_LocalityWeightedLbConfig_descriptor;
+                }
+
+                /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public LocalityWeightedLbConfig m20570getDefaultInstanceForType() {
+                    return LocalityWeightedLbConfig.getDefaultInstance();
+                }
+
+                /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+                /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public LocalityWeightedLbConfig m20551build() throws UninitializedMessageException {
+                    LocalityWeightedLbConfig localityWeightedLbConfigM20553buildPartial = m20553buildPartial();
+                    if (localityWeightedLbConfigM20553buildPartial.isInitialized()) {
+                        return localityWeightedLbConfigM20553buildPartial;
+                    }
+                    throw newUninitializedMessageException(localityWeightedLbConfigM20553buildPartial);
+                }
+
+                /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public LocalityWeightedLbConfig m20553buildPartial() {
+                    LocalityWeightedLbConfig localityWeightedLbConfig = new LocalityWeightedLbConfig(this);
+                    onBuilt();
+                    return localityWeightedLbConfig;
+                }
+
+                /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20569clone() {
+                    return (Builder) super.clone();
+                }
+
+                /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20581setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.setField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20559clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                    return (Builder) super.clearField(fieldDescriptor);
+                }
+
+                /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20562clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                    return (Builder) super.clearOneof(oneofDescriptor);
+                }
+
+                /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20583setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                    return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+                }
+
+                /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20549addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20574mergeFrom(Message message) {
+                    if (message instanceof LocalityWeightedLbConfig) {
+                        return mergeFrom((LocalityWeightedLbConfig) message);
+                    }
+                    super.mergeFrom(message);
+                    return this;
+                }
+
+                public Builder mergeFrom(LocalityWeightedLbConfig localityWeightedLbConfig) {
+                    if (localityWeightedLbConfig == LocalityWeightedLbConfig.getDefaultInstance()) {
+                        return this;
+                    }
+                    m20579mergeUnknownFields(localityWeightedLbConfig.unknownFields);
+                    onChanged();
+                    return this;
+                }
+
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.LocalityWeightedLbConfig.Builder m20575mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                    /*
+                        r2 = this;
+                        r0 = 0
+                        com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.LocalityWeightedLbConfig.access$10100()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$LocalityWeightedLbConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.LocalityWeightedLbConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        if (r3 == 0) goto L10
+                        r2.mergeFrom(r3)
+                    L10:
+                        return r2
+                    L11:
+                        r3 = move-exception
+                        goto L21
+                    L13:
+                        r3 = move-exception
+                        com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                        io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$LocalityWeightedLbConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.LocalityWeightedLbConfig) r4     // Catch: java.lang.Throwable -> L11
+                        java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                        throw r3     // Catch: java.lang.Throwable -> L1f
+                    L1f:
+                        r3 = move-exception
+                        r0 = r4
+                    L21:
+                        if (r0 == 0) goto L26
+                        r2.mergeFrom(r0)
+                    L26:
+                        throw r3
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.LocalityWeightedLbConfig.Builder.m20575mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$LocalityWeightedLbConfig$Builder");
+                }
+
+                /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m20585setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.setUnknownFields(unknownFieldSet);
+                }
+
+                /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m20579mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.mergeUnknownFields(unknownFieldSet);
+                }
+            }
+        }
+
+        public static final class ConsistentHashingLbConfig extends GeneratedMessageV3 implements ConsistentHashingLbConfigOrBuilder {
+            public static final int USE_HOSTNAME_FOR_HASHING_FIELD_NUMBER = 1;
+            private static final ConsistentHashingLbConfig DEFAULT_INSTANCE = new ConsistentHashingLbConfig();
+            private static final Parser<ConsistentHashingLbConfig> PARSER = new AbstractParser<ConsistentHashingLbConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfig.1
+                /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+                public ConsistentHashingLbConfig m20502parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                    return new ConsistentHashingLbConfig(codedInputStream, extensionRegistryLite);
+                }
+            };
+            private static final long serialVersionUID = 0;
+            private byte memoizedIsInitialized;
+            private boolean useHostnameForHashing_;
+
+            private ConsistentHashingLbConfig(GeneratedMessageV3.Builder<?> builder) {
+                super(builder);
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private ConsistentHashingLbConfig() {
+                this.memoizedIsInitialized = (byte) -1;
+            }
+
+            private ConsistentHashingLbConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                this();
+                extensionRegistryLite.getClass();
+                UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+                boolean z = false;
+                while (!z) {
+                    try {
+                        try {
+                            int tag = codedInputStream.readTag();
+                            if (tag != 0) {
+                                if (tag == 8) {
+                                    this.useHostnameForHashing_ = codedInputStream.readBool();
+                                } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            }
+                            z = true;
+                        } catch (InvalidProtocolBufferException e) {
+                            throw e.setUnfinishedMessage(this);
+                        } catch (IOException e2) {
+                            throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                        }
+                    } finally {
+                        this.unknownFields = builderNewBuilder.build();
+                        makeExtensionsImmutable();
+                    }
+                }
+            }
+
+            public static ConsistentHashingLbConfig getDefaultInstance() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public static Parser<ConsistentHashingLbConfig> parser() {
+                return PARSER;
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_descriptor;
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+                return (ConsistentHashingLbConfig) PARSER.parseFrom(byteBuffer);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (ConsistentHashingLbConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+                return (ConsistentHashingLbConfig) PARSER.parseFrom(byteString);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (ConsistentHashingLbConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+                return (ConsistentHashingLbConfig) PARSER.parseFrom(bArr);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return (ConsistentHashingLbConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static ConsistentHashingLbConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+            }
+
+            public static ConsistentHashingLbConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+            }
+
+            public static ConsistentHashingLbConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+                return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+            }
+
+            public static Builder newBuilder() {
+                return DEFAULT_INSTANCE.m20500toBuilder();
+            }
+
+            public static Builder newBuilder(ConsistentHashingLbConfig consistentHashingLbConfig) {
+                return DEFAULT_INSTANCE.m20500toBuilder().mergeFrom(consistentHashingLbConfig);
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public ConsistentHashingLbConfig m20495getDefaultInstanceForType() {
+                return DEFAULT_INSTANCE;
+            }
+
+            public Parser<ConsistentHashingLbConfig> getParserForType() {
+                return PARSER;
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfigOrBuilder
+            public boolean getUseHostnameForHashing() {
+                return this.useHostnameForHashing_;
+            }
+
+            public final boolean isInitialized() {
+                byte b = this.memoizedIsInitialized;
+                if (b == 1) {
+                    return true;
+                }
+                if (b == 0) {
+                    return false;
+                }
+                this.memoizedIsInitialized = (byte) 1;
+                return true;
+            }
+
+            protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+                return new ConsistentHashingLbConfig();
+            }
+
+            public final UnknownFieldSet getUnknownFields() {
+                return this.unknownFields;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(ConsistentHashingLbConfig.class, Builder.class);
+            }
+
+            public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+                boolean z = this.useHostnameForHashing_;
+                if (z) {
+                    codedOutputStream.writeBool(1, z);
+                }
+                this.unknownFields.writeTo(codedOutputStream);
+            }
+
+            public int getSerializedSize() {
+                int i = this.memoizedSize;
+                if (i != -1) {
+                    return i;
+                }
+                boolean z = this.useHostnameForHashing_;
+                int iComputeBoolSize = (z ? CodedOutputStream.computeBoolSize(1, z) : 0) + this.unknownFields.getSerializedSize();
+                this.memoizedSize = iComputeBoolSize;
+                return iComputeBoolSize;
+            }
+
+            public boolean equals(Object obj) {
+                if (obj == this) {
+                    return true;
+                }
+                if (!(obj instanceof ConsistentHashingLbConfig)) {
+                    return super.equals(obj);
+                }
+                ConsistentHashingLbConfig consistentHashingLbConfig = (ConsistentHashingLbConfig) obj;
+                return getUseHostnameForHashing() == consistentHashingLbConfig.getUseHostnameForHashing() && this.unknownFields.equals(consistentHashingLbConfig.unknownFields);
+            }
+
+            public int hashCode() {
+                if (this.memoizedHashCode != 0) {
+                    return this.memoizedHashCode;
+                }
+                int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + Internal.hashBoolean(getUseHostnameForHashing())) * 29) + this.unknownFields.hashCode();
+                this.memoizedHashCode = iHashCode;
+                return iHashCode;
+            }
+
+            /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20497newBuilderForType() {
+                return newBuilder();
+            }
+
+            /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20500toBuilder() {
+                return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+            }
+
+            /* JADX INFO: Access modifiers changed from: protected */
+            public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+                return new Builder(builderParent);
+            }
+
+            public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ConsistentHashingLbConfigOrBuilder {
+                private boolean useHostnameForHashing_;
+
+                private Builder() {
+                    maybeForceBuilderInitialization();
+                }
+
+                private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                    super(builderParent);
+                    maybeForceBuilderInitialization();
+                }
+
+                public static final Descriptors.Descriptor getDescriptor() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_descriptor;
+                }
+
+                @Override
+                // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfigOrBuilder
+                public boolean getUseHostnameForHashing() {
+                    return this.useHostnameForHashing_;
+                }
+
+                public Builder setUseHostnameForHashing(boolean z) {
+                    this.useHostnameForHashing_ = z;
+                    onChanged();
+                    return this;
+                }
+
+                public final boolean isInitialized() {
+                    return true;
+                }
+
+                protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(ConsistentHashingLbConfig.class, Builder.class);
+                }
+
+                private void maybeForceBuilderInitialization() {
+                    boolean unused = ConsistentHashingLbConfig.alwaysUseFieldBuilders;
+                }
+
+                /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20511clear() {
+                    super.clear();
+                    this.useHostnameForHashing_ = false;
+                    return this;
+                }
+
+                public Descriptors.Descriptor getDescriptorForType() {
+                    return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_ConsistentHashingLbConfig_descriptor;
+                }
+
+                /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public ConsistentHashingLbConfig m20524getDefaultInstanceForType() {
+                    return ConsistentHashingLbConfig.getDefaultInstance();
+                }
+
+                /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+                /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public ConsistentHashingLbConfig m20505build() throws UninitializedMessageException {
+                    ConsistentHashingLbConfig consistentHashingLbConfigM20507buildPartial = m20507buildPartial();
+                    if (consistentHashingLbConfigM20507buildPartial.isInitialized()) {
+                        return consistentHashingLbConfigM20507buildPartial;
+                    }
+                    throw newUninitializedMessageException(consistentHashingLbConfigM20507buildPartial);
+                }
+
+                /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public ConsistentHashingLbConfig m20507buildPartial() {
+                    ConsistentHashingLbConfig consistentHashingLbConfig = new ConsistentHashingLbConfig(this);
+                    consistentHashingLbConfig.useHostnameForHashing_ = this.useHostnameForHashing_;
+                    onBuilt();
+                    return consistentHashingLbConfig;
+                }
+
+                /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20523clone() {
+                    return (Builder) super.clone();
+                }
+
+                /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20535setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.setField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20513clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                    return (Builder) super.clearField(fieldDescriptor);
+                }
+
+                /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20516clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                    return (Builder) super.clearOneof(oneofDescriptor);
+                }
+
+                /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20537setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                    return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+                }
+
+                /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20503addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                    return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+                }
+
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public Builder m20528mergeFrom(Message message) {
+                    if (message instanceof ConsistentHashingLbConfig) {
+                        return mergeFrom((ConsistentHashingLbConfig) message);
+                    }
+                    super.mergeFrom(message);
+                    return this;
+                }
+
+                public Builder mergeFrom(ConsistentHashingLbConfig consistentHashingLbConfig) {
+                    if (consistentHashingLbConfig == ConsistentHashingLbConfig.getDefaultInstance()) {
+                        return this;
+                    }
+                    if (consistentHashingLbConfig.getUseHostnameForHashing()) {
+                        setUseHostnameForHashing(consistentHashingLbConfig.getUseHostnameForHashing());
+                    }
+                    m20533mergeUnknownFields(consistentHashingLbConfig.unknownFields);
+                    onChanged();
+                    return this;
+                }
+
+                /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+                /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfig.Builder m20529mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                    /*
+                        r2 = this;
+                        r0 = 0
+                        com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfig.access$10900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$ConsistentHashingLbConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                        if (r3 == 0) goto L10
+                        r2.mergeFrom(r3)
+                    L10:
+                        return r2
+                    L11:
+                        r3 = move-exception
+                        goto L21
+                    L13:
+                        r3 = move-exception
+                        com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                        io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$ConsistentHashingLbConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfig) r4     // Catch: java.lang.Throwable -> L11
+                        java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                        throw r3     // Catch: java.lang.Throwable -> L1f
+                    L1f:
+                        r3 = move-exception
+                        r0 = r4
+                    L21:
+                        if (r0 == 0) goto L26
+                        r2.mergeFrom(r0)
+                    L26:
+                        throw r3
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.ConsistentHashingLbConfig.Builder.m20529mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$ConsistentHashingLbConfig$Builder");
+                }
+
+                public Builder clearUseHostnameForHashing() {
+                    this.useHostnameForHashing_ = false;
+                    onChanged();
+                    return this;
+                }
+
+                /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m20539setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.setUnknownFields(unknownFieldSet);
+                }
+
+                /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+                public final Builder m20533mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                    return (Builder) super.mergeUnknownFields(unknownFieldSet);
+                }
+            }
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements CommonLbConfigOrBuilder {
+            private boolean closeConnectionsOnHostSetChange_;
+            private SingleFieldBuilderV3<ConsistentHashingLbConfig, ConsistentHashingLbConfig.Builder, ConsistentHashingLbConfigOrBuilder> consistentHashingLbConfigBuilder_;
+            private ConsistentHashingLbConfig consistentHashingLbConfig_;
+            private SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> healthyPanicThresholdBuilder_;
+            private Percent healthyPanicThreshold_;
+            private boolean ignoreNewHostsUntilFirstHc_;
+            private int localityConfigSpecifierCase_;
+            private Object localityConfigSpecifier_;
+            private SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> localityWeightedLbConfigBuilder_;
+            private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> updateMergeWindowBuilder_;
+            private Duration updateMergeWindow_;
+            private SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> zoneAwareLbConfigBuilder_;
+
+            private Builder() {
+                this.localityConfigSpecifierCase_ = 0;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.localityConfigSpecifierCase_ = 0;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public boolean getCloseConnectionsOnHostSetChange() {
+                return this.closeConnectionsOnHostSetChange_;
+            }
+
+            public Builder setCloseConnectionsOnHostSetChange(boolean z) {
+                this.closeConnectionsOnHostSetChange_ = z;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public boolean getIgnoreNewHostsUntilFirstHc() {
+                return this.ignoreNewHostsUntilFirstHc_;
+            }
+
+            public Builder setIgnoreNewHostsUntilFirstHc(boolean z) {
+                this.ignoreNewHostsUntilFirstHc_ = z;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public boolean hasConsistentHashingLbConfig() {
+                return (this.consistentHashingLbConfigBuilder_ == null && this.consistentHashingLbConfig_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public boolean hasHealthyPanicThreshold() {
+                return (this.healthyPanicThresholdBuilder_ == null && this.healthyPanicThreshold_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public boolean hasLocalityWeightedLbConfig() {
+                return this.localityConfigSpecifierCase_ == 3;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public boolean hasUpdateMergeWindow() {
+                return (this.updateMergeWindowBuilder_ == null && this.updateMergeWindow_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public boolean hasZoneAwareLbConfig() {
+                return this.localityConfigSpecifierCase_ == 2;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(CommonLbConfig.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = CommonLbConfig.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20465clear() {
+                super.clear();
+                if (this.healthyPanicThresholdBuilder_ == null) {
+                    this.healthyPanicThreshold_ = null;
+                } else {
+                    this.healthyPanicThreshold_ = null;
+                    this.healthyPanicThresholdBuilder_ = null;
+                }
+                if (this.updateMergeWindowBuilder_ == null) {
+                    this.updateMergeWindow_ = null;
+                } else {
+                    this.updateMergeWindow_ = null;
+                    this.updateMergeWindowBuilder_ = null;
+                }
+                this.ignoreNewHostsUntilFirstHc_ = false;
+                this.closeConnectionsOnHostSetChange_ = false;
+                if (this.consistentHashingLbConfigBuilder_ == null) {
+                    this.consistentHashingLbConfig_ = null;
+                } else {
+                    this.consistentHashingLbConfig_ = null;
+                    this.consistentHashingLbConfigBuilder_ = null;
+                }
+                this.localityConfigSpecifierCase_ = 0;
+                this.localityConfigSpecifier_ = null;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_CommonLbConfig_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CommonLbConfig m20478getDefaultInstanceForType() {
+                return CommonLbConfig.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CommonLbConfig m20459build() throws UninitializedMessageException {
+                CommonLbConfig commonLbConfigM20461buildPartial = m20461buildPartial();
+                if (commonLbConfigM20461buildPartial.isInitialized()) {
+                    return commonLbConfigM20461buildPartial;
+                }
+                throw newUninitializedMessageException(commonLbConfigM20461buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public CommonLbConfig m20461buildPartial() {
+                CommonLbConfig commonLbConfig = new CommonLbConfig(this);
+                SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.healthyPanicThresholdBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    commonLbConfig.healthyPanicThreshold_ = this.healthyPanicThreshold_;
+                } else {
+                    commonLbConfig.healthyPanicThreshold_ = singleFieldBuilderV3.build();
+                }
+                if (this.localityConfigSpecifierCase_ == 2) {
+                    SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> singleFieldBuilderV32 = this.zoneAwareLbConfigBuilder_;
+                    if (singleFieldBuilderV32 == null) {
+                        commonLbConfig.localityConfigSpecifier_ = this.localityConfigSpecifier_;
+                    } else {
+                        commonLbConfig.localityConfigSpecifier_ = singleFieldBuilderV32.build();
+                    }
+                }
+                if (this.localityConfigSpecifierCase_ == 3) {
+                    SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> singleFieldBuilderV33 = this.localityWeightedLbConfigBuilder_;
+                    if (singleFieldBuilderV33 == null) {
+                        commonLbConfig.localityConfigSpecifier_ = this.localityConfigSpecifier_;
+                    } else {
+                        commonLbConfig.localityConfigSpecifier_ = singleFieldBuilderV33.build();
+                    }
+                }
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV34 = this.updateMergeWindowBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    commonLbConfig.updateMergeWindow_ = this.updateMergeWindow_;
+                } else {
+                    commonLbConfig.updateMergeWindow_ = singleFieldBuilderV34.build();
+                }
+                commonLbConfig.ignoreNewHostsUntilFirstHc_ = this.ignoreNewHostsUntilFirstHc_;
+                commonLbConfig.closeConnectionsOnHostSetChange_ = this.closeConnectionsOnHostSetChange_;
+                SingleFieldBuilderV3<ConsistentHashingLbConfig, ConsistentHashingLbConfig.Builder, ConsistentHashingLbConfigOrBuilder> singleFieldBuilderV35 = this.consistentHashingLbConfigBuilder_;
+                if (singleFieldBuilderV35 == null) {
+                    commonLbConfig.consistentHashingLbConfig_ = this.consistentHashingLbConfig_;
+                } else {
+                    commonLbConfig.consistentHashingLbConfig_ = singleFieldBuilderV35.build();
+                }
+                commonLbConfig.localityConfigSpecifierCase_ = this.localityConfigSpecifierCase_;
+                onBuilt();
+                return commonLbConfig;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20477clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20489setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20467clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20470clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20491setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20457addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20482mergeFrom(Message message) {
+                if (message instanceof CommonLbConfig) {
+                    return mergeFrom((CommonLbConfig) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(CommonLbConfig commonLbConfig) {
+                if (commonLbConfig == CommonLbConfig.getDefaultInstance()) {
+                    return this;
+                }
+                if (commonLbConfig.hasHealthyPanicThreshold()) {
+                    mergeHealthyPanicThreshold(commonLbConfig.getHealthyPanicThreshold());
+                }
+                if (commonLbConfig.hasUpdateMergeWindow()) {
+                    mergeUpdateMergeWindow(commonLbConfig.getUpdateMergeWindow());
+                }
+                if (commonLbConfig.getIgnoreNewHostsUntilFirstHc()) {
+                    setIgnoreNewHostsUntilFirstHc(commonLbConfig.getIgnoreNewHostsUntilFirstHc());
+                }
+                if (commonLbConfig.getCloseConnectionsOnHostSetChange()) {
+                    setCloseConnectionsOnHostSetChange(commonLbConfig.getCloseConnectionsOnHostSetChange());
+                }
+                if (commonLbConfig.hasConsistentHashingLbConfig()) {
+                    mergeConsistentHashingLbConfig(commonLbConfig.getConsistentHashingLbConfig());
+                }
+                int i = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$CommonLbConfig$LocalityConfigSpecifierCase[commonLbConfig.getLocalityConfigSpecifierCase().ordinal()];
+                if (i == 1) {
+                    mergeZoneAwareLbConfig(commonLbConfig.getZoneAwareLbConfig());
+                } else if (i == 2) {
+                    mergeLocalityWeightedLbConfig(commonLbConfig.getLocalityWeightedLbConfig());
+                }
+                m20487mergeUnknownFields(commonLbConfig.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.Builder m20483mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.access$12300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfig.Builder.m20483mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$CommonLbConfig$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public LocalityConfigSpecifierCase getLocalityConfigSpecifierCase() {
+                return LocalityConfigSpecifierCase.forNumber(this.localityConfigSpecifierCase_);
+            }
+
+            public Builder clearLocalityConfigSpecifier() {
+                this.localityConfigSpecifierCase_ = 0;
+                this.localityConfigSpecifier_ = null;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public Percent getHealthyPanicThreshold() {
+                SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.healthyPanicThresholdBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Percent percent = this.healthyPanicThreshold_;
+                return percent == null ? Percent.getDefaultInstance() : percent;
+            }
+
+            public Builder setHealthyPanicThreshold(Percent percent) {
+                SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.healthyPanicThresholdBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    percent.getClass();
+                    this.healthyPanicThreshold_ = percent;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(percent);
+                }
+                return this;
+            }
+
+            public Builder setHealthyPanicThreshold(Percent.Builder builder) {
+                SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.healthyPanicThresholdBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.healthyPanicThreshold_ = builder.m35167build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m35167build());
+                }
+                return this;
+            }
+
+            public Builder mergeHealthyPanicThreshold(Percent percent) {
+                SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.healthyPanicThresholdBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Percent percent2 = this.healthyPanicThreshold_;
+                    if (percent2 != null) {
+                        this.healthyPanicThreshold_ = Percent.newBuilder(percent2).mergeFrom(percent).m35169buildPartial();
+                    } else {
+                        this.healthyPanicThreshold_ = percent;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(percent);
+                }
+                return this;
+            }
+
+            public Builder clearHealthyPanicThreshold() {
+                if (this.healthyPanicThresholdBuilder_ == null) {
+                    this.healthyPanicThreshold_ = null;
+                    onChanged();
+                } else {
+                    this.healthyPanicThreshold_ = null;
+                    this.healthyPanicThresholdBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Percent.Builder getHealthyPanicThresholdBuilder() {
+                onChanged();
+                return getHealthyPanicThresholdFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public PercentOrBuilder getHealthyPanicThresholdOrBuilder() {
+                SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> singleFieldBuilderV3 = this.healthyPanicThresholdBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (PercentOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Percent percent = this.healthyPanicThreshold_;
+                return percent == null ? Percent.getDefaultInstance() : percent;
+            }
+
+            private SingleFieldBuilderV3<Percent, Percent.Builder, PercentOrBuilder> getHealthyPanicThresholdFieldBuilder() {
+                if (this.healthyPanicThresholdBuilder_ == null) {
+                    this.healthyPanicThresholdBuilder_ = new SingleFieldBuilderV3<>(getHealthyPanicThreshold(), getParentForChildren(), isClean());
+                    this.healthyPanicThreshold_ = null;
+                }
+                return this.healthyPanicThresholdBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public ZoneAwareLbConfig getZoneAwareLbConfig() {
+                SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> singleFieldBuilderV3 = this.zoneAwareLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.localityConfigSpecifierCase_ == 2) {
+                        return (ZoneAwareLbConfig) this.localityConfigSpecifier_;
+                    }
+                    return ZoneAwareLbConfig.getDefaultInstance();
+                }
+                if (this.localityConfigSpecifierCase_ == 2) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                return ZoneAwareLbConfig.getDefaultInstance();
+            }
+
+            public Builder setZoneAwareLbConfig(ZoneAwareLbConfig zoneAwareLbConfig) {
+                SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> singleFieldBuilderV3 = this.zoneAwareLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    zoneAwareLbConfig.getClass();
+                    this.localityConfigSpecifier_ = zoneAwareLbConfig;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(zoneAwareLbConfig);
+                }
+                this.localityConfigSpecifierCase_ = 2;
+                return this;
+            }
+
+            public Builder setZoneAwareLbConfig(ZoneAwareLbConfig.Builder builder) {
+                SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> singleFieldBuilderV3 = this.zoneAwareLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.localityConfigSpecifier_ = builder.m20597build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m20597build());
+                }
+                this.localityConfigSpecifierCase_ = 2;
+                return this;
+            }
+
+            public Builder mergeZoneAwareLbConfig(ZoneAwareLbConfig zoneAwareLbConfig) {
+                SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> singleFieldBuilderV3 = this.zoneAwareLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.localityConfigSpecifierCase_ != 2 || this.localityConfigSpecifier_ == ZoneAwareLbConfig.getDefaultInstance()) {
+                        this.localityConfigSpecifier_ = zoneAwareLbConfig;
+                    } else {
+                        this.localityConfigSpecifier_ = ZoneAwareLbConfig.newBuilder((ZoneAwareLbConfig) this.localityConfigSpecifier_).mergeFrom(zoneAwareLbConfig).m20599buildPartial();
+                    }
+                    onChanged();
+                } else {
+                    if (this.localityConfigSpecifierCase_ == 2) {
+                        singleFieldBuilderV3.mergeFrom(zoneAwareLbConfig);
+                    }
+                    this.zoneAwareLbConfigBuilder_.setMessage(zoneAwareLbConfig);
+                }
+                this.localityConfigSpecifierCase_ = 2;
+                return this;
+            }
+
+            public Builder clearZoneAwareLbConfig() {
+                SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> singleFieldBuilderV3 = this.zoneAwareLbConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    if (this.localityConfigSpecifierCase_ == 2) {
+                        this.localityConfigSpecifierCase_ = 0;
+                        this.localityConfigSpecifier_ = null;
+                    }
+                    singleFieldBuilderV3.clear();
+                } else if (this.localityConfigSpecifierCase_ == 2) {
+                    this.localityConfigSpecifierCase_ = 0;
+                    this.localityConfigSpecifier_ = null;
+                    onChanged();
+                }
+                return this;
+            }
+
+            public ZoneAwareLbConfig.Builder getZoneAwareLbConfigBuilder() {
+                return getZoneAwareLbConfigFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public ZoneAwareLbConfigOrBuilder getZoneAwareLbConfigOrBuilder() {
+                SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> singleFieldBuilderV3;
+                int i = this.localityConfigSpecifierCase_;
+                if (i == 2 && (singleFieldBuilderV3 = this.zoneAwareLbConfigBuilder_) != null) {
+                    return (ZoneAwareLbConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                if (i == 2) {
+                    return (ZoneAwareLbConfig) this.localityConfigSpecifier_;
+                }
+                return ZoneAwareLbConfig.getDefaultInstance();
+            }
+
+            private SingleFieldBuilderV3<ZoneAwareLbConfig, ZoneAwareLbConfig.Builder, ZoneAwareLbConfigOrBuilder> getZoneAwareLbConfigFieldBuilder() {
+                if (this.zoneAwareLbConfigBuilder_ == null) {
+                    if (this.localityConfigSpecifierCase_ != 2) {
+                        this.localityConfigSpecifier_ = ZoneAwareLbConfig.getDefaultInstance();
+                    }
+                    this.zoneAwareLbConfigBuilder_ = new SingleFieldBuilderV3<>((ZoneAwareLbConfig) this.localityConfigSpecifier_, getParentForChildren(), isClean());
+                    this.localityConfigSpecifier_ = null;
+                }
+                this.localityConfigSpecifierCase_ = 2;
+                onChanged();
+                return this.zoneAwareLbConfigBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public LocalityWeightedLbConfig getLocalityWeightedLbConfig() {
+                SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> singleFieldBuilderV3 = this.localityWeightedLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.localityConfigSpecifierCase_ == 3) {
+                        return (LocalityWeightedLbConfig) this.localityConfigSpecifier_;
+                    }
+                    return LocalityWeightedLbConfig.getDefaultInstance();
+                }
+                if (this.localityConfigSpecifierCase_ == 3) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                return LocalityWeightedLbConfig.getDefaultInstance();
+            }
+
+            public Builder setLocalityWeightedLbConfig(LocalityWeightedLbConfig localityWeightedLbConfig) {
+                SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> singleFieldBuilderV3 = this.localityWeightedLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    localityWeightedLbConfig.getClass();
+                    this.localityConfigSpecifier_ = localityWeightedLbConfig;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(localityWeightedLbConfig);
+                }
+                this.localityConfigSpecifierCase_ = 3;
+                return this;
+            }
+
+            public Builder setLocalityWeightedLbConfig(LocalityWeightedLbConfig.Builder builder) {
+                SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> singleFieldBuilderV3 = this.localityWeightedLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.localityConfigSpecifier_ = builder.m20551build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m20551build());
+                }
+                this.localityConfigSpecifierCase_ = 3;
+                return this;
+            }
+
+            public Builder mergeLocalityWeightedLbConfig(LocalityWeightedLbConfig localityWeightedLbConfig) {
+                SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> singleFieldBuilderV3 = this.localityWeightedLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    if (this.localityConfigSpecifierCase_ != 3 || this.localityConfigSpecifier_ == LocalityWeightedLbConfig.getDefaultInstance()) {
+                        this.localityConfigSpecifier_ = localityWeightedLbConfig;
+                    } else {
+                        this.localityConfigSpecifier_ = LocalityWeightedLbConfig.newBuilder((LocalityWeightedLbConfig) this.localityConfigSpecifier_).mergeFrom(localityWeightedLbConfig).m20553buildPartial();
+                    }
+                    onChanged();
+                } else {
+                    if (this.localityConfigSpecifierCase_ == 3) {
+                        singleFieldBuilderV3.mergeFrom(localityWeightedLbConfig);
+                    }
+                    this.localityWeightedLbConfigBuilder_.setMessage(localityWeightedLbConfig);
+                }
+                this.localityConfigSpecifierCase_ = 3;
+                return this;
+            }
+
+            public Builder clearLocalityWeightedLbConfig() {
+                SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> singleFieldBuilderV3 = this.localityWeightedLbConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    if (this.localityConfigSpecifierCase_ == 3) {
+                        this.localityConfigSpecifierCase_ = 0;
+                        this.localityConfigSpecifier_ = null;
+                    }
+                    singleFieldBuilderV3.clear();
+                } else if (this.localityConfigSpecifierCase_ == 3) {
+                    this.localityConfigSpecifierCase_ = 0;
+                    this.localityConfigSpecifier_ = null;
+                    onChanged();
+                }
+                return this;
+            }
+
+            public LocalityWeightedLbConfig.Builder getLocalityWeightedLbConfigBuilder() {
+                return getLocalityWeightedLbConfigFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public LocalityWeightedLbConfigOrBuilder getLocalityWeightedLbConfigOrBuilder() {
+                SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> singleFieldBuilderV3;
+                int i = this.localityConfigSpecifierCase_;
+                if (i == 3 && (singleFieldBuilderV3 = this.localityWeightedLbConfigBuilder_) != null) {
+                    return (LocalityWeightedLbConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                if (i == 3) {
+                    return (LocalityWeightedLbConfig) this.localityConfigSpecifier_;
+                }
+                return LocalityWeightedLbConfig.getDefaultInstance();
+            }
+
+            private SingleFieldBuilderV3<LocalityWeightedLbConfig, LocalityWeightedLbConfig.Builder, LocalityWeightedLbConfigOrBuilder> getLocalityWeightedLbConfigFieldBuilder() {
+                if (this.localityWeightedLbConfigBuilder_ == null) {
+                    if (this.localityConfigSpecifierCase_ != 3) {
+                        this.localityConfigSpecifier_ = LocalityWeightedLbConfig.getDefaultInstance();
+                    }
+                    this.localityWeightedLbConfigBuilder_ = new SingleFieldBuilderV3<>((LocalityWeightedLbConfig) this.localityConfigSpecifier_, getParentForChildren(), isClean());
+                    this.localityConfigSpecifier_ = null;
+                }
+                this.localityConfigSpecifierCase_ = 3;
+                onChanged();
+                return this.localityWeightedLbConfigBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public Duration getUpdateMergeWindow() {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.updateMergeWindowBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Duration duration = this.updateMergeWindow_;
+                return duration == null ? Duration.getDefaultInstance() : duration;
+            }
+
+            public Builder setUpdateMergeWindow(Duration duration) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.updateMergeWindowBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    duration.getClass();
+                    this.updateMergeWindow_ = duration;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(duration);
+                }
+                return this;
+            }
+
+            public Builder setUpdateMergeWindow(Duration.Builder builder) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.updateMergeWindowBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.updateMergeWindow_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeUpdateMergeWindow(Duration duration) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.updateMergeWindowBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Duration duration2 = this.updateMergeWindow_;
+                    if (duration2 != null) {
+                        this.updateMergeWindow_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                    } else {
+                        this.updateMergeWindow_ = duration;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(duration);
+                }
+                return this;
+            }
+
+            public Builder clearUpdateMergeWindow() {
+                if (this.updateMergeWindowBuilder_ == null) {
+                    this.updateMergeWindow_ = null;
+                    onChanged();
+                } else {
+                    this.updateMergeWindow_ = null;
+                    this.updateMergeWindowBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Duration.Builder getUpdateMergeWindowBuilder() {
+                onChanged();
+                return getUpdateMergeWindowFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public DurationOrBuilder getUpdateMergeWindowOrBuilder() {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.updateMergeWindowBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Duration duration = this.updateMergeWindow_;
+                return duration == null ? Duration.getDefaultInstance() : duration;
+            }
+
+            private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getUpdateMergeWindowFieldBuilder() {
+                if (this.updateMergeWindowBuilder_ == null) {
+                    this.updateMergeWindowBuilder_ = new SingleFieldBuilderV3<>(getUpdateMergeWindow(), getParentForChildren(), isClean());
+                    this.updateMergeWindow_ = null;
+                }
+                return this.updateMergeWindowBuilder_;
+            }
+
+            public Builder clearIgnoreNewHostsUntilFirstHc() {
+                this.ignoreNewHostsUntilFirstHc_ = false;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearCloseConnectionsOnHostSetChange() {
+                this.closeConnectionsOnHostSetChange_ = false;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public ConsistentHashingLbConfig getConsistentHashingLbConfig() {
+                SingleFieldBuilderV3<ConsistentHashingLbConfig, ConsistentHashingLbConfig.Builder, ConsistentHashingLbConfigOrBuilder> singleFieldBuilderV3 = this.consistentHashingLbConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                ConsistentHashingLbConfig consistentHashingLbConfig = this.consistentHashingLbConfig_;
+                return consistentHashingLbConfig == null ? ConsistentHashingLbConfig.getDefaultInstance() : consistentHashingLbConfig;
+            }
+
+            public Builder setConsistentHashingLbConfig(ConsistentHashingLbConfig consistentHashingLbConfig) {
+                SingleFieldBuilderV3<ConsistentHashingLbConfig, ConsistentHashingLbConfig.Builder, ConsistentHashingLbConfigOrBuilder> singleFieldBuilderV3 = this.consistentHashingLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    consistentHashingLbConfig.getClass();
+                    this.consistentHashingLbConfig_ = consistentHashingLbConfig;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(consistentHashingLbConfig);
+                }
+                return this;
+            }
+
+            public Builder setConsistentHashingLbConfig(ConsistentHashingLbConfig.Builder builder) {
+                SingleFieldBuilderV3<ConsistentHashingLbConfig, ConsistentHashingLbConfig.Builder, ConsistentHashingLbConfigOrBuilder> singleFieldBuilderV3 = this.consistentHashingLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.consistentHashingLbConfig_ = builder.m20505build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m20505build());
+                }
+                return this;
+            }
+
+            public Builder mergeConsistentHashingLbConfig(ConsistentHashingLbConfig consistentHashingLbConfig) {
+                SingleFieldBuilderV3<ConsistentHashingLbConfig, ConsistentHashingLbConfig.Builder, ConsistentHashingLbConfigOrBuilder> singleFieldBuilderV3 = this.consistentHashingLbConfigBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    ConsistentHashingLbConfig consistentHashingLbConfig2 = this.consistentHashingLbConfig_;
+                    if (consistentHashingLbConfig2 != null) {
+                        this.consistentHashingLbConfig_ = ConsistentHashingLbConfig.newBuilder(consistentHashingLbConfig2).mergeFrom(consistentHashingLbConfig).m20507buildPartial();
+                    } else {
+                        this.consistentHashingLbConfig_ = consistentHashingLbConfig;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(consistentHashingLbConfig);
+                }
+                return this;
+            }
+
+            public Builder clearConsistentHashingLbConfig() {
+                if (this.consistentHashingLbConfigBuilder_ == null) {
+                    this.consistentHashingLbConfig_ = null;
+                    onChanged();
+                } else {
+                    this.consistentHashingLbConfig_ = null;
+                    this.consistentHashingLbConfigBuilder_ = null;
+                }
+                return this;
+            }
+
+            public ConsistentHashingLbConfig.Builder getConsistentHashingLbConfigBuilder() {
+                onChanged();
+                return getConsistentHashingLbConfigFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.CommonLbConfigOrBuilder
+            public ConsistentHashingLbConfigOrBuilder getConsistentHashingLbConfigOrBuilder() {
+                SingleFieldBuilderV3<ConsistentHashingLbConfig, ConsistentHashingLbConfig.Builder, ConsistentHashingLbConfigOrBuilder> singleFieldBuilderV3 = this.consistentHashingLbConfigBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (ConsistentHashingLbConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                ConsistentHashingLbConfig consistentHashingLbConfig = this.consistentHashingLbConfig_;
+                return consistentHashingLbConfig == null ? ConsistentHashingLbConfig.getDefaultInstance() : consistentHashingLbConfig;
+            }
+
+            private SingleFieldBuilderV3<ConsistentHashingLbConfig, ConsistentHashingLbConfig.Builder, ConsistentHashingLbConfigOrBuilder> getConsistentHashingLbConfigFieldBuilder() {
+                if (this.consistentHashingLbConfigBuilder_ == null) {
+                    this.consistentHashingLbConfigBuilder_ = new SingleFieldBuilderV3<>(getConsistentHashingLbConfig(), getParentForChildren(), isClean());
+                    this.consistentHashingLbConfig_ = null;
+                }
+                return this.consistentHashingLbConfigBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20493setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20487mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class RefreshRate extends GeneratedMessageV3 implements RefreshRateOrBuilder {
+        public static final int BASE_INTERVAL_FIELD_NUMBER = 1;
+        public static final int MAX_INTERVAL_FIELD_NUMBER = 2;
+        private static final long serialVersionUID = 0;
+        private static final RefreshRate DEFAULT_INSTANCE = new RefreshRate();
+        private static final Parser<RefreshRate> PARSER = new AbstractParser<RefreshRate>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRate.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public RefreshRate m20923parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new RefreshRate(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private Duration baseInterval_;
+        private Duration maxInterval_;
+        private byte memoizedIsInitialized;
+
+        private RefreshRate(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private RefreshRate() {
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private RefreshRate(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            Duration.Builder builder;
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                Duration duration = this.baseInterval_;
+                                builder = duration != null ? duration.toBuilder() : null;
+                                Duration message = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                                this.baseInterval_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.baseInterval_ = builder.buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                Duration duration2 = this.maxInterval_;
+                                builder = duration2 != null ? duration2.toBuilder() : null;
+                                Duration message2 = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                                this.maxInterval_ = message2;
+                                if (builder != null) {
+                                    builder.mergeFrom(message2);
+                                    this.maxInterval_ = builder.buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static RefreshRate getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<RefreshRate> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_descriptor;
+        }
+
+        public static RefreshRate parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (RefreshRate) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static RefreshRate parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (RefreshRate) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static RefreshRate parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (RefreshRate) PARSER.parseFrom(byteString);
+        }
+
+        public static RefreshRate parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (RefreshRate) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static RefreshRate parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (RefreshRate) PARSER.parseFrom(bArr);
+        }
+
+        public static RefreshRate parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (RefreshRate) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static RefreshRate parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static RefreshRate parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static RefreshRate parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static RefreshRate parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static RefreshRate parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static RefreshRate parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m20921toBuilder();
+        }
+
+        public static Builder newBuilder(RefreshRate refreshRate) {
+            return DEFAULT_INSTANCE.m20921toBuilder().mergeFrom(refreshRate);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RefreshRate m20916getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<RefreshRate> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+        public boolean hasBaseInterval() {
+            return this.baseInterval_ != null;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+        public boolean hasMaxInterval() {
+            return this.maxInterval_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new RefreshRate();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_fieldAccessorTable.ensureFieldAccessorsInitialized(RefreshRate.class, Builder.class);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+        public Duration getBaseInterval() {
+            Duration duration = this.baseInterval_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+        public DurationOrBuilder getBaseIntervalOrBuilder() {
+            return getBaseInterval();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+        public Duration getMaxInterval() {
+            Duration duration = this.maxInterval_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+        public DurationOrBuilder getMaxIntervalOrBuilder() {
+            return getMaxInterval();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.baseInterval_ != null) {
+                codedOutputStream.writeMessage(1, getBaseInterval());
+            }
+            if (this.maxInterval_ != null) {
+                codedOutputStream.writeMessage(2, getMaxInterval());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.baseInterval_ != null ? CodedOutputStream.computeMessageSize(1, getBaseInterval()) : 0;
+            if (this.maxInterval_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getMaxInterval());
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof RefreshRate)) {
+                return super.equals(obj);
+            }
+            RefreshRate refreshRate = (RefreshRate) obj;
+            if (hasBaseInterval() != refreshRate.hasBaseInterval()) {
+                return false;
+            }
+            if ((!hasBaseInterval() || getBaseInterval().equals(refreshRate.getBaseInterval())) && hasMaxInterval() == refreshRate.hasMaxInterval()) {
+                return (!hasMaxInterval() || getMaxInterval().equals(refreshRate.getMaxInterval())) && this.unknownFields.equals(refreshRate.unknownFields);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasBaseInterval()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getBaseInterval().hashCode();
+            }
+            if (hasMaxInterval()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getMaxInterval().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20918newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20921toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RefreshRateOrBuilder {
+            private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> baseIntervalBuilder_;
+            private Duration baseInterval_;
+            private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> maxIntervalBuilder_;
+            private Duration maxInterval_;
+
+            private Builder() {
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_descriptor;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+            public boolean hasBaseInterval() {
+                return (this.baseIntervalBuilder_ == null && this.baseInterval_ == null) ? false : true;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+            public boolean hasMaxInterval() {
+                return (this.maxIntervalBuilder_ == null && this.maxInterval_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_fieldAccessorTable.ensureFieldAccessorsInitialized(RefreshRate.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = RefreshRate.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20932clear() {
+                super.clear();
+                if (this.baseIntervalBuilder_ == null) {
+                    this.baseInterval_ = null;
+                } else {
+                    this.baseInterval_ = null;
+                    this.baseIntervalBuilder_ = null;
+                }
+                if (this.maxIntervalBuilder_ == null) {
+                    this.maxInterval_ = null;
+                } else {
+                    this.maxInterval_ = null;
+                    this.maxIntervalBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_RefreshRate_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public RefreshRate m20945getDefaultInstanceForType() {
+                return RefreshRate.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public RefreshRate m20926build() throws UninitializedMessageException {
+                RefreshRate refreshRateM20928buildPartial = m20928buildPartial();
+                if (refreshRateM20928buildPartial.isInitialized()) {
+                    return refreshRateM20928buildPartial;
+                }
+                throw newUninitializedMessageException(refreshRateM20928buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public RefreshRate m20928buildPartial() {
+                RefreshRate refreshRate = new RefreshRate(this);
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.baseIntervalBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    refreshRate.baseInterval_ = this.baseInterval_;
+                } else {
+                    refreshRate.baseInterval_ = singleFieldBuilderV3.build();
+                }
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV32 = this.maxIntervalBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    refreshRate.maxInterval_ = this.maxInterval_;
+                } else {
+                    refreshRate.maxInterval_ = singleFieldBuilderV32.build();
+                }
+                onBuilt();
+                return refreshRate;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20944clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20956setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20934clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20937clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20958setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20924addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m20949mergeFrom(Message message) {
+                if (message instanceof RefreshRate) {
+                    return mergeFrom((RefreshRate) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(RefreshRate refreshRate) {
+                if (refreshRate == RefreshRate.getDefaultInstance()) {
+                    return this;
+                }
+                if (refreshRate.hasBaseInterval()) {
+                    mergeBaseInterval(refreshRate.getBaseInterval());
+                }
+                if (refreshRate.hasMaxInterval()) {
+                    mergeMaxInterval(refreshRate.getMaxInterval());
+                }
+                m20954mergeUnknownFields(refreshRate.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRate.Builder m20950mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRate.access$13200()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$RefreshRate r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRate) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$RefreshRate r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRate) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRate.Builder.m20950mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$RefreshRate$Builder");
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+            public Duration getBaseInterval() {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.baseIntervalBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Duration duration = this.baseInterval_;
+                return duration == null ? Duration.getDefaultInstance() : duration;
+            }
+
+            public Builder setBaseInterval(Duration duration) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.baseIntervalBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    duration.getClass();
+                    this.baseInterval_ = duration;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(duration);
+                }
+                return this;
+            }
+
+            public Builder setBaseInterval(Duration.Builder builder) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.baseIntervalBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.baseInterval_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeBaseInterval(Duration duration) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.baseIntervalBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Duration duration2 = this.baseInterval_;
+                    if (duration2 != null) {
+                        this.baseInterval_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                    } else {
+                        this.baseInterval_ = duration;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(duration);
+                }
+                return this;
+            }
+
+            public Builder clearBaseInterval() {
+                if (this.baseIntervalBuilder_ == null) {
+                    this.baseInterval_ = null;
+                    onChanged();
+                } else {
+                    this.baseInterval_ = null;
+                    this.baseIntervalBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Duration.Builder getBaseIntervalBuilder() {
+                onChanged();
+                return getBaseIntervalFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+            public DurationOrBuilder getBaseIntervalOrBuilder() {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.baseIntervalBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Duration duration = this.baseInterval_;
+                return duration == null ? Duration.getDefaultInstance() : duration;
+            }
+
+            private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getBaseIntervalFieldBuilder() {
+                if (this.baseIntervalBuilder_ == null) {
+                    this.baseIntervalBuilder_ = new SingleFieldBuilderV3<>(getBaseInterval(), getParentForChildren(), isClean());
+                    this.baseInterval_ = null;
+                }
+                return this.baseIntervalBuilder_;
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+            public Duration getMaxInterval() {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxIntervalBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Duration duration = this.maxInterval_;
+                return duration == null ? Duration.getDefaultInstance() : duration;
+            }
+
+            public Builder setMaxInterval(Duration duration) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxIntervalBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    duration.getClass();
+                    this.maxInterval_ = duration;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(duration);
+                }
+                return this;
+            }
+
+            public Builder setMaxInterval(Duration.Builder builder) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxIntervalBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.maxInterval_ = builder.build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.build());
+                }
+                return this;
+            }
+
+            public Builder mergeMaxInterval(Duration duration) {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxIntervalBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Duration duration2 = this.maxInterval_;
+                    if (duration2 != null) {
+                        this.maxInterval_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                    } else {
+                        this.maxInterval_ = duration;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(duration);
+                }
+                return this;
+            }
+
+            public Builder clearMaxInterval() {
+                if (this.maxIntervalBuilder_ == null) {
+                    this.maxInterval_ = null;
+                    onChanged();
+                } else {
+                    this.maxInterval_ = null;
+                    this.maxIntervalBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Duration.Builder getMaxIntervalBuilder() {
+                onChanged();
+                return getMaxIntervalFieldBuilder().getBuilder();
+            }
+
+            @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.RefreshRateOrBuilder
+            public DurationOrBuilder getMaxIntervalOrBuilder() {
+                SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.maxIntervalBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Duration duration = this.maxInterval_;
+                return duration == null ? Duration.getDefaultInstance() : duration;
+            }
+
+            private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getMaxIntervalFieldBuilder() {
+                if (this.maxIntervalBuilder_ == null) {
+                    this.maxIntervalBuilder_ = new SingleFieldBuilderV3<>(getMaxInterval(), getParentForChildren(), isClean());
+                    this.maxInterval_ = null;
+                }
+                return this.maxIntervalBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20960setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m20954mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    private static final class TypedExtensionProtocolOptionsDefaultEntryHolder {
+        static final MapEntry<String, Any> defaultEntry = MapEntry.newDefaultInstance(ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_TypedExtensionProtocolOptionsEntry_descriptor, WireFormat.FieldType.STRING, "", WireFormat.FieldType.MESSAGE, Any.getDefaultInstance());
+
+        private TypedExtensionProtocolOptionsDefaultEntryHolder() {
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ClusterOrBuilder {
+        private Object altStatName_;
+        private int bitField0_;
+        private SingleFieldBuilderV3<CircuitBreakers, CircuitBreakers.Builder, CircuitBreakersOrBuilder> circuitBreakersBuilder_;
+        private CircuitBreakers circuitBreakers_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> cleanupIntervalBuilder_;
+        private Duration cleanupInterval_;
+        private boolean closeConnectionsOnHostHealthFailure_;
+        private int clusterDiscoveryTypeCase_;
+        private Object clusterDiscoveryType_;
+        private SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> clusterTypeBuilder_;
+        private SingleFieldBuilderV3<HttpProtocolOptions, HttpProtocolOptions.Builder, HttpProtocolOptionsOrBuilder> commonHttpProtocolOptionsBuilder_;
+        private HttpProtocolOptions commonHttpProtocolOptions_;
+        private SingleFieldBuilderV3<CommonLbConfig, CommonLbConfig.Builder, CommonLbConfigOrBuilder> commonLbConfigBuilder_;
+        private CommonLbConfig commonLbConfig_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> connectTimeoutBuilder_;
+        private Duration connectTimeout_;
+        private SingleFieldBuilderV3<RefreshRate, RefreshRate.Builder, RefreshRateOrBuilder> dnsFailureRefreshRateBuilder_;
+        private RefreshRate dnsFailureRefreshRate_;
+        private int dnsLookupFamily_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> dnsRefreshRateBuilder_;
+        private Duration dnsRefreshRate_;
+        private RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> dnsResolversBuilder_;
+        private List<Address> dnsResolvers_;
+        private SingleFieldBuilderV3<EdsClusterConfig, EdsClusterConfig.Builder, EdsClusterConfigOrBuilder> edsClusterConfigBuilder_;
+        private EdsClusterConfig edsClusterConfig_;
+        private RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> filtersBuilder_;
+        private List<Filter> filters_;
+        private RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> healthChecksBuilder_;
+        private List<HealthCheck> healthChecks_;
+        private SingleFieldBuilderV3<Http2ProtocolOptions, Http2ProtocolOptions.Builder, Http2ProtocolOptionsOrBuilder> http2ProtocolOptionsBuilder_;
+        private Http2ProtocolOptions http2ProtocolOptions_;
+        private SingleFieldBuilderV3<Http1ProtocolOptions, Http1ProtocolOptions.Builder, Http1ProtocolOptionsOrBuilder> httpProtocolOptionsBuilder_;
+        private Http1ProtocolOptions httpProtocolOptions_;
+        private boolean ignoreHealthOnHostRemoval_;
+        private int lbConfigCase_;
+        private Object lbConfig_;
+        private int lbPolicy_;
+        private SingleFieldBuilderV3<LbSubsetConfig, LbSubsetConfig.Builder, LbSubsetConfigOrBuilder> lbSubsetConfigBuilder_;
+        private LbSubsetConfig lbSubsetConfig_;
+        private SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> leastRequestLbConfigBuilder_;
+        private SingleFieldBuilderV3<ClusterLoadAssignment, ClusterLoadAssignment.Builder, ClusterLoadAssignmentOrBuilder> loadAssignmentBuilder_;
+        private ClusterLoadAssignment loadAssignment_;
+        private SingleFieldBuilderV3<LoadBalancingPolicy, LoadBalancingPolicy.Builder, LoadBalancingPolicyOrBuilder> loadBalancingPolicyBuilder_;
+        private LoadBalancingPolicy loadBalancingPolicy_;
+        private SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> lrsServerBuilder_;
+        private ConfigSource lrsServer_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> maxRequestsPerConnectionBuilder_;
+        private UInt32Value maxRequestsPerConnection_;
+        private SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> metadataBuilder_;
+        private Metadata metadata_;
+        private Object name_;
+        private SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> originalDstLbConfigBuilder_;
+        private SingleFieldBuilderV3<OutlierDetection, OutlierDetection.Builder, OutlierDetectionOrBuilder> outlierDetectionBuilder_;
+        private OutlierDetection outlierDetection_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> perConnectionBufferLimitBytesBuilder_;
+        private UInt32Value perConnectionBufferLimitBytes_;
+        private int protocolSelection_;
+        private boolean respectDnsTtl_;
+        private SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> ringHashLbConfigBuilder_;
+        private SingleFieldBuilderV3<TrackClusterStats, TrackClusterStats.Builder, TrackClusterStatsOrBuilder> trackClusterStatsBuilder_;
+        private TrackClusterStats trackClusterStats_;
+        private boolean trackTimeoutBudgets_;
+        private SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> transportSocketBuilder_;
+        private RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> transportSocketMatchesBuilder_;
+        private List<TransportSocketMatch> transportSocketMatches_;
+        private TransportSocket transportSocket_;
+        private MapField<String, Any> typedExtensionProtocolOptions_;
+        private SingleFieldBuilderV3<BindConfig, BindConfig.Builder, BindConfigOrBuilder> upstreamBindConfigBuilder_;
+        private BindConfig upstreamBindConfig_;
+        private SingleFieldBuilderV3<TypedExtensionConfig, TypedExtensionConfig.Builder, TypedExtensionConfigOrBuilder> upstreamConfigBuilder_;
+        private TypedExtensionConfig upstreamConfig_;
+        private SingleFieldBuilderV3<UpstreamConnectionOptions, UpstreamConnectionOptions.Builder, UpstreamConnectionOptionsOrBuilder> upstreamConnectionOptionsBuilder_;
+        private UpstreamConnectionOptions upstreamConnectionOptions_;
+        private SingleFieldBuilderV3<UpstreamHttpProtocolOptions, UpstreamHttpProtocolOptions.Builder, UpstreamHttpProtocolOptionsOrBuilder> upstreamHttpProtocolOptionsBuilder_;
+        private UpstreamHttpProtocolOptions upstreamHttpProtocolOptions_;
+        private boolean useTcpForDnsLookups_;
+
+        private Builder() {
+            this.clusterDiscoveryTypeCase_ = 0;
+            this.lbConfigCase_ = 0;
+            this.transportSocketMatches_ = Collections.emptyList();
+            this.name_ = "";
+            this.altStatName_ = "";
+            this.lbPolicy_ = 0;
+            this.healthChecks_ = Collections.emptyList();
+            this.dnsLookupFamily_ = 0;
+            this.dnsResolvers_ = Collections.emptyList();
+            this.protocolSelection_ = 0;
+            this.filters_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.clusterDiscoveryTypeCase_ = 0;
+            this.lbConfigCase_ = 0;
+            this.transportSocketMatches_ = Collections.emptyList();
+            this.name_ = "";
+            this.altStatName_ = "";
+            this.lbPolicy_ = 0;
+            this.healthChecks_ = Collections.emptyList();
+            this.dnsLookupFamily_ = 0;
+            this.dnsResolvers_ = Collections.emptyList();
+            this.protocolSelection_ = 0;
+            this.filters_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean getCloseConnectionsOnHostHealthFailure() {
+            return this.closeConnectionsOnHostHealthFailure_;
+        }
+
+        public Builder setCloseConnectionsOnHostHealthFailure(boolean z) {
+            this.closeConnectionsOnHostHealthFailure_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getDnsLookupFamilyValue() {
+            return this.dnsLookupFamily_;
+        }
+
+        public Builder setDnsLookupFamilyValue(int i) {
+            this.dnsLookupFamily_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean getIgnoreHealthOnHostRemoval() {
+            return this.ignoreHealthOnHostRemoval_;
+        }
+
+        public Builder setIgnoreHealthOnHostRemoval(boolean z) {
+            this.ignoreHealthOnHostRemoval_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getLbPolicyValue() {
+            return this.lbPolicy_;
+        }
+
+        public Builder setLbPolicyValue(int i) {
+            this.lbPolicy_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getProtocolSelectionValue() {
+            return this.protocolSelection_;
+        }
+
+        public Builder setProtocolSelectionValue(int i) {
+            this.protocolSelection_ = i;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean getRespectDnsTtl() {
+            return this.respectDnsTtl_;
+        }
+
+        public Builder setRespectDnsTtl(boolean z) {
+            this.respectDnsTtl_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        @Deprecated
+        public boolean getTrackTimeoutBudgets() {
+            return this.trackTimeoutBudgets_;
+        }
+
+        @Deprecated
+        public Builder setTrackTimeoutBudgets(boolean z) {
+            this.trackTimeoutBudgets_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean getUseTcpForDnsLookups() {
+            return this.useTcpForDnsLookups_;
+        }
+
+        public Builder setUseTcpForDnsLookups(boolean z) {
+            this.useTcpForDnsLookups_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasCircuitBreakers() {
+            return (this.circuitBreakersBuilder_ == null && this.circuitBreakers_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasCleanupInterval() {
+            return (this.cleanupIntervalBuilder_ == null && this.cleanupInterval_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasClusterType() {
+            return this.clusterDiscoveryTypeCase_ == 38;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasCommonHttpProtocolOptions() {
+            return (this.commonHttpProtocolOptionsBuilder_ == null && this.commonHttpProtocolOptions_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasCommonLbConfig() {
+            return (this.commonLbConfigBuilder_ == null && this.commonLbConfig_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasConnectTimeout() {
+            return (this.connectTimeoutBuilder_ == null && this.connectTimeout_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasDnsFailureRefreshRate() {
+            return (this.dnsFailureRefreshRateBuilder_ == null && this.dnsFailureRefreshRate_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasDnsRefreshRate() {
+            return (this.dnsRefreshRateBuilder_ == null && this.dnsRefreshRate_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasEdsClusterConfig() {
+            return (this.edsClusterConfigBuilder_ == null && this.edsClusterConfig_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasHttp2ProtocolOptions() {
+            return (this.http2ProtocolOptionsBuilder_ == null && this.http2ProtocolOptions_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasHttpProtocolOptions() {
+            return (this.httpProtocolOptionsBuilder_ == null && this.httpProtocolOptions_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasLbSubsetConfig() {
+            return (this.lbSubsetConfigBuilder_ == null && this.lbSubsetConfig_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasLeastRequestLbConfig() {
+            return this.lbConfigCase_ == 37;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasLoadAssignment() {
+            return (this.loadAssignmentBuilder_ == null && this.loadAssignment_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasLoadBalancingPolicy() {
+            return (this.loadBalancingPolicyBuilder_ == null && this.loadBalancingPolicy_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasLrsServer() {
+            return (this.lrsServerBuilder_ == null && this.lrsServer_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasMaxRequestsPerConnection() {
+            return (this.maxRequestsPerConnectionBuilder_ == null && this.maxRequestsPerConnection_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasMetadata() {
+            return (this.metadataBuilder_ == null && this.metadata_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasOriginalDstLbConfig() {
+            return this.lbConfigCase_ == 34;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasOutlierDetection() {
+            return (this.outlierDetectionBuilder_ == null && this.outlierDetection_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasPerConnectionBufferLimitBytes() {
+            return (this.perConnectionBufferLimitBytesBuilder_ == null && this.perConnectionBufferLimitBytes_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasRingHashLbConfig() {
+            return this.lbConfigCase_ == 23;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasTrackClusterStats() {
+            return (this.trackClusterStatsBuilder_ == null && this.trackClusterStats_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasTransportSocket() {
+            return (this.transportSocketBuilder_ == null && this.transportSocket_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasUpstreamBindConfig() {
+            return (this.upstreamBindConfigBuilder_ == null && this.upstreamBindConfig_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasUpstreamConfig() {
+            return (this.upstreamConfigBuilder_ == null && this.upstreamConfig_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasUpstreamConnectionOptions() {
+            return (this.upstreamConnectionOptionsBuilder_ == null && this.upstreamConnectionOptions_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean hasUpstreamHttpProtocolOptions() {
+            return (this.upstreamHttpProtocolOptionsBuilder_ == null && this.upstreamHttpProtocolOptions_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected MapField internalGetMapField(int i) {
+            if (i == 36) {
+                return internalGetTypedExtensionProtocolOptions();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected MapField internalGetMutableMapField(int i) {
+            if (i == 36) {
+                return internalGetMutableTypedExtensionProtocolOptions();
+            }
+            throw new RuntimeException("Invalid map field number: " + i);
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_fieldAccessorTable.ensureFieldAccessorsInitialized(Cluster.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (Cluster.alwaysUseFieldBuilders) {
+                getTransportSocketMatchesFieldBuilder();
+                getHealthChecksFieldBuilder();
+                getDnsResolversFieldBuilder();
+                getFiltersFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20418clear() {
+            super.clear();
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.transportSocketMatches_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            this.name_ = "";
+            this.altStatName_ = "";
+            if (this.edsClusterConfigBuilder_ == null) {
+                this.edsClusterConfig_ = null;
+            } else {
+                this.edsClusterConfig_ = null;
+                this.edsClusterConfigBuilder_ = null;
+            }
+            if (this.connectTimeoutBuilder_ == null) {
+                this.connectTimeout_ = null;
+            } else {
+                this.connectTimeout_ = null;
+                this.connectTimeoutBuilder_ = null;
+            }
+            if (this.perConnectionBufferLimitBytesBuilder_ == null) {
+                this.perConnectionBufferLimitBytes_ = null;
+            } else {
+                this.perConnectionBufferLimitBytes_ = null;
+                this.perConnectionBufferLimitBytesBuilder_ = null;
+            }
+            this.lbPolicy_ = 0;
+            if (this.loadAssignmentBuilder_ == null) {
+                this.loadAssignment_ = null;
+            } else {
+                this.loadAssignment_ = null;
+                this.loadAssignmentBuilder_ = null;
+            }
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV32 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                this.healthChecks_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+            } else {
+                repeatedFieldBuilderV32.clear();
+            }
+            if (this.maxRequestsPerConnectionBuilder_ == null) {
+                this.maxRequestsPerConnection_ = null;
+            } else {
+                this.maxRequestsPerConnection_ = null;
+                this.maxRequestsPerConnectionBuilder_ = null;
+            }
+            if (this.circuitBreakersBuilder_ == null) {
+                this.circuitBreakers_ = null;
+            } else {
+                this.circuitBreakers_ = null;
+                this.circuitBreakersBuilder_ = null;
+            }
+            if (this.upstreamHttpProtocolOptionsBuilder_ == null) {
+                this.upstreamHttpProtocolOptions_ = null;
+            } else {
+                this.upstreamHttpProtocolOptions_ = null;
+                this.upstreamHttpProtocolOptionsBuilder_ = null;
+            }
+            if (this.commonHttpProtocolOptionsBuilder_ == null) {
+                this.commonHttpProtocolOptions_ = null;
+            } else {
+                this.commonHttpProtocolOptions_ = null;
+                this.commonHttpProtocolOptionsBuilder_ = null;
+            }
+            if (this.httpProtocolOptionsBuilder_ == null) {
+                this.httpProtocolOptions_ = null;
+            } else {
+                this.httpProtocolOptions_ = null;
+                this.httpProtocolOptionsBuilder_ = null;
+            }
+            if (this.http2ProtocolOptionsBuilder_ == null) {
+                this.http2ProtocolOptions_ = null;
+            } else {
+                this.http2ProtocolOptions_ = null;
+                this.http2ProtocolOptionsBuilder_ = null;
+            }
+            internalGetMutableTypedExtensionProtocolOptions().clear();
+            if (this.dnsRefreshRateBuilder_ == null) {
+                this.dnsRefreshRate_ = null;
+            } else {
+                this.dnsRefreshRate_ = null;
+                this.dnsRefreshRateBuilder_ = null;
+            }
+            if (this.dnsFailureRefreshRateBuilder_ == null) {
+                this.dnsFailureRefreshRate_ = null;
+            } else {
+                this.dnsFailureRefreshRate_ = null;
+                this.dnsFailureRefreshRateBuilder_ = null;
+            }
+            this.respectDnsTtl_ = false;
+            this.dnsLookupFamily_ = 0;
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV33 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV33 == null) {
+                this.dnsResolvers_ = Collections.emptyList();
+                this.bitField0_ &= -9;
+            } else {
+                repeatedFieldBuilderV33.clear();
+            }
+            this.useTcpForDnsLookups_ = false;
+            if (this.outlierDetectionBuilder_ == null) {
+                this.outlierDetection_ = null;
+            } else {
+                this.outlierDetection_ = null;
+                this.outlierDetectionBuilder_ = null;
+            }
+            if (this.cleanupIntervalBuilder_ == null) {
+                this.cleanupInterval_ = null;
+            } else {
+                this.cleanupInterval_ = null;
+                this.cleanupIntervalBuilder_ = null;
+            }
+            if (this.upstreamBindConfigBuilder_ == null) {
+                this.upstreamBindConfig_ = null;
+            } else {
+                this.upstreamBindConfig_ = null;
+                this.upstreamBindConfigBuilder_ = null;
+            }
+            if (this.lbSubsetConfigBuilder_ == null) {
+                this.lbSubsetConfig_ = null;
+            } else {
+                this.lbSubsetConfig_ = null;
+                this.lbSubsetConfigBuilder_ = null;
+            }
+            if (this.commonLbConfigBuilder_ == null) {
+                this.commonLbConfig_ = null;
+            } else {
+                this.commonLbConfig_ = null;
+                this.commonLbConfigBuilder_ = null;
+            }
+            if (this.transportSocketBuilder_ == null) {
+                this.transportSocket_ = null;
+            } else {
+                this.transportSocket_ = null;
+                this.transportSocketBuilder_ = null;
+            }
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            this.protocolSelection_ = 0;
+            if (this.upstreamConnectionOptionsBuilder_ == null) {
+                this.upstreamConnectionOptions_ = null;
+            } else {
+                this.upstreamConnectionOptions_ = null;
+                this.upstreamConnectionOptionsBuilder_ = null;
+            }
+            this.closeConnectionsOnHostHealthFailure_ = false;
+            this.ignoreHealthOnHostRemoval_ = false;
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV34 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV34 == null) {
+                this.filters_ = Collections.emptyList();
+                this.bitField0_ &= -17;
+            } else {
+                repeatedFieldBuilderV34.clear();
+            }
+            if (this.loadBalancingPolicyBuilder_ == null) {
+                this.loadBalancingPolicy_ = null;
+            } else {
+                this.loadBalancingPolicy_ = null;
+                this.loadBalancingPolicyBuilder_ = null;
+            }
+            if (this.lrsServerBuilder_ == null) {
+                this.lrsServer_ = null;
+            } else {
+                this.lrsServer_ = null;
+                this.lrsServerBuilder_ = null;
+            }
+            this.trackTimeoutBudgets_ = false;
+            if (this.upstreamConfigBuilder_ == null) {
+                this.upstreamConfig_ = null;
+            } else {
+                this.upstreamConfig_ = null;
+                this.upstreamConfigBuilder_ = null;
+            }
+            if (this.trackClusterStatsBuilder_ == null) {
+                this.trackClusterStats_ = null;
+            } else {
+                this.trackClusterStats_ = null;
+                this.trackClusterStatsBuilder_ = null;
+            }
+            this.clusterDiscoveryTypeCase_ = 0;
+            this.clusterDiscoveryType_ = null;
+            this.lbConfigCase_ = 0;
+            this.lbConfig_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ClusterProto.internal_static_envoy_config_cluster_v3_Cluster_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Cluster m20431getDefaultInstanceForType() {
+            return Cluster.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Cluster m20412build() throws UninitializedMessageException {
+            Cluster clusterM20414buildPartial = m20414buildPartial();
+            if (clusterM20414buildPartial.isInitialized()) {
+                return clusterM20414buildPartial;
+            }
+            throw newUninitializedMessageException(clusterM20414buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Cluster m20414buildPartial() {
+            Cluster cluster = new Cluster(this);
+            int i = this.bitField0_;
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((i & 1) != 0) {
+                    this.transportSocketMatches_ = Collections.unmodifiableList(this.transportSocketMatches_);
+                    this.bitField0_ &= -2;
+                }
+                cluster.transportSocketMatches_ = this.transportSocketMatches_;
+            } else {
+                cluster.transportSocketMatches_ = repeatedFieldBuilderV3.build();
+            }
+            cluster.name_ = this.name_;
+            cluster.altStatName_ = this.altStatName_;
+            if (this.clusterDiscoveryTypeCase_ == 2) {
+                cluster.clusterDiscoveryType_ = this.clusterDiscoveryType_;
+            }
+            if (this.clusterDiscoveryTypeCase_ == 38) {
+                SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> singleFieldBuilderV3 = this.clusterTypeBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    cluster.clusterDiscoveryType_ = this.clusterDiscoveryType_;
+                } else {
+                    cluster.clusterDiscoveryType_ = singleFieldBuilderV3.build();
+                }
+            }
+            SingleFieldBuilderV3<EdsClusterConfig, EdsClusterConfig.Builder, EdsClusterConfigOrBuilder> singleFieldBuilderV32 = this.edsClusterConfigBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                cluster.edsClusterConfig_ = this.edsClusterConfig_;
+            } else {
+                cluster.edsClusterConfig_ = singleFieldBuilderV32.build();
+            }
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV33 = this.connectTimeoutBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                cluster.connectTimeout_ = this.connectTimeout_;
+            } else {
+                cluster.connectTimeout_ = singleFieldBuilderV33.build();
+            }
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV34 = this.perConnectionBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV34 == null) {
+                cluster.perConnectionBufferLimitBytes_ = this.perConnectionBufferLimitBytes_;
+            } else {
+                cluster.perConnectionBufferLimitBytes_ = singleFieldBuilderV34.build();
+            }
+            cluster.lbPolicy_ = this.lbPolicy_;
+            SingleFieldBuilderV3<ClusterLoadAssignment, ClusterLoadAssignment.Builder, ClusterLoadAssignmentOrBuilder> singleFieldBuilderV35 = this.loadAssignmentBuilder_;
+            if (singleFieldBuilderV35 == null) {
+                cluster.loadAssignment_ = this.loadAssignment_;
+            } else {
+                cluster.loadAssignment_ = singleFieldBuilderV35.build();
+            }
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV32 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                if ((this.bitField0_ & 2) != 0) {
+                    this.healthChecks_ = Collections.unmodifiableList(this.healthChecks_);
+                    this.bitField0_ &= -3;
+                }
+                cluster.healthChecks_ = this.healthChecks_;
+            } else {
+                cluster.healthChecks_ = repeatedFieldBuilderV32.build();
+            }
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV36 = this.maxRequestsPerConnectionBuilder_;
+            if (singleFieldBuilderV36 == null) {
+                cluster.maxRequestsPerConnection_ = this.maxRequestsPerConnection_;
+            } else {
+                cluster.maxRequestsPerConnection_ = singleFieldBuilderV36.build();
+            }
+            SingleFieldBuilderV3<CircuitBreakers, CircuitBreakers.Builder, CircuitBreakersOrBuilder> singleFieldBuilderV37 = this.circuitBreakersBuilder_;
+            if (singleFieldBuilderV37 == null) {
+                cluster.circuitBreakers_ = this.circuitBreakers_;
+            } else {
+                cluster.circuitBreakers_ = singleFieldBuilderV37.build();
+            }
+            SingleFieldBuilderV3<UpstreamHttpProtocolOptions, UpstreamHttpProtocolOptions.Builder, UpstreamHttpProtocolOptionsOrBuilder> singleFieldBuilderV38 = this.upstreamHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV38 == null) {
+                cluster.upstreamHttpProtocolOptions_ = this.upstreamHttpProtocolOptions_;
+            } else {
+                cluster.upstreamHttpProtocolOptions_ = singleFieldBuilderV38.build();
+            }
+            SingleFieldBuilderV3<HttpProtocolOptions, HttpProtocolOptions.Builder, HttpProtocolOptionsOrBuilder> singleFieldBuilderV39 = this.commonHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV39 == null) {
+                cluster.commonHttpProtocolOptions_ = this.commonHttpProtocolOptions_;
+            } else {
+                cluster.commonHttpProtocolOptions_ = singleFieldBuilderV39.build();
+            }
+            SingleFieldBuilderV3<Http1ProtocolOptions, Http1ProtocolOptions.Builder, Http1ProtocolOptionsOrBuilder> singleFieldBuilderV310 = this.httpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV310 == null) {
+                cluster.httpProtocolOptions_ = this.httpProtocolOptions_;
+            } else {
+                cluster.httpProtocolOptions_ = singleFieldBuilderV310.build();
+            }
+            SingleFieldBuilderV3<Http2ProtocolOptions, Http2ProtocolOptions.Builder, Http2ProtocolOptionsOrBuilder> singleFieldBuilderV311 = this.http2ProtocolOptionsBuilder_;
+            if (singleFieldBuilderV311 == null) {
+                cluster.http2ProtocolOptions_ = this.http2ProtocolOptions_;
+            } else {
+                cluster.http2ProtocolOptions_ = singleFieldBuilderV311.build();
+            }
+            cluster.typedExtensionProtocolOptions_ = internalGetTypedExtensionProtocolOptions();
+            cluster.typedExtensionProtocolOptions_.makeImmutable();
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV312 = this.dnsRefreshRateBuilder_;
+            if (singleFieldBuilderV312 == null) {
+                cluster.dnsRefreshRate_ = this.dnsRefreshRate_;
+            } else {
+                cluster.dnsRefreshRate_ = singleFieldBuilderV312.build();
+            }
+            SingleFieldBuilderV3<RefreshRate, RefreshRate.Builder, RefreshRateOrBuilder> singleFieldBuilderV313 = this.dnsFailureRefreshRateBuilder_;
+            if (singleFieldBuilderV313 == null) {
+                cluster.dnsFailureRefreshRate_ = this.dnsFailureRefreshRate_;
+            } else {
+                cluster.dnsFailureRefreshRate_ = singleFieldBuilderV313.build();
+            }
+            cluster.respectDnsTtl_ = this.respectDnsTtl_;
+            cluster.dnsLookupFamily_ = this.dnsLookupFamily_;
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV33 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV33 == null) {
+                if ((this.bitField0_ & 8) != 0) {
+                    this.dnsResolvers_ = Collections.unmodifiableList(this.dnsResolvers_);
+                    this.bitField0_ &= -9;
+                }
+                cluster.dnsResolvers_ = this.dnsResolvers_;
+            } else {
+                cluster.dnsResolvers_ = repeatedFieldBuilderV33.build();
+            }
+            cluster.useTcpForDnsLookups_ = this.useTcpForDnsLookups_;
+            SingleFieldBuilderV3<OutlierDetection, OutlierDetection.Builder, OutlierDetectionOrBuilder> singleFieldBuilderV314 = this.outlierDetectionBuilder_;
+            if (singleFieldBuilderV314 == null) {
+                cluster.outlierDetection_ = this.outlierDetection_;
+            } else {
+                cluster.outlierDetection_ = singleFieldBuilderV314.build();
+            }
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV315 = this.cleanupIntervalBuilder_;
+            if (singleFieldBuilderV315 == null) {
+                cluster.cleanupInterval_ = this.cleanupInterval_;
+            } else {
+                cluster.cleanupInterval_ = singleFieldBuilderV315.build();
+            }
+            SingleFieldBuilderV3<BindConfig, BindConfig.Builder, BindConfigOrBuilder> singleFieldBuilderV316 = this.upstreamBindConfigBuilder_;
+            if (singleFieldBuilderV316 == null) {
+                cluster.upstreamBindConfig_ = this.upstreamBindConfig_;
+            } else {
+                cluster.upstreamBindConfig_ = singleFieldBuilderV316.build();
+            }
+            SingleFieldBuilderV3<LbSubsetConfig, LbSubsetConfig.Builder, LbSubsetConfigOrBuilder> singleFieldBuilderV317 = this.lbSubsetConfigBuilder_;
+            if (singleFieldBuilderV317 == null) {
+                cluster.lbSubsetConfig_ = this.lbSubsetConfig_;
+            } else {
+                cluster.lbSubsetConfig_ = singleFieldBuilderV317.build();
+            }
+            if (this.lbConfigCase_ == 23) {
+                SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> singleFieldBuilderV318 = this.ringHashLbConfigBuilder_;
+                if (singleFieldBuilderV318 == null) {
+                    cluster.lbConfig_ = this.lbConfig_;
+                } else {
+                    cluster.lbConfig_ = singleFieldBuilderV318.build();
+                }
+            }
+            if (this.lbConfigCase_ == 34) {
+                SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> singleFieldBuilderV319 = this.originalDstLbConfigBuilder_;
+                if (singleFieldBuilderV319 == null) {
+                    cluster.lbConfig_ = this.lbConfig_;
+                } else {
+                    cluster.lbConfig_ = singleFieldBuilderV319.build();
+                }
+            }
+            if (this.lbConfigCase_ == 37) {
+                SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> singleFieldBuilderV320 = this.leastRequestLbConfigBuilder_;
+                if (singleFieldBuilderV320 == null) {
+                    cluster.lbConfig_ = this.lbConfig_;
+                } else {
+                    cluster.lbConfig_ = singleFieldBuilderV320.build();
+                }
+            }
+            SingleFieldBuilderV3<CommonLbConfig, CommonLbConfig.Builder, CommonLbConfigOrBuilder> singleFieldBuilderV321 = this.commonLbConfigBuilder_;
+            if (singleFieldBuilderV321 == null) {
+                cluster.commonLbConfig_ = this.commonLbConfig_;
+            } else {
+                cluster.commonLbConfig_ = singleFieldBuilderV321.build();
+            }
+            SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV322 = this.transportSocketBuilder_;
+            if (singleFieldBuilderV322 == null) {
+                cluster.transportSocket_ = this.transportSocket_;
+            } else {
+                cluster.transportSocket_ = singleFieldBuilderV322.build();
+            }
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV323 = this.metadataBuilder_;
+            if (singleFieldBuilderV323 == null) {
+                cluster.metadata_ = this.metadata_;
+            } else {
+                cluster.metadata_ = singleFieldBuilderV323.build();
+            }
+            cluster.protocolSelection_ = this.protocolSelection_;
+            SingleFieldBuilderV3<UpstreamConnectionOptions, UpstreamConnectionOptions.Builder, UpstreamConnectionOptionsOrBuilder> singleFieldBuilderV324 = this.upstreamConnectionOptionsBuilder_;
+            if (singleFieldBuilderV324 == null) {
+                cluster.upstreamConnectionOptions_ = this.upstreamConnectionOptions_;
+            } else {
+                cluster.upstreamConnectionOptions_ = singleFieldBuilderV324.build();
+            }
+            cluster.closeConnectionsOnHostHealthFailure_ = this.closeConnectionsOnHostHealthFailure_;
+            cluster.ignoreHealthOnHostRemoval_ = this.ignoreHealthOnHostRemoval_;
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV34 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV34 == null) {
+                if ((this.bitField0_ & 16) != 0) {
+                    this.filters_ = Collections.unmodifiableList(this.filters_);
+                    this.bitField0_ &= -17;
+                }
+                cluster.filters_ = this.filters_;
+            } else {
+                cluster.filters_ = repeatedFieldBuilderV34.build();
+            }
+            SingleFieldBuilderV3<LoadBalancingPolicy, LoadBalancingPolicy.Builder, LoadBalancingPolicyOrBuilder> singleFieldBuilderV325 = this.loadBalancingPolicyBuilder_;
+            if (singleFieldBuilderV325 == null) {
+                cluster.loadBalancingPolicy_ = this.loadBalancingPolicy_;
+            } else {
+                cluster.loadBalancingPolicy_ = singleFieldBuilderV325.build();
+            }
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV326 = this.lrsServerBuilder_;
+            if (singleFieldBuilderV326 == null) {
+                cluster.lrsServer_ = this.lrsServer_;
+            } else {
+                cluster.lrsServer_ = singleFieldBuilderV326.build();
+            }
+            cluster.trackTimeoutBudgets_ = this.trackTimeoutBudgets_;
+            SingleFieldBuilderV3<TypedExtensionConfig, TypedExtensionConfig.Builder, TypedExtensionConfigOrBuilder> singleFieldBuilderV327 = this.upstreamConfigBuilder_;
+            if (singleFieldBuilderV327 == null) {
+                cluster.upstreamConfig_ = this.upstreamConfig_;
+            } else {
+                cluster.upstreamConfig_ = singleFieldBuilderV327.build();
+            }
+            SingleFieldBuilderV3<TrackClusterStats, TrackClusterStats.Builder, TrackClusterStatsOrBuilder> singleFieldBuilderV328 = this.trackClusterStatsBuilder_;
+            if (singleFieldBuilderV328 == null) {
+                cluster.trackClusterStats_ = this.trackClusterStats_;
+            } else {
+                cluster.trackClusterStats_ = singleFieldBuilderV328.build();
+            }
+            cluster.clusterDiscoveryTypeCase_ = this.clusterDiscoveryTypeCase_;
+            cluster.lbConfigCase_ = this.lbConfigCase_;
+            onBuilt();
+            return cluster;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20430clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20442setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20420clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20423clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20444setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20410addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m20435mergeFrom(Message message) {
+            if (message instanceof Cluster) {
+                return mergeFrom((Cluster) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Cluster cluster) {
+            if (cluster == Cluster.getDefaultInstance()) {
+                return this;
+            }
+            if (this.transportSocketMatchesBuilder_ == null) {
+                if (!cluster.transportSocketMatches_.isEmpty()) {
+                    if (this.transportSocketMatches_.isEmpty()) {
+                        this.transportSocketMatches_ = cluster.transportSocketMatches_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureTransportSocketMatchesIsMutable();
+                        this.transportSocketMatches_.addAll(cluster.transportSocketMatches_);
+                    }
+                    onChanged();
+                }
+            } else if (!cluster.transportSocketMatches_.isEmpty()) {
+                if (!this.transportSocketMatchesBuilder_.isEmpty()) {
+                    this.transportSocketMatchesBuilder_.addAllMessages(cluster.transportSocketMatches_);
+                } else {
+                    this.transportSocketMatchesBuilder_.dispose();
+                    this.transportSocketMatchesBuilder_ = null;
+                    this.transportSocketMatches_ = cluster.transportSocketMatches_;
+                    this.bitField0_ &= -2;
+                    this.transportSocketMatchesBuilder_ = Cluster.alwaysUseFieldBuilders ? getTransportSocketMatchesFieldBuilder() : null;
+                }
+            }
+            if (!cluster.getName().isEmpty()) {
+                this.name_ = cluster.name_;
+                onChanged();
+            }
+            if (!cluster.getAltStatName().isEmpty()) {
+                this.altStatName_ = cluster.altStatName_;
+                onChanged();
+            }
+            if (cluster.hasEdsClusterConfig()) {
+                mergeEdsClusterConfig(cluster.getEdsClusterConfig());
+            }
+            if (cluster.hasConnectTimeout()) {
+                mergeConnectTimeout(cluster.getConnectTimeout());
+            }
+            if (cluster.hasPerConnectionBufferLimitBytes()) {
+                mergePerConnectionBufferLimitBytes(cluster.getPerConnectionBufferLimitBytes());
+            }
+            if (cluster.lbPolicy_ != 0) {
+                setLbPolicyValue(cluster.getLbPolicyValue());
+            }
+            if (cluster.hasLoadAssignment()) {
+                mergeLoadAssignment(cluster.getLoadAssignment());
+            }
+            if (this.healthChecksBuilder_ == null) {
+                if (!cluster.healthChecks_.isEmpty()) {
+                    if (this.healthChecks_.isEmpty()) {
+                        this.healthChecks_ = cluster.healthChecks_;
+                        this.bitField0_ &= -3;
+                    } else {
+                        ensureHealthChecksIsMutable();
+                        this.healthChecks_.addAll(cluster.healthChecks_);
+                    }
+                    onChanged();
+                }
+            } else if (!cluster.healthChecks_.isEmpty()) {
+                if (!this.healthChecksBuilder_.isEmpty()) {
+                    this.healthChecksBuilder_.addAllMessages(cluster.healthChecks_);
+                } else {
+                    this.healthChecksBuilder_.dispose();
+                    this.healthChecksBuilder_ = null;
+                    this.healthChecks_ = cluster.healthChecks_;
+                    this.bitField0_ &= -3;
+                    this.healthChecksBuilder_ = Cluster.alwaysUseFieldBuilders ? getHealthChecksFieldBuilder() : null;
+                }
+            }
+            if (cluster.hasMaxRequestsPerConnection()) {
+                mergeMaxRequestsPerConnection(cluster.getMaxRequestsPerConnection());
+            }
+            if (cluster.hasCircuitBreakers()) {
+                mergeCircuitBreakers(cluster.getCircuitBreakers());
+            }
+            if (cluster.hasUpstreamHttpProtocolOptions()) {
+                mergeUpstreamHttpProtocolOptions(cluster.getUpstreamHttpProtocolOptions());
+            }
+            if (cluster.hasCommonHttpProtocolOptions()) {
+                mergeCommonHttpProtocolOptions(cluster.getCommonHttpProtocolOptions());
+            }
+            if (cluster.hasHttpProtocolOptions()) {
+                mergeHttpProtocolOptions(cluster.getHttpProtocolOptions());
+            }
+            if (cluster.hasHttp2ProtocolOptions()) {
+                mergeHttp2ProtocolOptions(cluster.getHttp2ProtocolOptions());
+            }
+            internalGetMutableTypedExtensionProtocolOptions().mergeFrom(cluster.internalGetTypedExtensionProtocolOptions());
+            if (cluster.hasDnsRefreshRate()) {
+                mergeDnsRefreshRate(cluster.getDnsRefreshRate());
+            }
+            if (cluster.hasDnsFailureRefreshRate()) {
+                mergeDnsFailureRefreshRate(cluster.getDnsFailureRefreshRate());
+            }
+            if (cluster.getRespectDnsTtl()) {
+                setRespectDnsTtl(cluster.getRespectDnsTtl());
+            }
+            if (cluster.dnsLookupFamily_ != 0) {
+                setDnsLookupFamilyValue(cluster.getDnsLookupFamilyValue());
+            }
+            if (this.dnsResolversBuilder_ == null) {
+                if (!cluster.dnsResolvers_.isEmpty()) {
+                    if (this.dnsResolvers_.isEmpty()) {
+                        this.dnsResolvers_ = cluster.dnsResolvers_;
+                        this.bitField0_ &= -9;
+                    } else {
+                        ensureDnsResolversIsMutable();
+                        this.dnsResolvers_.addAll(cluster.dnsResolvers_);
+                    }
+                    onChanged();
+                }
+            } else if (!cluster.dnsResolvers_.isEmpty()) {
+                if (!this.dnsResolversBuilder_.isEmpty()) {
+                    this.dnsResolversBuilder_.addAllMessages(cluster.dnsResolvers_);
+                } else {
+                    this.dnsResolversBuilder_.dispose();
+                    this.dnsResolversBuilder_ = null;
+                    this.dnsResolvers_ = cluster.dnsResolvers_;
+                    this.bitField0_ &= -9;
+                    this.dnsResolversBuilder_ = Cluster.alwaysUseFieldBuilders ? getDnsResolversFieldBuilder() : null;
+                }
+            }
+            if (cluster.getUseTcpForDnsLookups()) {
+                setUseTcpForDnsLookups(cluster.getUseTcpForDnsLookups());
+            }
+            if (cluster.hasOutlierDetection()) {
+                mergeOutlierDetection(cluster.getOutlierDetection());
+            }
+            if (cluster.hasCleanupInterval()) {
+                mergeCleanupInterval(cluster.getCleanupInterval());
+            }
+            if (cluster.hasUpstreamBindConfig()) {
+                mergeUpstreamBindConfig(cluster.getUpstreamBindConfig());
+            }
+            if (cluster.hasLbSubsetConfig()) {
+                mergeLbSubsetConfig(cluster.getLbSubsetConfig());
+            }
+            if (cluster.hasCommonLbConfig()) {
+                mergeCommonLbConfig(cluster.getCommonLbConfig());
+            }
+            if (cluster.hasTransportSocket()) {
+                mergeTransportSocket(cluster.getTransportSocket());
+            }
+            if (cluster.hasMetadata()) {
+                mergeMetadata(cluster.getMetadata());
+            }
+            if (cluster.protocolSelection_ != 0) {
+                setProtocolSelectionValue(cluster.getProtocolSelectionValue());
+            }
+            if (cluster.hasUpstreamConnectionOptions()) {
+                mergeUpstreamConnectionOptions(cluster.getUpstreamConnectionOptions());
+            }
+            if (cluster.getCloseConnectionsOnHostHealthFailure()) {
+                setCloseConnectionsOnHostHealthFailure(cluster.getCloseConnectionsOnHostHealthFailure());
+            }
+            if (cluster.getIgnoreHealthOnHostRemoval()) {
+                setIgnoreHealthOnHostRemoval(cluster.getIgnoreHealthOnHostRemoval());
+            }
+            if (this.filtersBuilder_ == null) {
+                if (!cluster.filters_.isEmpty()) {
+                    if (this.filters_.isEmpty()) {
+                        this.filters_ = cluster.filters_;
+                        this.bitField0_ &= -17;
+                    } else {
+                        ensureFiltersIsMutable();
+                        this.filters_.addAll(cluster.filters_);
+                    }
+                    onChanged();
+                }
+            } else if (!cluster.filters_.isEmpty()) {
+                if (!this.filtersBuilder_.isEmpty()) {
+                    this.filtersBuilder_.addAllMessages(cluster.filters_);
+                } else {
+                    this.filtersBuilder_.dispose();
+                    this.filtersBuilder_ = null;
+                    this.filters_ = cluster.filters_;
+                    this.bitField0_ &= -17;
+                    this.filtersBuilder_ = Cluster.alwaysUseFieldBuilders ? getFiltersFieldBuilder() : null;
+                }
+            }
+            if (cluster.hasLoadBalancingPolicy()) {
+                mergeLoadBalancingPolicy(cluster.getLoadBalancingPolicy());
+            }
+            if (cluster.hasLrsServer()) {
+                mergeLrsServer(cluster.getLrsServer());
+            }
+            if (cluster.getTrackTimeoutBudgets()) {
+                setTrackTimeoutBudgets(cluster.getTrackTimeoutBudgets());
+            }
+            if (cluster.hasUpstreamConfig()) {
+                mergeUpstreamConfig(cluster.getUpstreamConfig());
+            }
+            if (cluster.hasTrackClusterStats()) {
+                mergeTrackClusterStats(cluster.getTrackClusterStats());
+            }
+            int i = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$ClusterDiscoveryTypeCase[cluster.getClusterDiscoveryTypeCase().ordinal()];
+            if (i == 1) {
+                setTypeValue(cluster.getTypeValue());
+            } else if (i == 2) {
+                mergeClusterType(cluster.getClusterType());
+            }
+            int i2 = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$LbConfigCase[cluster.getLbConfigCase().ordinal()];
+            if (i2 == 1) {
+                mergeRingHashLbConfig(cluster.getRingHashLbConfig());
+            } else if (i2 == 2) {
+                mergeOriginalDstLbConfig(cluster.getOriginalDstLbConfig());
+            } else if (i2 == 3) {
+                mergeLeastRequestLbConfig(cluster.getLeastRequestLbConfig());
+            }
+            m20440mergeUnknownFields(cluster.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.Builder m20436mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.access$18700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster.Builder.m20436mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public ClusterDiscoveryTypeCase getClusterDiscoveryTypeCase() {
+            return ClusterDiscoveryTypeCase.forNumber(this.clusterDiscoveryTypeCase_);
+        }
+
+        public Builder clearClusterDiscoveryType() {
+            this.clusterDiscoveryTypeCase_ = 0;
+            this.clusterDiscoveryType_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public LbConfigCase getLbConfigCase() {
+            return LbConfigCase.forNumber(this.lbConfigCase_);
+        }
+
+        public Builder clearLbConfig() {
+            this.lbConfigCase_ = 0;
+            this.lbConfig_ = null;
+            onChanged();
+            return this;
+        }
+
+        private void ensureTransportSocketMatchesIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.transportSocketMatches_ = new ArrayList(this.transportSocketMatches_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public List<TransportSocketMatch> getTransportSocketMatchesList() {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.transportSocketMatches_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getTransportSocketMatchesCount() {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.transportSocketMatches_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public TransportSocketMatch getTransportSocketMatches(int i) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.transportSocketMatches_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setTransportSocketMatches(int i, TransportSocketMatch transportSocketMatch) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                transportSocketMatch.getClass();
+                ensureTransportSocketMatchesIsMutable();
+                this.transportSocketMatches_.set(i, transportSocketMatch);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, transportSocketMatch);
+            }
+            return this;
+        }
+
+        public Builder setTransportSocketMatches(int i, TransportSocketMatch.Builder builder) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTransportSocketMatchesIsMutable();
+                this.transportSocketMatches_.set(i, builder.m21019build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m21019build());
+            }
+            return this;
+        }
+
+        public Builder addTransportSocketMatches(TransportSocketMatch transportSocketMatch) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                transportSocketMatch.getClass();
+                ensureTransportSocketMatchesIsMutable();
+                this.transportSocketMatches_.add(transportSocketMatch);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(transportSocketMatch);
+            }
+            return this;
+        }
+
+        public Builder addTransportSocketMatches(int i, TransportSocketMatch transportSocketMatch) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                transportSocketMatch.getClass();
+                ensureTransportSocketMatchesIsMutable();
+                this.transportSocketMatches_.add(i, transportSocketMatch);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, transportSocketMatch);
+            }
+            return this;
+        }
+
+        public Builder addTransportSocketMatches(TransportSocketMatch.Builder builder) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTransportSocketMatchesIsMutable();
+                this.transportSocketMatches_.add(builder.m21019build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m21019build());
+            }
+            return this;
+        }
+
+        public Builder addTransportSocketMatches(int i, TransportSocketMatch.Builder builder) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTransportSocketMatchesIsMutable();
+                this.transportSocketMatches_.add(i, builder.m21019build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m21019build());
+            }
+            return this;
+        }
+
+        public Builder addAllTransportSocketMatches(Iterable<? extends TransportSocketMatch> iterable) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTransportSocketMatchesIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.transportSocketMatches_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearTransportSocketMatches() {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.transportSocketMatches_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeTransportSocketMatches(int i) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureTransportSocketMatchesIsMutable();
+                this.transportSocketMatches_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public TransportSocketMatch.Builder getTransportSocketMatchesBuilder(int i) {
+            return getTransportSocketMatchesFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public TransportSocketMatchOrBuilder getTransportSocketMatchesOrBuilder(int i) {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.transportSocketMatches_.get(i);
+            }
+            return (TransportSocketMatchOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public List<? extends TransportSocketMatchOrBuilder> getTransportSocketMatchesOrBuilderList() {
+            RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> repeatedFieldBuilderV3 = this.transportSocketMatchesBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.transportSocketMatches_);
+        }
+
+        public TransportSocketMatch.Builder addTransportSocketMatchesBuilder() {
+            return getTransportSocketMatchesFieldBuilder().addBuilder(TransportSocketMatch.getDefaultInstance());
+        }
+
+        public TransportSocketMatch.Builder addTransportSocketMatchesBuilder(int i) {
+            return getTransportSocketMatchesFieldBuilder().addBuilder(i, TransportSocketMatch.getDefaultInstance());
+        }
+
+        public List<TransportSocketMatch.Builder> getTransportSocketMatchesBuilderList() {
+            return getTransportSocketMatchesFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<TransportSocketMatch, TransportSocketMatch.Builder, TransportSocketMatchOrBuilder> getTransportSocketMatchesFieldBuilder() {
+            if (this.transportSocketMatchesBuilder_ == null) {
+                this.transportSocketMatchesBuilder_ = new RepeatedFieldBuilderV3<>(this.transportSocketMatches_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.transportSocketMatches_ = null;
+            }
+            return this.transportSocketMatchesBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.name_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setName(String str) {
+            str.getClass();
+            this.name_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setNameBytes(ByteString byteString) {
+            byteString.getClass();
+            Cluster.checkByteStringIsUtf8(byteString);
+            this.name_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearName() {
+            this.name_ = Cluster.getDefaultInstance().getName();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public String getAltStatName() {
+            Object obj = this.altStatName_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.altStatName_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setAltStatName(String str) {
+            str.getClass();
+            this.altStatName_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public ByteString getAltStatNameBytes() {
+            Object obj = this.altStatName_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.altStatName_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setAltStatNameBytes(ByteString byteString) {
+            byteString.getClass();
+            Cluster.checkByteStringIsUtf8(byteString);
+            this.altStatName_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAltStatName() {
+            this.altStatName_ = Cluster.getDefaultInstance().getAltStatName();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getTypeValue() {
+            if (this.clusterDiscoveryTypeCase_ == 2) {
+                return ((Integer) this.clusterDiscoveryType_).intValue();
+            }
+            return 0;
+        }
+
+        public Builder setTypeValue(int i) {
+            this.clusterDiscoveryTypeCase_ = 2;
+            this.clusterDiscoveryType_ = Integer.valueOf(i);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public DiscoveryType getType() {
+            if (this.clusterDiscoveryTypeCase_ == 2) {
+                DiscoveryType discoveryTypeValueOf = DiscoveryType.valueOf(((Integer) this.clusterDiscoveryType_).intValue());
+                return discoveryTypeValueOf == null ? DiscoveryType.UNRECOGNIZED : discoveryTypeValueOf;
+            }
+            return DiscoveryType.STATIC;
+        }
+
+        public Builder setType(DiscoveryType discoveryType) {
+            discoveryType.getClass();
+            this.clusterDiscoveryTypeCase_ = 2;
+            this.clusterDiscoveryType_ = Integer.valueOf(discoveryType.getNumber());
+            onChanged();
+            return this;
+        }
+
+        public Builder clearType() {
+            if (this.clusterDiscoveryTypeCase_ == 2) {
+                this.clusterDiscoveryTypeCase_ = 0;
+                this.clusterDiscoveryType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public CustomClusterType getClusterType() {
+            SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> singleFieldBuilderV3 = this.clusterTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.clusterDiscoveryTypeCase_ == 38) {
+                    return (CustomClusterType) this.clusterDiscoveryType_;
+                }
+                return CustomClusterType.getDefaultInstance();
+            }
+            if (this.clusterDiscoveryTypeCase_ == 38) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return CustomClusterType.getDefaultInstance();
+        }
+
+        public Builder setClusterType(CustomClusterType customClusterType) {
+            SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> singleFieldBuilderV3 = this.clusterTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                customClusterType.getClass();
+                this.clusterDiscoveryType_ = customClusterType;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(customClusterType);
+            }
+            this.clusterDiscoveryTypeCase_ = 38;
+            return this;
+        }
+
+        public Builder setClusterType(CustomClusterType.Builder builder) {
+            SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> singleFieldBuilderV3 = this.clusterTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.clusterDiscoveryType_ = builder.m20643build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20643build());
+            }
+            this.clusterDiscoveryTypeCase_ = 38;
+            return this;
+        }
+
+        public Builder mergeClusterType(CustomClusterType customClusterType) {
+            SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> singleFieldBuilderV3 = this.clusterTypeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.clusterDiscoveryTypeCase_ != 38 || this.clusterDiscoveryType_ == CustomClusterType.getDefaultInstance()) {
+                    this.clusterDiscoveryType_ = customClusterType;
+                } else {
+                    this.clusterDiscoveryType_ = CustomClusterType.newBuilder((CustomClusterType) this.clusterDiscoveryType_).mergeFrom(customClusterType).m20645buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.clusterDiscoveryTypeCase_ == 38) {
+                    singleFieldBuilderV3.mergeFrom(customClusterType);
+                }
+                this.clusterTypeBuilder_.setMessage(customClusterType);
+            }
+            this.clusterDiscoveryTypeCase_ = 38;
+            return this;
+        }
+
+        public Builder clearClusterType() {
+            SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> singleFieldBuilderV3 = this.clusterTypeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.clusterDiscoveryTypeCase_ == 38) {
+                    this.clusterDiscoveryTypeCase_ = 0;
+                    this.clusterDiscoveryType_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.clusterDiscoveryTypeCase_ == 38) {
+                this.clusterDiscoveryTypeCase_ = 0;
+                this.clusterDiscoveryType_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public CustomClusterType.Builder getClusterTypeBuilder() {
+            return getClusterTypeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public CustomClusterTypeOrBuilder getClusterTypeOrBuilder() {
+            SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> singleFieldBuilderV3;
+            int i = this.clusterDiscoveryTypeCase_;
+            if (i == 38 && (singleFieldBuilderV3 = this.clusterTypeBuilder_) != null) {
+                return (CustomClusterTypeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 38) {
+                return (CustomClusterType) this.clusterDiscoveryType_;
+            }
+            return CustomClusterType.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<CustomClusterType, CustomClusterType.Builder, CustomClusterTypeOrBuilder> getClusterTypeFieldBuilder() {
+            if (this.clusterTypeBuilder_ == null) {
+                if (this.clusterDiscoveryTypeCase_ != 38) {
+                    this.clusterDiscoveryType_ = CustomClusterType.getDefaultInstance();
+                }
+                this.clusterTypeBuilder_ = new SingleFieldBuilderV3<>((CustomClusterType) this.clusterDiscoveryType_, getParentForChildren(), isClean());
+                this.clusterDiscoveryType_ = null;
+            }
+            this.clusterDiscoveryTypeCase_ = 38;
+            onChanged();
+            return this.clusterTypeBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public EdsClusterConfig getEdsClusterConfig() {
+            SingleFieldBuilderV3<EdsClusterConfig, EdsClusterConfig.Builder, EdsClusterConfigOrBuilder> singleFieldBuilderV3 = this.edsClusterConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            EdsClusterConfig edsClusterConfig = this.edsClusterConfig_;
+            return edsClusterConfig == null ? EdsClusterConfig.getDefaultInstance() : edsClusterConfig;
+        }
+
+        public Builder setEdsClusterConfig(EdsClusterConfig edsClusterConfig) {
+            SingleFieldBuilderV3<EdsClusterConfig, EdsClusterConfig.Builder, EdsClusterConfigOrBuilder> singleFieldBuilderV3 = this.edsClusterConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                edsClusterConfig.getClass();
+                this.edsClusterConfig_ = edsClusterConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(edsClusterConfig);
+            }
+            return this;
+        }
+
+        public Builder setEdsClusterConfig(EdsClusterConfig.Builder builder) {
+            SingleFieldBuilderV3<EdsClusterConfig, EdsClusterConfig.Builder, EdsClusterConfigOrBuilder> singleFieldBuilderV3 = this.edsClusterConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.edsClusterConfig_ = builder.m20691build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20691build());
+            }
+            return this;
+        }
+
+        public Builder mergeEdsClusterConfig(EdsClusterConfig edsClusterConfig) {
+            SingleFieldBuilderV3<EdsClusterConfig, EdsClusterConfig.Builder, EdsClusterConfigOrBuilder> singleFieldBuilderV3 = this.edsClusterConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                EdsClusterConfig edsClusterConfig2 = this.edsClusterConfig_;
+                if (edsClusterConfig2 != null) {
+                    this.edsClusterConfig_ = EdsClusterConfig.newBuilder(edsClusterConfig2).mergeFrom(edsClusterConfig).m20693buildPartial();
+                } else {
+                    this.edsClusterConfig_ = edsClusterConfig;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(edsClusterConfig);
+            }
+            return this;
+        }
+
+        public Builder clearEdsClusterConfig() {
+            if (this.edsClusterConfigBuilder_ == null) {
+                this.edsClusterConfig_ = null;
+                onChanged();
+            } else {
+                this.edsClusterConfig_ = null;
+                this.edsClusterConfigBuilder_ = null;
+            }
+            return this;
+        }
+
+        public EdsClusterConfig.Builder getEdsClusterConfigBuilder() {
+            onChanged();
+            return getEdsClusterConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public EdsClusterConfigOrBuilder getEdsClusterConfigOrBuilder() {
+            SingleFieldBuilderV3<EdsClusterConfig, EdsClusterConfig.Builder, EdsClusterConfigOrBuilder> singleFieldBuilderV3 = this.edsClusterConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (EdsClusterConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            EdsClusterConfig edsClusterConfig = this.edsClusterConfig_;
+            return edsClusterConfig == null ? EdsClusterConfig.getDefaultInstance() : edsClusterConfig;
+        }
+
+        private SingleFieldBuilderV3<EdsClusterConfig, EdsClusterConfig.Builder, EdsClusterConfigOrBuilder> getEdsClusterConfigFieldBuilder() {
+            if (this.edsClusterConfigBuilder_ == null) {
+                this.edsClusterConfigBuilder_ = new SingleFieldBuilderV3<>(getEdsClusterConfig(), getParentForChildren(), isClean());
+                this.edsClusterConfig_ = null;
+            }
+            return this.edsClusterConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Duration getConnectTimeout() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.connectTimeoutBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.connectTimeout_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setConnectTimeout(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.connectTimeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.connectTimeout_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setConnectTimeout(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.connectTimeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.connectTimeout_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeConnectTimeout(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.connectTimeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.connectTimeout_;
+                if (duration2 != null) {
+                    this.connectTimeout_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.connectTimeout_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearConnectTimeout() {
+            if (this.connectTimeoutBuilder_ == null) {
+                this.connectTimeout_ = null;
+                onChanged();
+            } else {
+                this.connectTimeout_ = null;
+                this.connectTimeoutBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getConnectTimeoutBuilder() {
+            onChanged();
+            return getConnectTimeoutFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public DurationOrBuilder getConnectTimeoutOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.connectTimeoutBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.connectTimeout_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getConnectTimeoutFieldBuilder() {
+            if (this.connectTimeoutBuilder_ == null) {
+                this.connectTimeoutBuilder_ = new SingleFieldBuilderV3<>(getConnectTimeout(), getParentForChildren(), isClean());
+                this.connectTimeout_ = null;
+            }
+            return this.connectTimeoutBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public UInt32Value getPerConnectionBufferLimitBytes() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perConnectionBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.perConnectionBufferLimitBytes_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setPerConnectionBufferLimitBytes(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perConnectionBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.perConnectionBufferLimitBytes_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setPerConnectionBufferLimitBytes(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perConnectionBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.perConnectionBufferLimitBytes_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergePerConnectionBufferLimitBytes(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perConnectionBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.perConnectionBufferLimitBytes_;
+                if (uInt32Value2 != null) {
+                    this.perConnectionBufferLimitBytes_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.perConnectionBufferLimitBytes_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearPerConnectionBufferLimitBytes() {
+            if (this.perConnectionBufferLimitBytesBuilder_ == null) {
+                this.perConnectionBufferLimitBytes_ = null;
+                onChanged();
+            } else {
+                this.perConnectionBufferLimitBytes_ = null;
+                this.perConnectionBufferLimitBytesBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getPerConnectionBufferLimitBytesBuilder() {
+            onChanged();
+            return getPerConnectionBufferLimitBytesFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public UInt32ValueOrBuilder getPerConnectionBufferLimitBytesOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.perConnectionBufferLimitBytesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.perConnectionBufferLimitBytes_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getPerConnectionBufferLimitBytesFieldBuilder() {
+            if (this.perConnectionBufferLimitBytesBuilder_ == null) {
+                this.perConnectionBufferLimitBytesBuilder_ = new SingleFieldBuilderV3<>(getPerConnectionBufferLimitBytes(), getParentForChildren(), isClean());
+                this.perConnectionBufferLimitBytes_ = null;
+            }
+            return this.perConnectionBufferLimitBytesBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public LbPolicy getLbPolicy() {
+            LbPolicy lbPolicyValueOf = LbPolicy.valueOf(this.lbPolicy_);
+            return lbPolicyValueOf == null ? LbPolicy.UNRECOGNIZED : lbPolicyValueOf;
+        }
+
+        public Builder setLbPolicy(LbPolicy lbPolicy) {
+            lbPolicy.getClass();
+            this.lbPolicy_ = lbPolicy.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearLbPolicy() {
+            this.lbPolicy_ = 0;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public ClusterLoadAssignment getLoadAssignment() {
+            SingleFieldBuilderV3<ClusterLoadAssignment, ClusterLoadAssignment.Builder, ClusterLoadAssignmentOrBuilder> singleFieldBuilderV3 = this.loadAssignmentBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            ClusterLoadAssignment clusterLoadAssignment = this.loadAssignment_;
+            return clusterLoadAssignment == null ? ClusterLoadAssignment.getDefaultInstance() : clusterLoadAssignment;
+        }
+
+        public Builder setLoadAssignment(ClusterLoadAssignment clusterLoadAssignment) {
+            SingleFieldBuilderV3<ClusterLoadAssignment, ClusterLoadAssignment.Builder, ClusterLoadAssignmentOrBuilder> singleFieldBuilderV3 = this.loadAssignmentBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                clusterLoadAssignment.getClass();
+                this.loadAssignment_ = clusterLoadAssignment;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(clusterLoadAssignment);
+            }
+            return this;
+        }
+
+        public Builder setLoadAssignment(ClusterLoadAssignment.Builder builder) {
+            SingleFieldBuilderV3<ClusterLoadAssignment, ClusterLoadAssignment.Builder, ClusterLoadAssignmentOrBuilder> singleFieldBuilderV3 = this.loadAssignmentBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.loadAssignment_ = builder.m24530build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m24530build());
+            }
+            return this;
+        }
+
+        public Builder mergeLoadAssignment(ClusterLoadAssignment clusterLoadAssignment) {
+            SingleFieldBuilderV3<ClusterLoadAssignment, ClusterLoadAssignment.Builder, ClusterLoadAssignmentOrBuilder> singleFieldBuilderV3 = this.loadAssignmentBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                ClusterLoadAssignment clusterLoadAssignment2 = this.loadAssignment_;
+                if (clusterLoadAssignment2 != null) {
+                    this.loadAssignment_ = ClusterLoadAssignment.newBuilder(clusterLoadAssignment2).mergeFrom(clusterLoadAssignment).m24532buildPartial();
+                } else {
+                    this.loadAssignment_ = clusterLoadAssignment;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(clusterLoadAssignment);
+            }
+            return this;
+        }
+
+        public Builder clearLoadAssignment() {
+            if (this.loadAssignmentBuilder_ == null) {
+                this.loadAssignment_ = null;
+                onChanged();
+            } else {
+                this.loadAssignment_ = null;
+                this.loadAssignmentBuilder_ = null;
+            }
+            return this;
+        }
+
+        public ClusterLoadAssignment.Builder getLoadAssignmentBuilder() {
+            onChanged();
+            return getLoadAssignmentFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public ClusterLoadAssignmentOrBuilder getLoadAssignmentOrBuilder() {
+            SingleFieldBuilderV3<ClusterLoadAssignment, ClusterLoadAssignment.Builder, ClusterLoadAssignmentOrBuilder> singleFieldBuilderV3 = this.loadAssignmentBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ClusterLoadAssignmentOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            ClusterLoadAssignment clusterLoadAssignment = this.loadAssignment_;
+            return clusterLoadAssignment == null ? ClusterLoadAssignment.getDefaultInstance() : clusterLoadAssignment;
+        }
+
+        private SingleFieldBuilderV3<ClusterLoadAssignment, ClusterLoadAssignment.Builder, ClusterLoadAssignmentOrBuilder> getLoadAssignmentFieldBuilder() {
+            if (this.loadAssignmentBuilder_ == null) {
+                this.loadAssignmentBuilder_ = new SingleFieldBuilderV3<>(getLoadAssignment(), getParentForChildren(), isClean());
+                this.loadAssignment_ = null;
+            }
+            return this.loadAssignmentBuilder_;
+        }
+
+        private void ensureHealthChecksIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.healthChecks_ = new ArrayList(this.healthChecks_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public List<HealthCheck> getHealthChecksList() {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.healthChecks_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getHealthChecksCount() {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.healthChecks_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public HealthCheck getHealthChecks(int i) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.healthChecks_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setHealthChecks(int i, HealthCheck healthCheck) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                healthCheck.getClass();
+                ensureHealthChecksIsMutable();
+                this.healthChecks_.set(i, healthCheck);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, healthCheck);
+            }
+            return this;
+        }
+
+        public Builder setHealthChecks(int i, HealthCheck.Builder builder) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHealthChecksIsMutable();
+                this.healthChecks_.set(i, builder.m22863build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m22863build());
+            }
+            return this;
+        }
+
+        public Builder addHealthChecks(HealthCheck healthCheck) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                healthCheck.getClass();
+                ensureHealthChecksIsMutable();
+                this.healthChecks_.add(healthCheck);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(healthCheck);
+            }
+            return this;
+        }
+
+        public Builder addHealthChecks(int i, HealthCheck healthCheck) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                healthCheck.getClass();
+                ensureHealthChecksIsMutable();
+                this.healthChecks_.add(i, healthCheck);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, healthCheck);
+            }
+            return this;
+        }
+
+        public Builder addHealthChecks(HealthCheck.Builder builder) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHealthChecksIsMutable();
+                this.healthChecks_.add(builder.m22863build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m22863build());
+            }
+            return this;
+        }
+
+        public Builder addHealthChecks(int i, HealthCheck.Builder builder) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHealthChecksIsMutable();
+                this.healthChecks_.add(i, builder.m22863build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m22863build());
+            }
+            return this;
+        }
+
+        public Builder addAllHealthChecks(Iterable<? extends HealthCheck> iterable) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHealthChecksIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.healthChecks_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearHealthChecks() {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.healthChecks_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeHealthChecks(int i) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHealthChecksIsMutable();
+                this.healthChecks_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public HealthCheck.Builder getHealthChecksBuilder(int i) {
+            return getHealthChecksFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public HealthCheckOrBuilder getHealthChecksOrBuilder(int i) {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.healthChecks_.get(i);
+            }
+            return (HealthCheckOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public List<? extends HealthCheckOrBuilder> getHealthChecksOrBuilderList() {
+            RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> repeatedFieldBuilderV3 = this.healthChecksBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.healthChecks_);
+        }
+
+        public HealthCheck.Builder addHealthChecksBuilder() {
+            return getHealthChecksFieldBuilder().addBuilder(HealthCheck.getDefaultInstance());
+        }
+
+        public HealthCheck.Builder addHealthChecksBuilder(int i) {
+            return getHealthChecksFieldBuilder().addBuilder(i, HealthCheck.getDefaultInstance());
+        }
+
+        public List<HealthCheck.Builder> getHealthChecksBuilderList() {
+            return getHealthChecksFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<HealthCheck, HealthCheck.Builder, HealthCheckOrBuilder> getHealthChecksFieldBuilder() {
+            if (this.healthChecksBuilder_ == null) {
+                this.healthChecksBuilder_ = new RepeatedFieldBuilderV3<>(this.healthChecks_, (this.bitField0_ & 2) != 0, getParentForChildren(), isClean());
+                this.healthChecks_ = null;
+            }
+            return this.healthChecksBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public UInt32Value getMaxRequestsPerConnection() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxRequestsPerConnectionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.maxRequestsPerConnection_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setMaxRequestsPerConnection(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxRequestsPerConnectionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.maxRequestsPerConnection_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setMaxRequestsPerConnection(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxRequestsPerConnectionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.maxRequestsPerConnection_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeMaxRequestsPerConnection(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxRequestsPerConnectionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.maxRequestsPerConnection_;
+                if (uInt32Value2 != null) {
+                    this.maxRequestsPerConnection_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.maxRequestsPerConnection_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearMaxRequestsPerConnection() {
+            if (this.maxRequestsPerConnectionBuilder_ == null) {
+                this.maxRequestsPerConnection_ = null;
+                onChanged();
+            } else {
+                this.maxRequestsPerConnection_ = null;
+                this.maxRequestsPerConnectionBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getMaxRequestsPerConnectionBuilder() {
+            onChanged();
+            return getMaxRequestsPerConnectionFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public UInt32ValueOrBuilder getMaxRequestsPerConnectionOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxRequestsPerConnectionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.maxRequestsPerConnection_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getMaxRequestsPerConnectionFieldBuilder() {
+            if (this.maxRequestsPerConnectionBuilder_ == null) {
+                this.maxRequestsPerConnectionBuilder_ = new SingleFieldBuilderV3<>(getMaxRequestsPerConnection(), getParentForChildren(), isClean());
+                this.maxRequestsPerConnection_ = null;
+            }
+            return this.maxRequestsPerConnectionBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public CircuitBreakers getCircuitBreakers() {
+            SingleFieldBuilderV3<CircuitBreakers, CircuitBreakers.Builder, CircuitBreakersOrBuilder> singleFieldBuilderV3 = this.circuitBreakersBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            CircuitBreakers circuitBreakers = this.circuitBreakers_;
+            return circuitBreakers == null ? CircuitBreakers.getDefaultInstance() : circuitBreakers;
+        }
+
+        public Builder setCircuitBreakers(CircuitBreakers circuitBreakers) {
+            SingleFieldBuilderV3<CircuitBreakers, CircuitBreakers.Builder, CircuitBreakersOrBuilder> singleFieldBuilderV3 = this.circuitBreakersBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                circuitBreakers.getClass();
+                this.circuitBreakers_ = circuitBreakers;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(circuitBreakers);
+            }
+            return this;
+        }
+
+        public Builder setCircuitBreakers(CircuitBreakers.Builder builder) {
+            SingleFieldBuilderV3<CircuitBreakers, CircuitBreakers.Builder, CircuitBreakersOrBuilder> singleFieldBuilderV3 = this.circuitBreakersBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.circuitBreakers_ = builder.m20274build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20274build());
+            }
+            return this;
+        }
+
+        public Builder mergeCircuitBreakers(CircuitBreakers circuitBreakers) {
+            SingleFieldBuilderV3<CircuitBreakers, CircuitBreakers.Builder, CircuitBreakersOrBuilder> singleFieldBuilderV3 = this.circuitBreakersBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                CircuitBreakers circuitBreakers2 = this.circuitBreakers_;
+                if (circuitBreakers2 != null) {
+                    this.circuitBreakers_ = CircuitBreakers.newBuilder(circuitBreakers2).mergeFrom(circuitBreakers).m20276buildPartial();
+                } else {
+                    this.circuitBreakers_ = circuitBreakers;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(circuitBreakers);
+            }
+            return this;
+        }
+
+        public Builder clearCircuitBreakers() {
+            if (this.circuitBreakersBuilder_ == null) {
+                this.circuitBreakers_ = null;
+                onChanged();
+            } else {
+                this.circuitBreakers_ = null;
+                this.circuitBreakersBuilder_ = null;
+            }
+            return this;
+        }
+
+        public CircuitBreakers.Builder getCircuitBreakersBuilder() {
+            onChanged();
+            return getCircuitBreakersFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public CircuitBreakersOrBuilder getCircuitBreakersOrBuilder() {
+            SingleFieldBuilderV3<CircuitBreakers, CircuitBreakers.Builder, CircuitBreakersOrBuilder> singleFieldBuilderV3 = this.circuitBreakersBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (CircuitBreakersOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            CircuitBreakers circuitBreakers = this.circuitBreakers_;
+            return circuitBreakers == null ? CircuitBreakers.getDefaultInstance() : circuitBreakers;
+        }
+
+        private SingleFieldBuilderV3<CircuitBreakers, CircuitBreakers.Builder, CircuitBreakersOrBuilder> getCircuitBreakersFieldBuilder() {
+            if (this.circuitBreakersBuilder_ == null) {
+                this.circuitBreakersBuilder_ = new SingleFieldBuilderV3<>(getCircuitBreakers(), getParentForChildren(), isClean());
+                this.circuitBreakers_ = null;
+            }
+            return this.circuitBreakersBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public UpstreamHttpProtocolOptions getUpstreamHttpProtocolOptions() {
+            SingleFieldBuilderV3<UpstreamHttpProtocolOptions, UpstreamHttpProtocolOptions.Builder, UpstreamHttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UpstreamHttpProtocolOptions upstreamHttpProtocolOptions = this.upstreamHttpProtocolOptions_;
+            return upstreamHttpProtocolOptions == null ? UpstreamHttpProtocolOptions.getDefaultInstance() : upstreamHttpProtocolOptions;
+        }
+
+        public Builder setUpstreamHttpProtocolOptions(UpstreamHttpProtocolOptions upstreamHttpProtocolOptions) {
+            SingleFieldBuilderV3<UpstreamHttpProtocolOptions, UpstreamHttpProtocolOptions.Builder, UpstreamHttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                upstreamHttpProtocolOptions.getClass();
+                this.upstreamHttpProtocolOptions_ = upstreamHttpProtocolOptions;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(upstreamHttpProtocolOptions);
+            }
+            return this;
+        }
+
+        public Builder setUpstreamHttpProtocolOptions(UpstreamHttpProtocolOptions.Builder builder) {
+            SingleFieldBuilderV3<UpstreamHttpProtocolOptions, UpstreamHttpProtocolOptions.Builder, UpstreamHttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.upstreamHttpProtocolOptions_ = builder.m24484build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m24484build());
+            }
+            return this;
+        }
+
+        public Builder mergeUpstreamHttpProtocolOptions(UpstreamHttpProtocolOptions upstreamHttpProtocolOptions) {
+            SingleFieldBuilderV3<UpstreamHttpProtocolOptions, UpstreamHttpProtocolOptions.Builder, UpstreamHttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UpstreamHttpProtocolOptions upstreamHttpProtocolOptions2 = this.upstreamHttpProtocolOptions_;
+                if (upstreamHttpProtocolOptions2 != null) {
+                    this.upstreamHttpProtocolOptions_ = UpstreamHttpProtocolOptions.newBuilder(upstreamHttpProtocolOptions2).mergeFrom(upstreamHttpProtocolOptions).m24486buildPartial();
+                } else {
+                    this.upstreamHttpProtocolOptions_ = upstreamHttpProtocolOptions;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(upstreamHttpProtocolOptions);
+            }
+            return this;
+        }
+
+        public Builder clearUpstreamHttpProtocolOptions() {
+            if (this.upstreamHttpProtocolOptionsBuilder_ == null) {
+                this.upstreamHttpProtocolOptions_ = null;
+                onChanged();
+            } else {
+                this.upstreamHttpProtocolOptions_ = null;
+                this.upstreamHttpProtocolOptionsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UpstreamHttpProtocolOptions.Builder getUpstreamHttpProtocolOptionsBuilder() {
+            onChanged();
+            return getUpstreamHttpProtocolOptionsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public UpstreamHttpProtocolOptionsOrBuilder getUpstreamHttpProtocolOptionsOrBuilder() {
+            SingleFieldBuilderV3<UpstreamHttpProtocolOptions, UpstreamHttpProtocolOptions.Builder, UpstreamHttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (UpstreamHttpProtocolOptionsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UpstreamHttpProtocolOptions upstreamHttpProtocolOptions = this.upstreamHttpProtocolOptions_;
+            return upstreamHttpProtocolOptions == null ? UpstreamHttpProtocolOptions.getDefaultInstance() : upstreamHttpProtocolOptions;
+        }
+
+        private SingleFieldBuilderV3<UpstreamHttpProtocolOptions, UpstreamHttpProtocolOptions.Builder, UpstreamHttpProtocolOptionsOrBuilder> getUpstreamHttpProtocolOptionsFieldBuilder() {
+            if (this.upstreamHttpProtocolOptionsBuilder_ == null) {
+                this.upstreamHttpProtocolOptionsBuilder_ = new SingleFieldBuilderV3<>(getUpstreamHttpProtocolOptions(), getParentForChildren(), isClean());
+                this.upstreamHttpProtocolOptions_ = null;
+            }
+            return this.upstreamHttpProtocolOptionsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public HttpProtocolOptions getCommonHttpProtocolOptions() {
+            SingleFieldBuilderV3<HttpProtocolOptions, HttpProtocolOptions.Builder, HttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.commonHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            HttpProtocolOptions httpProtocolOptions = this.commonHttpProtocolOptions_;
+            return httpProtocolOptions == null ? HttpProtocolOptions.getDefaultInstance() : httpProtocolOptions;
+        }
+
+        public Builder setCommonHttpProtocolOptions(HttpProtocolOptions httpProtocolOptions) {
+            SingleFieldBuilderV3<HttpProtocolOptions, HttpProtocolOptions.Builder, HttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.commonHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                httpProtocolOptions.getClass();
+                this.commonHttpProtocolOptions_ = httpProtocolOptions;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(httpProtocolOptions);
+            }
+            return this;
+        }
+
+        public Builder setCommonHttpProtocolOptions(HttpProtocolOptions.Builder builder) {
+            SingleFieldBuilderV3<HttpProtocolOptions, HttpProtocolOptions.Builder, HttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.commonHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.commonHttpProtocolOptions_ = builder.m23464build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m23464build());
+            }
+            return this;
+        }
+
+        public Builder mergeCommonHttpProtocolOptions(HttpProtocolOptions httpProtocolOptions) {
+            SingleFieldBuilderV3<HttpProtocolOptions, HttpProtocolOptions.Builder, HttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.commonHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                HttpProtocolOptions httpProtocolOptions2 = this.commonHttpProtocolOptions_;
+                if (httpProtocolOptions2 != null) {
+                    this.commonHttpProtocolOptions_ = HttpProtocolOptions.newBuilder(httpProtocolOptions2).mergeFrom(httpProtocolOptions).m23466buildPartial();
+                } else {
+                    this.commonHttpProtocolOptions_ = httpProtocolOptions;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(httpProtocolOptions);
+            }
+            return this;
+        }
+
+        public Builder clearCommonHttpProtocolOptions() {
+            if (this.commonHttpProtocolOptionsBuilder_ == null) {
+                this.commonHttpProtocolOptions_ = null;
+                onChanged();
+            } else {
+                this.commonHttpProtocolOptions_ = null;
+                this.commonHttpProtocolOptionsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public HttpProtocolOptions.Builder getCommonHttpProtocolOptionsBuilder() {
+            onChanged();
+            return getCommonHttpProtocolOptionsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public HttpProtocolOptionsOrBuilder getCommonHttpProtocolOptionsOrBuilder() {
+            SingleFieldBuilderV3<HttpProtocolOptions, HttpProtocolOptions.Builder, HttpProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.commonHttpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (HttpProtocolOptionsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            HttpProtocolOptions httpProtocolOptions = this.commonHttpProtocolOptions_;
+            return httpProtocolOptions == null ? HttpProtocolOptions.getDefaultInstance() : httpProtocolOptions;
+        }
+
+        private SingleFieldBuilderV3<HttpProtocolOptions, HttpProtocolOptions.Builder, HttpProtocolOptionsOrBuilder> getCommonHttpProtocolOptionsFieldBuilder() {
+            if (this.commonHttpProtocolOptionsBuilder_ == null) {
+                this.commonHttpProtocolOptionsBuilder_ = new SingleFieldBuilderV3<>(getCommonHttpProtocolOptions(), getParentForChildren(), isClean());
+                this.commonHttpProtocolOptions_ = null;
+            }
+            return this.commonHttpProtocolOptionsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Http1ProtocolOptions getHttpProtocolOptions() {
+            SingleFieldBuilderV3<Http1ProtocolOptions, Http1ProtocolOptions.Builder, Http1ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.httpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Http1ProtocolOptions http1ProtocolOptions = this.httpProtocolOptions_;
+            return http1ProtocolOptions == null ? Http1ProtocolOptions.getDefaultInstance() : http1ProtocolOptions;
+        }
+
+        public Builder setHttpProtocolOptions(Http1ProtocolOptions http1ProtocolOptions) {
+            SingleFieldBuilderV3<Http1ProtocolOptions, Http1ProtocolOptions.Builder, Http1ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.httpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                http1ProtocolOptions.getClass();
+                this.httpProtocolOptions_ = http1ProtocolOptions;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(http1ProtocolOptions);
+            }
+            return this;
+        }
+
+        public Builder setHttpProtocolOptions(Http1ProtocolOptions.Builder builder) {
+            SingleFieldBuilderV3<Http1ProtocolOptions, Http1ProtocolOptions.Builder, Http1ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.httpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.httpProtocolOptions_ = builder.m23234build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m23234build());
+            }
+            return this;
+        }
+
+        public Builder mergeHttpProtocolOptions(Http1ProtocolOptions http1ProtocolOptions) {
+            SingleFieldBuilderV3<Http1ProtocolOptions, Http1ProtocolOptions.Builder, Http1ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.httpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Http1ProtocolOptions http1ProtocolOptions2 = this.httpProtocolOptions_;
+                if (http1ProtocolOptions2 != null) {
+                    this.httpProtocolOptions_ = Http1ProtocolOptions.newBuilder(http1ProtocolOptions2).mergeFrom(http1ProtocolOptions).m23236buildPartial();
+                } else {
+                    this.httpProtocolOptions_ = http1ProtocolOptions;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(http1ProtocolOptions);
+            }
+            return this;
+        }
+
+        public Builder clearHttpProtocolOptions() {
+            if (this.httpProtocolOptionsBuilder_ == null) {
+                this.httpProtocolOptions_ = null;
+                onChanged();
+            } else {
+                this.httpProtocolOptions_ = null;
+                this.httpProtocolOptionsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Http1ProtocolOptions.Builder getHttpProtocolOptionsBuilder() {
+            onChanged();
+            return getHttpProtocolOptionsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Http1ProtocolOptionsOrBuilder getHttpProtocolOptionsOrBuilder() {
+            SingleFieldBuilderV3<Http1ProtocolOptions, Http1ProtocolOptions.Builder, Http1ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.httpProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (Http1ProtocolOptionsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Http1ProtocolOptions http1ProtocolOptions = this.httpProtocolOptions_;
+            return http1ProtocolOptions == null ? Http1ProtocolOptions.getDefaultInstance() : http1ProtocolOptions;
+        }
+
+        private SingleFieldBuilderV3<Http1ProtocolOptions, Http1ProtocolOptions.Builder, Http1ProtocolOptionsOrBuilder> getHttpProtocolOptionsFieldBuilder() {
+            if (this.httpProtocolOptionsBuilder_ == null) {
+                this.httpProtocolOptionsBuilder_ = new SingleFieldBuilderV3<>(getHttpProtocolOptions(), getParentForChildren(), isClean());
+                this.httpProtocolOptions_ = null;
+            }
+            return this.httpProtocolOptionsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Http2ProtocolOptions getHttp2ProtocolOptions() {
+            SingleFieldBuilderV3<Http2ProtocolOptions, Http2ProtocolOptions.Builder, Http2ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.http2ProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Http2ProtocolOptions http2ProtocolOptions = this.http2ProtocolOptions_;
+            return http2ProtocolOptions == null ? Http2ProtocolOptions.getDefaultInstance() : http2ProtocolOptions;
+        }
+
+        public Builder setHttp2ProtocolOptions(Http2ProtocolOptions http2ProtocolOptions) {
+            SingleFieldBuilderV3<Http2ProtocolOptions, Http2ProtocolOptions.Builder, Http2ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.http2ProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                http2ProtocolOptions.getClass();
+                this.http2ProtocolOptions_ = http2ProtocolOptions;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(http2ProtocolOptions);
+            }
+            return this;
+        }
+
+        public Builder setHttp2ProtocolOptions(Http2ProtocolOptions.Builder builder) {
+            SingleFieldBuilderV3<Http2ProtocolOptions, Http2ProtocolOptions.Builder, Http2ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.http2ProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.http2ProtocolOptions_ = builder.m23372build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m23372build());
+            }
+            return this;
+        }
+
+        public Builder mergeHttp2ProtocolOptions(Http2ProtocolOptions http2ProtocolOptions) {
+            SingleFieldBuilderV3<Http2ProtocolOptions, Http2ProtocolOptions.Builder, Http2ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.http2ProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Http2ProtocolOptions http2ProtocolOptions2 = this.http2ProtocolOptions_;
+                if (http2ProtocolOptions2 != null) {
+                    this.http2ProtocolOptions_ = Http2ProtocolOptions.newBuilder(http2ProtocolOptions2).mergeFrom(http2ProtocolOptions).m23374buildPartial();
+                } else {
+                    this.http2ProtocolOptions_ = http2ProtocolOptions;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(http2ProtocolOptions);
+            }
+            return this;
+        }
+
+        public Builder clearHttp2ProtocolOptions() {
+            if (this.http2ProtocolOptionsBuilder_ == null) {
+                this.http2ProtocolOptions_ = null;
+                onChanged();
+            } else {
+                this.http2ProtocolOptions_ = null;
+                this.http2ProtocolOptionsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Http2ProtocolOptions.Builder getHttp2ProtocolOptionsBuilder() {
+            onChanged();
+            return getHttp2ProtocolOptionsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Http2ProtocolOptionsOrBuilder getHttp2ProtocolOptionsOrBuilder() {
+            SingleFieldBuilderV3<Http2ProtocolOptions, Http2ProtocolOptions.Builder, Http2ProtocolOptionsOrBuilder> singleFieldBuilderV3 = this.http2ProtocolOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (Http2ProtocolOptionsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Http2ProtocolOptions http2ProtocolOptions = this.http2ProtocolOptions_;
+            return http2ProtocolOptions == null ? Http2ProtocolOptions.getDefaultInstance() : http2ProtocolOptions;
+        }
+
+        private SingleFieldBuilderV3<Http2ProtocolOptions, Http2ProtocolOptions.Builder, Http2ProtocolOptionsOrBuilder> getHttp2ProtocolOptionsFieldBuilder() {
+            if (this.http2ProtocolOptionsBuilder_ == null) {
+                this.http2ProtocolOptionsBuilder_ = new SingleFieldBuilderV3<>(getHttp2ProtocolOptions(), getParentForChildren(), isClean());
+                this.http2ProtocolOptions_ = null;
+            }
+            return this.http2ProtocolOptionsBuilder_;
+        }
+
+        private MapField<String, Any> internalGetTypedExtensionProtocolOptions() {
+            MapField<String, Any> mapField = this.typedExtensionProtocolOptions_;
+            return mapField == null ? MapField.emptyMapField(TypedExtensionProtocolOptionsDefaultEntryHolder.defaultEntry) : mapField;
+        }
+
+        private MapField<String, Any> internalGetMutableTypedExtensionProtocolOptions() {
+            onChanged();
+            if (this.typedExtensionProtocolOptions_ == null) {
+                this.typedExtensionProtocolOptions_ = MapField.newMapField(TypedExtensionProtocolOptionsDefaultEntryHolder.defaultEntry);
+            }
+            if (!this.typedExtensionProtocolOptions_.isMutable()) {
+                this.typedExtensionProtocolOptions_ = this.typedExtensionProtocolOptions_.copy();
+            }
+            return this.typedExtensionProtocolOptions_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getTypedExtensionProtocolOptionsCount() {
+            return internalGetTypedExtensionProtocolOptions().getMap().size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public boolean containsTypedExtensionProtocolOptions(String str) {
+            str.getClass();
+            return internalGetTypedExtensionProtocolOptions().getMap().containsKey(str);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        @Deprecated
+        public Map<String, Any> getTypedExtensionProtocolOptions() {
+            return getTypedExtensionProtocolOptionsMap();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Map<String, Any> getTypedExtensionProtocolOptionsMap() {
+            return internalGetTypedExtensionProtocolOptions().getMap();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Any getTypedExtensionProtocolOptionsOrDefault(String str, Any any) {
+            str.getClass();
+            Map map = internalGetTypedExtensionProtocolOptions().getMap();
+            return map.containsKey(str) ? (Any) map.get(str) : any;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Any getTypedExtensionProtocolOptionsOrThrow(String str) {
+            str.getClass();
+            Map map = internalGetTypedExtensionProtocolOptions().getMap();
+            if (!map.containsKey(str)) {
+                throw new IllegalArgumentException();
+            }
+            return (Any) map.get(str);
+        }
+
+        public Builder clearTypedExtensionProtocolOptions() {
+            internalGetMutableTypedExtensionProtocolOptions().getMutableMap().clear();
+            return this;
+        }
+
+        public Builder removeTypedExtensionProtocolOptions(String str) {
+            str.getClass();
+            internalGetMutableTypedExtensionProtocolOptions().getMutableMap().remove(str);
+            return this;
+        }
+
+        @Deprecated
+        public Map<String, Any> getMutableTypedExtensionProtocolOptions() {
+            return internalGetMutableTypedExtensionProtocolOptions().getMutableMap();
+        }
+
+        public Builder putTypedExtensionProtocolOptions(String str, Any any) {
+            str.getClass();
+            any.getClass();
+            internalGetMutableTypedExtensionProtocolOptions().getMutableMap().put(str, any);
+            return this;
+        }
+
+        public Builder putAllTypedExtensionProtocolOptions(Map<String, Any> map) {
+            internalGetMutableTypedExtensionProtocolOptions().getMutableMap().putAll(map);
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Duration getDnsRefreshRate() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.dnsRefreshRateBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.dnsRefreshRate_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setDnsRefreshRate(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.dnsRefreshRateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.dnsRefreshRate_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setDnsRefreshRate(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.dnsRefreshRateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.dnsRefreshRate_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeDnsRefreshRate(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.dnsRefreshRateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.dnsRefreshRate_;
+                if (duration2 != null) {
+                    this.dnsRefreshRate_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.dnsRefreshRate_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearDnsRefreshRate() {
+            if (this.dnsRefreshRateBuilder_ == null) {
+                this.dnsRefreshRate_ = null;
+                onChanged();
+            } else {
+                this.dnsRefreshRate_ = null;
+                this.dnsRefreshRateBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getDnsRefreshRateBuilder() {
+            onChanged();
+            return getDnsRefreshRateFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public DurationOrBuilder getDnsRefreshRateOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.dnsRefreshRateBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.dnsRefreshRate_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getDnsRefreshRateFieldBuilder() {
+            if (this.dnsRefreshRateBuilder_ == null) {
+                this.dnsRefreshRateBuilder_ = new SingleFieldBuilderV3<>(getDnsRefreshRate(), getParentForChildren(), isClean());
+                this.dnsRefreshRate_ = null;
+            }
+            return this.dnsRefreshRateBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public RefreshRate getDnsFailureRefreshRate() {
+            SingleFieldBuilderV3<RefreshRate, RefreshRate.Builder, RefreshRateOrBuilder> singleFieldBuilderV3 = this.dnsFailureRefreshRateBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            RefreshRate refreshRate = this.dnsFailureRefreshRate_;
+            return refreshRate == null ? RefreshRate.getDefaultInstance() : refreshRate;
+        }
+
+        public Builder setDnsFailureRefreshRate(RefreshRate refreshRate) {
+            SingleFieldBuilderV3<RefreshRate, RefreshRate.Builder, RefreshRateOrBuilder> singleFieldBuilderV3 = this.dnsFailureRefreshRateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                refreshRate.getClass();
+                this.dnsFailureRefreshRate_ = refreshRate;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(refreshRate);
+            }
+            return this;
+        }
+
+        public Builder setDnsFailureRefreshRate(RefreshRate.Builder builder) {
+            SingleFieldBuilderV3<RefreshRate, RefreshRate.Builder, RefreshRateOrBuilder> singleFieldBuilderV3 = this.dnsFailureRefreshRateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.dnsFailureRefreshRate_ = builder.m20926build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20926build());
+            }
+            return this;
+        }
+
+        public Builder mergeDnsFailureRefreshRate(RefreshRate refreshRate) {
+            SingleFieldBuilderV3<RefreshRate, RefreshRate.Builder, RefreshRateOrBuilder> singleFieldBuilderV3 = this.dnsFailureRefreshRateBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                RefreshRate refreshRate2 = this.dnsFailureRefreshRate_;
+                if (refreshRate2 != null) {
+                    this.dnsFailureRefreshRate_ = RefreshRate.newBuilder(refreshRate2).mergeFrom(refreshRate).m20928buildPartial();
+                } else {
+                    this.dnsFailureRefreshRate_ = refreshRate;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(refreshRate);
+            }
+            return this;
+        }
+
+        public Builder clearDnsFailureRefreshRate() {
+            if (this.dnsFailureRefreshRateBuilder_ == null) {
+                this.dnsFailureRefreshRate_ = null;
+                onChanged();
+            } else {
+                this.dnsFailureRefreshRate_ = null;
+                this.dnsFailureRefreshRateBuilder_ = null;
+            }
+            return this;
+        }
+
+        public RefreshRate.Builder getDnsFailureRefreshRateBuilder() {
+            onChanged();
+            return getDnsFailureRefreshRateFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public RefreshRateOrBuilder getDnsFailureRefreshRateOrBuilder() {
+            SingleFieldBuilderV3<RefreshRate, RefreshRate.Builder, RefreshRateOrBuilder> singleFieldBuilderV3 = this.dnsFailureRefreshRateBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (RefreshRateOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            RefreshRate refreshRate = this.dnsFailureRefreshRate_;
+            return refreshRate == null ? RefreshRate.getDefaultInstance() : refreshRate;
+        }
+
+        private SingleFieldBuilderV3<RefreshRate, RefreshRate.Builder, RefreshRateOrBuilder> getDnsFailureRefreshRateFieldBuilder() {
+            if (this.dnsFailureRefreshRateBuilder_ == null) {
+                this.dnsFailureRefreshRateBuilder_ = new SingleFieldBuilderV3<>(getDnsFailureRefreshRate(), getParentForChildren(), isClean());
+                this.dnsFailureRefreshRate_ = null;
+            }
+            return this.dnsFailureRefreshRateBuilder_;
+        }
+
+        public Builder clearRespectDnsTtl() {
+            this.respectDnsTtl_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public DnsLookupFamily getDnsLookupFamily() {
+            DnsLookupFamily dnsLookupFamilyValueOf = DnsLookupFamily.valueOf(this.dnsLookupFamily_);
+            return dnsLookupFamilyValueOf == null ? DnsLookupFamily.UNRECOGNIZED : dnsLookupFamilyValueOf;
+        }
+
+        public Builder setDnsLookupFamily(DnsLookupFamily dnsLookupFamily) {
+            dnsLookupFamily.getClass();
+            this.dnsLookupFamily_ = dnsLookupFamily.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearDnsLookupFamily() {
+            this.dnsLookupFamily_ = 0;
+            onChanged();
+            return this;
+        }
+
+        private void ensureDnsResolversIsMutable() {
+            if ((this.bitField0_ & 8) == 0) {
+                this.dnsResolvers_ = new ArrayList(this.dnsResolvers_);
+                this.bitField0_ |= 8;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public List<Address> getDnsResolversList() {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.dnsResolvers_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getDnsResolversCount() {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.dnsResolvers_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Address getDnsResolvers(int i) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.dnsResolvers_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setDnsResolvers(int i, Address address) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                address.getClass();
+                ensureDnsResolversIsMutable();
+                this.dnsResolvers_.set(i, address);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, address);
+            }
+            return this;
+        }
+
+        public Builder setDnsResolvers(int i, Address.Builder builder) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureDnsResolversIsMutable();
+                this.dnsResolvers_.set(i, builder.m21433build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m21433build());
+            }
+            return this;
+        }
+
+        public Builder addDnsResolvers(Address address) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                address.getClass();
+                ensureDnsResolversIsMutable();
+                this.dnsResolvers_.add(address);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(address);
+            }
+            return this;
+        }
+
+        public Builder addDnsResolvers(int i, Address address) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                address.getClass();
+                ensureDnsResolversIsMutable();
+                this.dnsResolvers_.add(i, address);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, address);
+            }
+            return this;
+        }
+
+        public Builder addDnsResolvers(Address.Builder builder) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureDnsResolversIsMutable();
+                this.dnsResolvers_.add(builder.m21433build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m21433build());
+            }
+            return this;
+        }
+
+        public Builder addDnsResolvers(int i, Address.Builder builder) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureDnsResolversIsMutable();
+                this.dnsResolvers_.add(i, builder.m21433build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m21433build());
+            }
+            return this;
+        }
+
+        public Builder addAllDnsResolvers(Iterable<? extends Address> iterable) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureDnsResolversIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.dnsResolvers_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearDnsResolvers() {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.dnsResolvers_ = Collections.emptyList();
+                this.bitField0_ &= -9;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeDnsResolvers(int i) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureDnsResolversIsMutable();
+                this.dnsResolvers_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public Address.Builder getDnsResolversBuilder(int i) {
+            return getDnsResolversFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public AddressOrBuilder getDnsResolversOrBuilder(int i) {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.dnsResolvers_.get(i);
+            }
+            return (AddressOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public List<? extends AddressOrBuilder> getDnsResolversOrBuilderList() {
+            RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> repeatedFieldBuilderV3 = this.dnsResolversBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.dnsResolvers_);
+        }
+
+        public Address.Builder addDnsResolversBuilder() {
+            return getDnsResolversFieldBuilder().addBuilder(Address.getDefaultInstance());
+        }
+
+        public Address.Builder addDnsResolversBuilder(int i) {
+            return getDnsResolversFieldBuilder().addBuilder(i, Address.getDefaultInstance());
+        }
+
+        public List<Address.Builder> getDnsResolversBuilderList() {
+            return getDnsResolversFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<Address, Address.Builder, AddressOrBuilder> getDnsResolversFieldBuilder() {
+            if (this.dnsResolversBuilder_ == null) {
+                this.dnsResolversBuilder_ = new RepeatedFieldBuilderV3<>(this.dnsResolvers_, (this.bitField0_ & 8) != 0, getParentForChildren(), isClean());
+                this.dnsResolvers_ = null;
+            }
+            return this.dnsResolversBuilder_;
+        }
+
+        public Builder clearUseTcpForDnsLookups() {
+            this.useTcpForDnsLookups_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public OutlierDetection getOutlierDetection() {
+            SingleFieldBuilderV3<OutlierDetection, OutlierDetection.Builder, OutlierDetectionOrBuilder> singleFieldBuilderV3 = this.outlierDetectionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            OutlierDetection outlierDetection = this.outlierDetection_;
+            return outlierDetection == null ? OutlierDetection.getDefaultInstance() : outlierDetection;
+        }
+
+        public Builder setOutlierDetection(OutlierDetection outlierDetection) {
+            SingleFieldBuilderV3<OutlierDetection, OutlierDetection.Builder, OutlierDetectionOrBuilder> singleFieldBuilderV3 = this.outlierDetectionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                outlierDetection.getClass();
+                this.outlierDetection_ = outlierDetection;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(outlierDetection);
+            }
+            return this;
+        }
+
+        public Builder setOutlierDetection(OutlierDetection.Builder builder) {
+            SingleFieldBuilderV3<OutlierDetection, OutlierDetection.Builder, OutlierDetectionOrBuilder> singleFieldBuilderV3 = this.outlierDetectionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.outlierDetection_ = builder.m21249build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21249build());
+            }
+            return this;
+        }
+
+        public Builder mergeOutlierDetection(OutlierDetection outlierDetection) {
+            SingleFieldBuilderV3<OutlierDetection, OutlierDetection.Builder, OutlierDetectionOrBuilder> singleFieldBuilderV3 = this.outlierDetectionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                OutlierDetection outlierDetection2 = this.outlierDetection_;
+                if (outlierDetection2 != null) {
+                    this.outlierDetection_ = OutlierDetection.newBuilder(outlierDetection2).mergeFrom(outlierDetection).m21251buildPartial();
+                } else {
+                    this.outlierDetection_ = outlierDetection;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(outlierDetection);
+            }
+            return this;
+        }
+
+        public Builder clearOutlierDetection() {
+            if (this.outlierDetectionBuilder_ == null) {
+                this.outlierDetection_ = null;
+                onChanged();
+            } else {
+                this.outlierDetection_ = null;
+                this.outlierDetectionBuilder_ = null;
+            }
+            return this;
+        }
+
+        public OutlierDetection.Builder getOutlierDetectionBuilder() {
+            onChanged();
+            return getOutlierDetectionFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public OutlierDetectionOrBuilder getOutlierDetectionOrBuilder() {
+            SingleFieldBuilderV3<OutlierDetection, OutlierDetection.Builder, OutlierDetectionOrBuilder> singleFieldBuilderV3 = this.outlierDetectionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (OutlierDetectionOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            OutlierDetection outlierDetection = this.outlierDetection_;
+            return outlierDetection == null ? OutlierDetection.getDefaultInstance() : outlierDetection;
+        }
+
+        private SingleFieldBuilderV3<OutlierDetection, OutlierDetection.Builder, OutlierDetectionOrBuilder> getOutlierDetectionFieldBuilder() {
+            if (this.outlierDetectionBuilder_ == null) {
+                this.outlierDetectionBuilder_ = new SingleFieldBuilderV3<>(getOutlierDetection(), getParentForChildren(), isClean());
+                this.outlierDetection_ = null;
+            }
+            return this.outlierDetectionBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Duration getCleanupInterval() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.cleanupIntervalBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.cleanupInterval_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setCleanupInterval(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.cleanupIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.cleanupInterval_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setCleanupInterval(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.cleanupIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.cleanupInterval_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeCleanupInterval(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.cleanupIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.cleanupInterval_;
+                if (duration2 != null) {
+                    this.cleanupInterval_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.cleanupInterval_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearCleanupInterval() {
+            if (this.cleanupIntervalBuilder_ == null) {
+                this.cleanupInterval_ = null;
+                onChanged();
+            } else {
+                this.cleanupInterval_ = null;
+                this.cleanupIntervalBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getCleanupIntervalBuilder() {
+            onChanged();
+            return getCleanupIntervalFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public DurationOrBuilder getCleanupIntervalOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.cleanupIntervalBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.cleanupInterval_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getCleanupIntervalFieldBuilder() {
+            if (this.cleanupIntervalBuilder_ == null) {
+                this.cleanupIntervalBuilder_ = new SingleFieldBuilderV3<>(getCleanupInterval(), getParentForChildren(), isClean());
+                this.cleanupInterval_ = null;
+            }
+            return this.cleanupIntervalBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public BindConfig getUpstreamBindConfig() {
+            SingleFieldBuilderV3<BindConfig, BindConfig.Builder, BindConfigOrBuilder> singleFieldBuilderV3 = this.upstreamBindConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BindConfig bindConfig = this.upstreamBindConfig_;
+            return bindConfig == null ? BindConfig.getDefaultInstance() : bindConfig;
+        }
+
+        public Builder setUpstreamBindConfig(BindConfig bindConfig) {
+            SingleFieldBuilderV3<BindConfig, BindConfig.Builder, BindConfigOrBuilder> singleFieldBuilderV3 = this.upstreamBindConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                bindConfig.getClass();
+                this.upstreamBindConfig_ = bindConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(bindConfig);
+            }
+            return this;
+        }
+
+        public Builder setUpstreamBindConfig(BindConfig.Builder builder) {
+            SingleFieldBuilderV3<BindConfig, BindConfig.Builder, BindConfigOrBuilder> singleFieldBuilderV3 = this.upstreamBindConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.upstreamBindConfig_ = builder.m21666build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21666build());
+            }
+            return this;
+        }
+
+        public Builder mergeUpstreamBindConfig(BindConfig bindConfig) {
+            SingleFieldBuilderV3<BindConfig, BindConfig.Builder, BindConfigOrBuilder> singleFieldBuilderV3 = this.upstreamBindConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BindConfig bindConfig2 = this.upstreamBindConfig_;
+                if (bindConfig2 != null) {
+                    this.upstreamBindConfig_ = BindConfig.newBuilder(bindConfig2).mergeFrom(bindConfig).m21668buildPartial();
+                } else {
+                    this.upstreamBindConfig_ = bindConfig;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(bindConfig);
+            }
+            return this;
+        }
+
+        public Builder clearUpstreamBindConfig() {
+            if (this.upstreamBindConfigBuilder_ == null) {
+                this.upstreamBindConfig_ = null;
+                onChanged();
+            } else {
+                this.upstreamBindConfig_ = null;
+                this.upstreamBindConfigBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BindConfig.Builder getUpstreamBindConfigBuilder() {
+            onChanged();
+            return getUpstreamBindConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public BindConfigOrBuilder getUpstreamBindConfigOrBuilder() {
+            SingleFieldBuilderV3<BindConfig, BindConfig.Builder, BindConfigOrBuilder> singleFieldBuilderV3 = this.upstreamBindConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (BindConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BindConfig bindConfig = this.upstreamBindConfig_;
+            return bindConfig == null ? BindConfig.getDefaultInstance() : bindConfig;
+        }
+
+        private SingleFieldBuilderV3<BindConfig, BindConfig.Builder, BindConfigOrBuilder> getUpstreamBindConfigFieldBuilder() {
+            if (this.upstreamBindConfigBuilder_ == null) {
+                this.upstreamBindConfigBuilder_ = new SingleFieldBuilderV3<>(getUpstreamBindConfig(), getParentForChildren(), isClean());
+                this.upstreamBindConfig_ = null;
+            }
+            return this.upstreamBindConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public LbSubsetConfig getLbSubsetConfig() {
+            SingleFieldBuilderV3<LbSubsetConfig, LbSubsetConfig.Builder, LbSubsetConfigOrBuilder> singleFieldBuilderV3 = this.lbSubsetConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            LbSubsetConfig lbSubsetConfig = this.lbSubsetConfig_;
+            return lbSubsetConfig == null ? LbSubsetConfig.getDefaultInstance() : lbSubsetConfig;
+        }
+
+        public Builder setLbSubsetConfig(LbSubsetConfig lbSubsetConfig) {
+            SingleFieldBuilderV3<LbSubsetConfig, LbSubsetConfig.Builder, LbSubsetConfigOrBuilder> singleFieldBuilderV3 = this.lbSubsetConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                lbSubsetConfig.getClass();
+                this.lbSubsetConfig_ = lbSubsetConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(lbSubsetConfig);
+            }
+            return this;
+        }
+
+        public Builder setLbSubsetConfig(LbSubsetConfig.Builder builder) {
+            SingleFieldBuilderV3<LbSubsetConfig, LbSubsetConfig.Builder, LbSubsetConfigOrBuilder> singleFieldBuilderV3 = this.lbSubsetConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lbSubsetConfig_ = builder.m20738build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20738build());
+            }
+            return this;
+        }
+
+        public Builder mergeLbSubsetConfig(LbSubsetConfig lbSubsetConfig) {
+            SingleFieldBuilderV3<LbSubsetConfig, LbSubsetConfig.Builder, LbSubsetConfigOrBuilder> singleFieldBuilderV3 = this.lbSubsetConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                LbSubsetConfig lbSubsetConfig2 = this.lbSubsetConfig_;
+                if (lbSubsetConfig2 != null) {
+                    this.lbSubsetConfig_ = LbSubsetConfig.newBuilder(lbSubsetConfig2).mergeFrom(lbSubsetConfig).m20740buildPartial();
+                } else {
+                    this.lbSubsetConfig_ = lbSubsetConfig;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(lbSubsetConfig);
+            }
+            return this;
+        }
+
+        public Builder clearLbSubsetConfig() {
+            if (this.lbSubsetConfigBuilder_ == null) {
+                this.lbSubsetConfig_ = null;
+                onChanged();
+            } else {
+                this.lbSubsetConfig_ = null;
+                this.lbSubsetConfigBuilder_ = null;
+            }
+            return this;
+        }
+
+        public LbSubsetConfig.Builder getLbSubsetConfigBuilder() {
+            onChanged();
+            return getLbSubsetConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public LbSubsetConfigOrBuilder getLbSubsetConfigOrBuilder() {
+            SingleFieldBuilderV3<LbSubsetConfig, LbSubsetConfig.Builder, LbSubsetConfigOrBuilder> singleFieldBuilderV3 = this.lbSubsetConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (LbSubsetConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            LbSubsetConfig lbSubsetConfig = this.lbSubsetConfig_;
+            return lbSubsetConfig == null ? LbSubsetConfig.getDefaultInstance() : lbSubsetConfig;
+        }
+
+        private SingleFieldBuilderV3<LbSubsetConfig, LbSubsetConfig.Builder, LbSubsetConfigOrBuilder> getLbSubsetConfigFieldBuilder() {
+            if (this.lbSubsetConfigBuilder_ == null) {
+                this.lbSubsetConfigBuilder_ = new SingleFieldBuilderV3<>(getLbSubsetConfig(), getParentForChildren(), isClean());
+                this.lbSubsetConfig_ = null;
+            }
+            return this.lbSubsetConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public RingHashLbConfig getRingHashLbConfig() {
+            SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> singleFieldBuilderV3 = this.ringHashLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.lbConfigCase_ == 23) {
+                    return (RingHashLbConfig) this.lbConfig_;
+                }
+                return RingHashLbConfig.getDefaultInstance();
+            }
+            if (this.lbConfigCase_ == 23) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return RingHashLbConfig.getDefaultInstance();
+        }
+
+        public Builder setRingHashLbConfig(RingHashLbConfig ringHashLbConfig) {
+            SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> singleFieldBuilderV3 = this.ringHashLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                ringHashLbConfig.getClass();
+                this.lbConfig_ = ringHashLbConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(ringHashLbConfig);
+            }
+            this.lbConfigCase_ = 23;
+            return this;
+        }
+
+        public Builder setRingHashLbConfig(RingHashLbConfig.Builder builder) {
+            SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> singleFieldBuilderV3 = this.ringHashLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lbConfig_ = builder.m20972build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20972build());
+            }
+            this.lbConfigCase_ = 23;
+            return this;
+        }
+
+        public Builder mergeRingHashLbConfig(RingHashLbConfig ringHashLbConfig) {
+            SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> singleFieldBuilderV3 = this.ringHashLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.lbConfigCase_ != 23 || this.lbConfig_ == RingHashLbConfig.getDefaultInstance()) {
+                    this.lbConfig_ = ringHashLbConfig;
+                } else {
+                    this.lbConfig_ = RingHashLbConfig.newBuilder((RingHashLbConfig) this.lbConfig_).mergeFrom(ringHashLbConfig).m20974buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.lbConfigCase_ == 23) {
+                    singleFieldBuilderV3.mergeFrom(ringHashLbConfig);
+                }
+                this.ringHashLbConfigBuilder_.setMessage(ringHashLbConfig);
+            }
+            this.lbConfigCase_ = 23;
+            return this;
+        }
+
+        public Builder clearRingHashLbConfig() {
+            SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> singleFieldBuilderV3 = this.ringHashLbConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.lbConfigCase_ == 23) {
+                    this.lbConfigCase_ = 0;
+                    this.lbConfig_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.lbConfigCase_ == 23) {
+                this.lbConfigCase_ = 0;
+                this.lbConfig_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public RingHashLbConfig.Builder getRingHashLbConfigBuilder() {
+            return getRingHashLbConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public RingHashLbConfigOrBuilder getRingHashLbConfigOrBuilder() {
+            SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> singleFieldBuilderV3;
+            int i = this.lbConfigCase_;
+            if (i == 23 && (singleFieldBuilderV3 = this.ringHashLbConfigBuilder_) != null) {
+                return (RingHashLbConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 23) {
+                return (RingHashLbConfig) this.lbConfig_;
+            }
+            return RingHashLbConfig.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<RingHashLbConfig, RingHashLbConfig.Builder, RingHashLbConfigOrBuilder> getRingHashLbConfigFieldBuilder() {
+            if (this.ringHashLbConfigBuilder_ == null) {
+                if (this.lbConfigCase_ != 23) {
+                    this.lbConfig_ = RingHashLbConfig.getDefaultInstance();
+                }
+                this.ringHashLbConfigBuilder_ = new SingleFieldBuilderV3<>((RingHashLbConfig) this.lbConfig_, getParentForChildren(), isClean());
+                this.lbConfig_ = null;
+            }
+            this.lbConfigCase_ = 23;
+            onChanged();
+            return this.ringHashLbConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public OriginalDstLbConfig getOriginalDstLbConfig() {
+            SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> singleFieldBuilderV3 = this.originalDstLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.lbConfigCase_ == 34) {
+                    return (OriginalDstLbConfig) this.lbConfig_;
+                }
+                return OriginalDstLbConfig.getDefaultInstance();
+            }
+            if (this.lbConfigCase_ == 34) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return OriginalDstLbConfig.getDefaultInstance();
+        }
+
+        public Builder setOriginalDstLbConfig(OriginalDstLbConfig originalDstLbConfig) {
+            SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> singleFieldBuilderV3 = this.originalDstLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                originalDstLbConfig.getClass();
+                this.lbConfig_ = originalDstLbConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(originalDstLbConfig);
+            }
+            this.lbConfigCase_ = 34;
+            return this;
+        }
+
+        public Builder setOriginalDstLbConfig(OriginalDstLbConfig.Builder builder) {
+            SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> singleFieldBuilderV3 = this.originalDstLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lbConfig_ = builder.m20880build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20880build());
+            }
+            this.lbConfigCase_ = 34;
+            return this;
+        }
+
+        public Builder mergeOriginalDstLbConfig(OriginalDstLbConfig originalDstLbConfig) {
+            SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> singleFieldBuilderV3 = this.originalDstLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.lbConfigCase_ != 34 || this.lbConfig_ == OriginalDstLbConfig.getDefaultInstance()) {
+                    this.lbConfig_ = originalDstLbConfig;
+                } else {
+                    this.lbConfig_ = OriginalDstLbConfig.newBuilder((OriginalDstLbConfig) this.lbConfig_).mergeFrom(originalDstLbConfig).m20882buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.lbConfigCase_ == 34) {
+                    singleFieldBuilderV3.mergeFrom(originalDstLbConfig);
+                }
+                this.originalDstLbConfigBuilder_.setMessage(originalDstLbConfig);
+            }
+            this.lbConfigCase_ = 34;
+            return this;
+        }
+
+        public Builder clearOriginalDstLbConfig() {
+            SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> singleFieldBuilderV3 = this.originalDstLbConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.lbConfigCase_ == 34) {
+                    this.lbConfigCase_ = 0;
+                    this.lbConfig_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.lbConfigCase_ == 34) {
+                this.lbConfigCase_ = 0;
+                this.lbConfig_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public OriginalDstLbConfig.Builder getOriginalDstLbConfigBuilder() {
+            return getOriginalDstLbConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public OriginalDstLbConfigOrBuilder getOriginalDstLbConfigOrBuilder() {
+            SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> singleFieldBuilderV3;
+            int i = this.lbConfigCase_;
+            if (i == 34 && (singleFieldBuilderV3 = this.originalDstLbConfigBuilder_) != null) {
+                return (OriginalDstLbConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 34) {
+                return (OriginalDstLbConfig) this.lbConfig_;
+            }
+            return OriginalDstLbConfig.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<OriginalDstLbConfig, OriginalDstLbConfig.Builder, OriginalDstLbConfigOrBuilder> getOriginalDstLbConfigFieldBuilder() {
+            if (this.originalDstLbConfigBuilder_ == null) {
+                if (this.lbConfigCase_ != 34) {
+                    this.lbConfig_ = OriginalDstLbConfig.getDefaultInstance();
+                }
+                this.originalDstLbConfigBuilder_ = new SingleFieldBuilderV3<>((OriginalDstLbConfig) this.lbConfig_, getParentForChildren(), isClean());
+                this.lbConfig_ = null;
+            }
+            this.lbConfigCase_ = 34;
+            onChanged();
+            return this.originalDstLbConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public LeastRequestLbConfig getLeastRequestLbConfig() {
+            SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> singleFieldBuilderV3 = this.leastRequestLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.lbConfigCase_ == 37) {
+                    return (LeastRequestLbConfig) this.lbConfig_;
+                }
+                return LeastRequestLbConfig.getDefaultInstance();
+            }
+            if (this.lbConfigCase_ == 37) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return LeastRequestLbConfig.getDefaultInstance();
+        }
+
+        public Builder setLeastRequestLbConfig(LeastRequestLbConfig leastRequestLbConfig) {
+            SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> singleFieldBuilderV3 = this.leastRequestLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                leastRequestLbConfig.getClass();
+                this.lbConfig_ = leastRequestLbConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(leastRequestLbConfig);
+            }
+            this.lbConfigCase_ = 37;
+            return this;
+        }
+
+        public Builder setLeastRequestLbConfig(LeastRequestLbConfig.Builder builder) {
+            SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> singleFieldBuilderV3 = this.leastRequestLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lbConfig_ = builder.m20834build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20834build());
+            }
+            this.lbConfigCase_ = 37;
+            return this;
+        }
+
+        public Builder mergeLeastRequestLbConfig(LeastRequestLbConfig leastRequestLbConfig) {
+            SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> singleFieldBuilderV3 = this.leastRequestLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.lbConfigCase_ != 37 || this.lbConfig_ == LeastRequestLbConfig.getDefaultInstance()) {
+                    this.lbConfig_ = leastRequestLbConfig;
+                } else {
+                    this.lbConfig_ = LeastRequestLbConfig.newBuilder((LeastRequestLbConfig) this.lbConfig_).mergeFrom(leastRequestLbConfig).m20836buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.lbConfigCase_ == 37) {
+                    singleFieldBuilderV3.mergeFrom(leastRequestLbConfig);
+                }
+                this.leastRequestLbConfigBuilder_.setMessage(leastRequestLbConfig);
+            }
+            this.lbConfigCase_ = 37;
+            return this;
+        }
+
+        public Builder clearLeastRequestLbConfig() {
+            SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> singleFieldBuilderV3 = this.leastRequestLbConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.lbConfigCase_ == 37) {
+                    this.lbConfigCase_ = 0;
+                    this.lbConfig_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.lbConfigCase_ == 37) {
+                this.lbConfigCase_ = 0;
+                this.lbConfig_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public LeastRequestLbConfig.Builder getLeastRequestLbConfigBuilder() {
+            return getLeastRequestLbConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public LeastRequestLbConfigOrBuilder getLeastRequestLbConfigOrBuilder() {
+            SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> singleFieldBuilderV3;
+            int i = this.lbConfigCase_;
+            if (i == 37 && (singleFieldBuilderV3 = this.leastRequestLbConfigBuilder_) != null) {
+                return (LeastRequestLbConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 37) {
+                return (LeastRequestLbConfig) this.lbConfig_;
+            }
+            return LeastRequestLbConfig.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<LeastRequestLbConfig, LeastRequestLbConfig.Builder, LeastRequestLbConfigOrBuilder> getLeastRequestLbConfigFieldBuilder() {
+            if (this.leastRequestLbConfigBuilder_ == null) {
+                if (this.lbConfigCase_ != 37) {
+                    this.lbConfig_ = LeastRequestLbConfig.getDefaultInstance();
+                }
+                this.leastRequestLbConfigBuilder_ = new SingleFieldBuilderV3<>((LeastRequestLbConfig) this.lbConfig_, getParentForChildren(), isClean());
+                this.lbConfig_ = null;
+            }
+            this.lbConfigCase_ = 37;
+            onChanged();
+            return this.leastRequestLbConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public CommonLbConfig getCommonLbConfig() {
+            SingleFieldBuilderV3<CommonLbConfig, CommonLbConfig.Builder, CommonLbConfigOrBuilder> singleFieldBuilderV3 = this.commonLbConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            CommonLbConfig commonLbConfig = this.commonLbConfig_;
+            return commonLbConfig == null ? CommonLbConfig.getDefaultInstance() : commonLbConfig;
+        }
+
+        public Builder setCommonLbConfig(CommonLbConfig commonLbConfig) {
+            SingleFieldBuilderV3<CommonLbConfig, CommonLbConfig.Builder, CommonLbConfigOrBuilder> singleFieldBuilderV3 = this.commonLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                commonLbConfig.getClass();
+                this.commonLbConfig_ = commonLbConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(commonLbConfig);
+            }
+            return this;
+        }
+
+        public Builder setCommonLbConfig(CommonLbConfig.Builder builder) {
+            SingleFieldBuilderV3<CommonLbConfig, CommonLbConfig.Builder, CommonLbConfigOrBuilder> singleFieldBuilderV3 = this.commonLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.commonLbConfig_ = builder.m20459build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m20459build());
+            }
+            return this;
+        }
+
+        public Builder mergeCommonLbConfig(CommonLbConfig commonLbConfig) {
+            SingleFieldBuilderV3<CommonLbConfig, CommonLbConfig.Builder, CommonLbConfigOrBuilder> singleFieldBuilderV3 = this.commonLbConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                CommonLbConfig commonLbConfig2 = this.commonLbConfig_;
+                if (commonLbConfig2 != null) {
+                    this.commonLbConfig_ = CommonLbConfig.newBuilder(commonLbConfig2).mergeFrom(commonLbConfig).m20461buildPartial();
+                } else {
+                    this.commonLbConfig_ = commonLbConfig;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(commonLbConfig);
+            }
+            return this;
+        }
+
+        public Builder clearCommonLbConfig() {
+            if (this.commonLbConfigBuilder_ == null) {
+                this.commonLbConfig_ = null;
+                onChanged();
+            } else {
+                this.commonLbConfig_ = null;
+                this.commonLbConfigBuilder_ = null;
+            }
+            return this;
+        }
+
+        public CommonLbConfig.Builder getCommonLbConfigBuilder() {
+            onChanged();
+            return getCommonLbConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public CommonLbConfigOrBuilder getCommonLbConfigOrBuilder() {
+            SingleFieldBuilderV3<CommonLbConfig, CommonLbConfig.Builder, CommonLbConfigOrBuilder> singleFieldBuilderV3 = this.commonLbConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (CommonLbConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            CommonLbConfig commonLbConfig = this.commonLbConfig_;
+            return commonLbConfig == null ? CommonLbConfig.getDefaultInstance() : commonLbConfig;
+        }
+
+        private SingleFieldBuilderV3<CommonLbConfig, CommonLbConfig.Builder, CommonLbConfigOrBuilder> getCommonLbConfigFieldBuilder() {
+            if (this.commonLbConfigBuilder_ == null) {
+                this.commonLbConfigBuilder_ = new SingleFieldBuilderV3<>(getCommonLbConfig(), getParentForChildren(), isClean());
+                this.commonLbConfig_ = null;
+            }
+            return this.commonLbConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public TransportSocket getTransportSocket() {
+            SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            TransportSocket transportSocket = this.transportSocket_;
+            return transportSocket == null ? TransportSocket.getDefaultInstance() : transportSocket;
+        }
+
+        public Builder setTransportSocket(TransportSocket transportSocket) {
+            SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                transportSocket.getClass();
+                this.transportSocket_ = transportSocket;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(transportSocket);
+            }
+            return this;
+        }
+
+        public Builder setTransportSocket(TransportSocket.Builder builder) {
+            SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.transportSocket_ = builder.m24392build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m24392build());
+            }
+            return this;
+        }
+
+        public Builder mergeTransportSocket(TransportSocket transportSocket) {
+            SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                TransportSocket transportSocket2 = this.transportSocket_;
+                if (transportSocket2 != null) {
+                    this.transportSocket_ = TransportSocket.newBuilder(transportSocket2).mergeFrom(transportSocket).m24394buildPartial();
+                } else {
+                    this.transportSocket_ = transportSocket;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(transportSocket);
+            }
+            return this;
+        }
+
+        public Builder clearTransportSocket() {
+            if (this.transportSocketBuilder_ == null) {
+                this.transportSocket_ = null;
+                onChanged();
+            } else {
+                this.transportSocket_ = null;
+                this.transportSocketBuilder_ = null;
+            }
+            return this;
+        }
+
+        public TransportSocket.Builder getTransportSocketBuilder() {
+            onChanged();
+            return getTransportSocketFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public TransportSocketOrBuilder getTransportSocketOrBuilder() {
+            SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> singleFieldBuilderV3 = this.transportSocketBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TransportSocketOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            TransportSocket transportSocket = this.transportSocket_;
+            return transportSocket == null ? TransportSocket.getDefaultInstance() : transportSocket;
+        }
+
+        private SingleFieldBuilderV3<TransportSocket, TransportSocket.Builder, TransportSocketOrBuilder> getTransportSocketFieldBuilder() {
+            if (this.transportSocketBuilder_ == null) {
+                this.transportSocketBuilder_ = new SingleFieldBuilderV3<>(getTransportSocket(), getParentForChildren(), isClean());
+                this.transportSocket_ = null;
+            }
+            return this.transportSocketBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Metadata getMetadata() {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Metadata metadata = this.metadata_;
+            return metadata == null ? Metadata.getDefaultInstance() : metadata;
+        }
+
+        public Builder setMetadata(Metadata metadata) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                metadata.getClass();
+                this.metadata_ = metadata;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(metadata);
+            }
+            return this;
+        }
+
+        public Builder setMetadata(Metadata.Builder builder) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.metadata_ = builder.m23603build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m23603build());
+            }
+            return this;
+        }
+
+        public Builder mergeMetadata(Metadata metadata) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Metadata metadata2 = this.metadata_;
+                if (metadata2 != null) {
+                    this.metadata_ = Metadata.newBuilder(metadata2).mergeFrom(metadata).m23605buildPartial();
+                } else {
+                    this.metadata_ = metadata;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(metadata);
+            }
+            return this;
+        }
+
+        public Builder clearMetadata() {
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+                onChanged();
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Metadata.Builder getMetadataBuilder() {
+            onChanged();
+            return getMetadataFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public MetadataOrBuilder getMetadataOrBuilder() {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (MetadataOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Metadata metadata = this.metadata_;
+            return metadata == null ? Metadata.getDefaultInstance() : metadata;
+        }
+
+        private SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> getMetadataFieldBuilder() {
+            if (this.metadataBuilder_ == null) {
+                this.metadataBuilder_ = new SingleFieldBuilderV3<>(getMetadata(), getParentForChildren(), isClean());
+                this.metadata_ = null;
+            }
+            return this.metadataBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public ClusterProtocolSelection getProtocolSelection() {
+            ClusterProtocolSelection clusterProtocolSelectionValueOf = ClusterProtocolSelection.valueOf(this.protocolSelection_);
+            return clusterProtocolSelectionValueOf == null ? ClusterProtocolSelection.UNRECOGNIZED : clusterProtocolSelectionValueOf;
+        }
+
+        public Builder setProtocolSelection(ClusterProtocolSelection clusterProtocolSelection) {
+            clusterProtocolSelection.getClass();
+            this.protocolSelection_ = clusterProtocolSelection.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearProtocolSelection() {
+            this.protocolSelection_ = 0;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public UpstreamConnectionOptions getUpstreamConnectionOptions() {
+            SingleFieldBuilderV3<UpstreamConnectionOptions, UpstreamConnectionOptions.Builder, UpstreamConnectionOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamConnectionOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UpstreamConnectionOptions upstreamConnectionOptions = this.upstreamConnectionOptions_;
+            return upstreamConnectionOptions == null ? UpstreamConnectionOptions.getDefaultInstance() : upstreamConnectionOptions;
+        }
+
+        public Builder setUpstreamConnectionOptions(UpstreamConnectionOptions upstreamConnectionOptions) {
+            SingleFieldBuilderV3<UpstreamConnectionOptions, UpstreamConnectionOptions.Builder, UpstreamConnectionOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamConnectionOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                upstreamConnectionOptions.getClass();
+                this.upstreamConnectionOptions_ = upstreamConnectionOptions;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(upstreamConnectionOptions);
+            }
+            return this;
+        }
+
+        public Builder setUpstreamConnectionOptions(UpstreamConnectionOptions.Builder builder) {
+            SingleFieldBuilderV3<UpstreamConnectionOptions, UpstreamConnectionOptions.Builder, UpstreamConnectionOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamConnectionOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.upstreamConnectionOptions_ = builder.m21387build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21387build());
+            }
+            return this;
+        }
+
+        public Builder mergeUpstreamConnectionOptions(UpstreamConnectionOptions upstreamConnectionOptions) {
+            SingleFieldBuilderV3<UpstreamConnectionOptions, UpstreamConnectionOptions.Builder, UpstreamConnectionOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamConnectionOptionsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UpstreamConnectionOptions upstreamConnectionOptions2 = this.upstreamConnectionOptions_;
+                if (upstreamConnectionOptions2 != null) {
+                    this.upstreamConnectionOptions_ = UpstreamConnectionOptions.newBuilder(upstreamConnectionOptions2).mergeFrom(upstreamConnectionOptions).m21389buildPartial();
+                } else {
+                    this.upstreamConnectionOptions_ = upstreamConnectionOptions;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(upstreamConnectionOptions);
+            }
+            return this;
+        }
+
+        public Builder clearUpstreamConnectionOptions() {
+            if (this.upstreamConnectionOptionsBuilder_ == null) {
+                this.upstreamConnectionOptions_ = null;
+                onChanged();
+            } else {
+                this.upstreamConnectionOptions_ = null;
+                this.upstreamConnectionOptionsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UpstreamConnectionOptions.Builder getUpstreamConnectionOptionsBuilder() {
+            onChanged();
+            return getUpstreamConnectionOptionsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public UpstreamConnectionOptionsOrBuilder getUpstreamConnectionOptionsOrBuilder() {
+            SingleFieldBuilderV3<UpstreamConnectionOptions, UpstreamConnectionOptions.Builder, UpstreamConnectionOptionsOrBuilder> singleFieldBuilderV3 = this.upstreamConnectionOptionsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (UpstreamConnectionOptionsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UpstreamConnectionOptions upstreamConnectionOptions = this.upstreamConnectionOptions_;
+            return upstreamConnectionOptions == null ? UpstreamConnectionOptions.getDefaultInstance() : upstreamConnectionOptions;
+        }
+
+        private SingleFieldBuilderV3<UpstreamConnectionOptions, UpstreamConnectionOptions.Builder, UpstreamConnectionOptionsOrBuilder> getUpstreamConnectionOptionsFieldBuilder() {
+            if (this.upstreamConnectionOptionsBuilder_ == null) {
+                this.upstreamConnectionOptionsBuilder_ = new SingleFieldBuilderV3<>(getUpstreamConnectionOptions(), getParentForChildren(), isClean());
+                this.upstreamConnectionOptions_ = null;
+            }
+            return this.upstreamConnectionOptionsBuilder_;
+        }
+
+        public Builder clearCloseConnectionsOnHostHealthFailure() {
+            this.closeConnectionsOnHostHealthFailure_ = false;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearIgnoreHealthOnHostRemoval() {
+            this.ignoreHealthOnHostRemoval_ = false;
+            onChanged();
+            return this;
+        }
+
+        private void ensureFiltersIsMutable() {
+            if ((this.bitField0_ & 16) == 0) {
+                this.filters_ = new ArrayList(this.filters_);
+                this.bitField0_ |= 16;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public List<Filter> getFiltersList() {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.filters_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public int getFiltersCount() {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.filters_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public Filter getFilters(int i) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.filters_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setFilters(int i, Filter filter) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                filter.getClass();
+                ensureFiltersIsMutable();
+                this.filters_.set(i, filter);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, filter);
+            }
+            return this;
+        }
+
+        public Builder setFilters(int i, Filter.Builder builder) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureFiltersIsMutable();
+                this.filters_.set(i, builder.m21111build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m21111build());
+            }
+            return this;
+        }
+
+        public Builder addFilters(Filter filter) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                filter.getClass();
+                ensureFiltersIsMutable();
+                this.filters_.add(filter);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(filter);
+            }
+            return this;
+        }
+
+        public Builder addFilters(int i, Filter filter) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                filter.getClass();
+                ensureFiltersIsMutable();
+                this.filters_.add(i, filter);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, filter);
+            }
+            return this;
+        }
+
+        public Builder addFilters(Filter.Builder builder) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureFiltersIsMutable();
+                this.filters_.add(builder.m21111build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m21111build());
+            }
+            return this;
+        }
+
+        public Builder addFilters(int i, Filter.Builder builder) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureFiltersIsMutable();
+                this.filters_.add(i, builder.m21111build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m21111build());
+            }
+            return this;
+        }
+
+        public Builder addAllFilters(Iterable<? extends Filter> iterable) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureFiltersIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.filters_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearFilters() {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.filters_ = Collections.emptyList();
+                this.bitField0_ &= -17;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeFilters(int i) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureFiltersIsMutable();
+                this.filters_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public Filter.Builder getFiltersBuilder(int i) {
+            return getFiltersFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public FilterOrBuilder getFiltersOrBuilder(int i) {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.filters_.get(i);
+            }
+            return (FilterOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public List<? extends FilterOrBuilder> getFiltersOrBuilderList() {
+            RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> repeatedFieldBuilderV3 = this.filtersBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.filters_);
+        }
+
+        public Filter.Builder addFiltersBuilder() {
+            return getFiltersFieldBuilder().addBuilder(Filter.getDefaultInstance());
+        }
+
+        public Filter.Builder addFiltersBuilder(int i) {
+            return getFiltersFieldBuilder().addBuilder(i, Filter.getDefaultInstance());
+        }
+
+        public List<Filter.Builder> getFiltersBuilderList() {
+            return getFiltersFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<Filter, Filter.Builder, FilterOrBuilder> getFiltersFieldBuilder() {
+            if (this.filtersBuilder_ == null) {
+                this.filtersBuilder_ = new RepeatedFieldBuilderV3<>(this.filters_, (this.bitField0_ & 16) != 0, getParentForChildren(), isClean());
+                this.filters_ = null;
+            }
+            return this.filtersBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public LoadBalancingPolicy getLoadBalancingPolicy() {
+            SingleFieldBuilderV3<LoadBalancingPolicy, LoadBalancingPolicy.Builder, LoadBalancingPolicyOrBuilder> singleFieldBuilderV3 = this.loadBalancingPolicyBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            LoadBalancingPolicy loadBalancingPolicy = this.loadBalancingPolicy_;
+            return loadBalancingPolicy == null ? LoadBalancingPolicy.getDefaultInstance() : loadBalancingPolicy;
+        }
+
+        public Builder setLoadBalancingPolicy(LoadBalancingPolicy loadBalancingPolicy) {
+            SingleFieldBuilderV3<LoadBalancingPolicy, LoadBalancingPolicy.Builder, LoadBalancingPolicyOrBuilder> singleFieldBuilderV3 = this.loadBalancingPolicyBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                loadBalancingPolicy.getClass();
+                this.loadBalancingPolicy_ = loadBalancingPolicy;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(loadBalancingPolicy);
+            }
+            return this;
+        }
+
+        public Builder setLoadBalancingPolicy(LoadBalancingPolicy.Builder builder) {
+            SingleFieldBuilderV3<LoadBalancingPolicy, LoadBalancingPolicy.Builder, LoadBalancingPolicyOrBuilder> singleFieldBuilderV3 = this.loadBalancingPolicyBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.loadBalancingPolicy_ = builder.m21157build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21157build());
+            }
+            return this;
+        }
+
+        public Builder mergeLoadBalancingPolicy(LoadBalancingPolicy loadBalancingPolicy) {
+            SingleFieldBuilderV3<LoadBalancingPolicy, LoadBalancingPolicy.Builder, LoadBalancingPolicyOrBuilder> singleFieldBuilderV3 = this.loadBalancingPolicyBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                LoadBalancingPolicy loadBalancingPolicy2 = this.loadBalancingPolicy_;
+                if (loadBalancingPolicy2 != null) {
+                    this.loadBalancingPolicy_ = LoadBalancingPolicy.newBuilder(loadBalancingPolicy2).mergeFrom(loadBalancingPolicy).m21159buildPartial();
+                } else {
+                    this.loadBalancingPolicy_ = loadBalancingPolicy;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(loadBalancingPolicy);
+            }
+            return this;
+        }
+
+        public Builder clearLoadBalancingPolicy() {
+            if (this.loadBalancingPolicyBuilder_ == null) {
+                this.loadBalancingPolicy_ = null;
+                onChanged();
+            } else {
+                this.loadBalancingPolicy_ = null;
+                this.loadBalancingPolicyBuilder_ = null;
+            }
+            return this;
+        }
+
+        public LoadBalancingPolicy.Builder getLoadBalancingPolicyBuilder() {
+            onChanged();
+            return getLoadBalancingPolicyFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public LoadBalancingPolicyOrBuilder getLoadBalancingPolicyOrBuilder() {
+            SingleFieldBuilderV3<LoadBalancingPolicy, LoadBalancingPolicy.Builder, LoadBalancingPolicyOrBuilder> singleFieldBuilderV3 = this.loadBalancingPolicyBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (LoadBalancingPolicyOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            LoadBalancingPolicy loadBalancingPolicy = this.loadBalancingPolicy_;
+            return loadBalancingPolicy == null ? LoadBalancingPolicy.getDefaultInstance() : loadBalancingPolicy;
+        }
+
+        private SingleFieldBuilderV3<LoadBalancingPolicy, LoadBalancingPolicy.Builder, LoadBalancingPolicyOrBuilder> getLoadBalancingPolicyFieldBuilder() {
+            if (this.loadBalancingPolicyBuilder_ == null) {
+                this.loadBalancingPolicyBuilder_ = new SingleFieldBuilderV3<>(getLoadBalancingPolicy(), getParentForChildren(), isClean());
+                this.loadBalancingPolicy_ = null;
+            }
+            return this.loadBalancingPolicyBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public ConfigSource getLrsServer() {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.lrsServerBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            ConfigSource configSource = this.lrsServer_;
+            return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+        }
+
+        public Builder setLrsServer(ConfigSource configSource) {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.lrsServerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                configSource.getClass();
+                this.lrsServer_ = configSource;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(configSource);
+            }
+            return this;
+        }
+
+        public Builder setLrsServer(ConfigSource.Builder builder) {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.lrsServerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.lrsServer_ = builder.m21804build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21804build());
+            }
+            return this;
+        }
+
+        public Builder mergeLrsServer(ConfigSource configSource) {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.lrsServerBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                ConfigSource configSource2 = this.lrsServer_;
+                if (configSource2 != null) {
+                    this.lrsServer_ = ConfigSource.newBuilder(configSource2).mergeFrom(configSource).m21806buildPartial();
+                } else {
+                    this.lrsServer_ = configSource;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(configSource);
+            }
+            return this;
+        }
+
+        public Builder clearLrsServer() {
+            if (this.lrsServerBuilder_ == null) {
+                this.lrsServer_ = null;
+                onChanged();
+            } else {
+                this.lrsServer_ = null;
+                this.lrsServerBuilder_ = null;
+            }
+            return this;
+        }
+
+        public ConfigSource.Builder getLrsServerBuilder() {
+            onChanged();
+            return getLrsServerFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public ConfigSourceOrBuilder getLrsServerOrBuilder() {
+            SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> singleFieldBuilderV3 = this.lrsServerBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (ConfigSourceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            ConfigSource configSource = this.lrsServer_;
+            return configSource == null ? ConfigSource.getDefaultInstance() : configSource;
+        }
+
+        private SingleFieldBuilderV3<ConfigSource, ConfigSource.Builder, ConfigSourceOrBuilder> getLrsServerFieldBuilder() {
+            if (this.lrsServerBuilder_ == null) {
+                this.lrsServerBuilder_ = new SingleFieldBuilderV3<>(getLrsServer(), getParentForChildren(), isClean());
+                this.lrsServer_ = null;
+            }
+            return this.lrsServerBuilder_;
+        }
+
+        @Deprecated
+        public Builder clearTrackTimeoutBudgets() {
+            this.trackTimeoutBudgets_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public TypedExtensionConfig getUpstreamConfig() {
+            SingleFieldBuilderV3<TypedExtensionConfig, TypedExtensionConfig.Builder, TypedExtensionConfigOrBuilder> singleFieldBuilderV3 = this.upstreamConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            TypedExtensionConfig typedExtensionConfig = this.upstreamConfig_;
+            return typedExtensionConfig == null ? TypedExtensionConfig.getDefaultInstance() : typedExtensionConfig;
+        }
+
+        public Builder setUpstreamConfig(TypedExtensionConfig typedExtensionConfig) {
+            SingleFieldBuilderV3<TypedExtensionConfig, TypedExtensionConfig.Builder, TypedExtensionConfigOrBuilder> singleFieldBuilderV3 = this.upstreamConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                typedExtensionConfig.getClass();
+                this.upstreamConfig_ = typedExtensionConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(typedExtensionConfig);
+            }
+            return this;
+        }
+
+        public Builder setUpstreamConfig(TypedExtensionConfig.Builder builder) {
+            SingleFieldBuilderV3<TypedExtensionConfig, TypedExtensionConfig.Builder, TypedExtensionConfigOrBuilder> singleFieldBuilderV3 = this.upstreamConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.upstreamConfig_ = builder.m24438build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m24438build());
+            }
+            return this;
+        }
+
+        public Builder mergeUpstreamConfig(TypedExtensionConfig typedExtensionConfig) {
+            SingleFieldBuilderV3<TypedExtensionConfig, TypedExtensionConfig.Builder, TypedExtensionConfigOrBuilder> singleFieldBuilderV3 = this.upstreamConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                TypedExtensionConfig typedExtensionConfig2 = this.upstreamConfig_;
+                if (typedExtensionConfig2 != null) {
+                    this.upstreamConfig_ = TypedExtensionConfig.newBuilder(typedExtensionConfig2).mergeFrom(typedExtensionConfig).m24440buildPartial();
+                } else {
+                    this.upstreamConfig_ = typedExtensionConfig;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(typedExtensionConfig);
+            }
+            return this;
+        }
+
+        public Builder clearUpstreamConfig() {
+            if (this.upstreamConfigBuilder_ == null) {
+                this.upstreamConfig_ = null;
+                onChanged();
+            } else {
+                this.upstreamConfig_ = null;
+                this.upstreamConfigBuilder_ = null;
+            }
+            return this;
+        }
+
+        public TypedExtensionConfig.Builder getUpstreamConfigBuilder() {
+            onChanged();
+            return getUpstreamConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public TypedExtensionConfigOrBuilder getUpstreamConfigOrBuilder() {
+            SingleFieldBuilderV3<TypedExtensionConfig, TypedExtensionConfig.Builder, TypedExtensionConfigOrBuilder> singleFieldBuilderV3 = this.upstreamConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TypedExtensionConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            TypedExtensionConfig typedExtensionConfig = this.upstreamConfig_;
+            return typedExtensionConfig == null ? TypedExtensionConfig.getDefaultInstance() : typedExtensionConfig;
+        }
+
+        private SingleFieldBuilderV3<TypedExtensionConfig, TypedExtensionConfig.Builder, TypedExtensionConfigOrBuilder> getUpstreamConfigFieldBuilder() {
+            if (this.upstreamConfigBuilder_ == null) {
+                this.upstreamConfigBuilder_ = new SingleFieldBuilderV3<>(getUpstreamConfig(), getParentForChildren(), isClean());
+                this.upstreamConfig_ = null;
+            }
+            return this.upstreamConfigBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public TrackClusterStats getTrackClusterStats() {
+            SingleFieldBuilderV3<TrackClusterStats, TrackClusterStats.Builder, TrackClusterStatsOrBuilder> singleFieldBuilderV3 = this.trackClusterStatsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            TrackClusterStats trackClusterStats = this.trackClusterStats_;
+            return trackClusterStats == null ? TrackClusterStats.getDefaultInstance() : trackClusterStats;
+        }
+
+        public Builder setTrackClusterStats(TrackClusterStats trackClusterStats) {
+            SingleFieldBuilderV3<TrackClusterStats, TrackClusterStats.Builder, TrackClusterStatsOrBuilder> singleFieldBuilderV3 = this.trackClusterStatsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                trackClusterStats.getClass();
+                this.trackClusterStats_ = trackClusterStats;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(trackClusterStats);
+            }
+            return this;
+        }
+
+        public Builder setTrackClusterStats(TrackClusterStats.Builder builder) {
+            SingleFieldBuilderV3<TrackClusterStats, TrackClusterStats.Builder, TrackClusterStatsOrBuilder> singleFieldBuilderV3 = this.trackClusterStatsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.trackClusterStats_ = builder.m21295build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m21295build());
+            }
+            return this;
+        }
+
+        public Builder mergeTrackClusterStats(TrackClusterStats trackClusterStats) {
+            SingleFieldBuilderV3<TrackClusterStats, TrackClusterStats.Builder, TrackClusterStatsOrBuilder> singleFieldBuilderV3 = this.trackClusterStatsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                TrackClusterStats trackClusterStats2 = this.trackClusterStats_;
+                if (trackClusterStats2 != null) {
+                    this.trackClusterStats_ = TrackClusterStats.newBuilder(trackClusterStats2).mergeFrom(trackClusterStats).m21297buildPartial();
+                } else {
+                    this.trackClusterStats_ = trackClusterStats;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(trackClusterStats);
+            }
+            return this;
+        }
+
+        public Builder clearTrackClusterStats() {
+            if (this.trackClusterStatsBuilder_ == null) {
+                this.trackClusterStats_ = null;
+                onChanged();
+            } else {
+                this.trackClusterStats_ = null;
+                this.trackClusterStatsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public TrackClusterStats.Builder getTrackClusterStatsBuilder() {
+            onChanged();
+            return getTrackClusterStatsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.ClusterOrBuilder
+        public TrackClusterStatsOrBuilder getTrackClusterStatsOrBuilder() {
+            SingleFieldBuilderV3<TrackClusterStats, TrackClusterStats.Builder, TrackClusterStatsOrBuilder> singleFieldBuilderV3 = this.trackClusterStatsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TrackClusterStatsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            TrackClusterStats trackClusterStats = this.trackClusterStats_;
+            return trackClusterStats == null ? TrackClusterStats.getDefaultInstance() : trackClusterStats;
+        }
+
+        private SingleFieldBuilderV3<TrackClusterStats, TrackClusterStats.Builder, TrackClusterStatsOrBuilder> getTrackClusterStatsFieldBuilder() {
+            if (this.trackClusterStatsBuilder_ == null) {
+                this.trackClusterStatsBuilder_ = new SingleFieldBuilderV3<>(getTrackClusterStats(), getParentForChildren(), isClean());
+                this.trackClusterStats_ = null;
+            }
+            return this.trackClusterStatsBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m20446setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m20440mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$ClusterDiscoveryTypeCase;
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$CommonLbConfig$LocalityConfigSpecifierCase;
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$LbConfigCase;
+
+        static {
+            int[] iArr = new int[LbConfigCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$LbConfigCase = iArr;
+            try {
+                iArr[LbConfigCase.RING_HASH_LB_CONFIG.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$LbConfigCase[LbConfigCase.ORIGINAL_DST_LB_CONFIG.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$LbConfigCase[LbConfigCase.LEAST_REQUEST_LB_CONFIG.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$LbConfigCase[LbConfigCase.LBCONFIG_NOT_SET.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            int[] iArr2 = new int[ClusterDiscoveryTypeCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$ClusterDiscoveryTypeCase = iArr2;
+            try {
+                iArr2[ClusterDiscoveryTypeCase.TYPE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$ClusterDiscoveryTypeCase[ClusterDiscoveryTypeCase.CLUSTER_TYPE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$ClusterDiscoveryTypeCase[ClusterDiscoveryTypeCase.CLUSTERDISCOVERYTYPE_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused7) {
+            }
+            int[] iArr3 = new int[CommonLbConfig.LocalityConfigSpecifierCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$CommonLbConfig$LocalityConfigSpecifierCase = iArr3;
+            try {
+                iArr3[CommonLbConfig.LocalityConfigSpecifierCase.ZONE_AWARE_LB_CONFIG.ordinal()] = 1;
+            } catch (NoSuchFieldError unused8) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$CommonLbConfig$LocalityConfigSpecifierCase[CommonLbConfig.LocalityConfigSpecifierCase.LOCALITY_WEIGHTED_LB_CONFIG.ordinal()] = 2;
+            } catch (NoSuchFieldError unused9) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$config$cluster$v3$Cluster$CommonLbConfig$LocalityConfigSpecifierCase[CommonLbConfig.LocalityConfigSpecifierCase.LOCALITYCONFIGSPECIFIER_NOT_SET.ordinal()] = 3;
+            } catch (NoSuchFieldError unused10) {
+            }
+        }
+    }
+}

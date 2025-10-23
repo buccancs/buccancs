@@ -1,0 +1,305 @@
+package org.apache.commons.collections.list;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+import org.apache.commons.collections.list.AbstractLinkedList;
+
+/* loaded from: classes5.dex */
+public class CursorableLinkedList extends AbstractLinkedList implements Serializable {
+    private static final long serialVersionUID = 8836393098519411393L;
+    protected transient List cursors;
+
+    public CursorableLinkedList() {
+        this.cursors = new ArrayList();
+        init();
+    }
+
+    public CursorableLinkedList(Collection collection) {
+        super(collection);
+        this.cursors = new ArrayList();
+    }
+
+    @Override // org.apache.commons.collections.list.AbstractLinkedList
+    protected void init() {
+        super.init();
+        this.cursors = new ArrayList();
+    }
+
+    @Override
+    // org.apache.commons.collections.list.AbstractLinkedList, java.util.List, java.util.Collection, java.lang.Iterable
+    public Iterator iterator() {
+        return super.listIterator(0);
+    }
+
+    @Override // org.apache.commons.collections.list.AbstractLinkedList, java.util.List
+    public ListIterator listIterator() {
+        return cursor(0);
+    }
+
+    @Override // org.apache.commons.collections.list.AbstractLinkedList, java.util.List
+    public ListIterator listIterator(int i) {
+        return cursor(i);
+    }
+
+    public Cursor cursor() {
+        return cursor(0);
+    }
+
+    public Cursor cursor(int i) {
+        Cursor cursor = new Cursor(this, i);
+        registerCursor(cursor);
+        return cursor;
+    }
+
+    @Override // org.apache.commons.collections.list.AbstractLinkedList
+    protected void updateNode(AbstractLinkedList.Node node, Object obj) {
+        super.updateNode(node, obj);
+        broadcastNodeChanged(node);
+    }
+
+    @Override // org.apache.commons.collections.list.AbstractLinkedList
+    protected void addNode(AbstractLinkedList.Node node, AbstractLinkedList.Node node2) {
+        super.addNode(node, node2);
+        broadcastNodeInserted(node);
+    }
+
+    @Override // org.apache.commons.collections.list.AbstractLinkedList
+    protected void removeNode(AbstractLinkedList.Node node) {
+        super.removeNode(node);
+        broadcastNodeRemoved(node);
+    }
+
+    @Override // org.apache.commons.collections.list.AbstractLinkedList
+    protected void removeAllNodes() {
+        if (size() > 0) {
+            Iterator it2 = iterator();
+            while (it2.hasNext()) {
+                it2.next();
+                it2.remove();
+            }
+        }
+    }
+
+    protected void registerCursor(Cursor cursor) {
+        Iterator it2 = this.cursors.iterator();
+        while (it2.hasNext()) {
+            if (((WeakReference) it2.next()).get() == null) {
+                it2.remove();
+            }
+        }
+        this.cursors.add(new WeakReference(cursor));
+    }
+
+    protected void unregisterCursor(Cursor cursor) {
+        Iterator it2 = this.cursors.iterator();
+        while (it2.hasNext()) {
+            WeakReference weakReference = (WeakReference) it2.next();
+            Cursor cursor2 = (Cursor) weakReference.get();
+            if (cursor2 == null) {
+                it2.remove();
+            } else if (cursor2 == cursor) {
+                weakReference.clear();
+                it2.remove();
+                return;
+            }
+        }
+    }
+
+    protected void broadcastNodeChanged(AbstractLinkedList.Node node) {
+        Iterator it2 = this.cursors.iterator();
+        while (it2.hasNext()) {
+            Cursor cursor = (Cursor) ((WeakReference) it2.next()).get();
+            if (cursor == null) {
+                it2.remove();
+            } else {
+                cursor.nodeChanged(node);
+            }
+        }
+    }
+
+    protected void broadcastNodeRemoved(AbstractLinkedList.Node node) {
+        Iterator it2 = this.cursors.iterator();
+        while (it2.hasNext()) {
+            Cursor cursor = (Cursor) ((WeakReference) it2.next()).get();
+            if (cursor == null) {
+                it2.remove();
+            } else {
+                cursor.nodeRemoved(node);
+            }
+        }
+    }
+
+    protected void broadcastNodeInserted(AbstractLinkedList.Node node) {
+        Iterator it2 = this.cursors.iterator();
+        while (it2.hasNext()) {
+            Cursor cursor = (Cursor) ((WeakReference) it2.next()).get();
+            if (cursor == null) {
+                it2.remove();
+            } else {
+                cursor.nodeInserted(node);
+            }
+        }
+    }
+
+    private void writeObject(ObjectOutputStream objectOutputStream) throws IOException {
+        objectOutputStream.defaultWriteObject();
+        doWriteObject(objectOutputStream);
+    }
+
+    private void readObject(ObjectInputStream objectInputStream) throws ClassNotFoundException, IOException {
+        objectInputStream.defaultReadObject();
+        doReadObject(objectInputStream);
+    }
+
+    @Override // org.apache.commons.collections.list.AbstractLinkedList
+    protected ListIterator createSubListListIterator(AbstractLinkedList.LinkedSubList linkedSubList, int i) {
+        SubCursor subCursor = new SubCursor(linkedSubList, i);
+        registerCursor(subCursor);
+        return subCursor;
+    }
+
+    public static class Cursor extends AbstractLinkedList.LinkedListIterator {
+        boolean currentRemovedByAnother;
+        boolean nextIndexValid;
+        boolean valid;
+
+        protected Cursor(CursorableLinkedList cursorableLinkedList, int i) {
+            super(cursorableLinkedList, i);
+            this.nextIndexValid = true;
+            this.currentRemovedByAnother = false;
+            this.valid = true;
+        }
+
+        protected void nodeChanged(AbstractLinkedList.Node node) {
+        }
+
+        @Override
+        // org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator, java.util.ListIterator, java.util.Iterator
+        public void remove() {
+            if (this.current != null || !this.currentRemovedByAnother) {
+                checkModCount();
+                this.parent.removeNode(getLastNodeReturned());
+            }
+            this.currentRemovedByAnother = false;
+        }
+
+        @Override // org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator, java.util.ListIterator
+        public void add(Object obj) {
+            super.add(obj);
+            this.next = this.next.next;
+        }
+
+        @Override // org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator, java.util.ListIterator
+        public int nextIndex() {
+            if (!this.nextIndexValid) {
+                if (this.next == this.parent.header) {
+                    this.nextIndex = this.parent.size();
+                } else {
+                    int i = 0;
+                    for (AbstractLinkedList.Node node = this.parent.header.next; node != this.next; node = node.next) {
+                        i++;
+                    }
+                    this.nextIndex = i;
+                }
+                this.nextIndexValid = true;
+            }
+            return this.nextIndex;
+        }
+
+        protected void nodeRemoved(AbstractLinkedList.Node node) {
+            if (node == this.next && node == this.current) {
+                this.next = node.next;
+                this.current = null;
+                this.currentRemovedByAnother = true;
+            } else if (node == this.next) {
+                this.next = node.next;
+                this.currentRemovedByAnother = false;
+            } else if (node != this.current) {
+                this.nextIndexValid = false;
+                this.currentRemovedByAnother = false;
+            } else {
+                this.current = null;
+                this.currentRemovedByAnother = true;
+                this.nextIndex--;
+            }
+        }
+
+        protected void nodeInserted(AbstractLinkedList.Node node) {
+            if (node.previous == this.current) {
+                this.next = node;
+            } else if (this.next.previous == node) {
+                this.next = node;
+            } else {
+                this.nextIndexValid = false;
+            }
+        }
+
+        @Override // org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator
+        protected void checkModCount() {
+            if (!this.valid) {
+                throw new ConcurrentModificationException("Cursor closed");
+            }
+        }
+
+        public void close() {
+            if (this.valid) {
+                ((CursorableLinkedList) this.parent).unregisterCursor(this);
+                this.valid = false;
+            }
+        }
+    }
+
+    protected static class SubCursor extends Cursor {
+        protected final AbstractLinkedList.LinkedSubList sub;
+
+        protected SubCursor(AbstractLinkedList.LinkedSubList linkedSubList, int i) {
+            super((CursorableLinkedList) linkedSubList.parent, i + linkedSubList.offset);
+            this.sub = linkedSubList;
+        }
+
+        @Override
+        // org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator, java.util.ListIterator, java.util.Iterator
+        public boolean hasNext() {
+            return nextIndex() < this.sub.size;
+        }
+
+        @Override
+        // org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator, java.util.ListIterator, org.apache.commons.collections.OrderedIterator
+        public boolean hasPrevious() {
+            return previousIndex() >= 0;
+        }
+
+        @Override
+        // org.apache.commons.collections.list.CursorableLinkedList.Cursor, org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator, java.util.ListIterator
+        public int nextIndex() {
+            return super.nextIndex() - this.sub.offset;
+        }
+
+        @Override
+        // org.apache.commons.collections.list.CursorableLinkedList.Cursor, org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator, java.util.ListIterator
+        public void add(Object obj) {
+            super.add(obj);
+            this.sub.expectedModCount = this.parent.modCount;
+            this.sub.size++;
+        }
+
+        @Override
+        // org.apache.commons.collections.list.CursorableLinkedList.Cursor, org.apache.commons.collections.list.AbstractLinkedList.LinkedListIterator, java.util.ListIterator, java.util.Iterator
+        public void remove() {
+            super.remove();
+            this.sub.expectedModCount = this.parent.modCount;
+            AbstractLinkedList.LinkedSubList linkedSubList = this.sub;
+            linkedSubList.size--;
+        }
+    }
+}

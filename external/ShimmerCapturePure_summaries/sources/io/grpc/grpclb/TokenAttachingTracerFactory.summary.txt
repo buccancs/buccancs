@@ -1,0 +1,48 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/grpclb/TokenAttachingTracerFactory.java
+// Size: 1847 bytes
+// Modified: 2025-10-21 16:32:08.989523100 +0100
+
+package io.grpc.grpclb;
+
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import io.grpc.Attributes;
+import io.grpc.ClientStreamTracer;
+import io.grpc.Metadata;
+import io.grpc.internal.GrpcAttributes;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+final class TokenAttachingTracerFactory extends ClientStreamTracer.Factory {
+    private static final ClientStreamTracer NOOP_TRACER = new ClientStreamTracer() { // from class: io.grpc.grpclb.TokenAttachingTracerFactory.1
+    };
+
+    @Nullable
+    private final ClientStreamTracer.Factory delegate;
+
+    TokenAttachingTracerFactory(@Nullable ClientStreamTracer.Factory factory) {
+        this.delegate = factory;
+    }
+
+    @Override // io.grpc.ClientStreamTracer.Factory
+    public ClientStreamTracer newClientStreamTracer(ClientStreamTracer.StreamInfo streamInfo, Metadata metadata) {
+        String str = (String) ((Attributes) Preconditions.checkNotNull(((Attributes) Preconditions.checkNotNull(streamInfo.getTransportAttrs(), "transportAttrs")).get(GrpcAttributes.ATTR_CLIENT_EAG_ATTRS), "eagAttrs")).get(GrpclbConstants.TOKEN_ATTRIBUTE_KEY);
+        metadata.discardAll(GrpclbConstants.TOKEN_METADATA_KEY);
+        if (str != null) {
+            metadata.put(GrpclbConstants.TOKEN_METADATA_KEY, str);
+        }
+        ClientStreamTracer.Factory factory = this.delegate;
+        return factory != null ? factory.newClientStreamTracer(streamInfo, metadata) : NOOP_TRACER;
+    }
+
+    public int hashCode() {
+        return Objects.hashCode(this.delegate);
+    }
+
+    public boolean equals(Object obj) {
+        if (obj instanceof TokenAttachingTracerFactory) {
+            return Objects.equal(this.delegate, ((TokenAttachingTracerFactory) obj).delegate);
+        }
+        return false;
+    }
+}

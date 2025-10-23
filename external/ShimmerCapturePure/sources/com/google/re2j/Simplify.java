@@ -1,0 +1,148 @@
+package com.google.re2j;
+
+import com.google.re2j.Regexp;
+
+import java.util.ArrayList;
+
+/* loaded from: classes2.dex */
+class Simplify {
+
+    private Simplify() {
+    }
+
+    static Regexp simplify(Regexp regexp) {
+        ArrayList arrayList;
+        if (regexp == null) {
+            return null;
+        }
+        switch (AnonymousClass1.$SwitchMap$com$google$re2j$Regexp$Op[regexp.op.ordinal()]) {
+            case 1:
+            case 2:
+            case 3:
+                Regexp regexp2 = regexp;
+                for (int i = 0; i < regexp.subs.length; i++) {
+                    Regexp regexp3 = regexp.subs[i];
+                    Regexp regexpSimplify = simplify(regexp3);
+                    if (regexp2 == regexp && regexpSimplify != regexp3) {
+                        regexp2 = new Regexp(regexp);
+                        regexp2.runes = null;
+                        regexp2.subs = Parser.subarray(regexp.subs, 0, regexp.subs.length);
+                    }
+                    if (regexp2 != regexp) {
+                        regexp2.subs[i] = regexpSimplify;
+                    }
+                }
+                return regexp2;
+            case 4:
+            case 5:
+            case 6:
+                return simplify1(regexp.op, regexp.flags, simplify(regexp.subs[0]), regexp);
+            case 7:
+                if (regexp.min == 0 && regexp.max == 0) {
+                    return new Regexp(Regexp.Op.EMPTY_MATCH);
+                }
+                Regexp regexpSimplify2 = simplify(regexp.subs[0]);
+                if (regexp.max == -1) {
+                    if (regexp.min == 0) {
+                        return simplify1(Regexp.Op.STAR, regexp.flags, regexpSimplify2, null);
+                    }
+                    if (regexp.min == 1) {
+                        return simplify1(Regexp.Op.PLUS, regexp.flags, regexpSimplify2, null);
+                    }
+                    Regexp regexp4 = new Regexp(Regexp.Op.CONCAT);
+                    ArrayList arrayList2 = new ArrayList();
+                    for (int i2 = 0; i2 < regexp.min - 1; i2++) {
+                        arrayList2.add(regexpSimplify2);
+                    }
+                    arrayList2.add(simplify1(Regexp.Op.PLUS, regexp.flags, regexpSimplify2, null));
+                    regexp4.subs = (Regexp[]) arrayList2.toArray(new Regexp[arrayList2.size()]);
+                    return regexp4;
+                }
+                if (regexp.min == 1 && regexp.max == 1) {
+                    return regexpSimplify2;
+                }
+                if (regexp.min > 0) {
+                    arrayList = new ArrayList();
+                    for (int i3 = 0; i3 < regexp.min; i3++) {
+                        arrayList.add(regexpSimplify2);
+                    }
+                } else {
+                    arrayList = null;
+                }
+                if (regexp.max > regexp.min) {
+                    Regexp regexpSimplify1 = simplify1(Regexp.Op.QUEST, regexp.flags, regexpSimplify2, null);
+                    for (int i4 = regexp.min + 1; i4 < regexp.max; i4++) {
+                        Regexp regexp5 = new Regexp(Regexp.Op.CONCAT);
+                        regexp5.subs = new Regexp[]{regexpSimplify2, regexpSimplify1};
+                        regexpSimplify1 = simplify1(Regexp.Op.QUEST, regexp.flags, regexp5, null);
+                    }
+                    if (arrayList == null) {
+                        return regexpSimplify1;
+                    }
+                    arrayList.add(regexpSimplify1);
+                }
+                if (arrayList != null) {
+                    Regexp regexp6 = new Regexp(Regexp.Op.CONCAT);
+                    regexp6.subs = (Regexp[]) arrayList.toArray(new Regexp[arrayList.size()]);
+                    return regexp6;
+                }
+                return new Regexp(Regexp.Op.NO_MATCH);
+            default:
+                return regexp;
+        }
+    }
+
+    private static Regexp simplify1(Regexp.Op op, int i, Regexp regexp, Regexp regexp2) {
+        if (regexp.op == Regexp.Op.EMPTY_MATCH) {
+            return regexp;
+        }
+        if (op == regexp.op && (i & 32) == (regexp.flags & 32)) {
+            return regexp;
+        }
+        if (regexp2 != null && regexp2.op == op && (regexp2.flags & 32) == (i & 32) && regexp == regexp2.subs[0]) {
+            return regexp2;
+        }
+        Regexp regexp3 = new Regexp(op);
+        regexp3.flags = i;
+        regexp3.subs = new Regexp[]{regexp};
+        return regexp3;
+    }
+
+    /* renamed from: com.google.re2j.Simplify$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$com$google$re2j$Regexp$Op;
+
+        static {
+            int[] iArr = new int[Regexp.Op.values().length];
+            $SwitchMap$com$google$re2j$Regexp$Op = iArr;
+            try {
+                iArr[Regexp.Op.CAPTURE.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.CONCAT.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.ALTERNATE.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.STAR.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.PLUS.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.QUEST.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.REPEAT.ordinal()] = 7;
+            } catch (NoSuchFieldError unused7) {
+            }
+        }
+    }
+}

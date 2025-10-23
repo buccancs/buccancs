@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/hamcrest/CustomTypeSafeMatcher.java
+// Size: 570 bytes
+// Modified: 2025-10-21 16:32:03.860779400 +0100
+
+package org.hamcrest;
+
+/* loaded from: classes5.dex */
+public abstract class CustomTypeSafeMatcher<T> extends TypeSafeMatcher<T> {
+    private final String fixedDescription;
+
+    public CustomTypeSafeMatcher(String str) {
+        if (str == null) {
+            throw new IllegalArgumentException("Description must be non null!");
+        }
+        this.fixedDescription = str;
+    }
+
+    @Override // org.hamcrest.SelfDescribing
+    public final void describeTo(Description description) {
+        description.appendText(this.fixedDescription);
+    }
+}

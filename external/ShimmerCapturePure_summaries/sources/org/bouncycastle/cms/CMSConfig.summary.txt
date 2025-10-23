@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/CMSConfig.java
+// Size: 486 bytes
+// Modified: 2025-10-21 16:32:09.322641100 +0100
+
+package org.bouncycastle.cms;
+
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+
+/* loaded from: classes5.dex */
+public class CMSConfig {
+    public static void setSigningDigestAlgorithmMapping(String str, String str2) {
+        new ASN1ObjectIdentifier(str);
+    }
+
+    public static void setSigningEncryptionAlgorithmMapping(String str, String str2) {
+        CMSSignedHelper.INSTANCE.setSigningEncryptionAlgorithmMapping(new ASN1ObjectIdentifier(str), str2);
+    }
+}

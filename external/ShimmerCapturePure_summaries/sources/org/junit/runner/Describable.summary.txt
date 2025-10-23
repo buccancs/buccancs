@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runner/Describable.java
+// Size: 132 bytes
+// Modified: 2025-10-21 16:32:01.075918600 +0100
+
+package org.junit.runner;
+
+/* loaded from: classes2.dex */
+public interface Describable {
+    Description getDescription();
+}

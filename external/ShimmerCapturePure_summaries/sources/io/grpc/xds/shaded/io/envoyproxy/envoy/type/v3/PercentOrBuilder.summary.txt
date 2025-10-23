@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/type/v3/PercentOrBuilder.java
+// Size: 229 bytes
+// Modified: 2025-10-21 16:32:00.312661100 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface PercentOrBuilder extends MessageOrBuilder {
+    double getValue();
+}

@@ -1,0 +1,163 @@
+package it.gerdavax.easybluetooth;
+
+import android.content.Context;
+import android.widget.Toast;
+import it.gerdavax.android.bluetooth.BluetoothSocket;
+import it.gerdavax.android.bluetooth.LocalBluetoothDevice;
+import it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener;
+
+import java.util.ArrayList;
+
+/* loaded from: classes4.dex */
+class LocalDevice1Impl extends LocalDevice {
+    private LocalBluetoothDevice local = null;
+    private LocalBluetoothDeviceListener localListener = new LocalBluetoothDeviceListener() { // from class: it.gerdavax.easybluetooth.LocalDevice1Impl.1
+        @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+        public void bluetoothDisabled() {
+        }
+
+        @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+        public void bluetoothEnabled() {
+        }
+
+        @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+        public void scanStarted() {
+        }
+
+        @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+        public void scanCompleted(ArrayList<String> arrayList) {
+            LocalDevice1Impl.this.scanListener.notifyScanCompleted();
+        }
+
+        @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+        public void deviceFound(String str) {
+            LocalDevice1Impl.this.scanListener.notifyDeviceFound(new RemoteDevice1Impl(LocalDevice1Impl.this.local.getRemoteBluetoothDevice(str)));
+        }
+    };
+
+    LocalDevice1Impl() {
+    }
+
+    @Override // it.gerdavax.easybluetooth.LocalDevice
+    public void destroy() {
+        this.local.close();
+        super.destroy();
+    }
+
+    @Override // it.gerdavax.easybluetooth.LocalDevice
+    public void init(Context context, final ReadyListener readyListener) {
+        super.init(context, readyListener);
+        try {
+            LocalBluetoothDevice localBluetoothDeviceInitLocalDevice = LocalBluetoothDevice.initLocalDevice(this.ctx);
+            this.local = localBluetoothDeviceInitLocalDevice;
+            if (!localBluetoothDeviceInitLocalDevice.isEnabled()) {
+                this.local.setListener(new LocalBluetoothDeviceListener() { // from class: it.gerdavax.easybluetooth.LocalDevice1Impl.2
+                    @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+                    public void bluetoothDisabled() {
+                    }
+
+                    @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+                    public void deviceFound(String str) {
+                    }
+
+                    @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+                    public void scanCompleted(ArrayList<String> arrayList) {
+                    }
+
+                    @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+                    public void scanStarted() {
+                    }
+
+                    @Override // it.gerdavax.android.bluetooth.LocalBluetoothDeviceListener
+                    public void bluetoothEnabled() {
+                        ReadyListener readyListener2 = readyListener;
+                        if (readyListener2 != null) {
+                            readyListener2.notifyReady();
+                        }
+                        LocalDevice1Impl.this.local.setListener(null);
+                    }
+                });
+                this.local.setEnabled(true);
+            } else if (readyListener != null) {
+                readyListener.notifyReady();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override // it.gerdavax.easybluetooth.LocalDevice
+    public void scan(ScanListener scanListener) {
+        super.scan(scanListener);
+        this.local.setListener(this.localListener);
+        try {
+            this.local.scan();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override // it.gerdavax.easybluetooth.LocalDevice
+    public void stopScan() {
+        try {
+            this.local.stopScanning();
+        } catch (Exception e) {
+            log.e(this, "stopScan error!", e);
+        }
+    }
+
+    @Override // it.gerdavax.easybluetooth.LocalDevice
+    public RemoteDevice getRemoteForAddr(String str) {
+        return new RemoteDevice1Impl(this.local.getRemoteBluetoothDevice(str));
+    }
+
+    @Override // it.gerdavax.easybluetooth.LocalDevice
+    public ServerControl listenForConnection(ConnectionListener connectionListener, int i) {
+        try {
+            ConnectionAlert connectionAlert = new ConnectionAlert(this.local.openServerSocket(i), connectionListener);
+            connectionAlert.start();
+            return connectionAlert;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override // it.gerdavax.easybluetooth.LocalDevice
+    public void ensureDiscoverable() {
+        try {
+            this.local.setScanMode(3);
+            Toast.makeText(this.ctx, "discoverable mode for 120 seconds", 0).show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private class ConnectionAlert extends Thread implements ServerControl {
+        private BluetoothSocket bs;
+        private ConnectionListener listener;
+
+        public ConnectionAlert(BluetoothSocket bluetoothSocket, ConnectionListener connectionListener) {
+            this.bs = bluetoothSocket;
+            this.listener = connectionListener;
+        }
+
+        @Override // it.gerdavax.easybluetooth.ServerControl
+        public void halt() {
+            this.bs.closeSocket();
+            interrupt();
+        }
+
+        @Override // java.lang.Thread, java.lang.Runnable
+        public void run() {
+            try {
+                BluetoothSocket bluetoothSocketAccept = this.bs.accept(Integer.MAX_VALUE);
+                LocalDevice1Impl.log.d(this, "connection unlocked");
+                this.listener.notifyConnectionWaiting(new BtSocket1Impl(bluetoothSocketAccept));
+            } catch (Exception e) {
+                e.printStackTrace();
+                this.listener.notifyConnectionError();
+            }
+        }
+    }
+}

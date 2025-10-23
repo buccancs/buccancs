@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/unix/UnixChannel.java
+// Size: 222 bytes
+// Modified: 2025-10-21 16:32:03.958351900 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.unix;
+
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+
+/* loaded from: classes3.dex */
+public interface UnixChannel extends Channel {
+    FileDescriptor fd();
+}

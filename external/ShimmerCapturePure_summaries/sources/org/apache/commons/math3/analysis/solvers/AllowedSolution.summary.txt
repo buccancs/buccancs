@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/solvers/AllowedSolution.java
+// Size: 202 bytes
+// Modified: 2025-10-21 16:32:00.484725100 +0100
+
+package org.apache.commons.math3.analysis.solvers;
+
+/* loaded from: classes5.dex */
+public enum AllowedSolution {
+    ANY_SIDE,
+    LEFT_SIDE,
+    RIGHT_SIDE,
+    BELOW_SIDE,
+    ABOVE_SIDE
+}

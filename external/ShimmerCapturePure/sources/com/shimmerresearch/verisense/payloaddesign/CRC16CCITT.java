@@ -1,0 +1,56 @@
+package com.shimmerresearch.verisense.payloaddesign;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+
+import kotlin.UShort;
+
+/* loaded from: classes2.dex */
+public class CRC16CCITT {
+    public int initialValue = 65535;
+    public int polynomial = 4129;
+
+    public byte[] computeCrc(byte[] bArr, int i, ByteOrder byteOrder) {
+        int iComputeCrc = computeCrc(bArr, i);
+        byte[] bArr2 = new byte[2];
+        if (byteOrder == ByteOrder.LITTLE_ENDIAN) {
+            bArr2[0] = (byte) (iComputeCrc & 255);
+            bArr2[1] = (byte) ((iComputeCrc >> 8) & 255);
+        }
+        return bArr2;
+    }
+
+    public int computeCrc(byte[] bArr) {
+        return computeCrc(bArr, bArr.length);
+    }
+
+    public int computeCrc(byte[] bArr, int i) {
+        int i2 = this.initialValue;
+        for (int i3 = 0; i3 < i; i3++) {
+            byte b = bArr[i3];
+            for (int i4 = 0; i4 < 8; i4++) {
+                boolean z = ((b >> (7 - i4)) & 1) == 1;
+                boolean z2 = ((i2 >> 15) & 1) == 1;
+                i2 <<= 1;
+                if (z ^ z2) {
+                    i2 ^= this.polynomial;
+                }
+            }
+        }
+        return 65535 & i2;
+    }
+
+    public boolean checkCrc(byte[] bArr, int i) {
+        return i == computeCrc(bArr);
+    }
+
+    public int getCrcFromEndOfBuffer(byte[] bArr) {
+        byte[] bArr2 = new byte[2];
+        System.arraycopy(bArr, bArr.length - 2, bArr2, 0, 2);
+        return crcBytesToInt(bArr2);
+    }
+
+    public int crcBytesToInt(byte[] bArr) {
+        return ByteBuffer.wrap(bArr).order(ByteOrder.LITTLE_ENDIAN).getShort() & UShort.MAX_VALUE;
+    }
+}

@@ -1,0 +1,88 @@
+package com.shimmerresearch.android.guiUtilities;
+
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.widget.ListView;
+import com.shimmerresearch.android.Shimmer;
+import com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractEnableSensorsDialog;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.managers.bluetoothManager.ShimmerBluetoothManager;
+
+import java.util.ArrayList;
+
+/* loaded from: classes2.dex */
+public class EnableSensorsDialog extends AbstractEnableSensorsDialog {
+    protected AlertDialog.Builder builder;
+
+    public EnableSensorsDialog(ShimmerDevice shimmerDevice, ShimmerBluetoothManager shimmerBluetoothManager, Context context) {
+        super(shimmerDevice, shimmerBluetoothManager);
+        this.builder = new AlertDialog.Builder(context);
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(105);
+        arrayList.add(116);
+        setSensorKeysFilter(arrayList, true);
+        initialize();
+    }
+
+    @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractEnableSensorsDialog
+    protected void createCheckBox(String str, boolean z, int i) {
+    }
+
+    @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractEnableSensorsDialog
+    protected void createFrame() {
+    }
+
+    @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractEnableSensorsDialog
+    protected void createWriteButton() {
+    }
+
+    protected void setDialogTheme(AlertDialog alertDialog) {
+    }
+
+    @Override // com.shimmerresearch.bluetoothmanager.guiUtilities.AbstractEnableSensorsDialog
+    protected void showFrame() {
+        this.builder.setTitle("Sensors");
+        this.builder.setMultiChoiceItems(this.arraySensors, (boolean[]) null, new DialogInterface.OnMultiChoiceClickListener() { // from class: com.shimmerresearch.android.guiUtilities.EnableSensorsDialog.1
+            @Override // android.content.DialogInterface.OnMultiChoiceClickListener
+            public void onClick(DialogInterface dialogInterface, int i, boolean z) {
+                if (z) {
+                    EnableSensorsDialog.this.clone.setSensorEnabledState(EnableSensorsDialog.this.sensorKeys[i], true);
+                } else {
+                    EnableSensorsDialog.this.clone.setSensorEnabledState(EnableSensorsDialog.this.sensorKeys[i], false);
+                }
+                ListView listView = ((AlertDialog) dialogInterface).getListView();
+                for (int i2 = 0; i2 < listView.getAdapter().getCount(); i2++) {
+                    if (EnableSensorsDialog.this.clone.isSensorEnabled(EnableSensorsDialog.this.sensorKeys[i2])) {
+                        listView.setItemChecked(i2, true);
+                    } else {
+                        listView.setItemChecked(i2, false);
+                    }
+                }
+            }
+        }).setPositiveButton("ok", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.EnableSensorsDialog.3
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (EnableSensorsDialog.this.clone instanceof Shimmer) {
+                    EnableSensorsDialog.this.writeConfiguration();
+                }
+            }
+        }).setNegativeButton("cancel", new DialogInterface.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.EnableSensorsDialog.2
+            @Override // android.content.DialogInterface.OnClickListener
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.cancel();
+            }
+        });
+        AlertDialog alertDialogCreate = this.builder.create();
+        setDialogTheme(alertDialogCreate);
+        alertDialogCreate.show();
+        ListView listView = alertDialogCreate.getListView();
+        for (int i = 0; i < listView.getCount(); i++) {
+            if (this.clone.isSensorEnabled(this.sensorKeys[i])) {
+                listView.setItemChecked(i, true);
+            } else {
+                listView.setItemChecked(i, false);
+            }
+        }
+    }
+}

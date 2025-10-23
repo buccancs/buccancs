@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/ProxyDetector.java
+// Size: 287 bytes
+// Modified: 2025-10-21 16:32:03.127662800 +0100
+
+package io.grpc;
+
+import java.io.IOException;
+import java.net.SocketAddress;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public interface ProxyDetector {
+    @Nullable
+    ProxiedSocketAddress proxyFor(SocketAddress socketAddress) throws IOException;
+}

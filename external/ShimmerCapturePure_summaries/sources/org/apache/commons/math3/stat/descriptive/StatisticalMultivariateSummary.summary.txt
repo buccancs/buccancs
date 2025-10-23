@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/descriptive/StatisticalMultivariateSummary.java
+// Size: 513 bytes
+// Modified: 2025-10-21 16:32:03.557715400 +0100
+
+package org.apache.commons.math3.stat.descriptive;
+
+import org.apache.commons.math3.linear.RealMatrix;
+
+/* loaded from: classes5.dex */
+public interface StatisticalMultivariateSummary {
+    RealMatrix getCovariance();
+
+    int getDimension();
+
+    double[] getGeometricMean();
+
+    double[] getMax();
+
+    double[] getMean();
+
+    double[] getMin();
+
+    long getN();
+
+    double[] getStandardDeviation();
+
+    double[] getSum();
+
+    double[] getSumLog();
+
+    double[] getSumSq();
+}

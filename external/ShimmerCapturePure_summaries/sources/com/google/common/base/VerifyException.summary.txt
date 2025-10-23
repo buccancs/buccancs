@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/VerifyException.java
+// Size: 530 bytes
+// Modified: 2025-10-21 16:32:00.797465900 +0100
+
+package com.google.common.base;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+public class VerifyException extends RuntimeException {
+    public VerifyException() {
+    }
+
+    public VerifyException(@NullableDecl String str) {
+        super(str);
+    }
+
+    public VerifyException(@NullableDecl Throwable th) {
+        super(th);
+    }
+
+    public VerifyException(@NullableDecl String str, @NullableDecl Throwable th) {
+        super(str, th);
+    }
+}

@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/AggregatedConfigSourceOrBuilder.java
+// Size: 227 bytes
+// Modified: 2025-10-21 16:32:00.320705500 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface AggregatedConfigSourceOrBuilder extends MessageOrBuilder {
+}

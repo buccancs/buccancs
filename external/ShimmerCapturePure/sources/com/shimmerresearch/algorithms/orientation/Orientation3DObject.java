@@ -1,0 +1,118 @@
+package com.shimmerresearch.algorithms.orientation;
+
+/* loaded from: classes2.dex */
+public class Orientation3DObject {
+    private static boolean isUseQuatToEuler = true;
+    private double angleX;
+    private double angleY;
+    private double angleZ;
+    private double pitch;
+    private double quaternionW;
+    private double quaternionX;
+    private double quaternionY;
+    private double quaternionZ;
+    private double rho;
+    private double roll;
+    private double theta;
+    private double yaw;
+
+    public Orientation3DObject(double d, double d2, double d3, double d4) {
+        this.quaternionW = d;
+        this.quaternionX = d2;
+        this.quaternionY = d3;
+        this.quaternionZ = d4;
+        calculateAngles();
+        calculateEuler();
+    }
+
+    public double getAngleX() {
+        return this.angleX;
+    }
+
+    public double getAngleY() {
+        return this.angleY;
+    }
+
+    public double getAngleZ() {
+        return this.angleZ;
+    }
+
+    public double getPitch() {
+        return this.pitch;
+    }
+
+    public double getQuaternionW() {
+        return this.quaternionW;
+    }
+
+    public double getQuaternionX() {
+        return this.quaternionX;
+    }
+
+    public double getQuaternionY() {
+        return this.quaternionY;
+    }
+
+    public double getQuaternionZ() {
+        return this.quaternionZ;
+    }
+
+    public double getRoll() {
+        return this.roll;
+    }
+
+    public double getTheta() {
+        return this.theta;
+    }
+
+    public double getYaw() {
+        return this.yaw;
+    }
+
+    private void calculateAngles() {
+        double dAcos = Math.acos(this.quaternionW);
+        this.rho = dAcos;
+        this.theta = 2.0d * dAcos;
+        this.angleX = this.quaternionX / Math.sin(dAcos);
+        this.angleY = this.quaternionY / Math.sin(this.rho);
+        this.angleZ = this.quaternionZ / Math.sin(this.rho);
+    }
+
+    public void calculateEuler() {
+        if (isUseQuatToEuler) {
+            quaternianToEuler(this.quaternionW, this.quaternionX, this.quaternionY, this.quaternionZ);
+        } else {
+            axisAngleToEuler(this.angleX, this.angleY, this.angleZ, this.theta);
+        }
+    }
+
+    public void axisAngleToEuler(double d, double d2, double d3, double d4) {
+        double dSin = Math.sin(d4);
+        double dCos = 1.0d - Math.cos(d4);
+        double d5 = (d * d2 * dCos) + (d3 * dSin);
+        if (d5 > 0.998d) {
+            double d6 = d4 / 2.0d;
+            this.yaw = Math.atan2(Math.sin(d6) * d, Math.cos(d6)) * 2.0d;
+            this.pitch = 1.5707963267948966d;
+            this.roll = 0.0d;
+            return;
+        }
+        if (d5 < -0.998d) {
+            double d7 = d4 / 2.0d;
+            this.yaw = Math.atan2(Math.sin(d7) * d, Math.cos(d7)) * (-2.0d);
+            this.pitch = -1.5707963267948966d;
+            this.roll = 0.0d;
+            return;
+        }
+        double d8 = d3 * d3;
+        this.yaw = (Math.atan2((d2 * dSin) - ((d * d3) * dCos), 1.0d - (((d2 * d2) + d8) * dCos)) * 180.0d) / 3.141592653589793d;
+        this.pitch = (Math.asin(d5) * 180.0d) / 3.141592653589793d;
+        this.roll = (Math.atan2((dSin * d) - ((d2 * d3) * dCos), 1.0d - (((d * d) + d8) * dCos)) * 180.0d) / 3.141592653589793d;
+    }
+
+    public void quaternianToEuler(double d, double d2, double d3, double d4) {
+        this.roll = (Math.atan2(((d * d2) + (d3 * d4)) * 2.0d, 1.0d - ((Math.pow(d2, 2.0d) + Math.pow(d3, 2.0d)) * 2.0d)) * 180.0d) / 3.141592653589793d;
+        this.pitch = (Math.asin(((d * d3) - (d4 * d2)) * 2.0d) * 180.0d) / 3.141592653589793d;
+        this.yaw = (Math.atan2(((d * d4) + (d2 * d3)) * 2.0d, 1.0d - ((Math.pow(d3, 2.0d) + Math.pow(d4, 2.0d)) * 2.0d)) * 180.0d) / 3.141592653589793d;
+    }
+}

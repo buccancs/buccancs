@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/CryptoException.java
+// Size: 487 bytes
+// Modified: 2025-10-21 16:32:00.613832600 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public class CryptoException extends Exception {
+    private Throwable cause;
+
+    public CryptoException() {
+    }
+
+    public CryptoException(String str) {
+        super(str);
+    }
+
+    public CryptoException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

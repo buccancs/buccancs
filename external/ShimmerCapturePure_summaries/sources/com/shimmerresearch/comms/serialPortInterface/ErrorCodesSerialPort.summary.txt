@@ -1,0 +1,43 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/serialPortInterface/ErrorCodesSerialPort.java
+// Size: 2321 bytes
+// Modified: 2025-10-21 16:32:00.809523200 +0100
+
+package com.shimmerresearch.comms.serialPortInterface;
+
+import com.shimmerresearch.driverUtilities.AbstractErrorCodes;
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
+
+/* loaded from: classes2.dex */
+public class ErrorCodesSerialPort extends AbstractErrorCodes {
+    public static final int ERROR_CODES_ID = 2;
+    public static final int ERR_NONE = 0;
+    public static final int SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS = 2014;
+    public static final int SHIMMERUART_COMM_ERR_PACKAGE_FORMAT = 2007;
+    public static final int SHIMMERUART_COMM_ERR_PORT_EXCEPTION = 2004;
+    public static final int SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING = 2016;
+    public static final int SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING = 2015;
+    public static final int SHIMMERUART_COMM_ERR_PORT_READER_START = 2065;
+    public static final int SHIMMERUART_COMM_ERR_PORT_READER_STOP = 2066;
+    public static final int SHIMMERUART_COMM_ERR_READING_DATA = 2009;
+    public static final int SHIMMERUART_COMM_ERR_TIMEOUT = 2005;
+    public static final int SHIMMERUART_COMM_ERR_WRITING_DATA = 2008;
+    public static final Map<Integer, String> mMapOfErrorCodes;
+
+    static {
+        TreeMap treeMap = new TreeMap();
+        treeMap.put(0, "SHIMMERUART_COMM_ERR_NONE");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_PORT_EXCEPTION), "ShimmerUART_Comm_Err_Port_Exception");
+        treeMap.put(2005, "COM port timeout");
+        treeMap.put(2007, "ShimmerUART_Comm_Err_Package_Format");
+        treeMap.put(2008, "ShimmerUART_Comm_Err_Writing_Data");
+        treeMap.put(2009, "ShimmerUART_Comm_Err_Reading_Data");
+        treeMap.put(2014, "ShimmerUART_Comm_Err_Message_Content");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_PORT_EXCEPTON_OPENING), "ShimmerUART_Comm_Err_Port_Exception_Opening");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_PORT_EXCEPTON_CLOSING), "ShimmerUART_Comm_Err_Port_Exception_Closing");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_PORT_READER_START), "ShimmerUART_Comm_Err_Port_Starting_Reader");
+        treeMap.put(Integer.valueOf(SHIMMERUART_COMM_ERR_PORT_READER_STOP), "ShimmerUART_Comm_Err_Port_Stopping_Reader");
+        mMapOfErrorCodes = Collections.unmodifiableMap(treeMap);
+    }
+}

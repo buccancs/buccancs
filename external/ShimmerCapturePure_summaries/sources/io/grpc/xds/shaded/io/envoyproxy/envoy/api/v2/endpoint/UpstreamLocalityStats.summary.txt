@@ -1,0 +1,1287 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/endpoint/UpstreamLocalityStats.java
+// Size: 66933 bytes
+// Modified: 2025-10-21 16:32:06.891463900 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Locality;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.LocalityOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.EndpointLoadMetricStats;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamEndpointStats;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public final class UpstreamLocalityStats extends GeneratedMessageV3 implements UpstreamLocalityStatsOrBuilder {
+    public static final int LOAD_METRIC_STATS_FIELD_NUMBER = 5;
+    public static final int LOCALITY_FIELD_NUMBER = 1;
+    public static final int PRIORITY_FIELD_NUMBER = 6;
+    public static final int TOTAL_ERROR_REQUESTS_FIELD_NUMBER = 4;
+    public static final int TOTAL_ISSUED_REQUESTS_FIELD_NUMBER = 8;
+    public static final int TOTAL_REQUESTS_IN_PROGRESS_FIELD_NUMBER = 3;
+    public static final int TOTAL_SUCCESSFUL_REQUESTS_FIELD_NUMBER = 2;
+    public static final int UPSTREAM_ENDPOINT_STATS_FIELD_NUMBER = 7;
+    private static final long serialVersionUID = 0;
+    private List<EndpointLoadMetricStats> loadMetricStats_;
+    private Locality locality_;
+    private byte memoizedIsInitialized;
+    private int priority_;
+    private long totalErrorRequests_;
+    private long totalIssuedRequests_;
+    private long totalRequestsInProgress_;
+    private long totalSuccessfulRequests_;
+    private List<UpstreamEndpointStats> upstreamEndpointStats_;
+    private static final UpstreamLocalityStats DEFAULT_INSTANCE = new UpstreamLocalityStats();
+    private static final Parser<UpstreamLocalityStats> PARSER = new AbstractParser<UpstreamLocalityStats>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public UpstreamLocalityStats m17446parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new UpstreamLocalityStats(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static UpstreamLocalityStats getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<UpstreamLocalityStats> parser() {
+        return PARSER;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public UpstreamLocalityStats m17439getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public List<EndpointLoadMetricStats> getLoadMetricStatsList() {
+        return this.loadMetricStats_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public List<? extends EndpointLoadMetricStatsOrBuilder> getLoadMetricStatsOrBuilderList() {
+        return this.loadMetricStats_;
+    }
+
+    public Parser<UpstreamLocalityStats> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public int getPriority() {
+        return this.priority_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public long getTotalErrorRequests() {
+        return this.totalErrorRequests_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public long getTotalIssuedRequests() {
+        return this.totalIssuedRequests_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public long getTotalRequestsInProgress() {
+        return this.totalRequestsInProgress_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public long getTotalSuccessfulRequests() {
+        return this.totalSuccessfulRequests_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public List<UpstreamEndpointStats> getUpstreamEndpointStatsList() {
+        return this.upstreamEndpointStats_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public List<? extends UpstreamEndpointStatsOrBuilder> getUpstreamEndpointStatsOrBuilderList() {
+        return this.upstreamEndpointStats_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public boolean hasLocality() {
+        return this.locality_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private UpstreamLocalityStats(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private UpstreamLocalityStats() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.loadMetricStats_ = Collections.emptyList();
+        this.upstreamEndpointStats_ = Collections.emptyList();
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new UpstreamLocalityStats();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private UpstreamLocalityStats(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            Locality locality = this.locality_;
+                            Locality.Builder builderM16242toBuilder = locality != null ? locality.m16242toBuilder() : null;
+                            Locality locality2 = (Locality) codedInputStream.readMessage(Locality.parser(), extensionRegistryLite);
+                            this.locality_ = locality2;
+                            if (builderM16242toBuilder != null) {
+                                builderM16242toBuilder.mergeFrom(locality2);
+                                this.locality_ = builderM16242toBuilder.m16249buildPartial();
+                            }
+                        } else if (tag == 16) {
+                            this.totalSuccessfulRequests_ = codedInputStream.readUInt64();
+                        } else if (tag == 24) {
+                            this.totalRequestsInProgress_ = codedInputStream.readUInt64();
+                        } else if (tag == 32) {
+                            this.totalErrorRequests_ = codedInputStream.readUInt64();
+                        } else if (tag == 42) {
+                            if ((i & 1) == 0) {
+                                this.loadMetricStats_ = new ArrayList();
+                                i |= 1;
+                            }
+                            this.loadMetricStats_.add(codedInputStream.readMessage(EndpointLoadMetricStats.parser(), extensionRegistryLite));
+                        } else if (tag == 48) {
+                            this.priority_ = codedInputStream.readUInt32();
+                        } else if (tag == 58) {
+                            if ((i & 2) == 0) {
+                                this.upstreamEndpointStats_ = new ArrayList();
+                                i |= 2;
+                            }
+                            this.upstreamEndpointStats_.add(codedInputStream.readMessage(UpstreamEndpointStats.parser(), extensionRegistryLite));
+                        } else if (tag == 64) {
+                            this.totalIssuedRequests_ = codedInputStream.readUInt64();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.loadMetricStats_ = Collections.unmodifiableList(this.loadMetricStats_);
+                }
+                if ((i & 2) != 0) {
+                    this.upstreamEndpointStats_ = Collections.unmodifiableList(this.upstreamEndpointStats_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return LoadReportProto.internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return LoadReportProto.internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_fieldAccessorTable.ensureFieldAccessorsInitialized(UpstreamLocalityStats.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public Locality getLocality() {
+        Locality locality = this.locality_;
+        return locality == null ? Locality.getDefaultInstance() : locality;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public LocalityOrBuilder getLocalityOrBuilder() {
+        return getLocality();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public int getLoadMetricStatsCount() {
+        return this.loadMetricStats_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public EndpointLoadMetricStats getLoadMetricStats(int i) {
+        return this.loadMetricStats_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public EndpointLoadMetricStatsOrBuilder getLoadMetricStatsOrBuilder(int i) {
+        return this.loadMetricStats_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public int getUpstreamEndpointStatsCount() {
+        return this.upstreamEndpointStats_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public UpstreamEndpointStats getUpstreamEndpointStats(int i) {
+        return this.upstreamEndpointStats_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+    public UpstreamEndpointStatsOrBuilder getUpstreamEndpointStatsOrBuilder(int i) {
+        return this.upstreamEndpointStats_.get(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.locality_ != null) {
+            codedOutputStream.writeMessage(1, getLocality());
+        }
+        long j = this.totalSuccessfulRequests_;
+        if (j != 0) {
+            codedOutputStream.writeUInt64(2, j);
+        }
+        long j2 = this.totalRequestsInProgress_;
+        if (j2 != 0) {
+            codedOutputStream.writeUInt64(3, j2);
+        }
+        long j3 = this.totalErrorRequests_;
+        if (j3 != 0) {
+            codedOutputStream.writeUInt64(4, j3);
+        }
+        for (int i = 0; i < this.loadMetricStats_.size(); i++) {
+            codedOutputStream.writeMessage(5, this.loadMetricStats_.get(i));
+        }
+        int i2 = this.priority_;
+        if (i2 != 0) {
+            codedOutputStream.writeUInt32(6, i2);
+        }
+        for (int i3 = 0; i3 < this.upstreamEndpointStats_.size(); i3++) {
+            codedOutputStream.writeMessage(7, this.upstreamEndpointStats_.get(i3));
+        }
+        long j4 = this.totalIssuedRequests_;
+        if (j4 != 0) {
+            codedOutputStream.writeUInt64(8, j4);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.locality_ != null ? CodedOutputStream.computeMessageSize(1, getLocality()) : 0;
+        long j = this.totalSuccessfulRequests_;
+        if (j != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(2, j);
+        }
+        long j2 = this.totalRequestsInProgress_;
+        if (j2 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(3, j2);
+        }
+        long j3 = this.totalErrorRequests_;
+        if (j3 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(4, j3);
+        }
+        for (int i2 = 0; i2 < this.loadMetricStats_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(5, this.loadMetricStats_.get(i2));
+        }
+        int i3 = this.priority_;
+        if (i3 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt32Size(6, i3);
+        }
+        for (int i4 = 0; i4 < this.upstreamEndpointStats_.size(); i4++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(7, this.upstreamEndpointStats_.get(i4));
+        }
+        long j4 = this.totalIssuedRequests_;
+        if (j4 != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(8, j4);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof UpstreamLocalityStats)) {
+            return super.equals(obj);
+        }
+        UpstreamLocalityStats upstreamLocalityStats = (UpstreamLocalityStats) obj;
+        if (hasLocality() != upstreamLocalityStats.hasLocality()) {
+            return false;
+        }
+        return (!hasLocality() || getLocality().equals(upstreamLocalityStats.getLocality())) && getTotalSuccessfulRequests() == upstreamLocalityStats.getTotalSuccessfulRequests() && getTotalRequestsInProgress() == upstreamLocalityStats.getTotalRequestsInProgress() && getTotalErrorRequests() == upstreamLocalityStats.getTotalErrorRequests() && getTotalIssuedRequests() == upstreamLocalityStats.getTotalIssuedRequests() && getLoadMetricStatsList().equals(upstreamLocalityStats.getLoadMetricStatsList()) && getUpstreamEndpointStatsList().equals(upstreamLocalityStats.getUpstreamEndpointStatsList()) && getPriority() == upstreamLocalityStats.getPriority() && this.unknownFields.equals(upstreamLocalityStats.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasLocality()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getLocality().hashCode();
+        }
+        int iHashLong = (((((((((((((((iHashCode * 37) + 2) * 53) + Internal.hashLong(getTotalSuccessfulRequests())) * 37) + 3) * 53) + Internal.hashLong(getTotalRequestsInProgress())) * 37) + 4) * 53) + Internal.hashLong(getTotalErrorRequests())) * 37) + 8) * 53) + Internal.hashLong(getTotalIssuedRequests());
+        if (getLoadMetricStatsCount() > 0) {
+            iHashLong = (((iHashLong * 37) + 5) * 53) + getLoadMetricStatsList().hashCode();
+        }
+        if (getUpstreamEndpointStatsCount() > 0) {
+            iHashLong = (((iHashLong * 37) + 7) * 53) + getUpstreamEndpointStatsList().hashCode();
+        }
+        int priority = (((((iHashLong * 37) + 6) * 53) + getPriority()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = priority;
+        return priority;
+    }
+
+    public static UpstreamLocalityStats parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (UpstreamLocalityStats) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static UpstreamLocalityStats parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamLocalityStats) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static UpstreamLocalityStats parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (UpstreamLocalityStats) PARSER.parseFrom(byteString);
+    }
+
+    public static UpstreamLocalityStats parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamLocalityStats) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static UpstreamLocalityStats parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (UpstreamLocalityStats) PARSER.parseFrom(bArr);
+    }
+
+    public static UpstreamLocalityStats parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpstreamLocalityStats) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static UpstreamLocalityStats parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static UpstreamLocalityStats parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static UpstreamLocalityStats parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static UpstreamLocalityStats parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static UpstreamLocalityStats parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static UpstreamLocalityStats parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m17441newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m17444toBuilder();
+    }
+
+    public static Builder newBuilder(UpstreamLocalityStats upstreamLocalityStats) {
+        return DEFAULT_INSTANCE.m17444toBuilder().mergeFrom(upstreamLocalityStats);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m17444toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements UpstreamLocalityStatsOrBuilder {
+        private int bitField0_;
+        private RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> loadMetricStatsBuilder_;
+        private List<EndpointLoadMetricStats> loadMetricStats_;
+        private SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> localityBuilder_;
+        private Locality locality_;
+        private int priority_;
+        private long totalErrorRequests_;
+        private long totalIssuedRequests_;
+        private long totalRequestsInProgress_;
+        private long totalSuccessfulRequests_;
+        private RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> upstreamEndpointStatsBuilder_;
+        private List<UpstreamEndpointStats> upstreamEndpointStats_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public int getPriority() {
+            return this.priority_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public long getTotalErrorRequests() {
+            return this.totalErrorRequests_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public long getTotalIssuedRequests() {
+            return this.totalIssuedRequests_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public long getTotalRequestsInProgress() {
+            return this.totalRequestsInProgress_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public long getTotalSuccessfulRequests() {
+            return this.totalSuccessfulRequests_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public boolean hasLocality() {
+            return (this.localityBuilder_ == null && this.locality_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return LoadReportProto.internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return LoadReportProto.internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_fieldAccessorTable.ensureFieldAccessorsInitialized(UpstreamLocalityStats.class, Builder.class);
+        }
+
+        private Builder() {
+            this.loadMetricStats_ = Collections.emptyList();
+            this.upstreamEndpointStats_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.loadMetricStats_ = Collections.emptyList();
+            this.upstreamEndpointStats_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (UpstreamLocalityStats.alwaysUseFieldBuilders) {
+                getLoadMetricStatsFieldBuilder();
+                getUpstreamEndpointStatsFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17455clear() {
+            super.clear();
+            if (this.localityBuilder_ == null) {
+                this.locality_ = null;
+            } else {
+                this.locality_ = null;
+                this.localityBuilder_ = null;
+            }
+            this.totalSuccessfulRequests_ = 0L;
+            this.totalRequestsInProgress_ = 0L;
+            this.totalErrorRequests_ = 0L;
+            this.totalIssuedRequests_ = 0L;
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.loadMetricStats_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV32 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                this.upstreamEndpointStats_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+            } else {
+                repeatedFieldBuilderV32.clear();
+            }
+            this.priority_ = 0;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return LoadReportProto.internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamLocalityStats m17468getDefaultInstanceForType() {
+            return UpstreamLocalityStats.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamLocalityStats m17449build() throws UninitializedMessageException {
+            UpstreamLocalityStats upstreamLocalityStatsM17451buildPartial = m17451buildPartial();
+            if (upstreamLocalityStatsM17451buildPartial.isInitialized()) {
+                return upstreamLocalityStatsM17451buildPartial;
+            }
+            throw newUninitializedMessageException(upstreamLocalityStatsM17451buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpstreamLocalityStats m17451buildPartial() {
+            UpstreamLocalityStats upstreamLocalityStats = new UpstreamLocalityStats(this);
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                upstreamLocalityStats.locality_ = this.locality_;
+            } else {
+                upstreamLocalityStats.locality_ = singleFieldBuilderV3.build();
+            }
+            upstreamLocalityStats.totalSuccessfulRequests_ = this.totalSuccessfulRequests_;
+            upstreamLocalityStats.totalRequestsInProgress_ = this.totalRequestsInProgress_;
+            upstreamLocalityStats.totalErrorRequests_ = this.totalErrorRequests_;
+            upstreamLocalityStats.totalIssuedRequests_ = this.totalIssuedRequests_;
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.loadMetricStats_ = Collections.unmodifiableList(this.loadMetricStats_);
+                    this.bitField0_ &= -2;
+                }
+                upstreamLocalityStats.loadMetricStats_ = this.loadMetricStats_;
+            } else {
+                upstreamLocalityStats.loadMetricStats_ = repeatedFieldBuilderV3.build();
+            }
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV32 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                if ((this.bitField0_ & 2) != 0) {
+                    this.upstreamEndpointStats_ = Collections.unmodifiableList(this.upstreamEndpointStats_);
+                    this.bitField0_ &= -3;
+                }
+                upstreamLocalityStats.upstreamEndpointStats_ = this.upstreamEndpointStats_;
+            } else {
+                upstreamLocalityStats.upstreamEndpointStats_ = repeatedFieldBuilderV32.build();
+            }
+            upstreamLocalityStats.priority_ = this.priority_;
+            onBuilt();
+            return upstreamLocalityStats;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17467clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17479setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17457clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17460clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17481setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17447addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17472mergeFrom(Message message) {
+            if (message instanceof UpstreamLocalityStats) {
+                return mergeFrom((UpstreamLocalityStats) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(UpstreamLocalityStats upstreamLocalityStats) {
+            if (upstreamLocalityStats == UpstreamLocalityStats.getDefaultInstance()) {
+                return this;
+            }
+            if (upstreamLocalityStats.hasLocality()) {
+                mergeLocality(upstreamLocalityStats.getLocality());
+            }
+            if (upstreamLocalityStats.getTotalSuccessfulRequests() != 0) {
+                setTotalSuccessfulRequests(upstreamLocalityStats.getTotalSuccessfulRequests());
+            }
+            if (upstreamLocalityStats.getTotalRequestsInProgress() != 0) {
+                setTotalRequestsInProgress(upstreamLocalityStats.getTotalRequestsInProgress());
+            }
+            if (upstreamLocalityStats.getTotalErrorRequests() != 0) {
+                setTotalErrorRequests(upstreamLocalityStats.getTotalErrorRequests());
+            }
+            if (upstreamLocalityStats.getTotalIssuedRequests() != 0) {
+                setTotalIssuedRequests(upstreamLocalityStats.getTotalIssuedRequests());
+            }
+            if (this.loadMetricStatsBuilder_ == null) {
+                if (!upstreamLocalityStats.loadMetricStats_.isEmpty()) {
+                    if (this.loadMetricStats_.isEmpty()) {
+                        this.loadMetricStats_ = upstreamLocalityStats.loadMetricStats_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureLoadMetricStatsIsMutable();
+                        this.loadMetricStats_.addAll(upstreamLocalityStats.loadMetricStats_);
+                    }
+                    onChanged();
+                }
+            } else if (!upstreamLocalityStats.loadMetricStats_.isEmpty()) {
+                if (!this.loadMetricStatsBuilder_.isEmpty()) {
+                    this.loadMetricStatsBuilder_.addAllMessages(upstreamLocalityStats.loadMetricStats_);
+                } else {
+                    this.loadMetricStatsBuilder_.dispose();
+                    this.loadMetricStatsBuilder_ = null;
+                    this.loadMetricStats_ = upstreamLocalityStats.loadMetricStats_;
+                    this.bitField0_ &= -2;
+                    this.loadMetricStatsBuilder_ = UpstreamLocalityStats.alwaysUseFieldBuilders ? getLoadMetricStatsFieldBuilder() : null;
+                }
+            }
+            if (this.upstreamEndpointStatsBuilder_ == null) {
+                if (!upstreamLocalityStats.upstreamEndpointStats_.isEmpty()) {
+                    if (this.upstreamEndpointStats_.isEmpty()) {
+                        this.upstreamEndpointStats_ = upstreamLocalityStats.upstreamEndpointStats_;
+                        this.bitField0_ &= -3;
+                    } else {
+                        ensureUpstreamEndpointStatsIsMutable();
+                        this.upstreamEndpointStats_.addAll(upstreamLocalityStats.upstreamEndpointStats_);
+                    }
+                    onChanged();
+                }
+            } else if (!upstreamLocalityStats.upstreamEndpointStats_.isEmpty()) {
+                if (!this.upstreamEndpointStatsBuilder_.isEmpty()) {
+                    this.upstreamEndpointStatsBuilder_.addAllMessages(upstreamLocalityStats.upstreamEndpointStats_);
+                } else {
+                    this.upstreamEndpointStatsBuilder_.dispose();
+                    this.upstreamEndpointStatsBuilder_ = null;
+                    this.upstreamEndpointStats_ = upstreamLocalityStats.upstreamEndpointStats_;
+                    this.bitField0_ &= -3;
+                    this.upstreamEndpointStatsBuilder_ = UpstreamLocalityStats.alwaysUseFieldBuilders ? getUpstreamEndpointStatsFieldBuilder() : null;
+                }
+            }
+            if (upstreamLocalityStats.getPriority() != 0) {
+                setPriority(upstreamLocalityStats.getPriority());
+            }
+            m17477mergeUnknownFields(upstreamLocalityStats.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats.Builder m17473mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats.access$1500()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats.Builder.m17473mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStats$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public Locality getLocality() {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Locality locality = this.locality_;
+            return locality == null ? Locality.getDefaultInstance() : locality;
+        }
+
+        public Builder setLocality(Locality locality) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                locality.getClass();
+                this.locality_ = locality;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(locality);
+            }
+            return this;
+        }
+
+        public Builder setLocality(Locality.Builder builder) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.locality_ = builder.m16247build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m16247build());
+            }
+            return this;
+        }
+
+        public Builder mergeLocality(Locality locality) {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Locality locality2 = this.locality_;
+                if (locality2 != null) {
+                    this.locality_ = Locality.newBuilder(locality2).mergeFrom(locality).m16249buildPartial();
+                } else {
+                    this.locality_ = locality;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(locality);
+            }
+            return this;
+        }
+
+        public Builder clearLocality() {
+            if (this.localityBuilder_ == null) {
+                this.locality_ = null;
+                onChanged();
+            } else {
+                this.locality_ = null;
+                this.localityBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Locality.Builder getLocalityBuilder() {
+            onChanged();
+            return getLocalityFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public LocalityOrBuilder getLocalityOrBuilder() {
+            SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> singleFieldBuilderV3 = this.localityBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (LocalityOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Locality locality = this.locality_;
+            return locality == null ? Locality.getDefaultInstance() : locality;
+        }
+
+        private SingleFieldBuilderV3<Locality, Locality.Builder, LocalityOrBuilder> getLocalityFieldBuilder() {
+            if (this.localityBuilder_ == null) {
+                this.localityBuilder_ = new SingleFieldBuilderV3<>(getLocality(), getParentForChildren(), isClean());
+                this.locality_ = null;
+            }
+            return this.localityBuilder_;
+        }
+
+        public Builder setTotalSuccessfulRequests(long j) {
+            this.totalSuccessfulRequests_ = j;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTotalSuccessfulRequests() {
+            this.totalSuccessfulRequests_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder setTotalRequestsInProgress(long j) {
+            this.totalRequestsInProgress_ = j;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTotalRequestsInProgress() {
+            this.totalRequestsInProgress_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder setTotalErrorRequests(long j) {
+            this.totalErrorRequests_ = j;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTotalErrorRequests() {
+            this.totalErrorRequests_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        public Builder setTotalIssuedRequests(long j) {
+            this.totalIssuedRequests_ = j;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTotalIssuedRequests() {
+            this.totalIssuedRequests_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        private void ensureLoadMetricStatsIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.loadMetricStats_ = new ArrayList(this.loadMetricStats_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public List<EndpointLoadMetricStats> getLoadMetricStatsList() {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.loadMetricStats_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public int getLoadMetricStatsCount() {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.loadMetricStats_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public EndpointLoadMetricStats getLoadMetricStats(int i) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.loadMetricStats_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setLoadMetricStats(int i, EndpointLoadMetricStats endpointLoadMetricStats) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                endpointLoadMetricStats.getClass();
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.set(i, endpointLoadMetricStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, endpointLoadMetricStats);
+            }
+            return this;
+        }
+
+        public Builder setLoadMetricStats(int i, EndpointLoadMetricStats.Builder builder) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.set(i, builder.m17265build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m17265build());
+            }
+            return this;
+        }
+
+        public Builder addLoadMetricStats(EndpointLoadMetricStats endpointLoadMetricStats) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                endpointLoadMetricStats.getClass();
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.add(endpointLoadMetricStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(endpointLoadMetricStats);
+            }
+            return this;
+        }
+
+        public Builder addLoadMetricStats(int i, EndpointLoadMetricStats endpointLoadMetricStats) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                endpointLoadMetricStats.getClass();
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.add(i, endpointLoadMetricStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, endpointLoadMetricStats);
+            }
+            return this;
+        }
+
+        public Builder addLoadMetricStats(EndpointLoadMetricStats.Builder builder) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.add(builder.m17265build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m17265build());
+            }
+            return this;
+        }
+
+        public Builder addLoadMetricStats(int i, EndpointLoadMetricStats.Builder builder) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.add(i, builder.m17265build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m17265build());
+            }
+            return this;
+        }
+
+        public Builder addAllLoadMetricStats(Iterable<? extends EndpointLoadMetricStats> iterable) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.loadMetricStats_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearLoadMetricStats() {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.loadMetricStats_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeLoadMetricStats(int i) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureLoadMetricStatsIsMutable();
+                this.loadMetricStats_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public EndpointLoadMetricStats.Builder getLoadMetricStatsBuilder(int i) {
+            return getLoadMetricStatsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public EndpointLoadMetricStatsOrBuilder getLoadMetricStatsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.loadMetricStats_.get(i);
+            }
+            return (EndpointLoadMetricStatsOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public List<? extends EndpointLoadMetricStatsOrBuilder> getLoadMetricStatsOrBuilderList() {
+            RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> repeatedFieldBuilderV3 = this.loadMetricStatsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.loadMetricStats_);
+        }
+
+        public EndpointLoadMetricStats.Builder addLoadMetricStatsBuilder() {
+            return getLoadMetricStatsFieldBuilder().addBuilder(EndpointLoadMetricStats.getDefaultInstance());
+        }
+
+        public EndpointLoadMetricStats.Builder addLoadMetricStatsBuilder(int i) {
+            return getLoadMetricStatsFieldBuilder().addBuilder(i, EndpointLoadMetricStats.getDefaultInstance());
+        }
+
+        public List<EndpointLoadMetricStats.Builder> getLoadMetricStatsBuilderList() {
+            return getLoadMetricStatsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<EndpointLoadMetricStats, EndpointLoadMetricStats.Builder, EndpointLoadMetricStatsOrBuilder> getLoadMetricStatsFieldBuilder() {
+            if (this.loadMetricStatsBuilder_ == null) {
+                this.loadMetricStatsBuilder_ = new RepeatedFieldBuilderV3<>(this.loadMetricStats_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.loadMetricStats_ = null;
+            }
+            return this.loadMetricStatsBuilder_;
+        }
+
+        private void ensureUpstreamEndpointStatsIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.upstreamEndpointStats_ = new ArrayList(this.upstreamEndpointStats_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public List<UpstreamEndpointStats> getUpstreamEndpointStatsList() {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.upstreamEndpointStats_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public int getUpstreamEndpointStatsCount() {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.upstreamEndpointStats_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public UpstreamEndpointStats getUpstreamEndpointStats(int i) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.upstreamEndpointStats_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setUpstreamEndpointStats(int i, UpstreamEndpointStats upstreamEndpointStats) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                upstreamEndpointStats.getClass();
+                ensureUpstreamEndpointStatsIsMutable();
+                this.upstreamEndpointStats_.set(i, upstreamEndpointStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, upstreamEndpointStats);
+            }
+            return this;
+        }
+
+        public Builder setUpstreamEndpointStats(int i, UpstreamEndpointStats.Builder builder) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureUpstreamEndpointStatsIsMutable();
+                this.upstreamEndpointStats_.set(i, builder.m17403build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m17403build());
+            }
+            return this;
+        }
+
+        public Builder addUpstreamEndpointStats(UpstreamEndpointStats upstreamEndpointStats) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                upstreamEndpointStats.getClass();
+                ensureUpstreamEndpointStatsIsMutable();
+                this.upstreamEndpointStats_.add(upstreamEndpointStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(upstreamEndpointStats);
+            }
+            return this;
+        }
+
+        public Builder addUpstreamEndpointStats(int i, UpstreamEndpointStats upstreamEndpointStats) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                upstreamEndpointStats.getClass();
+                ensureUpstreamEndpointStatsIsMutable();
+                this.upstreamEndpointStats_.add(i, upstreamEndpointStats);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, upstreamEndpointStats);
+            }
+            return this;
+        }
+
+        public Builder addUpstreamEndpointStats(UpstreamEndpointStats.Builder builder) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureUpstreamEndpointStatsIsMutable();
+                this.upstreamEndpointStats_.add(builder.m17403build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m17403build());
+            }
+            return this;
+        }
+
+        public Builder addUpstreamEndpointStats(int i, UpstreamEndpointStats.Builder builder) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureUpstreamEndpointStatsIsMutable();
+                this.upstreamEndpointStats_.add(i, builder.m17403build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m17403build());
+            }
+            return this;
+        }
+
+        public Builder addAllUpstreamEndpointStats(Iterable<? extends UpstreamEndpointStats> iterable) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureUpstreamEndpointStatsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.upstreamEndpointStats_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearUpstreamEndpointStats() {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.upstreamEndpointStats_ = Collections.emptyList();
+                this.bitField0_ &= -3;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeUpstreamEndpointStats(int i) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureUpstreamEndpointStatsIsMutable();
+                this.upstreamEndpointStats_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public UpstreamEndpointStats.Builder getUpstreamEndpointStatsBuilder(int i) {
+            return getUpstreamEndpointStatsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public UpstreamEndpointStatsOrBuilder getUpstreamEndpointStatsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.upstreamEndpointStats_.get(i);
+            }
+            return (UpstreamEndpointStatsOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint.UpstreamLocalityStatsOrBuilder
+        public List<? extends UpstreamEndpointStatsOrBuilder> getUpstreamEndpointStatsOrBuilderList() {
+            RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> repeatedFieldBuilderV3 = this.upstreamEndpointStatsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.upstreamEndpointStats_);
+        }
+
+        public UpstreamEndpointStats.Builder addUpstreamEndpointStatsBuilder() {
+            return getUpstreamEndpointStatsFieldBuilder().addBuilder(UpstreamEndpointStats.getDefaultInstance());
+        }
+
+        public UpstreamEndpointStats.Builder addUpstreamEndpointStatsBuilder(int i) {
+            return getUpstreamEndpointStatsFieldBuilder().addBuilder(i, UpstreamEndpointStats.getDefaultInstance());
+        }
+
+        public List<UpstreamEndpointStats.Builder> getUpstreamEndpointStatsBuilderList() {
+            return getUpstreamEndpointStatsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<UpstreamEndpointStats, UpstreamEndpointStats.Builder, UpstreamEndpointStatsOrBuilder> getUpstreamEndpointStatsFieldBuilder() {
+            if (this.upstreamEndpointStatsBuilder_ == null) {
+                this.upstreamEndpointStatsBuilder_ = new RepeatedFieldBuilderV3<>(this.upstreamEndpointStats_, (this.bitField0_ & 2) != 0, getParentForChildren(), isClean());
+                this.upstreamEndpointStats_ = null;
+            }
+            return this.upstreamEndpointStatsBuilder_;
+        }
+
+        public Builder setPriority(int i) {
+            this.priority_ = i;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearPriority() {
+            this.priority_ = 0;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m17483setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m17477mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

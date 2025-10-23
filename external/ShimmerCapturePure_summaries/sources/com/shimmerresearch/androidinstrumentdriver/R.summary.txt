@@ -1,0 +1,185 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/androidinstrumentdriver/R.java
+// Size: 7930 bytes
+// Modified: 2025-10-21 16:32:00.215644300 +0100
+
+package com.shimmerresearch.androidinstrumentdriver;
+
+/* loaded from: classes2.dex */
+public final class R {
+
+    public static final class array {
+        public static int plotColor = 0x7f030000;
+
+        private array() {
+        }
+    }
+
+    public static final class color {
+        public static int app_background_color = 0x7f06001d;
+        public static int black = 0x7f060022;
+        public static int blue = 0x7f060023;
+        public static int brown = 0x7f06002a;
+        public static int counter_text_bg = 0x7f060032;
+        public static int counter_text_color = 0x7f060033;
+        public static int dark_blue = 0x7f060034;
+        public static int dark_gray = 0x7f060035;
+        public static int dark_green = 0x7f060036;
+        public static int dark_orange = 0x7f060037;
+        public static int dark_red = 0x7f060038;
+        public static int dialog_background_color = 0x7f060039;
+        public static int edit_text_color = 0x7f06003e;
+        public static int gold = 0x7f060043;
+        public static int gray = 0x7f060044;
+        public static int green = 0x7f060045;
+        public static int green_circle = 0x7f060046;
+        public static int indigo = 0x7f06004a;
+        public static int lime = 0x7f06004b;
+        public static int list_background = 0x7f06004c;
+        public static int list_background_disabled = 0x7f06004d;
+        public static int list_background_pressed = 0x7f06004e;
+        public static int list_divider = 0x7f06004f;
+        public static int list_item_title = 0x7f060050;
+        public static int orange = 0x7f06005f;
+        public static int pink = 0x7f060060;
+        public static int purple = 0x7f060069;
+        public static int red = 0x7f06006a;
+        public static int red_circle = 0x7f06006b;
+        public static int shimmer_blue = 0x7f060072;
+        public static int shimmer_grey = 0x7f060073;
+        public static int shimmer_grey_checkbox = 0x7f060074;
+        public static int shimmer_orange = 0x7f060075;
+        public static int text_color = 0x7f06007c;
+        public static int text_color_light = 0x7f06007d;
+        public static int turquoise = 0x7f060080;
+        public static int violet = 0x7f060081;
+        public static int yellow = 0x7f060082;
+        public static int yellow_circle = 0x7f060083;
+
+        private color() {
+        }
+    }
+
+    public static final class drawable {
+        public static int button_gray_pressed = 0x7f080059;
+        public static int button_grey = 0x7f08005a;
+        public static int selector_grey = 0x7f080075;
+
+        private drawable() {
+        }
+    }
+
+    public static final class id {
+        public static int ButtonFilterPlotSignal = 0x7f090001;
+        public static int buttonCancel = 0x7f090060;
+        public static int buttonResetFilterPlotSignal = 0x7f090062;
+        public static int button_cancel = 0x7f090063;
+        public static int button_done = 0x7f090064;
+        public static int button_save = 0x7f090065;
+        public static int button_scan = 0x7f090066;
+        public static int dataSyncButton = 0x7f090083;
+        public static int directory = 0x7f09008f;
+        public static int dynamicPlot = 0x7f09009f;
+        public static int editText = 0x7f0900a4;
+        public static int editTextFilterPlotSignal = 0x7f0900a5;
+        public static int expandable_listview = 0x7f0900ac;
+        public static int expandedListItem = 0x7f0900ad;
+        public static int layoutButton = 0x7f0900cd;
+        public static int layoutFilesList = 0x7f0900ce;
+        public static int layoutNewDevices = 0x7f0900cf;
+        public static int layoutPairedDevices = 0x7f0900d0;
+        public static int listTitle = 0x7f0900d8;
+        public static int listViewFiles = 0x7f0900d9;
+        public static int new_devices = 0x7f0900e5;
+        public static int paired_devices = 0x7f0900f3;
+        public static int participantName = 0x7f0900f7;
+        public static int participantNameLabel = 0x7f0900f8;
+        public static int payloadIndex = 0x7f0900fb;
+        public static int sensors_enabled_list = 0x7f09011a;
+        public static int speed = 0x7f090127;
+        public static int textView = 0x7f090151;
+        public static int textView3 = 0x7f090152;
+        public static int textView4 = 0x7f090153;
+        public static int textView5 = 0x7f090154;
+        public static int textViewDeviceName = 0x7f090155;
+        public static int textViewDeviceState = 0x7f090156;
+        public static int textViewHz = 0x7f090157;
+        public static int textViewPRR = 0x7f090158;
+        public static int textViewTitleFiles = 0x7f090159;
+        public static int title_new_devices = 0x7f09015d;
+        public static int title_paired_devices = 0x7f09015e;
+        public static int trialName = 0x7f090165;
+        public static int trialNameLabel = 0x7f090166;
+
+        private id() {
+        }
+    }
+
+    public static final class layout {
+        public static int data_sync = 0x7f0c001f;
+        public static int device_list = 0x7f0c0020;
+        public static int device_name = 0x7f0c0021;
+        public static int dialog_sensor_view = 0x7f0c0022;
+        public static int file_list = 0x7f0c0023;
+        public static int fragment_device_config = 0x7f0c0024;
+        public static int fragment_plot = 0x7f0c0025;
+        public static int fragment_sensors_enabled_list = 0x7f0c0026;
+        public static int layout = 0x7f0c0029;
+        public static int list_group = 0x7f0c002a;
+        public static int list_item = 0x7f0c002b;
+        public static int list_item_textfield = 0x7f0c002c;
+        public static int simple_list_item_multiple_choice_force_black_text = 0x7f0c0036;
+
+        private layout() {
+        }
+    }
+
+    public static final class string {
+        public static int Accelerometer = 0x7f0f0000;
+        public static int app_name = 0x7f0f001d;
+        public static int button_1 = 0x7f0f001e;
+        public static int button_scan = 0x7f0f001f;
+        public static int cancel = 0x7f0f0027;
+        public static int commands = 0x7f0f0028;
+        public static int configure_device = 0x7f0f0029;
+        public static int connect = 0x7f0f002a;
+        public static int disconnect = 0x7f0f002b;
+        public static int enable_sensors_done = 0x7f0f002e;
+        public static int label_sensor1 = 0x7f0f0030;
+        public static int label_sensor2 = 0x7f0f0031;
+        public static int label_sensor3 = 0x7f0f0032;
+        public static int logfile = 0x7f0f0033;
+        public static int none_found = 0x7f0f0034;
+        public static int none_paired = 0x7f0f0035;
+        public static int one_point_five_g = 0x7f0f0036;
+        public static int scanning = 0x7f0f0037;
+        public static int select_device = 0x7f0f0039;
+        public static int sensorvalue1 = 0x7f0f003a;
+        public static int sensorvalue2 = 0x7f0f003b;
+        public static int sensorvalue3 = 0x7f0f003c;
+        public static int settings = 0x7f0f003d;
+        public static int six_g = 0x7f0f003e;
+        public static int startstream = 0x7f0f003f;
+        public static int stopstream = 0x7f0f0041;
+        public static int title_connected_to = 0x7f0f0042;
+        public static int title_connecting = 0x7f0f0043;
+        public static int title_files = 0x7f0f0044;
+        public static int title_not_connected = 0x7f0f0045;
+        public static int title_other_devices = 0x7f0f0046;
+        public static int title_paired_devices = 0x7f0f0047;
+        public static int viewsensor = 0x7f0f0048;
+
+        private string() {
+        }
+    }
+
+    public static final class style {
+        public static int AppBaseTheme = 0x7f100005;
+        public static int AppTheme = 0x7f100006;
+
+        private style() {
+        }
+    }
+
+    private R() {
+    }
+}

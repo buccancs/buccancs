@@ -1,0 +1,43 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/it/gerdavax/easybluetooth/ConnectionListener.java
+// Size: 1311 bytes
+// Modified: 2025-10-21 16:32:00.888037000 +0100
+
+package it.gerdavax.easybluetooth;
+
+import android.os.Handler;
+import android.os.Message;
+
+/* loaded from: classes4.dex */
+public abstract class ConnectionListener {
+    private static final int CONNECTION_ERROR = 2;
+    private static final int CONNECTION_WAITING = 1;
+    private Handler delegate = new Handler() { // from class: it.gerdavax.easybluetooth.ConnectionListener.1
+        @Override // android.os.Handler
+        public void handleMessage(Message message) {
+            super.handleMessage(message);
+            int i = message.what;
+            if (i == 1) {
+                ConnectionListener.this.connectionWaiting((BtSocket) message.obj);
+            } else {
+                if (i != 2) {
+                    return;
+                }
+                ConnectionListener.this.connectionError();
+            }
+        }
+    };
+
+    public abstract void connectionError();
+
+    public abstract void connectionWaiting(BtSocket btSocket);
+
+    final void notifyConnectionError() {
+        Handler handler = this.delegate;
+        handler.sendMessage(handler.obtainMessage(2));
+    }
+
+    final void notifyConnectionWaiting(BtSocket btSocket) {
+        Handler handler = this.delegate;
+        handler.sendMessage(handler.obtainMessage(1, btSocket));
+    }
+}

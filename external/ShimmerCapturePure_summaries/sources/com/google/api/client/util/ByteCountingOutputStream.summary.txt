@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/util/ByteCountingOutputStream.java
+// Size: 525 bytes
+// Modified: 2025-10-21 16:32:00.117885700 +0100
+
+package com.google.api.client.util;
+
+import java.io.IOException;
+import java.io.OutputStream;
+
+/* loaded from: classes.dex */
+final class ByteCountingOutputStream extends OutputStream {
+    long count;
+
+    @Override // java.io.OutputStream
+    public void write(int i) throws IOException {
+        this.count++;
+    }
+
+    @Override // java.io.OutputStream
+    public void write(byte[] bArr, int i, int i2) throws IOException {
+        this.count += i2;
+    }
+
+    ByteCountingOutputStream() {
+    }
+}

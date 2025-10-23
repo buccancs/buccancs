@@ -1,0 +1,227 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/extensions/filters/network/http_connection_manager/v3/HttpConnectionManagerOrBuilder.java
+// Size: 6608 bytes
+// Modified: 2025-10-21 16:32:13.552730000 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLog;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3.AccessLogOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Http1ProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Http1ProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Http2ProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Http2ProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HttpProtocolOptions;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.HttpProtocolOptionsOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteConfiguration;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteConfigurationOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface HttpConnectionManagerOrBuilder extends MessageOrBuilder {
+    AccessLog getAccessLog(int i);
+
+    int getAccessLogCount();
+
+    List<AccessLog> getAccessLogList();
+
+    AccessLogOrBuilder getAccessLogOrBuilder(int i);
+
+    List<? extends AccessLogOrBuilder> getAccessLogOrBuilderList();
+
+    BoolValue getAddUserAgent();
+
+    BoolValueOrBuilder getAddUserAgentOrBuilder();
+
+    boolean getAlwaysSetRequestIdInResponse();
+
+    HttpConnectionManager.CodecType getCodecType();
+
+    int getCodecTypeValue();
+
+    HttpProtocolOptions getCommonHttpProtocolOptions();
+
+    HttpProtocolOptionsOrBuilder getCommonHttpProtocolOptionsOrBuilder();
+
+    Duration getDelayedCloseTimeout();
+
+    DurationOrBuilder getDelayedCloseTimeoutOrBuilder();
+
+    Duration getDrainTimeout();
+
+    DurationOrBuilder getDrainTimeoutOrBuilder();
+
+    HttpConnectionManager.ForwardClientCertDetails getForwardClientCertDetails();
+
+    int getForwardClientCertDetailsValue();
+
+    BoolValue getGenerateRequestId();
+
+    BoolValueOrBuilder getGenerateRequestIdOrBuilder();
+
+    Http2ProtocolOptions getHttp2ProtocolOptions();
+
+    Http2ProtocolOptionsOrBuilder getHttp2ProtocolOptionsOrBuilder();
+
+    HttpFilter getHttpFilters(int i);
+
+    int getHttpFiltersCount();
+
+    List<HttpFilter> getHttpFiltersList();
+
+    HttpFilterOrBuilder getHttpFiltersOrBuilder(int i);
+
+    List<? extends HttpFilterOrBuilder> getHttpFiltersOrBuilderList();
+
+    Http1ProtocolOptions getHttpProtocolOptions();
+
+    Http1ProtocolOptionsOrBuilder getHttpProtocolOptionsOrBuilder();
+
+    HttpConnectionManager.InternalAddressConfig getInternalAddressConfig();
+
+    HttpConnectionManager.InternalAddressConfigOrBuilder getInternalAddressConfigOrBuilder();
+
+    LocalReplyConfig getLocalReplyConfig();
+
+    LocalReplyConfigOrBuilder getLocalReplyConfigOrBuilder();
+
+    UInt32Value getMaxRequestHeadersKb();
+
+    UInt32ValueOrBuilder getMaxRequestHeadersKbOrBuilder();
+
+    boolean getMergeSlashes();
+
+    BoolValue getNormalizePath();
+
+    BoolValueOrBuilder getNormalizePathOrBuilder();
+
+    boolean getPreserveExternalRequestId();
+
+    boolean getProxy100Continue();
+
+    Rds getRds();
+
+    RdsOrBuilder getRdsOrBuilder();
+
+    boolean getRepresentIpv4RemoteAddressAsIpv4MappedIpv6();
+
+    RequestIDExtension getRequestIdExtension();
+
+    RequestIDExtensionOrBuilder getRequestIdExtensionOrBuilder();
+
+    Duration getRequestTimeout();
+
+    DurationOrBuilder getRequestTimeoutOrBuilder();
+
+    RouteConfiguration getRouteConfig();
+
+    RouteConfigurationOrBuilder getRouteConfigOrBuilder();
+
+    HttpConnectionManager.RouteSpecifierCase getRouteSpecifierCase();
+
+    ScopedRoutes getScopedRoutes();
+
+    ScopedRoutesOrBuilder getScopedRoutesOrBuilder();
+
+    HttpConnectionManager.ServerHeaderTransformation getServerHeaderTransformation();
+
+    int getServerHeaderTransformationValue();
+
+    String getServerName();
+
+    ByteString getServerNameBytes();
+
+    HttpConnectionManager.SetCurrentClientCertDetails getSetCurrentClientCertDetails();
+
+    HttpConnectionManager.SetCurrentClientCertDetailsOrBuilder getSetCurrentClientCertDetailsOrBuilder();
+
+    boolean getSkipXffAppend();
+
+    String getStatPrefix();
+
+    ByteString getStatPrefixBytes();
+
+    BoolValue getStreamErrorOnInvalidHttpMessage();
+
+    BoolValueOrBuilder getStreamErrorOnInvalidHttpMessageOrBuilder();
+
+    Duration getStreamIdleTimeout();
+
+    DurationOrBuilder getStreamIdleTimeoutOrBuilder();
+
+    boolean getStripMatchingHostPort();
+
+    HttpConnectionManager.Tracing getTracing();
+
+    HttpConnectionManager.TracingOrBuilder getTracingOrBuilder();
+
+    HttpConnectionManager.UpgradeConfig getUpgradeConfigs(int i);
+
+    int getUpgradeConfigsCount();
+
+    List<HttpConnectionManager.UpgradeConfig> getUpgradeConfigsList();
+
+    HttpConnectionManager.UpgradeConfigOrBuilder getUpgradeConfigsOrBuilder(int i);
+
+    List<? extends HttpConnectionManager.UpgradeConfigOrBuilder> getUpgradeConfigsOrBuilderList();
+
+    BoolValue getUseRemoteAddress();
+
+    BoolValueOrBuilder getUseRemoteAddressOrBuilder();
+
+    String getVia();
+
+    ByteString getViaBytes();
+
+    int getXffNumTrustedHops();
+
+    boolean hasAddUserAgent();
+
+    boolean hasCommonHttpProtocolOptions();
+
+    boolean hasDelayedCloseTimeout();
+
+    boolean hasDrainTimeout();
+
+    boolean hasGenerateRequestId();
+
+    boolean hasHttp2ProtocolOptions();
+
+    boolean hasHttpProtocolOptions();
+
+    boolean hasInternalAddressConfig();
+
+    boolean hasLocalReplyConfig();
+
+    boolean hasMaxRequestHeadersKb();
+
+    boolean hasNormalizePath();
+
+    boolean hasRds();
+
+    boolean hasRequestIdExtension();
+
+    boolean hasRequestTimeout();
+
+    boolean hasRouteConfig();
+
+    boolean hasScopedRoutes();
+
+    boolean hasSetCurrentClientCertDetails();
+
+    boolean hasStreamErrorOnInvalidHttpMessage();
+
+    boolean hasStreamIdleTimeout();
+
+    boolean hasTracing();
+
+    boolean hasUseRemoteAddress();
+}

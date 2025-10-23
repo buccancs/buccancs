@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/AuthProviderOrBuilder.java
+// Size: 550 bytes
+// Modified: 2025-10-21 16:32:00.124578000 +0100
+
+package com.google.api;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes.dex */
+public interface AuthProviderOrBuilder extends MessageOrBuilder {
+    String getAudiences();
+
+    ByteString getAudiencesBytes();
+
+    String getAuthorizationUrl();
+
+    ByteString getAuthorizationUrlBytes();
+
+    String getId();
+
+    ByteString getIdBytes();
+
+    String getIssuer();
+
+    ByteString getIssuerBytes();
+
+    String getJwksUri();
+
+    ByteString getJwksUriBytes();
+}

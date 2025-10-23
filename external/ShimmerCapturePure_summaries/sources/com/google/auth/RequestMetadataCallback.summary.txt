@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/auth/RequestMetadataCallback.java
+// Size: 245 bytes
+// Modified: 2025-10-21 16:32:00.129725400 +0100
+
+package com.google.auth;
+
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes.dex */
+public interface RequestMetadataCallback {
+    void onFailure(Throwable th);
+
+    void onSuccess(Map<String, List<String>> map);
+}

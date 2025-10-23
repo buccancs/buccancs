@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/util/StringUtils.java
+// Size: 641 bytes
+// Modified: 2025-10-21 16:32:00.116060700 +0100
+
+package com.google.api.client.util;
+
+import java.nio.charset.StandardCharsets;
+
+/* loaded from: classes.dex */
+public class StringUtils {
+    public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+
+    public static byte[] getBytesUtf8(String str) {
+        if (str == null) {
+            return null;
+        }
+        return str.getBytes(StandardCharsets.UTF_8);
+    }
+
+    public static String newStringUtf8(byte[] bArr) {
+        if (bArr == null) {
+            return null;
+        }
+        return new String(bArr, StandardCharsets.UTF_8);
+    }
+
+    private StringUtils() {
+    }
+}

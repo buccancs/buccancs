@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/channelz/v1/GetTopChannelsResponseOrBuilder.java
+// Size: 462 bytes
+// Modified: 2025-10-21 16:32:06.716759700 +0100
+
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface GetTopChannelsResponseOrBuilder extends MessageOrBuilder {
+    Channel getChannel(int i);
+
+    int getChannelCount();
+
+    List<Channel> getChannelList();
+
+    ChannelOrBuilder getChannelOrBuilder(int i);
+
+    List<? extends ChannelOrBuilder> getChannelOrBuilderList();
+
+    boolean getEnd();
+}

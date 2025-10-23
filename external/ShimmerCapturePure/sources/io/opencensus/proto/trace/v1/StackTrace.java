@@ -1,0 +1,2583 @@
+package io.opencensus.proto.trace.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.opencensus.proto.trace.v1.Module;
+import io.opencensus.proto.trace.v1.TruncatableString;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public final class StackTrace extends GeneratedMessageV3 implements StackTraceOrBuilder {
+    public static final int STACK_FRAMES_FIELD_NUMBER = 1;
+    public static final int STACK_TRACE_HASH_ID_FIELD_NUMBER = 2;
+    private static final StackTrace DEFAULT_INSTANCE = new StackTrace();
+    private static final Parser<StackTrace> PARSER = new AbstractParser<StackTrace>() { // from class: io.opencensus.proto.trace.v1.StackTrace.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public StackTrace m38535parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new StackTrace(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private byte memoizedIsInitialized;
+    private StackFrames stackFrames_;
+    private long stackTraceHashId_;
+
+    private StackTrace(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private StackTrace() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.stackTraceHashId_ = 0L;
+    }
+
+    private StackTrace(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            StackFrames stackFrames = this.stackFrames_;
+                            StackFrames.Builder builderM38625toBuilder = stackFrames != null ? stackFrames.m38625toBuilder() : null;
+                            StackFrames stackFrames2 = (StackFrames) codedInputStream.readMessage(StackFrames.parser(), extensionRegistryLite);
+                            this.stackFrames_ = stackFrames2;
+                            if (builderM38625toBuilder != null) {
+                                builderM38625toBuilder.mergeFrom(stackFrames2);
+                                this.stackFrames_ = builderM38625toBuilder.m38632buildPartial();
+                            }
+                        } else if (tag != 16) {
+                            if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            this.stackTraceHashId_ = codedInputStream.readUInt64();
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static StackTrace getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<StackTrace> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_descriptor;
+    }
+
+    public static StackTrace parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (StackTrace) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static StackTrace parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (StackTrace) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static StackTrace parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (StackTrace) PARSER.parseFrom(byteString);
+    }
+
+    public static StackTrace parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (StackTrace) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static StackTrace parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (StackTrace) PARSER.parseFrom(bArr);
+    }
+
+    public static StackTrace parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (StackTrace) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static StackTrace parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static StackTrace parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static StackTrace parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static StackTrace parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static StackTrace parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static StackTrace parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m38533toBuilder();
+    }
+
+    public static Builder newBuilder(StackTrace stackTrace) {
+        return DEFAULT_INSTANCE.m38533toBuilder().mergeFrom(stackTrace);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public StackTrace m38528getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<StackTrace> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.StackTraceOrBuilder
+    public long getStackTraceHashId() {
+        return this.stackTraceHashId_;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.StackTraceOrBuilder
+    public boolean hasStackFrames() {
+        return this.stackFrames_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_fieldAccessorTable.ensureFieldAccessorsInitialized(StackTrace.class, Builder.class);
+    }
+
+    @Override // io.opencensus.proto.trace.v1.StackTraceOrBuilder
+    public StackFrames getStackFrames() {
+        StackFrames stackFrames = this.stackFrames_;
+        return stackFrames == null ? StackFrames.getDefaultInstance() : stackFrames;
+    }
+
+    @Override // io.opencensus.proto.trace.v1.StackTraceOrBuilder
+    public StackFramesOrBuilder getStackFramesOrBuilder() {
+        return getStackFrames();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.stackFrames_ != null) {
+            codedOutputStream.writeMessage(1, getStackFrames());
+        }
+        long j = this.stackTraceHashId_;
+        if (j != 0) {
+            codedOutputStream.writeUInt64(2, j);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.stackFrames_ != null ? CodedOutputStream.computeMessageSize(1, getStackFrames()) : 0;
+        long j = this.stackTraceHashId_;
+        if (j != 0) {
+            iComputeMessageSize += CodedOutputStream.computeUInt64Size(2, j);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof StackTrace)) {
+            return super.equals(obj);
+        }
+        StackTrace stackTrace = (StackTrace) obj;
+        boolean z = hasStackFrames() == stackTrace.hasStackFrames();
+        if (!hasStackFrames() ? z : !(!z || !getStackFrames().equals(stackTrace.getStackFrames()))) {
+            if (getStackTraceHashId() == stackTrace.getStackTraceHashId() && this.unknownFields.equals(stackTrace.unknownFields)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasStackFrames()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getStackFrames().hashCode();
+        }
+        int iHashLong = (((((iHashCode * 37) + 2) * 53) + Internal.hashLong(getStackTraceHashId())) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashLong;
+        return iHashLong;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m38530newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m38533toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public interface StackFrameOrBuilder extends MessageOrBuilder {
+        long getColumnNumber();
+
+        TruncatableString getFileName();
+
+        TruncatableStringOrBuilder getFileNameOrBuilder();
+
+        TruncatableString getFunctionName();
+
+        TruncatableStringOrBuilder getFunctionNameOrBuilder();
+
+        long getLineNumber();
+
+        Module getLoadModule();
+
+        ModuleOrBuilder getLoadModuleOrBuilder();
+
+        TruncatableString getOriginalFunctionName();
+
+        TruncatableStringOrBuilder getOriginalFunctionNameOrBuilder();
+
+        TruncatableString getSourceVersion();
+
+        TruncatableStringOrBuilder getSourceVersionOrBuilder();
+
+        boolean hasFileName();
+
+        boolean hasFunctionName();
+
+        boolean hasLoadModule();
+
+        boolean hasOriginalFunctionName();
+
+        boolean hasSourceVersion();
+    }
+
+    public interface StackFramesOrBuilder extends MessageOrBuilder {
+        int getDroppedFramesCount();
+
+        StackFrame getFrame(int i);
+
+        int getFrameCount();
+
+        List<StackFrame> getFrameList();
+
+        StackFrameOrBuilder getFrameOrBuilder(int i);
+
+        List<? extends StackFrameOrBuilder> getFrameOrBuilderList();
+    }
+
+    public static final class StackFrame extends GeneratedMessageV3 implements StackFrameOrBuilder {
+        public static final int COLUMN_NUMBER_FIELD_NUMBER = 5;
+        public static final int FILE_NAME_FIELD_NUMBER = 3;
+        public static final int FUNCTION_NAME_FIELD_NUMBER = 1;
+        public static final int LINE_NUMBER_FIELD_NUMBER = 4;
+        public static final int LOAD_MODULE_FIELD_NUMBER = 6;
+        public static final int ORIGINAL_FUNCTION_NAME_FIELD_NUMBER = 2;
+        public static final int SOURCE_VERSION_FIELD_NUMBER = 7;
+        private static final long serialVersionUID = 0;
+        private static final StackFrame DEFAULT_INSTANCE = new StackFrame();
+        private static final Parser<StackFrame> PARSER = new AbstractParser<StackFrame>() { // from class: io.opencensus.proto.trace.v1.StackTrace.StackFrame.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public StackFrame m38581parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new StackFrame(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private long columnNumber_;
+        private TruncatableString fileName_;
+        private TruncatableString functionName_;
+        private long lineNumber_;
+        private Module loadModule_;
+        private byte memoizedIsInitialized;
+        private TruncatableString originalFunctionName_;
+        private TruncatableString sourceVersion_;
+
+        private StackFrame(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private StackFrame() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.lineNumber_ = 0L;
+            this.columnNumber_ = 0L;
+        }
+
+        private StackFrame(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                TruncatableString truncatableString = this.functionName_;
+                                TruncatableString.Builder builderM38763toBuilder = truncatableString != null ? truncatableString.m38763toBuilder() : null;
+                                TruncatableString truncatableString2 = (TruncatableString) codedInputStream.readMessage(TruncatableString.parser(), extensionRegistryLite);
+                                this.functionName_ = truncatableString2;
+                                if (builderM38763toBuilder != null) {
+                                    builderM38763toBuilder.mergeFrom(truncatableString2);
+                                    this.functionName_ = builderM38763toBuilder.m38770buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                TruncatableString truncatableString3 = this.originalFunctionName_;
+                                TruncatableString.Builder builderM38763toBuilder2 = truncatableString3 != null ? truncatableString3.m38763toBuilder() : null;
+                                TruncatableString truncatableString4 = (TruncatableString) codedInputStream.readMessage(TruncatableString.parser(), extensionRegistryLite);
+                                this.originalFunctionName_ = truncatableString4;
+                                if (builderM38763toBuilder2 != null) {
+                                    builderM38763toBuilder2.mergeFrom(truncatableString4);
+                                    this.originalFunctionName_ = builderM38763toBuilder2.m38770buildPartial();
+                                }
+                            } else if (tag == 26) {
+                                TruncatableString truncatableString5 = this.fileName_;
+                                TruncatableString.Builder builderM38763toBuilder3 = truncatableString5 != null ? truncatableString5.m38763toBuilder() : null;
+                                TruncatableString truncatableString6 = (TruncatableString) codedInputStream.readMessage(TruncatableString.parser(), extensionRegistryLite);
+                                this.fileName_ = truncatableString6;
+                                if (builderM38763toBuilder3 != null) {
+                                    builderM38763toBuilder3.mergeFrom(truncatableString6);
+                                    this.fileName_ = builderM38763toBuilder3.m38770buildPartial();
+                                }
+                            } else if (tag == 32) {
+                                this.lineNumber_ = codedInputStream.readInt64();
+                            } else if (tag == 40) {
+                                this.columnNumber_ = codedInputStream.readInt64();
+                            } else if (tag == 50) {
+                                Module module = this.loadModule_;
+                                Module.Builder builderM37932toBuilder = module != null ? module.m37932toBuilder() : null;
+                                Module module2 = (Module) codedInputStream.readMessage(Module.parser(), extensionRegistryLite);
+                                this.loadModule_ = module2;
+                                if (builderM37932toBuilder != null) {
+                                    builderM37932toBuilder.mergeFrom(module2);
+                                    this.loadModule_ = builderM37932toBuilder.m37939buildPartial();
+                                }
+                            } else if (tag != 58) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                TruncatableString truncatableString7 = this.sourceVersion_;
+                                TruncatableString.Builder builderM38763toBuilder4 = truncatableString7 != null ? truncatableString7.m38763toBuilder() : null;
+                                TruncatableString truncatableString8 = (TruncatableString) codedInputStream.readMessage(TruncatableString.parser(), extensionRegistryLite);
+                                this.sourceVersion_ = truncatableString8;
+                                if (builderM38763toBuilder4 != null) {
+                                    builderM38763toBuilder4.mergeFrom(truncatableString8);
+                                    this.sourceVersion_ = builderM38763toBuilder4.m38770buildPartial();
+                                }
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static StackFrame getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<StackFrame> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrame_descriptor;
+        }
+
+        public static StackFrame parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (StackFrame) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static StackFrame parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StackFrame) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static StackFrame parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (StackFrame) PARSER.parseFrom(byteString);
+        }
+
+        public static StackFrame parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StackFrame) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static StackFrame parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (StackFrame) PARSER.parseFrom(bArr);
+        }
+
+        public static StackFrame parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StackFrame) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static StackFrame parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static StackFrame parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static StackFrame parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static StackFrame parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static StackFrame parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static StackFrame parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m38579toBuilder();
+        }
+
+        public static Builder newBuilder(StackFrame stackFrame) {
+            return DEFAULT_INSTANCE.m38579toBuilder().mergeFrom(stackFrame);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public long getColumnNumber() {
+            return this.columnNumber_;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public StackFrame m38574getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public long getLineNumber() {
+            return this.lineNumber_;
+        }
+
+        public Parser<StackFrame> getParserForType() {
+            return PARSER;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public boolean hasFileName() {
+            return this.fileName_ != null;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public boolean hasFunctionName() {
+            return this.functionName_ != null;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public boolean hasLoadModule() {
+            return this.loadModule_ != null;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public boolean hasOriginalFunctionName() {
+            return this.originalFunctionName_ != null;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public boolean hasSourceVersion() {
+            return this.sourceVersion_ != null;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrame_fieldAccessorTable.ensureFieldAccessorsInitialized(StackFrame.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public TruncatableString getFunctionName() {
+            TruncatableString truncatableString = this.functionName_;
+            return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public TruncatableStringOrBuilder getFunctionNameOrBuilder() {
+            return getFunctionName();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public TruncatableString getOriginalFunctionName() {
+            TruncatableString truncatableString = this.originalFunctionName_;
+            return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public TruncatableStringOrBuilder getOriginalFunctionNameOrBuilder() {
+            return getOriginalFunctionName();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public TruncatableString getFileName() {
+            TruncatableString truncatableString = this.fileName_;
+            return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public TruncatableStringOrBuilder getFileNameOrBuilder() {
+            return getFileName();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public Module getLoadModule() {
+            Module module = this.loadModule_;
+            return module == null ? Module.getDefaultInstance() : module;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public ModuleOrBuilder getLoadModuleOrBuilder() {
+            return getLoadModule();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public TruncatableString getSourceVersion() {
+            TruncatableString truncatableString = this.sourceVersion_;
+            return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+        public TruncatableStringOrBuilder getSourceVersionOrBuilder() {
+            return getSourceVersion();
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            if (this.functionName_ != null) {
+                codedOutputStream.writeMessage(1, getFunctionName());
+            }
+            if (this.originalFunctionName_ != null) {
+                codedOutputStream.writeMessage(2, getOriginalFunctionName());
+            }
+            if (this.fileName_ != null) {
+                codedOutputStream.writeMessage(3, getFileName());
+            }
+            long j = this.lineNumber_;
+            if (j != 0) {
+                codedOutputStream.writeInt64(4, j);
+            }
+            long j2 = this.columnNumber_;
+            if (j2 != 0) {
+                codedOutputStream.writeInt64(5, j2);
+            }
+            if (this.loadModule_ != null) {
+                codedOutputStream.writeMessage(6, getLoadModule());
+            }
+            if (this.sourceVersion_ != null) {
+                codedOutputStream.writeMessage(7, getSourceVersion());
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = this.functionName_ != null ? CodedOutputStream.computeMessageSize(1, getFunctionName()) : 0;
+            if (this.originalFunctionName_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getOriginalFunctionName());
+            }
+            if (this.fileName_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(3, getFileName());
+            }
+            long j = this.lineNumber_;
+            if (j != 0) {
+                iComputeMessageSize += CodedOutputStream.computeInt64Size(4, j);
+            }
+            long j2 = this.columnNumber_;
+            if (j2 != 0) {
+                iComputeMessageSize += CodedOutputStream.computeInt64Size(5, j2);
+            }
+            if (this.loadModule_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(6, getLoadModule());
+            }
+            if (this.sourceVersion_ != null) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(7, getSourceVersion());
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:23:0x0042  */
+        /* JADX WARN: Removed duplicated region for block: B:34:0x0068  */
+        /* JADX WARN: Removed duplicated region for block: B:49:0x00a6  */
+        /* JADX WARN: Removed duplicated region for block: B:60:0x00cc  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public boolean equals(java.lang.Object r8) {
+            /*
+                r7 = this;
+                r0 = 1
+                if (r8 != r7) goto L4
+                return r0
+            L4:
+                boolean r1 = r8 instanceof io.opencensus.proto.trace.v1.StackTrace.StackFrame
+                if (r1 != 0) goto Ld
+                boolean r8 = super.equals(r8)
+                return r8
+            Ld:
+                io.opencensus.proto.trace.v1.StackTrace$StackFrame r8 = (io.opencensus.proto.trace.v1.StackTrace.StackFrame) r8
+                boolean r1 = r7.hasFunctionName()
+                boolean r2 = r8.hasFunctionName()
+                r3 = 0
+                if (r1 != r2) goto L1c
+                r1 = 1
+                goto L1d
+            L1c:
+                r1 = 0
+            L1d:
+                boolean r2 = r7.hasFunctionName()
+                if (r2 == 0) goto L34
+                if (r1 == 0) goto L42
+                io.opencensus.proto.trace.v1.TruncatableString r1 = r7.getFunctionName()
+                io.opencensus.proto.trace.v1.TruncatableString r2 = r8.getFunctionName()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto L42
+                goto L36
+            L34:
+                if (r1 == 0) goto L42
+            L36:
+                boolean r1 = r7.hasOriginalFunctionName()
+                boolean r2 = r8.hasOriginalFunctionName()
+                if (r1 != r2) goto L42
+                r1 = 1
+                goto L43
+            L42:
+                r1 = 0
+            L43:
+                boolean r2 = r7.hasOriginalFunctionName()
+                if (r2 == 0) goto L5a
+                if (r1 == 0) goto L68
+                io.opencensus.proto.trace.v1.TruncatableString r1 = r7.getOriginalFunctionName()
+                io.opencensus.proto.trace.v1.TruncatableString r2 = r8.getOriginalFunctionName()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto L68
+                goto L5c
+            L5a:
+                if (r1 == 0) goto L68
+            L5c:
+                boolean r1 = r7.hasFileName()
+                boolean r2 = r8.hasFileName()
+                if (r1 != r2) goto L68
+                r1 = 1
+                goto L69
+            L68:
+                r1 = 0
+            L69:
+                boolean r2 = r7.hasFileName()
+                if (r2 == 0) goto L80
+                if (r1 == 0) goto La6
+                io.opencensus.proto.trace.v1.TruncatableString r1 = r7.getFileName()
+                io.opencensus.proto.trace.v1.TruncatableString r2 = r8.getFileName()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto La6
+                goto L82
+            L80:
+                if (r1 == 0) goto La6
+            L82:
+                long r1 = r7.getLineNumber()
+                long r4 = r8.getLineNumber()
+                int r6 = (r1 > r4 ? 1 : (r1 == r4 ? 0 : -1))
+                if (r6 != 0) goto La6
+                long r1 = r7.getColumnNumber()
+                long r4 = r8.getColumnNumber()
+                int r6 = (r1 > r4 ? 1 : (r1 == r4 ? 0 : -1))
+                if (r6 != 0) goto La6
+                boolean r1 = r7.hasLoadModule()
+                boolean r2 = r8.hasLoadModule()
+                if (r1 != r2) goto La6
+                r1 = 1
+                goto La7
+            La6:
+                r1 = 0
+            La7:
+                boolean r2 = r7.hasLoadModule()
+                if (r2 == 0) goto Lbe
+                if (r1 == 0) goto Lcc
+                io.opencensus.proto.trace.v1.Module r1 = r7.getLoadModule()
+                io.opencensus.proto.trace.v1.Module r2 = r8.getLoadModule()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto Lcc
+                goto Lc0
+            Lbe:
+                if (r1 == 0) goto Lcc
+            Lc0:
+                boolean r1 = r7.hasSourceVersion()
+                boolean r2 = r8.hasSourceVersion()
+                if (r1 != r2) goto Lcc
+                r1 = 1
+                goto Lcd
+            Lcc:
+                r1 = 0
+            Lcd:
+                boolean r2 = r7.hasSourceVersion()
+                if (r2 == 0) goto Le4
+                if (r1 == 0) goto Lf1
+                io.opencensus.proto.trace.v1.TruncatableString r1 = r7.getSourceVersion()
+                io.opencensus.proto.trace.v1.TruncatableString r2 = r8.getSourceVersion()
+                boolean r1 = r1.equals(r2)
+                if (r1 == 0) goto Lf1
+                goto Le6
+            Le4:
+                if (r1 == 0) goto Lf1
+            Le6:
+                com.google.protobuf.UnknownFieldSet r1 = r7.unknownFields
+                com.google.protobuf.UnknownFieldSet r8 = r8.unknownFields
+                boolean r8 = r1.equals(r8)
+                if (r8 == 0) goto Lf1
+                goto Lf2
+            Lf1:
+                r0 = 0
+            Lf2:
+                return r0
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.StackTrace.StackFrame.equals(java.lang.Object):boolean");
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (hasFunctionName()) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getFunctionName().hashCode();
+            }
+            if (hasOriginalFunctionName()) {
+                iHashCode = (((iHashCode * 37) + 2) * 53) + getOriginalFunctionName().hashCode();
+            }
+            if (hasFileName()) {
+                iHashCode = (((iHashCode * 37) + 3) * 53) + getFileName().hashCode();
+            }
+            int iHashLong = (((((((iHashCode * 37) + 4) * 53) + Internal.hashLong(getLineNumber())) * 37) + 5) * 53) + Internal.hashLong(getColumnNumber());
+            if (hasLoadModule()) {
+                iHashLong = (((iHashLong * 37) + 6) * 53) + getLoadModule().hashCode();
+            }
+            if (hasSourceVersion()) {
+                iHashLong = (((iHashLong * 37) + 7) * 53) + getSourceVersion().hashCode();
+            }
+            int iHashCode2 = (iHashLong * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38576newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38579toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements StackFrameOrBuilder {
+            private long columnNumber_;
+            private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> fileNameBuilder_;
+            private TruncatableString fileName_;
+            private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> functionNameBuilder_;
+            private TruncatableString functionName_;
+            private long lineNumber_;
+            private SingleFieldBuilderV3<Module, Module.Builder, ModuleOrBuilder> loadModuleBuilder_;
+            private Module loadModule_;
+            private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> originalFunctionNameBuilder_;
+            private TruncatableString originalFunctionName_;
+            private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> sourceVersionBuilder_;
+            private TruncatableString sourceVersion_;
+
+            private Builder() {
+                this.functionName_ = null;
+                this.originalFunctionName_ = null;
+                this.fileName_ = null;
+                this.loadModule_ = null;
+                this.sourceVersion_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.functionName_ = null;
+                this.originalFunctionName_ = null;
+                this.fileName_ = null;
+                this.loadModule_ = null;
+                this.sourceVersion_ = null;
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrame_descriptor;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public long getColumnNumber() {
+                return this.columnNumber_;
+            }
+
+            public Builder setColumnNumber(long j) {
+                this.columnNumber_ = j;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public long getLineNumber() {
+                return this.lineNumber_;
+            }
+
+            public Builder setLineNumber(long j) {
+                this.lineNumber_ = j;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public boolean hasFileName() {
+                return (this.fileNameBuilder_ == null && this.fileName_ == null) ? false : true;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public boolean hasFunctionName() {
+                return (this.functionNameBuilder_ == null && this.functionName_ == null) ? false : true;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public boolean hasLoadModule() {
+                return (this.loadModuleBuilder_ == null && this.loadModule_ == null) ? false : true;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public boolean hasOriginalFunctionName() {
+                return (this.originalFunctionNameBuilder_ == null && this.originalFunctionName_ == null) ? false : true;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public boolean hasSourceVersion() {
+                return (this.sourceVersionBuilder_ == null && this.sourceVersion_ == null) ? false : true;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrame_fieldAccessorTable.ensureFieldAccessorsInitialized(StackFrame.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                boolean unused = StackFrame.alwaysUseFieldBuilders;
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38590clear() {
+                super.clear();
+                if (this.functionNameBuilder_ == null) {
+                    this.functionName_ = null;
+                } else {
+                    this.functionName_ = null;
+                    this.functionNameBuilder_ = null;
+                }
+                if (this.originalFunctionNameBuilder_ == null) {
+                    this.originalFunctionName_ = null;
+                } else {
+                    this.originalFunctionName_ = null;
+                    this.originalFunctionNameBuilder_ = null;
+                }
+                if (this.fileNameBuilder_ == null) {
+                    this.fileName_ = null;
+                } else {
+                    this.fileName_ = null;
+                    this.fileNameBuilder_ = null;
+                }
+                this.lineNumber_ = 0L;
+                this.columnNumber_ = 0L;
+                if (this.loadModuleBuilder_ == null) {
+                    this.loadModule_ = null;
+                } else {
+                    this.loadModule_ = null;
+                    this.loadModuleBuilder_ = null;
+                }
+                if (this.sourceVersionBuilder_ == null) {
+                    this.sourceVersion_ = null;
+                } else {
+                    this.sourceVersion_ = null;
+                    this.sourceVersionBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrame_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StackFrame m38603getDefaultInstanceForType() {
+                return StackFrame.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StackFrame m38584build() throws UninitializedMessageException {
+                StackFrame stackFrameM38586buildPartial = m38586buildPartial();
+                if (stackFrameM38586buildPartial.isInitialized()) {
+                    return stackFrameM38586buildPartial;
+                }
+                throw newUninitializedMessageException(stackFrameM38586buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StackFrame m38586buildPartial() {
+                StackFrame stackFrame = new StackFrame(this);
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.functionNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    stackFrame.functionName_ = this.functionName_;
+                } else {
+                    stackFrame.functionName_ = singleFieldBuilderV3.build();
+                }
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV32 = this.originalFunctionNameBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    stackFrame.originalFunctionName_ = this.originalFunctionName_;
+                } else {
+                    stackFrame.originalFunctionName_ = singleFieldBuilderV32.build();
+                }
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV33 = this.fileNameBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    stackFrame.fileName_ = this.fileName_;
+                } else {
+                    stackFrame.fileName_ = singleFieldBuilderV33.build();
+                }
+                stackFrame.lineNumber_ = this.lineNumber_;
+                stackFrame.columnNumber_ = this.columnNumber_;
+                SingleFieldBuilderV3<Module, Module.Builder, ModuleOrBuilder> singleFieldBuilderV34 = this.loadModuleBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    stackFrame.loadModule_ = this.loadModule_;
+                } else {
+                    stackFrame.loadModule_ = singleFieldBuilderV34.build();
+                }
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV35 = this.sourceVersionBuilder_;
+                if (singleFieldBuilderV35 == null) {
+                    stackFrame.sourceVersion_ = this.sourceVersion_;
+                } else {
+                    stackFrame.sourceVersion_ = singleFieldBuilderV35.build();
+                }
+                onBuilt();
+                return stackFrame;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38602clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38614setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38592clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38595clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38616setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38582addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38607mergeFrom(Message message) {
+                if (message instanceof StackFrame) {
+                    return mergeFrom((StackFrame) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(StackFrame stackFrame) {
+                if (stackFrame == StackFrame.getDefaultInstance()) {
+                    return this;
+                }
+                if (stackFrame.hasFunctionName()) {
+                    mergeFunctionName(stackFrame.getFunctionName());
+                }
+                if (stackFrame.hasOriginalFunctionName()) {
+                    mergeOriginalFunctionName(stackFrame.getOriginalFunctionName());
+                }
+                if (stackFrame.hasFileName()) {
+                    mergeFileName(stackFrame.getFileName());
+                }
+                if (stackFrame.getLineNumber() != 0) {
+                    setLineNumber(stackFrame.getLineNumber());
+                }
+                if (stackFrame.getColumnNumber() != 0) {
+                    setColumnNumber(stackFrame.getColumnNumber());
+                }
+                if (stackFrame.hasLoadModule()) {
+                    mergeLoadModule(stackFrame.getLoadModule());
+                }
+                if (stackFrame.hasSourceVersion()) {
+                    mergeSourceVersion(stackFrame.getSourceVersion());
+                }
+                m38612mergeUnknownFields(stackFrame.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.trace.v1.StackTrace.StackFrame.Builder m38608mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.StackTrace.StackFrame.access$1200()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.trace.v1.StackTrace$StackFrame r3 = (io.opencensus.proto.trace.v1.StackTrace.StackFrame) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.trace.v1.StackTrace$StackFrame r4 = (io.opencensus.proto.trace.v1.StackTrace.StackFrame) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.StackTrace.StackFrame.Builder.m38608mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.StackTrace$StackFrame$Builder");
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public TruncatableString getFunctionName() {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.functionNameBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                TruncatableString truncatableString = this.functionName_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            public Builder setFunctionName(TruncatableString truncatableString) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.functionNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    truncatableString.getClass();
+                    this.functionName_ = truncatableString;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(truncatableString);
+                }
+                return this;
+            }
+
+            public Builder setFunctionName(TruncatableString.Builder builder) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.functionNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.functionName_ = builder.m38768build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m38768build());
+                }
+                return this;
+            }
+
+            public Builder mergeFunctionName(TruncatableString truncatableString) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.functionNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    TruncatableString truncatableString2 = this.functionName_;
+                    if (truncatableString2 != null) {
+                        this.functionName_ = TruncatableString.newBuilder(truncatableString2).mergeFrom(truncatableString).m38770buildPartial();
+                    } else {
+                        this.functionName_ = truncatableString;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(truncatableString);
+                }
+                return this;
+            }
+
+            public Builder clearFunctionName() {
+                if (this.functionNameBuilder_ == null) {
+                    this.functionName_ = null;
+                    onChanged();
+                } else {
+                    this.functionName_ = null;
+                    this.functionNameBuilder_ = null;
+                }
+                return this;
+            }
+
+            public TruncatableString.Builder getFunctionNameBuilder() {
+                onChanged();
+                return getFunctionNameFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public TruncatableStringOrBuilder getFunctionNameOrBuilder() {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.functionNameBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TruncatableStringOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                TruncatableString truncatableString = this.functionName_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> getFunctionNameFieldBuilder() {
+                if (this.functionNameBuilder_ == null) {
+                    this.functionNameBuilder_ = new SingleFieldBuilderV3<>(getFunctionName(), getParentForChildren(), isClean());
+                    this.functionName_ = null;
+                }
+                return this.functionNameBuilder_;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public TruncatableString getOriginalFunctionName() {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.originalFunctionNameBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                TruncatableString truncatableString = this.originalFunctionName_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            public Builder setOriginalFunctionName(TruncatableString truncatableString) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.originalFunctionNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    truncatableString.getClass();
+                    this.originalFunctionName_ = truncatableString;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(truncatableString);
+                }
+                return this;
+            }
+
+            public Builder setOriginalFunctionName(TruncatableString.Builder builder) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.originalFunctionNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.originalFunctionName_ = builder.m38768build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m38768build());
+                }
+                return this;
+            }
+
+            public Builder mergeOriginalFunctionName(TruncatableString truncatableString) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.originalFunctionNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    TruncatableString truncatableString2 = this.originalFunctionName_;
+                    if (truncatableString2 != null) {
+                        this.originalFunctionName_ = TruncatableString.newBuilder(truncatableString2).mergeFrom(truncatableString).m38770buildPartial();
+                    } else {
+                        this.originalFunctionName_ = truncatableString;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(truncatableString);
+                }
+                return this;
+            }
+
+            public Builder clearOriginalFunctionName() {
+                if (this.originalFunctionNameBuilder_ == null) {
+                    this.originalFunctionName_ = null;
+                    onChanged();
+                } else {
+                    this.originalFunctionName_ = null;
+                    this.originalFunctionNameBuilder_ = null;
+                }
+                return this;
+            }
+
+            public TruncatableString.Builder getOriginalFunctionNameBuilder() {
+                onChanged();
+                return getOriginalFunctionNameFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public TruncatableStringOrBuilder getOriginalFunctionNameOrBuilder() {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.originalFunctionNameBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TruncatableStringOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                TruncatableString truncatableString = this.originalFunctionName_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> getOriginalFunctionNameFieldBuilder() {
+                if (this.originalFunctionNameBuilder_ == null) {
+                    this.originalFunctionNameBuilder_ = new SingleFieldBuilderV3<>(getOriginalFunctionName(), getParentForChildren(), isClean());
+                    this.originalFunctionName_ = null;
+                }
+                return this.originalFunctionNameBuilder_;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public TruncatableString getFileName() {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.fileNameBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                TruncatableString truncatableString = this.fileName_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            public Builder setFileName(TruncatableString truncatableString) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.fileNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    truncatableString.getClass();
+                    this.fileName_ = truncatableString;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(truncatableString);
+                }
+                return this;
+            }
+
+            public Builder setFileName(TruncatableString.Builder builder) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.fileNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.fileName_ = builder.m38768build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m38768build());
+                }
+                return this;
+            }
+
+            public Builder mergeFileName(TruncatableString truncatableString) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.fileNameBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    TruncatableString truncatableString2 = this.fileName_;
+                    if (truncatableString2 != null) {
+                        this.fileName_ = TruncatableString.newBuilder(truncatableString2).mergeFrom(truncatableString).m38770buildPartial();
+                    } else {
+                        this.fileName_ = truncatableString;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(truncatableString);
+                }
+                return this;
+            }
+
+            public Builder clearFileName() {
+                if (this.fileNameBuilder_ == null) {
+                    this.fileName_ = null;
+                    onChanged();
+                } else {
+                    this.fileName_ = null;
+                    this.fileNameBuilder_ = null;
+                }
+                return this;
+            }
+
+            public TruncatableString.Builder getFileNameBuilder() {
+                onChanged();
+                return getFileNameFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public TruncatableStringOrBuilder getFileNameOrBuilder() {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.fileNameBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TruncatableStringOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                TruncatableString truncatableString = this.fileName_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> getFileNameFieldBuilder() {
+                if (this.fileNameBuilder_ == null) {
+                    this.fileNameBuilder_ = new SingleFieldBuilderV3<>(getFileName(), getParentForChildren(), isClean());
+                    this.fileName_ = null;
+                }
+                return this.fileNameBuilder_;
+            }
+
+            public Builder clearLineNumber() {
+                this.lineNumber_ = 0L;
+                onChanged();
+                return this;
+            }
+
+            public Builder clearColumnNumber() {
+                this.columnNumber_ = 0L;
+                onChanged();
+                return this;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public Module getLoadModule() {
+                SingleFieldBuilderV3<Module, Module.Builder, ModuleOrBuilder> singleFieldBuilderV3 = this.loadModuleBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                Module module = this.loadModule_;
+                return module == null ? Module.getDefaultInstance() : module;
+            }
+
+            public Builder setLoadModule(Module module) {
+                SingleFieldBuilderV3<Module, Module.Builder, ModuleOrBuilder> singleFieldBuilderV3 = this.loadModuleBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    module.getClass();
+                    this.loadModule_ = module;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(module);
+                }
+                return this;
+            }
+
+            public Builder setLoadModule(Module.Builder builder) {
+                SingleFieldBuilderV3<Module, Module.Builder, ModuleOrBuilder> singleFieldBuilderV3 = this.loadModuleBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.loadModule_ = builder.m37937build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m37937build());
+                }
+                return this;
+            }
+
+            public Builder mergeLoadModule(Module module) {
+                SingleFieldBuilderV3<Module, Module.Builder, ModuleOrBuilder> singleFieldBuilderV3 = this.loadModuleBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    Module module2 = this.loadModule_;
+                    if (module2 != null) {
+                        this.loadModule_ = Module.newBuilder(module2).mergeFrom(module).m37939buildPartial();
+                    } else {
+                        this.loadModule_ = module;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(module);
+                }
+                return this;
+            }
+
+            public Builder clearLoadModule() {
+                if (this.loadModuleBuilder_ == null) {
+                    this.loadModule_ = null;
+                    onChanged();
+                } else {
+                    this.loadModule_ = null;
+                    this.loadModuleBuilder_ = null;
+                }
+                return this;
+            }
+
+            public Module.Builder getLoadModuleBuilder() {
+                onChanged();
+                return getLoadModuleFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public ModuleOrBuilder getLoadModuleOrBuilder() {
+                SingleFieldBuilderV3<Module, Module.Builder, ModuleOrBuilder> singleFieldBuilderV3 = this.loadModuleBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (ModuleOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                Module module = this.loadModule_;
+                return module == null ? Module.getDefaultInstance() : module;
+            }
+
+            private SingleFieldBuilderV3<Module, Module.Builder, ModuleOrBuilder> getLoadModuleFieldBuilder() {
+                if (this.loadModuleBuilder_ == null) {
+                    this.loadModuleBuilder_ = new SingleFieldBuilderV3<>(getLoadModule(), getParentForChildren(), isClean());
+                    this.loadModule_ = null;
+                }
+                return this.loadModuleBuilder_;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public TruncatableString getSourceVersion() {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.sourceVersionBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return singleFieldBuilderV3.getMessage();
+                }
+                TruncatableString truncatableString = this.sourceVersion_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            public Builder setSourceVersion(TruncatableString truncatableString) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.sourceVersionBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    truncatableString.getClass();
+                    this.sourceVersion_ = truncatableString;
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(truncatableString);
+                }
+                return this;
+            }
+
+            public Builder setSourceVersion(TruncatableString.Builder builder) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.sourceVersionBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    this.sourceVersion_ = builder.m38768build();
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.setMessage(builder.m38768build());
+                }
+                return this;
+            }
+
+            public Builder mergeSourceVersion(TruncatableString truncatableString) {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.sourceVersionBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    TruncatableString truncatableString2 = this.sourceVersion_;
+                    if (truncatableString2 != null) {
+                        this.sourceVersion_ = TruncatableString.newBuilder(truncatableString2).mergeFrom(truncatableString).m38770buildPartial();
+                    } else {
+                        this.sourceVersion_ = truncatableString;
+                    }
+                    onChanged();
+                } else {
+                    singleFieldBuilderV3.mergeFrom(truncatableString);
+                }
+                return this;
+            }
+
+            public Builder clearSourceVersion() {
+                if (this.sourceVersionBuilder_ == null) {
+                    this.sourceVersion_ = null;
+                    onChanged();
+                } else {
+                    this.sourceVersion_ = null;
+                    this.sourceVersionBuilder_ = null;
+                }
+                return this;
+            }
+
+            public TruncatableString.Builder getSourceVersionBuilder() {
+                onChanged();
+                return getSourceVersionFieldBuilder().getBuilder();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFrameOrBuilder
+            public TruncatableStringOrBuilder getSourceVersionOrBuilder() {
+                SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> singleFieldBuilderV3 = this.sourceVersionBuilder_;
+                if (singleFieldBuilderV3 != null) {
+                    return (TruncatableStringOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+                }
+                TruncatableString truncatableString = this.sourceVersion_;
+                return truncatableString == null ? TruncatableString.getDefaultInstance() : truncatableString;
+            }
+
+            private SingleFieldBuilderV3<TruncatableString, TruncatableString.Builder, TruncatableStringOrBuilder> getSourceVersionFieldBuilder() {
+                if (this.sourceVersionBuilder_ == null) {
+                    this.sourceVersionBuilder_ = new SingleFieldBuilderV3<>(getSourceVersion(), getParentForChildren(), isClean());
+                    this.sourceVersion_ = null;
+                }
+                return this.sourceVersionBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38618setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38612mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class StackFrames extends GeneratedMessageV3 implements StackFramesOrBuilder {
+        public static final int DROPPED_FRAMES_COUNT_FIELD_NUMBER = 2;
+        public static final int FRAME_FIELD_NUMBER = 1;
+        private static final long serialVersionUID = 0;
+        private static final StackFrames DEFAULT_INSTANCE = new StackFrames();
+        private static final Parser<StackFrames> PARSER = new AbstractParser<StackFrames>() { // from class: io.opencensus.proto.trace.v1.StackTrace.StackFrames.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public StackFrames m38627parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new StackFrames(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private int bitField0_;
+        private int droppedFramesCount_;
+        private List<StackFrame> frame_;
+        private byte memoizedIsInitialized;
+
+        private StackFrames(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private StackFrames() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.frame_ = Collections.emptyList();
+            this.droppedFramesCount_ = 0;
+        }
+
+        private StackFrames(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (true) {
+                if (z) {
+                    break;
+                }
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                if (!(z2 & true)) {
+                                    this.frame_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.frame_.add(codedInputStream.readMessage(StackFrame.parser(), extensionRegistryLite));
+                            } else if (tag != 16) {
+                                if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                }
+                            } else {
+                                this.droppedFramesCount_ = codedInputStream.readInt32();
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    } catch (IOException e2) {
+                        throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.frame_ = Collections.unmodifiableList(this.frame_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static StackFrames getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<StackFrames> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrames_descriptor;
+        }
+
+        public static StackFrames parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (StackFrames) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static StackFrames parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StackFrames) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static StackFrames parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (StackFrames) PARSER.parseFrom(byteString);
+        }
+
+        public static StackFrames parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StackFrames) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static StackFrames parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (StackFrames) PARSER.parseFrom(bArr);
+        }
+
+        public static StackFrames parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (StackFrames) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static StackFrames parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static StackFrames parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static StackFrames parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static StackFrames parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static StackFrames parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static StackFrames parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m38625toBuilder();
+        }
+
+        public static Builder newBuilder(StackFrames stackFrames) {
+            return DEFAULT_INSTANCE.m38625toBuilder().mergeFrom(stackFrames);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public StackFrames m38620getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+        public int getDroppedFramesCount() {
+            return this.droppedFramesCount_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+        public List<StackFrame> getFrameList() {
+            return this.frame_;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+        public List<? extends StackFrameOrBuilder> getFrameOrBuilderList() {
+            return this.frame_;
+        }
+
+        public Parser<StackFrames> getParserForType() {
+            return PARSER;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrames_fieldAccessorTable.ensureFieldAccessorsInitialized(StackFrames.class, Builder.class);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+        public int getFrameCount() {
+            return this.frame_.size();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+        public StackFrame getFrame(int i) {
+            return this.frame_.get(i);
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+        public StackFrameOrBuilder getFrameOrBuilder(int i) {
+            return this.frame_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            for (int i = 0; i < this.frame_.size(); i++) {
+                codedOutputStream.writeMessage(1, this.frame_.get(i));
+            }
+            int i2 = this.droppedFramesCount_;
+            if (i2 != 0) {
+                codedOutputStream.writeInt32(2, i2);
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeInt32Size = 0;
+            for (int i2 = 0; i2 < this.frame_.size(); i2++) {
+                iComputeInt32Size += CodedOutputStream.computeMessageSize(1, this.frame_.get(i2));
+            }
+            int i3 = this.droppedFramesCount_;
+            if (i3 != 0) {
+                iComputeInt32Size += CodedOutputStream.computeInt32Size(2, i3);
+            }
+            int serializedSize = iComputeInt32Size + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof StackFrames)) {
+                return super.equals(obj);
+            }
+            StackFrames stackFrames = (StackFrames) obj;
+            return getFrameList().equals(stackFrames.getFrameList()) && getDroppedFramesCount() == stackFrames.getDroppedFramesCount() && this.unknownFields.equals(stackFrames.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (getFrameCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getFrameList().hashCode();
+            }
+            int droppedFramesCount = (((((iHashCode * 37) + 2) * 53) + getDroppedFramesCount()) * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = droppedFramesCount;
+            return droppedFramesCount;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38622newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38625toBuilder() {
+            if (this == DEFAULT_INSTANCE) {
+                return new Builder();
+            }
+            return new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements StackFramesOrBuilder {
+            private int bitField0_;
+            private int droppedFramesCount_;
+            private RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> frameBuilder_;
+            private List<StackFrame> frame_;
+
+            private Builder() {
+                this.frame_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.frame_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrames_descriptor;
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+            public int getDroppedFramesCount() {
+                return this.droppedFramesCount_;
+            }
+
+            public Builder setDroppedFramesCount(int i) {
+                this.droppedFramesCount_ = i;
+                onChanged();
+                return this;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrames_fieldAccessorTable.ensureFieldAccessorsInitialized(StackFrames.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (StackFrames.alwaysUseFieldBuilders) {
+                    getFrameFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38636clear() {
+                super.clear();
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.frame_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                this.droppedFramesCount_ = 0;
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_StackFrames_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StackFrames m38649getDefaultInstanceForType() {
+                return StackFrames.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StackFrames m38630build() throws UninitializedMessageException {
+                StackFrames stackFramesM38632buildPartial = m38632buildPartial();
+                if (stackFramesM38632buildPartial.isInitialized()) {
+                    return stackFramesM38632buildPartial;
+                }
+                throw newUninitializedMessageException(stackFramesM38632buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public StackFrames m38632buildPartial() {
+                StackFrames stackFrames = new StackFrames(this);
+                int i = this.bitField0_;
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((i & 1) == 1) {
+                        this.frame_ = Collections.unmodifiableList(this.frame_);
+                        this.bitField0_ &= -2;
+                    }
+                    stackFrames.frame_ = this.frame_;
+                } else {
+                    stackFrames.frame_ = repeatedFieldBuilderV3.build();
+                }
+                stackFrames.droppedFramesCount_ = this.droppedFramesCount_;
+                stackFrames.bitField0_ = 0;
+                onBuilt();
+                return stackFrames;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38648clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38660setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38638clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38641clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38662setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38628addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m38653mergeFrom(Message message) {
+                if (message instanceof StackFrames) {
+                    return mergeFrom((StackFrames) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(StackFrames stackFrames) {
+                if (stackFrames == StackFrames.getDefaultInstance()) {
+                    return this;
+                }
+                if (this.frameBuilder_ == null) {
+                    if (!stackFrames.frame_.isEmpty()) {
+                        if (this.frame_.isEmpty()) {
+                            this.frame_ = stackFrames.frame_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureFrameIsMutable();
+                            this.frame_.addAll(stackFrames.frame_);
+                        }
+                        onChanged();
+                    }
+                } else if (!stackFrames.frame_.isEmpty()) {
+                    if (!this.frameBuilder_.isEmpty()) {
+                        this.frameBuilder_.addAllMessages(stackFrames.frame_);
+                    } else {
+                        this.frameBuilder_.dispose();
+                        this.frameBuilder_ = null;
+                        this.frame_ = stackFrames.frame_;
+                        this.bitField0_ &= -2;
+                        this.frameBuilder_ = StackFrames.alwaysUseFieldBuilders ? getFrameFieldBuilder() : null;
+                    }
+                }
+                if (stackFrames.getDroppedFramesCount() != 0) {
+                    setDroppedFramesCount(stackFrames.getDroppedFramesCount());
+                }
+                m38658mergeUnknownFields(stackFrames.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.opencensus.proto.trace.v1.StackTrace.StackFrames.Builder m38654mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.StackTrace.StackFrames.access$2300()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.opencensus.proto.trace.v1.StackTrace$StackFrames r3 = (io.opencensus.proto.trace.v1.StackTrace.StackFrames) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.opencensus.proto.trace.v1.StackTrace$StackFrames r4 = (io.opencensus.proto.trace.v1.StackTrace.StackFrames) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.StackTrace.StackFrames.Builder.m38654mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.StackTrace$StackFrames$Builder");
+            }
+
+            private void ensureFrameIsMutable() {
+                if ((this.bitField0_ & 1) != 1) {
+                    this.frame_ = new ArrayList(this.frame_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+            public List<StackFrame> getFrameList() {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.frame_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+            public int getFrameCount() {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.frame_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+            public StackFrame getFrame(int i) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.frame_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setFrame(int i, StackFrame stackFrame) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    stackFrame.getClass();
+                    ensureFrameIsMutable();
+                    this.frame_.set(i, stackFrame);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, stackFrame);
+                }
+                return this;
+            }
+
+            public Builder setFrame(int i, StackFrame.Builder builder) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureFrameIsMutable();
+                    this.frame_.set(i, builder.m38584build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m38584build());
+                }
+                return this;
+            }
+
+            public Builder addFrame(StackFrame stackFrame) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    stackFrame.getClass();
+                    ensureFrameIsMutable();
+                    this.frame_.add(stackFrame);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(stackFrame);
+                }
+                return this;
+            }
+
+            public Builder addFrame(int i, StackFrame stackFrame) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    stackFrame.getClass();
+                    ensureFrameIsMutable();
+                    this.frame_.add(i, stackFrame);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, stackFrame);
+                }
+                return this;
+            }
+
+            public Builder addFrame(StackFrame.Builder builder) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureFrameIsMutable();
+                    this.frame_.add(builder.m38584build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m38584build());
+                }
+                return this;
+            }
+
+            public Builder addFrame(int i, StackFrame.Builder builder) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureFrameIsMutable();
+                    this.frame_.add(i, builder.m38584build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m38584build());
+                }
+                return this;
+            }
+
+            public Builder addAllFrame(Iterable<? extends StackFrame> iterable) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureFrameIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.frame_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearFrame() {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.frame_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeFrame(int i) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureFrameIsMutable();
+                    this.frame_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public StackFrame.Builder getFrameBuilder(int i) {
+                return getFrameFieldBuilder().getBuilder(i);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+            public StackFrameOrBuilder getFrameOrBuilder(int i) {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.frame_.get(i);
+                }
+                return (StackFrameOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override // io.opencensus.proto.trace.v1.StackTrace.StackFramesOrBuilder
+            public List<? extends StackFrameOrBuilder> getFrameOrBuilderList() {
+                RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> repeatedFieldBuilderV3 = this.frameBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.frame_);
+            }
+
+            public StackFrame.Builder addFrameBuilder() {
+                return getFrameFieldBuilder().addBuilder(StackFrame.getDefaultInstance());
+            }
+
+            public StackFrame.Builder addFrameBuilder(int i) {
+                return getFrameFieldBuilder().addBuilder(i, StackFrame.getDefaultInstance());
+            }
+
+            public List<StackFrame.Builder> getFrameBuilderList() {
+                return getFrameFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<StackFrame, StackFrame.Builder, StackFrameOrBuilder> getFrameFieldBuilder() {
+                if (this.frameBuilder_ == null) {
+                    this.frameBuilder_ = new RepeatedFieldBuilderV3<>(this.frame_, (this.bitField0_ & 1) == 1, getParentForChildren(), isClean());
+                    this.frame_ = null;
+                }
+                return this.frameBuilder_;
+            }
+
+            public Builder clearDroppedFramesCount() {
+                this.droppedFramesCount_ = 0;
+                onChanged();
+                return this;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38664setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m38658mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements StackTraceOrBuilder {
+        private SingleFieldBuilderV3<StackFrames, StackFrames.Builder, StackFramesOrBuilder> stackFramesBuilder_;
+        private StackFrames stackFrames_;
+        private long stackTraceHashId_;
+
+        private Builder() {
+            this.stackFrames_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.stackFrames_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_descriptor;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTraceOrBuilder
+        public long getStackTraceHashId() {
+            return this.stackTraceHashId_;
+        }
+
+        public Builder setStackTraceHashId(long j) {
+            this.stackTraceHashId_ = j;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTraceOrBuilder
+        public boolean hasStackFrames() {
+            return (this.stackFramesBuilder_ == null && this.stackFrames_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_fieldAccessorTable.ensureFieldAccessorsInitialized(StackTrace.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = StackTrace.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38544clear() {
+            super.clear();
+            if (this.stackFramesBuilder_ == null) {
+                this.stackFrames_ = null;
+            } else {
+                this.stackFrames_ = null;
+                this.stackFramesBuilder_ = null;
+            }
+            this.stackTraceHashId_ = 0L;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return TraceProto.internal_static_opencensus_proto_trace_v1_StackTrace_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public StackTrace m38557getDefaultInstanceForType() {
+            return StackTrace.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public StackTrace m38538build() throws UninitializedMessageException {
+            StackTrace stackTraceM38540buildPartial = m38540buildPartial();
+            if (stackTraceM38540buildPartial.isInitialized()) {
+                return stackTraceM38540buildPartial;
+            }
+            throw newUninitializedMessageException(stackTraceM38540buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public StackTrace m38540buildPartial() {
+            StackTrace stackTrace = new StackTrace(this);
+            SingleFieldBuilderV3<StackFrames, StackFrames.Builder, StackFramesOrBuilder> singleFieldBuilderV3 = this.stackFramesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                stackTrace.stackFrames_ = this.stackFrames_;
+            } else {
+                stackTrace.stackFrames_ = singleFieldBuilderV3.build();
+            }
+            stackTrace.stackTraceHashId_ = this.stackTraceHashId_;
+            onBuilt();
+            return stackTrace;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38556clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38568setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38546clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38549clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38570setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38536addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m38561mergeFrom(Message message) {
+            if (message instanceof StackTrace) {
+                return mergeFrom((StackTrace) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(StackTrace stackTrace) {
+            if (stackTrace == StackTrace.getDefaultInstance()) {
+                return this;
+            }
+            if (stackTrace.hasStackFrames()) {
+                mergeStackFrames(stackTrace.getStackFrames());
+            }
+            if (stackTrace.getStackTraceHashId() != 0) {
+                setStackTraceHashId(stackTrace.getStackTraceHashId());
+            }
+            m38566mergeUnknownFields(stackTrace.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.opencensus.proto.trace.v1.StackTrace.Builder m38562mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.StackTrace.access$3200()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.opencensus.proto.trace.v1.StackTrace r3 = (io.opencensus.proto.trace.v1.StackTrace) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.opencensus.proto.trace.v1.StackTrace r4 = (io.opencensus.proto.trace.v1.StackTrace) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.StackTrace.Builder.m38562mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.StackTrace$Builder");
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTraceOrBuilder
+        public StackFrames getStackFrames() {
+            SingleFieldBuilderV3<StackFrames, StackFrames.Builder, StackFramesOrBuilder> singleFieldBuilderV3 = this.stackFramesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            StackFrames stackFrames = this.stackFrames_;
+            return stackFrames == null ? StackFrames.getDefaultInstance() : stackFrames;
+        }
+
+        public Builder setStackFrames(StackFrames stackFrames) {
+            SingleFieldBuilderV3<StackFrames, StackFrames.Builder, StackFramesOrBuilder> singleFieldBuilderV3 = this.stackFramesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                stackFrames.getClass();
+                this.stackFrames_ = stackFrames;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(stackFrames);
+            }
+            return this;
+        }
+
+        public Builder setStackFrames(StackFrames.Builder builder) {
+            SingleFieldBuilderV3<StackFrames, StackFrames.Builder, StackFramesOrBuilder> singleFieldBuilderV3 = this.stackFramesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.stackFrames_ = builder.m38630build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38630build());
+            }
+            return this;
+        }
+
+        public Builder mergeStackFrames(StackFrames stackFrames) {
+            SingleFieldBuilderV3<StackFrames, StackFrames.Builder, StackFramesOrBuilder> singleFieldBuilderV3 = this.stackFramesBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                StackFrames stackFrames2 = this.stackFrames_;
+                if (stackFrames2 != null) {
+                    this.stackFrames_ = StackFrames.newBuilder(stackFrames2).mergeFrom(stackFrames).m38632buildPartial();
+                } else {
+                    this.stackFrames_ = stackFrames;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(stackFrames);
+            }
+            return this;
+        }
+
+        public Builder clearStackFrames() {
+            if (this.stackFramesBuilder_ == null) {
+                this.stackFrames_ = null;
+                onChanged();
+            } else {
+                this.stackFrames_ = null;
+                this.stackFramesBuilder_ = null;
+            }
+            return this;
+        }
+
+        public StackFrames.Builder getStackFramesBuilder() {
+            onChanged();
+            return getStackFramesFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.trace.v1.StackTraceOrBuilder
+        public StackFramesOrBuilder getStackFramesOrBuilder() {
+            SingleFieldBuilderV3<StackFrames, StackFrames.Builder, StackFramesOrBuilder> singleFieldBuilderV3 = this.stackFramesBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (StackFramesOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            StackFrames stackFrames = this.stackFrames_;
+            return stackFrames == null ? StackFrames.getDefaultInstance() : stackFrames;
+        }
+
+        private SingleFieldBuilderV3<StackFrames, StackFrames.Builder, StackFramesOrBuilder> getStackFramesFieldBuilder() {
+            if (this.stackFramesBuilder_ == null) {
+                this.stackFramesBuilder_ = new SingleFieldBuilderV3<>(getStackFrames(), getParentForChildren(), isClean());
+                this.stackFrames_ = null;
+            }
+            return this.stackFramesBuilder_;
+        }
+
+        public Builder clearStackTraceHashId() {
+            this.stackTraceHashId_ = 0L;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m38572setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m38566mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/squareup/okhttp/Connection.java
+// Size: 240 bytes
+// Modified: 2025-10-21 16:32:03.388449600 +0100
+
+package com.squareup.okhttp;
+
+import java.net.Socket;
+
+/* loaded from: classes2.dex */
+public interface Connection {
+    Handshake getHandshake();
+
+    Protocol getProtocol();
+
+    Route getRoute();
+
+    Socket getSocket();
+}

@@ -1,0 +1,88 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcherOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultDelay;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultDelayOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public interface HTTPFaultOrBuilder extends MessageOrBuilder {
+    FaultAbort getAbort();
+
+    String getAbortHttpStatusRuntime();
+
+    ByteString getAbortHttpStatusRuntimeBytes();
+
+    FaultAbortOrBuilder getAbortOrBuilder();
+
+    String getAbortPercentRuntime();
+
+    ByteString getAbortPercentRuntimeBytes();
+
+    FaultDelay getDelay();
+
+    String getDelayDurationRuntime();
+
+    ByteString getDelayDurationRuntimeBytes();
+
+    FaultDelayOrBuilder getDelayOrBuilder();
+
+    String getDelayPercentRuntime();
+
+    ByteString getDelayPercentRuntimeBytes();
+
+    String getDownstreamNodes(int i);
+
+    ByteString getDownstreamNodesBytes(int i);
+
+    int getDownstreamNodesCount();
+
+    /* renamed from: getDownstreamNodesList */
+    List<String> mo26044getDownstreamNodesList();
+
+    HeaderMatcher getHeaders(int i);
+
+    int getHeadersCount();
+
+    List<HeaderMatcher> getHeadersList();
+
+    HeaderMatcherOrBuilder getHeadersOrBuilder(int i);
+
+    List<? extends HeaderMatcherOrBuilder> getHeadersOrBuilderList();
+
+    UInt32Value getMaxActiveFaults();
+
+    UInt32ValueOrBuilder getMaxActiveFaultsOrBuilder();
+
+    String getMaxActiveFaultsRuntime();
+
+    ByteString getMaxActiveFaultsRuntimeBytes();
+
+    FaultRateLimit getResponseRateLimit();
+
+    FaultRateLimitOrBuilder getResponseRateLimitOrBuilder();
+
+    String getResponseRateLimitPercentRuntime();
+
+    ByteString getResponseRateLimitPercentRuntimeBytes();
+
+    String getUpstreamCluster();
+
+    ByteString getUpstreamClusterBytes();
+
+    boolean hasAbort();
+
+    boolean hasDelay();
+
+    boolean hasMaxActiveFaults();
+
+    boolean hasResponseRateLimit();
+}

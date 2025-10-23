@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang3/text/FormatFactory.java
+// Size: 229 bytes
+// Modified: 2025-10-21 16:32:00.529391900 +0100
+
+package org.apache.commons.lang3.text;
+
+import java.text.Format;
+import java.util.Locale;
+
+/* loaded from: classes5.dex */
+public interface FormatFactory {
+    Format getFormat(String str, String str2, Locale locale);
+}

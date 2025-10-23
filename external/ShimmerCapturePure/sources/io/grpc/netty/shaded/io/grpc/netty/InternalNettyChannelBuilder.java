@@ -1,0 +1,56 @@
+package io.grpc.netty.shaded.io.grpc.netty;
+
+import io.grpc.internal.ClientTransportFactory;
+import io.grpc.internal.SharedResourcePool;
+import io.grpc.netty.shaded.io.grpc.netty.InternalProtocolNegotiator;
+import io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder;
+import io.grpc.netty.shaded.io.netty.channel.socket.nio.NioSocketChannel;
+
+/* loaded from: classes2.dex */
+public final class InternalNettyChannelBuilder {
+
+    private InternalNettyChannelBuilder() {
+    }
+
+    public static void overrideAuthorityChecker(NettyChannelBuilder nettyChannelBuilder, OverrideAuthorityChecker overrideAuthorityChecker) {
+        nettyChannelBuilder.overrideAuthorityChecker(overrideAuthorityChecker);
+    }
+
+    public static void setProtocolNegotiatorFactory(NettyChannelBuilder nettyChannelBuilder, ProtocolNegotiatorFactory protocolNegotiatorFactory) {
+        nettyChannelBuilder.protocolNegotiatorFactory(protocolNegotiatorFactory);
+    }
+
+    public static void setStatsEnabled(NettyChannelBuilder nettyChannelBuilder, boolean z) {
+        nettyChannelBuilder.setStatsEnabled(z);
+    }
+
+    public static void setTracingEnabled(NettyChannelBuilder nettyChannelBuilder, boolean z) {
+        nettyChannelBuilder.setTracingEnabled(z);
+    }
+
+    public static void setStatsRecordStartedRpcs(NettyChannelBuilder nettyChannelBuilder, boolean z) {
+        nettyChannelBuilder.setStatsRecordStartedRpcs(z);
+    }
+
+    public static void setStatsRecordRealTimeMetrics(NettyChannelBuilder nettyChannelBuilder, boolean z) {
+        nettyChannelBuilder.setStatsRecordRealTimeMetrics(z);
+    }
+
+    public static void useNioTransport(NettyChannelBuilder nettyChannelBuilder) {
+        nettyChannelBuilder.channelType(NioSocketChannel.class);
+        nettyChannelBuilder.eventLoopGroupPool(SharedResourcePool.forResource(Utils.NIO_WORKER_EVENT_LOOP_GROUP));
+    }
+
+    public static ClientTransportFactory buildTransportFactory(NettyChannelBuilder nettyChannelBuilder) {
+        return nettyChannelBuilder.buildTransportFactory();
+    }
+
+    public interface OverrideAuthorityChecker extends NettyChannelBuilder.OverrideAuthorityChecker {
+    }
+
+    public interface ProtocolNegotiatorFactory extends NettyChannelBuilder.ProtocolNegotiatorFactory {
+        @Override
+            // io.grpc.netty.shaded.io.grpc.netty.NettyChannelBuilder.ProtocolNegotiatorFactory
+        InternalProtocolNegotiator.ProtocolNegotiator buildProtocolNegotiator();
+    }
+}

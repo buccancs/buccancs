@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/UnsupportedHttpVersionException.java
+// Size: 356 bytes
+// Modified: 2025-10-21 16:32:01.793159000 +0100
+
+package org.apache.http;
+
+/* loaded from: classes5.dex */
+public class UnsupportedHttpVersionException extends ProtocolException {
+    private static final long serialVersionUID = -1348448090193107031L;
+
+    public UnsupportedHttpVersionException() {
+    }
+
+    public UnsupportedHttpVersionException(String str) {
+        super(str);
+    }
+}

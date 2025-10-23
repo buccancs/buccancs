@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/WebSocketHandshakeException.java
+// Size: 416 bytes
+// Modified: 2025-10-21 16:32:00.231729200 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx;
+
+/* loaded from: classes3.dex */
+public class WebSocketHandshakeException extends RuntimeException {
+    private static final long serialVersionUID = 1;
+
+    public WebSocketHandshakeException(String str) {
+        super(str);
+    }
+
+    public WebSocketHandshakeException(String str, Throwable th) {
+        super(str, th);
+    }
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/ServerListener.java
+// Size: 210 bytes
+// Modified: 2025-10-21 16:32:04.432685300 +0100
+
+package io.grpc.internal;
+
+/* loaded from: classes2.dex */
+public interface ServerListener {
+    void serverShutdown();
+
+    ServerTransportListener transportCreated(ServerTransport serverTransport);
+}

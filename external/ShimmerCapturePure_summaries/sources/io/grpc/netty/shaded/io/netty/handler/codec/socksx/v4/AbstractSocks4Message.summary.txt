@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socksx/v4/AbstractSocks4Message.java
+// Size: 529 bytes
+// Modified: 2025-10-21 16:32:03.957001600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socksx.v4;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.socksx.AbstractSocksMessage;
+import io.grpc.netty.shaded.io.netty.handler.codec.socksx.SocksVersion;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractSocks4Message extends AbstractSocksMessage implements Socks4Message {
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.socksx.SocksMessage
+    public final SocksVersion version() {
+        return SocksVersion.SOCKS4a;
+    }
+}

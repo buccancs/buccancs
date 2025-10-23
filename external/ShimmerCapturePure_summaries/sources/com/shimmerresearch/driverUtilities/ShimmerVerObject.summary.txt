@@ -1,0 +1,465 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driverUtilities/ShimmerVerObject.java
+// Size: 20920 bytes
+// Modified: 2025-10-21 16:32:03.140730100 +0100
+
+package com.shimmerresearch.driverUtilities;
+
+import com.shimmerresearch.driverUtilities.ShimmerVerDetails;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class ShimmerVerObject implements Serializable {
+    private static final long serialVersionUID = -1966526754185423783L;
+    private ExpansionBoardDetails mExpansionBoardDetails;
+    public int mFirmwareIdentifier;
+    public String mFirmwareIdentifierParsed;
+    public int mFirmwareVersionCode;
+    public int mFirmwareVersionInternal;
+    public int mFirmwareVersionMajor;
+    public int mFirmwareVersionMinor;
+    public String mFirmwareVersionParsed;
+    public String mFirmwareVersionParsedJustVersionNumber;
+    public int mHardwareVersion;
+
+    public static boolean isShimmer3Gen(int i) {
+        return i == 3 || i == 59;
+    }
+
+    public static boolean isShimmer3RGen(int i) {
+        return i == 10;
+    }
+
+    public static boolean isShimmer4Gen(int i) {
+        return i == 58;
+    }
+
+    public static boolean isShimmerGen2(int i) {
+        return i == 1 || i == 2;
+    }
+
+    public static boolean isShimmerGenVerisense(int i) {
+        return i == 64 || i == 62 || i == 61 || i == 63 || i == 68;
+    }
+
+    public static boolean isShimmerVideoDevice(int i) {
+        return i == 1004 || i == 1005 || i == 1006 || i == 1008;
+    }
+
+    public static boolean isSupportedBluetooth(int i) {
+        return i == 1 || i == 3 || i == 12 || i == 4;
+    }
+
+    public static boolean isSupportedConfigViaUart(int i, int i2) {
+        return i == 3 || i == 10 || i == 57 || i == 56 || i == 9 || i == 58;
+    }
+
+    public static boolean isSupportedRtcConfigViaUart(int i, int i2) {
+        if (i == 3 && i2 == 2) {
+            return true;
+        }
+        if (i == 3 && i2 == 3) {
+            return true;
+        }
+        if (i == 3 && i2 == 15) {
+            return true;
+        }
+        return (i == 5 && i2 == 5) || i == 57 || i == 56 || i == 9 || i == 58 || i == 10;
+    }
+
+    public static boolean isSupportedSdCardAccess(int i, int i2) {
+        if (i == 3 && i2 == 2) {
+            return true;
+        }
+        if (i == 3 && i2 == 3) {
+            return true;
+        }
+        if ((i == 3 && i2 == 15) || i == 10) {
+            return true;
+        }
+        if ((i == 5 && i2 == 5) || i2 == 9 || i == 9) {
+            return true;
+        }
+        return i == 58 && i2 == 12;
+    }
+
+    public static boolean isSupportedSdDataImport(int i) {
+        return i == 0 || i == 1 || i == 2 || i == 3 || i == 10 || i == 5 || i == 56 || i == 57 || i == 9 || i == 4;
+    }
+
+    public byte[] generateVersionByteArrayNew() {
+        int i = this.mHardwareVersion;
+        int i2 = this.mFirmwareIdentifier;
+        int i3 = this.mFirmwareVersionMajor;
+        return new byte[]{(byte) (i & 255), (byte) ((i >> 8) & 255), (byte) (i2 & 255), (byte) ((i2 >> 8) & 255), (byte) (i3 & 255), (byte) ((i3 >> 8) & 255), (byte) (this.mFirmwareVersionMinor & 255), (byte) (this.mFirmwareVersionInternal & 255)};
+    }
+
+    public int getFirmwareIdentifier() {
+        return this.mFirmwareIdentifier;
+    }
+
+    public int getFirmwareVersionCode() {
+        return this.mFirmwareVersionCode;
+    }
+
+    public int getFirmwareVersionInternal() {
+        return this.mFirmwareVersionInternal;
+    }
+
+    public int getFirmwareVersionMajor() {
+        return this.mFirmwareVersionMajor;
+    }
+
+    public int getFirmwareVersionMinor() {
+        return this.mFirmwareVersionMinor;
+    }
+
+    public String getFirmwareVersionParsed() {
+        return this.mFirmwareVersionParsed;
+    }
+
+    public String getFirmwareVersionParsedJustVersionNumber() {
+        return this.mFirmwareVersionParsedJustVersionNumber;
+    }
+
+    public int getHardwareVersion() {
+        return this.mHardwareVersion;
+    }
+
+    public boolean isShimmerGenGq(int i) {
+        return i == 56 || i == 57 || i == 9;
+    }
+
+    public boolean isSupportedBtFwVerRequest() {
+        return this.mFirmwareVersionCode >= 8;
+    }
+
+    public ShimmerVerObject() {
+        this.mHardwareVersion = -1;
+        this.mFirmwareIdentifier = -1;
+        this.mFirmwareVersionMajor = -1;
+        this.mFirmwareVersionMinor = -1;
+        this.mFirmwareVersionInternal = -1;
+        this.mFirmwareVersionCode = -1;
+        this.mFirmwareIdentifierParsed = "Unknown";
+        this.mFirmwareVersionParsed = "Unknown";
+        this.mFirmwareVersionParsedJustVersionNumber = "Unknown";
+        this.mExpansionBoardDetails = new ExpansionBoardDetails(-1, -1, -1);
+    }
+
+    public ShimmerVerObject(int i, int i2, int i3, int i4) {
+        this.mHardwareVersion = -1;
+        this.mFirmwareIdentifier = -1;
+        this.mFirmwareVersionMajor = -1;
+        this.mFirmwareVersionMinor = -1;
+        this.mFirmwareVersionInternal = -1;
+        this.mFirmwareVersionCode = -1;
+        this.mFirmwareIdentifierParsed = "Unknown";
+        this.mFirmwareVersionParsed = "Unknown";
+        this.mFirmwareVersionParsedJustVersionNumber = "Unknown";
+        this.mExpansionBoardDetails = new ExpansionBoardDetails(-1, -1, -1);
+        this.mFirmwareIdentifier = i;
+        this.mFirmwareVersionMajor = i2;
+        this.mFirmwareVersionMinor = i3;
+        this.mFirmwareVersionInternal = i4;
+    }
+
+    public ShimmerVerObject(int i, int i2, int i3, int i4, int i5) {
+        this(i2, i3, i4, i5);
+        this.mHardwareVersion = i;
+        parseShimmerVerDetails();
+    }
+
+    public ShimmerVerObject(int i, int i2, int i3, int i4, int i5, int i6) {
+        this(i, i2, i3, i4, i5, i6, -1);
+    }
+
+    public ShimmerVerObject(int i, int i2, int i3, int i4, int i5, int i6, int i7) {
+        this(i2, i3, i4, i5);
+        this.mHardwareVersion = i;
+        this.mExpansionBoardDetails = new ExpansionBoardDetails(i6, i7, -1);
+        parseShimmerVerDetails();
+    }
+
+    public ShimmerVerObject(int i, int i2, int i3, int i4, int i5, int i6, int i7, int i8) {
+        this(i2, i3, i4, i5);
+        this.mHardwareVersion = i;
+        this.mExpansionBoardDetails = new ExpansionBoardDetails(i6, i7, i8);
+        parseShimmerVerDetails();
+    }
+
+    public ShimmerVerObject(byte[] bArr) {
+        this.mHardwareVersion = -1;
+        this.mFirmwareIdentifier = -1;
+        this.mFirmwareVersionMajor = -1;
+        this.mFirmwareVersionMinor = -1;
+        this.mFirmwareVersionInternal = -1;
+        this.mFirmwareVersionCode = -1;
+        this.mFirmwareIdentifierParsed = "Unknown";
+        this.mFirmwareVersionParsed = "Unknown";
+        this.mFirmwareVersionParsedJustVersionNumber = "Unknown";
+        this.mExpansionBoardDetails = new ExpansionBoardDetails(-1, -1, -1);
+        parseVersionByteArray(bArr);
+    }
+
+    public void parseVersionByteArray(byte[] bArr) {
+        if (bArr.length == 7 || bArr.length == 8) {
+            int i = 1;
+            if (bArr.length == 7) {
+                this.mHardwareVersion = bArr[0] & 255;
+            } else if (bArr.length == 8) {
+                this.mHardwareVersion = (bArr[0] | (bArr[1] << 8)) & 65535;
+                i = 2;
+            } else {
+                i = 0;
+            }
+            this.mFirmwareIdentifier = ((bArr[i + 1] << 8) | bArr[i]) & 65535;
+            this.mFirmwareVersionMajor = ((bArr[i + 3] << 8) | bArr[i + 2]) & 65535;
+            this.mFirmwareVersionMinor = bArr[i + 4] & 255;
+            this.mFirmwareVersionInternal = bArr[i + 5] & 255;
+            parseShimmerVerDetails();
+        }
+    }
+
+    private void parseShimmerVerDetails() {
+        int i;
+        int i2;
+        int i3;
+        int i4;
+        int i5;
+        int i6;
+        int i7;
+        int i8 = this.mHardwareVersion;
+        if (i8 != -1) {
+            this.mFirmwareIdentifierParsed = "Unknown";
+            if ((i8 == 2 || i8 == 3 || i8 == 10 || ((i8 == 5 && this.mFirmwareIdentifier == 5) || (((i8 == 57 || i8 == 56) && this.mFirmwareIdentifier == 9) || ((i8 == 9 && this.mFirmwareIdentifier == 9) || i8 == 7 || i8 == 58 || i8 == 4 || (i7 = this.mFirmwareIdentifier) == 15 || i7 == 17)))) && ShimmerVerDetails.FW_ID.mMapOfFirmwareLabels.containsKey(Integer.valueOf(this.mFirmwareIdentifier))) {
+                this.mFirmwareIdentifierParsed = ShimmerVerDetails.FW_ID.mMapOfFirmwareLabels.get(Integer.valueOf(this.mFirmwareIdentifier));
+            }
+            this.mFirmwareVersionParsed = this.mFirmwareIdentifierParsed;
+        }
+        int i9 = this.mFirmwareVersionMajor;
+        if (i9 == -1 || (i = this.mFirmwareVersionMinor) == -1 || (i2 = this.mFirmwareVersionInternal) == -1) {
+            return;
+        }
+        this.mFirmwareVersionCode = -1;
+        if (UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, i9, i, i2, 3, 3, 0, 16, 6)) {
+            this.mFirmwareVersionCode = 9;
+        } else if (UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 10, 3, 0, 0, 1) || UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 3, 0, 13, 7) || UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 2, 0, 20, 1)) {
+            this.mFirmwareVersionCode = 8;
+        } else if (UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 3, 0, 6, 5) || (i3 = this.mHardwareVersion) == 58 || i3 == 1003 || (i4 = this.mFirmwareIdentifier) == 15) {
+            this.mFirmwareVersionCode = 7;
+        } else if (UtilShimmer.compareVersions(i3, i4, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 1, 0, 7, 3) || UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 3, 0, 5, 4) || UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 2, 0, 11, 5) || (i5 = this.mHardwareVersion) == 57 || i5 == 56) {
+            this.mFirmwareVersionCode = 6;
+        } else if (UtilShimmer.compareVersions(i5, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 1, 0, 5, 0) || UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 3, 0, 3, 0) || (i6 = this.mHardwareVersion) == 4) {
+            this.mFirmwareVersionCode = 5;
+        } else if (UtilShimmer.compareVersions(i6, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 1, 0, 4, 0) || UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 3, 0, 2, 0)) {
+            this.mFirmwareVersionCode = 4;
+        } else if (UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 1, 0, 3, 0) || UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 3, 0, 1, 0)) {
+            this.mFirmwareVersionCode = 3;
+        } else if (UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 1, 0, 2, 0)) {
+            this.mFirmwareVersionCode = 2;
+        } else if (UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 2, 1, 1, 2, 0) || UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareIdentifier, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 3, 1, 0, 1, 0)) {
+            this.mFirmwareVersionCode = 1;
+        } else if (UtilShimmer.compareVersions(this.mHardwareVersion, this.mFirmwareVersionMajor, this.mFirmwareVersionMinor, this.mFirmwareVersionInternal, 2, 0, 0, 0)) {
+            this.mFirmwareVersionCode = 0;
+        }
+        String str = "v" + this.mFirmwareVersionMajor + "." + this.mFirmwareVersionMinor + "." + this.mFirmwareVersionInternal;
+        this.mFirmwareVersionParsedJustVersionNumber = str;
+        this.mFirmwareVersionParsed = this.mFirmwareIdentifierParsed + StringUtils.SPACE + str;
+    }
+
+    public String getFirmwareVersionParsedVersionNumberFilled() {
+        return "v" + this.mFirmwareVersionMajor + "." + String.format("%02d", Integer.valueOf(this.mFirmwareVersionMinor)) + "." + String.format("%03d", Integer.valueOf(this.mFirmwareVersionInternal));
+    }
+
+    public void setHardwareVersion(int i) {
+        this.mHardwareVersion = i;
+        parseShimmerVerDetails();
+    }
+
+    public String getHardwareVersionParsed() {
+        return getHardwareVersionParsed(this.mHardwareVersion);
+    }
+
+    public static String getHardwareVersionParsed(int i) {
+        if (ShimmerVerDetails.mMapOfShimmerRevisions.containsKey(Integer.valueOf(i))) {
+            return ShimmerVerDetails.mMapOfShimmerRevisions.get(Integer.valueOf(i));
+        }
+        return ShimmerVerDetails.mMapOfShimmerRevisions.get(-1);
+    }
+
+    public static int getHardwareVersion(String str) {
+        for (Map.Entry<Integer, String> entry : ShimmerVerDetails.mMapOfShimmerRevisions.entrySet()) {
+            if (entry.getValue().equals(str)) {
+                return entry.getKey().intValue();
+            }
+        }
+        return -1;
+    }
+
+    public boolean isSupportedMpl() {
+        return isSupportedMpl(this, getHardwareVersion(), getFirmwareIdentifier());
+    }
+
+    public static boolean isSupportedMpl(ShimmerVerObject shimmerVerObject, int i, int i2) {
+        return compareVersions(shimmerVerObject, 3, 2, 0, 7, 0) && !compareVersions(shimmerVerObject, 3, 2, 0, 8, 0);
+    }
+
+    public boolean isSupportedRtcConfigViaUart() {
+        return isSupportedRtcConfigViaUart(getHardwareVersion(), getFirmwareIdentifier());
+    }
+
+    public boolean isSupportedConfigViaUart() {
+        return isSupportedConfigViaUart(getHardwareVersion(), getFirmwareIdentifier());
+    }
+
+    public boolean isSupportedSdCardAccess() {
+        return isSupportedSdCardAccess(getHardwareVersion(), getFirmwareIdentifier());
+    }
+
+    public boolean isSupportedBluetooth() {
+        return isSupportedBluetooth(getFirmwareIdentifier());
+    }
+
+    public boolean isSupportedEightByteDerivedSensors() {
+        return compareVersions(this, 2, 0, 13, 1) || compareVersions(this, 3, 0, 7, 1) || compareVersions(this, 9, 0, 3, 2) || compareVersions(this, 12, 0, 0, 23) || compareVersions(15, -1, -1, -1);
+    }
+
+    public boolean isSupportedExpansionBrdIdInSdHeader() {
+        return compareVersions(2, 0, 12, 4) || compareVersions(3, 0, 6, 13) || compareVersions(9, 0, 3, 2) || compareVersions(15, -1, -1, -1);
+    }
+
+    public static final List<ShimmerVerObject> getListOfCompatibleSdLoggingFW() {
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(new ShimmerVerObject(2, 0, 8, 69));
+        arrayList.add(new ShimmerVerObject(3, 0, 5, 0));
+        arrayList.add(new ShimmerVerObject(5, 0, 0, 1));
+        arrayList.add(new ShimmerVerObject(9, 0, 0, 1));
+        arrayList.add(new ShimmerVerObject(12, 0, 0, 1));
+        arrayList.add(new ShimmerVerObject(15, -1, -1, -1));
+        return arrayList;
+    }
+
+    public boolean isBtMemoryUpdateCommandSupported() {
+        return isShimmerGen4();
+    }
+
+    public boolean isSupportedCalibDump() {
+        return isSupportedCalibDump(this);
+    }
+
+    public static boolean isSupportedCalibDump(ShimmerVerObject shimmerVerObject) {
+        return compareVersions(shimmerVerObject, 3, 3, 0, 6, 7) || compareVersions(shimmerVerObject, 3, 2, 0, 12, 6) || compareVersions(shimmerVerObject, 3, 15, -1, -1, -1) || shimmerVerObject.isShimmerGen4();
+    }
+
+    public boolean isShimmerHardware() {
+        return isShimmerHardware(getHardwareVersion());
+    }
+
+    public static boolean isShimmerHardware(int i) {
+        return isShimmer3Gen(i) || isShimmer4Gen(i) || isShimmer4Gen(i);
+    }
+
+    public boolean isShimmerGen2() {
+        return isShimmerGen2(getHardwareVersion());
+    }
+
+    public boolean isShimmerGen3R() {
+        return isShimmer3RGen(getHardwareVersion(), getFirmwareIdentifier());
+    }
+
+    public boolean isShimmerGen3() {
+        return isShimmer3Gen(getHardwareVersion(), getFirmwareIdentifier());
+    }
+
+    public static boolean isShimmer3RGen(int i, int i2) {
+        if (isShimmer3RGen(i)) {
+            return i2 == 1 || i2 == 2 || i2 == 3 || i2 == 15;
+        }
+        return false;
+    }
+
+    public static boolean isShimmer3Gen(int i, int i2) {
+        if (isShimmer3Gen(i)) {
+            return i2 == 1 || i2 == 2 || i2 == 3 || i2 == 15;
+        }
+        return false;
+    }
+
+    public boolean isShimmerGen4() {
+        return isShimmer4Gen(getHardwareVersion());
+    }
+
+    public boolean isSweatchDevice() {
+        return getHardwareVersion() == 4 && getFirmwareIdentifier() == 4;
+    }
+
+    public boolean isShimmerGenGq() {
+        return isShimmerGenGq(getHardwareVersion(), getFirmwareIdentifier());
+    }
+
+    public boolean isShimmerGenGq(int i, int i2) {
+        return isShimmerGenGq(i);
+    }
+
+    public boolean isShimmerVideoDevice() {
+        return isShimmerVideoDevice(getHardwareVersion());
+    }
+
+    public boolean isShimmerGenVerisense() {
+        return isShimmerGenVerisense(getHardwareVersion());
+    }
+
+    public boolean compareVersions(int i, int i2, int i3, int i4, int i5) {
+        return compareVersions(this, i, i2, i3, i4, i5);
+    }
+
+    public boolean compareVersions(int i, int i2, int i3, int i4) {
+        return compareVersions(this, i, i2, i3, i4);
+    }
+
+    public static boolean compareVersions(ShimmerVerObject shimmerVerObject, int i, int i2, int i3, int i4) {
+        return UtilShimmer.compareVersions(shimmerVerObject.getFirmwareIdentifier(), shimmerVerObject.getFirmwareVersionMajor(), shimmerVerObject.getFirmwareVersionMinor(), shimmerVerObject.getFirmwareVersionInternal(), i, i2, i3, i4);
+    }
+
+    public static boolean compareVersions(ShimmerVerObject shimmerVerObject, int i, int i2, int i3, int i4, int i5) {
+        return UtilShimmer.compareVersions(shimmerVerObject.getFirmwareIdentifier(), shimmerVerObject.getFirmwareVersionMajor(), shimmerVerObject.getFirmwareVersionMinor(), shimmerVerObject.getFirmwareVersionInternal(), i2, i3, i4, i5);
+    }
+
+    public int getShimmerExpansionBoardId() {
+        return this.mExpansionBoardDetails.mExpansionBoardId;
+    }
+
+    public int getShimmerExpansionBoardRev() {
+        return this.mExpansionBoardDetails.mExpansionBoardRev;
+    }
+
+    public int getShimmerExpansionBoardRevSpecial() {
+        return this.mExpansionBoardDetails.mExpansionBoardRevSpecial;
+    }
+
+    public static final boolean isSupportedExgChipClocksJoined(ShimmerVerObject shimmerVerObject, ExpansionBoardDetails expansionBoardDetails) {
+        if (shimmerVerObject.getHardwareVersion() == 58) {
+            return true;
+        }
+        if (shimmerVerObject.getHardwareVersion() == 3 && expansionBoardDetails.getExpansionBoardId() == 47 && expansionBoardDetails.getExpansionBoardRev() >= 4) {
+            return true;
+        }
+        return shimmerVerObject.getHardwareVersion() == 10 && expansionBoardDetails.getExpansionBoardId() == 47;
+    }
+
+    public String generateDebugString() {
+        return "HW_ID: " + getHardwareVersion() + "\tHardwareVersionParsed: " + getHardwareVersionParsed() + "\tFW_ID: " + getFirmwareIdentifier() + "\tFirmwareVersionParsed: " + getFirmwareVersionParsed();
+    }
+
+    public boolean isSupportedBtStatusRequest() {
+        return this.mHardwareVersion == 10 || compareVersions(3, 3, 0, 5, 2) || compareVersions(3, 1, 0, 8, 1);
+    }
+
+    public boolean isSupportedBtBatteryRequest() {
+        return this.mHardwareVersion == 10 || compareVersions(3, 3, 0, 5, 9) || compareVersions(3, 1, 0, 8, 1);
+    }
+}

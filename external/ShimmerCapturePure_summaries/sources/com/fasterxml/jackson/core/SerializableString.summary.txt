@@ -1,0 +1,38 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/SerializableString.java
+// Size: 825 bytes
+// Modified: 2025-10-21 16:32:00.085887800 +0100
+
+package com.fasterxml.jackson.core;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes.dex */
+public interface SerializableString {
+    int appendQuoted(char[] cArr, int i);
+
+    int appendQuotedUTF8(byte[] bArr, int i);
+
+    int appendUnquoted(char[] cArr, int i);
+
+    int appendUnquotedUTF8(byte[] bArr, int i);
+
+    char[] asQuotedChars();
+
+    byte[] asQuotedUTF8();
+
+    byte[] asUnquotedUTF8();
+
+    int charLength();
+
+    String getValue();
+
+    int putQuotedUTF8(ByteBuffer byteBuffer) throws IOException;
+
+    int putUnquotedUTF8(ByteBuffer byteBuffer) throws IOException;
+
+    int writeQuotedUTF8(OutputStream outputStream) throws IOException;
+
+    int writeUnquotedUTF8(OutputStream outputStream) throws IOException;
+}

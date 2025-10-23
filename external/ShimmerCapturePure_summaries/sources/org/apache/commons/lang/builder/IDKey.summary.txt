@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang/builder/IDKey.java
+// Size: 571 bytes
+// Modified: 2025-10-21 16:32:00.548672800 +0100
+
+package org.apache.commons.lang.builder;
+
+/* loaded from: classes5.dex */
+final class IDKey {
+    private final int id;
+    private final Object value;
+
+    public int hashCode() {
+        return this.id;
+    }
+
+    public IDKey(Object obj) {
+        this.id = System.identityHashCode(obj);
+        this.value = obj;
+    }
+
+    public boolean equals(Object obj) {
+        if (!(obj instanceof IDKey)) {
+            return false;
+        }
+        IDKey iDKey = (IDKey) obj;
+        return this.id == iDKey.id && this.value == iDKey.value;
+    }
+}

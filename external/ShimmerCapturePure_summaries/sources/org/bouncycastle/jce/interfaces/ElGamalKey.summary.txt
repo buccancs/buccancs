@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/interfaces/ElGamalKey.java
+// Size: 265 bytes
+// Modified: 2025-10-21 16:32:01.022740500 +0100
+
+package org.bouncycastle.jce.interfaces;
+
+import javax.crypto.interfaces.DHKey;
+import org.bouncycastle.jce.spec.ElGamalParameterSpec;
+
+/* loaded from: classes5.dex */
+public interface ElGamalKey extends DHKey {
+    ElGamalParameterSpec getParameters();
+}

@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/ArrayUtils.java
+// Size: 379 bytes
+// Modified: 2025-10-21 16:32:00.671368300 +0100
+
+package org.conscrypt;
+
+/* loaded from: classes5.dex */
+final class ArrayUtils {
+    private ArrayUtils() {
+    }
+
+    static void checkOffsetAndCount(int i, int i2, int i3) {
+        if ((i2 | i3) < 0 || i2 > i || i - i2 < i3) {
+            throw new ArrayIndexOutOfBoundsException("length=" + i + "; regionStart=" + i2 + "; regionLength=" + i3);
+        }
+    }
+}

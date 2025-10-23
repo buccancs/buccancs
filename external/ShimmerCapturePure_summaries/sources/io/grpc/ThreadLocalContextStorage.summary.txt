@@ -1,0 +1,43 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/ThreadLocalContextStorage.java
+// Size: 1257 bytes
+// Modified: 2025-10-21 16:32:03.141730200 +0100
+
+package io.grpc;
+
+import io.grpc.Context;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/* loaded from: classes2.dex */
+final class ThreadLocalContextStorage extends Context.Storage {
+    private static final Logger log = Logger.getLogger(ThreadLocalContextStorage.class.getName());
+    static final ThreadLocal<Context> localContext = new ThreadLocal<>();
+
+    ThreadLocalContextStorage() {
+    }
+
+    @Override // io.grpc.Context.Storage
+    public Context doAttach(Context context) {
+        Context contextCurrent = current();
+        localContext.set(context);
+        return contextCurrent;
+    }
+
+    @Override // io.grpc.Context.Storage
+    public void detach(Context context, Context context2) {
+        if (current() != context) {
+            log.log(Level.SEVERE, "Context was not attached when detaching", new Throwable().fillInStackTrace());
+        }
+        if (context2 != Context.ROOT) {
+            localContext.set(context2);
+        } else {
+            localContext.set(null);
+        }
+    }
+
+    @Override // io.grpc.Context.Storage
+    public Context current() {
+        Context context = localContext.get();
+        return context == null ? Context.ROOT : context;
+    }
+}

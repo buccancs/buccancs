@@ -1,0 +1,82 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3;
+
+import com.google.protobuf.AnyProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.StructProto;
+import com.google.protobuf.WrappersProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.AddressProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.BaseProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.v3.RangeProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes6.dex */
+public final class ListenerComponentsProto {
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_FilterChainMatch_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_FilterChainMatch_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_FilterChain_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_FilterChain_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_Filter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_Filter_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_ListenerFilterChainMatchPredicate_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_ListenerFilterChainMatchPredicate_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_listener_v3_ListenerFilter_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_listener_v3_ListenerFilter_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n2envoy/config/listener/v3/listener_components.proto\u0012\u0018envoy.config.listener.v3\u001a\"envoy/config/core/v3/address.proto\u001a\u001fenvoy/config/core/v3/base.proto\u001a\u0019envoy/type/v3/range.proto\u001a\u0019google/protobuf/any.proto\u001a\u001cgoogle/protobuf/struct.proto\u001a\u001egoogle/protobuf/wrappers.proto\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\u001a\u0017validate/validate.proto\"\u0095\u0001\n\u0006Filter\u0012\u0015\n\u0004name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012,\n\ftyped_config\u0018\u0004 \u0001(\u000b2\u0014.google.protobuf.AnyH\u0000:#\u009aÅ\u0088\u001e\u001e\n\u001cenvoy.api.v2.listener.FilterB\r\n\u000bconfig_typeJ\u0004\b\u0003\u0010\u0004J\u0004\b\u0002\u0010\u0003R\u0006config\"î\u0004\n\u0010FilterChainMatch\u0012C\n\u0010destination_port\u0018\b \u0001(\u000b2\u001c.google.protobuf.UInt32ValueB\u000búB\b*\u0006\u0018ÿÿ\u0003(\u0001\u00126\n\rprefix_ranges\u0018\u0003 \u0003(\u000b2\u001f.envoy.config.core.v3.CidrRange\u0012\u0016\n\u000eaddress_suffix\u0018\u0004 \u0001(\t\u00120\n\nsuffix_len\u0018\u0005 \u0001(\u000b2\u001c.google.protobuf.UInt32Value\u0012^\n\u000bsource_type\u0018\f \u0001(\u000e2?.envoy.config.listener.v3.FilterChainMatch.ConnectionSourceTypeB\búB\u0005\u0082\u0001\u0002\u0010\u0001\u0012=\n\u0014source_prefix_ranges\u0018\u0006 \u0003(\u000b2\u001f.envoy.config.core.v3.CidrRange\u0012&\n\fsource_ports\u0018\u0007 \u0003(\rB\u0010úB\r\u0092\u0001\n\"\b*\u0006\u0018ÿÿ\u0003(\u0001\u0012\u0014\n\fserver_names\u0018\u000b \u0003(\t\u0012\u001a\n\u0012transport_protocol\u0018\t \u0001(\t\u0012\u001d\n\u0015application_protocols\u0018\n \u0003(\t\"F\n\u0014ConnectionSourceType\u0012\u0007\n\u0003ANY\u0010\u0000\u0012\u0017\n\u0013SAME_IP_OR_LOOPBACK\u0010\u0001\u0012\f\n\bEXTERNAL\u0010\u0002:-\u009aÅ\u0088\u001e(\n&envoy.api.v2.listener.FilterChainMatchJ\u0004\b\u0001\u0010\u0002\"û\u0002\n\u000bFilterChain\u0012F\n\u0012filter_chain_match\u0018\u0001 \u0001(\u000b2*.envoy.config.listener.v3.FilterChainMatch\u00121\n\u0007filters\u0018\u0003 \u0003(\u000b2 .envoy.config.listener.v3.Filter\u00123\n\u000fuse_proxy_proto\u0018\u0004 \u0001(\u000b2\u001a.google.protobuf.BoolValue\u00120\n\bmetadata\u0018\u0005 \u0001(\u000b2\u001e.envoy.config.core.v3.Metadata\u0012?\n\u0010transport_socket\u0018\u0006 \u0001(\u000b2%.envoy.config.core.v3.TransportSocket\u0012\f\n\u0004name\u0018\u0007 \u0001(\t:(\u009aÅ\u0088\u001e#\n!envoy.api.v2.listener.FilterChainJ\u0004\b\u0002\u0010\u0003R\u000btls_context\"þ\u0004\n!ListenerFilterChainMatchPredicate\u0012X\n\bor_match\u0018\u0001 \u0001(\u000b2D.envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSetH\u0000\u0012Y\n\tand_match\u0018\u0002 \u0001(\u000b2D.envoy.config.listener.v3.ListenerFilterChainMatchPredicate.MatchSetH\u0000\u0012P\n\tnot_match\u0018\u0003 \u0001(\u000b2;.envoy.config.listener.v3.ListenerFilterChainMatchPredicateH\u0000\u0012\u001c\n\tany_match\u0018\u0004 \u0001(\bB\u0007úB\u0004j\u0002\b\u0001H\u0000\u0012;\n\u0016destination_port_range\u0018\u0005 \u0001(\u000b2\u0019.envoy.type.v3.Int32RangeH\u0000\u001a©\u0001\n\bMatchSet\u0012T\n\u0005rules\u0018\u0001 \u0003(\u000b2;.envoy.config.listener.v3.ListenerFilterChainMatchPredicateB\búB\u0005\u0092\u0001\u0002\b\u0002:G\u009aÅ\u0088\u001eB\n@envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSet:>\u009aÅ\u0088\u001e9\n7envoy.api.v2.listener.ListenerFilterChainMatchPredicateB\u000b\n\u0004rule\u0012\u0003øB\u0001\"õ\u0001\n\u000eListenerFilter\u0012\u0015\n\u0004name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012,\n\ftyped_config\u0018\u0003 \u0001(\u000b2\u0014.google.protobuf.AnyH\u0000\u0012T\n\u000ffilter_disabled\u0018\u0004 \u0001(\u000b2;.envoy.config.listener.v3.ListenerFilterChainMatchPredicate:+\u009aÅ\u0088\u001e&\n$envoy.api.v2.listener.ListenerFilterB\r\n\u000bconfig_typeJ\u0004\b\u0002\u0010\u0003R\u0006configBK\n&io.envoyproxy.envoy.config.listener.v3B\u0017ListenerComponentsProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{AddressProto.getDescriptor(), BaseProto.getDescriptor(), RangeProto.getDescriptor(), AnyProto.getDescriptor(), StructProto.getDescriptor(), WrappersProto.getDescriptor(), Status.getDescriptor(), Versioning.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_listener_v3_Filter_descriptor = descriptor2;
+        internal_static_envoy_config_listener_v3_Filter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Name", "TypedConfig", "ConfigType"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_config_listener_v3_FilterChainMatch_descriptor = descriptor3;
+        internal_static_envoy_config_listener_v3_FilterChainMatch_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"DestinationPort", "PrefixRanges", "AddressSuffix", "SuffixLen", "SourceType", "SourcePrefixRanges", "SourcePorts", "ServerNames", "TransportProtocol", "ApplicationProtocols"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_envoy_config_listener_v3_FilterChain_descriptor = descriptor4;
+        internal_static_envoy_config_listener_v3_FilterChain_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"FilterChainMatch", "Filters", "UseProxyProto", "Metadata", "TransportSocket", "Name"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_envoy_config_listener_v3_ListenerFilterChainMatchPredicate_descriptor = descriptor5;
+        internal_static_envoy_config_listener_v3_ListenerFilterChainMatchPredicate_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"OrMatch", "AndMatch", "NotMatch", "AnyMatch", "DestinationPortRange", "Rule"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) descriptor5.getNestedTypes().get(0);
+        internal_static_envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_descriptor = descriptor6;
+        internal_static_envoy_config_listener_v3_ListenerFilterChainMatchPredicate_MatchSet_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"Rules"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(4);
+        internal_static_envoy_config_listener_v3_ListenerFilter_descriptor = descriptor7;
+        internal_static_envoy_config_listener_v3_ListenerFilter_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"Name", "TypedConfig", "FilterDisabled", "ConfigType"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        AddressProto.getDescriptor();
+        BaseProto.getDescriptor();
+        RangeProto.getDescriptor();
+        AnyProto.getDescriptor();
+        StructProto.getDescriptor();
+        WrappersProto.getDescriptor();
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private ListenerComponentsProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

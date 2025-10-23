@@ -1,0 +1,295 @@
+package com.shimmerresearch.driverUtilities;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.guiUtilities.AbstractPlotManager;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jtransforms.fft.DoubleFFT_1D;
+
+/* loaded from: classes2.dex */
+public class FftCalculateDetails {
+    public double mSamplingRate;
+    private double[][] fftResults;
+    private List<Double> mDataBuffer;
+    private int mDivider;
+    private int mFftOverlapPercent;
+    private boolean mIsShowingTwoSidedFFT;
+    private String mShimmerName;
+    private List<Double> mTimeBuffer;
+    private String[] mTraceName;
+    private double maxPSDFrequency;
+    private double meanPSDFreq;
+    private double medianPSDFreq;
+    private double[][] psdFrequenciesAndAmplitudes;
+    private double sumProductFreqPsd;
+    private double sumPsdAmplitude;
+
+    public FftCalculateDetails(String str, String[] strArr) {
+        this.mTraceName = null;
+        this.mShimmerName = null;
+        this.mSamplingRate = 1024.0d;
+        this.mDivider = 2;
+        this.mTimeBuffer = new ArrayList();
+        this.mDataBuffer = new ArrayList();
+        this.sumProductFreqPsd = 0.0d;
+        this.sumPsdAmplitude = 0.0d;
+        this.mFftOverlapPercent = 0;
+        this.mIsShowingTwoSidedFFT = false;
+        this.mShimmerName = str;
+        this.mTraceName = strArr;
+    }
+
+    public FftCalculateDetails(String str, String[] strArr, double d) {
+        this(str, strArr);
+        this.mSamplingRate = d;
+    }
+
+    public FftCalculateDetails() {
+        this.mTraceName = null;
+        this.mShimmerName = null;
+        this.mSamplingRate = 1024.0d;
+        this.mDivider = 2;
+        this.mTimeBuffer = new ArrayList();
+        this.mDataBuffer = new ArrayList();
+        this.sumProductFreqPsd = 0.0d;
+        this.sumPsdAmplitude = 0.0d;
+        this.mFftOverlapPercent = 0;
+        this.mIsShowingTwoSidedFFT = false;
+    }
+
+    public static double[] toPrimitive(Double[] dArr) {
+        if (dArr == null) {
+            return null;
+        }
+        if (dArr.length == 0) {
+            return new double[0];
+        }
+        double[] dArr2 = new double[dArr.length];
+        for (int i = 0; i < dArr.length; i++) {
+            dArr2[i] = dArr[i].doubleValue();
+        }
+        return dArr2;
+    }
+
+    private void setMeanPSDFrequency() {
+        this.meanPSDFreq = this.sumProductFreqPsd / this.sumPsdAmplitude;
+    }
+
+    public double getMaxPSDFrequency() {
+        return this.maxPSDFrequency;
+    }
+
+    public double getMeanPSDFrequnecy() {
+        return this.meanPSDFreq;
+    }
+
+    public double getMedianPSDFrequency() {
+        return this.medianPSDFreq;
+    }
+
+    public double[][] getPSDFrequenciesAndAmplitudes() {
+        return this.psdFrequenciesAndAmplitudes;
+    }
+
+    public ObjectCluster getResultsObjectCluster() {
+        return null;
+    }
+
+    public void addData(double d, double d2) {
+        this.mTimeBuffer.add(Double.valueOf(d));
+        this.mDataBuffer.add(Double.valueOf(d2));
+    }
+
+    public void clearBuffers() {
+        this.mDataBuffer.clear();
+        this.mTimeBuffer.clear();
+    }
+
+    public void clearDataOverlap() {
+        if (this.mFftOverlapPercent == 0) {
+            this.mDataBuffer.clear();
+            this.mTimeBuffer.clear();
+            return;
+        }
+        int size = this.mDataBuffer.size();
+        for (int i = 0; i < (this.mFftOverlapPercent / 100) * size; i++) {
+            this.mDataBuffer.remove(0);
+            this.mTimeBuffer.remove(0);
+        }
+    }
+
+    public double[] calculateFFT(double[] dArr) {
+        DoubleFFT_1D doubleFFT_1D = new DoubleFFT_1D(dArr.length);
+        double[] dArr2 = new double[dArr.length * 2];
+        System.arraycopy(dArr, 0, dArr2, 0, dArr.length);
+        doubleFFT_1D.realForwardFull(dArr2);
+        return rectifyFFT(dArr2);
+    }
+
+    public double[] calculateFft(int i) {
+        if (this.mDataBuffer.size() <= this.mSamplingRate * (i / 1000) * 0.9d) {
+            return new double[0];
+        }
+        List<Double> list = this.mDataBuffer;
+        double[] primitive = toPrimitive((Double[]) list.toArray(new Double[list.size()]));
+        DoubleFFT_1D doubleFFT_1D = new DoubleFFT_1D(primitive.length);
+        double[] dArr = new double[primitive.length * 2];
+        System.arraycopy(primitive, 0, dArr, 0, primitive.length);
+        doubleFFT_1D.realForwardFull(dArr);
+        return rectifyFFT(dArr);
+    }
+
+    private double[] rectifyFFT(double[] dArr) {
+        double[] dArr2 = new double[dArr.length];
+        for (int i = 0; i < dArr.length; i++) {
+            double d = dArr[i];
+            if (d < 0.0d) {
+                dArr2[i] = d * (-1.0d);
+            } else {
+                dArr2[i] = d;
+            }
+        }
+        return dArr2;
+    }
+
+    public ObjectCluster[] calculateFftAndGenerateOJC(int i) {
+        double[] dArrCalculateFft = calculateFft(i);
+        ObjectCluster[] objectClusterArr = new ObjectCluster[dArrCalculateFft.length];
+        if (dArrCalculateFft.length > 0) {
+            int i2 = 0;
+            for (double d : dArrCalculateFft) {
+                ObjectCluster objectCluster = new ObjectCluster(this.mShimmerName);
+                objectCluster.createArrayData(2);
+                String[] strArr = this.mTraceName;
+                objectCluster.addDataToMap(strArr[1], strArr[2], strArr[3], d);
+                objectCluster.incrementIndexKeeper();
+                objectCluster.addData("Frequency", ChannelDetails.CHANNEL_TYPE.CAL, Configuration.CHANNEL_UNITS.FREQUENCY, i2);
+                objectCluster.incrementIndexKeeper();
+                objectClusterArr[i2] = objectCluster;
+                i2++;
+            }
+        }
+        return objectClusterArr;
+    }
+
+    public double[][] calculateFftAndGenerateArray(int i) {
+        if (this.mTimeBuffer.size() > 2 && this.mTimeBuffer.get(0) != null && this.mTimeBuffer.get(1) != null) {
+            this.mSamplingRate = 1000.0d / (this.mTimeBuffer.get(1).doubleValue() - this.mTimeBuffer.get(0).doubleValue());
+        }
+        double[] dArrCalculateFft = calculateFft(i);
+        if (dArrCalculateFft.length <= 0) {
+            return new double[0][];
+        }
+        if (this.mIsShowingTwoSidedFFT) {
+            this.mDivider = 1;
+        }
+        this.fftResults = (double[][]) Array.newInstance((Class<?>) Double.TYPE, 2, dArrCalculateFft.length / this.mDivider);
+        double length = this.mSamplingRate / dArrCalculateFft.length;
+        for (int i2 = 0; i2 < dArrCalculateFft.length / this.mDivider; i2++) {
+            setFFTFrequency(i2, length);
+            setFFTAmplitude(dArrCalculateFft, i2);
+        }
+        calculatePSDAndGenerateArray(dArrCalculateFft);
+        return this.fftResults;
+    }
+
+    public void calculatePSDAndGenerateArray(double[] dArr) {
+        int length = dArr.length / this.mDivider;
+        double length2 = this.mSamplingRate / dArr.length;
+        this.psdFrequenciesAndAmplitudes = (double[][]) Array.newInstance((Class<?>) Double.TYPE, 2, length);
+        this.sumProductFreqPsd = 0.0d;
+        this.sumPsdAmplitude = 0.0d;
+        for (int i = 0; i < length; i++) {
+            setPSDFrequency(i, length2);
+            setPSDAmplitude(dArr, i);
+            sumPSDproductFreq(i);
+            sumPSDAmplitude(i);
+        }
+        setMeanPSDFrequency();
+        setMedianPSDFrequency();
+        setMaxPSDFrequency();
+    }
+
+    private void setFFTFrequency(int i, double d) {
+        if (Double.isNaN(this.mSamplingRate)) {
+            this.fftResults[0][i] = i;
+        } else {
+            this.fftResults[0][i] = i * d;
+        }
+    }
+
+    private void setFFTAmplitude(double[] dArr, int i) {
+        this.fftResults[1][i] = dArr[i];
+    }
+
+    private void setPSDFrequency(int i, double d) {
+        if (this.mSamplingRate == Double.NaN) {
+            this.psdFrequenciesAndAmplitudes[0][i] = i;
+        } else {
+            this.psdFrequenciesAndAmplitudes[0][i] = i * d;
+        }
+    }
+
+    private void setPSDAmplitude(double[] dArr, int i) {
+        this.psdFrequenciesAndAmplitudes[1][i] = (Math.abs(Math.pow(dArr[i], 2.0d)) / this.mSamplingRate) * dArr.length * 2.0d;
+    }
+
+    private void setPSDAmplitudeInDbs(double[] dArr, int i) {
+        this.psdFrequenciesAndAmplitudes[1][i] = Math.log10((Math.abs(Math.pow(dArr[i], 2.0d)) / this.mSamplingRate) * dArr.length * 2.0d) * 10.0d;
+    }
+
+    private void sumPSDproductFreq(int i) {
+        double d = this.sumProductFreqPsd;
+        double[][] dArr = this.psdFrequenciesAndAmplitudes;
+        this.sumProductFreqPsd = d + (dArr[1][i] * dArr[0][i]);
+    }
+
+    private void sumPSDAmplitude(int i) {
+        this.sumPsdAmplitude += this.psdFrequenciesAndAmplitudes[1][i];
+    }
+
+    private void setMedianPSDFrequency() {
+        int i = 0;
+        while (true) {
+            double[][] dArr = this.psdFrequenciesAndAmplitudes;
+            double[] dArr2 = dArr[0];
+            if (i >= dArr2.length) {
+                return;
+            }
+            if (dArr[1][i] > this.sumPsdAmplitude / 2.0d) {
+                this.medianPSDFreq = dArr2[i];
+                return;
+            }
+            i++;
+        }
+    }
+
+    private void setMaxPSDFrequency() {
+        double[][] dArr = this.psdFrequenciesAndAmplitudes;
+        double[] dArr2 = dArr[0];
+        double[] dArr3 = dArr[1];
+        double d = Double.NEGATIVE_INFINITY;
+        int i = 0;
+        for (int i2 = 0; i2 < dArr3.length; i2++) {
+            double d2 = dArr3[i2];
+            if (d2 > d) {
+                i = i2;
+                d = d2;
+            }
+        }
+        this.maxPSDFrequency = dArr2[i];
+    }
+
+    public String getTraceNameJoined() {
+        return AbstractPlotManager.joinChannelStringArray(this.mTraceName);
+    }
+
+    public void setFftOverlapPercent(int i) {
+        this.mFftOverlapPercent = UtilShimmer.nudgeInteger(i, 0, 100);
+    }
+}

@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/accesslog/v3/AndFilterOrBuilder.java
+// Size: 495 bytes
+// Modified: 2025-10-21 16:32:10.349238700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.accesslog.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface AndFilterOrBuilder extends MessageOrBuilder {
+    AccessLogFilter getFilters(int i);
+
+    int getFiltersCount();
+
+    List<AccessLogFilter> getFiltersList();
+
+    AccessLogFilterOrBuilder getFiltersOrBuilder(int i);
+
+    List<? extends AccessLogFilterOrBuilder> getFiltersOrBuilderList();
+}

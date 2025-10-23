@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/UncheckedExecutionException.java
+// Size: 662 bytes
+// Modified: 2025-10-21 16:32:00.804493100 +0100
+
+package com.google.common.util.concurrent;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+public class UncheckedExecutionException extends RuntimeException {
+    private static final long serialVersionUID = 0;
+
+    protected UncheckedExecutionException() {
+    }
+
+    protected UncheckedExecutionException(@NullableDecl String str) {
+        super(str);
+    }
+
+    public UncheckedExecutionException(@NullableDecl String str, @NullableDecl Throwable th) {
+        super(str, th);
+    }
+
+    public UncheckedExecutionException(@NullableDecl Throwable th) {
+        super(th);
+    }
+}

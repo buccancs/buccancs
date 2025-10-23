@@ -1,0 +1,603 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes6.dex */
+public final class RuntimeFeatureFlag extends GeneratedMessageV3 implements RuntimeFeatureFlagOrBuilder {
+    public static final int DEFAULT_VALUE_FIELD_NUMBER = 1;
+    public static final int RUNTIME_KEY_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final RuntimeFeatureFlag DEFAULT_INSTANCE = new RuntimeFeatureFlag();
+    private static final Parser<RuntimeFeatureFlag> PARSER = new AbstractParser<RuntimeFeatureFlag>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public RuntimeFeatureFlag m23972parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new RuntimeFeatureFlag(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private BoolValue defaultValue_;
+    private byte memoizedIsInitialized;
+    private volatile Object runtimeKey_;
+
+    private RuntimeFeatureFlag(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private RuntimeFeatureFlag() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.runtimeKey_ = "";
+    }
+
+    private RuntimeFeatureFlag(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            BoolValue boolValue = this.defaultValue_;
+                            BoolValue.Builder builder = boolValue != null ? boolValue.toBuilder() : null;
+                            BoolValue message = codedInputStream.readMessage(BoolValue.parser(), extensionRegistryLite);
+                            this.defaultValue_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.defaultValue_ = builder.buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            this.runtimeKey_ = codedInputStream.readStringRequireUtf8();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static RuntimeFeatureFlag getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<RuntimeFeatureFlag> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return BaseProto.internal_static_envoy_config_core_v3_RuntimeFeatureFlag_descriptor;
+    }
+
+    public static RuntimeFeatureFlag parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (RuntimeFeatureFlag) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RuntimeFeatureFlag) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (RuntimeFeatureFlag) PARSER.parseFrom(byteString);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RuntimeFeatureFlag) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (RuntimeFeatureFlag) PARSER.parseFrom(bArr);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RuntimeFeatureFlag) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RuntimeFeatureFlag parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static RuntimeFeatureFlag parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static RuntimeFeatureFlag parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m23970toBuilder();
+    }
+
+    public static Builder newBuilder(RuntimeFeatureFlag runtimeFeatureFlag) {
+        return DEFAULT_INSTANCE.m23970toBuilder().mergeFrom(runtimeFeatureFlag);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public RuntimeFeatureFlag m23965getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<RuntimeFeatureFlag> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+    public boolean hasDefaultValue() {
+        return this.defaultValue_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new RuntimeFeatureFlag();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return BaseProto.internal_static_envoy_config_core_v3_RuntimeFeatureFlag_fieldAccessorTable.ensureFieldAccessorsInitialized(RuntimeFeatureFlag.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+    public BoolValue getDefaultValue() {
+        BoolValue boolValue = this.defaultValue_;
+        return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+    public BoolValueOrBuilder getDefaultValueOrBuilder() {
+        return getDefaultValue();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+    public String getRuntimeKey() {
+        Object obj = this.runtimeKey_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.runtimeKey_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+    public ByteString getRuntimeKeyBytes() {
+        Object obj = this.runtimeKey_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.runtimeKey_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.defaultValue_ != null) {
+            codedOutputStream.writeMessage(1, getDefaultValue());
+        }
+        if (!getRuntimeKeyBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.runtimeKey_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.defaultValue_ != null ? CodedOutputStream.computeMessageSize(1, getDefaultValue()) : 0;
+        if (!getRuntimeKeyBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(2, this.runtimeKey_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof RuntimeFeatureFlag)) {
+            return super.equals(obj);
+        }
+        RuntimeFeatureFlag runtimeFeatureFlag = (RuntimeFeatureFlag) obj;
+        if (hasDefaultValue() != runtimeFeatureFlag.hasDefaultValue()) {
+            return false;
+        }
+        return (!hasDefaultValue() || getDefaultValue().equals(runtimeFeatureFlag.getDefaultValue())) && getRuntimeKey().equals(runtimeFeatureFlag.getRuntimeKey()) && this.unknownFields.equals(runtimeFeatureFlag.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasDefaultValue()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getDefaultValue().hashCode();
+        }
+        int iHashCode2 = (((((iHashCode * 37) + 2) * 53) + getRuntimeKey().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m23967newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m23970toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RuntimeFeatureFlagOrBuilder {
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> defaultValueBuilder_;
+        private BoolValue defaultValue_;
+        private Object runtimeKey_;
+
+        private Builder() {
+            this.runtimeKey_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.runtimeKey_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return BaseProto.internal_static_envoy_config_core_v3_RuntimeFeatureFlag_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+        public boolean hasDefaultValue() {
+            return (this.defaultValueBuilder_ == null && this.defaultValue_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return BaseProto.internal_static_envoy_config_core_v3_RuntimeFeatureFlag_fieldAccessorTable.ensureFieldAccessorsInitialized(RuntimeFeatureFlag.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = RuntimeFeatureFlag.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23981clear() {
+            super.clear();
+            if (this.defaultValueBuilder_ == null) {
+                this.defaultValue_ = null;
+            } else {
+                this.defaultValue_ = null;
+                this.defaultValueBuilder_ = null;
+            }
+            this.runtimeKey_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return BaseProto.internal_static_envoy_config_core_v3_RuntimeFeatureFlag_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RuntimeFeatureFlag m23994getDefaultInstanceForType() {
+            return RuntimeFeatureFlag.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RuntimeFeatureFlag m23975build() throws UninitializedMessageException {
+            RuntimeFeatureFlag runtimeFeatureFlagM23977buildPartial = m23977buildPartial();
+            if (runtimeFeatureFlagM23977buildPartial.isInitialized()) {
+                return runtimeFeatureFlagM23977buildPartial;
+            }
+            throw newUninitializedMessageException(runtimeFeatureFlagM23977buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RuntimeFeatureFlag m23977buildPartial() {
+            RuntimeFeatureFlag runtimeFeatureFlag = new RuntimeFeatureFlag(this);
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.defaultValueBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                runtimeFeatureFlag.defaultValue_ = this.defaultValue_;
+            } else {
+                runtimeFeatureFlag.defaultValue_ = singleFieldBuilderV3.build();
+            }
+            runtimeFeatureFlag.runtimeKey_ = this.runtimeKey_;
+            onBuilt();
+            return runtimeFeatureFlag;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23993clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24005setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23983clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23986clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m24007setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23973addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m23998mergeFrom(Message message) {
+            if (message instanceof RuntimeFeatureFlag) {
+                return mergeFrom((RuntimeFeatureFlag) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(RuntimeFeatureFlag runtimeFeatureFlag) {
+            if (runtimeFeatureFlag == RuntimeFeatureFlag.getDefaultInstance()) {
+                return this;
+            }
+            if (runtimeFeatureFlag.hasDefaultValue()) {
+                mergeDefaultValue(runtimeFeatureFlag.getDefaultValue());
+            }
+            if (!runtimeFeatureFlag.getRuntimeKey().isEmpty()) {
+                this.runtimeKey_ = runtimeFeatureFlag.runtimeKey_;
+                onChanged();
+            }
+            m24003mergeUnknownFields(runtimeFeatureFlag.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag.Builder m23999mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag.Builder.m23999mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlag$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+        public BoolValue getDefaultValue() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.defaultValueBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BoolValue boolValue = this.defaultValue_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        public Builder setDefaultValue(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.defaultValueBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                boolValue.getClass();
+                this.defaultValue_ = boolValue;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(boolValue);
+            }
+            return this;
+        }
+
+        public Builder setDefaultValue(BoolValue.Builder builder) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.defaultValueBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.defaultValue_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeDefaultValue(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.defaultValueBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BoolValue boolValue2 = this.defaultValue_;
+                if (boolValue2 != null) {
+                    this.defaultValue_ = BoolValue.newBuilder(boolValue2).mergeFrom(boolValue).buildPartial();
+                } else {
+                    this.defaultValue_ = boolValue;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(boolValue);
+            }
+            return this;
+        }
+
+        public Builder clearDefaultValue() {
+            if (this.defaultValueBuilder_ == null) {
+                this.defaultValue_ = null;
+                onChanged();
+            } else {
+                this.defaultValue_ = null;
+                this.defaultValueBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BoolValue.Builder getDefaultValueBuilder() {
+            onChanged();
+            return getDefaultValueFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+        public BoolValueOrBuilder getDefaultValueOrBuilder() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.defaultValueBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BoolValue boolValue = this.defaultValue_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> getDefaultValueFieldBuilder() {
+            if (this.defaultValueBuilder_ == null) {
+                this.defaultValueBuilder_ = new SingleFieldBuilderV3<>(getDefaultValue(), getParentForChildren(), isClean());
+                this.defaultValue_ = null;
+            }
+            return this.defaultValueBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+        public String getRuntimeKey() {
+            Object obj = this.runtimeKey_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.runtimeKey_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setRuntimeKey(String str) {
+            str.getClass();
+            this.runtimeKey_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFeatureFlagOrBuilder
+        public ByteString getRuntimeKeyBytes() {
+            Object obj = this.runtimeKey_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.runtimeKey_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setRuntimeKeyBytes(ByteString byteString) {
+            byteString.getClass();
+            RuntimeFeatureFlag.checkByteStringIsUtf8(byteString);
+            this.runtimeKey_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearRuntimeKey() {
+            this.runtimeKey_ = RuntimeFeatureFlag.getDefaultInstance().getRuntimeKey();
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m24009setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m24003mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

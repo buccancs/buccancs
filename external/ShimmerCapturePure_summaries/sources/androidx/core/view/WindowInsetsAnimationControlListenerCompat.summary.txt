@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/WindowInsetsAnimationControlListenerCompat.java
+// Size: 435 bytes
+// Modified: 2025-10-21 16:32:03.067977100 +0100
+
+package androidx.core.view;
+
+/* loaded from: classes.dex */
+public interface WindowInsetsAnimationControlListenerCompat {
+    void onCancelled(WindowInsetsAnimationControllerCompat windowInsetsAnimationControllerCompat);
+
+    void onFinished(WindowInsetsAnimationControllerCompat windowInsetsAnimationControllerCompat);
+
+    void onReady(WindowInsetsAnimationControllerCompat windowInsetsAnimationControllerCompat, int i);
+}

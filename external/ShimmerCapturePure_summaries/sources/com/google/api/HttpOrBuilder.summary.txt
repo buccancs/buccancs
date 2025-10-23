@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/HttpOrBuilder.java
+// Size: 457 bytes
+// Modified: 2025-10-21 16:32:04.622822100 +0100
+
+package com.google.api;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public interface HttpOrBuilder extends MessageOrBuilder {
+    boolean getFullyDecodeReservedExpansion();
+
+    HttpRule getRules(int i);
+
+    int getRulesCount();
+
+    List<HttpRule> getRulesList();
+
+    HttpRuleOrBuilder getRulesOrBuilder(int i);
+
+    List<? extends HttpRuleOrBuilder> getRulesOrBuilderList();
+}

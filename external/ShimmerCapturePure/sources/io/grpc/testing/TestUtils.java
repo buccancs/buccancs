@@ -1,0 +1,89 @@
+package io.grpc.testing;
+
+import io.grpc.Metadata;
+import io.grpc.ServerCall;
+import io.grpc.ServerCallHandler;
+import io.grpc.ServerInterceptor;
+
+import java.io.BufferedInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.KeyStore;
+import java.security.NoSuchAlgorithmException;
+import java.security.Provider;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManagerFactory;
+
+/* loaded from: classes3.dex */
+public class TestUtils {
+    private TestUtils() {
+    }
+
+    public static ServerInterceptor recordRequestHeadersInterceptor(final AtomicReference<Metadata> atomicReference) {
+        return new ServerInterceptor() { // from class: io.grpc.testing.TestUtils.1
+            @Override // io.grpc.ServerInterceptor
+            public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall, Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler) {
+                atomicReference.set(metadata);
+                return serverCallHandler.startCall(serverCall, metadata);
+            }
+        };
+    }
+
+    @Deprecated
+    public static List<String> preferredTestCiphers() {
+        try {
+            String[] cipherSuites = SSLContext.getDefault().getDefaultSSLParameters().getCipherSuites();
+            ArrayList arrayList = new ArrayList();
+            for (String str : cipherSuites) {
+                if (!str.contains("_GCM_")) {
+                    arrayList.add(str);
+                }
+            }
+            return Collections.unmodifiableList(arrayList);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Deprecated
+    public static X509Certificate loadX509Cert(String str) throws IOException, CertificateException {
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+        InputStream resourceAsStream = TestUtils.class.getResourceAsStream("/certs/" + str);
+        try {
+            return (X509Certificate) certificateFactory.generateCertificate(resourceAsStream);
+        } finally {
+            resourceAsStream.close();
+        }
+    }
+
+    @Deprecated
+    public static SSLSocketFactory newSslSocketFactoryForCa(Provider provider, File file) throws Exception {
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        keyStore.load(null, null);
+        CertificateFactory certificateFactory = CertificateFactory.getInstance("X.509");
+        BufferedInputStream bufferedInputStream = new BufferedInputStream(new FileInputStream(file));
+        try {
+            X509Certificate x509Certificate = (X509Certificate) certificateFactory.generateCertificate(bufferedInputStream);
+            keyStore.setCertificateEntry(x509Certificate.getSubjectX500Principal().getName("RFC2253"), x509Certificate);
+            bufferedInputStream.close();
+            TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            trustManagerFactory.init(keyStore);
+            SSLContext sSLContext = SSLContext.getInstance("TLS", provider);
+            sSLContext.init(null, trustManagerFactory.getTrustManagers(), null);
+            return sSLContext.getSocketFactory();
+        } catch (Throwable th) {
+            bufferedInputStream.close();
+            throw th;
+        }
+    }
+}

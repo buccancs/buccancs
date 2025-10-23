@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/callback/BleGattCallback.java
+// Size: 673 bytes
+// Modified: 2025-10-21 16:32:01.183245800 +0100
+
+package com.clj.fastble.callback;
+
+import android.bluetooth.BluetoothGatt;
+import android.bluetooth.BluetoothGattCallback;
+import com.clj.fastble.data.BleDevice;
+import com.clj.fastble.exception.BleException;
+
+/* loaded from: classes.dex */
+public abstract class BleGattCallback extends BluetoothGattCallback {
+    public abstract void onConnectFail(BleDevice bleDevice, BleException bleException);
+
+    public abstract void onConnectSuccess(BleDevice bleDevice, BluetoothGatt bluetoothGatt, int i);
+
+    public abstract void onDisConnected(boolean z, BleDevice bleDevice, BluetoothGatt bluetoothGatt, int i);
+
+    public abstract void onStartConnect();
+}

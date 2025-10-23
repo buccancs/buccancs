@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/TlsPeer.java
+// Size: 582 bytes
+// Modified: 2025-10-21 16:32:01.847854400 +0100
+
+package org.bouncycastle.crypto.tls;
+
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public interface TlsPeer {
+    TlsCipher getCipher() throws IOException;
+
+    TlsCompression getCompression() throws IOException;
+
+    void notifyAlertRaised(short s, short s2, String str, Throwable th);
+
+    void notifyAlertReceived(short s, short s2);
+
+    void notifyHandshakeComplete() throws IOException;
+
+    void notifySecureRenegotiation(boolean z) throws IOException;
+
+    boolean requiresExtendedMasterSecret();
+
+    boolean shouldUseGMTUnixTime();
+}

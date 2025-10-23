@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/operator/ContentVerifierProvider.java
+// Size: 429 bytes
+// Modified: 2025-10-21 16:32:09.082017000 +0100
+
+package org.bouncycastle.operator;
+
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
+import org.bouncycastle.cert.X509CertificateHolder;
+
+/* loaded from: classes5.dex */
+public interface ContentVerifierProvider {
+    ContentVerifier get(AlgorithmIdentifier algorithmIdentifier) throws OperatorCreationException;
+
+    X509CertificateHolder getAssociatedCertificate();
+
+    boolean hasAssociatedCertificate();
+}

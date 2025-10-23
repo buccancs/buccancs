@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/ConnectivityState.java
+// Size: 167 bytes
+// Modified: 2025-10-21 16:32:00.310660700 +0100
+
+package io.grpc;
+
+/* loaded from: classes2.dex */
+public enum ConnectivityState {
+    CONNECTING,
+    READY,
+    TRANSIENT_FAILURE,
+    IDLE,
+    SHUTDOWN
+}

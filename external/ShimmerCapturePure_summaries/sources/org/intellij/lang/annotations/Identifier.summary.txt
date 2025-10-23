@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/intellij/lang/annotations/Identifier.java
+// Size: 110 bytes
+// Modified: 2025-10-21 16:32:00.715700100 +0100
+
+package org.intellij.lang.annotations;
+
+/* loaded from: classes5.dex */
+public @interface Identifier {
+}

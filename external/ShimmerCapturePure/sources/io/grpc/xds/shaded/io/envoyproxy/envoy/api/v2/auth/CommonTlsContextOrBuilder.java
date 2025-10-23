@@ -1,0 +1,65 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.auth.CommonTlsContext;
+
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface CommonTlsContextOrBuilder extends MessageOrBuilder {
+    String getAlpnProtocols(int i);
+
+    ByteString getAlpnProtocolsBytes(int i);
+
+    int getAlpnProtocolsCount();
+
+    /* renamed from: getAlpnProtocolsList */
+    List<String> mo13512getAlpnProtocolsList();
+
+    CommonTlsContext.CombinedCertificateValidationContext getCombinedValidationContext();
+
+    CommonTlsContext.CombinedCertificateValidationContextOrBuilder getCombinedValidationContextOrBuilder();
+
+    SdsSecretConfig getTlsCertificateSdsSecretConfigs(int i);
+
+    int getTlsCertificateSdsSecretConfigsCount();
+
+    List<SdsSecretConfig> getTlsCertificateSdsSecretConfigsList();
+
+    SdsSecretConfigOrBuilder getTlsCertificateSdsSecretConfigsOrBuilder(int i);
+
+    List<? extends SdsSecretConfigOrBuilder> getTlsCertificateSdsSecretConfigsOrBuilderList();
+
+    TlsCertificate getTlsCertificates(int i);
+
+    int getTlsCertificatesCount();
+
+    List<TlsCertificate> getTlsCertificatesList();
+
+    TlsCertificateOrBuilder getTlsCertificatesOrBuilder(int i);
+
+    List<? extends TlsCertificateOrBuilder> getTlsCertificatesOrBuilderList();
+
+    TlsParameters getTlsParams();
+
+    TlsParametersOrBuilder getTlsParamsOrBuilder();
+
+    CertificateValidationContext getValidationContext();
+
+    CertificateValidationContextOrBuilder getValidationContextOrBuilder();
+
+    SdsSecretConfig getValidationContextSdsSecretConfig();
+
+    SdsSecretConfigOrBuilder getValidationContextSdsSecretConfigOrBuilder();
+
+    CommonTlsContext.ValidationContextTypeCase getValidationContextTypeCase();
+
+    boolean hasCombinedValidationContext();
+
+    boolean hasTlsParams();
+
+    boolean hasValidationContext();
+
+    boolean hasValidationContextSdsSecretConfig();
+}

@@ -1,0 +1,282 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/XdsClientWrapperForServerSds.java
+// Size: 13547 bytes
+// Modified: 2025-10-21 16:32:09.401063200 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.InternalLogId;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.internal.ExponentialBackoffPolicy;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.internal.SharedResourceHolder;
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.channel.epoll.Epoll;
+import io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoopGroup;
+import io.grpc.netty.shaded.io.netty.util.concurrent.DefaultThreadFactory;
+import io.grpc.xds.Bootstrapper;
+import io.grpc.xds.EnvoyProtoData;
+import io.grpc.xds.EnvoyServerProtoData;
+import io.grpc.xds.XdsClient;
+import java.io.IOException;
+import java.lang.Thread;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.SocketAddress;
+import java.net.UnknownHostException;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+public final class XdsClientWrapperForServerSds {
+    private static final Logger logger = Logger.getLogger(XdsClientWrapperForServerSds.class.getName());
+    private static final TimeServiceResource timeServiceResource = new TimeServiceResource("GrpcServerXdsClient");
+    private EnvoyServerProtoData.Listener curListener;
+    private XdsClient.ListenerWatcher listenerWatcher;
+    private final int port;
+    private ScheduledExecutorService timeService;
+
+    @Nullable
+    private XdsClient xdsClient;
+
+    XdsClient.ListenerWatcher getListenerWatcher() {
+        return this.listenerWatcher;
+    }
+
+    public boolean hasXdsClient() {
+        return this.xdsClient != null;
+    }
+
+    public static final class ManagementServerNotFoundException extends Exception {
+        private static final long serialVersionUID = 1;
+
+        public ManagementServerNotFoundException(String str) {
+            super(str);
+        }
+    }
+
+    public XdsClientWrapperForServerSds(int i) {
+        this.port = i;
+    }
+
+    private SynchronizationContext createSynchronizationContext() {
+        final InternalLogId internalLogIdAllocate = InternalLogId.allocate("XdsClientWrapperForServerSds", Integer.toString(this.port));
+        return new SynchronizationContext(new Thread.UncaughtExceptionHandler() { // from class: io.grpc.xds.XdsClientWrapperForServerSds.1
+            private boolean panicMode;
+
+            @Override // java.lang.Thread.UncaughtExceptionHandler
+            public void uncaughtException(Thread thread, Throwable th) {
+                XdsClientWrapperForServerSds.logger.log(Level.SEVERE, "[" + internalLogIdAllocate + "] Uncaught exception in the SynchronizationContext. Panic!", th);
+                panic(th);
+            }
+
+            void panic(Throwable th) {
+                if (this.panicMode) {
+                    return;
+                }
+                this.panicMode = true;
+                XdsClientWrapperForServerSds.this.shutdown();
+            }
+        });
+    }
+
+    public void createXdsClientAndStart() throws ManagementServerNotFoundException {
+        Preconditions.checkState(this.xdsClient == null, "start() called more than once");
+        try {
+            Bootstrapper.BootstrapInfo bootstrap = Bootstrapper.getInstance().readBootstrap();
+            List<Bootstrapper.ServerInfo> servers = bootstrap.getServers();
+            if (servers.isEmpty()) {
+                throw new ManagementServerNotFoundException("No management server provided by bootstrap");
+            }
+            EnvoyProtoData.Node node = bootstrap.getNode();
+            this.timeService = (ScheduledExecutorService) SharedResourceHolder.get(timeServiceResource);
+            start(new XdsClientImpl("", servers, XdsClient.XdsChannelFactory.getInstance(), node, createSynchronizationContext(), this.timeService, new ExponentialBackoffPolicy.Provider(), GrpcUtil.STOPWATCH_SUPPLIER));
+        } catch (ManagementServerNotFoundException | IOException e) {
+            Logger logger2 = logger;
+            logger2.log(Level.FINE, "Exception reading bootstrap", e);
+            logger2.log(Level.INFO, "Fallback to plaintext for server at port {0}", Integer.valueOf(this.port));
+        }
+    }
+
+    public void start(XdsClient xdsClient) {
+        Preconditions.checkState(this.xdsClient == null, "start() called more than once");
+        Preconditions.checkNotNull(xdsClient, "xdsClient");
+        this.xdsClient = xdsClient;
+        XdsClient.ListenerWatcher listenerWatcher = new XdsClient.ListenerWatcher() { // from class: io.grpc.xds.XdsClientWrapperForServerSds.2
+            @Override // io.grpc.xds.XdsClient.ListenerWatcher
+            public void onListenerChanged(XdsClient.ListenerUpdate listenerUpdate) {
+                XdsClientWrapperForServerSds.logger.log(Level.INFO, "Setting myListener from ConfigUpdate listener: {0}", listenerUpdate.getListener());
+                XdsClientWrapperForServerSds.this.curListener = listenerUpdate.getListener();
+            }
+
+            @Override // io.grpc.xds.XdsClient.ResourceWatcher
+            public void onResourceDoesNotExist(String str) {
+                XdsClientWrapperForServerSds.logger.log(Level.INFO, "Resource {0} is unavailable", str);
+                XdsClientWrapperForServerSds.this.curListener = null;
+            }
+
+            @Override // io.grpc.xds.XdsClient.ResourceWatcher
+            public void onError(Status status) {
+                XdsClientWrapperForServerSds.logger.log(Level.SEVERE, "ListenerWatcher in XdsClientWrapperForServerSds: {0}", status);
+            }
+        };
+        this.listenerWatcher = listenerWatcher;
+        xdsClient.watchListenerData(this.port, listenerWatcher);
+    }
+
+    @Nullable
+    public EnvoyServerProtoData.DownstreamTlsContext getDownstreamTlsContext(Channel channel) {
+        if (this.curListener != null && channel != null) {
+            SocketAddress socketAddressLocalAddress = channel.localAddress();
+            Preconditions.checkState(socketAddressLocalAddress instanceof InetSocketAddress, "Channel localAddress is expected to be InetSocketAddress");
+            InetSocketAddress inetSocketAddress = (InetSocketAddress) socketAddressLocalAddress;
+            Preconditions.checkState(this.port == inetSocketAddress.getPort(), "Channel localAddress port does not match requested listener port");
+            List<EnvoyServerProtoData.FilterChain> filterChains = this.curListener.getFilterChains();
+            FilterChainComparator filterChainComparator = new FilterChainComparator(inetSocketAddress);
+            EnvoyServerProtoData.FilterChain filterChain = filterChains.isEmpty() ? null : (EnvoyServerProtoData.FilterChain) Collections.max(filterChains, filterChainComparator);
+            if (filterChain != null && filterChainComparator.isMatching(filterChain.getFilterChainMatch())) {
+                return filterChain.getDownstreamTlsContext();
+            }
+        }
+        return null;
+    }
+
+    private static final class FilterChainComparator implements Comparator<EnvoyServerProtoData.FilterChain> {
+        private final InetSocketAddress localAddress;
+
+        private enum Match {
+            NO_MATCH,
+            EMPTY_PREFIX_RANGE_MATCH,
+            IPANY_MATCH,
+            EXACT_ADDRESS_MATCH
+        }
+
+        private FilterChainComparator(InetSocketAddress inetSocketAddress) {
+            Preconditions.checkNotNull(inetSocketAddress, "localAddress cannot be null");
+            this.localAddress = inetSocketAddress;
+        }
+
+        @Override // java.util.Comparator
+        public int compare(EnvoyServerProtoData.FilterChain filterChain, EnvoyServerProtoData.FilterChain filterChain2) {
+            Preconditions.checkNotNull(filterChain, "first arg cannot be null");
+            Preconditions.checkNotNull(filterChain2, "second arg cannot be null");
+            EnvoyServerProtoData.FilterChainMatch filterChainMatch = filterChain.getFilterChainMatch();
+            EnvoyServerProtoData.FilterChainMatch filterChainMatch2 = filterChain2.getFilterChainMatch();
+            if (filterChainMatch == null) {
+                if (filterChainMatch2 == null) {
+                    return 0;
+                }
+                return isMatching(filterChainMatch2) ? -1 : 1;
+            }
+            if (filterChainMatch2 == null) {
+                return isMatching(filterChainMatch) ? 1 : -1;
+            }
+            return compare(filterChainMatch, filterChainMatch2);
+        }
+
+        private int compare(EnvoyServerProtoData.FilterChainMatch filterChainMatch, EnvoyServerProtoData.FilterChainMatch filterChainMatch2) {
+            int port = this.localAddress.getPort();
+            if (filterChainMatch.getDestinationPort() != port) {
+                return (filterChainMatch2.getDestinationPort() == port && isInetAddressMatching(filterChainMatch2.getPrefixRanges())) ? -1 : 0;
+            }
+            if (filterChainMatch2.getDestinationPort() == port) {
+                return compare(filterChainMatch.getPrefixRanges(), filterChainMatch2.getPrefixRanges());
+            }
+            return isInetAddressMatching(filterChainMatch.getPrefixRanges()) ? 1 : 0;
+        }
+
+        private int compare(List<EnvoyServerProtoData.CidrRange> list, List<EnvoyServerProtoData.CidrRange> list2) {
+            return getInetAddressMatch(list).ordinal() - getInetAddressMatch(list2).ordinal();
+        }
+
+        private boolean isInetAddressMatching(List<EnvoyServerProtoData.CidrRange> list) {
+            return getInetAddressMatch(list).ordinal() > Match.NO_MATCH.ordinal();
+        }
+
+        private Match getInetAddressMatch(List<EnvoyServerProtoData.CidrRange> list) throws UnknownHostException {
+            if (list == null || list.isEmpty()) {
+                return Match.EMPTY_PREFIX_RANGE_MATCH;
+            }
+            InetAddress address = this.localAddress.getAddress();
+            for (EnvoyServerProtoData.CidrRange cidrRange : list) {
+                if (cidrRange.getPrefixLen() == 32) {
+                    try {
+                        InetAddress byName = InetAddress.getByName(cidrRange.getAddressPrefix());
+                        if (byName.isAnyLocalAddress()) {
+                            return Match.IPANY_MATCH;
+                        }
+                        if (byName.equals(address)) {
+                            return Match.EXACT_ADDRESS_MATCH;
+                        }
+                    } catch (UnknownHostException e) {
+                        XdsClientWrapperForServerSds.logger.log(Level.WARNING, "cidrRange address parsing", (Throwable) e);
+                    }
+                }
+            }
+            return Match.NO_MATCH;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public boolean isMatching(EnvoyServerProtoData.FilterChainMatch filterChainMatch) {
+            if (filterChainMatch == null) {
+                return true;
+            }
+            if (filterChainMatch.getDestinationPort() != this.localAddress.getPort()) {
+                return false;
+            }
+            return isInetAddressMatching(filterChainMatch.getPrefixRanges());
+        }
+    }
+
+    public void shutdown() {
+        logger.log(Level.FINER, "Shutdown");
+        XdsClient xdsClient = this.xdsClient;
+        if (xdsClient != null) {
+            xdsClient.shutdown();
+            this.xdsClient = null;
+        }
+        ScheduledExecutorService scheduledExecutorService = this.timeService;
+        if (scheduledExecutorService != null) {
+            this.timeService = (ScheduledExecutorService) SharedResourceHolder.release(timeServiceResource, scheduledExecutorService);
+        }
+    }
+
+    private static final class TimeServiceResource implements SharedResourceHolder.Resource<ScheduledExecutorService> {
+        private final String name;
+
+        TimeServiceResource(String str) {
+            this.name = str;
+        }
+
+        @Override // io.grpc.internal.SharedResourceHolder.Resource
+        public ScheduledExecutorService create() {
+            DefaultThreadFactory defaultThreadFactory = new DefaultThreadFactory(this.name, true);
+            if (Epoll.isAvailable()) {
+                return new EpollEventLoopGroup(1, defaultThreadFactory);
+            }
+            return Executors.newSingleThreadScheduledExecutor(defaultThreadFactory);
+        }
+
+        @Override // io.grpc.internal.SharedResourceHolder.Resource
+        public void close(ScheduledExecutorService scheduledExecutorService) {
+            try {
+                if (scheduledExecutorService instanceof EpollEventLoopGroup) {
+                    ((EpollEventLoopGroup) scheduledExecutorService).shutdownGracefully(0L, 0L, TimeUnit.SECONDS).sync();
+                } else {
+                    scheduledExecutorService.shutdown();
+                }
+            } catch (InterruptedException e) {
+                XdsClientWrapperForServerSds.logger.log(Level.SEVERE, "Interrupted during shutdown", (Throwable) e);
+                Thread.currentThread().interrupt();
+            }
+        }
+    }
+}

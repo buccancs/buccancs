@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/extensions/WebSocketServerExtensionHandshaker.java
+// Size: 271 bytes
+// Modified: 2025-10-21 16:32:03.390019100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.extensions;
+
+/* loaded from: classes3.dex */
+public interface WebSocketServerExtensionHandshaker {
+    WebSocketServerExtension handshakeExtension(WebSocketExtensionData webSocketExtensionData);
+}

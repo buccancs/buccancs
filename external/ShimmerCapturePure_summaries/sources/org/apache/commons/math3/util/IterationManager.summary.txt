@@ -1,0 +1,90 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/util/IterationManager.java
+// Size: 3270 bytes
+// Modified: 2025-10-21 16:32:05.600169900 +0100
+
+package org.apache.commons.math3.util;
+
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.concurrent.CopyOnWriteArrayList;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.util.Incrementor;
+import org.apache.commons.math3.util.IntegerSequence;
+
+/* loaded from: classes5.dex */
+public class IterationManager {
+    private IntegerSequence.Incrementor iterations;
+    private final Collection<IterationListener> listeners;
+
+    public IterationManager(int i) {
+        this.iterations = IntegerSequence.Incrementor.create().withMaximalCount(i);
+        this.listeners = new CopyOnWriteArrayList();
+    }
+
+    @Deprecated
+    public IterationManager(int i, final Incrementor.MaxCountExceededCallback maxCountExceededCallback) {
+        this(i, new IntegerSequence.Incrementor.MaxCountExceededCallback() { // from class: org.apache.commons.math3.util.IterationManager.1
+            @Override // org.apache.commons.math3.util.IntegerSequence.Incrementor.MaxCountExceededCallback
+            public void trigger(int i2) throws MaxCountExceededException {
+                maxCountExceededCallback.trigger(i2);
+            }
+        });
+    }
+
+    public IterationManager(int i, IntegerSequence.Incrementor.MaxCountExceededCallback maxCountExceededCallback) {
+        this.iterations = IntegerSequence.Incrementor.create().withMaximalCount(i).withCallback(maxCountExceededCallback);
+        this.listeners = new CopyOnWriteArrayList();
+    }
+
+    public void addIterationListener(IterationListener iterationListener) {
+        this.listeners.add(iterationListener);
+    }
+
+    public void fireInitializationEvent(IterationEvent iterationEvent) {
+        Iterator<IterationListener> it2 = this.listeners.iterator();
+        while (it2.hasNext()) {
+            it2.next().initializationPerformed(iterationEvent);
+        }
+    }
+
+    public void fireIterationPerformedEvent(IterationEvent iterationEvent) {
+        Iterator<IterationListener> it2 = this.listeners.iterator();
+        while (it2.hasNext()) {
+            it2.next().iterationPerformed(iterationEvent);
+        }
+    }
+
+    public void fireIterationStartedEvent(IterationEvent iterationEvent) {
+        Iterator<IterationListener> it2 = this.listeners.iterator();
+        while (it2.hasNext()) {
+            it2.next().iterationStarted(iterationEvent);
+        }
+    }
+
+    public void fireTerminationEvent(IterationEvent iterationEvent) {
+        Iterator<IterationListener> it2 = this.listeners.iterator();
+        while (it2.hasNext()) {
+            it2.next().terminationPerformed(iterationEvent);
+        }
+    }
+
+    public int getIterations() {
+        return this.iterations.getCount();
+    }
+
+    public int getMaxIterations() {
+        return this.iterations.getMaximalCount();
+    }
+
+    public void incrementIterationCount() throws MaxCountExceededException {
+        this.iterations.increment();
+    }
+
+    public void removeIterationListener(IterationListener iterationListener) {
+        this.listeners.remove(iterationListener);
+    }
+
+    public void resetIterationCount() {
+        this.iterations = this.iterations.withStart(0);
+    }
+}

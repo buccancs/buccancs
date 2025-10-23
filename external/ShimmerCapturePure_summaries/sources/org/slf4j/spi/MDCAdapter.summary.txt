@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/slf4j/spi/MDCAdapter.java
+// Size: 344 bytes
+// Modified: 2025-10-21 16:32:14.619784600 +0100
+
+package org.slf4j.spi;
+
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public interface MDCAdapter {
+    void clear();
+
+    String get(String str);
+
+    Map<String, String> getCopyOfContextMap();
+
+    void put(String str, String str2);
+
+    void remove(String str);
+
+    void setContextMap(Map<String, String> map);
+}

@@ -1,0 +1,190 @@
+package org.bouncycastle.crypto.digests;
+
+import com.fasterxml.jackson.core.json.ByteSourceJsonBootstrapper;
+import com.google.common.base.Ascii;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.sensors.adxl371.SensorADXL371;
+import com.shimmerresearch.sensors.lisxmdl.SensorLIS3MDL;
+import com.shimmerresearch.sensors.lsm6dsv.SensorLSM6DSV;
+import org.bouncycastle.crypto.ExtendedDigest;
+import org.bouncycastle.crypto.signers.PSSSigner;
+import org.bouncycastle.util.Memoable;
+
+/* loaded from: classes5.dex */
+public class MD2Digest implements ExtendedDigest, Memoable {
+    private static final int DIGEST_LENGTH = 16;
+    private static final byte[] S = {ShimmerObject.SET_ECG_CALIBRATION_COMMAND, ShimmerObject.GET_FW_VERSION_COMMAND, 67, -55, ShimmerObject.BT_FW_VERSION_STR_RESPONSE, -40, ShimmerObject.SET_EXPID_COMMAND, 1, 61, ShimmerObject.GET_BUFFER_SIZE_COMMAND, 84, ShimmerObject.GET_BT_FW_VERSION_STR_COMMAND, -20, -16, 6, 19, ShimmerObject.EXG_REGS_RESPONSE, -89, 5, -13, -64, -57, ShimmerObject.SET_TRIAL_CONFIG_COMMAND, ShimmerObject.SET_INFOMEM_COMMAND, ShimmerObject.SET_CALIB_DUMP_COMMAND, ShimmerObject.STOP_LOGGING_ONLY_COMMAND, ShimmerObject.GET_ECG_CALIBRATION_COMMAND, -39, PSSSigner.TRAILER_IMPLICIT, 76, ShimmerObject.SET_NSHIMMER_COMMAND, -54, Ascii.RS, ShimmerObject.UPD_CALIB_DUMP_COMMAND, 87, 60, -3, -44, ShimmerObject.ROUTINE_COMMUNICATION, 22, 103, 66, ShimmerObject.GET_DERIVED_CHANNEL_BYTES, 24, ShimmerObject.INSTREAM_CMD_RESPONSE, 23, -27, 18, -66, 78, -60, -42, -38, -98, -34, 73, ShimmerObject.GET_BMP280_CALIBRATION_COEFFICIENTS_COMMAND, -5, -11, ShimmerObject.GET_INFOMEM_COMMAND, ByteSourceJsonBootstrapper.UTF8_BOM_2, ShimmerObject.FW_VERSION_RESPONSE, -18, ShimmerObject.SHIMMERNAME_RESPONSE, SensorADXL371.SET_ALT_ACCEL_CALIBRATION_COMMAND, 104, ShimmerObject.SET_SHIMMERNAME_COMMAND, ShimmerObject.GET_RWC_COMMAND, 21, SensorLIS3MDL.SET_ALT_MAG_SAMPLING_RATE_COMMAND, 7, ShimmerObject.GET_SHIMMER_VERSION_COMMAND_NEW, -108, -62, 16, ShimmerObject.GET_DIR_COMMAND, 11, 34, ShimmerObject.INTERNAL_EXP_POWER_ENABLE_RESPONSE, 33, -128, 127, 93, ShimmerObject.GET_CALIB_DUMP_COMMAND, 90, ShimmerObject.RWC_RESPONSE, ShimmerObject.GET_BLINK_LED, ShimmerObject.EMG_CALIBRATION_RESPONSE, ShimmerObject.BUFFER_SIZE_RESPONSE, 62, -52, -25, ByteSourceJsonBootstrapper.UTF8_BOM_3, -9, ShimmerObject.STOP_SDBT_COMMAND, 3, -1, 25, ShimmerObject.SET_BLINK_LED, SensorLIS3MDL.ALT_MAG_SAMPLING_RATE_RESPONSE, 72, -91, -75, -47, -41, ShimmerObject.SET_INTERNAL_EXP_POWER_ENABLE_COMMAND, ShimmerObject.START_LOGGING_ONLY_COMMAND, ShimmerObject.ECG_CALIBRATION_RESPONSE, SensorADXL371.SET_ALT_ACCEL_SAMPLING_RATE_COMMAND, 86, SensorADXL371.ALT_ACCEL_CALIBRATION_RESPONSE, -58, SensorLSM6DSV.SET_ALT_ACCEL_RANGE_COMMAND, -72, 56, -46, ShimmerObject.TEST_CONNECTION_COMMAND, -92, ShimmerObject.EXPID_RESPONSE, -74, ShimmerObject.SET_CENTER_COMMAND, -4, ShimmerObject.BAUD_RATE_RESPONSE, -30, ShimmerObject.UPD_SDLOG_CFG_COMMAND, ShimmerObject.TRIAL_CONFIG_RESPONSE, 4, -15, 69, -99, ShimmerObject.START_SDBT_COMMAND, 89, 100, ShimmerObject.STATUS_RESPONSE, ShimmerObject.GET_CONFIGTIME_COMMAND, 32, ShimmerObject.CONFIGTIME_RESPONSE, ShimmerObject.RESET_CALIBRATION_VALUE_COMMAND, -49, ShimmerObject.DAUGHTER_CARD_ID_RESPONSE, -26, ShimmerObject.ALL_CALIBRATION_RESPONSE, ShimmerObject.SET_TEST, 2, 27, ShimmerObject.GET_INTERNAL_EXP_POWER_ENABLE_COMMAND, ShimmerObject.GET_SHIMMER_VERSION_RESPONSE, SensorADXL371.ALT_ACCEL_SAMPLING_RATE_RESPONSE, SensorADXL371.GET_ALT_ACCEL_SAMPLING_RATE_COMMAND, SensorLIS3MDL.ALT_MAG_CALIBRATION_RESPONSE, -71, -10, 28, 70, ShimmerObject.SET_EXG_REGS_COMMAND, 105, ShimmerObject.SET_BUFFER_SIZE_COMMAND, 64, ShimmerObject.GET_EXPID_COMMAND, 15, 85, 71, -93, 35, -35, SensorLSM6DSV.GET_ALT_ACCEL_RANGE_COMMAND, SensorLIS3MDL.SET_ALT_MAG_CALIBRATION_COMMAND, 58, -61, 92, -7, -50, -70, -59, -22, ShimmerObject.SET_EMG_CALIBRATION_COMMAND, 44, 83, 13, ShimmerObject.DERIVED_CHANNEL_BYTES_RESPONSE, ShimmerObject.SET_CONFIGTIME_COMMAND, ShimmerObject.GET_EMG_CALIBRATION_COMMAND, ShimmerObject.GET_NSHIMMER_COMMAND, 9, -45, -33, -51, -12, 65, ShimmerObject.GET_MYID_COMMAND, 77, 82, ShimmerObject.SET_BAUD_RATE_COMMAND, -36, 55, -56, ShimmerObject.GET_BAUD_RATE_COMMAND, -63, SensorADXL371.GET_ALT_ACCEL_CALIBRATION_COMMAND, -6, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, -31, ShimmerObject.GET_SHIMMERNAME_COMMAND, 8, 12, -67, SensorLIS3MDL.GET_ALT_MAG_CALIBRATION_COMMAND, 74, ShimmerObject.GET_CENTER_COMMAND, ShimmerObject.DIR_RESPONSE, -107, ShimmerObject.SET_CRC_COMMAND, -29, ShimmerObject.GET_EXG_REGS_COMMAND, -24, ShimmerObject.SET_DERIVED_CHANNEL_BYTES, -23, -53, -43, -2, 59, 0, Ascii.GS, 57, -14, ByteSourceJsonBootstrapper.UTF8_BOM_1, -73, 14, ShimmerObject.GET_DAUGHTER_CARD_ID_COMMAND, 88, -48, -28, -90, ShimmerObject.CENTER_RESPONSE, ShimmerObject.GET_STATUS_COMMAND, -8, -21, ShimmerObject.GET_TRIAL_CONFIG_COMMAND, 75, 10, ShimmerObject.BLINK_LED_RESPONSE, 68, SensorLSM6DSV.ALT_ACCEL_RANGE_RESPONSE, SensorLIS3MDL.GET_ALT_MAG_SAMPLING_RATE_COMMAND, ShimmerObject.SET_RWC_COMMAND, -19, Ascii.US, 26, -37, ShimmerObject.RSP_CALIB_DUMP_COMMAND, ShimmerObject.INFOMEM_RESPONSE, 51, ShimmerObject.BMP280_CALIBRATION_COEFFICIENTS_RESPONSE, 17, ShimmerObject.NSHIMMER_RESPONSE, 20};
+    private byte[] C;
+    private int COff;
+    private byte[] M;
+    private byte[] X;
+    private int mOff;
+    private int xOff;
+
+    public MD2Digest() {
+        this.X = new byte[48];
+        this.M = new byte[16];
+        this.C = new byte[16];
+        reset();
+    }
+
+    public MD2Digest(MD2Digest mD2Digest) {
+        this.X = new byte[48];
+        this.M = new byte[16];
+        this.C = new byte[16];
+        copyIn(mD2Digest);
+    }
+
+    private void copyIn(MD2Digest mD2Digest) {
+        byte[] bArr = mD2Digest.X;
+        System.arraycopy(bArr, 0, this.X, 0, bArr.length);
+        this.xOff = mD2Digest.xOff;
+        byte[] bArr2 = mD2Digest.M;
+        System.arraycopy(bArr2, 0, this.M, 0, bArr2.length);
+        this.mOff = mD2Digest.mOff;
+        byte[] bArr3 = mD2Digest.C;
+        System.arraycopy(bArr3, 0, this.C, 0, bArr3.length);
+        this.COff = mD2Digest.COff;
+    }
+
+    @Override // org.bouncycastle.util.Memoable
+    public Memoable copy() {
+        return new MD2Digest(this);
+    }
+
+    @Override // org.bouncycastle.crypto.Digest
+    public int doFinal(byte[] bArr, int i) {
+        int length = this.M.length;
+        int i2 = this.mOff;
+        byte b = (byte) (length - i2);
+        while (true) {
+            byte[] bArr2 = this.M;
+            if (i2 >= bArr2.length) {
+                processCheckSum(bArr2);
+                processBlock(this.M);
+                processBlock(this.C);
+                System.arraycopy(this.X, this.xOff, bArr, i, 16);
+                reset();
+                return 16;
+            }
+            bArr2[i2] = b;
+            i2++;
+        }
+    }
+
+    @Override // org.bouncycastle.crypto.Digest
+    public String getAlgorithmName() {
+        return "MD2";
+    }
+
+    @Override // org.bouncycastle.crypto.ExtendedDigest
+    public int getByteLength() {
+        return 16;
+    }
+
+    @Override // org.bouncycastle.crypto.Digest
+    public int getDigestSize() {
+        return 16;
+    }
+
+    protected void processBlock(byte[] bArr) {
+        for (int i = 0; i < 16; i++) {
+            byte[] bArr2 = this.X;
+            bArr2[i + 16] = bArr[i];
+            bArr2[i + 32] = (byte) (bArr[i] ^ bArr2[i]);
+        }
+        int i2 = 0;
+        for (int i3 = 0; i3 < 18; i3++) {
+            for (int i4 = 0; i4 < 48; i4++) {
+                byte[] bArr3 = this.X;
+                byte b = (byte) (S[i2] ^ bArr3[i4]);
+                bArr3[i4] = b;
+                i2 = b & 255;
+            }
+            i2 = (i2 + i3) % 256;
+        }
+    }
+
+    protected void processCheckSum(byte[] bArr) {
+        byte b = this.C[15];
+        for (int i = 0; i < 16; i++) {
+            byte[] bArr2 = this.C;
+            b = (byte) (S[(b ^ bArr[i]) & 255] ^ bArr2[i]);
+            bArr2[i] = b;
+        }
+    }
+
+    @Override // org.bouncycastle.crypto.Digest
+    public void reset() {
+        this.xOff = 0;
+        int i = 0;
+        while (true) {
+            byte[] bArr = this.X;
+            if (i == bArr.length) {
+                break;
+            }
+            bArr[i] = 0;
+            i++;
+        }
+        this.mOff = 0;
+        int i2 = 0;
+        while (true) {
+            byte[] bArr2 = this.M;
+            if (i2 == bArr2.length) {
+                break;
+            }
+            bArr2[i2] = 0;
+            i2++;
+        }
+        this.COff = 0;
+        int i3 = 0;
+        while (true) {
+            byte[] bArr3 = this.C;
+            if (i3 == bArr3.length) {
+                return;
+            }
+            bArr3[i3] = 0;
+            i3++;
+        }
+    }
+
+    @Override // org.bouncycastle.util.Memoable
+    public void reset(Memoable memoable) {
+        copyIn((MD2Digest) memoable);
+    }
+
+    @Override // org.bouncycastle.crypto.Digest
+    public void update(byte b) {
+        byte[] bArr = this.M;
+        int i = this.mOff;
+        int i2 = i + 1;
+        this.mOff = i2;
+        bArr[i] = b;
+        if (i2 == 16) {
+            processCheckSum(bArr);
+            processBlock(this.M);
+            this.mOff = 0;
+        }
+    }
+
+    @Override // org.bouncycastle.crypto.Digest
+    public void update(byte[] bArr, int i, int i2) {
+        while (this.mOff != 0 && i2 > 0) {
+            update(bArr[i]);
+            i++;
+            i2--;
+        }
+        while (i2 > 16) {
+            System.arraycopy(bArr, i, this.M, 0, 16);
+            processCheckSum(this.M);
+            processBlock(this.M);
+            i2 -= 16;
+            i += 16;
+        }
+        while (i2 > 0) {
+            update(bArr[i]);
+            i++;
+            i2--;
+        }
+    }
+}

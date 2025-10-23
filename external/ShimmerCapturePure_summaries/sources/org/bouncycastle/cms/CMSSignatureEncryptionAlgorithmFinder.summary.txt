@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cms/CMSSignatureEncryptionAlgorithmFinder.java
+// Size: 276 bytes
+// Modified: 2025-10-21 16:32:04.797698600 +0100
+
+package org.bouncycastle.cms;
+
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
+
+/* loaded from: classes5.dex */
+public interface CMSSignatureEncryptionAlgorithmFinder {
+    AlgorithmIdentifier findEncryptionAlgorithm(AlgorithmIdentifier algorithmIdentifier);
+}

@@ -1,0 +1,68 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/AbstractInboundHttp2ToHttpAdapterBuilder.java
+// Size: 2167 bytes
+// Modified: 2025-10-21 16:32:09.294017900 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.http2.AbstractInboundHttp2ToHttpAdapterBuilder;
+import io.grpc.netty.shaded.io.netty.handler.codec.http2.InboundHttp2ToHttpAdapter;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractInboundHttp2ToHttpAdapterBuilder<T extends InboundHttp2ToHttpAdapter, B extends AbstractInboundHttp2ToHttpAdapterBuilder<T, B>> {
+    private final Http2Connection connection;
+    private int maxContentLength;
+    private boolean propagateSettings;
+    private boolean validateHttpHeaders;
+
+    protected abstract T build(Http2Connection http2Connection, int i, boolean z, boolean z2) throws Exception;
+
+    protected Http2Connection connection() {
+        return this.connection;
+    }
+
+    protected boolean isPropagateSettings() {
+        return this.propagateSettings;
+    }
+
+    protected boolean isValidateHttpHeaders() {
+        return this.validateHttpHeaders;
+    }
+
+    protected int maxContentLength() {
+        return this.maxContentLength;
+    }
+
+    protected final B self() {
+        return this;
+    }
+
+    protected AbstractInboundHttp2ToHttpAdapterBuilder(Http2Connection http2Connection) {
+        this.connection = (Http2Connection) ObjectUtil.checkNotNull(http2Connection, "connection");
+    }
+
+    protected B maxContentLength(int i) {
+        this.maxContentLength = i;
+        return (B) self();
+    }
+
+    protected B validateHttpHeaders(boolean z) {
+        this.validateHttpHeaders = z;
+        return (B) self();
+    }
+
+    protected B propagateSettings(boolean z) {
+        this.propagateSettings = z;
+        return (B) self();
+    }
+
+    protected T build() {
+        try {
+            T t = (T) build(connection(), maxContentLength(), isValidateHttpHeaders(), isPropagateSettings());
+            this.connection.addListener(t);
+            return t;
+        } catch (Throwable th) {
+            throw new IllegalStateException("failed to create a new InboundHttp2ToHttpAdapter", th);
+        }
+    }
+}

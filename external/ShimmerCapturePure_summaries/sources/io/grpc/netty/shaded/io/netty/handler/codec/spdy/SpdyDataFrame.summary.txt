@@ -1,0 +1,42 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdyDataFrame.java
+// Size: 1514 bytes
+// Modified: 2025-10-21 16:32:04.595718700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder;
+
+/* loaded from: classes3.dex */
+public interface SpdyDataFrame extends ByteBufHolder, SpdyStreamFrame {
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
+    ByteBuf content();
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
+    SpdyDataFrame copy();
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
+    SpdyDataFrame duplicate();
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
+    SpdyDataFrame replace(ByteBuf byteBuf);
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder, io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    SpdyDataFrame retain();
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder, io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    SpdyDataFrame retain(int i);
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
+    SpdyDataFrame retainedDuplicate();
+
+    SpdyDataFrame setLast(boolean z);
+
+    SpdyDataFrame setStreamId(int i);
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder, io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    SpdyDataFrame touch();
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder, io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    SpdyDataFrame touch(Object obj);
+}

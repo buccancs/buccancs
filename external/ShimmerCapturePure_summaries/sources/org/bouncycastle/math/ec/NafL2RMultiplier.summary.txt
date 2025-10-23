@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/math/ec/NafL2RMultiplier.java
+// Size: 939 bytes
+// Modified: 2025-10-21 16:32:10.003020600 +0100
+
+package org.bouncycastle.math.ec;
+
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public class NafL2RMultiplier extends AbstractECMultiplier {
+    @Override // org.bouncycastle.math.ec.AbstractECMultiplier
+    protected ECPoint multiplyPositive(ECPoint eCPoint, BigInteger bigInteger) {
+        int[] iArrGenerateCompactNaf = WNafUtil.generateCompactNaf(bigInteger);
+        ECPoint eCPointNormalize = eCPoint.normalize();
+        ECPoint eCPointNegate = eCPointNormalize.negate();
+        ECPoint infinity = eCPoint.getCurve().getInfinity();
+        int length = iArrGenerateCompactNaf.length;
+        while (true) {
+            length--;
+            if (length < 0) {
+                return infinity;
+            }
+            int i = iArrGenerateCompactNaf[length];
+            infinity = infinity.twicePlus((i >> 16) < 0 ? eCPointNegate : eCPointNormalize).timesPow2(i & 65535);
+        }
+    }
+}

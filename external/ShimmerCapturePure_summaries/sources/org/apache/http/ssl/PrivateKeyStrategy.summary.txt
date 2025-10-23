@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/ssl/PrivateKeyStrategy.java
+// Size: 233 bytes
+// Modified: 2025-10-21 16:32:01.803670600 +0100
+
+package org.apache.http.ssl;
+
+import java.net.Socket;
+import java.util.Map;
+
+/* loaded from: classes5.dex */
+public interface PrivateKeyStrategy {
+    String chooseAlias(Map<String, PrivateKeyDetails> map, Socket socket);
+}

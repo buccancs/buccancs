@@ -1,0 +1,26 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+
+/* loaded from: classes3.dex */
+public interface TcpKeepaliveOrBuilder extends MessageOrBuilder {
+    UInt32Value getKeepaliveInterval();
+
+    UInt32ValueOrBuilder getKeepaliveIntervalOrBuilder();
+
+    UInt32Value getKeepaliveProbes();
+
+    UInt32ValueOrBuilder getKeepaliveProbesOrBuilder();
+
+    UInt32Value getKeepaliveTime();
+
+    UInt32ValueOrBuilder getKeepaliveTimeOrBuilder();
+
+    boolean hasKeepaliveInterval();
+
+    boolean hasKeepaliveProbes();
+
+    boolean hasKeepaliveTime();
+}

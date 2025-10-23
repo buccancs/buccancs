@@ -1,0 +1,1372 @@
+package com.shimmerresearch.sensors.mpu9x50;
+
+import com.shimmerresearch.bluetooth.BtCommandDetails;
+import com.shimmerresearch.driver.ConfigByteLayout;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driver.calibration.CalibDetailsKinematic;
+import com.shimmerresearch.driver.calibration.UtilCalibration;
+import com.shimmerresearch.driver.shimmer2r3.ConfigByteLayoutShimmer3;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.UtilParseData;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.ActionSetting;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+/* loaded from: classes2.dex */
+public abstract class SensorMPU9X50 extends AbstractSensor implements Serializable {
+    public static final byte GET_GYRO_CALIBRATION_COMMAND = 22;
+    public static final byte GET_MPU9150_GYRO_RANGE_COMMAND = 75;
+    public static final byte GET_MPU9150_MAG_SENS_ADJ_VALS_COMMAND = 93;
+    public static final byte GET_MPU9150_SAMPLING_RATE_COMMAND = 78;
+    public static final byte GYRO_CALIBRATION_RESPONSE = 21;
+    public static final String[] ListofGyroRange;
+    public static final String[] ListofMPU9150MplCalibrationOptions;
+    public static final Integer[] ListofMPU9150MplCalibrationOptionsConfigValues;
+    public static final String[] ListofMPU9150MplLpfOptions;
+    public static final Integer[] ListofMPU9150MplLpfOptionsConfigValues;
+    public static final String[] ListofMPU9150MplRate;
+    public static final Integer[] ListofMPU9150MplRateConfigValues;
+    public static final String[] ListofMPU9X50AccelRange;
+    public static final Integer[] ListofMPU9X50AccelRangeConfigValues;
+    public static final Integer[] ListofMPU9X50GyroRangeConfigValues;
+    public static final String[] ListofMPU9X50MagRate;
+    public static final Integer[] ListofMPU9X50MagRateConfigValues;
+    public static final byte MPU9150_GYRO_RANGE_RESPONSE = 74;
+    public static final byte MPU9150_MAG_SENS_ADJ_VALS_RESPONSE = 92;
+    public static final byte MPU9150_SAMPLING_RATE_RESPONSE = 77;
+    public static final byte SET_GYRO_CALIBRATION_COMMAND = 20;
+    public static final byte SET_GYRO_TEMP_VREF_COMMAND = 51;
+    public static final byte SET_MPU9150_GYRO_RANGE_COMMAND = 73;
+    public static final byte SET_MPU9150_SAMPLING_RATE_COMMAND = 76;
+    public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
+    public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
+    public static final List<Integer> mListOfMplChannels;
+    public static final Map<Integer, SensorDetailsRef> mSensorMapRefCommon;
+    public static final SensorDetailsRef sensorMpu9150MplAccel;
+    public static final SensorDetailsRef sensorMpu9150MplEuler6Dof;
+    public static final SensorDetailsRef sensorMpu9150MplEuler9Dof;
+    public static final SensorDetailsRef sensorMpu9150MplGyro;
+    public static final SensorDetailsRef sensorMpu9150MplHeading;
+    public static final SensorDetailsRef sensorMpu9150MplMag;
+    public static final SensorDetailsRef sensorMpu9150MplMotion;
+    public static final SensorDetailsRef sensorMpu9150MplPedometer;
+    public static final SensorDetailsRef sensorMpu9150MplQuat6Dof;
+    public static final SensorDetailsRef sensorMpu9150MplQuat6DofRaw;
+    public static final SensorDetailsRef sensorMpu9150MplQuat9Dof;
+    public static final SensorDetailsRef sensorMpu9150MplTap;
+    public static final SensorDetailsRef sensorMpu9150TempRef;
+    public static final double[][] AlignmentMatrixGyroShimmer3 = {new double[]{0.0d, -1.0d, 0.0d}, new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+    public static final double[][] OffsetVectorGyroShimmer3 = {new double[]{0.0d}, new double[]{0.0d}, new double[]{0.0d}};
+    public static final double[][] SensitivityMatrixGyro250dpsShimmer3 = {new double[]{131.0d, 0.0d, 0.0d}, new double[]{0.0d, 131.0d, 0.0d}, new double[]{0.0d, 0.0d, 131.0d}};
+    public static final double[][] SensitivityMatrixGyro500dpsShimmer3 = {new double[]{65.5d, 0.0d, 0.0d}, new double[]{0.0d, 65.5d, 0.0d}, new double[]{0.0d, 0.0d, 65.5d}};
+    public static final double[][] SensitivityMatrixGyro1000dpsShimmer3 = {new double[]{32.8d, 0.0d, 0.0d}, new double[]{0.0d, 32.8d, 0.0d}, new double[]{0.0d, 0.0d, 32.8d}};
+    public static final double[][] SensitivityMatrixGyro2000dpsShimmer3 = {new double[]{16.4d, 0.0d, 0.0d}, new double[]{0.0d, 16.4d, 0.0d}, new double[]{0.0d, 0.0d, 16.4d}};
+    private static final long serialVersionUID = -1137540822708521997L;
+
+    static {
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put((byte) 22, new BtCommandDetails((byte) 22, "GET_GYRO CALIBRATION_COMMAND", (byte) 21));
+        linkedHashMap.put((byte) 75, new BtCommandDetails((byte) 75, "GET_MPU9150 GYRO RANGE_COMMAND", (byte) 74));
+        linkedHashMap.put((byte) 78, new BtCommandDetails((byte) 78, "GET_MPU9150_SAMPLING_RATE_COMMAND", (byte) 77));
+        linkedHashMap.put((byte) 93, new BtCommandDetails((byte) 93, "GET_MPU9150_MAG_SENS_ADJ_VALS_COMMAND", (byte) 92));
+        mBtGetCommandMap = Collections.unmodifiableMap(linkedHashMap);
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put((byte) 20, new BtCommandDetails((byte) 20, "SET_GYRO_CALIBRATION_COMMAND"));
+        linkedHashMap2.put((byte) 73, new BtCommandDetails((byte) 73, "SET_MPU9150_GYRO_RANGE_COMMAND"));
+        linkedHashMap2.put((byte) 76, new BtCommandDetails((byte) 76, "SET_MPU9150_SAMPLING_RATE_COMMAND"));
+        linkedHashMap2.put((byte) 51, new BtCommandDetails((byte) 51, "SET_GYRO_TEMP_VREF_COMMAND"));
+        mBtSetCommandMap = Collections.unmodifiableMap(linkedHashMap2);
+        ListofGyroRange = new String[]{"+/- 250dps", "+/- 500dps", "+/- 1000dps", "+/- 2000dps"};
+        ListofMPU9X50GyroRangeConfigValues = new Integer[]{0, 1, 2, 3};
+        ListofMPU9X50AccelRange = new String[]{"+/- 2g", "+/- 4g", "+/- 8g", "+/- 16g"};
+        ListofMPU9X50AccelRangeConfigValues = new Integer[]{0, 1, 2, 3};
+        ListofMPU9X50MagRate = new String[]{"10.0Hz", "20.0Hz", "40.0Hz", "50.0Hz", "100.0Hz"};
+        ListofMPU9X50MagRateConfigValues = new Integer[]{0, 1, 2, 3, 4};
+        ListofMPU9150MplCalibrationOptions = new String[]{"No Cal", "Fast Cal", "1s no motion", "2s no motion", "5s no motion", "10s no motion", "30s no motion", "60s no motion"};
+        ListofMPU9150MplCalibrationOptionsConfigValues = new Integer[]{0, 1, 2, 3, 4, 5, 6, 7};
+        ListofMPU9150MplLpfOptions = new String[]{"No LPF", "188.0Hz", "98.0Hz", "42.0Hz", "20.0Hz", "10.0Hz", "5.0Hz"};
+        ListofMPU9150MplLpfOptionsConfigValues = new Integer[]{0, 1, 2, 3, 4, 5, 6};
+        ListofMPU9150MplRate = new String[]{"10.0Hz", "20.0Hz", "40.0Hz", "50.0Hz", "100.0Hz"};
+        ListofMPU9150MplRateConfigValues = new Integer[]{0, 1, 2, 3, 4};
+        mListOfMplChannels = Arrays.asList(35, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61);
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(131072L, 131072L, "MPU Temp", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.MPL_TEMPERATURE), false);
+        sensorMpu9150TempRef = sensorDetailsRef;
+        SensorDetailsRef sensorDetailsRef2 = new SensorDetailsRef(0L, ShimmerObject.SDLogHeader.MPL_QUAT_6DOF, "MPU Quat 6DOF", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.QUAT_MPL_6DOF_W, ObjectClusterSensorName.QUAT_MPL_6DOF_X, ObjectClusterSensorName.QUAT_MPL_6DOF_Y, ObjectClusterSensorName.QUAT_MPL_6DOF_Z), false);
+        sensorMpu9150MplQuat6Dof = sensorDetailsRef2;
+        SensorDetailsRef sensorDetailsRef3 = new SensorDetailsRef(0L, 1073741824L, "MPU Quat 9DOF", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.QUAT_MPL_9DOF_W, ObjectClusterSensorName.QUAT_MPL_9DOF_X, ObjectClusterSensorName.QUAT_MPL_9DOF_Y, ObjectClusterSensorName.QUAT_MPL_9DOF_Z), false);
+        sensorMpu9150MplQuat9Dof = sensorDetailsRef3;
+        SensorDetailsRef sensorDetailsRef4 = new SensorDetailsRef(0L, 536870912L, "Euler Angles (6DOF)", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.EULER_MPL_6DOF_X, ObjectClusterSensorName.EULER_MPL_6DOF_Y, ObjectClusterSensorName.EULER_MPL_6DOF_Z), false);
+        sensorMpu9150MplEuler6Dof = sensorDetailsRef4;
+        SensorDetailsRef sensorDetailsRef5 = new SensorDetailsRef(0L, 268435456L, "Euler Angles (9DOF)", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.EULER_MPL_9DOF_X, ObjectClusterSensorName.EULER_MPL_9DOF_Y, ObjectClusterSensorName.EULER_MPL_9DOF_Z), false);
+        sensorMpu9150MplEuler9Dof = sensorDetailsRef5;
+        SensorDetailsRef sensorDetailsRef6 = new SensorDetailsRef(0L, 134217728L, "MPU Heading", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.MPL_HEADING), false);
+        sensorMpu9150MplHeading = sensorDetailsRef6;
+        SensorDetailsRef sensorDetailsRef7 = new SensorDetailsRef(0L, 67108864L, "MPL_Pedom_cnt", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.MPL_PEDOM_CNT, ObjectClusterSensorName.MPL_PEDOM_TIME), false);
+        sensorMpu9150MplPedometer = sensorDetailsRef7;
+        SensorDetailsRef sensorDetailsRef8 = new SensorDetailsRef(0L, 33554432L, "TapDirAndTapCnt", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.TAPDIR, ObjectClusterSensorName.TAPCNT), false);
+        sensorMpu9150MplTap = sensorDetailsRef8;
+        SensorDetailsRef sensorDetailsRef9 = new SensorDetailsRef(0L, 16777216L, "MotionAndOrient", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.MOTION, ObjectClusterSensorName.ORIENT), false);
+        sensorMpu9150MplMotion = sensorDetailsRef9;
+        SensorDetailsRef sensorDetailsRef10 = new SensorDetailsRef(0L, ShimmerObject.SDLogHeader.GYRO_MPU_MPL, "MPU Gyro", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, Arrays.asList(58), Arrays.asList("Gyro Range", "Gyro Sampling Rate", GuiLabelConfig.MPU9X50_MPL_LPF, GuiLabelConfig.MPU9X50_MPL_GYRO_CAL), Arrays.asList(ObjectClusterSensorName.GYRO_MPU_MPL_X, ObjectClusterSensorName.GYRO_MPU_MPL_Y, ObjectClusterSensorName.GYRO_MPU_MPL_Z), false);
+        sensorMpu9150MplGyro = sensorDetailsRef10;
+        SensorDetailsRef sensorDetailsRef11 = new SensorDetailsRef(0L, ShimmerObject.SDLogHeader.ACCEL_MPU_MPL, "MPU Accel", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, Arrays.asList(59), Arrays.asList(GuiLabelConfig.MPU9X50_ACCEL_RANGE, GuiLabelConfig.MPU9X50_MPL_LPF), Arrays.asList(ObjectClusterSensorName.ACCEL_MPU_MPL_X, ObjectClusterSensorName.ACCEL_MPU_MPL_Y, ObjectClusterSensorName.ACCEL_MPU_MPL_Z), false);
+        sensorMpu9150MplAccel = sensorDetailsRef11;
+        SensorDetailsRef sensorDetailsRef12 = new SensorDetailsRef(0L, ShimmerObject.SDLogHeader.MAG_MPU_MPL, "MPU Mag", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, Arrays.asList(60), Arrays.asList(GuiLabelConfig.MPU9X50_MPL_LPF), Arrays.asList(ObjectClusterSensorName.MAG_MPU_MPL_X, ObjectClusterSensorName.MAG_MPU_MPL_Y, ObjectClusterSensorName.MAG_MPU_MPL_Z), false);
+        sensorMpu9150MplMag = sensorDetailsRef12;
+        SensorDetailsRef sensorDetailsRef13 = new SensorDetailsRef(0L, ShimmerObject.SDLogHeader.SD_SENSOR_MPL_QUAT_6DOF_RAW, "MPU Quat 6DOF (from DMP)", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMPLSensors, null, Arrays.asList(GuiLabelConfig.MPU9X50_MPL_RATE), Arrays.asList(ObjectClusterSensorName.QUAT_DMP_6DOF_W, ObjectClusterSensorName.QUAT_DMP_6DOF_X, ObjectClusterSensorName.QUAT_DMP_6DOF_Y, ObjectClusterSensorName.QUAT_DMP_6DOF_Z), false);
+        sensorMpu9150MplQuat6DofRaw = sensorDetailsRef13;
+        LinkedHashMap linkedHashMap3 = new LinkedHashMap();
+        linkedHashMap3.put(35, sensorDetailsRef);
+        linkedHashMap3.put(50, sensorDetailsRef2);
+        linkedHashMap3.put(51, sensorDetailsRef3);
+        linkedHashMap3.put(52, sensorDetailsRef4);
+        linkedHashMap3.put(53, sensorDetailsRef5);
+        linkedHashMap3.put(54, sensorDetailsRef6);
+        linkedHashMap3.put(55, sensorDetailsRef7);
+        linkedHashMap3.put(56, sensorDetailsRef8);
+        linkedHashMap3.put(57, sensorDetailsRef9);
+        linkedHashMap3.put(58, sensorDetailsRef10);
+        linkedHashMap3.put(59, sensorDetailsRef11);
+        linkedHashMap3.put(60, sensorDetailsRef12);
+        linkedHashMap3.put(61, sensorDetailsRef13);
+        mSensorMapRefCommon = Collections.unmodifiableMap(linkedHashMap3);
+    }
+
+    public double[][] mAlignmentMatrixMagnetometer;
+    public CalibDetailsKinematic mCurrentCalibDetailsGyro;
+    public boolean mIsUsingDefaultGyroParam;
+    public double[][] mOffsetVectorMagnetometer;
+    public double[][] mSensitivityMatrixMagnetometer;
+    protected double[][] AlignmentMatrixMPLAccel;
+    protected double[][] AlignmentMatrixMPLGyro;
+    protected double[][] AlignmentMatrixMPLMag;
+    protected double[][] OffsetVectorMPLAccel;
+    protected double[][] OffsetVectorMPLGyro;
+    protected double[][] OffsetVectorMPLMag;
+    protected double[][] SensitivityMatrixMPLAccel;
+    protected double[][] SensitivityMatrixMPLGyro;
+    protected double[][] SensitivityMatrixMPLMag;
+    protected boolean mLowPowerGyro;
+    protected int mMPLEnable;
+    protected int mMPLGyroCalTC;
+    protected int mMPLMagDistCal;
+    protected int mMPLSensorFusion;
+    protected int mMPLVectCompCal;
+    protected int mMPU9X50AccelRange;
+    protected int mMPU9X50DMP;
+    protected int mMPU9X50GyroAccelRate;
+    protected int mMPU9X50LPF;
+    protected int mMPU9X50MPLSamplingRate;
+    protected int mMPU9X50MagSamplingRate;
+    protected int mMPU9X50MotCalCfg;
+    protected int mSensorIdAccel;
+    protected int mSensorIdGyro;
+    protected int mSensorIdMag;
+    private CalibDetailsKinematic calibDetailsGyro1000;
+    private CalibDetailsKinematic calibDetailsGyro2000;
+    private CalibDetailsKinematic calibDetailsGyro250;
+    private CalibDetailsKinematic calibDetailsGyro500;
+    private CalibDetailsKinematic calibDetailsMplAccel;
+    private CalibDetailsKinematic calibDetailsMplGyro;
+    private CalibDetailsKinematic calibDetailsMplMag;
+    private boolean debugGyroRate;
+    private int mGyroRange;
+
+    public SensorMPU9X50(AbstractSensor.SENSORS sensors) {
+        super(sensors);
+        this.mSensorIdAccel = -1;
+        this.mSensorIdMag = -1;
+        this.mSensorIdGyro = -1;
+        this.debugGyroRate = false;
+        this.mGyroRange = 1;
+        this.mLowPowerGyro = false;
+        this.mIsUsingDefaultGyroParam = true;
+        this.mMPU9X50AccelRange = 0;
+        this.mMPU9X50GyroAccelRate = 0;
+        this.mMPU9X50DMP = 0;
+        this.mMPU9X50LPF = 0;
+        this.mMPU9X50MotCalCfg = 0;
+        this.mMPU9X50MPLSamplingRate = 0;
+        this.mMPU9X50MagSamplingRate = 0;
+        this.mMPLSensorFusion = 0;
+        this.mMPLGyroCalTC = 0;
+        this.mMPLVectCompCal = 0;
+        this.mMPLMagDistCal = 0;
+        this.mMPLEnable = 0;
+        double[][] dArr = {new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, 1.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+        this.AlignmentMatrixMPLAccel = dArr;
+        double[][] dArr2 = {new double[]{1631.0d, 0.0d, 0.0d}, new double[]{0.0d, 1631.0d, 0.0d}, new double[]{0.0d, 0.0d, 1631.0d}};
+        this.SensitivityMatrixMPLAccel = dArr2;
+        double[][] dArr3 = {new double[]{0.0d}, new double[]{0.0d}, new double[]{0.0d}};
+        this.OffsetVectorMPLAccel = dArr3;
+        this.calibDetailsMplAccel = new CalibDetailsKinematic(0, "0", dArr, dArr2, dArr3, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        double[][] dArr4 = {new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, 1.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+        this.AlignmentMatrixMPLMag = dArr4;
+        double[][] dArr5 = {new double[]{1631.0d, 0.0d, 0.0d}, new double[]{0.0d, 1631.0d, 0.0d}, new double[]{0.0d, 0.0d, 1631.0d}};
+        this.SensitivityMatrixMPLMag = dArr5;
+        double[][] dArr6 = {new double[]{0.0d}, new double[]{0.0d}, new double[]{0.0d}};
+        this.OffsetVectorMPLMag = dArr6;
+        this.calibDetailsMplMag = new CalibDetailsKinematic(0, "0", dArr4, dArr5, dArr6, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        double[][] dArr7 = {new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, 1.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+        this.AlignmentMatrixMPLGyro = dArr7;
+        double[][] dArr8 = {new double[]{1631.0d, 0.0d, 0.0d}, new double[]{0.0d, 1631.0d, 0.0d}, new double[]{0.0d, 0.0d, 1631.0d}};
+        this.SensitivityMatrixMPLGyro = dArr8;
+        double[][] dArr9 = {new double[]{0.0d}, new double[]{0.0d}, new double[]{0.0d}};
+        this.OffsetVectorMPLGyro = dArr9;
+        this.calibDetailsMplGyro = new CalibDetailsKinematic(0, "0", dArr7, dArr8, dArr9, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.mAlignmentMatrixMagnetometer = this.AlignmentMatrixMPLMag;
+        this.mSensitivityMatrixMagnetometer = new double[][]{new double[]{0.3d, 0.0d, 0.0d}, new double[]{0.0d, 0.3d, 0.0d}, new double[]{0.0d, 0.0d, 0.3d}};
+        this.mOffsetVectorMagnetometer = new double[][]{new double[]{-5.0d}, new double[]{-95.0d}, new double[]{-260.0d}};
+        Integer[] numArr = ListofMPU9X50GyroRangeConfigValues;
+        int iIntValue = numArr[0].intValue();
+        String[] strArr = ListofGyroRange;
+        String str = strArr[0];
+        double[][] dArr10 = AlignmentMatrixGyroShimmer3;
+        double[][] dArr11 = SensitivityMatrixGyro250dpsShimmer3;
+        double[][] dArr12 = OffsetVectorGyroShimmer3;
+        this.calibDetailsGyro250 = new CalibDetailsKinematic(iIntValue, str, dArr10, dArr11, dArr12, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.calibDetailsGyro500 = new CalibDetailsKinematic(numArr[1].intValue(), strArr[1], dArr10, SensitivityMatrixGyro500dpsShimmer3, dArr12, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.calibDetailsGyro1000 = new CalibDetailsKinematic(numArr[2].intValue(), strArr[2], dArr10, SensitivityMatrixGyro1000dpsShimmer3, dArr12, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.calibDetailsGyro2000 = new CalibDetailsKinematic(numArr[3].intValue(), strArr[3], dArr10, SensitivityMatrixGyro2000dpsShimmer3, dArr12, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.mCurrentCalibDetailsGyro = this.calibDetailsGyro250;
+    }
+
+    public SensorMPU9X50(AbstractSensor.SENSORS sensors, ShimmerDevice shimmerDevice) {
+        super(sensors, shimmerDevice);
+        this.mSensorIdAccel = -1;
+        this.mSensorIdMag = -1;
+        this.mSensorIdGyro = -1;
+        this.debugGyroRate = false;
+        this.mGyroRange = 1;
+        this.mLowPowerGyro = false;
+        this.mIsUsingDefaultGyroParam = true;
+        this.mMPU9X50AccelRange = 0;
+        this.mMPU9X50GyroAccelRate = 0;
+        this.mMPU9X50DMP = 0;
+        this.mMPU9X50LPF = 0;
+        this.mMPU9X50MotCalCfg = 0;
+        this.mMPU9X50MPLSamplingRate = 0;
+        this.mMPU9X50MagSamplingRate = 0;
+        this.mMPLSensorFusion = 0;
+        this.mMPLGyroCalTC = 0;
+        this.mMPLVectCompCal = 0;
+        this.mMPLMagDistCal = 0;
+        this.mMPLEnable = 0;
+        double[][] dArr = {new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, 1.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+        this.AlignmentMatrixMPLAccel = dArr;
+        double[][] dArr2 = {new double[]{1631.0d, 0.0d, 0.0d}, new double[]{0.0d, 1631.0d, 0.0d}, new double[]{0.0d, 0.0d, 1631.0d}};
+        this.SensitivityMatrixMPLAccel = dArr2;
+        double[][] dArr3 = {new double[]{0.0d}, new double[]{0.0d}, new double[]{0.0d}};
+        this.OffsetVectorMPLAccel = dArr3;
+        this.calibDetailsMplAccel = new CalibDetailsKinematic(0, "0", dArr, dArr2, dArr3, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        double[][] dArr4 = {new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, 1.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+        this.AlignmentMatrixMPLMag = dArr4;
+        double[][] dArr5 = {new double[]{1631.0d, 0.0d, 0.0d}, new double[]{0.0d, 1631.0d, 0.0d}, new double[]{0.0d, 0.0d, 1631.0d}};
+        this.SensitivityMatrixMPLMag = dArr5;
+        double[][] dArr6 = {new double[]{0.0d}, new double[]{0.0d}, new double[]{0.0d}};
+        this.OffsetVectorMPLMag = dArr6;
+        this.calibDetailsMplMag = new CalibDetailsKinematic(0, "0", dArr4, dArr5, dArr6, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        double[][] dArr7 = {new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, 1.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+        this.AlignmentMatrixMPLGyro = dArr7;
+        double[][] dArr8 = {new double[]{1631.0d, 0.0d, 0.0d}, new double[]{0.0d, 1631.0d, 0.0d}, new double[]{0.0d, 0.0d, 1631.0d}};
+        this.SensitivityMatrixMPLGyro = dArr8;
+        double[][] dArr9 = {new double[]{0.0d}, new double[]{0.0d}, new double[]{0.0d}};
+        this.OffsetVectorMPLGyro = dArr9;
+        this.calibDetailsMplGyro = new CalibDetailsKinematic(0, "0", dArr7, dArr8, dArr9, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.mAlignmentMatrixMagnetometer = this.AlignmentMatrixMPLMag;
+        this.mSensitivityMatrixMagnetometer = new double[][]{new double[]{0.3d, 0.0d, 0.0d}, new double[]{0.0d, 0.3d, 0.0d}, new double[]{0.0d, 0.0d, 0.3d}};
+        this.mOffsetVectorMagnetometer = new double[][]{new double[]{-5.0d}, new double[]{-95.0d}, new double[]{-260.0d}};
+        Integer[] numArr = ListofMPU9X50GyroRangeConfigValues;
+        int iIntValue = numArr[0].intValue();
+        String[] strArr = ListofGyroRange;
+        String str = strArr[0];
+        double[][] dArr10 = AlignmentMatrixGyroShimmer3;
+        double[][] dArr11 = SensitivityMatrixGyro250dpsShimmer3;
+        double[][] dArr12 = OffsetVectorGyroShimmer3;
+        this.calibDetailsGyro250 = new CalibDetailsKinematic(iIntValue, str, dArr10, dArr11, dArr12, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.calibDetailsGyro500 = new CalibDetailsKinematic(numArr[1].intValue(), strArr[1], dArr10, SensitivityMatrixGyro500dpsShimmer3, dArr12, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.calibDetailsGyro1000 = new CalibDetailsKinematic(numArr[2].intValue(), strArr[2], dArr10, SensitivityMatrixGyro1000dpsShimmer3, dArr12, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.calibDetailsGyro2000 = new CalibDetailsKinematic(numArr[3].intValue(), strArr[3], dArr10, SensitivityMatrixGyro2000dpsShimmer3, dArr12, CalibDetailsKinematic.CALIBRATION_SCALE_FACTOR.ONE_HUNDRED);
+        this.mCurrentCalibDetailsGyro = this.calibDetailsGyro250;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return false;
+    }
+
+    public boolean checkLowPowerGyro() {
+        if (this.mMPU9X50GyroAccelRate == 255) {
+            this.mLowPowerGyro = true;
+        } else {
+            this.mLowPowerGyro = false;
+        }
+        return this.mLowPowerGyro;
+    }
+
+    public double[][] getAlignmentMatrixMPLAccel() {
+        return this.AlignmentMatrixMPLAccel;
+    }
+
+    public double[][] getAlignmentMatrixMPLGyro() {
+        return this.AlignmentMatrixMPLGyro;
+    }
+
+    public double[][] getAlignmentMatrixMPLMag() {
+        return this.AlignmentMatrixMPLMag;
+    }
+
+    public CalibDetailsKinematic getCurrentCalibDetailsGyro() {
+        return this.mCurrentCalibDetailsGyro;
+    }
+
+    public int getGyroRange() {
+        return this.mGyroRange;
+    }
+
+    public void setGyroRange(int i) {
+        setMPU9150GyroRange(i);
+    }
+
+    public int getLowPowerGyroEnabled() {
+        return this.mLowPowerGyro ? 1 : 0;
+    }
+
+    public int getMPLEnable() {
+        return this.mMPLEnable;
+    }
+
+    public int getMPLGyroCalTC() {
+        return this.mMPLGyroCalTC;
+    }
+
+    public int getMPLMagDistCal() {
+        return this.mMPLMagDistCal;
+    }
+
+    public int getMPLSensorFusion() {
+        return this.mMPLSensorFusion;
+    }
+
+    public int getMPLVectCompCal() {
+        return this.mMPLVectCompCal;
+    }
+
+    public int getMPU9X50AccelRange() {
+        return this.mMPU9X50AccelRange;
+    }
+
+    public void setMPU9X50AccelRange(int i) {
+        if (ArrayUtils.contains(ListofMPU9X50GyroRangeConfigValues, Integer.valueOf(i))) {
+            if (checkIfAnyMplChannelEnabled()) {
+                i = 0;
+            }
+            this.mMPU9X50AccelRange = i;
+        }
+    }
+
+    public int getMPU9X50DMP() {
+        return this.mMPU9X50DMP;
+    }
+
+    public int getMPU9X50GyroAccelRate() {
+        return this.mMPU9X50GyroAccelRate;
+    }
+
+    public void setMPU9X50GyroAccelRate(int i) {
+        this.mMPU9X50GyroAccelRate = i;
+    }
+
+    public int getMPU9X50LPF() {
+        return this.mMPU9X50LPF;
+    }
+
+    public void setMPU9X50LPF(int i) {
+        this.mMPU9X50LPF = i;
+    }
+
+    public int getMPU9X50MPLSamplingRate() {
+        return this.mMPU9X50MPLSamplingRate;
+    }
+
+    public int getMPU9X50MagSamplingRate() {
+        return this.mMPU9X50MagSamplingRate;
+    }
+
+    public void setMPU9X50MagSamplingRate(int i) {
+        this.mMPU9X50MagSamplingRate = i;
+    }
+
+    public int getMPU9X50MotCalCfg() {
+        return this.mMPU9X50MotCalCfg;
+    }
+
+    public double[][] getOffsetVectorMPLAccel() {
+        return this.OffsetVectorMPLAccel;
+    }
+
+    public double[][] getOffsetVectorMPLGyro() {
+        return this.OffsetVectorMPLGyro;
+    }
+
+    public double[][] getOffsetVectorMPLMag() {
+        return this.OffsetVectorMPLMag;
+    }
+
+    public double[][] getSensitivityMatrixMPLAccel() {
+        return this.SensitivityMatrixMPLAccel;
+    }
+
+    public double[][] getSensitivityMatrixMPLGyro() {
+        return this.SensitivityMatrixMPLGyro;
+    }
+
+    public double[][] getSensitivityMatrixMPLMag() {
+        return this.SensitivityMatrixMPLMag;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    public boolean isLowPowerGyroEnabled() {
+        return this.mLowPowerGyro;
+    }
+
+    public boolean isMPLEnable() {
+        return this.mMPLEnable > 0;
+    }
+
+    public boolean isMPLGyroCalTC() {
+        return this.mMPLGyroCalTC > 0;
+    }
+
+    public void setMPLGyroCalTC(int i) {
+        this.mMPLGyroCalTC = i;
+    }
+
+    public void setMPLGyroCalTC(boolean z) {
+        this.mMPLGyroCalTC = z ? 1 : 0;
+    }
+
+    public boolean isMPLMagDistCal() {
+        return this.mMPLMagDistCal > 0;
+    }
+
+    public void setMPLMagDistCal(int i) {
+        this.mMPLMagDistCal = i;
+    }
+
+    public void setMPLMagDistCal(boolean z) {
+        setMPLMagDistCal(z ? 1 : 0);
+    }
+
+    public boolean isMPLSensorFusion() {
+        return this.mMPLSensorFusion > 0;
+    }
+
+    public void setMPLSensorFusion(int i) {
+        this.mMPLSensorFusion = i;
+    }
+
+    public void setMPLSensorFusion(boolean z) {
+        setMPLSensorFusion(z ? 1 : 0);
+    }
+
+    public boolean isMPLVectCompCal() {
+        return this.mMPLVectCompCal > 0;
+    }
+
+    public void setMPLVectCompCal(int i) {
+        this.mMPLVectCompCal = i;
+    }
+
+    public void setMPLVectCompCal(boolean z) {
+        setMPLVectCompCal(z ? 1 : 0);
+    }
+
+    public boolean isMPU9150DMP() {
+        return this.mMPU9X50DMP > 0;
+    }
+
+    public void setMPU9150DMP(int i) {
+        this.mMPU9X50DMP = i;
+    }
+
+    public void setMPU9150DMP(boolean z) {
+        setMPU9150DMP(z ? 1 : 0);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    public void setMPLEnabled(int i) {
+        this.mMPLEnable = i;
+    }
+
+    public void setMPU9150MPLSamplingRate(int i) {
+        this.mMPU9X50MPLSamplingRate = i;
+    }
+
+    public void setMPU9X150MotCalCfg(int i) {
+        this.mMPU9X50MotCalCfg = i;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        sensorDetails.processDataCommon(bArr, communication_type, objectCluster, z, d);
+        if (mEnableCalibration && this.mCurrentCalibDetailsGyro != null) {
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("Gyroscope")) {
+                double[] dArr = new double[3];
+                for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
+                    if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_X)) {
+                        dArr[0] = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_Y)) {
+                        dArr[1] = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_Z)) {
+                        dArr[2] = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    }
+                }
+                double[] dArrCalibrateInertialSensorData = UtilCalibration.calibrateInertialSensorData(dArr, getCurrentCalibDetailsGyro());
+                for (ChannelDetails channelDetails2 : sensorDetails.mListOfChannels) {
+                    if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_X)) {
+                        objectCluster.addCalData(channelDetails2, dArrCalibrateInertialSensorData[0], objectCluster.getIndexKeeper() - 3, isUsingDefaultGyroParam());
+                    } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_Y)) {
+                        objectCluster.addCalData(channelDetails2, dArrCalibrateInertialSensorData[1], objectCluster.getIndexKeeper() - 2, isUsingDefaultGyroParam());
+                    } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_Z)) {
+                        objectCluster.addCalData(channelDetails2, dArrCalibrateInertialSensorData[2], objectCluster.getIndexKeeper() - 2, isUsingDefaultGyroParam());
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("Alternative Accel")) {
+                for (ChannelDetails channelDetails3 : sensorDetails.mListOfChannels) {
+                    if (channelDetails3.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_MPU_X)) {
+                        double d2 = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails3.mObjectClusterName), channelDetails3.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails3.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_MPU_Y)) {
+                        double d3 = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails3.mObjectClusterName), channelDetails3.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails3.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_MPU_Z)) {
+                        double d4 = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails3.mObjectClusterName), channelDetails3.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("Alternative Mag")) {
+                double[] dArr2 = new double[3];
+                for (ChannelDetails channelDetails4 : sensorDetails.mListOfChannels) {
+                    if (channelDetails4.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_X)) {
+                        dArr2[0] = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails4.mObjectClusterName), channelDetails4.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails4.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_Y)) {
+                        dArr2[1] = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails4.mObjectClusterName), channelDetails4.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails4.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_Z)) {
+                        dArr2[2] = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails4.mObjectClusterName), channelDetails4.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    }
+                }
+                double[] dArrCalibrateInertialSensorData2 = UtilCalibration.calibrateInertialSensorData(dArr2, this.mAlignmentMatrixMagnetometer, this.mSensitivityMatrixMagnetometer, this.mOffsetVectorMagnetometer);
+                for (ChannelDetails channelDetails5 : sensorDetails.mListOfChannels) {
+                    if (channelDetails5.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_X)) {
+                        objectCluster.addCalData(channelDetails5, dArrCalibrateInertialSensorData2[0], objectCluster.getIndexKeeper() - 3);
+                    } else if (channelDetails5.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_Y)) {
+                        objectCluster.addCalData(channelDetails5, dArrCalibrateInertialSensorData2[1], objectCluster.getIndexKeeper() - 2);
+                    } else if (channelDetails5.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_Z)) {
+                        objectCluster.addCalData(channelDetails5, dArrCalibrateInertialSensorData2[2], objectCluster.getIndexKeeper() - 2);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("MPU Gyro")) {
+                for (ChannelDetails channelDetails6 : sensorDetails.mListOfChannels) {
+                    if (channelDetails6.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_MPU_MPL_X)) {
+                        objectCluster.addCalData(channelDetails6, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails6.mObjectClusterName), channelDetails6.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 3);
+                    } else if (channelDetails6.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_MPU_MPL_Y)) {
+                        objectCluster.addCalData(channelDetails6, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails6.mObjectClusterName), channelDetails6.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 2);
+                    } else if (channelDetails6.mObjectClusterName.equals(ObjectClusterSensorName.GYRO_MPU_MPL_Z)) {
+                        objectCluster.addCalData(channelDetails6, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails6.mObjectClusterName), channelDetails6.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("MPU Accel")) {
+                for (ChannelDetails channelDetails7 : sensorDetails.mListOfChannels) {
+                    if (channelDetails7.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_MPU_MPL_X)) {
+                        objectCluster.addCalData(channelDetails7, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails7.mObjectClusterName), channelDetails7.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 3);
+                    } else if (channelDetails7.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_MPU_MPL_Y)) {
+                        objectCluster.addCalData(channelDetails7, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails7.mObjectClusterName), channelDetails7.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 2);
+                    } else if (channelDetails7.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_MPU_MPL_Z)) {
+                        objectCluster.addCalData(channelDetails7, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails7.mObjectClusterName), channelDetails7.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("MPU Mag")) {
+                for (ChannelDetails channelDetails8 : sensorDetails.mListOfChannels) {
+                    if (channelDetails8.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_MPL_X)) {
+                        objectCluster.addCalData(channelDetails8, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails8.mObjectClusterName), channelDetails8.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 3);
+                    } else if (channelDetails8.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_MPL_Y)) {
+                        objectCluster.addCalData(channelDetails8, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails8.mObjectClusterName), channelDetails8.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 2);
+                    } else if (channelDetails8.mObjectClusterName.equals(ObjectClusterSensorName.MAG_MPU_MPL_Z)) {
+                        objectCluster.addCalData(channelDetails8, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails8.mObjectClusterName), channelDetails8.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("MPU Quat 6DOF (from DMP)")) {
+                for (ChannelDetails channelDetails9 : sensorDetails.mListOfChannels) {
+                    if (channelDetails9.mObjectClusterName.equals(ObjectClusterSensorName.QUAT_MPL_6DOF_W)) {
+                        objectCluster.addCalData(channelDetails9, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails9.mObjectClusterName), channelDetails9.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 30.0d), objectCluster.getIndexKeeper() - 4);
+                    } else if (channelDetails9.mObjectClusterName.equals(ObjectClusterSensorName.QUAT_MPL_6DOF_X)) {
+                        objectCluster.addCalData(channelDetails9, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails9.mObjectClusterName), channelDetails9.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 30.0d), objectCluster.getIndexKeeper() - 3);
+                    } else if (channelDetails9.mObjectClusterName.equals(ObjectClusterSensorName.QUAT_MPL_6DOF_Y)) {
+                        objectCluster.addCalData(channelDetails9, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails9.mObjectClusterName), channelDetails9.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 30.0d), objectCluster.getIndexKeeper() - 2);
+                    } else if (channelDetails9.mObjectClusterName.equals(ObjectClusterSensorName.QUAT_MPL_6DOF_Z)) {
+                        objectCluster.addCalData(channelDetails9, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails9.mObjectClusterName), channelDetails9.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 30.0d), objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("MPU Temp")) {
+                for (ChannelDetails channelDetails10 : sensorDetails.mListOfChannels) {
+                    if (channelDetails10.mObjectClusterName.equals(ObjectClusterSensorName.MPL_TEMPERATURE)) {
+                        objectCluster.addCalData(channelDetails10, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails10.mObjectClusterName), channelDetails10.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.MPL_PEDOMETER)) {
+                for (ChannelDetails channelDetails11 : sensorDetails.mListOfChannels) {
+                    if (channelDetails11.mObjectClusterName.equals(ObjectClusterSensorName.MPL_PEDOM_CNT)) {
+                        objectCluster.addCalData(channelDetails11, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails11.mObjectClusterName), channelDetails11.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData, objectCluster.getIndexKeeper() - 2);
+                    } else if (channelDetails11.mObjectClusterName.equals(ObjectClusterSensorName.MPL_PEDOM_TIME)) {
+                        objectCluster.addCalData(channelDetails11, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails11.mObjectClusterName), channelDetails11.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData, objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("MPU Heading")) {
+                for (ChannelDetails channelDetails12 : sensorDetails.mListOfChannels) {
+                    if (channelDetails12.mObjectClusterName.equals(ObjectClusterSensorName.MPL_HEADING)) {
+                        objectCluster.addCalData(channelDetails12, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails12.mObjectClusterName), channelDetails12.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData / Math.pow(2.0d, 16.0d), objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("TapDirAndTapCnt")) {
+                for (ChannelDetails channelDetails13 : sensorDetails.mListOfChannels) {
+                    if (channelDetails13.mObjectClusterName.equals(ObjectClusterSensorName.TAPDIR)) {
+                        objectCluster.addCalData(channelDetails13, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails13.mObjectClusterName), channelDetails13.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData, objectCluster.getIndexKeeper() - 2);
+                    } else if (channelDetails13.mObjectClusterName.equals(ObjectClusterSensorName.TAPCNT)) {
+                        objectCluster.addCalData(channelDetails13, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails13.mObjectClusterName), channelDetails13.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData, objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("MotionAndOrient")) {
+                for (ChannelDetails channelDetails14 : sensorDetails.mListOfChannels) {
+                    if (channelDetails14.mObjectClusterName.equals(ObjectClusterSensorName.MOTION)) {
+                        objectCluster.addCalData(channelDetails14, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails14.mObjectClusterName), channelDetails14.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData, objectCluster.getIndexKeeper() - 2);
+                    } else if (channelDetails14.mObjectClusterName.equals(ObjectClusterSensorName.ORIENT)) {
+                        objectCluster.addCalData(channelDetails14, ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails14.mObjectClusterName), channelDetails14.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData, objectCluster.getIndexKeeper() - 1);
+                    }
+                }
+            }
+        }
+        if (this.mIsDebugOutput) {
+            super.consolePrintChannelsCal(objectCluster, Arrays.asList(new String[]{ObjectClusterSensorName.GYRO_X, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.GYRO_Y, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.GYRO_Z, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.GYRO_X, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.GYRO_Y, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.GYRO_Z, ChannelDetails.CHANNEL_TYPE.CAL.toString()}));
+        }
+        return objectCluster;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) configByteLayout;
+            int i = configByteLayoutShimmer3.idxConfigSetupByte1;
+            bArr[i] = (byte) (bArr[i] | ((byte) ((getMPU9X50GyroAccelRate() & configByteLayoutShimmer3.maskMPU9150AccelGyroSamplingRate) << configByteLayoutShimmer3.bitShiftMPU9150AccelGyroSamplingRate)));
+            int i2 = configByteLayoutShimmer3.idxConfigSetupByte2;
+            bArr[i2] = (byte) (bArr[i2] | ((byte) ((getGyroRange() & configByteLayoutShimmer3.maskMPU9150GyroRange) << configByteLayoutShimmer3.bitShiftMPU9150GyroRange)));
+            int i3 = configByteLayoutShimmer3.idxConfigSetupByte3;
+            bArr[i3] = (byte) (bArr[i3] | ((byte) ((getMPU9X50AccelRange() & configByteLayoutShimmer3.maskMPU9150AccelRange) << configByteLayoutShimmer3.bitShiftMPU9150AccelRange)));
+            System.arraycopy(generateCalParamGyroscope(), 0, bArr, configByteLayoutShimmer3.idxMPU9150GyroCalibration, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+            bArr[configByteLayoutShimmer3.idxConfigSetupByte6] = 0;
+            if (shimmerDevice.getShimmerVerObject().isSupportedMpl()) {
+                bArr[configByteLayoutShimmer3.idxConfigSetupByte4] = 0;
+                bArr[configByteLayoutShimmer3.idxConfigSetupByte5] = 0;
+                int i4 = configByteLayoutShimmer3.idxConfigSetupByte4;
+                bArr[i4] = (byte) (bArr[i4] | ((byte) ((this.mMPU9X50DMP & configByteLayoutShimmer3.maskMPU9150DMP) << configByteLayoutShimmer3.bitShiftMPU9150DMP)));
+                int i5 = configByteLayoutShimmer3.idxConfigSetupByte4;
+                bArr[i5] = (byte) (bArr[i5] | ((byte) ((this.mMPU9X50LPF & configByteLayoutShimmer3.maskMPU9150LPF) << configByteLayoutShimmer3.bitShiftMPU9150LPF)));
+                int i6 = configByteLayoutShimmer3.idxConfigSetupByte4;
+                bArr[i6] = (byte) (bArr[i6] | ((byte) ((this.mMPU9X50MotCalCfg & configByteLayoutShimmer3.maskMPU9150MotCalCfg) << configByteLayoutShimmer3.bitShiftMPU9150MotCalCfg)));
+                int i7 = configByteLayoutShimmer3.idxConfigSetupByte5;
+                bArr[i7] = (byte) (bArr[i7] | ((byte) ((this.mMPU9X50MPLSamplingRate & configByteLayoutShimmer3.maskMPU9150MPLSamplingRate) << configByteLayoutShimmer3.bitShiftMPU9150MPLSamplingRate)));
+                int i8 = configByteLayoutShimmer3.idxConfigSetupByte5;
+                bArr[i8] = (byte) (bArr[i8] | ((byte) ((this.mMPU9X50MagSamplingRate & configByteLayoutShimmer3.maskMPU9150MPLSamplingRate) << configByteLayoutShimmer3.bitShiftMPU9150MagSamplingRate)));
+                bArr[configByteLayoutShimmer3.idxSensors3] = (byte) ((shimmerDevice.getEnabledSensors() >> configByteLayoutShimmer3.bitShiftSensors3) & 255);
+                bArr[configByteLayoutShimmer3.idxSensors4] = (byte) ((shimmerDevice.getEnabledSensors() >> configByteLayoutShimmer3.bitShiftSensors4) & 255);
+                int i9 = configByteLayoutShimmer3.idxConfigSetupByte6;
+                bArr[i9] = (byte) (bArr[i9] | ((byte) ((this.mMPLSensorFusion & configByteLayoutShimmer3.maskMPLSensorFusion) << configByteLayoutShimmer3.bitShiftMPLSensorFusion)));
+                int i10 = configByteLayoutShimmer3.idxConfigSetupByte6;
+                bArr[i10] = (byte) (bArr[i10] | ((byte) ((this.mMPLGyroCalTC & configByteLayoutShimmer3.maskMPLGyroCalTC) << configByteLayoutShimmer3.bitShiftMPLGyroCalTC)));
+                int i11 = configByteLayoutShimmer3.idxConfigSetupByte6;
+                bArr[i11] = (byte) (bArr[i11] | ((byte) ((this.mMPLVectCompCal & configByteLayoutShimmer3.maskMPLVectCompCal) << configByteLayoutShimmer3.bitShiftMPLVectCompCal)));
+                int i12 = configByteLayoutShimmer3.idxConfigSetupByte6;
+                bArr[i12] = (byte) (bArr[i12] | ((byte) ((this.mMPLMagDistCal & configByteLayoutShimmer3.maskMPLMagDistCal) << configByteLayoutShimmer3.bitShiftMPLMagDistCal)));
+                int i13 = configByteLayoutShimmer3.idxConfigSetupByte6;
+                bArr[i13] = (byte) (((byte) ((this.mMPLEnable & configByteLayoutShimmer3.maskMPLEnable) << configByteLayoutShimmer3.bitShiftMPLEnable)) | bArr[i13]);
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) configByteLayout;
+            setMPU9X50GyroAccelRate((bArr[configByteLayoutShimmer3.idxConfigSetupByte1] >> configByteLayoutShimmer3.bitShiftMPU9150AccelGyroSamplingRate) & configByteLayoutShimmer3.maskMPU9150AccelGyroSamplingRate);
+            checkLowPowerGyro();
+            setGyroRange((bArr[configByteLayoutShimmer3.idxConfigSetupByte2] >> configByteLayoutShimmer3.bitShiftMPU9150GyroRange) & configByteLayoutShimmer3.maskMPU9150GyroRange);
+            setMPU9X50AccelRange((bArr[configByteLayoutShimmer3.idxConfigSetupByte3] >> configByteLayoutShimmer3.bitShiftMPU9150AccelRange) & configByteLayoutShimmer3.maskMPU9150AccelRange);
+            if (shimmerDevice.isConnected()) {
+                getCurrentCalibDetailsGyro().mCalibReadSource = CalibDetails.CALIB_READ_SOURCE.INFOMEM;
+            }
+            byte[] bArr2 = new byte[configByteLayoutShimmer3.lengthGeneralCalibrationBytes];
+            System.arraycopy(bArr, configByteLayoutShimmer3.idxMPU9150GyroCalibration, bArr2, 0, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+            parseCalibParamFromPacketGyro(bArr2, CalibDetails.CALIB_READ_SOURCE.INFOMEM);
+            if (shimmerDevice.getShimmerVerObject().isSupportedMpl()) {
+                setMPU9150DMP((bArr[configByteLayoutShimmer3.idxConfigSetupByte4] >> configByteLayoutShimmer3.bitShiftMPU9150DMP) & configByteLayoutShimmer3.maskMPU9150DMP);
+                setMPU9X50LPF((bArr[configByteLayoutShimmer3.idxConfigSetupByte4] >> configByteLayoutShimmer3.bitShiftMPU9150LPF) & configByteLayoutShimmer3.maskMPU9150LPF);
+                setMPU9X150MotCalCfg((bArr[configByteLayoutShimmer3.idxConfigSetupByte4] >> configByteLayoutShimmer3.bitShiftMPU9150MotCalCfg) & configByteLayoutShimmer3.maskMPU9150MotCalCfg);
+                setMPU9150MPLSamplingRate((bArr[configByteLayoutShimmer3.idxConfigSetupByte5] >> configByteLayoutShimmer3.bitShiftMPU9150MPLSamplingRate) & configByteLayoutShimmer3.maskMPU9150MPLSamplingRate);
+                setMPU9X50MagSamplingRate((bArr[configByteLayoutShimmer3.idxConfigSetupByte5] >> configByteLayoutShimmer3.bitShiftMPU9150MagSamplingRate) & configByteLayoutShimmer3.maskMPU9150MagSamplingRate);
+                setMPLSensorFusion((bArr[configByteLayoutShimmer3.idxConfigSetupByte6] >> configByteLayoutShimmer3.bitShiftMPLSensorFusion) & configByteLayoutShimmer3.maskMPLSensorFusion);
+                setMPLGyroCalTC((bArr[configByteLayoutShimmer3.idxConfigSetupByte6] >> configByteLayoutShimmer3.bitShiftMPLGyroCalTC) & configByteLayoutShimmer3.maskMPLGyroCalTC);
+                setMPLVectCompCal((bArr[configByteLayoutShimmer3.idxConfigSetupByte6] >> configByteLayoutShimmer3.bitShiftMPLVectCompCal) & configByteLayoutShimmer3.maskMPLVectCompCal);
+                setMPLMagDistCal((bArr[configByteLayoutShimmer3.idxConfigSetupByte6] >> configByteLayoutShimmer3.bitShiftMPLMagDistCal) & configByteLayoutShimmer3.maskMPLMagDistCal);
+                setMPLEnabled((bArr[configByteLayoutShimmer3.idxConfigSetupByte6] >> configByteLayoutShimmer3.bitShiftMPLEnable) & configByteLayoutShimmer3.maskMPLEnable);
+                byte[] bArr3 = new byte[configByteLayoutShimmer3.lengthGeneralCalibrationBytes];
+                System.arraycopy(bArr, configByteLayoutShimmer3.idxMPLAccelCalibration, bArr3, 0, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+                setCalibParamMPLAccel(bArr3);
+                byte[] bArr4 = new byte[configByteLayoutShimmer3.lengthGeneralCalibrationBytes];
+                System.arraycopy(bArr, configByteLayoutShimmer3.idxMPLMagCalibration, bArr4, 0, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+                setCalibParamMPLMag(bArr4);
+                byte[] bArr5 = new byte[configByteLayoutShimmer3.lengthGeneralCalibrationBytes];
+                System.arraycopy(bArr, configByteLayoutShimmer3.idxMPLGyroCalibration, bArr5, 0, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+                setCalibParamMPLGyro(bArr5);
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        str.hashCode();
+        switch (str) {
+            case "Gyro Low-Power Mode":
+                setLowPowerGyro(((Boolean) obj).booleanValue());
+                return null;
+            case "Gyro Calibration":
+                setMPLGyroCalTC(((Boolean) obj).booleanValue());
+                return null;
+            case "Gyro Sampling Rate Hertz":
+                System.err.print("BUG");
+                return null;
+            case "MPU Accel Range":
+                setMPU9X50AccelRange(((Integer) obj).intValue());
+                return null;
+            case "DMP":
+                setMPU9150DMP(((Boolean) obj).booleanValue());
+                return null;
+            case "MPL":
+                setMPLEnabled(((Boolean) obj).booleanValue());
+                return null;
+            case "MPU Gyro Cal":
+                setMPU9X150MotCalCfg(((Integer) obj).intValue());
+                return null;
+            case "Gyro Range":
+                setMPU9150GyroRange(((Integer) obj).intValue());
+                return null;
+            case "MPL Rate":
+                setMPU9150MPLSamplingRate(((Integer) obj).intValue());
+                return null;
+            case "Vector Compensation Calibration":
+                setMPLVectCompCal(((Boolean) obj).booleanValue());
+                return null;
+            case "9DOF Sensor Fusion":
+                setMPLSensorFusion(((Boolean) obj).booleanValue());
+                return null;
+            case "Gyro Sampling Rate":
+                String str2 = (String) obj;
+                double d = str2.isEmpty() ? 4.0d : Double.parseDouble(str2);
+                setLowPowerGyro(false);
+                if (this.debugGyroRate && this.mShimmerDevice != null) {
+                    System.out.println("Gyro Rate change from freq:\t" + this.mShimmerDevice.getMacId() + "\tGuiLabelConfig\t" + d);
+                }
+                setMPU9150GyroAccelRateFromFreq(d);
+                return Double.toString(Math.round(getMPU9X50GyroAccelRateInHz() * 100.0d) / 100.0d);
+            case "Magnetic Disturbance Calibration":
+                setMPLMagDistCal(((Boolean) obj).booleanValue());
+                return null;
+            case "MPU LPF":
+                setMPU9X50LPF(((Integer) obj).intValue());
+                return null;
+            case "MPU Mag Rate":
+                setMPU9X50MagSamplingRate(((Integer) obj).intValue());
+                return null;
+            default:
+                return super.setConfigValueUsingConfigLabelCommon(num, str, obj);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        str.hashCode();
+        switch (str) {
+            case "Gyro Low-Power Mode":
+                return Boolean.valueOf(checkLowPowerGyro());
+            case "Gyro Calibration":
+                return Boolean.valueOf(isMPLGyroCalTC());
+            case "Gyro Sampling Rate Hertz":
+                return Double.valueOf(getMPU9X50GyroAccelRateInHz());
+            case "MPU Accel Range":
+                return Integer.valueOf(getMPU9X50AccelRange());
+            case "DMP":
+                return Boolean.valueOf(isMPU9150DMP());
+            case "MPL":
+                return Boolean.valueOf(isMPLEnable());
+            case "Rate":
+                if (num.intValue() == this.mSensorIdGyro) {
+                    return getConfigValueUsingConfigLabel("Gyro Sampling Rate");
+                }
+                if (num.intValue() == this.mSensorIdAccel) {
+                    return getConfigValueUsingConfigLabel("Gyro Sampling Rate");
+                }
+                return null;
+            case "Range":
+                if (num.intValue() == this.mSensorIdGyro) {
+                    return getConfigValueUsingConfigLabel("Gyro Range");
+                }
+                if (num.intValue() == this.mSensorIdAccel) {
+                    return getConfigValueUsingConfigLabel(GuiLabelConfig.MPU9X50_ACCEL_RANGE);
+                }
+                return null;
+            case "MPU Gyro Cal":
+                return Integer.valueOf(getMPU9X50MotCalCfg());
+            case "Gyro Range":
+                return Integer.valueOf(getGyroRange());
+            case "MPL Rate":
+                return Integer.valueOf(getMPU9X50MPLSamplingRate());
+            case "Vector Compensation Calibration":
+                return Boolean.valueOf(isMPLVectCompCal());
+            case "9DOF Sensor Fusion":
+                return Boolean.valueOf(isMPLSensorFusion());
+            case "Gyro Sampling Rate":
+                return Double.toString(Math.round(getMPU9X50GyroAccelRateInHz() * 100.0d) / 100.0d);
+            case "Magnetic Disturbance Calibration":
+                return Boolean.valueOf(isMPLMagDistCal());
+            case "MPU LPF":
+                return Integer.valueOf(getMPU9X50LPF());
+            case "MPU Mag Rate":
+                return Integer.valueOf(getMPU9X50MagSamplingRate());
+            default:
+                return super.getConfigValueUsingConfigLabelCommon(num, str);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        ActionSetting actionSetting = new ActionSetting(communication_type);
+        if (str.hashCode() == -382276681) {
+            str.equals(GuiLabelConfig.MPU9X50_ACCEL_RANGE);
+        }
+        return actionSetting;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+        setLowPowerGyro(false);
+        if (this.debugGyroRate && this.mShimmerDevice != null) {
+            System.out.println("Gyro Rate change from freq:\t" + this.mShimmerDevice.getMacId() + "\tsetSamplingRateSensors\t" + d);
+        }
+        setMPU9150GyroAccelRateFromFreq(d);
+        setMPU9150MagRateFromFreq(d);
+        if (this.mShimmerVerObject.isSupportedMpl()) {
+            setMPU9150MplRateFromFreq(d);
+        }
+        checkLowPowerGyro();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        if (!this.mSensorMap.containsKey(Integer.valueOf(i))) {
+            return false;
+        }
+        if (i == this.mSensorIdAccel) {
+            setDefaultMpu9150AccelSensorConfig(z);
+            return true;
+        }
+        if (i == this.mSensorIdGyro) {
+            setDefaultMpu9150GyroSensorConfig(z);
+            return true;
+        }
+        if (i == this.mSensorIdMag) {
+            if (this.mShimmerDevice == null) {
+                return true;
+            }
+            setMPU9150MagRateFromFreq(getSamplingRateShimmer());
+            return true;
+        }
+        if (!mListOfMplChannels.contains(Integer.valueOf(i)) || checkIfAnyOtherMplChannelEnabled(i)) {
+            return true;
+        }
+        setDefaultMpu9150MplSensorConfig(z);
+        return true;
+    }
+
+    public int setMPU9150GyroAccelRateFromFreq(double d) {
+        if (this.debugGyroRate && this.mShimmerDevice != null) {
+            System.out.println("Gyro Rate change from freq:\t" + this.mShimmerDevice.getMacId() + "\t" + d);
+        }
+        if (checkIfAnyMplChannelEnabled() || checkIfAMpuGyroOrAccelEnabled()) {
+            double d2 = this.mMPU9X50LPF == 0 ? 8000.0d : 1000.0d;
+            if (!this.mLowPowerGyro) {
+                if (d < 4.0d) {
+                    d = 4.0d;
+                } else if (d > d2) {
+                    d = d2;
+                }
+                int iFloor = (int) Math.floor((d2 / d) - 1.0d);
+                setMPU9X50GyroAccelRate(iFloor <= 255 ? iFloor : 255);
+            } else {
+                setMPU9X50GyroAccelRate(255);
+            }
+        } else {
+            setMPU9X50GyroAccelRate(255);
+        }
+        return getMPU9X50GyroAccelRate();
+    }
+
+    public int setMPU9150MagRateFromFreq(double d) {
+        if (!(checkIfAnyMplChannelEnabled() || isSensorEnabled(this.mSensorIdMag)) || d <= 10.0d) {
+            this.mMPU9X50MagSamplingRate = 0;
+        } else if (d <= 20.0d) {
+            this.mMPU9X50MagSamplingRate = 1;
+        } else if (d <= 40.0d) {
+            this.mMPU9X50MagSamplingRate = 2;
+        } else if (d <= 50.0d) {
+            this.mMPU9X50MagSamplingRate = 3;
+        } else {
+            this.mMPU9X50MagSamplingRate = 4;
+        }
+        return this.mMPU9X50MagSamplingRate;
+    }
+
+    public int setMPU9150MplRateFromFreq(double d) {
+        if (!checkIfAnyMplChannelEnabled()) {
+            this.mMPU9X50MPLSamplingRate = 0;
+            return 0;
+        }
+        if (d <= 10.0d) {
+            this.mMPU9X50MPLSamplingRate = 0;
+        } else if (d <= 20.0d) {
+            this.mMPU9X50MPLSamplingRate = 1;
+        } else if (d <= 40.0d) {
+            this.mMPU9X50MPLSamplingRate = 2;
+        } else if (d <= 50.0d) {
+            this.mMPU9X50MPLSamplingRate = 3;
+        } else {
+            this.mMPU9X50MPLSamplingRate = 4;
+        }
+        return this.mMPU9X50MPLSamplingRate;
+    }
+
+    public void setDefaultMpu9150GyroSensorConfig(boolean z) {
+        if (!checkIfAnyMplChannelEnabled()) {
+            if (!isSensorEnabled(this.mSensorIdAccel)) {
+                if (z) {
+                    setLowPowerGyro(false);
+                } else {
+                    setLowPowerGyro(true);
+                }
+            }
+            setGyroRange(1);
+            return;
+        }
+        setGyroRange(3);
+    }
+
+    public void setDefaultMpu9150AccelSensorConfig(boolean z) {
+        if (checkIfAnyMplChannelEnabled()) {
+            this.mMPU9X50AccelRange = 0;
+            return;
+        }
+        if (!isSensorEnabled(this.mSensorIdGyro)) {
+            if (z) {
+                setLowPowerGyro(false);
+            } else {
+                setLowPowerGyro(true);
+            }
+        }
+        if (z) {
+            return;
+        }
+        this.mMPU9X50AccelRange = 0;
+    }
+
+    public void setDefaultMpu9150MplSensorConfig(boolean z) {
+        this.mMPU9X50DMP = z ? 1 : 0;
+        this.mMPLEnable = z ? 1 : 0;
+        this.mMPU9X50LPF = z ? 1 : 0;
+        this.mMPU9X50MotCalCfg = z ? 1 : 0;
+        this.mMPLGyroCalTC = z ? 1 : 0;
+        this.mMPLVectCompCal = z ? 1 : 0;
+        this.mMPLMagDistCal = z ? 1 : 0;
+        this.mMPLSensorFusion = 0;
+        if (z) {
+            setGyroRange(3);
+            this.mMPU9X50AccelRange = 0;
+            setLowPowerGyro(false);
+        } else if (checkIfAMpuGyroOrAccelEnabled()) {
+            if (this.debugGyroRate && this.mShimmerDevice != null) {
+                System.out.println("Gyro Rate change from freq:\t" + this.mShimmerDevice.getMacId() + "\tMPL off but Gyro/Accel still enabled\t" + this.mShimmerDevice.getSamplingRateShimmer());
+            }
+            if (this.mShimmerDevice != null) {
+                setMPU9150GyroAccelRateFromFreq(getSamplingRateShimmer());
+            }
+        } else {
+            setLowPowerGyro(true);
+        }
+        if (this.mShimmerDevice != null) {
+            setMPU9150MagRateFromFreq(getSamplingRateShimmer());
+            setMPU9150MplRateFromFreq(getSamplingRateShimmer());
+        }
+    }
+
+    public boolean checkIfAMpuGyroOrAccelEnabled() {
+        return isSensorEnabled(this.mSensorIdGyro) || isSensorEnabled(this.mSensorIdAccel);
+    }
+
+    public boolean checkIfAnyOtherMplChannelEnabled(int i) {
+        if (!this.mShimmerVerObject.isSupportedMpl() || this.mSensorMap.keySet().size() <= 0) {
+            return false;
+        }
+        Iterator<Integer> it2 = mListOfMplChannels.iterator();
+        while (it2.hasNext()) {
+            int iIntValue = it2.next().intValue();
+            if (iIntValue != i && isSensorEnabled(iIntValue)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean checkIfAnyMplChannelEnabled() {
+        if (!this.mShimmerVerObject.isSupportedMpl() || this.mSensorMap.keySet().size() <= 0) {
+            return false;
+        }
+        Iterator<Integer> it2 = mListOfMplChannels.iterator();
+        while (it2.hasNext()) {
+            if (isSensorEnabled(it2.next().intValue())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public double getMPU9X50GyroAccelRateInHz() {
+        double d = this.mMPU9X50LPF == 0 ? 8000.0d : 1000.0d;
+        return getMPU9X50GyroAccelRate() == 0 ? d : d / (getMPU9X50GyroAccelRate() + 1);
+    }
+
+    public void setMPU9150GyroRange(int i) {
+        if (ArrayUtils.contains(ListofMPU9X50GyroRangeConfigValues, Integer.valueOf(i))) {
+            if (checkIfAnyMplChannelEnabled()) {
+                i = 3;
+            }
+            this.mGyroRange = i;
+            updateCurrentGyroCalibInUse();
+        }
+    }
+
+    public void setMPLEnabled(boolean z) {
+        setMPLEnabled(z ? 1 : 0);
+    }
+
+    public void setMPU9150MotCalCfg(boolean z) {
+        setMPU9X150MotCalCfg(z ? 1 : 0);
+    }
+
+    public byte[] generateCalParamGyroscope() {
+        return this.mCurrentCalibDetailsGyro.generateCalParamByteArray();
+    }
+
+    private boolean isGyroUsingDefaultParameters() {
+        return this.mCurrentCalibDetailsGyro.isUsingDefaultParameters();
+    }
+
+    private void setDefaultCalibrationShimmer3Gyro() {
+        this.mCurrentCalibDetailsGyro.resetToDefaultParameters();
+    }
+
+    public double[][] getAlignmentMatrixGyro() {
+        return this.mCurrentCalibDetailsGyro.getValidAlignmentMatrix();
+    }
+
+    public double[][] getSensitivityMatrixGyro() {
+        return this.mCurrentCalibDetailsGyro.getValidSensitivityMatrix();
+    }
+
+    public double[][] getOffsetVectorMatrixGyro() {
+        return this.mCurrentCalibDetailsGyro.getValidOffsetVector();
+    }
+
+    public boolean isUsingDefaultGyroParam() {
+        return this.mCurrentCalibDetailsGyro.isUsingDefaultParameters();
+    }
+
+    public void setLowPowerGyro(boolean z) {
+        if (checkIfAnyMplChannelEnabled()) {
+            this.mLowPowerGyro = false;
+        } else {
+            this.mLowPowerGyro = z;
+        }
+        if (this.debugGyroRate && this.mShimmerDevice != null) {
+            System.out.println("Gyro Rate change from freq:\t" + this.mShimmerDevice.getMacId() + "\tsetLowPowerGyro\t" + this.mShimmerDevice.getSamplingRateShimmer());
+        }
+        if (this.mShimmerDevice != null) {
+            setMPU9150GyroAccelRateFromFreq(getSamplingRateShimmer());
+        }
+    }
+
+    public void setCalibParamMPLAccel(byte[] bArr) {
+        int[] dataPacketReverse = UtilParseData.formatDataPacketReverse(bArr, new String[]{"i16", "i16", "i16", "i16", "i16", "i16", "i8", "i8", "i8", "i8", "i8", "i8", "i8", "i8", "i8"});
+        double[] dArr = new double[9];
+        for (int i = 0; i < 9; i++) {
+            dArr[i] = dataPacketReverse[i + 6] / 100.0d;
+        }
+        double[][] dArr2 = {new double[]{dArr[0], dArr[1], dArr[2]}, new double[]{dArr[3], dArr[4], dArr[5]}, new double[]{dArr[6], dArr[7], dArr[8]}};
+        this.AlignmentMatrixMPLAccel = dArr2;
+        this.SensitivityMatrixMPLAccel = new double[][]{new double[]{dataPacketReverse[3], 0.0d, 0.0d}, new double[]{0.0d, dataPacketReverse[4], 0.0d}, new double[]{0.0d, 0.0d, dataPacketReverse[5]}};
+        this.OffsetVectorMPLAccel = new double[][]{new double[]{dataPacketReverse[0]}, new double[]{dataPacketReverse[1]}, new double[]{dataPacketReverse[2]}};
+    }
+
+    public void setCalibParamMPLMag(byte[] bArr) {
+        int[] dataPacketReverse = UtilParseData.formatDataPacketReverse(bArr, new String[]{"i16", "i16", "i16", "i16", "i16", "i16", "i8", "i8", "i8", "i8", "i8", "i8", "i8", "i8", "i8"});
+        double[] dArr = new double[9];
+        for (int i = 0; i < 9; i++) {
+            dArr[i] = dataPacketReverse[i + 6] / 100.0d;
+        }
+        double[][] dArr2 = {new double[]{dArr[0], dArr[1], dArr[2]}, new double[]{dArr[3], dArr[4], dArr[5]}, new double[]{dArr[6], dArr[7], dArr[8]}};
+        this.AlignmentMatrixMPLMag = dArr2;
+        this.SensitivityMatrixMPLMag = new double[][]{new double[]{dataPacketReverse[3], 0.0d, 0.0d}, new double[]{0.0d, dataPacketReverse[4], 0.0d}, new double[]{0.0d, 0.0d, dataPacketReverse[5]}};
+        this.OffsetVectorMPLMag = new double[][]{new double[]{dataPacketReverse[0]}, new double[]{dataPacketReverse[1]}, new double[]{dataPacketReverse[2]}};
+    }
+
+    public void setCalibParamMPLGyro(byte[] bArr) {
+        int[] dataPacketReverse = UtilParseData.formatDataPacketReverse(bArr, new String[]{"i16", "i16", "i16", "i16", "i16", "i16", "i8", "i8", "i8", "i8", "i8", "i8", "i8", "i8", "i8"});
+        double[] dArr = new double[9];
+        for (int i = 0; i < 9; i++) {
+            dArr[i] = dataPacketReverse[i + 6] / 100.0d;
+        }
+        double[][] dArr2 = {new double[]{dArr[0], dArr[1], dArr[2]}, new double[]{dArr[3], dArr[4], dArr[5]}, new double[]{dArr[6], dArr[7], dArr[8]}};
+        this.AlignmentMatrixMPLGyro = dArr2;
+        this.SensitivityMatrixMPLGyro = new double[][]{new double[]{dataPacketReverse[3], 0.0d, 0.0d}, new double[]{0.0d, dataPacketReverse[4], 0.0d}, new double[]{0.0d, 0.0d, dataPacketReverse[5]}};
+        this.OffsetVectorMPLGyro = new double[][]{new double[]{dataPacketReverse[0]}, new double[]{dataPacketReverse[1]}, new double[]{dataPacketReverse[2]}};
+    }
+
+    public void parseCalibParamFromPacketGyro(byte[] bArr, CalibDetails.CALIB_READ_SOURCE calib_read_source) {
+        this.mCurrentCalibDetailsGyro.parseCalParamByteArray(bArr, calib_read_source);
+    }
+
+    private boolean checkIfDefaultGyroCal(double[][] dArr, double[][] dArr2, double[][] dArr3) {
+        return this.mCurrentCalibDetailsGyro.isUsingDefaultParameters();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+        setLowPowerGyro(false);
+        if (!isSensorEnabled(this.mSensorIdGyro)) {
+            setDefaultMpu9150GyroSensorConfig(false);
+        }
+        if (!isSensorEnabled(this.mSensorIdAccel)) {
+            setDefaultMpu9150AccelSensorConfig(false);
+        }
+        if (!isSensorEnabled(this.mSensorIdMag) && this.mShimmerDevice != null) {
+            setMPU9150MagRateFromFreq(getSamplingRateShimmer());
+        }
+        if (!checkIfAnyMplChannelEnabled()) {
+            setDefaultMpu9150MplSensorConfig(false);
+        }
+        setLowPowerGyro(false);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateCalibMap() {
+        super.generateCalibMap();
+        TreeMap<Integer, CalibDetails> treeMap = new TreeMap<>();
+        treeMap.put(Integer.valueOf(this.calibDetailsGyro250.mRangeValue), this.calibDetailsGyro250);
+        treeMap.put(Integer.valueOf(this.calibDetailsGyro500.mRangeValue), this.calibDetailsGyro500);
+        treeMap.put(Integer.valueOf(this.calibDetailsGyro1000.mRangeValue), this.calibDetailsGyro1000);
+        treeMap.put(Integer.valueOf(this.calibDetailsGyro2000.mRangeValue), this.calibDetailsGyro2000);
+        this.mCalibMap.put(Integer.valueOf(this.mSensorIdGyro), treeMap);
+        updateCurrentGyroCalibInUse();
+        if (this.mShimmerVerObject.isSupportedMpl()) {
+            new TreeMap().put(Integer.valueOf(this.calibDetailsMplAccel.mRangeValue), this.calibDetailsMplAccel);
+            this.mCalibMap.put(59, treeMap);
+            new TreeMap().put(Integer.valueOf(this.calibDetailsMplMag.mRangeValue), this.calibDetailsMplMag);
+            this.mCalibMap.put(60, treeMap);
+            new TreeMap().put(Integer.valueOf(this.calibDetailsMplGyro.mRangeValue), this.calibDetailsMplGyro);
+            this.mCalibMap.put(58, treeMap);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean isSensorUsingDefaultCal(int i) {
+        if (i == this.mSensorIdGyro) {
+            return isUsingDefaultGyroParam();
+        }
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setCalibrationMapPerSensor(int i, TreeMap<Integer, CalibDetails> treeMap) {
+        super.setCalibrationMapPerSensor(i, treeMap);
+        updateCurrentGyroCalibInUse();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public double calcMaxSamplingRate() {
+        if (checkIfAnyMplChannelEnabled() && this.mShimmerVerObject.isSupportedMpl()) {
+            return 51.2d;
+        }
+        return super.calcMaxSamplingRate();
+    }
+
+    public void updateCurrentGyroCalibInUse() {
+        this.mCurrentCalibDetailsGyro = getCurrentCalibDetailsIfKinematic(this.mSensorIdGyro, getGyroRange());
+    }
+
+    public void updateIsUsingDefaultGyroParam() {
+        this.mIsUsingDefaultGyroParam = getCurrentCalibDetailsGyro().isUsingDefaultParameters();
+    }
+
+    public static class ObjectClusterSensorName {
+        public static String ACCEL_MPU_MPL_X = "Accel_MPU_MPL_X";
+        public static String ACCEL_MPU_MPL_Y = "Accel_MPU_MPL_Y";
+        public static String ACCEL_MPU_MPL_Z = "Accel_MPU_MPL_Z";
+        public static String ACCEL_MPU_X = "Accel_MPU_X";
+        public static String ACCEL_MPU_Y = "Accel_MPU_Y";
+        public static String ACCEL_MPU_Z = "Accel_MPU_Z";
+        public static String EULER_MPL_6DOF_X = "Euler_MPL_6DOF_X";
+        public static String EULER_MPL_6DOF_Y = "Euler_MPL_6DOF_Y";
+        public static String EULER_MPL_6DOF_Z = "Euler_MPL_6DOF_Z";
+        public static String EULER_MPL_9DOF_X = "Euler_MPL_9DOF_X";
+        public static String EULER_MPL_9DOF_Y = "Euler_MPL_9DOF_Y";
+        public static String EULER_MPL_9DOF_Z = "Euler_MPL_9DOF_Z";
+        public static String GYRO_MPU_MPL_X = "Gyro_MPU_MPL_X";
+        public static String GYRO_MPU_MPL_Y = "Gyro_MPU_MPL_Y";
+        public static String GYRO_MPU_MPL_Z = "Gyro_MPU_MPL_Z";
+        public static String GYRO_X = "Gyro_X";
+        public static String GYRO_Y = "Gyro_Y";
+        public static String GYRO_Z = "Gyro_Z";
+        public static String MAG_MPU_MPL_X = "Mag_MPU_MPL_X";
+        public static String MAG_MPU_MPL_Y = "Mag_MPU_MPL_Y";
+        public static String MAG_MPU_MPL_Z = "Mag_MPU_MPL_Z";
+        public static String MAG_MPU_X = "Mag_MPU_X";
+        public static String MAG_MPU_Y = "Mag_MPU_Y";
+        public static String MAG_MPU_Z = "Mag_MPU_Z";
+        public static String MOTION = "Motion";
+        public static String MOTIONANDORIENT = "MotionAndOrient";
+        public static String MPL_HEADING = "MPL_heading";
+        public static String MPL_PEDOM_CNT = "MPL_Pedom_cnt";
+        public static String MPL_PEDOM_TIME = "MPL_Pedom_Time";
+        public static String MPL_TEMPERATURE = "MPL_Temperature";
+        public static String ORIENT = "Orient";
+        public static String QUAT_DMP_6DOF_W = "Quat_DMP_6DOF_W";
+        public static String QUAT_DMP_6DOF_X = "Quat_DMP_6DOF_X";
+        public static String QUAT_DMP_6DOF_Y = "Quat_DMP_6DOF_Y";
+        public static String QUAT_DMP_6DOF_Z = "Quat_DMP_6DOF_Z";
+        public static String QUAT_MPL_6DOF_W = "Quat_MPL_6DOF_W";
+        public static String QUAT_MPL_6DOF_X = "Quat_MPL_6DOF_X";
+        public static String QUAT_MPL_6DOF_Y = "Quat_MPL_6DOF_Y";
+        public static String QUAT_MPL_6DOF_Z = "Quat_MPL_6DOF_Z";
+        public static String QUAT_MPL_9DOF_W = "Quat_MPL_9DOF_W";
+        public static String QUAT_MPL_9DOF_X = "Quat_MPL_9DOF_X";
+        public static String QUAT_MPL_9DOF_Y = "Quat_MPL_9DOF_Y";
+        public static String QUAT_MPL_9DOF_Z = "Quat_MPL_9DOF_Z";
+        public static String TAPCNT = "Tap_Count";
+        public static String TAPDIR = "Tap_Dirirection";
+        public static String TAPDIRANDTAPCNT = "TapDirAndTapCnt";
+    }
+
+    public class GuiLabelConfig {
+        public static final String MPU9X50_ACCEL_RANGE = "MPU Accel Range";
+        public static final String MPU9X50_DMP = "DMP";
+        public static final String MPU9X50_DMP_GYRO_CAL = "MPU Gyro Cal";
+        public static final String MPU9X50_GYRO_CALIB_PARAM = "Gyro Calibration Details";
+        public static final String MPU9X50_GYRO_DEFAULT_CALIB = "Gyro Default Calibration";
+        public static final String MPU9X50_GYRO_LPM = "Gyro Low-Power Mode";
+        public static final String MPU9X50_GYRO_RANGE = "Gyro Range";
+        public static final String MPU9X50_GYRO_RATE = "Gyro Sampling Rate";
+        public static final String MPU9X50_GYRO_RATE_HZ = "Gyro Sampling Rate Hertz";
+        public static final String MPU9X50_GYRO_VALID_CALIB = "Gyro Valid Calibration";
+        public static final String MPU9X50_MAG_RATE = "MPU Mag Rate";
+        public static final String MPU9X50_MPL = "MPL";
+        public static final String MPU9X50_MPL_9DOF_SENSOR_FUSION = "9DOF Sensor Fusion";
+        public static final String MPU9X50_MPL_GYRO_CAL = "Gyro Calibration";
+        public static final String MPU9X50_MPL_LPF = "MPU LPF";
+        public static final String MPU9X50_MPL_MAG_CAL = "Magnetic Disturbance Calibration";
+        public static final String MPU9X50_MPL_RATE = "MPL Rate";
+        public static final String MPU9X50_MPL_VECTOR_CAL = "Vector Compensation Calibration";
+
+        public GuiLabelConfig() {
+        }
+    }
+
+    public class GuiLabelSensors {
+        public static final String ACCEL_MPU = "Alternative Accel";
+        public static final String ACCEL_MPU_MPL = "MPU Accel";
+        public static final String EULER_ANGLES_6DOF = "Euler Angles (6DOF)";
+        public static final String EULER_ANGLES_9DOF = "Euler Angles (9DOF)";
+        public static final String EULER_MPL_6DOF = "MPU Euler 6DOF";
+        public static final String EULER_MPL_9DOF = "MPU Euler 9DOF";
+        public static final String GYRO = "Gyroscope";
+        public static final String GYRO_MPU_MPL = "MPU Gyro";
+        public static final String MAG_MPU = "Alternative Mag";
+        public static final String MAG_MPU_MPL = "MPU Mag";
+        public static final String MPL_HEADING = "MPU Heading";
+        public static final String MPL_MOTION = "Motion";
+        public static final String MPL_MOTIONANDORIENT = "MotionAndOrient";
+        public static final String MPL_ORIENT = "Orient";
+        public static final String MPL_PEDOMETER = "MPL_Pedometer";
+        public static final String MPL_PEDOM_CNT = "MPL_Pedom_cnt";
+        public static final String MPL_PEDOM_TIME = "MPL_Pedom_Time";
+        public static final String MPL_TAPCNT = "TapCnt";
+        public static final String MPL_TAPDIR = "TapDir";
+        public static final String MPL_TAPDIRANDTAPCNT = "TapDirAndTapCnt";
+        public static final String MPL_TEMPERATURE = "MPU Temp";
+        public static final String QUAT_DMP_6DOF = "MPU Quat 6DOF (from DMP)";
+        public static final String QUAT_MPL_6DOF = "MPU Quat 6DOF";
+        public static final String QUAT_MPL_9DOF = "MPU Quat 9DOF";
+
+        public GuiLabelSensors() {
+        }
+    }
+
+    public class LABEL_SENSOR_TILE {
+        public static final String GYRO = "Gyroscope";
+        public static final String MPU = "Kinematics";
+        public static final String MPU_ACCEL_GYRO_MAG = "MPU 9DoF";
+        public static final String MPU_OTHER = "MPU Other";
+
+        public LABEL_SENSOR_TILE() {
+        }
+    }
+}

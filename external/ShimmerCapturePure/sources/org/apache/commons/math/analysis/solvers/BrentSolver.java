@@ -1,0 +1,192 @@
+package org.apache.commons.math.analysis.solvers;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/solvers/BrentSolver.class */
+public class BrentSolver extends UnivariateRealSolverImpl {
+    public static final double DEFAULT_ABSOLUTE_ACCURACY = 1.0E-6d;
+    public static final int DEFAULT_MAXIMUM_ITERATIONS = 100;
+    private static final long serialVersionUID = 7694577816772532779L;
+
+    @Deprecated
+    public BrentSolver(UnivariateRealFunction f) {
+        super(f, 100, 1.0E-6d);
+    }
+
+    @Deprecated
+    public BrentSolver() {
+        super(100, 1.0E-6d);
+    }
+
+    public BrentSolver(double absoluteAccuracy) {
+        super(100, absoluteAccuracy);
+    }
+
+    public BrentSolver(int maximumIterations, double absoluteAccuracy) {
+        super(maximumIterations, absoluteAccuracy);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    @Deprecated
+    public double solve(double min, double max) throws FunctionEvaluationException, MaxIterationsExceededException {
+        return solve(this.f, min, max);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    @Deprecated
+    public double solve(double min, double max, double initial) throws FunctionEvaluationException, MaxIterationsExceededException {
+        return solve(this.f, min, max, initial);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    @Deprecated
+    public double solve(UnivariateRealFunction f, double min, double max, double initial) throws FunctionEvaluationException, MaxIterationsExceededException {
+        clearResult();
+        if (initial < min || initial > max) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INVALID_INTERVAL_INITIAL_VALUE_PARAMETERS, Double.valueOf(min), Double.valueOf(initial), Double.valueOf(max));
+        }
+        double yInitial = f.value(initial);
+        if (FastMath.abs(yInitial) <= this.functionValueAccuracy) {
+            setResult(initial, 0);
+            return this.result;
+        }
+        double yMin = f.value(min);
+        if (FastMath.abs(yMin) <= this.functionValueAccuracy) {
+            setResult(min, 0);
+            return this.result;
+        }
+        if (yInitial * yMin < 0.0d) {
+            return solve(f, min, yMin, initial, yInitial, min, yMin);
+        }
+        double yMax = f.value(max);
+        if (FastMath.abs(yMax) <= this.functionValueAccuracy) {
+            setResult(max, 0);
+            return this.result;
+        }
+        if (yInitial * yMax < 0.0d) {
+            return solve(f, initial, yInitial, max, yMax, initial, yInitial);
+        }
+        throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, Double.valueOf(min), Double.valueOf(max), Double.valueOf(yMin), Double.valueOf(yMax));
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
+    public double solve(int maxEval, UnivariateRealFunction f, double min, double max, double initial) throws FunctionEvaluationException, MaxIterationsExceededException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max, initial);
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolver
+    @Deprecated
+    public double solve(UnivariateRealFunction f, double min, double max) throws FunctionEvaluationException, MaxIterationsExceededException {
+        double ret;
+        clearResult();
+        verifyInterval(min, max);
+        double yMin = f.value(min);
+        double yMax = f.value(max);
+        double sign = yMin * yMax;
+        if (sign > 0.0d) {
+            if (FastMath.abs(yMin) <= this.functionValueAccuracy) {
+                setResult(min, 0);
+                ret = min;
+            } else {
+                if (FastMath.abs(yMax) > this.functionValueAccuracy) {
+                    throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.SAME_SIGN_AT_ENDPOINTS, Double.valueOf(min), Double.valueOf(max), Double.valueOf(yMin), Double.valueOf(yMax));
+                }
+                setResult(max, 0);
+                ret = max;
+            }
+        } else if (sign < 0.0d) {
+            ret = solve(f, min, yMin, max, yMax, min, yMin);
+        } else if (yMin == 0.0d) {
+            ret = min;
+        } else {
+            ret = max;
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.analysis.solvers.UnivariateRealSolverImpl
+    public double solve(int maxEval, UnivariateRealFunction f, double min, double max) throws FunctionEvaluationException, MaxIterationsExceededException {
+        setMaximalIterationCount(maxEval);
+        return solve(f, min, max);
+    }
+
+    private double solve(UnivariateRealFunction f, double x0, double y0, double x1, double y1, double x2, double y2) throws FunctionEvaluationException, MaxIterationsExceededException {
+        double p;
+        double p1;
+        double delta = x1 - x0;
+        double oldDelta = delta;
+        for (int i = 0; i < this.maximalIterationCount; i++) {
+            if (FastMath.abs(y2) < FastMath.abs(y1)) {
+                x0 = x1;
+                x1 = x2;
+                x2 = x0;
+                y0 = y1;
+                y1 = y2;
+                y2 = y0;
+            }
+            if (FastMath.abs(y1) <= this.functionValueAccuracy) {
+                setResult(x1, i);
+                return this.result;
+            }
+            double dx = x2 - x1;
+            double tolerance = FastMath.max(this.relativeAccuracy * FastMath.abs(x1), this.absoluteAccuracy);
+            if (FastMath.abs(dx) <= tolerance) {
+                setResult(x1, i);
+                return this.result;
+            }
+            if (FastMath.abs(oldDelta) < tolerance || FastMath.abs(y0) <= FastMath.abs(y1)) {
+                delta = 0.5d * dx;
+                oldDelta = delta;
+            } else {
+                double r3 = y1 / y0;
+                if (x0 == x2) {
+                    p = dx * r3;
+                    p1 = 1.0d - r3;
+                } else {
+                    double r1 = y0 / y2;
+                    double r2 = y1 / y2;
+                    p = r3 * (((dx * r1) * (r1 - r2)) - ((x1 - x0) * (r2 - 1.0d)));
+                    p1 = (r1 - 1.0d) * (r2 - 1.0d) * (r3 - 1.0d);
+                }
+                if (p > 0.0d) {
+                    p1 = -p1;
+                } else {
+                    p = -p;
+                }
+                if (2.0d * p >= ((1.5d * dx) * p1) - FastMath.abs(tolerance * p1) || p >= FastMath.abs(0.5d * oldDelta * p1)) {
+                    delta = 0.5d * dx;
+                    oldDelta = delta;
+                } else {
+                    oldDelta = delta;
+                    delta = p / p1;
+                }
+            }
+            x0 = x1;
+            y0 = y1;
+            if (FastMath.abs(delta) > tolerance) {
+                x1 += delta;
+            } else if (dx > 0.0d) {
+                x1 += 0.5d * tolerance;
+            } else if (dx <= 0.0d) {
+                x1 -= 0.5d * tolerance;
+            }
+            y1 = f.value(x1);
+            if ((y1 > 0.0d) == (y2 > 0.0d)) {
+                x2 = x0;
+                y2 = y0;
+                delta = x1 - x0;
+                oldDelta = delta;
+            }
+        }
+        throw new MaxIterationsExceededException(this.maximalIterationCount);
+    }
+}

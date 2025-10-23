@@ -1,0 +1,97 @@
+package io.grpc.xds.internal.sds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.netty.shaded.io.netty.handler.ssl.ClientAuth;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContext;
+import io.grpc.netty.shaded.io.netty.handler.ssl.SslContextBuilder;
+import io.grpc.xds.EnvoyServerProtoData;
+import io.grpc.xds.internal.sds.trust.SdsTrustManagerFactory;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CommonTlsContext;
+
+import java.io.IOException;
+import java.security.cert.CertStoreException;
+import java.security.cert.CertificateException;
+import java.util.concurrent.Executor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/* loaded from: classes3.dex */
+public abstract class SslContextProvider implements Closeable {
+    private static final Logger logger = Logger.getLogger(SslContextProvider.class.getName());
+    protected final EnvoyServerProtoData.BaseTlsContext tlsContext;
+
+    protected SslContextProvider(EnvoyServerProtoData.BaseTlsContext baseTlsContext) {
+        this.tlsContext = (EnvoyServerProtoData.BaseTlsContext) Preconditions.checkNotNull(baseTlsContext, "tlsContext");
+    }
+
+    public abstract void addCallback(Callback callback);
+
+    @Override // io.grpc.xds.internal.sds.Closeable, java.io.Closeable, java.lang.AutoCloseable
+    public abstract void close();
+
+    protected CommonTlsContext getCommonTlsContext() {
+        return this.tlsContext.getCommonTlsContext();
+    }
+
+    protected void setClientAuthValues(SslContextBuilder sslContextBuilder, SdsTrustManagerFactory sdsTrustManagerFactory) throws IOException, CertificateException, CertStoreException {
+        ClientAuth clientAuth;
+        EnvoyServerProtoData.DownstreamTlsContext downstreamTlsContext = getDownstreamTlsContext();
+        if (sdsTrustManagerFactory != null) {
+            sslContextBuilder.trustManager(sdsTrustManagerFactory);
+            if (downstreamTlsContext.isRequireClientCertificate()) {
+                clientAuth = ClientAuth.REQUIRE;
+            } else {
+                clientAuth = ClientAuth.OPTIONAL;
+            }
+            sslContextBuilder.clientAuth(clientAuth);
+            return;
+        }
+        sslContextBuilder.clientAuth(ClientAuth.NONE);
+    }
+
+    public EnvoyServerProtoData.DownstreamTlsContext getDownstreamTlsContext() {
+        Preconditions.checkState(this.tlsContext instanceof EnvoyServerProtoData.DownstreamTlsContext, "expected DownstreamTlsContext");
+        return (EnvoyServerProtoData.DownstreamTlsContext) this.tlsContext;
+    }
+
+    public EnvoyServerProtoData.UpstreamTlsContext getUpstreamTlsContext() {
+        Preconditions.checkState(this.tlsContext instanceof EnvoyServerProtoData.UpstreamTlsContext, "expected UpstreamTlsContext");
+        return (EnvoyServerProtoData.UpstreamTlsContext) this.tlsContext;
+    }
+
+    protected final void performCallback(final SslContextGetter sslContextGetter, final Callback callback) {
+        Preconditions.checkNotNull(sslContextGetter, "sslContextGetter");
+        Preconditions.checkNotNull(callback, "callback");
+        callback.executor.execute(new Runnable() { // from class: io.grpc.xds.internal.sds.SslContextProvider.1
+            @Override // java.lang.Runnable
+            public void run() {
+                try {
+                    try {
+                        callback.updateSecret(sslContextGetter.get());
+                    } catch (Throwable th) {
+                        SslContextProvider.logger.log(Level.SEVERE, "Exception from callback.updateSecret", th);
+                    }
+                } catch (Throwable th2) {
+                    SslContextProvider.logger.log(Level.SEVERE, "Exception from sslContextGetter.get()", th2);
+                    callback.onException(th2);
+                }
+            }
+        });
+    }
+
+    protected interface SslContextGetter {
+        SslContext get() throws Exception;
+    }
+
+    static abstract class Callback {
+        private final Executor executor;
+
+        protected Callback(Executor executor) {
+            this.executor = executor;
+        }
+
+        abstract void onException(Throwable th);
+
+        abstract void updateSecret(SslContext sslContext);
+    }
+}

@@ -1,0 +1,79 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Internal;
+import com.google.protobuf.ProtocolMessageEnum;
+
+/* loaded from: classes3.dex */
+public enum ApiVersion implements ProtocolMessageEnum {
+    AUTO(0),
+    V2(1),
+    V3(2),
+    UNRECOGNIZED(-1);
+
+    public static final int AUTO_VALUE = 0;
+    public static final int V2_VALUE = 1;
+    public static final int V3_VALUE = 2;
+    private static final Internal.EnumLiteMap<ApiVersion> internalValueMap = new Internal.EnumLiteMap<ApiVersion>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.ApiVersion.1
+        public ApiVersion findValueByNumber(int i) {
+            return ApiVersion.forNumber(i);
+        }
+    };
+    private static final ApiVersion[] VALUES = values();
+    private final int value;
+
+    ApiVersion(int i) {
+        this.value = i;
+    }
+
+    public static ApiVersion forNumber(int i) {
+        if (i == 0) {
+            return AUTO;
+        }
+        if (i == 1) {
+            return V2;
+        }
+        if (i != 2) {
+            return null;
+        }
+        return V3;
+    }
+
+    public static Internal.EnumLiteMap<ApiVersion> internalGetValueMap() {
+        return internalValueMap;
+    }
+
+    @Deprecated
+    public static ApiVersion valueOf(int i) {
+        return forNumber(i);
+    }
+
+    public static final Descriptors.EnumDescriptor getDescriptor() {
+        return (Descriptors.EnumDescriptor) ConfigSourceProto.getDescriptor().getEnumTypes().get(0);
+    }
+
+    public static ApiVersion valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+        if (enumValueDescriptor.getType() == getDescriptor()) {
+            return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+        }
+        throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+    }
+
+    public final int getNumber() {
+        if (this != UNRECOGNIZED) {
+            return this.value;
+        }
+        throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+    }
+
+    public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+        if (this == UNRECOGNIZED) {
+            throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+        }
+        return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+    }
+
+    public final Descriptors.EnumDescriptor getDescriptorForType() {
+        return getDescriptor();
+    }
+}

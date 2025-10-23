@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/ChannelPipelineException.java
+// Size: 536 bytes
+// Modified: 2025-10-21 16:32:01.531531500 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+/* loaded from: classes3.dex */
+public class ChannelPipelineException extends ChannelException {
+    private static final long serialVersionUID = 3379174210419885980L;
+
+    public ChannelPipelineException() {
+    }
+
+    public ChannelPipelineException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public ChannelPipelineException(String str) {
+        super(str);
+    }
+
+    public ChannelPipelineException(Throwable th) {
+        super(th);
+    }
+}

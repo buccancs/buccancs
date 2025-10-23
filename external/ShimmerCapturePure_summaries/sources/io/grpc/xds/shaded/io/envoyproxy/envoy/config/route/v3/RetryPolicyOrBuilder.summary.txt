@@ -1,0 +1,83 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/route/v3/RetryPolicyOrBuilder.java
+// Size: 2328 bytes
+// Modified: 2025-10-21 16:32:06.744841700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RetryPolicy;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface RetryPolicyOrBuilder extends MessageOrBuilder {
+    long getHostSelectionRetryMaxAttempts();
+
+    UInt32Value getNumRetries();
+
+    UInt32ValueOrBuilder getNumRetriesOrBuilder();
+
+    Duration getPerTryTimeout();
+
+    DurationOrBuilder getPerTryTimeoutOrBuilder();
+
+    HeaderMatcher getRetriableHeaders(int i);
+
+    int getRetriableHeadersCount();
+
+    List<HeaderMatcher> getRetriableHeadersList();
+
+    HeaderMatcherOrBuilder getRetriableHeadersOrBuilder(int i);
+
+    List<? extends HeaderMatcherOrBuilder> getRetriableHeadersOrBuilderList();
+
+    HeaderMatcher getRetriableRequestHeaders(int i);
+
+    int getRetriableRequestHeadersCount();
+
+    List<HeaderMatcher> getRetriableRequestHeadersList();
+
+    HeaderMatcherOrBuilder getRetriableRequestHeadersOrBuilder(int i);
+
+    List<? extends HeaderMatcherOrBuilder> getRetriableRequestHeadersOrBuilderList();
+
+    int getRetriableStatusCodes(int i);
+
+    int getRetriableStatusCodesCount();
+
+    List<Integer> getRetriableStatusCodesList();
+
+    RetryPolicy.RetryBackOff getRetryBackOff();
+
+    RetryPolicy.RetryBackOffOrBuilder getRetryBackOffOrBuilder();
+
+    RetryPolicy.RetryHostPredicate getRetryHostPredicate(int i);
+
+    int getRetryHostPredicateCount();
+
+    List<RetryPolicy.RetryHostPredicate> getRetryHostPredicateList();
+
+    RetryPolicy.RetryHostPredicateOrBuilder getRetryHostPredicateOrBuilder(int i);
+
+    List<? extends RetryPolicy.RetryHostPredicateOrBuilder> getRetryHostPredicateOrBuilderList();
+
+    String getRetryOn();
+
+    ByteString getRetryOnBytes();
+
+    RetryPolicy.RetryPriority getRetryPriority();
+
+    RetryPolicy.RetryPriorityOrBuilder getRetryPriorityOrBuilder();
+
+    boolean hasNumRetries();
+
+    boolean hasPerTryTimeout();
+
+    boolean hasRetryBackOff();
+
+    boolean hasRetryPriority();
+}

@@ -1,0 +1,148 @@
+package io.grpc.netty;
+
+import com.google.common.base.Preconditions;
+import io.grpc.Status;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
+import io.netty.channel.ChannelDuplexHandler;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelPromise;
+import io.netty.util.ReferenceCountUtil;
+
+import java.net.SocketAddress;
+import java.util.ArrayDeque;
+import java.util.Queue;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/* loaded from: classes2.dex */
+final class WriteBufferingAndExceptionHandler extends ChannelDuplexHandler {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final Logger logger = Logger.getLogger(WriteBufferingAndExceptionHandler.class.getName());
+    private final Queue<ChannelWrite> bufferedWrites = new ArrayDeque();
+    private final ChannelHandler next;
+    private Throwable failCause;
+    private boolean flushRequested;
+    private boolean writing;
+
+    WriteBufferingAndExceptionHandler(ChannelHandler channelHandler) {
+        this.next = (ChannelHandler) Preconditions.checkNotNull(channelHandler, "next");
+    }
+
+    public void flush(ChannelHandlerContext channelHandlerContext) {
+        this.flushRequested = true;
+    }
+
+    public void handlerAdded(ChannelHandlerContext channelHandlerContext) throws Exception {
+        channelHandlerContext.pipeline().addBefore(channelHandlerContext.name(), (String) null, this.next);
+        super.handlerAdded(channelHandlerContext);
+        channelHandlerContext.pipeline().fireUserEventTriggered(ProtocolNegotiationEvent.DEFAULT);
+    }
+
+    public void handlerRemoved(ChannelHandlerContext channelHandlerContext) throws Exception {
+        if (!this.bufferedWrites.isEmpty()) {
+            failWrites(Status.INTERNAL.withDescription("Buffer removed before draining writes").asRuntimeException());
+        }
+        super.handlerRemoved(channelHandlerContext);
+    }
+
+    public void channelInactive(ChannelHandlerContext channelHandlerContext) {
+        failWrites(Status.UNAVAILABLE.withDescription("Connection closed while performing protocol negotiation for " + channelHandlerContext.pipeline().names()).asRuntimeException());
+    }
+
+    public void exceptionCaught(ChannelHandlerContext channelHandlerContext, Throwable th) {
+        Throwable th2 = this.failCause;
+        failWrites(Utils.statusFromThrowable(th).augmentDescription("Channel Pipeline: " + channelHandlerContext.pipeline().names()).asRuntimeException());
+        if (channelHandlerContext.channel().isActive() && th2 == null) {
+            channelHandlerContext.close().addListener(new ChannelFutureListener() { // from class: io.grpc.netty.WriteBufferingAndExceptionHandler.1LogOnFailure
+                public void operationComplete(ChannelFuture channelFuture) {
+                    if (channelFuture.isSuccess()) {
+                        return;
+                    }
+                    WriteBufferingAndExceptionHandler.logger.log(Level.FINE, "Failed closing channel", channelFuture.cause());
+                }
+            });
+        }
+    }
+
+    public void write(ChannelHandlerContext channelHandlerContext, Object obj, ChannelPromise channelPromise) {
+        Throwable th = this.failCause;
+        if (th != null) {
+            channelPromise.setFailure(th);
+            ReferenceCountUtil.release(obj);
+        } else {
+            this.bufferedWrites.add(new ChannelWrite(obj, channelPromise));
+        }
+    }
+
+    public void connect(ChannelHandlerContext channelHandlerContext, SocketAddress socketAddress, SocketAddress socketAddress2, ChannelPromise channelPromise) throws Exception {
+        super.connect(channelHandlerContext, socketAddress, socketAddress2, channelPromise);
+        channelPromise.addListener(new ChannelFutureListener() { // from class: io.grpc.netty.WriteBufferingAndExceptionHandler.1ConnectListener
+            public void operationComplete(ChannelFuture channelFuture) {
+                if (channelFuture.isSuccess()) {
+                    return;
+                }
+                WriteBufferingAndExceptionHandler.this.failWrites(channelFuture.cause());
+            }
+        });
+    }
+
+    public void channelRead(ChannelHandlerContext channelHandlerContext, Object obj) {
+        try {
+            Logger logger2 = logger;
+            if (logger2.isLoggable(Level.FINE)) {
+                logger2.log(Level.FINE, "Unexpected channelRead()->{0} reached end of pipeline {1}", new Object[]{obj instanceof ByteBuf ? ByteBufUtil.hexDump((ByteBuf) obj) : obj, channelHandlerContext.pipeline().names()});
+            }
+            exceptionCaught(channelHandlerContext, Status.INTERNAL.withDescription("channelRead() missed by ProtocolNegotiator handler: " + obj).asRuntimeException());
+        } finally {
+            ReferenceCountUtil.safeRelease(obj);
+        }
+    }
+
+    public void close(ChannelHandlerContext channelHandlerContext, ChannelPromise channelPromise) throws Exception {
+        failWrites(Status.UNAVAILABLE.withDescription("Connection closing while performing protocol negotiation for " + channelHandlerContext.pipeline().names()).asRuntimeException());
+        super.close(channelHandlerContext, channelPromise);
+    }
+
+    final void writeBufferedAndRemove(ChannelHandlerContext channelHandlerContext) {
+        if (!channelHandlerContext.channel().isActive() || this.writing) {
+            return;
+        }
+        this.writing = true;
+        while (!this.bufferedWrites.isEmpty()) {
+            ChannelWrite channelWritePoll = this.bufferedWrites.poll();
+            channelHandlerContext.write(channelWritePoll.msg, channelWritePoll.promise);
+        }
+        if (this.flushRequested) {
+            channelHandlerContext.flush();
+        }
+        channelHandlerContext.pipeline().remove(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void failWrites(Throwable th) {
+        if (this.failCause == null) {
+            this.failCause = th;
+        } else {
+            logger.log(Level.FINE, "Ignoring duplicate failure", th);
+        }
+        while (!this.bufferedWrites.isEmpty()) {
+            ChannelWrite channelWritePoll = this.bufferedWrites.poll();
+            channelWritePoll.promise.setFailure(th);
+            ReferenceCountUtil.release(channelWritePoll.msg);
+        }
+    }
+
+    private static final class ChannelWrite {
+        final Object msg;
+        final ChannelPromise promise;
+
+        ChannelWrite(Object obj, ChannelPromise channelPromise) {
+            this.msg = obj;
+            this.promise = channelPromise;
+        }
+    }
+}

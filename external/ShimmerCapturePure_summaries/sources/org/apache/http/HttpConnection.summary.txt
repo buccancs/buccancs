@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/HttpConnection.java
+// Size: 479 bytes
+// Modified: 2025-10-21 16:32:00.973054000 +0100
+
+package org.apache.http;
+
+import java.io.Closeable;
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public interface HttpConnection extends Closeable {
+    @Override // java.io.Closeable, java.lang.AutoCloseable
+    void close() throws IOException;
+
+    HttpConnectionMetrics getMetrics();
+
+    int getSocketTimeout();
+
+    boolean isOpen();
+
+    boolean isStale();
+
+    void setSocketTimeout(int i);
+
+    void shutdown() throws IOException;
+}

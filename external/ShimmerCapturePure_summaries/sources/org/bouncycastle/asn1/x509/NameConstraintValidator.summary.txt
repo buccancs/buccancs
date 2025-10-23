@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/x509/NameConstraintValidator.java
+// Size: 561 bytes
+// Modified: 2025-10-21 16:32:07.969657400 +0100
+
+package org.bouncycastle.asn1.x509;
+
+/* loaded from: classes5.dex */
+public interface NameConstraintValidator {
+    void addExcludedSubtree(GeneralSubtree generalSubtree);
+
+    void checkExcluded(GeneralName generalName) throws NameConstraintValidatorException;
+
+    void checkPermitted(GeneralName generalName) throws NameConstraintValidatorException;
+
+    void intersectEmptyPermittedSubtree(int i);
+
+    void intersectPermittedSubtree(GeneralSubtree generalSubtree);
+
+    void intersectPermittedSubtree(GeneralSubtree[] generalSubtreeArr);
+}

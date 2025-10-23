@@ -1,0 +1,202 @@
+package org.apache.commons.math3.dfp;
+
+import org.apache.commons.math3.dfp.DfpField;
+
+/* loaded from: classes5.dex */
+public class DfpDec extends Dfp {
+    protected DfpDec(DfpField dfpField) {
+        super(dfpField);
+    }
+
+    protected DfpDec(DfpField dfpField, byte b) {
+        super(dfpField, b);
+    }
+
+    protected DfpDec(DfpField dfpField, int i) {
+        super(dfpField, i);
+    }
+
+    protected DfpDec(DfpField dfpField, long j) {
+        super(dfpField, j);
+    }
+
+    protected DfpDec(DfpField dfpField, double d) {
+        super(dfpField, d);
+        round(0);
+    }
+
+    public DfpDec(Dfp dfp) {
+        super(dfp);
+        round(0);
+    }
+
+    protected DfpDec(DfpField dfpField, String str) {
+        super(dfpField, str);
+        round(0);
+    }
+
+    protected DfpDec(DfpField dfpField, byte b, byte b2) {
+        super(dfpField, b, b2);
+    }
+
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp newInstance() {
+        return new DfpDec(getField());
+    }
+
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp newInstance(byte b) {
+        return new DfpDec(getField(), b);
+    }
+
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp newInstance(int i) {
+        return new DfpDec(getField(), i);
+    }
+
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp newInstance(long j) {
+        return new DfpDec(getField(), j);
+    }
+
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp newInstance(double d) {
+        return new DfpDec(getField(), d);
+    }
+
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp newInstance(Dfp dfp) {
+        if (getField().getRadixDigits() != dfp.getField().getRadixDigits()) {
+            getField().setIEEEFlagsBits(1);
+            Dfp dfpNewInstance = newInstance(getZero());
+            dfpNewInstance.nans = (byte) 3;
+            return dotrap(1, "newInstance", dfp, dfpNewInstance);
+        }
+        return new DfpDec(dfp);
+    }
+
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp newInstance(String str) {
+        return new DfpDec(getField(), str);
+    }
+
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp newInstance(byte b, byte b2) {
+        return new DfpDec(getField(), b, b2);
+    }
+
+    protected int getDecimalDigits() {
+        return (getRadixDigits() * 4) - 3;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:81:? A[SYNTHETIC] */
+    @Override // org.apache.commons.math3.dfp.Dfp
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    protected int round(int r12) {
+        /*
+            Method dump skipped, instructions count: 300
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.dfp.DfpDec.round(int):int");
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // org.apache.commons.math3.dfp.Dfp
+    public Dfp nextAfter(Dfp dfp) {
+        Dfp dfpDivide;
+        Dfp dfpSubtract;
+        if (getField().getRadixDigits() != dfp.getField().getRadixDigits()) {
+            getField().setIEEEFlagsBits(1);
+            Dfp dfpNewInstance = newInstance(getZero());
+            dfpNewInstance.nans = (byte) 3;
+            return dotrap(1, "nextAfter", dfp, dfpNewInstance);
+        }
+        boolean zLessThan = lessThan(dfp);
+        if (equals(dfp)) {
+            return newInstance(dfp);
+        }
+        if (lessThan(getZero())) {
+            zLessThan = !zLessThan;
+        }
+        if (zLessThan) {
+            Dfp dfpCopysign = copysign(power10((intLog10() - getDecimalDigits()) + 1), this);
+            if (equals(getZero())) {
+                dfpCopysign = power10K((-32768) - this.mant.length);
+            }
+            if (dfpCopysign.equals(getZero())) {
+                dfpSubtract = copysign(newInstance(getZero()), this);
+            } else {
+                dfpSubtract = add(dfpCopysign);
+            }
+        } else {
+            Dfp dfpCopysign2 = copysign(power10(intLog10()), this);
+            if (equals(dfpCopysign2)) {
+                dfpDivide = dfpCopysign2.divide(power10(getDecimalDigits()));
+            } else {
+                dfpDivide = dfpCopysign2.divide(power10(getDecimalDigits() - 1));
+            }
+            if (equals(getZero())) {
+                dfpDivide = power10K((-32768) - this.mant.length);
+            }
+            if (dfpDivide.equals(getZero())) {
+                dfpSubtract = copysign(newInstance(getZero()), this);
+            } else {
+                dfpSubtract = subtract(dfpDivide);
+            }
+        }
+        if (dfpSubtract.classify() == 1 && classify() != 1) {
+            getField().setIEEEFlagsBits(16);
+            dfpSubtract = dotrap(16, "nextAfter", dfp, dfpSubtract);
+        }
+        if (!dfpSubtract.equals(getZero()) || equals(getZero())) {
+            return dfpSubtract;
+        }
+        getField().setIEEEFlagsBits(16);
+        return dotrap(16, "nextAfter", dfp, dfpSubtract);
+    }
+
+    /* renamed from: org.apache.commons.math3.dfp.DfpDec$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode;
+
+        static {
+            int[] iArr = new int[DfpField.RoundingMode.values().length];
+            $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode = iArr;
+            try {
+                iArr[DfpField.RoundingMode.ROUND_DOWN.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode[DfpField.RoundingMode.ROUND_UP.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode[DfpField.RoundingMode.ROUND_HALF_UP.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode[DfpField.RoundingMode.ROUND_HALF_DOWN.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode[DfpField.RoundingMode.ROUND_HALF_EVEN.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode[DfpField.RoundingMode.ROUND_HALF_ODD.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode[DfpField.RoundingMode.ROUND_CEIL.ordinal()] = 7;
+            } catch (NoSuchFieldError unused7) {
+            }
+            try {
+                $SwitchMap$org$apache$commons$math3$dfp$DfpField$RoundingMode[DfpField.RoundingMode.ROUND_FLOOR.ordinal()] = 8;
+            } catch (NoSuchFieldError unused8) {
+            }
+        }
+    }
+}

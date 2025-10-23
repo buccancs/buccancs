@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/motion/utils/FloatRect.java
+// Size: 403 bytes
+// Modified: 2025-10-21 16:31:59.945512300 +0100
+
+package androidx.constraintlayout.core.motion.utils;
+
+/* loaded from: classes.dex */
+public class FloatRect {
+    public float bottom;
+    public float left;
+    public float right;
+    public float top;
+
+    public final float centerX() {
+        return (this.left + this.right) * 0.5f;
+    }
+
+    public final float centerY() {
+        return (this.top + this.bottom) * 0.5f;
+    }
+}

@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socks/SocksResponse.java
+// Size: 595 bytes
+// Modified: 2025-10-21 16:32:04.439739800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socks;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public abstract class SocksResponse extends SocksMessage {
+    private final SocksResponseType responseType;
+
+    public SocksResponseType responseType() {
+        return this.responseType;
+    }
+
+    protected SocksResponse(SocksResponseType socksResponseType) {
+        super(SocksMessageType.RESPONSE);
+        this.responseType = (SocksResponseType) ObjectUtil.checkNotNull(socksResponseType, "responseType");
+    }
+}

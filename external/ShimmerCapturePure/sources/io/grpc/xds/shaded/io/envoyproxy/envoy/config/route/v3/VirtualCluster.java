@@ -1,0 +1,743 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.HeaderMatcher;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public final class VirtualCluster extends GeneratedMessageV3 implements VirtualClusterOrBuilder {
+    public static final int HEADERS_FIELD_NUMBER = 4;
+    public static final int NAME_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final VirtualCluster DEFAULT_INSTANCE = new VirtualCluster();
+    private static final Parser<VirtualCluster> PARSER = new AbstractParser<VirtualCluster>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public VirtualCluster m29886parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new VirtualCluster(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private List<HeaderMatcher> headers_;
+    private byte memoizedIsInitialized;
+    private volatile Object name_;
+
+    private VirtualCluster(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private VirtualCluster() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.headers_ = Collections.emptyList();
+        this.name_ = "";
+    }
+
+    private VirtualCluster(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 18) {
+                            this.name_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 34) {
+                            if (!(z2 & true)) {
+                                this.headers_ = new ArrayList();
+                                z2 |= true;
+                            }
+                            this.headers_.add(codedInputStream.readMessage(HeaderMatcher.parser(), extensionRegistryLite));
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.headers_ = Collections.unmodifiableList(this.headers_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static VirtualCluster getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<VirtualCluster> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return RouteComponentsProto.internal_static_envoy_config_route_v3_VirtualCluster_descriptor;
+    }
+
+    public static VirtualCluster parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (VirtualCluster) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static VirtualCluster parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (VirtualCluster) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static VirtualCluster parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (VirtualCluster) PARSER.parseFrom(byteString);
+    }
+
+    public static VirtualCluster parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (VirtualCluster) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static VirtualCluster parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (VirtualCluster) PARSER.parseFrom(bArr);
+    }
+
+    public static VirtualCluster parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (VirtualCluster) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static VirtualCluster parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static VirtualCluster parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static VirtualCluster parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static VirtualCluster parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static VirtualCluster parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static VirtualCluster parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m29884toBuilder();
+    }
+
+    public static Builder newBuilder(VirtualCluster virtualCluster) {
+        return DEFAULT_INSTANCE.m29884toBuilder().mergeFrom(virtualCluster);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public VirtualCluster m29879getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+    public List<HeaderMatcher> getHeadersList() {
+        return this.headers_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+    public List<? extends HeaderMatcherOrBuilder> getHeadersOrBuilderList() {
+        return this.headers_;
+    }
+
+    public Parser<VirtualCluster> getParserForType() {
+        return PARSER;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new VirtualCluster();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return RouteComponentsProto.internal_static_envoy_config_route_v3_VirtualCluster_fieldAccessorTable.ensureFieldAccessorsInitialized(VirtualCluster.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+    public int getHeadersCount() {
+        return this.headers_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+    public HeaderMatcher getHeaders(int i) {
+        return this.headers_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+    public HeaderMatcherOrBuilder getHeadersOrBuilder(int i) {
+        return this.headers_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+    public String getName() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.name_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+    public ByteString getNameBytes() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.name_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.name_);
+        }
+        for (int i = 0; i < this.headers_.size(); i++) {
+            codedOutputStream.writeMessage(4, this.headers_.get(i));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(2, this.name_) : 0;
+        for (int i2 = 0; i2 < this.headers_.size(); i2++) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(4, this.headers_.get(i2));
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof VirtualCluster)) {
+            return super.equals(obj);
+        }
+        VirtualCluster virtualCluster = (VirtualCluster) obj;
+        return getHeadersList().equals(virtualCluster.getHeadersList()) && getName().equals(virtualCluster.getName()) && this.unknownFields.equals(virtualCluster.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (getHeadersCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + getHeadersList().hashCode();
+        }
+        int iHashCode2 = (((((iHashCode * 37) + 2) * 53) + getName().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m29881newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m29884toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements VirtualClusterOrBuilder {
+        private int bitField0_;
+        private RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> headersBuilder_;
+        private List<HeaderMatcher> headers_;
+        private Object name_;
+
+        private Builder() {
+            this.headers_ = Collections.emptyList();
+            this.name_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.headers_ = Collections.emptyList();
+            this.name_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_VirtualCluster_descriptor;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_VirtualCluster_fieldAccessorTable.ensureFieldAccessorsInitialized(VirtualCluster.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (VirtualCluster.alwaysUseFieldBuilders) {
+                getHeadersFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m29895clear() {
+            super.clear();
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.headers_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            this.name_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return RouteComponentsProto.internal_static_envoy_config_route_v3_VirtualCluster_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public VirtualCluster m29908getDefaultInstanceForType() {
+            return VirtualCluster.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public VirtualCluster m29889build() throws UninitializedMessageException {
+            VirtualCluster virtualClusterM29891buildPartial = m29891buildPartial();
+            if (virtualClusterM29891buildPartial.isInitialized()) {
+                return virtualClusterM29891buildPartial;
+            }
+            throw newUninitializedMessageException(virtualClusterM29891buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public VirtualCluster m29891buildPartial() {
+            VirtualCluster virtualCluster = new VirtualCluster(this);
+            int i = this.bitField0_;
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((i & 1) != 0) {
+                    this.headers_ = Collections.unmodifiableList(this.headers_);
+                    this.bitField0_ &= -2;
+                }
+                virtualCluster.headers_ = this.headers_;
+            } else {
+                virtualCluster.headers_ = repeatedFieldBuilderV3.build();
+            }
+            virtualCluster.name_ = this.name_;
+            onBuilt();
+            return virtualCluster;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m29907clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m29919setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m29897clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m29900clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m29921setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m29887addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m29912mergeFrom(Message message) {
+            if (message instanceof VirtualCluster) {
+                return mergeFrom((VirtualCluster) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(VirtualCluster virtualCluster) {
+            if (virtualCluster == VirtualCluster.getDefaultInstance()) {
+                return this;
+            }
+            if (this.headersBuilder_ == null) {
+                if (!virtualCluster.headers_.isEmpty()) {
+                    if (this.headers_.isEmpty()) {
+                        this.headers_ = virtualCluster.headers_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureHeadersIsMutable();
+                        this.headers_.addAll(virtualCluster.headers_);
+                    }
+                    onChanged();
+                }
+            } else if (!virtualCluster.headers_.isEmpty()) {
+                if (!this.headersBuilder_.isEmpty()) {
+                    this.headersBuilder_.addAllMessages(virtualCluster.headers_);
+                } else {
+                    this.headersBuilder_.dispose();
+                    this.headersBuilder_ = null;
+                    this.headers_ = virtualCluster.headers_;
+                    this.bitField0_ &= -2;
+                    this.headersBuilder_ = VirtualCluster.alwaysUseFieldBuilders ? getHeadersFieldBuilder() : null;
+                }
+            }
+            if (!virtualCluster.getName().isEmpty()) {
+                this.name_ = virtualCluster.name_;
+                onChanged();
+            }
+            m29917mergeUnknownFields(virtualCluster.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster.Builder m29913mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster.access$800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster.Builder.m29913mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualCluster$Builder");
+        }
+
+        private void ensureHeadersIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.headers_ = new ArrayList(this.headers_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+        public List<HeaderMatcher> getHeadersList() {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.headers_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+        public int getHeadersCount() {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.headers_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+        public HeaderMatcher getHeaders(int i) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.headers_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setHeaders(int i, HeaderMatcher headerMatcher) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerMatcher.getClass();
+                ensureHeadersIsMutable();
+                this.headers_.set(i, headerMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, headerMatcher);
+            }
+            return this;
+        }
+
+        public Builder setHeaders(int i, HeaderMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                this.headers_.set(i, builder.m27995build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m27995build());
+            }
+            return this;
+        }
+
+        public Builder addHeaders(HeaderMatcher headerMatcher) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerMatcher.getClass();
+                ensureHeadersIsMutable();
+                this.headers_.add(headerMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(headerMatcher);
+            }
+            return this;
+        }
+
+        public Builder addHeaders(int i, HeaderMatcher headerMatcher) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerMatcher.getClass();
+                ensureHeadersIsMutable();
+                this.headers_.add(i, headerMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, headerMatcher);
+            }
+            return this;
+        }
+
+        public Builder addHeaders(HeaderMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                this.headers_.add(builder.m27995build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m27995build());
+            }
+            return this;
+        }
+
+        public Builder addHeaders(int i, HeaderMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                this.headers_.add(i, builder.m27995build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m27995build());
+            }
+            return this;
+        }
+
+        public Builder addAllHeaders(Iterable<? extends HeaderMatcher> iterable) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.headers_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearHeaders() {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.headers_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeHeaders(int i) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                this.headers_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public HeaderMatcher.Builder getHeadersBuilder(int i) {
+            return getHeadersFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+        public HeaderMatcherOrBuilder getHeadersOrBuilder(int i) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.headers_.get(i);
+            }
+            return (HeaderMatcherOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+        public List<? extends HeaderMatcherOrBuilder> getHeadersOrBuilderList() {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.headers_);
+        }
+
+        public HeaderMatcher.Builder addHeadersBuilder() {
+            return getHeadersFieldBuilder().addBuilder(HeaderMatcher.getDefaultInstance());
+        }
+
+        public HeaderMatcher.Builder addHeadersBuilder(int i) {
+            return getHeadersFieldBuilder().addBuilder(i, HeaderMatcher.getDefaultInstance());
+        }
+
+        public List<HeaderMatcher.Builder> getHeadersBuilderList() {
+            return getHeadersFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> getHeadersFieldBuilder() {
+            if (this.headersBuilder_ == null) {
+                this.headersBuilder_ = new RepeatedFieldBuilderV3<>(this.headers_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.headers_ = null;
+            }
+            return this.headersBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.name_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setName(String str) {
+            str.getClass();
+            this.name_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualClusterOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setNameBytes(ByteString byteString) {
+            byteString.getClass();
+            VirtualCluster.checkByteStringIsUtf8(byteString);
+            this.name_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearName() {
+            this.name_ = VirtualCluster.getDefaultInstance().getName();
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m29923setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m29917mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

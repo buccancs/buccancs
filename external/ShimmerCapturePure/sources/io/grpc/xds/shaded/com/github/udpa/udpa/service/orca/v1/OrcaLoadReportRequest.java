@@ -1,0 +1,655 @@
+package io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class OrcaLoadReportRequest extends GeneratedMessageV3 implements OrcaLoadReportRequestOrBuilder {
+    public static final int REPORT_INTERVAL_FIELD_NUMBER = 1;
+    public static final int REQUEST_COST_NAMES_FIELD_NUMBER = 2;
+    private static final OrcaLoadReportRequest DEFAULT_INSTANCE = new OrcaLoadReportRequest();
+    private static final Parser<OrcaLoadReportRequest> PARSER = new AbstractParser<OrcaLoadReportRequest>() { // from class: io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public OrcaLoadReportRequest m10410parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new OrcaLoadReportRequest(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private byte memoizedIsInitialized;
+    private Duration reportInterval_;
+    private LazyStringList requestCostNames_;
+
+    private OrcaLoadReportRequest(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private OrcaLoadReportRequest() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.requestCostNames_ = LazyStringArrayList.EMPTY;
+    }
+
+    private OrcaLoadReportRequest(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            Duration duration = this.reportInterval_;
+                            Duration.Builder builder = duration != null ? duration.toBuilder() : null;
+                            Duration message = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                            this.reportInterval_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.reportInterval_ = builder.buildPartial();
+                            }
+                        } else if (tag == 18) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if (!(z2 & true)) {
+                                this.requestCostNames_ = new LazyStringArrayList();
+                                z2 |= true;
+                            }
+                            this.requestCostNames_.add(stringRequireUtf8);
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.requestCostNames_ = this.requestCostNames_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static OrcaLoadReportRequest getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<OrcaLoadReportRequest> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return OrcaProto.internal_static_udpa_service_orca_v1_OrcaLoadReportRequest_descriptor;
+    }
+
+    public static OrcaLoadReportRequest parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (OrcaLoadReportRequest) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (OrcaLoadReportRequest) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (OrcaLoadReportRequest) PARSER.parseFrom(byteString);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (OrcaLoadReportRequest) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (OrcaLoadReportRequest) PARSER.parseFrom(bArr);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (OrcaLoadReportRequest) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static OrcaLoadReportRequest parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static OrcaLoadReportRequest parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static OrcaLoadReportRequest parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m10408toBuilder();
+    }
+
+    public static Builder newBuilder(OrcaLoadReportRequest orcaLoadReportRequest) {
+        return DEFAULT_INSTANCE.m10408toBuilder().mergeFrom(orcaLoadReportRequest);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public OrcaLoadReportRequest m10402getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<OrcaLoadReportRequest> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+    /* renamed from: getRequestCostNamesList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo10404getRequestCostNamesList() {
+        return this.requestCostNames_;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+    public boolean hasReportInterval() {
+        return this.reportInterval_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new OrcaLoadReportRequest();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return OrcaProto.internal_static_udpa_service_orca_v1_OrcaLoadReportRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(OrcaLoadReportRequest.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+    public Duration getReportInterval() {
+        Duration duration = this.reportInterval_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+    public DurationOrBuilder getReportIntervalOrBuilder() {
+        return getReportInterval();
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+    public int getRequestCostNamesCount() {
+        return this.requestCostNames_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+    public String getRequestCostNames(int i) {
+        return (String) this.requestCostNames_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+    public ByteString getRequestCostNamesBytes(int i) {
+        return this.requestCostNames_.getByteString(i);
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.reportInterval_ != null) {
+            codedOutputStream.writeMessage(1, getReportInterval());
+        }
+        for (int i = 0; i < this.requestCostNames_.size(); i++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.requestCostNames_.getRaw(i));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.reportInterval_ != null ? CodedOutputStream.computeMessageSize(1, getReportInterval()) : 0;
+        int iComputeStringSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.requestCostNames_.size(); i2++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.requestCostNames_.getRaw(i2));
+        }
+        int size = iComputeMessageSize + iComputeStringSizeNoTag + mo10404getRequestCostNamesList().size() + this.unknownFields.getSerializedSize();
+        this.memoizedSize = size;
+        return size;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof OrcaLoadReportRequest)) {
+            return super.equals(obj);
+        }
+        OrcaLoadReportRequest orcaLoadReportRequest = (OrcaLoadReportRequest) obj;
+        if (hasReportInterval() != orcaLoadReportRequest.hasReportInterval()) {
+            return false;
+        }
+        return (!hasReportInterval() || getReportInterval().equals(orcaLoadReportRequest.getReportInterval())) && mo10404getRequestCostNamesList().equals(orcaLoadReportRequest.mo10404getRequestCostNamesList()) && this.unknownFields.equals(orcaLoadReportRequest.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasReportInterval()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getReportInterval().hashCode();
+        }
+        if (getRequestCostNamesCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + mo10404getRequestCostNamesList().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m10405newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m10408toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements OrcaLoadReportRequestOrBuilder {
+        private int bitField0_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> reportIntervalBuilder_;
+        private Duration reportInterval_;
+        private LazyStringList requestCostNames_;
+
+        private Builder() {
+            this.requestCostNames_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.requestCostNames_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return OrcaProto.internal_static_udpa_service_orca_v1_OrcaLoadReportRequest_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+        public boolean hasReportInterval() {
+            return (this.reportIntervalBuilder_ == null && this.reportInterval_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return OrcaProto.internal_static_udpa_service_orca_v1_OrcaLoadReportRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(OrcaLoadReportRequest.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = OrcaLoadReportRequest.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10419clear() {
+            super.clear();
+            if (this.reportIntervalBuilder_ == null) {
+                this.reportInterval_ = null;
+            } else {
+                this.reportInterval_ = null;
+                this.reportIntervalBuilder_ = null;
+            }
+            this.requestCostNames_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return OrcaProto.internal_static_udpa_service_orca_v1_OrcaLoadReportRequest_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OrcaLoadReportRequest m10432getDefaultInstanceForType() {
+            return OrcaLoadReportRequest.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OrcaLoadReportRequest m10413build() throws UninitializedMessageException {
+            OrcaLoadReportRequest orcaLoadReportRequestM10415buildPartial = m10415buildPartial();
+            if (orcaLoadReportRequestM10415buildPartial.isInitialized()) {
+                return orcaLoadReportRequestM10415buildPartial;
+            }
+            throw newUninitializedMessageException(orcaLoadReportRequestM10415buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OrcaLoadReportRequest m10415buildPartial() {
+            OrcaLoadReportRequest orcaLoadReportRequest = new OrcaLoadReportRequest(this);
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.reportIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                orcaLoadReportRequest.reportInterval_ = this.reportInterval_;
+            } else {
+                orcaLoadReportRequest.reportInterval_ = singleFieldBuilderV3.build();
+            }
+            if ((this.bitField0_ & 1) != 0) {
+                this.requestCostNames_ = this.requestCostNames_.getUnmodifiableView();
+                this.bitField0_ &= -2;
+            }
+            orcaLoadReportRequest.requestCostNames_ = this.requestCostNames_;
+            onBuilt();
+            return orcaLoadReportRequest;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10431clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10443setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10421clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10424clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10445setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10411addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m10436mergeFrom(Message message) {
+            if (message instanceof OrcaLoadReportRequest) {
+                return mergeFrom((OrcaLoadReportRequest) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(OrcaLoadReportRequest orcaLoadReportRequest) {
+            if (orcaLoadReportRequest == OrcaLoadReportRequest.getDefaultInstance()) {
+                return this;
+            }
+            if (orcaLoadReportRequest.hasReportInterval()) {
+                mergeReportInterval(orcaLoadReportRequest.getReportInterval());
+            }
+            if (!orcaLoadReportRequest.requestCostNames_.isEmpty()) {
+                if (this.requestCostNames_.isEmpty()) {
+                    this.requestCostNames_ = orcaLoadReportRequest.requestCostNames_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureRequestCostNamesIsMutable();
+                    this.requestCostNames_.addAll(orcaLoadReportRequest.requestCostNames_);
+                }
+                onChanged();
+            }
+            m10441mergeUnknownFields(orcaLoadReportRequest.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest.Builder m10437mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest r3 = (io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest r4 = (io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest.Builder.m10437mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+        public Duration getReportInterval() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.reportIntervalBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.reportInterval_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setReportInterval(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.reportIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.reportInterval_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setReportInterval(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.reportIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.reportInterval_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeReportInterval(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.reportIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.reportInterval_;
+                if (duration2 != null) {
+                    this.reportInterval_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.reportInterval_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearReportInterval() {
+            if (this.reportIntervalBuilder_ == null) {
+                this.reportInterval_ = null;
+                onChanged();
+            } else {
+                this.reportInterval_ = null;
+                this.reportIntervalBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getReportIntervalBuilder() {
+            onChanged();
+            return getReportIntervalFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+        public DurationOrBuilder getReportIntervalOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.reportIntervalBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.reportInterval_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getReportIntervalFieldBuilder() {
+            if (this.reportIntervalBuilder_ == null) {
+                this.reportIntervalBuilder_ = new SingleFieldBuilderV3<>(getReportInterval(), getParentForChildren(), isClean());
+                this.reportInterval_ = null;
+            }
+            return this.reportIntervalBuilder_;
+        }
+
+        private void ensureRequestCostNamesIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.requestCostNames_ = new LazyStringArrayList(this.requestCostNames_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+        /* renamed from: getRequestCostNamesList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo10404getRequestCostNamesList() {
+            return this.requestCostNames_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+        public int getRequestCostNamesCount() {
+            return this.requestCostNames_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+        public String getRequestCostNames(int i) {
+            return (String) this.requestCostNames_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequestOrBuilder
+        public ByteString getRequestCostNamesBytes(int i) {
+            return this.requestCostNames_.getByteString(i);
+        }
+
+        public Builder setRequestCostNames(int i, String str) {
+            str.getClass();
+            ensureRequestCostNamesIsMutable();
+            this.requestCostNames_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addRequestCostNames(String str) {
+            str.getClass();
+            ensureRequestCostNamesIsMutable();
+            this.requestCostNames_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllRequestCostNames(Iterable<String> iterable) {
+            ensureRequestCostNamesIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.requestCostNames_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearRequestCostNames() {
+            this.requestCostNames_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        public Builder addRequestCostNamesBytes(ByteString byteString) {
+            byteString.getClass();
+            OrcaLoadReportRequest.checkByteStringIsUtf8(byteString);
+            ensureRequestCostNamesIsMutable();
+            this.requestCostNames_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m10447setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m10441mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

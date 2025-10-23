@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/ExchangePair.java
+// Size: 667 bytes
+// Modified: 2025-10-21 16:32:03.016884900 +0100
+
+package org.bouncycastle.pqc.crypto;
+
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+import org.bouncycastle.util.Arrays;
+
+/* loaded from: classes5.dex */
+public class ExchangePair {
+    private final AsymmetricKeyParameter publicKey;
+    private final byte[] shared;
+
+    public ExchangePair(AsymmetricKeyParameter asymmetricKeyParameter, byte[] bArr) {
+        this.publicKey = asymmetricKeyParameter;
+        this.shared = Arrays.clone(bArr);
+    }
+
+    public AsymmetricKeyParameter getPublicKey() {
+        return this.publicKey;
+    }
+
+    public byte[] getSharedValue() {
+        return Arrays.clone(this.shared);
+    }
+}

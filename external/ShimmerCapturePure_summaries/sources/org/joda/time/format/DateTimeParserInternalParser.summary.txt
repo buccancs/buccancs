@@ -1,0 +1,38 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/format/DateTimeParserInternalParser.java
+// Size: 1156 bytes
+// Modified: 2025-10-21 16:32:07.435783300 +0100
+
+package org.joda.time.format;
+
+/* loaded from: classes2.dex */
+class DateTimeParserInternalParser implements InternalParser {
+    private final DateTimeParser underlying;
+
+    DateTimeParser getUnderlying() {
+        return this.underlying;
+    }
+
+    static InternalParser of(DateTimeParser dateTimeParser) {
+        if (dateTimeParser instanceof InternalParserDateTimeParser) {
+            return (InternalParser) dateTimeParser;
+        }
+        if (dateTimeParser == null) {
+            return null;
+        }
+        return new DateTimeParserInternalParser(dateTimeParser);
+    }
+
+    private DateTimeParserInternalParser(DateTimeParser dateTimeParser) {
+        this.underlying = dateTimeParser;
+    }
+
+    @Override // org.joda.time.format.InternalParser
+    public int estimateParsedLength() {
+        return this.underlying.estimateParsedLength();
+    }
+
+    @Override // org.joda.time.format.InternalParser
+    public int parseInto(DateTimeParserBucket dateTimeParserBucket, CharSequence charSequence, int i) {
+        return this.underlying.parseInto(dateTimeParserBucket, charSequence.toString(), i);
+    }
+}

@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/os/LocaleListInterface.java
+// Size: 338 bytes
+// Modified: 2025-10-21 16:32:00.088907700 +0100
+
+package androidx.core.os;
+
+import java.util.Locale;
+
+/* loaded from: classes.dex */
+interface LocaleListInterface {
+    Locale get(int i);
+
+    Locale getFirstMatch(String[] strArr);
+
+    Object getLocaleList();
+
+    int indexOf(Locale locale);
+
+    boolean isEmpty();
+
+    int size();
+
+    String toLanguageTags();
+}

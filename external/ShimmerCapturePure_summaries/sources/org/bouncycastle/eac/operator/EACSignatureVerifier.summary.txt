@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/eac/operator/EACSignatureVerifier.java
+// Size: 326 bytes
+// Modified: 2025-10-21 16:32:04.808931100 +0100
+
+package org.bouncycastle.eac.operator;
+
+import java.io.OutputStream;
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+
+/* loaded from: classes5.dex */
+public interface EACSignatureVerifier {
+    OutputStream getOutputStream();
+
+    ASN1ObjectIdentifier getUsageIdentifier();
+
+    boolean verify(byte[] bArr);
+}

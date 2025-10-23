@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/FinalizableSoftReference.java
+// Size: 424 bytes
+// Modified: 2025-10-21 16:32:03.359877400 +0100
+
+package com.google.common.base;
+
+import java.lang.ref.SoftReference;
+
+/* loaded from: classes.dex */
+public abstract class FinalizableSoftReference<T> extends SoftReference<T> implements FinalizableReference {
+    protected FinalizableSoftReference(T t, FinalizableReferenceQueue finalizableReferenceQueue) {
+        super(t, finalizableReferenceQueue.queue);
+        finalizableReferenceQueue.cleanUp();
+    }
+}

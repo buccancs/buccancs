@@ -1,0 +1,56 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/Utf8Validator.java
+// Size: 3254 bytes
+// Modified: 2025-10-21 16:32:04.925609600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx;
+
+import com.shimmerresearch.driver.ShimmerObject;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.util.ByteProcessor;
+
+/* loaded from: classes3.dex */
+final class Utf8Validator implements ByteProcessor {
+    private static final int UTF8_ACCEPT = 0;
+    private static final int UTF8_REJECT = 12;
+    private boolean checking;
+    private int codep;
+    private int state = 0;
+    private static final byte[] TYPES = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 9, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 8, 8, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 10, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 11, 6, 6, 6, 5, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8, 8};
+    private static final byte[] STATES = {0, 12, 24, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 60, ShimmerObject.GET_INTERNAL_EXP_POWER_ENABLE_COMMAND, 84, 12, 12, 12, ShimmerObject.SET_BLINK_LED, 72, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12, 0, 12, 12, 12, 12, 12, 0, 12, 0, 12, 12, 12, 24, 12, 12, 12, 12, 12, 24, 12, 24, 12, 12, 12, 12, 12, 12, 12, 12, 12, 24, 12, 12, 12, 12, 12, 24, 12, 12, 12, 12, 12, 12, 12, 24, 12, 12, 12, 12, 12, 12, 12, 12, 12, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 12, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 12, 12, 12, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 12, 12, 12, 12, 12, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 12, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 12, 12, 12, ShimmerObject.GET_SHIMMER_VERSION_COMMAND, 12, 12, 12, 12, 12, 12, 12, 12, 12, 12};
+
+    public boolean isChecking() {
+        return this.checking;
+    }
+
+    Utf8Validator() {
+    }
+
+    public void check(ByteBuf byteBuf) {
+        this.checking = true;
+        byteBuf.forEachByte(this);
+    }
+
+    public void finish() {
+        this.checking = false;
+        this.codep = 0;
+        if (this.state == 0) {
+            return;
+        }
+        this.state = 0;
+        throw new CorruptedWebSocketFrameException(WebSocketCloseStatus.INVALID_PAYLOAD_DATA, "bytes are not UTF-8");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ByteProcessor
+    public boolean process(byte b) throws Exception {
+        byte b2 = TYPES[b & 255];
+        int i = this.state;
+        this.codep = i != 0 ? (b & ShimmerObject.GET_SHIMMER_VERSION_COMMAND_NEW) | (this.codep << 6) : b & (255 >> b2);
+        byte b3 = STATES[i + b2];
+        this.state = b3;
+        if (b3 != 12) {
+            return true;
+        }
+        this.checking = false;
+        throw new CorruptedWebSocketFrameException(WebSocketCloseStatus.INVALID_PAYLOAD_DATA, "bytes are not UTF-8");
+    }
+}

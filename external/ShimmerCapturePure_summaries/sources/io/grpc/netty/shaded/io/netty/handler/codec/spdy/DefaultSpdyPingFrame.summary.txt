@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/DefaultSpdyPingFrame.java
+// Size: 762 bytes
+// Modified: 2025-10-21 16:32:04.440740500 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+import io.grpc.netty.shaded.io.netty.util.internal.StringUtil;
+
+/* loaded from: classes3.dex */
+public class DefaultSpdyPingFrame implements SpdyPingFrame {
+    private int id;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyPingFrame
+    public int id() {
+        return this.id;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyPingFrame
+    public SpdyPingFrame setId(int i) {
+        this.id = i;
+        return this;
+    }
+
+    public DefaultSpdyPingFrame(int i) {
+        setId(i);
+    }
+
+    public String toString() {
+        return StringUtil.simpleClassName(this) + StringUtil.NEWLINE + "--> ID = " + id();
+    }
+}

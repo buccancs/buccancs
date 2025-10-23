@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/params/TweakableBlockCipherParameters.java
+// Size: 624 bytes
+// Modified: 2025-10-21 16:32:03.307052900 +0100
+
+package org.bouncycastle.crypto.params;
+
+import org.bouncycastle.crypto.CipherParameters;
+import org.bouncycastle.util.Arrays;
+
+/* loaded from: classes5.dex */
+public class TweakableBlockCipherParameters implements CipherParameters {
+    private final KeyParameter key;
+    private final byte[] tweak;
+
+    public TweakableBlockCipherParameters(KeyParameter keyParameter, byte[] bArr) {
+        this.key = keyParameter;
+        this.tweak = Arrays.clone(bArr);
+    }
+
+    public KeyParameter getKey() {
+        return this.key;
+    }
+
+    public byte[] getTweak() {
+        return this.tweak;
+    }
+}

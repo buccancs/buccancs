@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/widgets/analyzer/Dependency.java
+// Size: 167 bytes
+// Modified: 2025-10-21 16:32:00.158329600 +0100
+
+package androidx.constraintlayout.core.widgets.analyzer;
+
+/* loaded from: classes.dex */
+public interface Dependency {
+    void update(Dependency dependency);
+}

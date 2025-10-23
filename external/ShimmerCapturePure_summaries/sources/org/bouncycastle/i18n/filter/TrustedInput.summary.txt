@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/i18n/filter/TrustedInput.java
+// Size: 359 bytes
+// Modified: 2025-10-21 16:32:00.607817900 +0100
+
+package org.bouncycastle.i18n.filter;
+
+/* loaded from: classes5.dex */
+public class TrustedInput {
+    protected Object input;
+
+    public TrustedInput(Object obj) {
+        this.input = obj;
+    }
+
+    public Object getInput() {
+        return this.input;
+    }
+
+    public String toString() {
+        return this.input.toString();
+    }
+}

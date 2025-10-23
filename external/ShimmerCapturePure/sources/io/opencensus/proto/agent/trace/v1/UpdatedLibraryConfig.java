@@ -1,0 +1,722 @@
+package io.opencensus.proto.agent.trace.v1;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.opencensus.proto.agent.common.v1.Node;
+import io.opencensus.proto.agent.common.v1.NodeOrBuilder;
+import io.opencensus.proto.trace.v1.TraceConfig;
+import io.opencensus.proto.trace.v1.TraceConfigOrBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes4.dex */
+public final class UpdatedLibraryConfig extends GeneratedMessageV3 implements UpdatedLibraryConfigOrBuilder {
+    public static final int CONFIG_FIELD_NUMBER = 2;
+    public static final int NODE_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final UpdatedLibraryConfig DEFAULT_INSTANCE = new UpdatedLibraryConfig();
+    private static final Parser<UpdatedLibraryConfig> PARSER = new AbstractParser<UpdatedLibraryConfig>() { // from class: io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public UpdatedLibraryConfig m36734parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new UpdatedLibraryConfig(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private TraceConfig config_;
+    private byte memoizedIsInitialized;
+    private Node node_;
+
+    private UpdatedLibraryConfig(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private UpdatedLibraryConfig() {
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private UpdatedLibraryConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            Node node = this.node_;
+                            Node.Builder builderM36364toBuilder = node != null ? node.m36364toBuilder() : null;
+                            Node node2 = (Node) codedInputStream.readMessage(Node.parser(), extensionRegistryLite);
+                            this.node_ = node2;
+                            if (builderM36364toBuilder != null) {
+                                builderM36364toBuilder.mergeFrom(node2);
+                                this.node_ = builderM36364toBuilder.m36371buildPartial();
+                            }
+                        } else if (tag != 18) {
+                            if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            TraceConfig traceConfig = this.config_;
+                            TraceConfig.Builder builderM38717toBuilder = traceConfig != null ? traceConfig.m38717toBuilder() : null;
+                            TraceConfig traceConfig2 = (TraceConfig) codedInputStream.readMessage(TraceConfig.parser(), extensionRegistryLite);
+                            this.config_ = traceConfig2;
+                            if (builderM38717toBuilder != null) {
+                                builderM38717toBuilder.mergeFrom(traceConfig2);
+                                this.config_ = builderM38717toBuilder.m38724buildPartial();
+                            }
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static UpdatedLibraryConfig getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<UpdatedLibraryConfig> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_UpdatedLibraryConfig_descriptor;
+    }
+
+    public static UpdatedLibraryConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (UpdatedLibraryConfig) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpdatedLibraryConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (UpdatedLibraryConfig) PARSER.parseFrom(byteString);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpdatedLibraryConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (UpdatedLibraryConfig) PARSER.parseFrom(bArr);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (UpdatedLibraryConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static UpdatedLibraryConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static UpdatedLibraryConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static UpdatedLibraryConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m36732toBuilder();
+    }
+
+    public static Builder newBuilder(UpdatedLibraryConfig updatedLibraryConfig) {
+        return DEFAULT_INSTANCE.m36732toBuilder().mergeFrom(updatedLibraryConfig);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public UpdatedLibraryConfig m36727getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<UpdatedLibraryConfig> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+    public boolean hasConfig() {
+        return this.config_ != null;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+    public boolean hasNode() {
+        return this.node_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_UpdatedLibraryConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(UpdatedLibraryConfig.class, Builder.class);
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+    public Node getNode() {
+        Node node = this.node_;
+        return node == null ? Node.getDefaultInstance() : node;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+    public NodeOrBuilder getNodeOrBuilder() {
+        return getNode();
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+    public TraceConfig getConfig() {
+        TraceConfig traceConfig = this.config_;
+        return traceConfig == null ? TraceConfig.getDefaultInstance() : traceConfig;
+    }
+
+    @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+    public TraceConfigOrBuilder getConfigOrBuilder() {
+        return getConfig();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.node_ != null) {
+            codedOutputStream.writeMessage(1, getNode());
+        }
+        if (this.config_ != null) {
+            codedOutputStream.writeMessage(2, getConfig());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.node_ != null ? CodedOutputStream.computeMessageSize(1, getNode()) : 0;
+        if (this.config_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getConfig());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:23:0x0042  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public boolean equals(java.lang.Object r5) {
+        /*
+            r4 = this;
+            r0 = 1
+            if (r5 != r4) goto L4
+            return r0
+        L4:
+            boolean r1 = r5 instanceof io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig
+            if (r1 != 0) goto Ld
+            boolean r5 = super.equals(r5)
+            return r5
+        Ld:
+            io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig r5 = (io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig) r5
+            boolean r1 = r4.hasNode()
+            boolean r2 = r5.hasNode()
+            r3 = 0
+            if (r1 != r2) goto L1c
+            r1 = 1
+            goto L1d
+        L1c:
+            r1 = 0
+        L1d:
+            boolean r2 = r4.hasNode()
+            if (r2 == 0) goto L34
+            if (r1 == 0) goto L42
+            io.opencensus.proto.agent.common.v1.Node r1 = r4.getNode()
+            io.opencensus.proto.agent.common.v1.Node r2 = r5.getNode()
+            boolean r1 = r1.equals(r2)
+            if (r1 == 0) goto L42
+            goto L36
+        L34:
+            if (r1 == 0) goto L42
+        L36:
+            boolean r1 = r4.hasConfig()
+            boolean r2 = r5.hasConfig()
+            if (r1 != r2) goto L42
+            r1 = 1
+            goto L43
+        L42:
+            r1 = 0
+        L43:
+            boolean r2 = r4.hasConfig()
+            if (r2 == 0) goto L5a
+            if (r1 == 0) goto L67
+            io.opencensus.proto.trace.v1.TraceConfig r1 = r4.getConfig()
+            io.opencensus.proto.trace.v1.TraceConfig r2 = r5.getConfig()
+            boolean r1 = r1.equals(r2)
+            if (r1 == 0) goto L67
+            goto L5c
+        L5a:
+            if (r1 == 0) goto L67
+        L5c:
+            com.google.protobuf.UnknownFieldSet r1 = r4.unknownFields
+            com.google.protobuf.UnknownFieldSet r5 = r5.unknownFields
+            boolean r5 = r1.equals(r5)
+            if (r5 == 0) goto L67
+            goto L68
+        L67:
+            r0 = 0
+        L68:
+            return r0
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig.equals(java.lang.Object):boolean");
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasNode()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getNode().hashCode();
+        }
+        if (hasConfig()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getConfig().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m36729newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m36732toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements UpdatedLibraryConfigOrBuilder {
+        private SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> configBuilder_;
+        private TraceConfig config_;
+        private SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> nodeBuilder_;
+        private Node node_;
+
+        private Builder() {
+            this.node_ = null;
+            this.config_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.node_ = null;
+            this.config_ = null;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_UpdatedLibraryConfig_descriptor;
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+        public boolean hasConfig() {
+            return (this.configBuilder_ == null && this.config_ == null) ? false : true;
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+        public boolean hasNode() {
+            return (this.nodeBuilder_ == null && this.node_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_UpdatedLibraryConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(UpdatedLibraryConfig.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = UpdatedLibraryConfig.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36743clear() {
+            super.clear();
+            if (this.nodeBuilder_ == null) {
+                this.node_ = null;
+            } else {
+                this.node_ = null;
+                this.nodeBuilder_ = null;
+            }
+            if (this.configBuilder_ == null) {
+                this.config_ = null;
+            } else {
+                this.config_ = null;
+                this.configBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return TraceServiceProto.internal_static_opencensus_proto_agent_trace_v1_UpdatedLibraryConfig_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpdatedLibraryConfig m36756getDefaultInstanceForType() {
+            return UpdatedLibraryConfig.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpdatedLibraryConfig m36737build() throws UninitializedMessageException {
+            UpdatedLibraryConfig updatedLibraryConfigM36739buildPartial = m36739buildPartial();
+            if (updatedLibraryConfigM36739buildPartial.isInitialized()) {
+                return updatedLibraryConfigM36739buildPartial;
+            }
+            throw newUninitializedMessageException(updatedLibraryConfigM36739buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public UpdatedLibraryConfig m36739buildPartial() {
+            UpdatedLibraryConfig updatedLibraryConfig = new UpdatedLibraryConfig(this);
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                updatedLibraryConfig.node_ = this.node_;
+            } else {
+                updatedLibraryConfig.node_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV32 = this.configBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                updatedLibraryConfig.config_ = this.config_;
+            } else {
+                updatedLibraryConfig.config_ = singleFieldBuilderV32.build();
+            }
+            onBuilt();
+            return updatedLibraryConfig;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36755clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36767setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36745clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36748clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36769setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36735addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m36760mergeFrom(Message message) {
+            if (message instanceof UpdatedLibraryConfig) {
+                return mergeFrom((UpdatedLibraryConfig) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(UpdatedLibraryConfig updatedLibraryConfig) {
+            if (updatedLibraryConfig == UpdatedLibraryConfig.getDefaultInstance()) {
+                return this;
+            }
+            if (updatedLibraryConfig.hasNode()) {
+                mergeNode(updatedLibraryConfig.getNode());
+            }
+            if (updatedLibraryConfig.hasConfig()) {
+                mergeConfig(updatedLibraryConfig.getConfig());
+            }
+            m36765mergeUnknownFields(updatedLibraryConfig.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig.Builder m36761mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig r3 = (io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig r4 = (io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig.Builder.m36761mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfig$Builder");
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+        public Node getNode() {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Node node = this.node_;
+            return node == null ? Node.getDefaultInstance() : node;
+        }
+
+        public Builder setNode(Node node) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                node.getClass();
+                this.node_ = node;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(node);
+            }
+            return this;
+        }
+
+        public Builder setNode(Node.Builder builder) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.node_ = builder.m36369build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m36369build());
+            }
+            return this;
+        }
+
+        public Builder mergeNode(Node node) {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Node node2 = this.node_;
+                if (node2 != null) {
+                    this.node_ = Node.newBuilder(node2).mergeFrom(node).m36371buildPartial();
+                } else {
+                    this.node_ = node;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(node);
+            }
+            return this;
+        }
+
+        public Builder clearNode() {
+            if (this.nodeBuilder_ == null) {
+                this.node_ = null;
+                onChanged();
+            } else {
+                this.node_ = null;
+                this.nodeBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Node.Builder getNodeBuilder() {
+            onChanged();
+            return getNodeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+        public NodeOrBuilder getNodeOrBuilder() {
+            SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> singleFieldBuilderV3 = this.nodeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (NodeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Node node = this.node_;
+            return node == null ? Node.getDefaultInstance() : node;
+        }
+
+        private SingleFieldBuilderV3<Node, Node.Builder, NodeOrBuilder> getNodeFieldBuilder() {
+            if (this.nodeBuilder_ == null) {
+                this.nodeBuilder_ = new SingleFieldBuilderV3<>(getNode(), getParentForChildren(), isClean());
+                this.node_ = null;
+            }
+            return this.nodeBuilder_;
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+        public TraceConfig getConfig() {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.configBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            TraceConfig traceConfig = this.config_;
+            return traceConfig == null ? TraceConfig.getDefaultInstance() : traceConfig;
+        }
+
+        public Builder setConfig(TraceConfig traceConfig) {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.configBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                traceConfig.getClass();
+                this.config_ = traceConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(traceConfig);
+            }
+            return this;
+        }
+
+        public Builder setConfig(TraceConfig.Builder builder) {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.configBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.config_ = builder.m38722build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38722build());
+            }
+            return this;
+        }
+
+        public Builder mergeConfig(TraceConfig traceConfig) {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.configBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                TraceConfig traceConfig2 = this.config_;
+                if (traceConfig2 != null) {
+                    this.config_ = TraceConfig.newBuilder(traceConfig2).mergeFrom(traceConfig).m38724buildPartial();
+                } else {
+                    this.config_ = traceConfig;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(traceConfig);
+            }
+            return this;
+        }
+
+        public Builder clearConfig() {
+            if (this.configBuilder_ == null) {
+                this.config_ = null;
+                onChanged();
+            } else {
+                this.config_ = null;
+                this.configBuilder_ = null;
+            }
+            return this;
+        }
+
+        public TraceConfig.Builder getConfigBuilder() {
+            onChanged();
+            return getConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.opencensus.proto.agent.trace.v1.UpdatedLibraryConfigOrBuilder
+        public TraceConfigOrBuilder getConfigOrBuilder() {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.configBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TraceConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            TraceConfig traceConfig = this.config_;
+            return traceConfig == null ? TraceConfig.getDefaultInstance() : traceConfig;
+        }
+
+        private SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> getConfigFieldBuilder() {
+            if (this.configBuilder_ == null) {
+                this.configBuilder_ = new SingleFieldBuilderV3<>(getConfig(), getParentForChildren(), isClean());
+                this.config_ = null;
+            }
+            return this.configBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m36771setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m36765mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

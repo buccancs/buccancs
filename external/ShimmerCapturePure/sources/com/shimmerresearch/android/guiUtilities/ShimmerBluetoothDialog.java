@@ -1,0 +1,141 @@
+package com.shimmerresearch.android.guiUtilities;
+
+import android.app.Activity;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Build;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+import androidx.core.app.ActivityCompat;
+import com.shimmerresearch.androidinstrumentdriver.R;
+
+import java.util.Set;
+
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class ShimmerBluetoothDialog extends Activity {
+    public static final int REQUEST_CONNECT_SHIMMER = 2;
+    private static final boolean D = true;
+    private static final String TAG = "DeviceListActivity";
+    public static String EXTRA_DEVICE_ADDRESS = "device_address";
+    public static String EXTRA_DEVICE_NAME = "device_name";
+    private BluetoothAdapter mBtAdapter;
+    private ArrayAdapter<String> mNewDevicesArrayAdapter;
+    private final BroadcastReceiver mReceiver = new BroadcastReceiver() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerBluetoothDialog.3
+        @Override // android.content.BroadcastReceiver
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if ("android.bluetooth.device.action.FOUND".equals(action)) {
+                BluetoothDevice bluetoothDevice = (BluetoothDevice) intent.getParcelableExtra("android.bluetooth.device.extra.DEVICE");
+                if (bluetoothDevice.getBondState() != 12) {
+                    ShimmerBluetoothDialog.this.mNewDevicesArrayAdapter.add(bluetoothDevice.getName() + StringUtils.LF + bluetoothDevice.getAddress());
+                    return;
+                }
+                return;
+            }
+            if ("android.bluetooth.adapter.action.DISCOVERY_FINISHED".equals(action)) {
+                ShimmerBluetoothDialog.this.setProgressBarIndeterminateVisibility(false);
+                ShimmerBluetoothDialog.this.setTitle(R.string.select_device);
+                if (ShimmerBluetoothDialog.this.mNewDevicesArrayAdapter.getCount() == 0) {
+                    ShimmerBluetoothDialog.this.mNewDevicesArrayAdapter.add(ShimmerBluetoothDialog.this.getResources().getText(R.string.none_found).toString());
+                }
+            }
+        }
+    };
+    private ArrayAdapter<String> mPairedDevicesArrayAdapter;
+    private Button scanButton;
+    private AdapterView.OnItemClickListener mDeviceClickListener = new AdapterView.OnItemClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerBluetoothDialog.2
+        @Override // android.widget.AdapterView.OnItemClickListener
+        public void onItemClick(AdapterView<?> adapterView, View view, int i, long j) {
+            String string = ((TextView) view).getText().toString();
+            String strSubstring = string.substring(string.length() - 17);
+            String str = string.split(StringUtils.LF)[0];
+            Intent intent = new Intent();
+            intent.putExtra(ShimmerBluetoothDialog.EXTRA_DEVICE_ADDRESS, strSubstring);
+            intent.putExtra(ShimmerBluetoothDialog.EXTRA_DEVICE_NAME, str);
+            Toast.makeText(ShimmerBluetoothDialog.this.getApplicationContext(), "Device Selected -> " + strSubstring, 0).show();
+            ShimmerBluetoothDialog.this.setResult(-1, intent);
+            ShimmerBluetoothDialog.this.finish();
+        }
+    };
+
+    @Override // android.app.Activity
+    protected void onCreate(Bundle bundle) {
+        setTheme(android.R.style.Theme.Material.Light.Dialog);
+        super.onCreate(bundle);
+        requestWindowFeature(5);
+        setContentView(R.layout.device_list);
+        setResult(0);
+        Button button = (Button) findViewById(R.id.button_scan);
+        this.scanButton = button;
+        button.setOnClickListener(new View.OnClickListener() { // from class: com.shimmerresearch.android.guiUtilities.ShimmerBluetoothDialog.1
+            @Override // android.view.View.OnClickListener
+            public void onClick(View view) {
+                ShimmerBluetoothDialog.this.doDiscovery();
+                ShimmerBluetoothDialog.this.findViewById(R.id.layoutButton).setVisibility(8);
+            }
+        });
+        this.mPairedDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.device_name);
+        this.mNewDevicesArrayAdapter = new ArrayAdapter<>(this, R.layout.device_name);
+        ListView listView = (ListView) findViewById(R.id.paired_devices);
+        listView.setAdapter((ListAdapter) this.mPairedDevicesArrayAdapter);
+        listView.setOnItemClickListener(this.mDeviceClickListener);
+        ListView listView2 = (ListView) findViewById(R.id.new_devices);
+        listView2.setAdapter((ListAdapter) this.mNewDevicesArrayAdapter);
+        listView2.setOnItemClickListener(this.mDeviceClickListener);
+        registerReceiver(this.mReceiver, new IntentFilter("android.bluetooth.device.action.FOUND"));
+        registerReceiver(this.mReceiver, new IntentFilter("android.bluetooth.adapter.action.DISCOVERY_STARTED"));
+        registerReceiver(this.mReceiver, new IntentFilter("android.bluetooth.adapter.action.DISCOVERY_FINISHED"));
+        BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
+        this.mBtAdapter = defaultAdapter;
+        Set<BluetoothDevice> bondedDevices = defaultAdapter.getBondedDevices();
+        if (bondedDevices.size() > 0) {
+            listView.setEnabled(true);
+            findViewById(R.id.title_paired_devices).setVisibility(0);
+            for (BluetoothDevice bluetoothDevice : bondedDevices) {
+                this.mPairedDevicesArrayAdapter.add(bluetoothDevice.getName() + StringUtils.LF + bluetoothDevice.getAddress());
+            }
+            return;
+        }
+        this.mPairedDevicesArrayAdapter.add(getResources().getText(R.string.none_paired).toString());
+        listView.setEnabled(false);
+    }
+
+    @Override // android.app.Activity
+    protected void onDestroy() {
+        super.onDestroy();
+        BluetoothAdapter bluetoothAdapter = this.mBtAdapter;
+        if (bluetoothAdapter != null) {
+            bluetoothAdapter.cancelDiscovery();
+        }
+        unregisterReceiver(this.mReceiver);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void doDiscovery() {
+        Log.d(TAG, "doDiscovery()");
+        setProgressBarIndeterminateVisibility(true);
+        setTitle(R.string.scanning);
+        findViewById(R.id.title_new_devices).setVisibility(0);
+        findViewById(R.id.layoutNewDevices).setVisibility(0);
+        if (Build.VERSION.SDK_INT < 31 || ActivityCompat.checkSelfPermission(this, "android.permission.BLUETOOTH_SCAN") == 0) {
+            if (this.mBtAdapter.isDiscovering()) {
+                this.mBtAdapter.cancelDiscovery();
+            }
+            this.mBtAdapter.startDiscovery();
+        }
+    }
+}

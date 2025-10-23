@@ -1,0 +1,229 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/widget/Widget.java
+// Size: 6166 bytes
+// Modified: 2025-10-21 16:32:05.045651200 +0100
+
+package com.androidplot.ui.widget;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import com.androidplot.exception.PlotRenderException;
+import com.androidplot.ui.BoxModel;
+import com.androidplot.ui.BoxModelable;
+import com.androidplot.ui.SizeLayoutType;
+import com.androidplot.ui.SizeMetric;
+import com.androidplot.ui.SizeMetrics;
+
+/* loaded from: classes.dex */
+public abstract class Widget implements BoxModelable {
+    private Paint a;
+    private Paint b;
+    private SizeMetrics e;
+    private RectF f;
+    private boolean c = true;
+    private BoxModel d = new BoxModel();
+    private boolean g = true;
+
+    protected abstract void doOnDraw(Canvas canvas, RectF rectF) throws PlotRenderException;
+
+    public Paint getBackgroundPaint() {
+        return this.b;
+    }
+
+    public Paint getBorderPaint() {
+        return this.a;
+    }
+
+    public RectF getOutlineRect() {
+        return this.f;
+    }
+
+    public boolean isClippingEnabled() {
+        return this.c;
+    }
+
+    public boolean isVisible() {
+        return this.g;
+    }
+
+    public void setBackgroundPaint(Paint paint) {
+        this.b = paint;
+    }
+
+    public void setBorderPaint(Paint paint) {
+        this.a = paint;
+    }
+
+    public void setClippingEnabled(boolean z) {
+        this.c = z;
+    }
+
+    public void setSize(SizeMetrics sizeMetrics) {
+        this.e = sizeMetrics;
+    }
+
+    public void setVisible(boolean z) {
+        this.g = z;
+    }
+
+    public Widget(SizeMetric sizeMetric, SizeMetric sizeMetric2) {
+        this.e = new SizeMetrics(sizeMetric, sizeMetric2);
+    }
+
+    public Widget(SizeMetrics sizeMetrics) {
+        this.e = sizeMetrics;
+    }
+
+    public boolean containsPoint(PointF pointF) {
+        RectF rectF = this.f;
+        return rectF != null && rectF.contains(pointF.x, pointF.y);
+    }
+
+    public void setWidth(float f) {
+        this.e.getWidthMetric().setValue(f);
+    }
+
+    public void setWidth(float f, SizeLayoutType sizeLayoutType) {
+        this.e.getWidthMetric().set(f, sizeLayoutType);
+    }
+
+    public void setHeight(float f) {
+        this.e.getHeightMetric().setValue(f);
+    }
+
+    public void setHeight(float f, SizeLayoutType sizeLayoutType) {
+        this.e.getHeightMetric().set(f, sizeLayoutType);
+    }
+
+    public SizeMetric getWidthMetric() {
+        return this.e.getWidthMetric();
+    }
+
+    public SizeMetric getHeightMetric() {
+        return this.e.getHeightMetric();
+    }
+
+    public float getWidthPix(float f) {
+        return this.e.getWidthMetric().getPixelValue(f);
+    }
+
+    public float getHeightPix(float f) {
+        return this.e.getHeightMetric().getPixelValue(f);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public RectF getMarginatedRect(RectF rectF) {
+        return this.d.getMarginatedRect(rectF);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public RectF getPaddedRect(RectF rectF) {
+        return this.d.getPaddedRect(rectF);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setMarginRight(float f) {
+        this.d.setMarginRight(f);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setMargins(float f, float f2, float f3, float f4) {
+        this.d.setMargins(f, f2, f3, f4);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setPadding(float f, float f2, float f3, float f4) {
+        this.d.setPadding(f, f2, f3, f4);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public float getMarginTop() {
+        return this.d.getMarginTop();
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setMarginTop(float f) {
+        this.d.setMarginTop(f);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public float getMarginBottom() {
+        return this.d.getMarginBottom();
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public float getPaddingLeft() {
+        return this.d.getPaddingLeft();
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setPaddingLeft(float f) {
+        this.d.setPaddingLeft(f);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public float getPaddingTop() {
+        return this.d.getPaddingTop();
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setPaddingTop(float f) {
+        this.d.setPaddingTop(f);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public float getPaddingRight() {
+        return this.d.getPaddingRight();
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setPaddingRight(float f) {
+        this.d.setPaddingRight(f);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public float getPaddingBottom() {
+        return this.d.getPaddingBottom();
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setPaddingBottom(float f) {
+        this.d.setPaddingBottom(f);
+    }
+
+    public void setMarginBottom(float f) {
+        this.d.setMarginBottom(f);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public float getMarginLeft() {
+        return this.d.getMarginLeft();
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public void setMarginLeft(float f) {
+        this.d.setMarginLeft(f);
+    }
+
+    @Override // com.androidplot.ui.BoxModelable
+    public float getMarginRight() {
+        return this.d.getMarginRight();
+    }
+
+    public void draw(Canvas canvas, RectF rectF) throws PlotRenderException {
+        this.f = rectF;
+        if (isVisible()) {
+            Paint paint = this.b;
+            if (paint != null) {
+                canvas.drawRect(this.f, paint);
+            }
+            RectF paddedRect = this.d.getPaddedRect(this.d.getMarginatedRect(rectF));
+            doOnDraw(canvas, paddedRect);
+            Paint paint2 = this.a;
+            if (paint2 != null) {
+                canvas.drawRect(paddedRect, paint2);
+            }
+        }
+    }
+}

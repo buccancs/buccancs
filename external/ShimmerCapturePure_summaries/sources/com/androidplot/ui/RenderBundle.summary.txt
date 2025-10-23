@@ -1,0 +1,36 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/RenderBundle.java
+// Size: 921 bytes
+// Modified: 2025-10-21 16:32:03.895720000 +0100
+
+package com.androidplot.ui;
+
+import com.androidplot.series.Series;
+import com.androidplot.ui.RenderBundle;
+import com.androidplot.xy.XYSeriesFormatter;
+
+/* loaded from: classes.dex */
+public abstract class RenderBundle<RenderBundleType extends RenderBundle, SeriesType extends Series, SeriesFormatterType extends XYSeriesFormatter> {
+    private Series a;
+    private SeriesFormatterType b;
+
+    public SeriesFormatterType getFormatter() {
+        return this.b;
+    }
+
+    public Series getSeries() {
+        return this.a;
+    }
+
+    public void setFormatter(SeriesFormatterType seriesformattertype) {
+        this.b = seriesformattertype;
+    }
+
+    public void setSeries(Series series) {
+        this.a = series;
+    }
+
+    public RenderBundle(SeriesType seriestype, SeriesFormatterType seriesformattertype) {
+        this.b = seriesformattertype;
+        this.a = seriestype;
+    }
+}

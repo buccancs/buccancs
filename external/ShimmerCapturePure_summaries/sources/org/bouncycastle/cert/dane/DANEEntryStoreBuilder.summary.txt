@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/dane/DANEEntryStoreBuilder.java
+// Size: 486 bytes
+// Modified: 2025-10-21 16:32:04.802341100 +0100
+
+package org.bouncycastle.cert.dane;
+
+/* loaded from: classes5.dex */
+public class DANEEntryStoreBuilder {
+    private final DANEEntryFetcherFactory daneEntryFetcher;
+
+    public DANEEntryStoreBuilder(DANEEntryFetcherFactory dANEEntryFetcherFactory) {
+        this.daneEntryFetcher = dANEEntryFetcherFactory;
+    }
+
+    public DANEEntryStore build(String str) throws DANEException {
+        return new DANEEntryStore(this.daneEntryFetcher.build(str).getEntries());
+    }
+}

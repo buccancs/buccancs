@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/analysis/integration/UnivariateRealIntegrator.java
+// Size: 1095 bytes
+// Modified: 2025-10-21 16:32:01.742183600 +0100
+
+package org.apache.commons.math.analysis.integration;
+
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.ConvergingAlgorithm;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/integration/UnivariateRealIntegrator.class */
+public interface UnivariateRealIntegrator extends ConvergingAlgorithm {
+    void setMinimalIterationCount(int i);
+
+    int getMinimalIterationCount();
+
+    void resetMinimalIterationCount();
+
+    @Deprecated
+    double integrate(double d, double d2) throws FunctionEvaluationException, IllegalArgumentException, ConvergenceException;
+
+    double integrate(UnivariateRealFunction univariateRealFunction, double d, double d2) throws FunctionEvaluationException, IllegalArgumentException, ConvergenceException;
+
+    double getResult() throws IllegalStateException;
+}

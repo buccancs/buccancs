@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/core/AddressOrBuilder.java
+// Size: 545 bytes
+// Modified: 2025-10-21 16:32:05.440991200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Address;
+
+/* loaded from: classes3.dex */
+public interface AddressOrBuilder extends MessageOrBuilder {
+    Address.AddressCase getAddressCase();
+
+    Pipe getPipe();
+
+    PipeOrBuilder getPipeOrBuilder();
+
+    SocketAddress getSocketAddress();
+
+    SocketAddressOrBuilder getSocketAddressOrBuilder();
+
+    boolean hasPipe();
+
+    boolean hasSocketAddress();
+}

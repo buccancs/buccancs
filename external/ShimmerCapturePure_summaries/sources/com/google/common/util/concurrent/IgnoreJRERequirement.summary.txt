@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/IgnoreJRERequirement.java
+// Size: 116 bytes
+// Modified: 2025-10-21 16:32:00.132726600 +0100
+
+package com.google.common.util.concurrent;
+
+/* loaded from: classes.dex */
+@interface IgnoreJRERequirement {
+}

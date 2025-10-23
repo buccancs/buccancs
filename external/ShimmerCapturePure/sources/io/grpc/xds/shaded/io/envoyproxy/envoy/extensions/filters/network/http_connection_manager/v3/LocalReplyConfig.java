@@ -1,0 +1,826 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SubstitutionFormatString;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SubstitutionFormatStringOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.ResponseMapper;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public final class LocalReplyConfig extends GeneratedMessageV3 implements LocalReplyConfigOrBuilder {
+    public static final int BODY_FORMAT_FIELD_NUMBER = 2;
+    public static final int MAPPERS_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final LocalReplyConfig DEFAULT_INSTANCE = new LocalReplyConfig();
+    private static final Parser<LocalReplyConfig> PARSER = new AbstractParser<LocalReplyConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public LocalReplyConfig m31098parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new LocalReplyConfig(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private SubstitutionFormatString bodyFormat_;
+    private List<ResponseMapper> mappers_;
+    private byte memoizedIsInitialized;
+
+    private LocalReplyConfig(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private LocalReplyConfig() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.mappers_ = Collections.emptyList();
+    }
+
+    private LocalReplyConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                if (!(z2 & true)) {
+                                    this.mappers_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.mappers_.add(codedInputStream.readMessage(ResponseMapper.parser(), extensionRegistryLite));
+                            } else if (tag == 18) {
+                                SubstitutionFormatString substitutionFormatString = this.bodyFormat_;
+                                SubstitutionFormatString.Builder builderM24248toBuilder = substitutionFormatString != null ? substitutionFormatString.m24248toBuilder() : null;
+                                SubstitutionFormatString substitutionFormatString2 = (SubstitutionFormatString) codedInputStream.readMessage(SubstitutionFormatString.parser(), extensionRegistryLite);
+                                this.bodyFormat_ = substitutionFormatString2;
+                                if (builderM24248toBuilder != null) {
+                                    builderM24248toBuilder.mergeFrom(substitutionFormatString2);
+                                    this.bodyFormat_ = builderM24248toBuilder.m24255buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.mappers_ = Collections.unmodifiableList(this.mappers_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static LocalReplyConfig getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<LocalReplyConfig> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return HttpConnectionManagerProto.internal_static_envoy_extensions_filters_network_http_connection_manager_v3_LocalReplyConfig_descriptor;
+    }
+
+    public static LocalReplyConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (LocalReplyConfig) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static LocalReplyConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LocalReplyConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static LocalReplyConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (LocalReplyConfig) PARSER.parseFrom(byteString);
+    }
+
+    public static LocalReplyConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LocalReplyConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static LocalReplyConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (LocalReplyConfig) PARSER.parseFrom(bArr);
+    }
+
+    public static LocalReplyConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LocalReplyConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static LocalReplyConfig parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static LocalReplyConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static LocalReplyConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static LocalReplyConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static LocalReplyConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static LocalReplyConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m31096toBuilder();
+    }
+
+    public static Builder newBuilder(LocalReplyConfig localReplyConfig) {
+        return DEFAULT_INSTANCE.m31096toBuilder().mergeFrom(localReplyConfig);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public LocalReplyConfig m31091getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+    public List<ResponseMapper> getMappersList() {
+        return this.mappers_;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+    public List<? extends ResponseMapperOrBuilder> getMappersOrBuilderList() {
+        return this.mappers_;
+    }
+
+    public Parser<LocalReplyConfig> getParserForType() {
+        return PARSER;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+    public boolean hasBodyFormat() {
+        return this.bodyFormat_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new LocalReplyConfig();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return HttpConnectionManagerProto.internal_static_envoy_extensions_filters_network_http_connection_manager_v3_LocalReplyConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(LocalReplyConfig.class, Builder.class);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+    public int getMappersCount() {
+        return this.mappers_.size();
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+    public ResponseMapper getMappers(int i) {
+        return this.mappers_.get(i);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+    public ResponseMapperOrBuilder getMappersOrBuilder(int i) {
+        return this.mappers_.get(i);
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+    public SubstitutionFormatString getBodyFormat() {
+        SubstitutionFormatString substitutionFormatString = this.bodyFormat_;
+        return substitutionFormatString == null ? SubstitutionFormatString.getDefaultInstance() : substitutionFormatString;
+    }
+
+    @Override
+    // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+    public SubstitutionFormatStringOrBuilder getBodyFormatOrBuilder() {
+        return getBodyFormat();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        for (int i = 0; i < this.mappers_.size(); i++) {
+            codedOutputStream.writeMessage(1, this.mappers_.get(i));
+        }
+        if (this.bodyFormat_ != null) {
+            codedOutputStream.writeMessage(2, getBodyFormat());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = 0;
+        for (int i2 = 0; i2 < this.mappers_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(1, this.mappers_.get(i2));
+        }
+        if (this.bodyFormat_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getBodyFormat());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof LocalReplyConfig)) {
+            return super.equals(obj);
+        }
+        LocalReplyConfig localReplyConfig = (LocalReplyConfig) obj;
+        if (getMappersList().equals(localReplyConfig.getMappersList()) && hasBodyFormat() == localReplyConfig.hasBodyFormat()) {
+            return (!hasBodyFormat() || getBodyFormat().equals(localReplyConfig.getBodyFormat())) && this.unknownFields.equals(localReplyConfig.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (getMappersCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getMappersList().hashCode();
+        }
+        if (hasBodyFormat()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getBodyFormat().hashCode();
+        }
+        int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m31093newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m31096toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LocalReplyConfigOrBuilder {
+        private int bitField0_;
+        private SingleFieldBuilderV3<SubstitutionFormatString, SubstitutionFormatString.Builder, SubstitutionFormatStringOrBuilder> bodyFormatBuilder_;
+        private SubstitutionFormatString bodyFormat_;
+        private RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> mappersBuilder_;
+        private List<ResponseMapper> mappers_;
+
+        private Builder() {
+            this.mappers_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.mappers_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return HttpConnectionManagerProto.internal_static_envoy_extensions_filters_network_http_connection_manager_v3_LocalReplyConfig_descriptor;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+        public boolean hasBodyFormat() {
+            return (this.bodyFormatBuilder_ == null && this.bodyFormat_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return HttpConnectionManagerProto.internal_static_envoy_extensions_filters_network_http_connection_manager_v3_LocalReplyConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(LocalReplyConfig.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (LocalReplyConfig.alwaysUseFieldBuilders) {
+                getMappersFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31107clear() {
+            super.clear();
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.mappers_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            if (this.bodyFormatBuilder_ == null) {
+                this.bodyFormat_ = null;
+            } else {
+                this.bodyFormat_ = null;
+                this.bodyFormatBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return HttpConnectionManagerProto.internal_static_envoy_extensions_filters_network_http_connection_manager_v3_LocalReplyConfig_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LocalReplyConfig m31120getDefaultInstanceForType() {
+            return LocalReplyConfig.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LocalReplyConfig m31101build() throws UninitializedMessageException {
+            LocalReplyConfig localReplyConfigM31103buildPartial = m31103buildPartial();
+            if (localReplyConfigM31103buildPartial.isInitialized()) {
+                return localReplyConfigM31103buildPartial;
+            }
+            throw newUninitializedMessageException(localReplyConfigM31103buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LocalReplyConfig m31103buildPartial() {
+            LocalReplyConfig localReplyConfig = new LocalReplyConfig(this);
+            int i = this.bitField0_;
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((i & 1) != 0) {
+                    this.mappers_ = Collections.unmodifiableList(this.mappers_);
+                    this.bitField0_ &= -2;
+                }
+                localReplyConfig.mappers_ = this.mappers_;
+            } else {
+                localReplyConfig.mappers_ = repeatedFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<SubstitutionFormatString, SubstitutionFormatString.Builder, SubstitutionFormatStringOrBuilder> singleFieldBuilderV3 = this.bodyFormatBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                localReplyConfig.bodyFormat_ = this.bodyFormat_;
+            } else {
+                localReplyConfig.bodyFormat_ = singleFieldBuilderV3.build();
+            }
+            onBuilt();
+            return localReplyConfig;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31119clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31131setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31109clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31112clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31133setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31099addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m31124mergeFrom(Message message) {
+            if (message instanceof LocalReplyConfig) {
+                return mergeFrom((LocalReplyConfig) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(LocalReplyConfig localReplyConfig) {
+            if (localReplyConfig == LocalReplyConfig.getDefaultInstance()) {
+                return this;
+            }
+            if (this.mappersBuilder_ == null) {
+                if (!localReplyConfig.mappers_.isEmpty()) {
+                    if (this.mappers_.isEmpty()) {
+                        this.mappers_ = localReplyConfig.mappers_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureMappersIsMutable();
+                        this.mappers_.addAll(localReplyConfig.mappers_);
+                    }
+                    onChanged();
+                }
+            } else if (!localReplyConfig.mappers_.isEmpty()) {
+                if (!this.mappersBuilder_.isEmpty()) {
+                    this.mappersBuilder_.addAllMessages(localReplyConfig.mappers_);
+                } else {
+                    this.mappersBuilder_.dispose();
+                    this.mappersBuilder_ = null;
+                    this.mappers_ = localReplyConfig.mappers_;
+                    this.bitField0_ &= -2;
+                    this.mappersBuilder_ = LocalReplyConfig.alwaysUseFieldBuilders ? getMappersFieldBuilder() : null;
+                }
+            }
+            if (localReplyConfig.hasBodyFormat()) {
+                mergeBodyFormat(localReplyConfig.getBodyFormat());
+            }
+            m31129mergeUnknownFields(localReplyConfig.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig.Builder m31125mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig.access$800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig.Builder.m31125mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfig$Builder");
+        }
+
+        private void ensureMappersIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.mappers_ = new ArrayList(this.mappers_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+        public List<ResponseMapper> getMappersList() {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.mappers_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+        public int getMappersCount() {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.mappers_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+        public ResponseMapper getMappers(int i) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.mappers_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setMappers(int i, ResponseMapper responseMapper) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                responseMapper.getClass();
+                ensureMappersIsMutable();
+                this.mappers_.set(i, responseMapper);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, responseMapper);
+            }
+            return this;
+        }
+
+        public Builder setMappers(int i, ResponseMapper.Builder builder) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMappersIsMutable();
+                this.mappers_.set(i, builder.m31239build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m31239build());
+            }
+            return this;
+        }
+
+        public Builder addMappers(ResponseMapper responseMapper) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                responseMapper.getClass();
+                ensureMappersIsMutable();
+                this.mappers_.add(responseMapper);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(responseMapper);
+            }
+            return this;
+        }
+
+        public Builder addMappers(int i, ResponseMapper responseMapper) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                responseMapper.getClass();
+                ensureMappersIsMutable();
+                this.mappers_.add(i, responseMapper);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, responseMapper);
+            }
+            return this;
+        }
+
+        public Builder addMappers(ResponseMapper.Builder builder) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMappersIsMutable();
+                this.mappers_.add(builder.m31239build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m31239build());
+            }
+            return this;
+        }
+
+        public Builder addMappers(int i, ResponseMapper.Builder builder) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMappersIsMutable();
+                this.mappers_.add(i, builder.m31239build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m31239build());
+            }
+            return this;
+        }
+
+        public Builder addAllMappers(Iterable<? extends ResponseMapper> iterable) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMappersIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.mappers_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearMappers() {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.mappers_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeMappers(int i) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureMappersIsMutable();
+                this.mappers_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public ResponseMapper.Builder getMappersBuilder(int i) {
+            return getMappersFieldBuilder().getBuilder(i);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+        public ResponseMapperOrBuilder getMappersOrBuilder(int i) {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.mappers_.get(i);
+            }
+            return (ResponseMapperOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+        public List<? extends ResponseMapperOrBuilder> getMappersOrBuilderList() {
+            RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> repeatedFieldBuilderV3 = this.mappersBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.mappers_);
+        }
+
+        public ResponseMapper.Builder addMappersBuilder() {
+            return getMappersFieldBuilder().addBuilder(ResponseMapper.getDefaultInstance());
+        }
+
+        public ResponseMapper.Builder addMappersBuilder(int i) {
+            return getMappersFieldBuilder().addBuilder(i, ResponseMapper.getDefaultInstance());
+        }
+
+        public List<ResponseMapper.Builder> getMappersBuilderList() {
+            return getMappersFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<ResponseMapper, ResponseMapper.Builder, ResponseMapperOrBuilder> getMappersFieldBuilder() {
+            if (this.mappersBuilder_ == null) {
+                this.mappersBuilder_ = new RepeatedFieldBuilderV3<>(this.mappers_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.mappers_ = null;
+            }
+            return this.mappersBuilder_;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+        public SubstitutionFormatString getBodyFormat() {
+            SingleFieldBuilderV3<SubstitutionFormatString, SubstitutionFormatString.Builder, SubstitutionFormatStringOrBuilder> singleFieldBuilderV3 = this.bodyFormatBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            SubstitutionFormatString substitutionFormatString = this.bodyFormat_;
+            return substitutionFormatString == null ? SubstitutionFormatString.getDefaultInstance() : substitutionFormatString;
+        }
+
+        public Builder setBodyFormat(SubstitutionFormatString substitutionFormatString) {
+            SingleFieldBuilderV3<SubstitutionFormatString, SubstitutionFormatString.Builder, SubstitutionFormatStringOrBuilder> singleFieldBuilderV3 = this.bodyFormatBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                substitutionFormatString.getClass();
+                this.bodyFormat_ = substitutionFormatString;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(substitutionFormatString);
+            }
+            return this;
+        }
+
+        public Builder setBodyFormat(SubstitutionFormatString.Builder builder) {
+            SingleFieldBuilderV3<SubstitutionFormatString, SubstitutionFormatString.Builder, SubstitutionFormatStringOrBuilder> singleFieldBuilderV3 = this.bodyFormatBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.bodyFormat_ = builder.m24253build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m24253build());
+            }
+            return this;
+        }
+
+        public Builder mergeBodyFormat(SubstitutionFormatString substitutionFormatString) {
+            SingleFieldBuilderV3<SubstitutionFormatString, SubstitutionFormatString.Builder, SubstitutionFormatStringOrBuilder> singleFieldBuilderV3 = this.bodyFormatBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                SubstitutionFormatString substitutionFormatString2 = this.bodyFormat_;
+                if (substitutionFormatString2 != null) {
+                    this.bodyFormat_ = SubstitutionFormatString.newBuilder(substitutionFormatString2).mergeFrom(substitutionFormatString).m24255buildPartial();
+                } else {
+                    this.bodyFormat_ = substitutionFormatString;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(substitutionFormatString);
+            }
+            return this;
+        }
+
+        public Builder clearBodyFormat() {
+            if (this.bodyFormatBuilder_ == null) {
+                this.bodyFormat_ = null;
+                onChanged();
+            } else {
+                this.bodyFormat_ = null;
+                this.bodyFormatBuilder_ = null;
+            }
+            return this;
+        }
+
+        public SubstitutionFormatString.Builder getBodyFormatBuilder() {
+            onChanged();
+            return getBodyFormatFieldBuilder().getBuilder();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.LocalReplyConfigOrBuilder
+        public SubstitutionFormatStringOrBuilder getBodyFormatOrBuilder() {
+            SingleFieldBuilderV3<SubstitutionFormatString, SubstitutionFormatString.Builder, SubstitutionFormatStringOrBuilder> singleFieldBuilderV3 = this.bodyFormatBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (SubstitutionFormatStringOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            SubstitutionFormatString substitutionFormatString = this.bodyFormat_;
+            return substitutionFormatString == null ? SubstitutionFormatString.getDefaultInstance() : substitutionFormatString;
+        }
+
+        private SingleFieldBuilderV3<SubstitutionFormatString, SubstitutionFormatString.Builder, SubstitutionFormatStringOrBuilder> getBodyFormatFieldBuilder() {
+            if (this.bodyFormatBuilder_ == null) {
+                this.bodyFormatBuilder_ = new SingleFieldBuilderV3<>(getBodyFormat(), getParentForChildren(), isClean());
+                this.bodyFormat_ = null;
+            }
+            return this.bodyFormatBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m31135setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m31129mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

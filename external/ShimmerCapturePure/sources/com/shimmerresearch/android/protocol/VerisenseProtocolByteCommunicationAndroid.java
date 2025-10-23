@@ -1,0 +1,98 @@
+package com.shimmerresearch.android.protocol;
+
+import android.content.Context;
+import android.net.Uri;
+import androidx.documentfile.provider.DocumentFile;
+import com.shimmerresearch.exceptions.ShimmerException;
+import com.shimmerresearch.tools.FileUtils;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import com.shimmerresearch.verisense.communication.AbstractByteCommunication;
+import com.shimmerresearch.verisense.communication.VerisenseMessage;
+import com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication;
+
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+/* loaded from: classes2.dex */
+public class VerisenseProtocolByteCommunicationAndroid extends VerisenseProtocolByteCommunication {
+    protected Context mContext;
+    protected Uri mTreeURI;
+
+    public VerisenseProtocolByteCommunicationAndroid(AbstractByteCommunication abstractByteCommunication) {
+        super(abstractByteCommunication);
+    }
+
+    public void enableWriteToBinFile(Context context, Uri uri) {
+        this.mContext = context;
+        this.mTreeURI = uri;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication
+    protected void createBinFile(VerisenseMessage verisenseMessage, boolean z) {
+        System.out.println();
+        try {
+            String str = String.format("%05d", Integer.valueOf(verisenseMessage.payloadIndex));
+            if (z) {
+                this.dataFileName = String.format("%s_%s_%s.bin", new SimpleDateFormat(UtilVerisenseDriver.DATE_FORMAT_FILENAME).format(new Date()), str, "BadCRC");
+            } else {
+                this.dataFileName = String.format("%s_%s.bin", new SimpleDateFormat(UtilVerisenseDriver.DATE_FORMAT_FILENAME).format(new Date()), str);
+            }
+        } catch (Exception unused) {
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication
+    public void readLoggedData() throws ShimmerException {
+        if (this.mContext == null || this.mTreeURI == null) {
+            throw new ShimmerException("Context and Uri needs to be set");
+        }
+        super.readLoggedData();
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.VerisenseProtocolByteCommunication
+    protected void WritePayloadToBinFile(VerisenseMessage verisenseMessage) throws IOException {
+        if (this.PreviouslyWrittenPayloadIndex != verisenseMessage.payloadIndex) {
+            try {
+                DocumentFile documentFileFromTreeUri = DocumentFile.fromTreeUri(this.mContext, this.mTreeURI);
+                for (DocumentFile documentFile : documentFileFromTreeUri.listFiles()) {
+                    System.out.println(documentFile.getName());
+                }
+                DocumentFile documentFileFindFile = documentFileFromTreeUri.findFile(getTrialName());
+                if (documentFileFindFile == null) {
+                    documentFileFindFile = documentFileFromTreeUri.createDirectory(getTrialName());
+                }
+                DocumentFile documentFileFindFile2 = documentFileFindFile.findFile(getParticipantID());
+                if (documentFileFindFile2 == null) {
+                    documentFileFindFile2 = documentFileFindFile.createDirectory(getParticipantID());
+                }
+                DocumentFile documentFileFindFile3 = documentFileFindFile2.findFile(this.mByteCommunication.getUuid());
+                if (documentFileFindFile3 == null) {
+                    documentFileFindFile3 = documentFileFindFile2.createDirectory(this.mByteCommunication.getUuid());
+                }
+                DocumentFile documentFileFindFile4 = documentFileFindFile3.findFile(UtilVerisenseDriver.ASM_DIRECTORY_NAMES.BINARY_FILES);
+                if (documentFileFindFile4 == null) {
+                    documentFileFindFile4 = documentFileFindFile3.createDirectory(UtilVerisenseDriver.ASM_DIRECTORY_NAMES.BINARY_FILES);
+                }
+                DocumentFile documentFileFindFile5 = documentFileFindFile4.findFile(this.dataFileName);
+                if (documentFileFindFile5 == null) {
+                    documentFileFindFile5 = documentFileFindFile4.createFile("application/bin", this.dataFileName);
+                    this.dataFilePath = new FileUtils(this.mContext).getPath(documentFileFindFile5.getUri(), FileUtils.UriType.FILE);
+                }
+                if (documentFileFindFile5 != null) {
+                    FileOutputStream fileOutputStream = new FileOutputStream(this.mContext.getContentResolver().openFileDescriptor(documentFileFindFile5.getUri(), "wa").getFileDescriptor());
+                    fileOutputStream.write(verisenseMessage.payloadBytes);
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                }
+                if (verisenseMessage.mCRCErrorPayload) {
+                    return;
+                }
+                this.PreviouslyWrittenPayloadIndex = verisenseMessage.payloadIndex;
+            } catch (Exception e) {
+                System.out.println(e.toString());
+            }
+        }
+    }
+}

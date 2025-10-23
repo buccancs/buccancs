@@ -1,0 +1,192 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/socket/oio/DefaultOioDatagramChannelConfig.java
+// Size: 10205 bytes
+// Modified: 2025-10-21 16:32:12.027924400 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.socket.oio;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.channel.ChannelException;
+import io.grpc.netty.shaded.io.netty.channel.ChannelOption;
+import io.grpc.netty.shaded.io.netty.channel.MessageSizeEstimator;
+import io.grpc.netty.shaded.io.netty.channel.PreferHeapByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.channel.WriteBufferWaterMark;
+import io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel;
+import io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig;
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+final class DefaultOioDatagramChannelConfig extends DefaultDatagramChannelConfig implements OioDatagramChannelConfig {
+    DefaultOioDatagramChannelConfig(DatagramChannel datagramChannel, DatagramSocket datagramSocket) {
+        super(datagramChannel, datagramSocket);
+        setAllocator((ByteBufAllocator) new PreferHeapByteBufAllocator(getAllocator()));
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public Map<ChannelOption<?>, Object> getOptions() {
+        return getOptions(super.getOptions(), ChannelOption.SO_TIMEOUT);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public <T> T getOption(ChannelOption<T> channelOption) {
+        if (channelOption == ChannelOption.SO_TIMEOUT) {
+            return (T) Integer.valueOf(getSoTimeout());
+        }
+        return (T) super.getOption(channelOption);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public <T> boolean setOption(ChannelOption<T> channelOption, T t) throws SocketException {
+        validate(channelOption, t);
+        if (channelOption == ChannelOption.SO_TIMEOUT) {
+            setSoTimeout(((Integer) t).intValue());
+            return true;
+        }
+        return super.setOption(channelOption, t);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.oio.OioDatagramChannelConfig
+    public OioDatagramChannelConfig setSoTimeout(int i) throws SocketException {
+        try {
+            javaSocket().setSoTimeout(i);
+            return this;
+        } catch (IOException e) {
+            throw new ChannelException(e);
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.oio.OioDatagramChannelConfig
+    public int getSoTimeout() {
+        try {
+            return javaSocket().getSoTimeout();
+        } catch (IOException e) {
+            throw new ChannelException(e);
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setBroadcast(boolean z) throws SocketException {
+        super.setBroadcast(z);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setInterface(InetAddress inetAddress) throws SocketException {
+        super.setInterface(inetAddress);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setLoopbackModeDisabled(boolean z) throws SocketException {
+        super.setLoopbackModeDisabled(z);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setNetworkInterface(NetworkInterface networkInterface) throws SocketException {
+        super.setNetworkInterface(networkInterface);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setReuseAddress(boolean z) throws SocketException {
+        super.setReuseAddress(z);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setReceiveBufferSize(int i) throws SocketException {
+        super.setReceiveBufferSize(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setSendBufferSize(int i) throws SocketException {
+        super.setSendBufferSize(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setTimeToLive(int i) throws IOException {
+        super.setTimeToLive(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannelConfig
+    public OioDatagramChannelConfig setTrafficClass(int i) throws SocketException {
+        super.setTrafficClass(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setWriteSpinCount(int i) {
+        super.setWriteSpinCount(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setConnectTimeoutMillis(int i) {
+        super.setConnectTimeoutMillis(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setMaxMessagesPerRead(int i) {
+        super.setMaxMessagesPerRead(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setAllocator(ByteBufAllocator byteBufAllocator) {
+        super.setAllocator(byteBufAllocator);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setRecvByteBufAllocator(RecvByteBufAllocator recvByteBufAllocator) {
+        super.setRecvByteBufAllocator(recvByteBufAllocator);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setAutoRead(boolean z) {
+        super.setAutoRead(z);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setAutoClose(boolean z) {
+        super.setAutoClose(z);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setWriteBufferHighWaterMark(int i) {
+        super.setWriteBufferHighWaterMark(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setWriteBufferLowWaterMark(int i) {
+        super.setWriteBufferLowWaterMark(i);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setWriteBufferWaterMark(WriteBufferWaterMark writeBufferWaterMark) {
+        super.setWriteBufferWaterMark(writeBufferWaterMark);
+        return this;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DefaultDatagramChannelConfig, io.grpc.netty.shaded.io.netty.channel.DefaultChannelConfig, io.grpc.netty.shaded.io.netty.channel.ChannelConfig
+    public OioDatagramChannelConfig setMessageSizeEstimator(MessageSizeEstimator messageSizeEstimator) {
+        super.setMessageSizeEstimator(messageSizeEstimator);
+        return this;
+    }
+}

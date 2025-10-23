@@ -1,0 +1,164 @@
+package org.apache.commons.math.optimization.direct;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MaxIterationsExceededException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.optimization.GoalType;
+import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.RealPointValuePair;
+import org.apache.commons.math.optimization.general.AbstractScalarDifferentiableOptimizer;
+import org.apache.commons.math.optimization.univariate.AbstractUnivariateRealOptimizer;
+import org.apache.commons.math.optimization.univariate.BracketFinder;
+import org.apache.commons.math.optimization.univariate.BrentOptimizer;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/direct/PowellOptimizer.class */
+public class PowellOptimizer extends AbstractScalarDifferentiableOptimizer {
+    public static final double DEFAULT_LS_RELATIVE_TOLERANCE = 1.0E-7d;
+    public static final double DEFAULT_LS_ABSOLUTE_TOLERANCE = 1.0E-11d;
+    private final LineSearch line;
+
+    public PowellOptimizer() {
+        this(1.0E-7d, 1.0E-11d);
+    }
+
+    public PowellOptimizer(double lsRelativeTolerance) {
+        this(lsRelativeTolerance, 1.0E-11d);
+    }
+
+    public PowellOptimizer(double lsRelativeTolerance, double lsAbsoluteTolerance) {
+        this.line = new LineSearch(lsRelativeTolerance, lsAbsoluteTolerance);
+    }
+
+    @Override // org.apache.commons.math.optimization.general.AbstractScalarDifferentiableOptimizer
+    protected RealPointValuePair doOptimize() throws FunctionEvaluationException, OptimizationException {
+        double fX;
+        RealPointValuePair previous;
+        RealPointValuePair current;
+        double[] guess = (double[]) this.point.clone();
+        int n = guess.length;
+        double[][] direc = new double[n][n];
+        for (int i = 0; i < n; i++) {
+            direc[i][i] = 1.0d;
+        }
+        double[] x = guess;
+        double fVal = computeObjectiveValue(x);
+        double[] x1 = (double[]) x.clone();
+        while (true) {
+            incrementIterationsCounter();
+            fX = fVal;
+            double delta = 0.0d;
+            int bigInd = 0;
+            for (int i2 = 0; i2 < n; i2++) {
+                double[] d = copyOf(direc[i2], n);
+                double fX2 = fVal;
+                this.line.search(x, d);
+                fVal = this.line.getValueAtOptimum();
+                double alphaMin = this.line.getOptimum();
+                x = newPointAndDirection(x, d, alphaMin)[0];
+                if (fX2 - fVal > delta) {
+                    delta = fX2 - fVal;
+                    bigInd = i2;
+                }
+            }
+            previous = new RealPointValuePair(x1, fX);
+            current = new RealPointValuePair(x, fVal);
+            if (getConvergenceChecker().converged(getIterations(), previous, current)) {
+                break;
+            }
+            double[] d2 = new double[n];
+            double[] x2 = new double[n];
+            for (int i3 = 0; i3 < n; i3++) {
+                d2[i3] = x[i3] - x1[i3];
+                x2[i3] = (2.0d * x[i3]) - x1[i3];
+            }
+            x1 = (double[]) x.clone();
+            double fX22 = computeObjectiveValue(x2);
+            if (fX > fX22) {
+                double t = 2.0d * ((fX + fX22) - (2.0d * fVal));
+                double temp = (fX - fVal) - delta;
+                double t2 = t * temp * temp;
+                double temp2 = fX - fX22;
+                if (t2 - ((delta * temp2) * temp2) < 0.0d) {
+                    this.line.search(x, d2);
+                    fVal = this.line.getValueAtOptimum();
+                    double alphaMin2 = this.line.getOptimum();
+                    double[][] result = newPointAndDirection(x, d2, alphaMin2);
+                    x = result[0];
+                    int lastInd = n - 1;
+                    direc[bigInd] = direc[lastInd];
+                    direc[lastInd] = result[1];
+                }
+            }
+        }
+        return this.goal == GoalType.MINIMIZE ? fVal < fX ? current : previous : fVal > fX ? current : previous;
+    }
+
+    private double[][] newPointAndDirection(double[] p, double[] d, double optimum) {
+        int n = p.length;
+        double[][] result = new double[2][n];
+        double[] nP = result[0];
+        double[] nD = result[1];
+        for (int i = 0; i < n; i++) {
+            nD[i] = d[i] * optimum;
+            nP[i] = p[i] + nD[i];
+        }
+        return result;
+    }
+
+    private double[] copyOf(double[] source, int newLen) {
+        double[] output = new double[newLen];
+        System.arraycopy(source, 0, output, 0, Math.min(source.length, newLen));
+        return output;
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/direct/PowellOptimizer$LineSearch.class */
+    private class LineSearch {
+        private final AbstractUnivariateRealOptimizer optim = new BrentOptimizer();
+        private final BracketFinder bracket = new BracketFinder();
+        private double optimum = Double.NaN;
+        private double valueAtOptimum = Double.NaN;
+
+        public LineSearch(double relativeTolerance, double absoluteTolerance) {
+            this.optim.setRelativeAccuracy(relativeTolerance);
+            this.optim.setAbsoluteAccuracy(absoluteTolerance);
+        }
+
+        public void search(final double[] p, final double[] d) throws FunctionEvaluationException, OptimizationException {
+            this.optimum = Double.NaN;
+            this.valueAtOptimum = Double.NaN;
+            try {
+                final int n = p.length;
+                UnivariateRealFunction f = new UnivariateRealFunction() { // from class: org.apache.commons.math.optimization.direct.PowellOptimizer.LineSearch.1
+                    @Override // org.apache.commons.math.analysis.UnivariateRealFunction
+                    public double value(double alpha) throws FunctionEvaluationException {
+                        double[] x = new double[n];
+                        for (int i = 0; i < n; i++) {
+                            x[i] = p[i] + (alpha * d[i]);
+                        }
+                        double obj = PowellOptimizer.this.computeObjectiveValue(x);
+                        return obj;
+                    }
+                };
+                this.bracket.search(f, PowellOptimizer.this.goal, 0.0d, 1.0d);
+                this.optimum = this.optim.optimize(f, PowellOptimizer.this.goal, this.bracket.getLo(), this.bracket.getHi(), this.bracket.getMid());
+                this.valueAtOptimum = this.optim.getFunctionValue();
+            } catch (MaxIterationsExceededException e) {
+                throw new OptimizationException(e);
+            }
+        }
+
+        public double getOptimum() {
+            return this.optimum;
+        }
+
+        public double getValueAtOptimum() {
+            return this.valueAtOptimum;
+        }
+    }
+}

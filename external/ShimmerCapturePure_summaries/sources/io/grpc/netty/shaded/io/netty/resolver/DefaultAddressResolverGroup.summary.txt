@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/resolver/DefaultAddressResolverGroup.java
+// Size: 718 bytes
+// Modified: 2025-10-21 16:32:08.204670700 +0100
+
+package io.grpc.netty.shaded.io.netty.resolver;
+
+import io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutor;
+import java.net.InetSocketAddress;
+
+/* loaded from: classes3.dex */
+public final class DefaultAddressResolverGroup extends AddressResolverGroup<InetSocketAddress> {
+    public static final DefaultAddressResolverGroup INSTANCE = new DefaultAddressResolverGroup();
+
+    private DefaultAddressResolverGroup() {
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.resolver.AddressResolverGroup
+    protected AddressResolver<InetSocketAddress> newResolver(EventExecutor eventExecutor) throws Exception {
+        return new DefaultNameResolver(eventExecutor).asAddressResolver();
+    }
+}

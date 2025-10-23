@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/DefaultSelectStrategy.java
+// Size: 585 bytes
+// Modified: 2025-10-21 16:32:02.219654200 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+import io.grpc.netty.shaded.io.netty.util.IntSupplier;
+
+/* loaded from: classes3.dex */
+final class DefaultSelectStrategy implements SelectStrategy {
+    static final SelectStrategy INSTANCE = new DefaultSelectStrategy();
+
+    private DefaultSelectStrategy() {
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.SelectStrategy
+    public int calculateStrategy(IntSupplier intSupplier, boolean z) throws Exception {
+        if (z) {
+            return intSupplier.get();
+        }
+        return -1;
+    }
+}

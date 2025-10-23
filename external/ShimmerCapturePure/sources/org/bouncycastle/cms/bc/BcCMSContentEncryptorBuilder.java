@@ -1,0 +1,93 @@
+package org.bouncycastle.cms.bc;
+
+import java.io.OutputStream;
+import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
+import org.bouncycastle.cms.CMSAlgorithm;
+import org.bouncycastle.cms.CMSException;
+import org.bouncycastle.crypto.params.KeyParameter;
+import org.bouncycastle.crypto.util.CipherFactory;
+import org.bouncycastle.operator.GenericKey;
+import org.bouncycastle.operator.OutputEncryptor;
+import org.bouncycastle.util.Integers;
+
+/* loaded from: classes5.dex */
+public class BcCMSContentEncryptorBuilder {
+    private static Map keySizes;
+
+    static {
+        HashMap map = new HashMap();
+        keySizes = map;
+        map.put(CMSAlgorithm.AES128_CBC, Integers.valueOf(128));
+        keySizes.put(CMSAlgorithm.AES192_CBC, Integers.valueOf(192));
+        keySizes.put(CMSAlgorithm.AES256_CBC, Integers.valueOf(256));
+        keySizes.put(CMSAlgorithm.CAMELLIA128_CBC, Integers.valueOf(128));
+        keySizes.put(CMSAlgorithm.CAMELLIA192_CBC, Integers.valueOf(192));
+        keySizes.put(CMSAlgorithm.CAMELLIA256_CBC, Integers.valueOf(256));
+    }
+
+    private final ASN1ObjectIdentifier encryptionOID;
+    private final int keySize;
+    private EnvelopedDataHelper helper;
+    private SecureRandom random;
+
+    public BcCMSContentEncryptorBuilder(ASN1ObjectIdentifier aSN1ObjectIdentifier) {
+        this(aSN1ObjectIdentifier, getKeySize(aSN1ObjectIdentifier));
+    }
+
+    public BcCMSContentEncryptorBuilder(ASN1ObjectIdentifier aSN1ObjectIdentifier, int i) {
+        this.helper = new EnvelopedDataHelper();
+        this.encryptionOID = aSN1ObjectIdentifier;
+        this.keySize = i;
+    }
+
+    private static int getKeySize(ASN1ObjectIdentifier aSN1ObjectIdentifier) {
+        Integer num = (Integer) keySizes.get(aSN1ObjectIdentifier);
+        if (num != null) {
+            return num.intValue();
+        }
+        return -1;
+    }
+
+    public OutputEncryptor build() throws CMSException {
+        return new CMSOutputEncryptor(this.encryptionOID, this.keySize, this.random);
+    }
+
+    public BcCMSContentEncryptorBuilder setSecureRandom(SecureRandom secureRandom) {
+        this.random = secureRandom;
+        return this;
+    }
+
+    private class CMSOutputEncryptor implements OutputEncryptor {
+        private AlgorithmIdentifier algorithmIdentifier;
+        private Object cipher;
+        private KeyParameter encKey;
+
+        CMSOutputEncryptor(ASN1ObjectIdentifier aSN1ObjectIdentifier, int i, SecureRandom secureRandom) throws CMSException {
+            secureRandom = secureRandom == null ? new SecureRandom() : secureRandom;
+            this.encKey = new KeyParameter(BcCMSContentEncryptorBuilder.this.helper.createKeyGenerator(aSN1ObjectIdentifier, secureRandom).generateKey());
+            AlgorithmIdentifier algorithmIdentifierGenerateEncryptionAlgID = BcCMSContentEncryptorBuilder.this.helper.generateEncryptionAlgID(aSN1ObjectIdentifier, this.encKey, secureRandom);
+            this.algorithmIdentifier = algorithmIdentifierGenerateEncryptionAlgID;
+            this.cipher = EnvelopedDataHelper.createContentCipher(true, this.encKey, algorithmIdentifierGenerateEncryptionAlgID);
+        }
+
+        @Override // org.bouncycastle.operator.OutputEncryptor
+        public AlgorithmIdentifier getAlgorithmIdentifier() {
+            return this.algorithmIdentifier;
+        }
+
+        @Override // org.bouncycastle.operator.OutputEncryptor
+        public GenericKey getKey() {
+            return new GenericKey(this.algorithmIdentifier, this.encKey.getKey());
+        }
+
+        @Override // org.bouncycastle.operator.OutputEncryptor
+        public OutputStream getOutputStream(OutputStream outputStream) {
+            return CipherFactory.createOutputStream(outputStream, this.cipher);
+        }
+    }
+}

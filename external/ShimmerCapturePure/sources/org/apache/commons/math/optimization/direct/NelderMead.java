@@ -1,0 +1,108 @@
+package org.apache.commons.math.optimization.direct;
+
+import java.util.Comparator;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.optimization.OptimizationException;
+import org.apache.commons.math.optimization.RealPointValuePair;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/direct/NelderMead.class */
+public class NelderMead extends DirectSearchOptimizer {
+    private final double rho;
+    private final double khi;
+    private final double gamma;
+    private final double sigma;
+
+    public NelderMead() {
+        this.rho = 1.0d;
+        this.khi = 2.0d;
+        this.gamma = 0.5d;
+        this.sigma = 0.5d;
+    }
+
+    public NelderMead(double rho, double khi, double gamma, double sigma) {
+        this.rho = rho;
+        this.khi = khi;
+        this.gamma = gamma;
+        this.sigma = sigma;
+    }
+
+    @Override // org.apache.commons.math.optimization.direct.DirectSearchOptimizer
+    protected void iterateSimplex(Comparator<RealPointValuePair> comparator) throws FunctionEvaluationException, OptimizationException {
+        incrementIterationsCounter();
+        int n = this.simplex.length - 1;
+        RealPointValuePair best = this.simplex[0];
+        RealPointValuePair secondBest = this.simplex[n - 1];
+        RealPointValuePair worst = this.simplex[n];
+        double[] xWorst = worst.getPointRef();
+        double[] centroid = new double[n];
+        for (int i = 0; i < n; i++) {
+            double[] x = this.simplex[i].getPointRef();
+            for (int j = 0; j < n; j++) {
+                int i2 = j;
+                centroid[i2] = centroid[i2] + x[j];
+            }
+        }
+        double scaling = 1.0d / n;
+        for (int j2 = 0; j2 < n; j2++) {
+            int i3 = j2;
+            centroid[i3] = centroid[i3] * scaling;
+        }
+        double[] xR = new double[n];
+        for (int j3 = 0; j3 < n; j3++) {
+            xR[j3] = centroid[j3] + (this.rho * (centroid[j3] - xWorst[j3]));
+        }
+        RealPointValuePair reflected = new RealPointValuePair(xR, evaluate(xR), false);
+        if (comparator.compare(best, reflected) <= 0 && comparator.compare(reflected, secondBest) < 0) {
+            replaceWorstPoint(reflected, comparator);
+            return;
+        }
+        if (comparator.compare(reflected, best) < 0) {
+            double[] xE = new double[n];
+            for (int j4 = 0; j4 < n; j4++) {
+                xE[j4] = centroid[j4] + (this.khi * (xR[j4] - centroid[j4]));
+            }
+            RealPointValuePair expanded = new RealPointValuePair(xE, evaluate(xE), false);
+            if (comparator.compare(expanded, reflected) < 0) {
+                replaceWorstPoint(expanded, comparator);
+                return;
+            } else {
+                replaceWorstPoint(reflected, comparator);
+                return;
+            }
+        }
+        if (comparator.compare(reflected, worst) < 0) {
+            double[] xC = new double[n];
+            for (int j5 = 0; j5 < n; j5++) {
+                xC[j5] = centroid[j5] + (this.gamma * (xR[j5] - centroid[j5]));
+            }
+            RealPointValuePair outContracted = new RealPointValuePair(xC, evaluate(xC), false);
+            if (comparator.compare(outContracted, reflected) <= 0) {
+                replaceWorstPoint(outContracted, comparator);
+                return;
+            }
+        } else {
+            double[] xC2 = new double[n];
+            for (int j6 = 0; j6 < n; j6++) {
+                xC2[j6] = centroid[j6] - (this.gamma * (centroid[j6] - xWorst[j6]));
+            }
+            RealPointValuePair inContracted = new RealPointValuePair(xC2, evaluate(xC2), false);
+            if (comparator.compare(inContracted, worst) < 0) {
+                replaceWorstPoint(inContracted, comparator);
+                return;
+            }
+        }
+        double[] xSmallest = this.simplex[0].getPointRef();
+        for (int i4 = 1; i4 < this.simplex.length; i4++) {
+            double[] x2 = this.simplex[i4].getPoint();
+            for (int j7 = 0; j7 < n; j7++) {
+                x2[j7] = xSmallest[j7] + (this.sigma * (x2[j7] - xSmallest[j7]));
+            }
+            this.simplex[i4] = new RealPointValuePair(x2, Double.NaN, false);
+        }
+        evaluateSimplex(comparator);
+    }
+}

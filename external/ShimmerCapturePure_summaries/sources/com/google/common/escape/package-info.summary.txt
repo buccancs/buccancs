@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/escape/package-info.java
+// Size: 206 bytes
+// Modified: 2025-10-21 16:32:03.114579800 +0100
+
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package com.google.common.escape;
+
+import com.google.errorprone.annotations.CheckReturnValue;
+import javax.annotation.ParametersAreNonnullByDefault;
+

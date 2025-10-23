@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/runners/SuiteMethod.java
+// Size: 934 bytes
+// Modified: 2025-10-21 16:32:03.039765300 +0100
+
+package org.junit.internal.runners;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import junit.framework.Test;
+import junit.runner.BaseTestRunner;
+
+/* loaded from: classes2.dex */
+public class SuiteMethod extends JUnit38ClassRunner {
+    public SuiteMethod(Class<?> cls) throws Throwable {
+        super(testFromSuiteMethod(cls));
+    }
+
+    public static Test testFromSuiteMethod(Class<?> cls) throws Exception {
+        try {
+            Method method = cls.getMethod(BaseTestRunner.SUITE_METHODNAME, new Class[0]);
+            if (!Modifier.isStatic(method.getModifiers())) {
+                throw new Exception(cls.getName() + ".suite() must be static");
+            }
+            return (Test) method.invoke(null, new Object[0]);
+        } catch (InvocationTargetException e) {
+            throw e.getCause();
+        }
+    }
+}

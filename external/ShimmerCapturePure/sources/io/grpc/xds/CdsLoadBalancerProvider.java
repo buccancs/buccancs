@@ -1,0 +1,72 @@
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.LoadBalancer;
+import io.grpc.LoadBalancerProvider;
+import io.grpc.NameResolver;
+import io.grpc.Status;
+import io.grpc.internal.JsonUtil;
+
+import java.util.Map;
+import java.util.Objects;
+
+/* loaded from: classes3.dex */
+public class CdsLoadBalancerProvider extends LoadBalancerProvider {
+    private static final String CLUSTER_KEY = "cluster";
+
+    static NameResolver.ConfigOrError parseLoadBalancingConfigPolicy(Map<String, ?> map) {
+        try {
+            return NameResolver.ConfigOrError.fromConfig(new CdsConfig(JsonUtil.getString(map, CLUSTER_KEY)));
+        } catch (RuntimeException e) {
+            return NameResolver.ConfigOrError.fromError(Status.fromThrowable(e).withDescription("Failed to parse CDS LB config: " + map));
+        }
+    }
+
+    @Override // io.grpc.LoadBalancerProvider
+    public String getPolicyName() {
+        return "cds_experimental";
+    }
+
+    @Override // io.grpc.LoadBalancerProvider
+    public int getPriority() {
+        return 5;
+    }
+
+    @Override // io.grpc.LoadBalancerProvider
+    public boolean isAvailable() {
+        return true;
+    }
+
+    @Override // io.grpc.LoadBalancer.Factory
+    public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
+        return new CdsLoadBalancer(helper);
+    }
+
+    @Override // io.grpc.LoadBalancerProvider
+    public NameResolver.ConfigOrError parseLoadBalancingPolicyConfig(Map<String, ?> map) {
+        return parseLoadBalancingConfigPolicy(map);
+    }
+
+    static final class CdsConfig {
+        final String name;
+
+        CdsConfig(String str) {
+            Preconditions.checkArgument((str == null || str.isEmpty()) ? false : true, "name is null or empty");
+            this.name = str;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            return Objects.equals(this.name, ((CdsConfig) obj).name);
+        }
+
+        public int hashCode() {
+            return Objects.hash(this.name);
+        }
+    }
+}

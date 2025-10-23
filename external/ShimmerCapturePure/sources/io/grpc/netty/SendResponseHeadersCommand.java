@@ -1,0 +1,61 @@
+package io.grpc.netty;
+
+import androidx.core.app.NotificationCompat;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import io.grpc.Status;
+import io.grpc.netty.WriteQueue;
+import io.netty.handler.codec.http2.Http2Headers;
+
+/* loaded from: classes2.dex */
+final class SendResponseHeadersCommand extends WriteQueue.AbstractQueuedCommand {
+    private final Http2Headers headers;
+    private final Status status;
+    private final StreamIdHolder stream;
+
+    private SendResponseHeadersCommand(StreamIdHolder streamIdHolder, Http2Headers http2Headers, Status status) {
+        this.stream = (StreamIdHolder) Preconditions.checkNotNull(streamIdHolder, "stream");
+        this.headers = (Http2Headers) Preconditions.checkNotNull(http2Headers, "headers");
+        this.status = status;
+    }
+
+    static SendResponseHeadersCommand createHeaders(StreamIdHolder streamIdHolder, Http2Headers http2Headers) {
+        return new SendResponseHeadersCommand(streamIdHolder, http2Headers, null);
+    }
+
+    static SendResponseHeadersCommand createTrailers(StreamIdHolder streamIdHolder, Http2Headers http2Headers, Status status) {
+        return new SendResponseHeadersCommand(streamIdHolder, http2Headers, (Status) Preconditions.checkNotNull(status, NotificationCompat.CATEGORY_STATUS));
+    }
+
+    boolean endOfStream() {
+        return this.status != null;
+    }
+
+    Http2Headers headers() {
+        return this.headers;
+    }
+
+    Status status() {
+        return this.status;
+    }
+
+    StreamIdHolder stream() {
+        return this.stream;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == null || !obj.getClass().equals(SendResponseHeadersCommand.class)) {
+            return false;
+        }
+        SendResponseHeadersCommand sendResponseHeadersCommand = (SendResponseHeadersCommand) obj;
+        return sendResponseHeadersCommand.stream.equals(this.stream) && sendResponseHeadersCommand.headers.equals(this.headers) && sendResponseHeadersCommand.status.equals(this.status);
+    }
+
+    public String toString() {
+        return getClass().getSimpleName() + "(stream=" + this.stream.id() + ", headers=" + this.headers + ", status=" + this.status + ")";
+    }
+
+    public int hashCode() {
+        return Objects.hashCode(this.stream, this.status);
+    }
+}

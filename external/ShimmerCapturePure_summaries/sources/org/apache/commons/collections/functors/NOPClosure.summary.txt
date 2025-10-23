@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/functors/NOPClosure.java
+// Size: 582 bytes
+// Modified: 2025-10-21 16:32:00.905675300 +0100
+
+package org.apache.commons.collections.functors;
+
+import java.io.Serializable;
+import org.apache.commons.collections.Closure;
+
+/* loaded from: classes5.dex */
+public class NOPClosure implements Closure, Serializable {
+    public static final Closure INSTANCE = new NOPClosure();
+    private static final long serialVersionUID = 3518477308466486130L;
+
+    public static Closure getInstance() {
+        return INSTANCE;
+    }
+
+    @Override // org.apache.commons.collections.Closure
+    public void execute(Object obj) {
+    }
+
+    private NOPClosure() {
+    }
+}

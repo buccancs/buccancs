@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/core/HeaderMapOrBuilder.java
+// Size: 471 bytes
+// Modified: 2025-10-21 16:32:03.196749400 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface HeaderMapOrBuilder extends MessageOrBuilder {
+    HeaderValue getHeaders(int i);
+
+    int getHeadersCount();
+
+    List<HeaderValue> getHeadersList();
+
+    HeaderValueOrBuilder getHeadersOrBuilder(int i);
+
+    List<? extends HeaderValueOrBuilder> getHeadersOrBuilderList();
+}

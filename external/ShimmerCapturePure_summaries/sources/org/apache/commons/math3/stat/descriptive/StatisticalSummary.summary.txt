@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/descriptive/StatisticalSummary.java
+// Size: 311 bytes
+// Modified: 2025-10-21 16:32:00.550672600 +0100
+
+package org.apache.commons.math3.stat.descriptive;
+
+/* loaded from: classes5.dex */
+public interface StatisticalSummary {
+    double getMax();
+
+    double getMean();
+
+    double getMin();
+
+    long getN();
+
+    double getStandardDeviation();
+
+    double getSum();
+
+    double getVariance();
+}

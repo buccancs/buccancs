@@ -1,0 +1,242 @@
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.ConnectivityState;
+import io.grpc.InternalLogId;
+import io.grpc.LoadBalancer;
+import io.grpc.LoadBalancerProvider;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.internal.ServiceConfigUtil;
+import io.grpc.util.ForwardingLoadBalancerHelper;
+import io.grpc.util.GracefulSwitchLoadBalancer;
+import io.grpc.xds.PriorityLoadBalancerProvider;
+import io.grpc.xds.XdsLogger;
+import io.grpc.xds.XdsSubchannelPickers;
+
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class PriorityLoadBalancer extends LoadBalancer {
+    private final Map<String, ChildLbState> children = new HashMap();
+    private final ScheduledExecutorService executor;
+    private final LoadBalancer.Helper helper;
+    private final XdsLogger logger;
+    private final SynchronizationContext syncContext;
+    private ConnectivityState currentConnectivityState;
+    private LoadBalancer.SubchannelPicker currentPicker;
+    private Map<String, Integer> priorityNameToIndex;
+    private List<String> priorityNames;
+    private LoadBalancer.ResolvedAddresses resolvedAddresses;
+
+    PriorityLoadBalancer(LoadBalancer.Helper helper) {
+        this.helper = (LoadBalancer.Helper) Preconditions.checkNotNull(helper, "helper");
+        this.syncContext = helper.getSynchronizationContext();
+        this.executor = helper.getScheduledExecutorService();
+        XdsLogger xdsLoggerWithLogId = XdsLogger.withLogId(InternalLogId.allocate("priority-lb", helper.getAuthority()));
+        this.logger = xdsLoggerWithLogId;
+        xdsLoggerWithLogId.log(XdsLogger.XdsLogLevel.INFO, "Created");
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void handleResolvedAddresses(LoadBalancer.ResolvedAddresses resolvedAddresses) {
+        this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Received resolution result: {0}", resolvedAddresses);
+        this.resolvedAddresses = resolvedAddresses;
+        PriorityLoadBalancerProvider.PriorityLbConfig priorityLbConfig = (PriorityLoadBalancerProvider.PriorityLbConfig) resolvedAddresses.getLoadBalancingPolicyConfig();
+        Preconditions.checkNotNull(priorityLbConfig, "missing priority lb config");
+        this.priorityNames = priorityLbConfig.priorities;
+        HashMap map = new HashMap();
+        for (int i = 0; i < this.priorityNames.size(); i++) {
+            map.put(this.priorityNames.get(i), Integer.valueOf(i));
+        }
+        this.priorityNameToIndex = Collections.unmodifiableMap(map);
+        for (String str : this.children.keySet()) {
+            if (!this.priorityNameToIndex.containsKey(str)) {
+                this.children.get(str).deactivate();
+            }
+        }
+        for (String str2 : this.priorityNames) {
+            if (this.children.containsKey(str2)) {
+                this.children.get(str2).updateResolvedAddresses();
+            }
+        }
+        tryNextPriority(false);
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void handleNameResolutionError(Status status) {
+        this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Received name resolution error: {0}", status);
+        if (this.children.isEmpty()) {
+            updateOverallState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(status));
+        }
+        Iterator<ChildLbState> it2 = this.children.values().iterator();
+        while (it2.hasNext()) {
+            it2.next().lb.handleNameResolutionError(status);
+        }
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void shutdown() {
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Shutdown");
+        Iterator<ChildLbState> it2 = this.children.values().iterator();
+        while (it2.hasNext()) {
+            it2.next().tearDown();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void tryNextPriority(boolean z) {
+        for (int i = 0; i < this.priorityNames.size(); i++) {
+            String str = this.priorityNames.get(i);
+            if (!this.children.containsKey(str)) {
+                ChildLbState childLbState = new ChildLbState(str);
+                this.children.put(str, childLbState);
+                childLbState.updateResolvedAddresses();
+                updateOverallState(ConnectivityState.CONNECTING, XdsSubchannelPickers.BUFFER_PICKER);
+                return;
+            }
+            ChildLbState childLbState2 = this.children.get(str);
+            childLbState2.reactivate();
+            if (childLbState2.connectivityState.equals(ConnectivityState.READY) || childLbState2.connectivityState.equals(ConnectivityState.IDLE)) {
+                this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Shifted to priority {0}", str);
+                updateOverallState(childLbState2.connectivityState, childLbState2.picker);
+                for (int i2 = i + 1; i2 < this.priorityNames.size(); i2++) {
+                    String str2 = this.priorityNames.get(i2);
+                    if (this.children.containsKey(str2)) {
+                        this.children.get(str2).deactivate();
+                    }
+                }
+                return;
+            }
+            if (childLbState2.failOverTimer != null && childLbState2.failOverTimer.isPending()) {
+                if (z) {
+                    updateOverallState(ConnectivityState.CONNECTING, XdsSubchannelPickers.BUFFER_PICKER);
+                    return;
+                }
+                return;
+            }
+        }
+        this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "All priority failed");
+        updateOverallState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(Status.UNAVAILABLE));
+    }
+
+    private void updateOverallState(ConnectivityState connectivityState, LoadBalancer.SubchannelPicker subchannelPicker) {
+        if (connectivityState.equals(this.currentConnectivityState) && subchannelPicker.equals(this.currentPicker)) {
+            return;
+        }
+        this.currentConnectivityState = connectivityState;
+        this.currentPicker = subchannelPicker;
+        this.helper.updateBalancingState(connectivityState, subchannelPicker);
+    }
+
+    private final class ChildLbState {
+        final ChildHelper childHelper;
+        final SynchronizationContext.ScheduledHandle failOverTimer;
+        final GracefulSwitchLoadBalancer lb;
+        final String priority;
+        @Nullable
+        SynchronizationContext.ScheduledHandle deletionTimer;
+        @Nullable
+        String policy;
+        ConnectivityState connectivityState = ConnectivityState.CONNECTING;
+        LoadBalancer.SubchannelPicker picker = XdsSubchannelPickers.BUFFER_PICKER;
+
+        ChildLbState(final String str) {
+            this.priority = str;
+            ChildHelper childHelper = new ChildHelper();
+            this.childHelper = childHelper;
+            this.lb = new GracefulSwitchLoadBalancer(childHelper);
+            this.failOverTimer = PriorityLoadBalancer.this.syncContext.schedule(new Runnable() { // from class: io.grpc.xds.PriorityLoadBalancer.ChildLbState.1FailOverTask
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (ChildLbState.this.deletionTimer == null || !ChildLbState.this.deletionTimer.isPending()) {
+                        PriorityLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Priority {0} failed over to next", str);
+                        PriorityLoadBalancer.this.tryNextPriority(true);
+                    }
+                }
+            }, 10L, TimeUnit.SECONDS, PriorityLoadBalancer.this.executor);
+            PriorityLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Priority created: {0}", str);
+        }
+
+        void reactivate() {
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.deletionTimer;
+            if (scheduledHandle == null || !scheduledHandle.isPending()) {
+                return;
+            }
+            this.deletionTimer.cancel();
+            PriorityLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Priority reactivated: {0}", this.priority);
+        }
+
+        void deactivate() {
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.deletionTimer;
+            if (scheduledHandle == null || !scheduledHandle.isPending()) {
+                this.deletionTimer = PriorityLoadBalancer.this.syncContext.schedule(new Runnable() { // from class: io.grpc.xds.PriorityLoadBalancer.ChildLbState.1DeletionTask
+                    @Override // java.lang.Runnable
+                    public void run() {
+                        ChildLbState.this.tearDown();
+                        PriorityLoadBalancer.this.children.remove(ChildLbState.this.priority);
+                    }
+                }, 15L, TimeUnit.MINUTES, PriorityLoadBalancer.this.executor);
+                PriorityLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Priority deactivated: {0}", this.priority);
+            }
+        }
+
+        void tearDown() {
+            if (this.failOverTimer.isPending()) {
+                this.failOverTimer.cancel();
+            }
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.deletionTimer;
+            if (scheduledHandle != null && scheduledHandle.isPending()) {
+                this.deletionTimer.cancel();
+            }
+            this.lb.shutdown();
+            PriorityLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Priority deleted: {0}", this.priority);
+        }
+
+        void updateResolvedAddresses() {
+            final LoadBalancer.ResolvedAddresses resolvedAddresses = PriorityLoadBalancer.this.resolvedAddresses;
+            PriorityLoadBalancer.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.PriorityLoadBalancer.ChildLbState.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    ServiceConfigUtil.PolicySelection policySelection = ((PriorityLoadBalancerProvider.PriorityLbConfig) resolvedAddresses.getLoadBalancingPolicyConfig()).childConfigs.get(ChildLbState.this.priority);
+                    LoadBalancerProvider provider = policySelection.getProvider();
+                    String policyName = provider.getPolicyName();
+                    if (!policyName.equals(ChildLbState.this.policy)) {
+                        ChildLbState.this.policy = policyName;
+                        ChildLbState.this.lb.switchTo(provider);
+                    }
+                    ChildLbState.this.lb.handleResolvedAddresses(resolvedAddresses.toBuilder().setAddresses(AddressFilter.filter(resolvedAddresses.getAddresses(), ChildLbState.this.priority)).setLoadBalancingPolicyConfig(policySelection.getConfig()).build());
+                }
+            });
+        }
+
+        final class ChildHelper extends ForwardingLoadBalancerHelper {
+            ChildHelper() {
+            }
+
+            @Override // io.grpc.util.ForwardingLoadBalancerHelper, io.grpc.LoadBalancer.Helper
+            public void updateBalancingState(ConnectivityState connectivityState, LoadBalancer.SubchannelPicker subchannelPicker) {
+                ChildLbState.this.connectivityState = connectivityState;
+                ChildLbState.this.picker = subchannelPicker;
+                if (ChildLbState.this.deletionTimer == null || !ChildLbState.this.deletionTimer.isPending()) {
+                    if (ChildLbState.this.failOverTimer.isPending() && (connectivityState.equals(ConnectivityState.READY) || connectivityState.equals(ConnectivityState.TRANSIENT_FAILURE))) {
+                        ChildLbState.this.failOverTimer.cancel();
+                    }
+                    PriorityLoadBalancer.this.tryNextPriority(true);
+                }
+            }
+
+            @Override // io.grpc.util.ForwardingLoadBalancerHelper
+            protected LoadBalancer.Helper delegate() {
+                return PriorityLoadBalancer.this.helper;
+            }
+        }
+    }
+}

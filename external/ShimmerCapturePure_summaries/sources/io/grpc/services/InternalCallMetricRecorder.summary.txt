@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/services/InternalCallMetricRecorder.java
+// Size: 594 bytes
+// Modified: 2025-10-21 16:32:04.447919100 +0100
+
+package io.grpc.services;
+
+import io.grpc.Context;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public final class InternalCallMetricRecorder {
+    public static final Context.Key<CallMetricRecorder> CONTEXT_KEY = CallMetricRecorder.CONTEXT_KEY;
+
+    private InternalCallMetricRecorder() {
+    }
+
+    public static CallMetricRecorder newCallMetricRecorder() {
+        return new CallMetricRecorder();
+    }
+
+    public static Map<String, Double> finalizeAndDump(CallMetricRecorder callMetricRecorder) {
+        return callMetricRecorder.finalizeAndDump();
+    }
+}

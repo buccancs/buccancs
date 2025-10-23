@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/EnumerationUtils.java
+// Size: 380 bytes
+// Modified: 2025-10-21 16:32:09.060427800 +0100
+
+package org.apache.commons.collections;
+
+import java.util.Enumeration;
+import java.util.List;
+import org.apache.commons.collections.iterators.EnumerationIterator;
+
+/* loaded from: classes5.dex */
+public class EnumerationUtils {
+    public static List toList(Enumeration enumeration) {
+        return IteratorUtils.toList(new EnumerationIterator(enumeration));
+    }
+}

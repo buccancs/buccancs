@@ -1,0 +1,74 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/algorithms/AbstractSignalGenerator.java
+// Size: 2099 bytes
+// Modified: 2025-10-21 16:32:03.138721400 +0100
+
+package com.shimmerresearch.algorithms;
+
+import com.shimmerresearch.driver.BasicProcessWithCallBack;
+import com.shimmerresearch.driver.ShimmerMsg;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractSignalGenerator extends BasicProcessWithCallBack {
+    public int sleepDurationInNano = 976562;
+    public int sleepDurationInMilli = 0;
+    DataThread dt = null;
+
+    public abstract Object generateSignal();
+
+    @Override // com.shimmerresearch.driver.BasicProcessWithCallBack
+    protected void processMsgFromCallback(ShimmerMsg shimmerMsg) {
+    }
+
+    public void stopGenerator() {
+        DataThread dataThread = this.dt;
+        if (dataThread != null) {
+            dataThread.stopGen();
+        }
+    }
+
+    public void startGenerator() {
+        DataThread dataThread = this.dt;
+        if (dataThread != null) {
+            dataThread.stopGen();
+        }
+        DataThread dataThread2 = new DataThread();
+        this.dt = dataThread2;
+        dataThread2.start();
+    }
+
+    public class DataThread extends Thread {
+        private boolean generate = true;
+
+        public boolean isRunning() {
+            return this.generate;
+        }
+
+        public void stopGen() {
+            this.generate = false;
+        }
+
+        public DataThread() {
+        }
+
+        @Override // java.lang.Thread, java.lang.Runnable
+        public void run() throws InterruptedException {
+            createSignalGen();
+        }
+
+        private void createSignalGen() throws InterruptedException {
+            while (this.generate) {
+                if (AbstractSignalGenerator.this.generateSignal() != null) {
+                    threadSleep();
+                }
+            }
+        }
+
+        private void threadSleep() throws InterruptedException {
+            try {
+                Thread.sleep(AbstractSignalGenerator.this.sleepDurationInMilli, AbstractSignalGenerator.this.sleepDurationInNano);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

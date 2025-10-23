@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/experimental/max/CouldNotReadCoreException.java
+// Size: 271 bytes
+// Modified: 2025-10-21 16:32:00.707162100 +0100
+
+package org.junit.experimental.max;
+
+/* loaded from: classes2.dex */
+public class CouldNotReadCoreException extends Exception {
+    private static final long serialVersionUID = 1;
+
+    public CouldNotReadCoreException(Throwable th) {
+        super(th);
+    }
+}

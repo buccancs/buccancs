@@ -1,0 +1,41 @@
+package io.grpc.xds.shaded.com.github.udpa.udpa.core.v1;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+
+/* loaded from: classes3.dex */
+public final class AuthorityProto {
+    static final Descriptors.Descriptor internal_static_udpa_core_v1_Authority_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_udpa_core_v1_Authority_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n\u001cudpa/core/v1/authority.proto\u0012\fudpa.core.v1\u001a\u001dudpa/annotations/status.proto\u001a\u0017validate/validate.proto\"\"\n\tAuthority\u0012\u0015\n\u0004name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002\u0010\u0001B8\n\u001ccom.github.udpa.udpa.core.v1B\u000eAuthorityProtoP\u0001º\u0080ÈÑ\u0006\u0002\b\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{Status.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_udpa_core_v1_Authority_descriptor = descriptor2;
+        internal_static_udpa_core_v1_Authority_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Name"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        Status.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private AuthorityProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

@@ -1,0 +1,135 @@
+package org.apache.commons.math.distribution;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/distribution/ExponentialDistributionImpl.class */
+public class ExponentialDistributionImpl extends AbstractContinuousDistribution implements ExponentialDistribution, Serializable {
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1.0E-9d;
+    private static final long serialVersionUID = 2401296428283614780L;
+    private final double solverAbsoluteAccuracy;
+    private double mean;
+
+    public ExponentialDistributionImpl(double mean) {
+        this(mean, 1.0E-9d);
+    }
+
+    public ExponentialDistributionImpl(double mean, double inverseCumAccuracy) {
+        setMeanInternal(mean);
+        this.solverAbsoluteAccuracy = inverseCumAccuracy;
+    }
+
+    private void setMeanInternal(double newMean) {
+        if (newMean <= 0.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_MEAN, Double.valueOf(newMean));
+        }
+        this.mean = newMean;
+    }
+
+    @Override // org.apache.commons.math.distribution.ExponentialDistribution
+    public double getMean() {
+        return this.mean;
+    }
+
+    @Override // org.apache.commons.math.distribution.ExponentialDistribution
+    @Deprecated
+    public void setMean(double mean) {
+        setMeanInternal(mean);
+    }
+
+    /* JADX WARN: Can't rename method to resolve collision */
+    @Override // org.apache.commons.math.distribution.HasDensity
+    @Deprecated
+    public double density(Double x) {
+        return density(x.doubleValue());
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    public double density(double x) {
+        if (x < 0.0d) {
+            return 0.0d;
+        }
+        return FastMath.exp((-x) / this.mean) / this.mean;
+    }
+
+    @Override // org.apache.commons.math.distribution.Distribution
+    public double cumulativeProbability(double x) throws MathException {
+        double ret;
+        if (x <= 0.0d) {
+            ret = 0.0d;
+        } else {
+            ret = 1.0d - FastMath.exp((-x) / this.mean);
+        }
+        return ret;
+    }
+
+    @Override
+    // org.apache.commons.math.distribution.AbstractContinuousDistribution, org.apache.commons.math.distribution.ContinuousDistribution
+    public double inverseCumulativeProbability(double p) throws MathException {
+        double ret;
+        if (p < 0.0d || p > 1.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE, Double.valueOf(p), Double.valueOf(0.0d), Double.valueOf(1.0d));
+        }
+        if (p == 1.0d) {
+            ret = Double.POSITIVE_INFINITY;
+        } else {
+            ret = (-this.mean) * FastMath.log(1.0d - p);
+        }
+        return ret;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    public double sample() throws MathException {
+        return this.randomData.nextExponential(this.mean);
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainLowerBound(double p) {
+        return 0.0d;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainUpperBound(double p) {
+        if (p < 0.5d) {
+            return this.mean;
+        }
+        return Double.MAX_VALUE;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getInitialDomain(double p) {
+        if (p < 0.5d) {
+            return this.mean * 0.5d;
+        }
+        return this.mean;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getSolverAbsoluteAccuracy() {
+        return this.solverAbsoluteAccuracy;
+    }
+
+    public double getSupportLowerBound() {
+        return 0.0d;
+    }
+
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    public double getNumericalMean() {
+        return getMean();
+    }
+
+    public double getNumericalVariance() {
+        double m = getMean();
+        return m * m;
+    }
+}

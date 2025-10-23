@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/channelz/v1/GetServersResponseOrBuilder.java
+// Size: 449 bytes
+// Modified: 2025-10-21 16:32:06.138691400 +0100
+
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface GetServersResponseOrBuilder extends MessageOrBuilder {
+    boolean getEnd();
+
+    Server getServer(int i);
+
+    int getServerCount();
+
+    List<Server> getServerList();
+
+    ServerOrBuilder getServerOrBuilder(int i);
+
+    List<? extends ServerOrBuilder> getServerOrBuilderList();
+}

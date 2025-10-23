@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socksx/SocksMessage.java
+// Size: 268 bytes
+// Modified: 2025-10-21 16:32:02.243867400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socksx;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.DecoderResultProvider;
+
+/* loaded from: classes3.dex */
+public interface SocksMessage extends DecoderResultProvider {
+    SocksVersion version();
+}

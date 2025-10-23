@@ -1,0 +1,1721 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/radioProtocol/LiteProtocol.java
+// Size: 74310 bytes
+// Modified: 2025-10-21 16:32:11.473809400 +0100
+
+package com.shimmerresearch.comms.radioProtocol;
+
+import com.shimmerresearch.bluetooth.BluetoothProgressReportPerCmd;
+import com.shimmerresearch.bluetooth.ShimmerBluetooth;
+import com.shimmerresearch.comms.radioProtocol.ShimmerLiteProtocolInstructionSet;
+import com.shimmerresearch.comms.serialPortInterface.InterfaceSerialPortHal;
+import com.shimmerresearch.driver.ShimmerObject;
+import com.shimmerresearch.driverUtilities.ExpansionBoardDetails;
+import com.shimmerresearch.driverUtilities.ShimmerBattStatusDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.exceptions.ShimmerException;
+import com.shimmerresearch.sensors.SensorSTC3100Details;
+import com.shimmerresearch.verisense.communication.VerisenseMessage;
+import java.io.ByteArrayOutputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Stack;
+import java.util.Timer;
+import java.util.TimerTask;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes2.dex */
+public class LiteProtocol extends AbstractCommsProtocol {
+    public static final int DELAY_AFTER_CONFIG_BYTE_WRITE = 500;
+    public static final int DELAY_BETWEEN_CONFIG_BYTE_WRITES = 100;
+    private static final int MAX_CALIB_DUMP_MAX = 4096;
+    private static final int NUMBER_OF_TX_RETRIES_LIMIT = 0;
+    public static final int TIMER_CHECK_ALIVE_PERIOD = 2000;
+    public static final int TIMER_CONNECTING_TIMEOUT = 20000;
+    public static final int TIMER_READ_BATT_STATUS_PERIOD = 60000;
+    public static final int TIMER_READ_STATUS_PERIOD = 5000;
+    private final int ACK_TIMER_DURATION;
+    protected Stack<Byte> byteStack;
+    transient ByteArrayOutputStream mByteArrayOutputStream;
+    private boolean mCheckIfConnectionisAlive;
+    public String mComPort;
+    public String mConnectionHandle;
+    private int mCountDeadConnection;
+    protected int mCurrentCommand;
+    protected String mDirectoryName;
+    protected boolean mDummy;
+    public int mHardwareVersion;
+    public boolean mHaveAttemptedToReadConfig;
+    protected transient IOThread mIOThread;
+    private boolean mInstructionStackLock;
+    public boolean mIsDocked;
+    public boolean mIsInitialised;
+    public boolean mIsSDLogging;
+    public boolean mIsSensing;
+    public boolean mIsStreaming;
+    protected List<byte[]> mListofInstructions;
+    List<Long> mListofPCTimeStamps;
+    public String mMyBluetoothAddress;
+    private int mNumberofTXRetriesCount;
+    protected boolean mOperationUnderway;
+    private ShimmerVerObject mShimmerVerObject;
+    private int mTempChipID;
+    protected transient Timer mTimerCheckAlive;
+    protected transient Timer mTimerCheckForAckOrResp;
+    protected transient Timer mTimerReadBattStatus;
+    protected transient Timer mTimerReadStatus;
+    protected boolean mTransactionCompleted;
+    private boolean mUseLegacyDelayToDelayForResponse;
+    private boolean mUseShimmerBluetoothApproach;
+    public UtilShimmer mUtilShimmer;
+    protected boolean mWaitForAck;
+    protected boolean mWaitForResponse;
+    protected int numBytesToReadFromExpBoard;
+
+    private String getConnectionHandle() {
+        return this.mConnectionHandle;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public int getHardwareVersion() {
+        return this.mHardwareVersion;
+    }
+
+    private void setHardwareVersion(int i) {
+        this.mHardwareVersion = i;
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public List<byte[]> getListofInstructions() {
+        return this.mListofInstructions;
+    }
+
+    public int getShimmerVersion() {
+        return this.mHardwareVersion;
+    }
+
+    public boolean isDocked() {
+        return this.mIsDocked;
+    }
+
+    public boolean isHaveAttemptedToRead() {
+        return this.mHaveAttemptedToReadConfig;
+    }
+
+    public boolean isInitialised() {
+        return this.mIsInitialised;
+    }
+
+    public boolean isInstructionStackLock() {
+        return this.mInstructionStackLock;
+    }
+
+    public boolean isSDLogging() {
+        return this.mIsSDLogging;
+    }
+
+    public boolean isSensing() {
+        return this.mIsSensing || this.mIsSDLogging || this.mIsStreaming;
+    }
+
+    public boolean isStreaming() {
+        return this.mIsStreaming;
+    }
+
+    public void operationFinished() {
+        this.mOperationUnderway = false;
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void setInstructionStackLock(boolean z) {
+        this.mInstructionStackLock = z;
+    }
+
+    public class Temp {
+
+        public class InstructionsSet {
+            public InstructionsSet() {
+            }
+        }
+
+        public Temp() {
+        }
+
+        public class InstructionsResponse {
+            public InstructionsResponse() {
+            }
+        }
+
+        public class InstructionsGet {
+            public InstructionsGet() {
+            }
+        }
+    }
+
+    public LiteProtocol(String str) {
+        this.mListofInstructions = new ArrayList();
+        this.mByteArrayOutputStream = new ByteArrayOutputStream();
+        this.mInstructionStackLock = false;
+        this.mWaitForAck = false;
+        this.mWaitForResponse = false;
+        this.mTransactionCompleted = true;
+        this.ACK_TIMER_DURATION = 10;
+        this.mDummy = false;
+        this.mListofPCTimeStamps = new ArrayList();
+        this.mNumberofTXRetriesCount = 1;
+        this.byteStack = new Stack<>();
+        this.mOperationUnderway = false;
+        this.mCountDeadConnection = 0;
+        this.mCheckIfConnectionisAlive = true;
+        UtilShimmer utilShimmer = new UtilShimmer(getClass().getSimpleName(), true);
+        this.mUtilShimmer = utilShimmer;
+        this.mUseShimmerBluetoothApproach = true;
+        this.mUseLegacyDelayToDelayForResponse = false;
+        this.mComPort = "";
+        this.mMyBluetoothAddress = "";
+        this.mIsSensing = false;
+        this.mIsSDLogging = false;
+        this.mIsStreaming = false;
+        this.mIsInitialised = false;
+        this.mIsDocked = false;
+        this.mHaveAttemptedToReadConfig = false;
+        this.numBytesToReadFromExpBoard = 0;
+        this.mConnectionHandle = str;
+        utilShimmer.setParentClassName(getClass().getSimpleName() + "-" + this.mConnectionHandle);
+    }
+
+    public LiteProtocol(InterfaceSerialPortHal interfaceSerialPortHal) {
+        super(interfaceSerialPortHal);
+        this.mListofInstructions = new ArrayList();
+        this.mByteArrayOutputStream = new ByteArrayOutputStream();
+        this.mInstructionStackLock = false;
+        this.mWaitForAck = false;
+        this.mWaitForResponse = false;
+        this.mTransactionCompleted = true;
+        this.ACK_TIMER_DURATION = 10;
+        this.mDummy = false;
+        this.mListofPCTimeStamps = new ArrayList();
+        this.mNumberofTXRetriesCount = 1;
+        this.byteStack = new Stack<>();
+        this.mOperationUnderway = false;
+        this.mCountDeadConnection = 0;
+        this.mCheckIfConnectionisAlive = true;
+        this.mUtilShimmer = new UtilShimmer(getClass().getSimpleName(), true);
+        this.mUseShimmerBluetoothApproach = true;
+        this.mUseLegacyDelayToDelayForResponse = false;
+        this.mComPort = "";
+        this.mMyBluetoothAddress = "";
+        this.mConnectionHandle = "";
+        this.mIsSensing = false;
+        this.mIsSDLogging = false;
+        this.mIsStreaming = false;
+        this.mIsInitialised = false;
+        this.mIsDocked = false;
+        this.mHaveAttemptedToReadConfig = false;
+        this.numBytesToReadFromExpBoard = 0;
+    }
+
+    protected void writeInstruction(int i) {
+        writeInstruction(new byte[]{(byte) (i & 255)});
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void writeInstruction(byte[] bArr) {
+        getListofInstructions().add(bArr);
+    }
+
+    public int getFirmwareIdentifier() {
+        ShimmerVerObject shimmerVerObject = this.mShimmerVerObject;
+        if (shimmerVerObject != null) {
+            return shimmerVerObject.getFirmwareIdentifier();
+        }
+        return -1;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void clearSerialBuffer() throws ShimmerException {
+        while (availableBytes() != 0) {
+            if (bytesAvailableToBeRead()) {
+                printLogDataForDebugging("Clearing Serial Buffer : " + UtilShimmer.bytesToHexStringWithSpacesFormatted(readBytes(availableBytes())));
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void initialize() {
+        this.mIamAlive = false;
+        getListofInstructions().clear();
+        this.mFirstTime = true;
+        startIoThread();
+        stopTimerReadStatus();
+        stopTimerCheckForAckOrResp();
+        setInstructionStackLock(false);
+        dummyreadSamplingRate();
+        readShimmerVersionNew();
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void stopProtocol() {
+        stopAllTimers();
+        stopIoThread();
+        setIsStreaming(false);
+        setIsInitialised(false);
+    }
+
+    private void startIoThread() {
+        stopIoThread();
+        IOThread iOThread = new IOThread();
+        this.mIOThread = iOThread;
+        iOThread.setName(getClass().getSimpleName() + "-" + this.mConnectionHandle);
+        this.mIOThread.start();
+    }
+
+    private void stopIoThread() {
+        IOThread iOThread = this.mIOThread;
+        if (iOThread != null) {
+            iOThread.stop = true;
+            this.mIOThread = null;
+        }
+    }
+
+    public class IOThread extends Thread {
+        byte[] byteBuffer = {0};
+        public boolean stop = false;
+
+        public IOThread() {
+        }
+
+        @Override // java.lang.Thread, java.lang.Runnable
+        public synchronized void run() {
+            while (!this.stop) {
+                try {
+                    if (!LiteProtocol.this.isInstructionStackLock()) {
+                        processNextInstruction();
+                    }
+                    if (LiteProtocol.this.isStreaming()) {
+                        processWhileStreaming();
+                    } else if (LiteProtocol.this.bytesAvailableToBeRead()) {
+                        if (LiteProtocol.this.mWaitForAck) {
+                            processNotStreamingWaitForAck();
+                        } else if (LiteProtocol.this.mWaitForResponse) {
+                            processNotStreamingWaitForResp();
+                        }
+                        processBytesAvailableAndInstreamSupported();
+                    }
+                } catch (ShimmerException e) {
+                    LiteProtocol.this.killConnection(e);
+                }
+            }
+        }
+
+        private void processNextInstruction() throws ShimmerException, InterruptedException {
+            if (!LiteProtocol.this.getListofInstructions().isEmpty() && LiteProtocol.this.getListofInstructions().get(0) == null) {
+                LiteProtocol.this.getListofInstructions().remove(0);
+                LiteProtocol.this.printLogDataForDebugging("Null Removed");
+            }
+            if (!LiteProtocol.this.getListofInstructions().isEmpty()) {
+                if (LiteProtocol.this.getListofInstructions().get(0) != null) {
+                    byte[] bArr = LiteProtocol.this.getListofInstructions().get(0);
+                    LiteProtocol.this.mCurrentCommand = bArr[0] & 255;
+                    LiteProtocol.this.setInstructionStackLock(true);
+                    LiteProtocol.this.mWaitForAck = true;
+                    if (!LiteProtocol.this.isStreaming()) {
+                        LiteProtocol.this.clearSerialBuffer();
+                    }
+                    if (LiteProtocol.this.mCurrentCommand == 143) {
+                        System.arraycopy(UtilShimmer.convertMilliSecondsToShimmerRtcDataBytesLSB(System.currentTimeMillis()), 0, bArr, 1, 8);
+                    }
+                    if (LiteProtocol.this.mCurrentCommand != 32 && LiteProtocol.this.mCurrentCommand != 151) {
+                        if (LiteProtocol.this.mCurrentCommand == 8 && LiteProtocol.this.getShimmerVersion() == 2) {
+                            LiteProtocol.this.startTimerCheckForAckOrResp(18);
+                        } else if (LiteProtocol.this.mCurrentCommand == 46 || LiteProtocol.this.mCurrentCommand == 3 || LiteProtocol.this.mCurrentCommand == 63 || LiteProtocol.this.isStreaming()) {
+                            LiteProtocol.this.startTimerCheckForAckOrResp(10);
+                        } else {
+                            LiteProtocol.this.startTimerCheckForAckOrResp(13);
+                        }
+                    }
+                    LiteProtocol.this.threadSleep((int) ((Math.random() + 0.1d) * 100.0d));
+                    LiteProtocol.this.writeBytes(bArr);
+                    LiteProtocol liteProtocol = LiteProtocol.this;
+                    liteProtocol.printLogDataForDebugging("Command Transmitted: \t\t\t" + liteProtocol.btCommandToString(liteProtocol.mCurrentCommand) + StringUtils.SPACE + UtilShimmer.bytesToHexStringWithSpacesFormatted(bArr));
+                    if (LiteProtocol.this.mCurrentCommand == 32 || LiteProtocol.this.mCurrentCommand == 151) {
+                        LiteProtocol.this.setIsStreaming(false);
+                        if (LiteProtocol.this.mCurrentCommand == 151) {
+                            LiteProtocol.this.setIsSDLogging(false);
+                        }
+                        boolean unused = LiteProtocol.this.mUseShimmerBluetoothApproach;
+                        LiteProtocol.this.getListofInstructions().removeAll(Collections.singleton(null));
+                    }
+                    LiteProtocol.this.mTransactionCompleted = false;
+                    return;
+                }
+                return;
+            }
+            if (LiteProtocol.this.isStreaming() || LiteProtocol.this.bytesAvailableToBeRead()) {
+                return;
+            }
+            LiteProtocol.this.threadSleep(50L);
+        }
+
+        private void processWhileStreaming() throws ShimmerException, InterruptedException {
+            byte[] bytes = LiteProtocol.this.readBytes(1);
+            this.byteBuffer = bytes;
+            if (bytes != null) {
+                LiteProtocol.this.mByteArrayOutputStream.write(this.byteBuffer[0]);
+                LiteProtocol.this.mListofPCTimeStamps.add(Long.valueOf(System.currentTimeMillis()));
+            } else {
+                LiteProtocol.this.printLogDataForDebugging("readbyte null");
+            }
+            if (LiteProtocol.this.mByteArrayOutputStream.size() >= LiteProtocol.this.mPacketSize + 2) {
+                processPacket();
+            }
+        }
+
+        private void processPacket() throws InterruptedException {
+            LiteProtocol.this.mIamAlive = true;
+            byte[] byteArray = LiteProtocol.this.mByteArrayOutputStream.toByteArray();
+            if (byteArray[0] == 0 && byteArray[LiteProtocol.this.mPacketSize + 1] == 0) {
+                LiteProtocol.this.processDataPacket(byteArray);
+                LiteProtocol liteProtocol = LiteProtocol.this;
+                liteProtocol.clearSingleDataPacketFromBuffers(byteArray, liteProtocol.mPacketSize + 1);
+                return;
+            }
+            if (byteArray[0] == 0 && byteArray[LiteProtocol.this.mPacketSize + 1] == 255) {
+                if (LiteProtocol.this.mByteArrayOutputStream.size() > LiteProtocol.this.mPacketSize + 2) {
+                    if (byteArray[LiteProtocol.this.mPacketSize + 2] == 0) {
+                        LiteProtocol.this.processDataPacket(byteArray);
+                        LiteProtocol liteProtocol2 = LiteProtocol.this;
+                        liteProtocol2.clearSingleDataPacketFromBuffers(byteArray, liteProtocol2.mPacketSize + 2);
+                        LiteProtocol liteProtocol3 = LiteProtocol.this;
+                        if (liteProtocol3.isKnownSetCommand(liteProtocol3.mCurrentCommand)) {
+                            LiteProtocol.this.stopTimerCheckForAckOrResp();
+                            LiteProtocol.this.mWaitForAck = false;
+                            LiteProtocol liteProtocol4 = LiteProtocol.this;
+                            liteProtocol4.processAckFromSetCommandAndInstructions(liteProtocol4.mCurrentCommand & 255);
+                            LiteProtocol.this.mTransactionCompleted = true;
+                            LiteProtocol.this.setInstructionStackLock(false);
+                        } else {
+                            LiteProtocol liteProtocol5 = LiteProtocol.this;
+                            liteProtocol5.printLogDataForDebugging("Unknown SET command = " + liteProtocol5.mCurrentCommand);
+                        }
+                        LiteProtocol liteProtocol6 = LiteProtocol.this;
+                        liteProtocol6.printLogDataForDebugging("Ack Received for Command: \t\t\t\t" + liteProtocol6.btCommandToString(liteProtocol6.mCurrentCommand));
+                    } else if (((LiteProtocol.this.getHardwareVersion() == 3 && LiteProtocol.this.getFirmwareIdentifier() == 3) || (LiteProtocol.this.getHardwareVersion() == 58 && LiteProtocol.this.getFirmwareIdentifier() == 12)) && byteArray[LiteProtocol.this.mPacketSize + 2] == -118) {
+                        LiteProtocol.this.printLogDataForDebugging("COMMAND TXed and ACK RECEIVED IN STREAM");
+                        LiteProtocol.this.printLogDataForDebugging("INS CMD RESP");
+                        LiteProtocol.this.stopTimerCheckForAckOrResp();
+                        LiteProtocol.this.mWaitForResponse = false;
+                        LiteProtocol.this.mWaitForAck = false;
+                        LiteProtocol.this.processInstreamResponse();
+                        if (LiteProtocol.this.getListofInstructions().size() > 0) {
+                            LiteProtocol.this.getListofInstructions().remove(0);
+                        }
+                        LiteProtocol.this.mTransactionCompleted = true;
+                        LiteProtocol.this.setInstructionStackLock(false);
+                        LiteProtocol.this.processDataPacket(byteArray);
+                        LiteProtocol.this.clearBuffers();
+                    } else {
+                        LiteProtocol.this.printLogDataForDebugging("Unknown parsing error while streaming");
+                    }
+                }
+                if (LiteProtocol.this.mByteArrayOutputStream.size() > LiteProtocol.this.mPacketSize + 2) {
+                    LiteProtocol liteProtocol7 = LiteProtocol.this;
+                    liteProtocol7.printLogDataForDebugging("Unknown packet error (check with JC):\tExpected: " + (liteProtocol7.mPacketSize + 2) + "bytes but buffer contains " + LiteProtocol.this.mByteArrayOutputStream.size() + "bytes");
+                    LiteProtocol.this.discardFirstBufferByte();
+                    return;
+                }
+                return;
+            }
+            LiteProtocol liteProtocol8 = LiteProtocol.this;
+            liteProtocol8.printLogDataForDebugging("Packet syncing problem, could not lock on to data steam. \nExpected: " + (liteProtocol8.mPacketSize + 2) + "bytes. Buffer contains " + LiteProtocol.this.mByteArrayOutputStream.size() + "bytes\n" + UtilShimmer.bytesToHexStringWithSpacesFormatted(LiteProtocol.this.mByteArrayOutputStream.toByteArray()));
+            LiteProtocol.this.discardFirstBufferByte();
+        }
+
+        private void processNotStreamingWaitForAck() throws InterruptedException, ShimmerException {
+            if (LiteProtocol.this.bytesAvailableToBeRead()) {
+                this.byteBuffer = LiteProtocol.this.readBytes(1);
+                LiteProtocol.this.mNumberofTXRetriesCount = 0;
+                LiteProtocol.this.mIamAlive = true;
+                if (LiteProtocol.this.mCurrentCommand == 32 || LiteProtocol.this.mCurrentCommand == 151) {
+                    LiteProtocol.this.stopTimerCheckForAckOrResp();
+                    LiteProtocol.this.setIsStreaming(false);
+                    LiteProtocol.this.mTransactionCompleted = true;
+                    LiteProtocol.this.mWaitForAck = false;
+                    LiteProtocol.this.delayForBtResponse(200L);
+                    LiteProtocol.this.byteStack.clear();
+                    LiteProtocol.this.clearSerialBuffer();
+                    LiteProtocol.this.hasStopStreaming();
+                    LiteProtocol.this.getListofInstructions().remove(0);
+                    LiteProtocol.this.getListofInstructions().removeAll(Collections.singleton(null));
+                    if (LiteProtocol.this.mCurrentCommand == 151) {
+                        LiteProtocol liteProtocol = LiteProtocol.this;
+                        liteProtocol.eventLogAndStreamStatusChanged(liteProtocol.mCurrentCommand);
+                    }
+                    LiteProtocol.this.setInstructionStackLock(false);
+                }
+                byte[] bArr = this.byteBuffer;
+                if (bArr == null || (bArr[0] & 255) != 255) {
+                    return;
+                }
+                LiteProtocol.this.mWaitForAck = false;
+                LiteProtocol liteProtocol2 = LiteProtocol.this;
+                liteProtocol2.printLogDataForDebugging("Ack Received for Command: \t\t\t" + liteProtocol2.btCommandToString(liteProtocol2.mCurrentCommand));
+                if (LiteProtocol.this.mCurrentCommand != 114 && LiteProtocol.this.mCurrentCommand != 150 && LiteProtocol.this.mCurrentCommand != 48 && LiteProtocol.this.mOperationUnderway) {
+                    LiteProtocol liteProtocol3 = LiteProtocol.this;
+                    liteProtocol3.sendProgressReport(new BluetoothProgressReportPerCmd(liteProtocol3.mCurrentCommand, LiteProtocol.this.getListofInstructions().size(), LiteProtocol.this.mMyBluetoothAddress, LiteProtocol.this.mComPort));
+                }
+                LiteProtocol liteProtocol4 = LiteProtocol.this;
+                if (liteProtocol4.isKnownSetCommand(liteProtocol4.mCurrentCommand)) {
+                    LiteProtocol.this.stopTimerCheckForAckOrResp();
+                    boolean unused = LiteProtocol.this.mUseShimmerBluetoothApproach;
+                    LiteProtocol liteProtocol5 = LiteProtocol.this;
+                    liteProtocol5.processAckFromSetCommandAndInstructions(255 & liteProtocol5.mCurrentCommand);
+                    LiteProtocol.this.mTransactionCompleted = true;
+                    LiteProtocol.this.setInstructionStackLock(false);
+                    return;
+                }
+                LiteProtocol liteProtocol6 = LiteProtocol.this;
+                if (liteProtocol6.isKnownGetCommand(liteProtocol6.mCurrentCommand)) {
+                    LiteProtocol liteProtocol7 = LiteProtocol.this;
+                    liteProtocol7.processSpecialGetCmdsAfterAck(255 & liteProtocol7.mCurrentCommand);
+                    LiteProtocol.this.mWaitForResponse = true;
+                    LiteProtocol.this.getListofInstructions().remove(0);
+                }
+            }
+        }
+
+        private void processNotStreamingWaitForResp() throws ShimmerException, InterruptedException {
+            if (LiteProtocol.this.mFirstTime) {
+                LiteProtocol.this.clearSerialBuffer();
+                LiteProtocol.this.stopTimerCheckForAckOrResp();
+                LiteProtocol.this.mWaitForResponse = false;
+                LiteProtocol.this.mTransactionCompleted = true;
+                LiteProtocol.this.setInstructionStackLock(false);
+                LiteProtocol.this.mFirstTime = false;
+                return;
+            }
+            if (LiteProtocol.this.bytesAvailableToBeRead()) {
+                this.byteBuffer = LiteProtocol.this.readBytes(1);
+                LiteProtocol.this.mIamAlive = true;
+                if (LiteProtocol.this.isKnownResponseByte(this.byteBuffer[0])) {
+                    byte b = this.byteBuffer[0];
+                    if (LiteProtocol.this.mUseShimmerBluetoothApproach) {
+                        LiteProtocol.this.processResponseCommand(b & 255);
+                    }
+                    LiteProtocol.this.stopTimerCheckForAckOrResp();
+                    LiteProtocol.this.mWaitForResponse = false;
+                    LiteProtocol.this.mTransactionCompleted = true;
+                    LiteProtocol.this.setInstructionStackLock(false);
+                    LiteProtocol liteProtocol = LiteProtocol.this;
+                    liteProtocol.printLogDataForDebugging("Response Received:\t\t\t\t" + liteProtocol.btCommandToString(b));
+                    byte b2 = this.byteBuffer[0];
+                    if (b2 == 47) {
+                        LiteProtocol.this.eventResponseReceived(b2, null);
+                    }
+                }
+            }
+        }
+
+        private void processBytesAvailableAndInstreamSupported() throws ShimmerException {
+            if (!((LiteProtocol.this.getHardwareVersion() == 3 && LiteProtocol.this.getFirmwareIdentifier() == 3) || (LiteProtocol.this.getHardwareVersion() == 58 && LiteProtocol.this.getFirmwareIdentifier() == 12)) || LiteProtocol.this.mWaitForAck || LiteProtocol.this.mWaitForResponse || !LiteProtocol.this.bytesAvailableToBeRead()) {
+                return;
+            }
+            byte[] bytes = LiteProtocol.this.readBytes(1);
+            this.byteBuffer = bytes;
+            if (bytes != null) {
+                if ((bytes[0] & 255) == 255) {
+                    LiteProtocol.this.printLogDataForDebugging("ACK RECEIVED , Connected State!!");
+                    byte[] bytes2 = LiteProtocol.this.readBytes(1);
+                    this.byteBuffer = bytes2;
+                    if (bytes2 != null && (bytes2[0] & 255) == 255) {
+                        this.byteBuffer = LiteProtocol.this.readBytes(1);
+                    }
+                }
+                if ((this.byteBuffer[0] & 255) == 138) {
+                    LiteProtocol.this.processInstreamResponse();
+                }
+            }
+            LiteProtocol.this.clearSerialBuffer();
+        }
+    }
+
+    protected void processResponseCommand(int i) throws InterruptedException {
+        byte[] bytes;
+        byte[] bytes2;
+        int i2 = 6;
+        int i3 = 8;
+        try {
+            if (i == 2) {
+                delayForBtResponse(500L);
+                ArrayList arrayList = new ArrayList();
+                if (this.mShimmerVerObject.isShimmerGen2()) {
+                    i2 = 3;
+                    i3 = 5;
+                } else if (this.mShimmerVerObject.getHardwareVersion() == 1003) {
+                    i2 = 0;
+                    i3 = 10;
+                }
+                for (int i4 = 0; i4 < i3; i4++) {
+                    arrayList.add(Byte.valueOf(readByte()));
+                }
+                for (int i5 = 0; i5 < ((Byte) arrayList.get(i2)).byteValue(); i5++) {
+                    arrayList.add(Byte.valueOf(readByte()));
+                }
+                int size = arrayList.size();
+                byte[] bArr = new byte[size];
+                for (int i6 = 0; i6 < size; i6++) {
+                    bArr[i6] = ((Byte) arrayList.get(i6)).byteValue();
+                }
+                printLogDataForDebugging("Inquiry Response Received: " + UtilShimmer.bytesToHexStringWithSpacesFormatted(bArr));
+                eventResponseReceived(i, bArr);
+                return;
+            }
+            if (i == 4) {
+                if (this.mIsStreaming) {
+                    return;
+                }
+                if (this.mShimmerVerObject.isShimmerGen2()) {
+                    bytes2 = readBytes(1);
+                } else {
+                    bytes2 = readBytes(2);
+                }
+                eventResponseReceived(i, bytes2);
+                return;
+            }
+            if (i == 47) {
+                delayForBtResponse(200L);
+                byte[] bytes3 = readBytes(6);
+                ShimmerVerObject shimmerVerObject = new ShimmerVerObject(getHardwareVersion(), ((bytes3[1] & 255) << 8) + (bytes3[0] & 255), ((bytes3[3] & 255) << 8) + (bytes3[2] & 255), bytes3[4] & 255, bytes3[5] & 255);
+                this.mShimmerVerObject = shimmerVerObject;
+                printLogDataForDebugging("FW Version Response Received. FW Code: " + shimmerVerObject.getFirmwareVersionCode());
+                printLogDataForDebugging("FW Version Response Received: " + shimmerVerObject.getFirmwareVersionParsed());
+                eventResponseReceived(i, shimmerVerObject);
+                return;
+            }
+            if (i == 15) {
+                if (this.mShimmerVerObject.isShimmerGen2()) {
+                    bytes = readBytes(1);
+                } else {
+                    bytes = readBytes(4);
+                }
+                eventResponseReceived(i, bytes);
+                return;
+            }
+            if (i == 37) {
+                delayForBtResponse(100L);
+                byte[] bytes4 = readBytes(1);
+                setHardwareVersion(bytes4[0]);
+                eventResponseReceived(i, Integer.valueOf(bytes4[0]));
+                printLogDataForDebugging("Shimmer Version (HW) Response Received: " + UtilShimmer.bytesToHexStringWithSpacesFormatted(bytes4));
+                readFWVersion();
+                return;
+            }
+            if (i == 49) {
+                eventResponseReceived(i, Integer.valueOf((byte) (readBytes(1)[0] & 255)));
+                return;
+            }
+            if (i == 53) {
+                eventResponseReceived(i, Integer.valueOf(readBytes(1)[0] & 255));
+                return;
+            }
+            if (i == 88) {
+                delayForBtResponse(100L);
+                byte[] bytes5 = readBytes(22);
+                byte[] bArr2 = new byte[23];
+                System.arraycopy(bytes5, 0, bArr2, 1, 22);
+                bArr2[0] = (byte) i;
+                eventResponseReceived(i, bytes5);
+                return;
+            }
+            if (i == 101) {
+                eventResponseReceived(i, new ExpansionBoardDetails(Arrays.copyOfRange(readBytes(this.numBytesToReadFromExpBoard + 1), 1, 4)));
+                return;
+            }
+            if (i == 107) {
+                eventResponseReceived(i, Integer.valueOf(readBytes(1)[0] & 255));
+                return;
+            }
+            if (i == 116) {
+                eventResponseReceived(i, readBytes(3));
+                return;
+            }
+            if (i == 119) {
+                eventResponseReceived(i, new String(readBytes(readBytes(1)[0])));
+                return;
+            }
+            if (i == 122) {
+                eventResponseReceived(i, new String(readBytes(readBytes(1)[0])));
+                return;
+            }
+            if (i == 125) {
+                eventResponseReceived(i, new String(readBytes(readBytes(1)[0])));
+                return;
+            }
+            if (i == 134) {
+                eventResponseReceived(i, new String(readBytes(readBytes(1)[0])));
+                return;
+            }
+            if (i == 144) {
+                ArrayUtils.reverse(Arrays.copyOf(readBytes(8), 8));
+                eventResponseReceived(i, Long.valueOf((long) (ByteBuffer.wrap(r2).getLong() / 32.768d)));
+                return;
+            }
+            if (i == 138) {
+                processInstreamResponse();
+                return;
+            }
+            if (i == 61) {
+                eventResponseReceived(i, readBytes(8));
+                return;
+            }
+            if (i == 141) {
+                byte[] bytes6 = readBytes(readBytes(1)[0] & 255);
+                printLogDataForDebugging("INFOMEM_RESPONSE Received: " + UtilShimmer.bytesToHexStringWithSpacesFormatted(bytes6));
+                this.mMemBuffer = ArrayUtils.addAll(this.mMemBuffer, bytes6);
+                MemReadDetails memReadDetails = this.mMapOfMemReadDetails.get(142);
+                if (memReadDetails == null || memReadDetails.mCurrentMemAddress + memReadDetails.mCurrentMemLengthToRead < memReadDetails.mEndMemAddress) {
+                    return;
+                }
+                eventResponseReceived(i, this.mMemBuffer);
+                clearMemReadBuffer(142);
+                return;
+            }
+            if (i != 153) {
+                if (i == 157) {
+                    byte[] bytes7 = readBytes(10);
+                    System.err.println("STC3100 response = " + UtilShimmer.bytesToHexStringWithSpacesFormatted(bytes7));
+                    return;
+                }
+                printLogDataForDebugging("Unhandled BT response: " + UtilShimmer.bytesToHexStringWithSpacesFormatted(new byte[]{(byte) i}));
+                return;
+            }
+            byte[] bytes8 = readBytes(3);
+            int i7 = bytes8[0] & 255;
+            byte b = bytes8[2];
+            byte b2 = bytes8[1];
+            byte[] bytes9 = readBytes(i7);
+            this.mMemBuffer = ArrayUtils.addAll(this.mMemBuffer, bytes9);
+            ArrayUtils.addAll(bytes8, bytes9);
+            printLogDataForDebugging("CALIB_DUMP Received:\t" + UtilShimmer.bytesToHexStringWithSpacesFormatted(bytes9));
+            printLogDataForDebugging("CALIB_DUMP concat:\t" + UtilShimmer.bytesToHexStringWithSpacesFormatted(this.mMemBuffer));
+            MemReadDetails memReadDetails2 = this.mMapOfMemReadDetails.get(154);
+            if (memReadDetails2 != null) {
+                if (memReadDetails2.mCurrentMemAddress == 0) {
+                    memReadDetails2.setTotalMemLengthToRead((((bytes9[1] & 255) << 8) | (bytes9[0] & 255)) + 2);
+                    if (memReadDetails2.getTotalMemLengthToRead() > memReadDetails2.mCurrentMemLengthToRead) {
+                        readCalibrationDump(memReadDetails2.mCurrentMemLengthToRead, memReadDetails2.getTotalMemLengthToRead() - memReadDetails2.mCurrentMemLengthToRead);
+                        rePioritiseReadCalibDumpInstructions();
+                    }
+                }
+                if (memReadDetails2.mCurrentMemAddress + memReadDetails2.mCurrentMemLengthToRead >= memReadDetails2.mEndMemAddress) {
+                    eventResponseReceived(i, this.mMemBuffer);
+                    clearMemReadBuffer(154);
+                }
+            }
+        } catch (ShimmerException e) {
+            this.mUtilShimmer.consolePrintShimmerException(e);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void processSpecialGetCmdsAfterAck(int i) {
+        MemReadDetails memReadDetails;
+        byte[] bArr = getListofInstructions().get(0);
+        if (!this.mUseShimmerBluetoothApproach) {
+            eventAckReceived(bArr[0]);
+            return;
+        }
+        if (i == 99) {
+            this.mTempChipID = bArr[1];
+        } else if ((i == 142 || i == 154) && (memReadDetails = this.mMapOfMemReadDetails.get(Integer.valueOf(i))) != null) {
+            memReadDetails.mCurrentMemAddress = ((bArr[3] & 255) << 8) + (bArr[2] & 255);
+            memReadDetails.mCurrentMemLengthToRead = bArr[1] & 255;
+        }
+    }
+
+    protected boolean isKnownResponseByte(byte b) {
+        return ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsResponse.valueOf(b & 255) != null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean isKnownGetCommand(int i) {
+        return isKnownGetCommandByte((byte) i);
+    }
+
+    protected boolean isKnownGetCommandByte(byte b) {
+        return ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsGet.valueOf(b & 255) != null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean isKnownSetCommand(int i) {
+        return isKnownSetCommandByte((byte) i);
+    }
+
+    protected boolean isKnownSetCommandByte(byte b) {
+        return ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsSet.valueOf(b & 255) != null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean bytesAvailableToBeRead() throws ShimmerException {
+        if (this.mCommsInterface.isConnected()) {
+            return this.mCommsInterface.bytesAvailableToBeRead();
+        }
+        return false;
+    }
+
+    protected void writeBytes(byte[] bArr) throws ShimmerException {
+        this.mCommsInterface.txBytes(bArr);
+    }
+
+    protected byte[] readBytes(int i) throws ShimmerException {
+        return this.mCommsInterface.rxBytes(i);
+    }
+
+    private byte readByte() throws ShimmerException {
+        return readBytes(1)[0];
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public int availableBytes() throws ShimmerException {
+        return this.mCommsInterface.availableBytes();
+    }
+
+    public void eventLogAndStreamStatusChanged(int i) {
+        this.mProtocolListener.eventLogAndStreamStatusChangedCallback(i);
+    }
+
+    private void isNowStreaming() {
+        this.mProtocolListener.isNowStreaming();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void hasStopStreaming() {
+        this.mProtocolListener.hasStopStreaming();
+    }
+
+    private void eventAckReceived(int i) {
+        this.mProtocolListener.eventAckReceived(i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void sendProgressReport(BluetoothProgressReportPerCmd bluetoothProgressReportPerCmd) {
+        this.mProtocolListener.sendProgressReport(bluetoothProgressReportPerCmd);
+    }
+
+    private void eventNewResponse(byte[] bArr) {
+        this.mProtocolListener.eventNewResponse(bArr);
+    }
+
+    protected void eventResponseReceived(int i, Object obj) {
+        this.mProtocolListener.eventResponseReceived(i, obj);
+    }
+
+    @Deprecated
+    protected void eventAckInstruction(byte[] bArr) {
+        this.mProtocolListener.eventAckInstruction(bArr);
+    }
+
+    private void eventNewPacket(byte[] bArr, long j) {
+        this.mProtocolListener.eventNewPacket(bArr, j);
+    }
+
+    private void startOperation(ShimmerBluetooth.BT_STATE bt_state, int i) {
+        this.mProtocolListener.startOperation(bt_state, i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void sendStatusMSGtoUI(String str) {
+        this.mProtocolListener.sendStatusMSGtoUI(str);
+    }
+
+    private void eventDockedStateChange() {
+        this.mProtocolListener.eventDockedStateChange();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void threadSleep(long j) throws InterruptedException {
+        try {
+            Thread.sleep(j);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected String btCommandToString(int i) {
+        int i2 = i & 255;
+        ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsResponse instructionsResponseValueOf = ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsResponse.valueOf(i2);
+        if (instructionsResponseValueOf != null) {
+            return instructionsResponseValueOf.name();
+        }
+        ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsGet instructionsGetValueOf = ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsGet.valueOf(i2);
+        if (instructionsGetValueOf != null) {
+            return instructionsGetValueOf.name();
+        }
+        ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsSet instructionsSetValueOf = ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsSet.valueOf(i2);
+        if (instructionsSetValueOf != null) {
+            return instructionsSetValueOf.name();
+        }
+        return Integer.toHexString(this.mCurrentCommand);
+    }
+
+    public void printLogDataForDebugging(String str) {
+        this.mUtilShimmer.consolePrintLn(str);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void delayForBtResponse(long j) throws InterruptedException {
+        if (this.mUseLegacyDelayToDelayForResponse) {
+            threadSleep(j);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void processAckFromSetCommandAndInstructions(int i) throws InterruptedException {
+        byte[] bArr;
+        if (getListofInstructions().size() <= 0 || (bArr = getListofInstructions().get(0)) == null) {
+            return;
+        }
+        processAckFromSetCommand(i);
+        if (getListofInstructions().size() > 0) {
+            getListofInstructions().remove(0);
+        }
+        eventAckInstruction(bArr);
+    }
+
+    protected void processAckFromSetCommand(int i) throws InterruptedException {
+        if (i == 7 || i == 112) {
+            this.mByteArrayOutputStream.reset();
+            setIsStreaming(true);
+            if (i == 112) {
+                setIsSDLogging(true);
+                eventLogAndStreamStatusChanged(this.mCurrentCommand);
+            }
+            this.byteStack.clear();
+            isNowStreaming();
+            return;
+        }
+        if (i == 32 || i == 151) {
+            setIsStreaming(false);
+            if (i == 151) {
+                setIsSDLogging(false);
+                eventLogAndStreamStatusChanged(this.mCurrentCommand);
+            }
+            this.mByteArrayOutputStream = new ByteArrayOutputStream();
+            this.byteStack.clear();
+            try {
+                clearSerialBuffer();
+            } catch (ShimmerException e) {
+                e.printStackTrace();
+            }
+            hasStopStreaming();
+            getListofInstructions().removeAll(Collections.singleton(null));
+            return;
+        }
+        if (i == 146) {
+            setIsSDLogging(true);
+            eventLogAndStreamStatusChanged(this.mCurrentCommand);
+            return;
+        }
+        if (i == 147) {
+            setIsSDLogging(false);
+            eventLogAndStreamStatusChanged(this.mCurrentCommand);
+            return;
+        }
+        if (i == 140 || i == 152) {
+            this.mNumOfMemSetCmds--;
+            if (this.mShimmerVerObject.isBtMemoryUpdateCommandSupported()) {
+                return;
+            }
+            if (this.mNumOfMemSetCmds == 0) {
+                threadSleep(100L);
+                return;
+            } else {
+                threadSleep(500L);
+                return;
+            }
+        }
+        if (i == 155 && this.mShimmerVerObject.isBtMemoryUpdateCommandSupported()) {
+            threadSleep(500L);
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readRealTimeClock() {
+        if ((getHardwareVersion() == 3 && getFirmwareIdentifier() == 3) || (getHardwareVersion() == 58 && getFirmwareIdentifier() == 12)) {
+            writeInstruction(145);
+        }
+    }
+
+    public void writeRealTimeClock() {
+        if ((getHardwareVersion() == 3 && getFirmwareIdentifier() == 3) || (getHardwareVersion() == 58 && getFirmwareIdentifier() == 12)) {
+            byte[] bArr = new byte[9];
+            bArr[0] = ShimmerObject.SET_RWC_COMMAND;
+            getListofInstructions().add(bArr);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void clearBuffers() {
+        this.mByteArrayOutputStream.reset();
+        this.mListofPCTimeStamps.clear();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void discardFirstBufferByte() {
+        byte[] byteArray = this.mByteArrayOutputStream.toByteArray();
+        this.mByteArrayOutputStream.reset();
+        this.mByteArrayOutputStream.write(byteArray, 1, byteArray.length - 1);
+        this.mListofPCTimeStamps.remove(0);
+        printLogDataForDebugging("Throw Byte" + UtilShimmer.byteToHexStringFormatted(byteArray[0]));
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void processDataPacket(byte[] bArr) {
+        byte[] bArr2 = new byte[this.mPacketSize];
+        System.arraycopy(bArr, 1, bArr2, 0, this.mPacketSize);
+        eventNewPacket(bArr2, System.currentTimeMillis());
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void clearSingleDataPacketFromBuffers(byte[] bArr, int i) {
+        this.mByteArrayOutputStream.reset();
+        this.mByteArrayOutputStream.write(bArr[i]);
+        for (int i2 = 0; i2 < i; i2++) {
+            this.mListofPCTimeStamps.remove(0);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void processInstreamResponse() {
+        try {
+            processInstreamResponse(readBytes(1));
+        } catch (ShimmerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    protected void processInstreamResponse(byte[] bArr) throws ShimmerException {
+        int i = bArr[0] & 255;
+        printLogDataForDebugging("In-stream received = " + btCommandToString(i));
+        if (i == 136) {
+            byte[] bytes = readBytes(1);
+            int i2 = bytes[0];
+            byte[] bArr2 = new byte[i2];
+            byte[] bytes2 = readBytes(i2);
+            String str = new String(bytes2);
+            this.mDirectoryName = str;
+            printLogDataForDebugging("Directory Name = " + str);
+            if (!this.mUseShimmerBluetoothApproach) {
+                eventNewResponse(ArrayUtils.addAll(bytes, bytes2));
+                return;
+            } else {
+                eventResponseReceived(i, str);
+                return;
+            }
+        }
+        if (i == 113) {
+            if (this.mUseShimmerBluetoothApproach) {
+                parseStatusByte(readBytes(1)[0]);
+            }
+            if (!isSensing() && (!this.mUseShimmerBluetoothApproach || !isInitialised())) {
+                writeRealTimeClock();
+            }
+            eventLogAndStreamStatusChanged(this.mCurrentCommand);
+            return;
+        }
+        if (i != 148) {
+            if (i == 157) {
+                eventResponseReceived(i, new SensorSTC3100Details(readBytes(10)));
+                return;
+            }
+            return;
+        }
+        byte[] bytes3 = readBytes(3);
+        if (this.mUseShimmerBluetoothApproach) {
+            ShimmerBattStatusDetails shimmerBattStatusDetails = new ShimmerBattStatusDetails(((bytes3[1] & 255) << 8) + (bytes3[0] & 255), bytes3[2]);
+            eventResponseReceived(i, shimmerBattStatusDetails);
+            printLogDataForDebugging("Battery Status:\tVoltage=" + shimmerBattStatusDetails.getBattVoltageParsed() + "\tCharging status=" + shimmerBattStatusDetails.getChargingStatusParsed() + "\tBatt %=" + shimmerBattStatusDetails.getEstimatedChargePercentageParsed());
+            return;
+        }
+        eventNewResponse(ArrayUtils.addAll(bArr, bytes3));
+    }
+
+    private void parseStatusByte(byte b) {
+        Boolean boolValueOf = Boolean.valueOf(isDocked());
+        setIsDocked((b & 1) > 0);
+        setIsSensing((b & 2) > 0);
+        setIsSDLogging((b & 8) > 0);
+        setIsStreaming((b & 16) > 0);
+        printLogDataForDebugging("Status Response = " + UtilShimmer.byteToHexStringFormatted(b) + " | IsDocked = " + isDocked() + " | IsSensing = " + isSensing() + " | IsSDLogging = " + isSDLogging() + " | IsStreaming = " + isStreaming());
+        if (boolValueOf.booleanValue() != isDocked()) {
+            eventDockedStateChange();
+        }
+    }
+
+    public void readSamplingRate() {
+        writeInstruction(3);
+    }
+
+    protected void dummyreadSamplingRate() {
+        this.mDummy = true;
+        writeInstruction(3);
+    }
+
+    public void writeShimmerAndSensorsSamplingRate(byte[] bArr) {
+        writePacket(5, bArr);
+        readSamplingRate();
+    }
+
+    private byte[] buildCmdArray(int i, byte[] bArr) {
+        byte[] bArr2 = new byte[bArr.length + 1];
+        bArr2[0] = (byte) i;
+        System.arraycopy(bArr, 0, bArr2, 1, bArr.length);
+        return bArr2;
+    }
+
+    private void writePacket(int i, byte[] bArr) {
+        writeInstruction(buildCmdArray(i, bArr));
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void toggleLed() {
+        writeInstruction(new byte[]{6});
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readFWVersion() {
+        this.mDummy = false;
+        writeInstruction(46);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readShimmerVersionNew() {
+        this.mDummy = false;
+        writeInstruction(63);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readPressureCalibrationCoefficients() {
+        if ((getHardwareVersion() == 3 || getHardwareVersion() == 58) && getFirmwareVersionCode() > 1) {
+            writeInstruction(89);
+        }
+    }
+
+    public void readBaudRate() {
+        if (getFirmwareVersionCode() >= 5) {
+            writeInstruction(108);
+        }
+    }
+
+    public void writeBaudRate(int i) throws InterruptedException {
+        if (getFirmwareVersionCode() < 5 || i < 0 || i > 10) {
+            return;
+        }
+        writeInstruction(new byte[]{ShimmerObject.SET_BAUD_RATE_COMMAND, (byte) i});
+        delayForBtResponse(200L);
+        reconnect();
+    }
+
+    private void reconnect() throws InterruptedException {
+        try {
+            this.mCommsInterface.disconnect();
+            threadSleep(300L);
+            this.mCommsInterface.connect();
+        } catch (ShimmerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readConfigByte0() {
+        writeInstruction(16);
+    }
+
+    public void writeConfigByte0(byte[] bArr) {
+        writePacket(14, bArr);
+        readConfigByte0();
+    }
+
+    public void readBufferSize() {
+        writeInstruction(54);
+    }
+
+    public void writeBufferSize(int i) {
+        writeInstruction(new byte[]{ShimmerObject.SET_BUFFER_SIZE_COMMAND, (byte) i});
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readCalibrationDump() {
+        if (getFirmwareVersionCode() >= 7) {
+            readMem(154, 0, 128, 4096);
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readCalibrationDump(int i, int i2) {
+        if (getFirmwareVersionCode() >= 7) {
+            readMem(154, i, i2, 4096);
+        }
+    }
+
+    public void rePioritiseReadCalibDumpInstructions() {
+        ArrayList arrayList = new ArrayList();
+        Iterator<byte[]> it2 = this.mListofInstructions.iterator();
+        while (it2.hasNext()) {
+            byte[] next = it2.next();
+            if (next[0] == -102) {
+                arrayList.add(next);
+                it2.remove();
+            }
+        }
+        if (arrayList.size() > 0) {
+            this.mListofInstructions.addAll(0, arrayList);
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void writeCalibrationDump(byte[] bArr) {
+        if (getFirmwareVersionCode() >= 7) {
+            writeMem(152, 0, bArr, 4096);
+            writeUpdateConfigMemory();
+            readCalibrationDump();
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    protected void readInfoMem(int i, int i2) {
+        readMem(142, i, i2, 512);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void writeInfoMem(int i, byte[] bArr) {
+        writeMem(140, i, bArr, 512);
+        writeUpdateConfigMemory();
+    }
+
+    private void writeUpdateConfigMemory() {
+        if (this.mShimmerVerObject.isSupportedCalibDump()) {
+            writeInstruction(155);
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readMemCommand(int i, int i2, int i3) {
+        if (getFirmwareVersionCode() >= 6) {
+            byte[] bArrArray = ByteBuffer.allocate(2).putShort((short) (i2 & 65535)).array();
+            ArrayUtils.reverse(bArrArray);
+            byte[] bArr = new byte[bArrArray.length + 2];
+            bArr[0] = (byte) i;
+            System.arraycopy(new byte[]{(byte) i3}, 0, bArr, 1, 1);
+            System.arraycopy(bArrArray, 0, bArr, 2, bArrArray.length);
+            writeInstruction(bArr);
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void writeMemCommand(int i, int i2, byte[] bArr) {
+        byte[] bArr2 = {(byte) bArr.length};
+        byte[] bArrArray = ByteBuffer.allocate(2).putShort((short) (i2 & 65535)).array();
+        ArrayUtils.reverse(bArrArray);
+        byte[] bArr3 = new byte[bArrArray.length + 2 + bArr.length];
+        bArr3[0] = (byte) i;
+        System.arraycopy(bArr2, 0, bArr3, 1, 1);
+        System.arraycopy(bArrArray, 0, bArr3, 2, bArrArray.length);
+        System.arraycopy(bArr, 0, bArr3, 2 + bArrArray.length, bArr.length);
+        writeInstruction(bArr3);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void operationPrepare() {
+        stopAllTimers();
+        getListofInstructions().clear();
+        while (getListofInstructions().size() > 0) {
+        }
+        setInstructionStackLock(true);
+        this.mOperationUnderway = true;
+    }
+
+    public void operationWaitForFinish() {
+        setInstructionStackLock(false);
+        while (getListofInstructions().size() > 0) {
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void operationStart(ShimmerBluetooth.BT_STATE bt_state) {
+        startOperation(bt_state, getListofInstructions().size());
+        setInstructionStackLock(false);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void startStreaming() {
+        initialiseStreaming();
+        this.mByteArrayOutputStream.reset();
+        this.mListofPCTimeStamps.clear();
+        writeInstruction(7);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void startDataLogAndStreaming() {
+        if ((getShimmerVersion() == 3 && getFirmwareIdentifier() == 3) || (getShimmerVersion() == 58 && getFirmwareIdentifier() == 12)) {
+            initialiseStreaming();
+            writeInstruction(112);
+        }
+    }
+
+    private void initialiseStreaming() {
+        if (((getShimmerVersion() == 3 && getFirmwareIdentifier() == 3) || (getShimmerVersion() == 58 && getFirmwareIdentifier() == 12)) && getFirmwareVersionCode() >= 6) {
+            readRealTimeClock();
+        }
+        stopTimerReadStatus();
+        this.mProtocolListener.initialiseStreamingCallback();
+        System.out.println("initialiseStreamingCallback:\tRETURNED");
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void startSDLogging() {
+        if (!((getShimmerVersion() == 3 && getFirmwareIdentifier() == 3) || (getShimmerVersion() == 58 && getFirmwareIdentifier() == 12)) || getFirmwareVersionCode() < 6) {
+            return;
+        }
+        writeInstruction(146);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void stopSDLogging() {
+        if (!((getShimmerVersion() == 3 && getFirmwareIdentifier() == 3) || (getShimmerVersion() == 58 && getFirmwareIdentifier() == 12)) || getFirmwareVersionCode() < 6) {
+            return;
+        }
+        writeInstruction(147);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void stopStreaming() {
+        if (isStreaming()) {
+            writeInstruction(32);
+            stopTimerReadStatus();
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void stopStreamingAndLogging() {
+        if ((getShimmerVersion() == 3 && getFirmwareIdentifier() == 3) || (getShimmerVersion() == 58 && getFirmwareIdentifier() == 12)) {
+            writeInstruction(151);
+            stopTimerReadStatus();
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void writeBattStatusPeriod(int i) {
+        if (getShimmerVersion() == 58) {
+            byte[] bArr = {(byte) (i & 255), (byte) ((i >> 8) & 255)};
+            writeInstruction(new byte[]{ShimmerObject.UPD_SDLOG_CFG_COMMAND, bArr[0], bArr[1]});
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readBattStatusPeriod() {
+        if (getShimmerVersion() == 58) {
+            writeInstruction(158);
+        }
+    }
+
+    public void stopAllTimers() {
+        stopTimerReadStatus();
+        stopTimerCheckIfAlive();
+        stopTimerCheckForAckOrResp();
+        stopTimerReadBattStatus();
+    }
+
+    public void stopTimerCheckForAckOrResp() {
+        Timer timer = this.mTimerCheckForAckOrResp;
+        if (timer != null) {
+            timer.cancel();
+            this.mTimerCheckForAckOrResp.purge();
+            this.mTimerCheckForAckOrResp = null;
+        }
+    }
+
+    public synchronized void startTimerCheckForAckOrResp(int i) {
+        Timer timer = this.mTimerCheckForAckOrResp;
+        if (timer != null) {
+            timer.cancel();
+            this.mTimerCheckForAckOrResp.purge();
+            this.mTimerCheckForAckOrResp = null;
+        }
+        printLogDataForDebugging("Waiting for ack/response for command:\t" + btCommandToString(this.mCurrentCommand));
+        Timer timer2 = new Timer("Shimmer_" + getConnectionHandle() + "_TimerCheckForResp");
+        this.mTimerCheckForAckOrResp = timer2;
+        timer2.schedule(new checkForAckOrRespTask(), (long) (i * 1000));
+    }
+
+    class checkForAckOrRespTask extends TimerTask {
+        checkForAckOrRespTask() {
+        }
+
+        @Override // java.util.TimerTask, java.lang.Runnable
+        public void run() {
+            boolean z = LiteProtocol.this.mFirstTime;
+            LiteProtocol liteProtocol = LiteProtocol.this;
+            liteProtocol.printLogDataForDebugging("Command:\t" + liteProtocol.btCommandToString(liteProtocol.mCurrentCommand) + " timeout");
+            if (LiteProtocol.this.mWaitForAck) {
+                LiteProtocol.this.printLogDataForDebugging("Ack not received");
+            }
+            if (LiteProtocol.this.mWaitForResponse) {
+                LiteProtocol.this.printLogDataForDebugging("Response not received");
+                LiteProtocol liteProtocol2 = LiteProtocol.this;
+                liteProtocol2.sendStatusMSGtoUI("Response not received, please reset Shimmer Device." + liteProtocol2.mMyBluetoothAddress);
+            }
+            LiteProtocol liteProtocol3 = LiteProtocol.this;
+            liteProtocol3.processCheckForAckOrRespPerCmd(liteProtocol3.mCurrentCommand);
+            if (LiteProtocol.this.isStreaming()) {
+                LiteProtocol.this.stopTimerCheckForAckOrResp();
+                LiteProtocol.this.mWaitForAck = false;
+                LiteProtocol.this.mTransactionCompleted = true;
+                LiteProtocol.this.setInstructionStackLock(false);
+                LiteProtocol.this.getListofInstructions().clear();
+                return;
+            }
+            if (z) {
+                return;
+            }
+            try {
+                if (LiteProtocol.this.bytesAvailableToBeRead()) {
+                    LiteProtocol liteProtocol4 = LiteProtocol.this;
+                    liteProtocol4.readBytes(liteProtocol4.availableBytes());
+                }
+                LiteProtocol.this.stopTimerCheckForAckOrResp();
+                LiteProtocol liteProtocol5 = LiteProtocol.this;
+                liteProtocol5.printLogDataForDebugging("RETRY TX COUNT: " + Integer.toString(liteProtocol5.mNumberofTXRetriesCount));
+                if (LiteProtocol.this.mNumberofTXRetriesCount >= 0 && LiteProtocol.this.mCurrentCommand != 63 && !LiteProtocol.this.isInitialised()) {
+                    LiteProtocol.this.killConnection("Reached number of TX retries = 0");
+                } else if (LiteProtocol.this.mNumberofTXRetriesCount >= 0 && LiteProtocol.this.isInitialised()) {
+                    LiteProtocol.this.killConnection("Reached number of TX retries = 0");
+                } else {
+                    LiteProtocol.this.mWaitForAck = false;
+                    LiteProtocol.this.mWaitForResponse = false;
+                    LiteProtocol.this.mTransactionCompleted = true;
+                    LiteProtocol.this.setInstructionStackLock(false);
+                    LiteProtocol.this.startTimerCheckForAckOrResp(13);
+                }
+            } catch (ShimmerException e) {
+                e.printStackTrace();
+            }
+            LiteProtocol.this.mNumberofTXRetriesCount++;
+        }
+    }
+
+    protected void processCheckForAckOrRespPerCmd(int i) {
+        int i2 = i & 255;
+        if (i2 == 146) {
+            printLogDataForDebugging("START_LOGGING_ONLY_COMMAND response not received. Send feedback to the GUI without killing the connection");
+            setIsSDLogging(true);
+            eventLogAndStreamStatusChanged(i);
+            this.mWaitForAck = false;
+            this.mWaitForResponse = false;
+            getListofInstructions().remove(0);
+            this.mTransactionCompleted = true;
+            setInstructionStackLock(false);
+            return;
+        }
+        if (i2 == 147) {
+            printLogDataForDebugging("STOP_LOGGING_ONLY_COMMAND response not received. Send feedback to the GUI without killing the connection");
+            setIsSDLogging(false);
+            eventLogAndStreamStatusChanged(i);
+            this.mWaitForAck = false;
+            this.mWaitForResponse = false;
+            getListofInstructions().remove(0);
+            this.mTransactionCompleted = true;
+            setInstructionStackLock(false);
+            return;
+        }
+        if (i2 == 46) {
+            this.mFirstTime = false;
+            return;
+        }
+        if (i2 == 3 && !isInitialised()) {
+            this.mFirstTime = false;
+        } else if (i2 == 63) {
+            this.mFirstTime = false;
+            getListofInstructions().clear();
+            readShimmerVersionDeprecated();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void killConnection(String str) {
+        killConnection(null, str);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void killConnection(ShimmerException shimmerException) {
+        killConnection(shimmerException, "");
+    }
+
+    private void killConnection(ShimmerException shimmerException, String str) {
+        String str2;
+        if (str.isEmpty()) {
+            str2 = "";
+        } else {
+            str2 = ": " + str;
+        }
+        printLogDataForDebugging("Killing Connection" + str2);
+        this.mProtocolListener.eventKillConnectionRequest(shimmerException);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void startTimerReadStatus() {
+        if ((getHardwareVersion() == 3 && getFirmwareIdentifier() == 3) || (getHardwareVersion() == 58 && getFirmwareIdentifier() == 12)) {
+            Timer timer = this.mTimerReadStatus;
+            if (timer == null) {
+                this.mTimerReadStatus = new Timer("Shimmer_" + getConnectionHandle() + "_TimerReadStatus");
+            } else {
+                timer.cancel();
+                this.mTimerReadStatus.purge();
+                this.mTimerReadStatus = null;
+            }
+            this.mTimerReadStatus.schedule(new readStatusTask(), VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT, VerisenseMessage.TIMEOUT_MS.ALL_TEST_TIMEOUT);
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void stopTimerReadStatus() {
+        Timer timer = this.mTimerReadStatus;
+        if (timer != null) {
+            timer.cancel();
+            this.mTimerReadStatus.purge();
+            this.mTimerReadStatus = null;
+        }
+    }
+
+    public class readStatusTask extends TimerTask {
+        public readStatusTask() {
+        }
+
+        @Override // java.util.TimerTask, java.lang.Runnable
+        public void run() {
+            if (LiteProtocol.this.getListofInstructions().size() != 0 || LiteProtocol.this.getListofInstructions().contains(114)) {
+                return;
+            }
+            LiteProtocol.this.readStatusLogAndStream();
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void startTimerCheckIfAlive() {
+        if (this.mCheckIfConnectionisAlive) {
+            if (this.mTimerCheckAlive == null) {
+                this.mTimerCheckAlive = new Timer("Shimmer_" + getConnectionHandle() + "_TimerCheckAlive");
+            }
+            int hardwareVersion = getHardwareVersion();
+            int firmwareIdentifier = getFirmwareIdentifier();
+            if ((hardwareVersion == 3 && firmwareIdentifier == 3) || ((hardwareVersion == 3 && firmwareIdentifier == 1) || ((hardwareVersion == 58 && firmwareIdentifier == 12) || hardwareVersion == 4))) {
+                this.mTimerCheckAlive.schedule(new checkIfAliveTask(), 2000L, 2000L);
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void stopTimerCheckIfAlive() {
+        Timer timer = this.mTimerCheckAlive;
+        if (timer != null) {
+            timer.cancel();
+            this.mTimerCheckAlive.purge();
+            this.mTimerCheckAlive = null;
+        }
+    }
+
+    private class checkIfAliveTask extends TimerTask {
+        private checkIfAliveTask() {
+        }
+
+        @Override // java.util.TimerTask, java.lang.Runnable
+        public void run() {
+            if (LiteProtocol.this.mIamAlive) {
+                LiteProtocol.this.mCountDeadConnection = 0;
+                LiteProtocol.this.mIamAlive = false;
+                return;
+            }
+            LiteProtocol.this.getHardwareVersion();
+            LiteProtocol.this.getFirmwareIdentifier();
+            if (LiteProtocol.this.isStreaming()) {
+                LiteProtocol.this.mCountDeadConnection++;
+            }
+            if (LiteProtocol.this.getFirmwareVersionCode() >= 6 && !LiteProtocol.this.isStreaming()) {
+                if (LiteProtocol.this.getListofInstructions().size() == 0 && !LiteProtocol.this.getListofInstructions().contains(150)) {
+                    LiteProtocol.this.printLogDataForDebugging("Check Alive Task");
+                    if ((LiteProtocol.this.getShimmerVersion() != 3 || LiteProtocol.this.getFirmwareIdentifier() != 3) && ((LiteProtocol.this.getShimmerVersion() != 58 || LiteProtocol.this.getFirmwareIdentifier() != 12) && LiteProtocol.this.getShimmerVersion() == 3 && LiteProtocol.this.getFirmwareIdentifier() == 1)) {
+                        LiteProtocol.this.writeTestConnectionCommand();
+                    }
+                }
+            } else {
+                LiteProtocol.this.printLogDataForDebugging("Check Alive Task");
+                LiteProtocol.this.writeLEDCommand(0);
+            }
+            if (LiteProtocol.this.mCountDeadConnection > 5) {
+                LiteProtocol.this.killConnection("Keep Alive timer dead connection count > 5");
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void startTimerReadBattStatus() {
+        if (!((getShimmerVersion() == 3 && getFirmwareIdentifier() == 3) || (getShimmerVersion() == 58 && getFirmwareIdentifier() == 12)) || getFirmwareVersionCode() < 6) {
+            return;
+        }
+        if (this.mTimerReadBattStatus == null) {
+            this.mTimerReadBattStatus = new Timer("Shimmer_" + getConnectionHandle() + "_TimerBattStatus");
+        }
+        this.mTimerReadBattStatus.schedule(new readBattStatusTask(), 60000L, 60000L);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void stopTimerReadBattStatus() {
+        Timer timer = this.mTimerReadBattStatus;
+        if (timer != null) {
+            timer.cancel();
+            this.mTimerReadBattStatus.purge();
+            this.mTimerReadBattStatus = null;
+        }
+    }
+
+    private class readBattStatusTask extends TimerTask {
+        private readBattStatusTask() {
+        }
+
+        @Override // java.util.TimerTask, java.lang.Runnable
+        public void run() {
+            LiteProtocol.this.printLogDataForDebugging("Read Batt Task");
+            LiteProtocol.this.readBattery();
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void restartTimersIfNull() {
+        if (this.mTimerCheckAlive == null && this.mTimerReadStatus == null && this.mTimerReadBattStatus == null) {
+            startTimerCheckIfAlive();
+            startTimerReadStatus();
+            startTimerReadBattStatus();
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readExpansionBoardID() {
+        if (getFirmwareVersionCode() >= 5) {
+            this.numBytesToReadFromExpBoard = 3;
+            writeInstruction(new byte[]{ShimmerObject.GET_DAUGHTER_CARD_ID_COMMAND, (byte) 3, (byte) 0});
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readLEDCommand() {
+        writeInstruction(50);
+    }
+
+    public void writeLEDCommand(int i) {
+        if (this.mShimmerVerObject.compareVersions(2, 0, 0, 1, 0)) {
+            return;
+        }
+        writeInstruction(new byte[]{ShimmerObject.SET_BLINK_LED, (byte) i});
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readStatusLogAndStream() {
+        if ((getShimmerVersion() == 3 && getFirmwareIdentifier() == 3) || (getShimmerVersion() == 58 && getFirmwareIdentifier() == 12)) {
+            writeInstruction(114);
+            printLogDataForDebugging("Instruction added to th e list");
+        }
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void readBattery() {
+        writeInstruction(149);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void inquiry() {
+        writeInstruction(1);
+    }
+
+    public void writeTestConnectionCommand() {
+        if (getFirmwareVersionCode() >= 6) {
+            writeInstruction(150);
+        }
+    }
+
+    @Deprecated
+    public void readShimmerVersionDeprecated() {
+        writeInstruction(36);
+    }
+
+    @Override // com.shimmerresearch.comms.radioProtocol.AbstractCommsProtocol
+    public void writeEnabledSensors(long j) {
+        byte b = (byte) ((65280 & j) >> 8);
+        byte b2 = (byte) (255 & j);
+        if (getHardwareVersion() == 3 || getHardwareVersion() == 58) {
+            writeInstruction(new byte[]{8, b2, b, (byte) ((j & 16711680) >> 16)});
+        } else {
+            writeInstruction(new byte[]{8, b2, b});
+        }
+        inquiry();
+    }
+
+    public void readUniqueSerial() {
+        writeInstruction(new byte[]{62});
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public int getFirmwareVersionCode() {
+        ShimmerVerObject shimmerVerObject = this.mShimmerVerObject;
+        if (shimmerVerObject != null) {
+            return shimmerVerObject.getFirmwareVersionCode();
+        }
+        return 6;
+    }
+
+    public void setIsDocked(boolean z) {
+        this.mIsDocked = z;
+        if (this.mProtocolListener != null) {
+            this.mProtocolListener.eventSetIsDocked(this.mIsDocked);
+        }
+    }
+
+    public void setIsStreaming(boolean z) {
+        this.mIsStreaming = z;
+        if (this.mProtocolListener != null) {
+            this.mProtocolListener.eventSetIsStreaming(this.mIsStreaming);
+        }
+    }
+
+    public void setIsSensing(boolean z) {
+        this.mIsSensing = z;
+        if (this.mProtocolListener != null) {
+            this.mProtocolListener.eventSetIsSensing(this.mIsSensing);
+        }
+    }
+
+    public void setIsSDLogging(boolean z) {
+        UtilShimmer.consolePrintCurrentStackTrace();
+        this.mIsSDLogging = z;
+        if (this.mProtocolListener != null) {
+            this.mProtocolListener.eventSetIsSDLogging(this.mIsSDLogging);
+        }
+    }
+
+    public void setIsInitialised(boolean z) {
+        this.mIsInitialised = z;
+        if (this.mProtocolListener != null) {
+            this.mProtocolListener.eventSetIsInitialised(this.mIsInitialised);
+        }
+    }
+
+    public void setHaveAttemptedToRead(boolean z) {
+        this.mHaveAttemptedToReadConfig = z;
+        if (this.mProtocolListener != null) {
+            this.mProtocolListener.eventSetHaveAttemptedToRead(this.mHaveAttemptedToReadConfig);
+        }
+    }
+}

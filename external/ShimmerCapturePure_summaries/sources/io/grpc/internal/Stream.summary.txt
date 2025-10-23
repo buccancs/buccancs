@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/Stream.java
+// Size: 412 bytes
+// Modified: 2025-10-21 16:32:00.828626500 +0100
+
+package io.grpc.internal;
+
+import io.grpc.Compressor;
+import java.io.InputStream;
+
+/* loaded from: classes2.dex */
+public interface Stream {
+    void flush();
+
+    boolean isReady();
+
+    void optimizeForDirectExecutor();
+
+    void request(int i);
+
+    void setCompressor(Compressor compressor);
+
+    void setMessageCompression(boolean z);
+
+    void writeMessage(InputStream inputStream);
+}

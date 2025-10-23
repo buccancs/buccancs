@@ -1,0 +1,103 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/solvers/MullerSolver2.java
+// Size: 4133 bytes
+// Modified: 2025-10-21 16:32:07.401667300 +0100
+
+package org.apache.commons.math3.analysis.solvers;
+
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class MullerSolver2 extends AbstractUnivariateSolver {
+    private static final double DEFAULT_ABSOLUTE_ACCURACY = 1.0E-6d;
+
+    public MullerSolver2() {
+        this(1.0E-6d);
+    }
+
+    public MullerSolver2(double d) {
+        super(d);
+    }
+
+    public MullerSolver2(double d, double d2) {
+        super(d, d2);
+    }
+
+    @Override // org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver
+    protected double doSolve() throws TooManyEvaluationsException, NumberIsTooLargeException, NoBracketingException {
+        double dSqrt;
+        double dRandom;
+        MullerSolver2 mullerSolver2 = this;
+        double min = getMin();
+        double max = getMax();
+        mullerSolver2.verifyInterval(min, max);
+        double relativeAccuracy = getRelativeAccuracy();
+        double absoluteAccuracy = getAbsoluteAccuracy();
+        double functionValueAccuracy = getFunctionValueAccuracy();
+        double dComputeObjectiveValue = mullerSolver2.computeObjectiveValue(min);
+        if (FastMath.abs(dComputeObjectiveValue) < functionValueAccuracy) {
+            return min;
+        }
+        double dComputeObjectiveValue2 = mullerSolver2.computeObjectiveValue(max);
+        if (FastMath.abs(dComputeObjectiveValue2) < functionValueAccuracy) {
+            return max;
+        }
+        if (dComputeObjectiveValue * dComputeObjectiveValue2 > 0.0d) {
+            throw new NoBracketingException(min, max, dComputeObjectiveValue, dComputeObjectiveValue2);
+        }
+        double d = (min + max) * 0.5d;
+        double d2 = min;
+        double d3 = max;
+        double d4 = Double.POSITIVE_INFINITY;
+        double d5 = dComputeObjectiveValue2;
+        double dComputeObjectiveValue3 = mullerSolver2.computeObjectiveValue(d);
+        double d6 = d;
+        double d7 = dComputeObjectiveValue;
+        while (true) {
+            double d8 = d6 - d3;
+            double d9 = d8 / (d3 - d2);
+            double d10 = d9 + 1.0d;
+            double d11 = ((dComputeObjectiveValue3 - (d10 * d5)) + (d9 * d7)) * d9;
+            double d12 = ((((d9 * 2.0d) + 1.0d) * dComputeObjectiveValue3) - ((d10 * d10) * d5)) + (d9 * d9 * d7);
+            double d13 = d10 * dComputeObjectiveValue3;
+            double d14 = d12 * d12;
+            double d15 = d14 - ((d11 * 4.0d) * d13);
+            if (d15 >= 0.0d) {
+                dSqrt = d12 + FastMath.sqrt(d15);
+                double dSqrt2 = d12 - FastMath.sqrt(d15);
+                if (FastMath.abs(dSqrt) <= FastMath.abs(dSqrt2)) {
+                    dSqrt = dSqrt2;
+                }
+            } else {
+                dSqrt = FastMath.sqrt(d14 - d15);
+            }
+            if (dSqrt != 0.0d) {
+                dRandom = d6 - (((d13 * 2.0d) * d8) / dSqrt);
+                while (true) {
+                    if (dRandom != d3 && dRandom != d6) {
+                        break;
+                    }
+                    dRandom += absoluteAccuracy;
+                }
+            } else {
+                dRandom = (FastMath.random() * (max - min)) + min;
+                d4 = Double.POSITIVE_INFINITY;
+            }
+            double dComputeObjectiveValue4 = mullerSolver2.computeObjectiveValue(dRandom);
+            if (FastMath.abs(dRandom - d4) <= FastMath.max(relativeAccuracy * FastMath.abs(dRandom), absoluteAccuracy) || FastMath.abs(dComputeObjectiveValue4) <= functionValueAccuracy) {
+                break;
+            }
+            mullerSolver2 = this;
+            d4 = dRandom;
+            d7 = d5;
+            d5 = dComputeObjectiveValue3;
+            dComputeObjectiveValue3 = dComputeObjectiveValue4;
+            d2 = d3;
+            d3 = d6;
+            d6 = d4;
+        }
+        return dRandom;
+    }
+}

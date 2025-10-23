@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/trace/samplers/Samplers.java
+// Size: 613 bytes
+// Modified: 2025-10-21 16:32:08.340681800 +0100
+
+package io.opencensus.trace.samplers;
+
+import io.opencensus.trace.Sampler;
+
+/* loaded from: classes4.dex */
+public final class Samplers {
+    private static final Sampler ALWAYS_SAMPLE = new AlwaysSampleSampler();
+    private static final Sampler NEVER_SAMPLE = new NeverSampleSampler();
+
+    public static Sampler alwaysSample() {
+        return ALWAYS_SAMPLE;
+    }
+
+    public static Sampler neverSample() {
+        return NEVER_SAMPLE;
+    }
+
+    private Samplers() {
+    }
+
+    public static Sampler probabilitySampler(double d) {
+        return ProbabilitySampler.create(d);
+    }
+}

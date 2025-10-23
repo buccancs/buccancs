@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/XYRegionFormatter.java
+// Size: 583 bytes
+// Modified: 2025-10-21 16:32:00.106931500 +0100
+
+package com.androidplot.xy;
+
+import android.graphics.Paint;
+
+/* loaded from: classes.dex */
+public class XYRegionFormatter {
+    private Paint a;
+
+    public Paint getPaint() {
+        return this.a;
+    }
+
+    public XYRegionFormatter(int i) {
+        Paint paint = new Paint();
+        this.a = paint;
+        paint.setColor(i);
+        this.a.setStyle(Paint.Style.FILL);
+        this.a.setAntiAlias(true);
+    }
+
+    public int getColor() {
+        return this.a.getColor();
+    }
+
+    public void setColor(int i) {
+        this.a.setColor(i);
+    }
+}

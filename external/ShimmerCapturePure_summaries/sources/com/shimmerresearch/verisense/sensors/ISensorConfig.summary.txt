@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/sensors/ISensorConfig.java
+// Size: 120 bytes
+// Modified: 2025-10-21 16:32:00.183007000 +0100
+
+package com.shimmerresearch.verisense.sensors;
+
+/* loaded from: classes2.dex */
+public interface ISensorConfig {
+}

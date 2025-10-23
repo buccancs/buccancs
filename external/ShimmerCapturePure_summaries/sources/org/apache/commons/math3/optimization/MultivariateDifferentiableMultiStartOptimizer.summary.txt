@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optimization/MultivariateDifferentiableMultiStartOptimizer.java
+// Size: 718 bytes
+// Modified: 2025-10-21 16:32:07.958600500 +0100
+
+package org.apache.commons.math3.optimization;
+
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableFunction;
+import org.apache.commons.math3.random.RandomVectorGenerator;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class MultivariateDifferentiableMultiStartOptimizer extends BaseMultivariateMultiStartOptimizer<MultivariateDifferentiableFunction> implements MultivariateDifferentiableOptimizer {
+    public MultivariateDifferentiableMultiStartOptimizer(MultivariateDifferentiableOptimizer multivariateDifferentiableOptimizer, int i, RandomVectorGenerator randomVectorGenerator) {
+        super(multivariateDifferentiableOptimizer, i, randomVectorGenerator);
+    }
+}

@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/SourceInfoOrBuilder.java
+// Size: 498 bytes
+// Modified: 2025-10-21 16:32:00.117885700 +0100
+
+package com.google.api;
+
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes.dex */
+public interface SourceInfoOrBuilder extends MessageOrBuilder {
+    Any getSourceFiles(int i);
+
+    int getSourceFilesCount();
+
+    List<Any> getSourceFilesList();
+
+    AnyOrBuilder getSourceFilesOrBuilder(int i);
+
+    List<? extends AnyOrBuilder> getSourceFilesOrBuilderList();
+}

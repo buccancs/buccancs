@@ -1,0 +1,105 @@
+package io.grpc.xds.shaded.com.google.api.expr.v1alpha1;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.DurationProto;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.StructProto;
+import com.google.protobuf.TimestampProto;
+import com.shimmerresearch.sensors.SensorShimmerClock;
+
+/* loaded from: classes3.dex */
+public final class SyntaxProto {
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Constant_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Constant_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Expr_Call_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Expr_Call_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Expr_Comprehension_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Expr_Comprehension_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Expr_CreateList_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Expr_CreateList_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Expr_CreateStruct_Entry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Expr_CreateStruct_Entry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Expr_CreateStruct_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Expr_CreateStruct_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Expr_Ident_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Expr_Ident_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Expr_Select_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Expr_Select_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_Expr_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_Expr_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_ParsedExpr_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_ParsedExpr_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_SourceInfo_MacroCallsEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_SourceInfo_MacroCallsEntry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_SourceInfo_PositionsEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_SourceInfo_PositionsEntry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_SourceInfo_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_SourceInfo_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_google_api_expr_v1alpha1_SourcePosition_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_google_api_expr_v1alpha1_SourcePosition_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n%google/api/expr/v1alpha1/syntax.proto\u0012\u0018google.api.expr.v1alpha1\u001a\u001egoogle/protobuf/duration.proto\u001a\u001cgoogle/protobuf/struct.proto\u001a\u001fgoogle/protobuf/timestamp.proto\"u\n\nParsedExpr\u0012,\n\u0004expr\u0018\u0002 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u00129\n\u000bsource_info\u0018\u0003 \u0001(\u000b2$.google.api.expr.v1alpha1.SourceInfo\"Å\n\n\u0004Expr\u0012\n\n\u0002id\u0018\u0002 \u0001(\u0003\u00128\n\nconst_expr\u0018\u0003 \u0001(\u000b2\".google.api.expr.v1alpha1.ConstantH\u0000\u0012:\n\nident_expr\u0018\u0004 \u0001(\u000b2$.google.api.expr.v1alpha1.Expr.IdentH\u0000\u0012<\n\u000bselect_expr\u0018\u0005 \u0001(\u000b2%.google.api.expr.v1alpha1.Expr.SelectH\u0000\u00128\n\tcall_expr\u0018\u0006 \u0001(\u000b2#.google.api.expr.v1alpha1.Expr.CallH\u0000\u0012>\n\tlist_expr\u0018\u0007 \u0001(\u000b2).google.api.expr.v1alpha1.Expr.CreateListH\u0000\u0012B\n\u000bstruct_expr\u0018\b \u0001(\u000b2+.google.api.expr.v1alpha1.Expr.CreateStructH\u0000\u0012J\n\u0012comprehension_expr\u0018\t \u0001(\u000b2,.google.api.expr.v1alpha1.Expr.ComprehensionH\u0000\u001a\u0015\n\u0005Ident\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\u001a[\n\u0006Select\u0012/\n\u0007operand\u0018\u0001 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u0012\r\n\u0005field\u0018\u0002 \u0001(\t\u0012\u0011\n\ttest_only\u0018\u0003 \u0001(\b\u001av\n\u0004Call\u0012.\n\u0006target\u0018\u0001 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u0012\u0010\n\bfunction\u0018\u0002 \u0001(\t\u0012,\n\u0004args\u0018\u0003 \u0003(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u001a>\n\nCreateList\u00120\n\belements\u0018\u0001 \u0003(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u001a\u0081\u0002\n\fCreateStruct\u0012\u0014\n\fmessage_name\u0018\u0001 \u0001(\t\u0012B\n\u0007entries\u0018\u0002 \u0003(\u000b21.google.api.expr.v1alpha1.Expr.CreateStruct.Entry\u001a\u0096\u0001\n\u0005Entry\u0012\n\n\u0002id\u0018\u0001 \u0001(\u0003\u0012\u0013\n\tfield_key\u0018\u0002 \u0001(\tH\u0000\u00121\n\u0007map_key\u0018\u0003 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.ExprH\u0000\u0012-\n\u0005value\u0018\u0004 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.ExprB\n\n\bkey_kind\u001aµ\u0002\n\rComprehension\u0012\u0010\n\biter_var\u0018\u0001 \u0001(\t\u00122\n\niter_range\u0018\u0002 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u0012\u0010\n\baccu_var\u0018\u0003 \u0001(\t\u00121\n\taccu_init\u0018\u0004 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u00126\n\u000eloop_condition\u0018\u0005 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u00121\n\tloop_step\u0018\u0006 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr\u0012.\n\u0006result\u0018\u0007 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.ExprB\u000b\n\texpr_kind\"Í\u0002\n\bConstant\u00120\n\nnull_value\u0018\u0001 \u0001(\u000e2\u001a.google.protobuf.NullValueH\u0000\u0012\u0014\n\nbool_value\u0018\u0002 \u0001(\bH\u0000\u0012\u0015\n\u000bint64_value\u0018\u0003 \u0001(\u0003H\u0000\u0012\u0016\n\fuint64_value\u0018\u0004 \u0001(\u0004H\u0000\u0012\u0016\n\fdouble_value\u0018\u0005 \u0001(\u0001H\u0000\u0012\u0016\n\fstring_value\u0018\u0006 \u0001(\tH\u0000\u0012\u0015\n\u000bbytes_value\u0018\u0007 \u0001(\fH\u0000\u00127\n\u000eduration_value\u0018\b \u0001(\u000b2\u0019.google.protobuf.DurationB\u0002\u0018\u0001H\u0000\u00129\n\u000ftimestamp_value\u0018\t \u0001(\u000b2\u001a.google.protobuf.TimestampB\u0002\u0018\u0001H\u0000B\u000f\n\rconstant_kind\"ä\u0002\n\nSourceInfo\u0012\u0016\n\u000esyntax_version\u0018\u0001 \u0001(\t\u0012\u0010\n\blocation\u0018\u0002 \u0001(\t\u0012\u0014\n\fline_offsets\u0018\u0003 \u0003(\u0005\u0012F\n\tpositions\u0018\u0004 \u0003(\u000b23.google.api.expr.v1alpha1.SourceInfo.PositionsEntry\u0012I\n\u000bmacro_calls\u0018\u0005 \u0003(\u000b24.google.api.expr.v1alpha1.SourceInfo.MacroCallsEntry\u001a0\n\u000ePositionsEntry\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\u0003\u0012\r\n\u0005value\u0018\u0002 \u0001(\u0005:\u00028\u0001\u001aQ\n\u000fMacroCallsEntry\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\u0003\u0012-\n\u0005value\u0018\u0002 \u0001(\u000b2\u001e.google.api.expr.v1alpha1.Expr:\u00028\u0001\"P\n\u000eSourcePosition\u0012\u0010\n\blocation\u0018\u0001 \u0001(\t\u0012\u000e\n\u0006offset\u0018\u0002 \u0001(\u0005\u0012\f\n\u0004line\u0018\u0003 \u0001(\u0005\u0012\u000e\n\u0006column\u0018\u0004 \u0001(\u0005Bn\n\u001ccom.google.api.expr.v1alpha1B\u000bSyntaxProtoP\u0001Z<google.golang.org/genproto/googleapis/api/expr/v1alpha1;exprø\u0001\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{DurationProto.getDescriptor(), StructProto.getDescriptor(), TimestampProto.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_google_api_expr_v1alpha1_ParsedExpr_descriptor = descriptor2;
+        internal_static_google_api_expr_v1alpha1_ParsedExpr_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Expr", "SourceInfo"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_google_api_expr_v1alpha1_Expr_descriptor = descriptor3;
+        internal_static_google_api_expr_v1alpha1_Expr_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Id", "ConstExpr", "IdentExpr", "SelectExpr", "CallExpr", "ListExpr", "StructExpr", "ComprehensionExpr", "ExprKind"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(0);
+        internal_static_google_api_expr_v1alpha1_Expr_Ident_descriptor = descriptor4;
+        internal_static_google_api_expr_v1alpha1_Expr_Ident_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"Name"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(1);
+        internal_static_google_api_expr_v1alpha1_Expr_Select_descriptor = descriptor5;
+        internal_static_google_api_expr_v1alpha1_Expr_Select_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"Operand", "Field", "TestOnly"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(2);
+        internal_static_google_api_expr_v1alpha1_Expr_Call_descriptor = descriptor6;
+        internal_static_google_api_expr_v1alpha1_Expr_Call_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"Target", "Function", "Args"});
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(3);
+        internal_static_google_api_expr_v1alpha1_Expr_CreateList_descriptor = descriptor7;
+        internal_static_google_api_expr_v1alpha1_Expr_CreateList_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"Elements"});
+        Descriptors.Descriptor descriptor8 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(4);
+        internal_static_google_api_expr_v1alpha1_Expr_CreateStruct_descriptor = descriptor8;
+        internal_static_google_api_expr_v1alpha1_Expr_CreateStruct_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor8, new String[]{"MessageName", "Entries"});
+        Descriptors.Descriptor descriptor9 = (Descriptors.Descriptor) descriptor8.getNestedTypes().get(0);
+        internal_static_google_api_expr_v1alpha1_Expr_CreateStruct_Entry_descriptor = descriptor9;
+        internal_static_google_api_expr_v1alpha1_Expr_CreateStruct_Entry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor9, new String[]{"Id", "FieldKey", "MapKey", "Value", "KeyKind"});
+        Descriptors.Descriptor descriptor10 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(5);
+        internal_static_google_api_expr_v1alpha1_Expr_Comprehension_descriptor = descriptor10;
+        internal_static_google_api_expr_v1alpha1_Expr_Comprehension_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor10, new String[]{"IterVar", "IterRange", "AccuVar", "AccuInit", "LoopCondition", "LoopStep", "Result"});
+        Descriptors.Descriptor descriptor11 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_google_api_expr_v1alpha1_Constant_descriptor = descriptor11;
+        internal_static_google_api_expr_v1alpha1_Constant_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor11, new String[]{"NullValue", "BoolValue", "Int64Value", "Uint64Value", "DoubleValue", "StringValue", "BytesValue", "DurationValue", "TimestampValue", "ConstantKind"});
+        Descriptors.Descriptor descriptor12 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_google_api_expr_v1alpha1_SourceInfo_descriptor = descriptor12;
+        internal_static_google_api_expr_v1alpha1_SourceInfo_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor12, new String[]{"SyntaxVersion", "Location", "LineOffsets", "Positions", "MacroCalls"});
+        Descriptors.Descriptor descriptor13 = (Descriptors.Descriptor) descriptor12.getNestedTypes().get(0);
+        internal_static_google_api_expr_v1alpha1_SourceInfo_PositionsEntry_descriptor = descriptor13;
+        internal_static_google_api_expr_v1alpha1_SourceInfo_PositionsEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor13, new String[]{"Key", "Value"});
+        Descriptors.Descriptor descriptor14 = (Descriptors.Descriptor) descriptor12.getNestedTypes().get(1);
+        internal_static_google_api_expr_v1alpha1_SourceInfo_MacroCallsEntry_descriptor = descriptor14;
+        internal_static_google_api_expr_v1alpha1_SourceInfo_MacroCallsEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor14, new String[]{"Key", "Value"});
+        Descriptors.Descriptor descriptor15 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(4);
+        internal_static_google_api_expr_v1alpha1_SourcePosition_descriptor = descriptor15;
+        internal_static_google_api_expr_v1alpha1_SourcePosition_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor15, new String[]{"Location", SensorShimmerClock.ObjectClusterSensorName.TIMESTAMP_OFFSET, "Line", "Column"});
+        DurationProto.getDescriptor();
+        StructProto.getDescriptor();
+        TimestampProto.getDescriptor();
+    }
+
+    private SyntaxProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+            android:id="@+id/connect_device"
+            android:title="Connect to Shimmer device"/>
+    <item
+            android:id="@+id/start_streaming"
+            android:title="Start streaming selected device"/>
+    <item
+            android:id="@+id/stop_streaming"
+            android:title="Stop streaming selected device"/>
+    <item
+            android:id="@+id/set_sampling_rate"
+            android:title="Set Sampling Rate"/>
+    <item
+            android:id="@+id/data_sync"
+            android:title="Data Sync"/>
+    <item
+            android:id="@+id/erase_data"
+            android:title="Erase data"/>
+    <item
+            android:id="@+id/disable_logging"
+            android:title="Disable logging"/>
+    <item
+            android:id="@+id/disconnect_all_devices"
+            android:title="Disconnect All Devices"/>
+    <item
+            android:id="@+id/enable_write_to_csv"
+            android:title="Enable Write To CSV"/>
+    <item
+            android:id="@+id/disable_write_to_csv"
+            android:title="Disable Write To CSV"/>
+    <item
+            android:id="@+id/low_power_mode"
+            android:title="Low Power Mode"/>
+    <item
+            android:id="@+id/start_sd_logging"
+            android:title="Start Logging Shimmer SD"/>
+    <item
+            android:id="@+id/stop_sd_logging"
+            android:title="Stop Logging Shimmer SD"/>
+    <item
+            android:id="@+id/device_info"
+            android:title="Device Info"/>
+    <item
+            android:id="@+id/privacy_policy"
+            android:title="Privacy Policy"/>
+</menu>

@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/junit/framework/TestListener.java
+// Size: 286 bytes
+// Modified: 2025-10-21 16:32:02.843697400 +0100
+
+package junit.framework;
+
+/* loaded from: classes4.dex */
+public interface TestListener {
+    void addError(Test test, Throwable th);
+
+    void addFailure(Test test, AssertionFailedError assertionFailedError);
+
+    void endTest(Test test);
+
+    void startTest(Test test);
+}

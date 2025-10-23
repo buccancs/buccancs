@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/bluetooth/DataProcessingInterface.java
+// Size: 440 bytes
+// Modified: 2025-10-21 16:32:10.448998700 +0100
+
+package com.shimmerresearch.bluetooth;
+
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+
+/* loaded from: classes2.dex */
+public interface DataProcessingInterface {
+    void initializeProcessData(int i);
+
+    ObjectCluster processData(ObjectCluster objectCluster);
+
+    void updateMapOfAlgorithmModules();
+
+    void updateMapOfAlgorithmModules(ShimmerDevice shimmerDevice);
+}

@@ -1,0 +1,77 @@
+package com.androidplot.xy;
+
+import android.graphics.RectF;
+import com.androidplot.util.ValPixConverter;
+
+/* loaded from: classes.dex */
+public class XYStepCalculator {
+    public static XYStep getStep(XYPlot xYPlot, XYAxisType xYAxisType, RectF rectF, Number number, Number number2) {
+        int i = a.a[xYAxisType.ordinal()];
+        if (i == 1) {
+            return getStep(xYPlot.getDomainStepMode(), rectF.width(), xYPlot.getDomainStepValue(), number, number2);
+        }
+        if (i != 2) {
+            return null;
+        }
+        return getStep(xYPlot.getRangeStepMode(), rectF.height(), xYPlot.getRangeStepValue(), number, number2);
+    }
+
+    public static XYStep getStep(XYStepMode xYStepMode, float f, double d, Number number, Number number2) {
+        double dValPerPix;
+        float f2;
+        float fFloatValue;
+        int i = a.b[xYStepMode.ordinal()];
+        if (i == 1) {
+            float fValPerPix = (float) (d / ValPixConverter.valPerPix(number.doubleValue(), number2.doubleValue(), f));
+            dValPerPix = d;
+            f2 = fValPerPix;
+            fFloatValue = f / fValPerPix;
+        } else if (i == 2) {
+            float fFloatValue2 = new Double(d).floatValue();
+            dValPerPix = ValPixConverter.valPerPix(number.doubleValue(), number2.doubleValue(), f) * fFloatValue2;
+            f2 = fFloatValue2;
+            fFloatValue = f / fFloatValue2;
+        } else if (i != 3) {
+            fFloatValue = 0.0f;
+            dValPerPix = 0.0d;
+            f2 = 0.0f;
+        } else {
+            fFloatValue = new Double(d).floatValue();
+            f2 = f / (fFloatValue - 1.0f);
+            dValPerPix = ValPixConverter.valPerPix(number.doubleValue(), number2.doubleValue(), f) * f2;
+        }
+        return new XYStep(fFloatValue, f2, dValPerPix);
+    }
+
+    static /* synthetic */ class a {
+        static final /* synthetic */ int[] a;
+        static final /* synthetic */ int[] b;
+
+        static {
+            int[] iArr = new int[XYStepMode.values().length];
+            b = iArr;
+            try {
+                iArr[XYStepMode.INCREMENT_BY_VAL.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                b[XYStepMode.INCREMENT_BY_PIXELS.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                b[XYStepMode.SUBDIVIDE.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            int[] iArr2 = new int[XYAxisType.values().length];
+            a = iArr2;
+            try {
+                iArr2[XYAxisType.DOMAIN.ordinal()] = 1;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                a[XYAxisType.RANGE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused5) {
+            }
+        }
+    }
+}

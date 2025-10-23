@@ -1,0 +1,98 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/distribution/AbstractContinuousDistribution.java
+// Size: 4523 bytes
+// Modified: 2025-10-21 16:32:07.873512500 +0100
+
+package org.apache.commons.math.distribution;
+
+import java.io.Serializable;
+import org.apache.commons.math.ConvergenceException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.analysis.solvers.UnivariateRealSolverUtils;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.random.RandomDataImpl;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/distribution/AbstractContinuousDistribution.class */
+public abstract class AbstractContinuousDistribution extends AbstractDistribution implements ContinuousDistribution, Serializable {
+    private static final long serialVersionUID = -38038050983108802L;
+    protected final RandomDataImpl randomData = new RandomDataImpl();
+    private double solverAbsoluteAccuracy = 1.0E-6d;
+
+    protected abstract double getInitialDomain(double d);
+
+    protected abstract double getDomainLowerBound(double d);
+
+    protected abstract double getDomainUpperBound(double d);
+
+    protected AbstractContinuousDistribution() {
+    }
+
+    public double density(double x) throws MathRuntimeException {
+        throw new MathRuntimeException(new UnsupportedOperationException(), LocalizedFormats.NO_DENSITY_FOR_THIS_DISTRIBUTION, new Object[0]);
+    }
+
+    @Override // org.apache.commons.math.distribution.ContinuousDistribution
+    public double inverseCumulativeProbability(final double p) throws MathException {
+        if (p < 0.0d || p > 1.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_SIMPLE, Double.valueOf(p), Double.valueOf(0.0d), Double.valueOf(1.0d));
+        }
+        UnivariateRealFunction rootFindingFunction = new UnivariateRealFunction() { // from class: org.apache.commons.math.distribution.AbstractContinuousDistribution.1
+            @Override // org.apache.commons.math.analysis.UnivariateRealFunction
+            public double value(double x) throws FunctionEvaluationException {
+                try {
+                    double ret = AbstractContinuousDistribution.this.cumulativeProbability(x) - p;
+                    if (Double.isNaN(ret)) {
+                        throw new FunctionEvaluationException(x, LocalizedFormats.CUMULATIVE_PROBABILITY_RETURNED_NAN, Double.valueOf(x), Double.valueOf(p));
+                    }
+                    return ret;
+                } catch (MathException ex) {
+                    throw new FunctionEvaluationException(x, ex.getSpecificPattern(), ex.getGeneralPattern(), ex.getArguments());
+                }
+            }
+        };
+        double lowerBound = getDomainLowerBound(p);
+        double upperBound = getDomainUpperBound(p);
+        try {
+            double[] bracket = UnivariateRealSolverUtils.bracket(rootFindingFunction, getInitialDomain(p), lowerBound, upperBound);
+            double root = UnivariateRealSolverUtils.solve(rootFindingFunction, bracket[0], bracket[1], getSolverAbsoluteAccuracy());
+            return root;
+        } catch (ConvergenceException ex) {
+            if (FastMath.abs(rootFindingFunction.value(lowerBound)) < getSolverAbsoluteAccuracy()) {
+                return lowerBound;
+            }
+            if (FastMath.abs(rootFindingFunction.value(upperBound)) < getSolverAbsoluteAccuracy()) {
+                return upperBound;
+            }
+            throw new MathException(ex);
+        }
+    }
+
+    public void reseedRandomGenerator(long seed) {
+        this.randomData.reSeed(seed);
+    }
+
+    public double sample() throws MathException {
+        return this.randomData.nextInversionDeviate(this);
+    }
+
+    public double[] sample(int sampleSize) throws MathException {
+        if (sampleSize <= 0) {
+            MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_SAMPLE_SIZE, Integer.valueOf(sampleSize));
+        }
+        double[] out = new double[sampleSize];
+        for (int i = 0; i < sampleSize; i++) {
+            out[i] = sample();
+        }
+        return out;
+    }
+
+    protected double getSolverAbsoluteAccuracy() {
+        return this.solverAbsoluteAccuracy;
+    }
+}

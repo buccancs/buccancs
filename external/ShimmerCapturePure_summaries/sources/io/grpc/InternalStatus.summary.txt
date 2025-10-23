@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/InternalStatus.java
+// Size: 316 bytes
+// Modified: 2025-10-21 16:32:06.239705400 +0100
+
+package io.grpc;
+
+import io.grpc.Metadata;
+
+/* loaded from: classes2.dex */
+public final class InternalStatus {
+    public static final Metadata.Key<String> MESSAGE_KEY = Status.MESSAGE_KEY;
+    public static final Metadata.Key<Status> CODE_KEY = Status.CODE_KEY;
+
+    private InternalStatus() {
+    }
+}

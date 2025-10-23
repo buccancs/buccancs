@@ -1,0 +1,16 @@
+package io.grpc.channelz.v1;
+
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface SocketOptionLingerOrBuilder extends MessageOrBuilder {
+    boolean getActive();
+
+    Duration getDuration();
+
+    DurationOrBuilder getDurationOrBuilder();
+
+    boolean hasDuration();
+}

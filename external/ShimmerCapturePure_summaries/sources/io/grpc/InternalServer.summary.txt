@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/InternalServer.java
+// Size: 248 bytes
+// Modified: 2025-10-21 16:32:03.947478400 +0100
+
+package io.grpc;
+
+import io.grpc.Context;
+
+/* loaded from: classes2.dex */
+public class InternalServer {
+    public static final Context.Key<Server> SERVER_CONTEXT_KEY = Server.SERVER_CONTEXT_KEY;
+
+    private InternalServer() {
+    }
+}

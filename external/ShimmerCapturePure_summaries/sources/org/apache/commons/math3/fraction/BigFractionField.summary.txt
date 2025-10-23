@@ -1,0 +1,47 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/fraction/BigFractionField.java
+// Size: 1171 bytes
+// Modified: 2025-10-21 16:32:06.503243000 +0100
+
+package org.apache.commons.math3.fraction;
+
+import java.io.Serializable;
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
+
+/* loaded from: classes5.dex */
+public class BigFractionField implements Field<BigFraction>, Serializable {
+    private static final long serialVersionUID = -1699294557189741703L;
+
+    private BigFractionField() {
+    }
+
+    public static BigFractionField getInstance() {
+        return LazyHolder.INSTANCE;
+    }
+
+    @Override // org.apache.commons.math3.Field
+    public BigFraction getOne() {
+        return BigFraction.ONE;
+    }
+
+    @Override // org.apache.commons.math3.Field
+    public BigFraction getZero() {
+        return BigFraction.ZERO;
+    }
+
+    @Override // org.apache.commons.math3.Field
+    public Class<? extends FieldElement<BigFraction>> getRuntimeClass() {
+        return BigFraction.class;
+    }
+
+    private static class LazyHolder {
+        private static final BigFractionField INSTANCE = new BigFractionField();
+
+        private LazyHolder() {
+        }
+    }
+
+    private Object readResolve() {
+        return LazyHolder.INSTANCE;
+    }
+}

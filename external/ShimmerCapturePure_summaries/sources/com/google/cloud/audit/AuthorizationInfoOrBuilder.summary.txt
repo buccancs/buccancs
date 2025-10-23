@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/cloud/audit/AuthorizationInfoOrBuilder.java
+// Size: 395 bytes
+// Modified: 2025-10-21 16:32:00.117059900 +0100
+
+package com.google.cloud.audit;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes.dex */
+public interface AuthorizationInfoOrBuilder extends MessageOrBuilder {
+    boolean getGranted();
+
+    String getPermission();
+
+    ByteString getPermissionBytes();
+
+    String getResource();
+
+    ByteString getResourceBytes();
+}

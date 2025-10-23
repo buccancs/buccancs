@@ -1,0 +1,90 @@
+package io.grpc.xds.internal.sds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.Server;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.xds.XdsClientWrapperForServerSds;
+
+import java.io.IOException;
+import java.net.SocketAddress;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+/* loaded from: classes3.dex */
+public final class ServerWrapperForXds extends Server {
+    private final Server delegate;
+    private final XdsClientWrapperForServerSds xdsClientWrapperForServerSds;
+
+    ServerWrapperForXds(Server server, XdsClientWrapperForServerSds xdsClientWrapperForServerSds) {
+        this.delegate = (Server) Preconditions.checkNotNull(server, "delegate");
+        this.xdsClientWrapperForServerSds = (XdsClientWrapperForServerSds) Preconditions.checkNotNull(xdsClientWrapperForServerSds, "xdsClientWrapperForServerSds");
+    }
+
+    @Override // io.grpc.Server
+    public Server start() throws IOException, XdsClientWrapperForServerSds.ManagementServerNotFoundException {
+        this.delegate.start();
+        if (!this.xdsClientWrapperForServerSds.hasXdsClient()) {
+            this.xdsClientWrapperForServerSds.createXdsClientAndStart();
+        }
+        return this;
+    }
+
+    @Override // io.grpc.Server
+    public Server shutdown() {
+        this.xdsClientWrapperForServerSds.shutdown();
+        this.delegate.shutdown();
+        return this;
+    }
+
+    @Override // io.grpc.Server
+    public Server shutdownNow() {
+        this.xdsClientWrapperForServerSds.shutdown();
+        this.delegate.shutdownNow();
+        return this;
+    }
+
+    @Override // io.grpc.Server
+    public boolean isShutdown() {
+        return this.delegate.isShutdown();
+    }
+
+    @Override // io.grpc.Server
+    public boolean isTerminated() {
+        return this.delegate.isTerminated();
+    }
+
+    @Override // io.grpc.Server
+    public boolean awaitTermination(long j, TimeUnit timeUnit) throws InterruptedException {
+        return this.delegate.awaitTermination(j, timeUnit);
+    }
+
+    @Override // io.grpc.Server
+    public void awaitTermination() throws InterruptedException {
+        this.delegate.awaitTermination();
+    }
+
+    @Override // io.grpc.Server
+    public int getPort() {
+        return this.delegate.getPort();
+    }
+
+    @Override // io.grpc.Server
+    public List<? extends SocketAddress> getListenSockets() {
+        return this.delegate.getListenSockets();
+    }
+
+    @Override // io.grpc.Server
+    public List<ServerServiceDefinition> getServices() {
+        return this.delegate.getServices();
+    }
+
+    @Override // io.grpc.Server
+    public List<ServerServiceDefinition> getImmutableServices() {
+        return this.delegate.getImmutableServices();
+    }
+
+    @Override // io.grpc.Server
+    public List<ServerServiceDefinition> getMutableServices() {
+        return this.delegate.getMutableServices();
+    }
+}

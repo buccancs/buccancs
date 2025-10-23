@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/anssi/ANSSIObjectIdentifiers.java
+// Size: 283 bytes
+// Modified: 2025-10-21 16:32:04.775009400 +0100
+
+package org.bouncycastle.asn1.anssi;
+
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+
+/* loaded from: classes5.dex */
+public interface ANSSIObjectIdentifiers {
+    public static final ASN1ObjectIdentifier FRP256v1 = new ASN1ObjectIdentifier("1.2.250.1.223.101.256.1");
+}

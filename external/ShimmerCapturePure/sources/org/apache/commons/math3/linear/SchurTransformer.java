@@ -1,0 +1,256 @@
+package org.apache.commons.math3.linear;
+
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.Precision;
+
+/* loaded from: classes5.dex */
+class SchurTransformer {
+    private static final int MAX_ITERATIONS = 100;
+    private final double epsilon = Precision.EPSILON;
+    private final double[][] matrixP;
+    private final double[][] matrixT;
+    private RealMatrix cachedP;
+    private RealMatrix cachedPt;
+    private RealMatrix cachedT;
+
+    SchurTransformer(RealMatrix realMatrix) {
+        if (!realMatrix.isSquare()) {
+            throw new NonSquareMatrixException(realMatrix.getRowDimension(), realMatrix.getColumnDimension());
+        }
+        HessenbergTransformer hessenbergTransformer = new HessenbergTransformer(realMatrix);
+        this.matrixT = hessenbergTransformer.getH().getData();
+        this.matrixP = hessenbergTransformer.getP().getData();
+        this.cachedT = null;
+        this.cachedP = null;
+        this.cachedPt = null;
+        transform();
+    }
+
+    public RealMatrix getP() {
+        if (this.cachedP == null) {
+            this.cachedP = MatrixUtils.createRealMatrix(this.matrixP);
+        }
+        return this.cachedP;
+    }
+
+    public RealMatrix getPT() {
+        if (this.cachedPt == null) {
+            this.cachedPt = getP().transpose();
+        }
+        return this.cachedPt;
+    }
+
+    public RealMatrix getT() {
+        if (this.cachedT == null) {
+            this.cachedT = MatrixUtils.createRealMatrix(this.matrixT);
+        }
+        return this.cachedT;
+    }
+
+    private void transform() {
+        double d;
+        int length = this.matrixT.length;
+        double norm = getNorm();
+        ShiftInfo shiftInfo = new ShiftInfo();
+        int i = length - 1;
+        int i2 = i;
+        int i3 = 0;
+        while (i2 >= 0) {
+            int iFindSmallSubDiagonalElement = findSmallSubDiagonalElement(i2, norm);
+            if (iFindSmallSubDiagonalElement == i2) {
+                double[] dArr = this.matrixT[i2];
+                dArr[i2] = dArr[i2] + shiftInfo.exShift;
+                i2--;
+                d = norm;
+            } else {
+                int i4 = i2 - 1;
+                if (iFindSmallSubDiagonalElement == i4) {
+                    double[][] dArr2 = this.matrixT;
+                    double[] dArr3 = dArr2[i4];
+                    double d2 = dArr3[i4];
+                    double[] dArr4 = dArr2[i2];
+                    double d3 = dArr4[i2];
+                    double d4 = (d2 - d3) / 2.0d;
+                    double d5 = (d4 * d4) + (dArr4[i4] * dArr3[i2]);
+                    d = norm;
+                    dArr4[i2] = d3 + shiftInfo.exShift;
+                    double[] dArr5 = this.matrixT[i4];
+                    dArr5[i4] = dArr5[i4] + shiftInfo.exShift;
+                    if (d5 >= 0.0d) {
+                        double dSqrt = FastMath.sqrt(FastMath.abs(d5));
+                        double d6 = d4 >= 0.0d ? d4 + dSqrt : d4 - dSqrt;
+                        double d7 = this.matrixT[i2][i4];
+                        double dAbs = FastMath.abs(d7) + FastMath.abs(d6);
+                        double d8 = d7 / dAbs;
+                        double d9 = d6 / dAbs;
+                        double dSqrt2 = FastMath.sqrt((d8 * d8) + (d9 * d9));
+                        double d10 = d8 / dSqrt2;
+                        double d11 = d9 / dSqrt2;
+                        for (int i5 = i4; i5 < length; i5++) {
+                            double[][] dArr6 = this.matrixT;
+                            double[] dArr7 = dArr6[i4];
+                            double d12 = dArr7[i5];
+                            double[] dArr8 = dArr6[i2];
+                            dArr7[i5] = (d11 * d12) + (dArr8[i5] * d10);
+                            dArr8[i5] = (dArr8[i5] * d11) - (d12 * d10);
+                        }
+                        for (int i6 = 0; i6 <= i2; i6++) {
+                            double[] dArr9 = this.matrixT[i6];
+                            double d13 = dArr9[i4];
+                            dArr9[i4] = (d11 * d13) + (dArr9[i2] * d10);
+                            dArr9[i2] = (dArr9[i2] * d11) - (d13 * d10);
+                        }
+                        for (int i7 = 0; i7 <= i; i7++) {
+                            double[] dArr10 = this.matrixP[i7];
+                            double d14 = dArr10[i4];
+                            dArr10[i4] = (d11 * d14) + (dArr10[i2] * d10);
+                            dArr10[i2] = (dArr10[i2] * d11) - (d14 * d10);
+                        }
+                    }
+                    i2 -= 2;
+                } else {
+                    d = norm;
+                    computeShift(iFindSmallSubDiagonalElement, i2, i3, shiftInfo);
+                    int i8 = i3 + 1;
+                    if (i8 > 100) {
+                        throw new MaxCountExceededException(LocalizedFormats.CONVERGENCE_FAILED, 100, new Object[0]);
+                    }
+                    double[] dArr11 = new double[3];
+                    performDoubleQRStep(iFindSmallSubDiagonalElement, initQRStep(iFindSmallSubDiagonalElement, i2, shiftInfo, dArr11), i2, shiftInfo, dArr11);
+                    i3 = i8;
+                    norm = d;
+                }
+            }
+            i3 = 0;
+            norm = d;
+        }
+    }
+
+    private double getNorm() {
+        double dAbs = 0.0d;
+        for (int i = 0; i < this.matrixT.length; i++) {
+            int iMax = FastMath.max(i - 1, 0);
+            while (true) {
+                double[][] dArr = this.matrixT;
+                if (iMax < dArr.length) {
+                    dAbs += FastMath.abs(dArr[i][iMax]);
+                    iMax++;
+                }
+            }
+        }
+        return dAbs;
+    }
+
+    private int findSmallSubDiagonalElement(int i, double d) {
+        while (i > 0) {
+            int i2 = i - 1;
+            double dAbs = FastMath.abs(this.matrixT[i2][i2]) + FastMath.abs(this.matrixT[i][i]);
+            if (dAbs == 0.0d) {
+                dAbs = d;
+            }
+            if (FastMath.abs(this.matrixT[i][i2]) < this.epsilon * dAbs) {
+                break;
+            }
+            i--;
+        }
+        return i;
+    }
+
+    private void computeShift(int i, int i2, int i3, ShiftInfo shiftInfo) {
+        shiftInfo.x = this.matrixT[i2][i2];
+        shiftInfo.w = 0.0d;
+        shiftInfo.y = 0.0d;
+        if (i < i2) {
+            int i4 = i2 - 1;
+            shiftInfo.y = this.matrixT[i4][i4];
+            double[][] dArr = this.matrixT;
+            shiftInfo.w = dArr[i2][i4] * dArr[i4][i2];
+        }
+        if (i3 == 10) {
+            shiftInfo.exShift += shiftInfo.x;
+            for (int i5 = 0; i5 <= i2; i5++) {
+                double[] dArr2 = this.matrixT[i5];
+                dArr2[i5] = dArr2[i5] - shiftInfo.x;
+            }
+            int i6 = i2 - 1;
+            double dAbs = FastMath.abs(this.matrixT[i2][i6]) + FastMath.abs(this.matrixT[i6][i2 - 2]);
+            double d = 0.75d * dAbs;
+            shiftInfo.x = d;
+            shiftInfo.y = d;
+            shiftInfo.w = (-0.4375d) * dAbs * dAbs;
+        }
+        if (i3 == 30) {
+            double d2 = (shiftInfo.y - shiftInfo.x) / 2.0d;
+            double d3 = (d2 * d2) + shiftInfo.w;
+            if (d3 > 0.0d) {
+                double dSqrt = FastMath.sqrt(d3);
+                if (shiftInfo.y < shiftInfo.x) {
+                    dSqrt = -dSqrt;
+                }
+                double d4 = shiftInfo.x - (shiftInfo.w / (((shiftInfo.y - shiftInfo.x) / 2.0d) + dSqrt));
+                for (int i7 = 0; i7 <= i2; i7++) {
+                    double[] dArr3 = this.matrixT[i7];
+                    dArr3[i7] = dArr3[i7] - d4;
+                }
+                shiftInfo.exShift += d4;
+                shiftInfo.w = 0.964d;
+                shiftInfo.y = 0.964d;
+                shiftInfo.x = 0.964d;
+            }
+        }
+    }
+
+    private int initQRStep(int i, int i2, ShiftInfo shiftInfo, double[] dArr) {
+        int i3 = i2 - 2;
+        while (i3 >= i) {
+            double d = this.matrixT[i3][i3];
+            double d2 = shiftInfo.x - d;
+            double d3 = shiftInfo.y - d;
+            double d4 = (d2 * d3) - shiftInfo.w;
+            double[][] dArr2 = this.matrixT;
+            int i4 = i3 + 1;
+            double[] dArr3 = dArr2[i4];
+            double d5 = d4 / dArr3[i3];
+            double[] dArr4 = dArr2[i3];
+            dArr[0] = d5 + dArr4[i4];
+            dArr[1] = ((dArr3[i4] - d) - d2) - d3;
+            dArr[2] = dArr2[i3 + 2][i4];
+            if (i3 == i) {
+                break;
+            }
+            int i5 = i3 - 1;
+            if (FastMath.abs(dArr4[i5]) * (FastMath.abs(dArr[1]) + FastMath.abs(dArr[2])) < this.epsilon * FastMath.abs(dArr[0]) * (FastMath.abs(this.matrixT[i5][i5]) + FastMath.abs(d) + FastMath.abs(this.matrixT[i4][i4]))) {
+                break;
+            }
+            i3--;
+        }
+        return i3;
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:19:0x0088  */
+    /* JADX WARN: Removed duplicated region for block: B:22:0x008d  */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x019b  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void performDoubleQRStep(int r29, int r30, int r31, org.apache.commons.math3.linear.SchurTransformer.ShiftInfo r32, double[] r33) {
+        /*
+            Method dump skipped, instructions count: 451
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.linear.SchurTransformer.performDoubleQRStep(int, int, int, org.apache.commons.math3.linear.SchurTransformer$ShiftInfo, double[]):void");
+    }
+
+    private static class ShiftInfo {
+        double exShift;
+        double w;
+        double x;
+        double y;
+
+        private ShiftInfo() {
+        }
+    }
+}

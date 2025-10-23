@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/crypto/mceliece/McElieceCCA2KeyParameters.java
+// Size: 441 bytes
+// Modified: 2025-10-21 16:32:01.904240000 +0100
+
+package org.bouncycastle.pqc.crypto.mceliece;
+
+import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
+
+/* loaded from: classes5.dex */
+public class McElieceCCA2KeyParameters extends AsymmetricKeyParameter {
+    private String params;
+
+    public McElieceCCA2KeyParameters(boolean z, String str) {
+        super(z);
+        this.params = str;
+    }
+
+    public String getDigest() {
+        return this.params;
+    }
+}

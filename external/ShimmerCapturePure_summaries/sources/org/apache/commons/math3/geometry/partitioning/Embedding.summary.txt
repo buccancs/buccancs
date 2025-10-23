@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/geometry/partitioning/Embedding.java
+// Size: 342 bytes
+// Modified: 2025-10-21 16:32:02.897872000 +0100
+
+package org.apache.commons.math3.geometry.partitioning;
+
+import org.apache.commons.math3.geometry.Point;
+import org.apache.commons.math3.geometry.Space;
+
+/* loaded from: classes5.dex */
+public interface Embedding<S extends Space, T extends Space> {
+    Point<S> toSpace(Point<T> point);
+
+    Point<T> toSubSpace(Point<S> point);
+}

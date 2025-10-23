@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/exception/DeviceNotPairedException.java
+// Size: 612 bytes
+// Modified: 2025-10-21 16:32:00.202596500 +0100
+
+package com.shimmerresearch.exception;
+
+/* loaded from: classes2.dex */
+public class DeviceNotPairedException extends RuntimeException {
+    String btAddress;
+
+    public String getBluetoothAddress() {
+        return this.btAddress;
+    }
+
+    public DeviceNotPairedException(String str) {
+        this.btAddress = str;
+    }
+
+    public DeviceNotPairedException(String str, String str2) {
+        super(str2);
+        this.btAddress = str;
+    }
+
+    public DeviceNotPairedException(String str, String str2, Throwable th) {
+        super(str2, th);
+        this.btAddress = str;
+    }
+}

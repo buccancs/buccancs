@@ -1,0 +1,155 @@
+package com.shimmerresearch.shimmer3.communication;
+
+import com.shimmerresearch.driverUtilities.ByteUtils;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.exceptions.ShimmerException;
+import com.shimmerresearch.verisense.communication.AbstractByteCommunication;
+import com.shimmerresearch.verisense.communication.ByteCommunicationListener;
+
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+/* loaded from: classes2.dex */
+public class SpeedTestProtocol {
+    static ConcurrentLinkedQueue<Byte> mQ = new ConcurrentLinkedQueue<>();
+    final byte[] ShimmerStopTestSignalCommand = {-92, 0};
+    final byte[] ShimmerStartTestSignalCommand = {-92, 1};
+    public boolean TestFirstByteReceived = false;
+    public byte[] OldTestData = new byte[0];
+    protected long TestSignalTSStart = 0;
+    protected boolean TestSignalEnabled = false;
+    AbstractByteCommunication mByteCommunication;
+    SpeedTestResult mSpeedTestListener;
+    long TestSignalTotalNumberOfBytes = 0;
+    long TestSignalTotalEffectiveNumberOfBytes = 0;
+    long NumberofBytesDropped = 0;
+    long NumberofNumbersSkipped = 0;
+
+    public SpeedTestProtocol(AbstractByteCommunication abstractByteCommunication) {
+        this.mByteCommunication = abstractByteCommunication;
+        abstractByteCommunication.setByteCommunicationListener(new ByteCommunicationListener() { // from class: com.shimmerresearch.shimmer3.communication.SpeedTestProtocol.1
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventConnected() {
+                if (SpeedTestProtocol.this.mSpeedTestListener != null) {
+                    SpeedTestProtocol.this.mSpeedTestListener.onConnected();
+                }
+            }
+
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventDisconnected() {
+                if (SpeedTestProtocol.this.mSpeedTestListener != null) {
+                    SpeedTestProtocol.this.mSpeedTestListener.onDisconnected();
+                }
+            }
+
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventNewBytesReceived(byte[] bArr) {
+                for (byte b : bArr) {
+                    SpeedTestProtocol.mQ.add(Byte.valueOf(b));
+                }
+            }
+        });
+    }
+
+    public static void main(String[] strArr) {
+    }
+
+    public void setListener(SpeedTestResult speedTestResult) {
+        this.mSpeedTestListener = speedTestResult;
+    }
+
+    public void connect() throws ShimmerException {
+        this.mByteCommunication.connect();
+    }
+
+    public void disconnect() throws ShimmerException {
+        this.mByteCommunication.disconnect();
+    }
+
+    public void startSpeedTest() {
+        this.mByteCommunication.writeBytes(this.ShimmerStartTestSignalCommand);
+        new ProcessingThread(this).start();
+        this.OldTestData = new byte[0];
+        this.TestFirstByteReceived = false;
+        this.TestSignalTotalNumberOfBytes = 0L;
+        this.TestSignalTSStart = System.currentTimeMillis();
+        this.TestSignalEnabled = true;
+    }
+
+    public void stopSpeedTest() {
+        this.mByteCommunication.writeBytes(this.ShimmerStopTestSignalCommand);
+        this.OldTestData = new byte[0];
+        this.TestFirstByteReceived = false;
+        this.TestSignalTotalNumberOfBytes = 0L;
+        this.TestSignalTotalEffectiveNumberOfBytes = 0L;
+        this.NumberofBytesDropped = 0L;
+        this.TestSignalEnabled = false;
+    }
+
+    public interface SpeedTestResult {
+        void onConnected();
+
+        void onDisconnected();
+
+        void onNewResult(String str);
+    }
+
+    public class ProcessingThread extends Thread {
+        protected SpeedTestProtocol mProtocol;
+
+        public ProcessingThread(SpeedTestProtocol speedTestProtocol) {
+            this.mProtocol = speedTestProtocol;
+        }
+
+        @Override // java.lang.Thread, java.lang.Runnable
+        public void run() {
+            int i;
+            int i2 = 0;
+            while (true) {
+                int size = SpeedTestProtocol.mQ.size();
+                if (size > 0) {
+                    byte[] bArrRemoveFirstByte = new byte[size];
+                    for (int i3 = 0; i3 < size; i3++) {
+                        bArrRemoveFirstByte[i3] = SpeedTestProtocol.mQ.poll().byteValue();
+                    }
+                    System.out.println(UtilShimmer.bytesToHexString(bArrRemoveFirstByte));
+                    if (!this.mProtocol.TestFirstByteReceived) {
+                        SpeedTestProtocol.this.TestFirstByteReceived = true;
+                        bArrRemoveFirstByte = ByteUtils.removeFirstByte(bArrRemoveFirstByte);
+                        System.out.println(UtilShimmer.bytesToHexString(bArrRemoveFirstByte));
+                    }
+                    SpeedTestProtocol.this.TestSignalTotalNumberOfBytes += bArrRemoveFirstByte.length;
+                    byte[] bArrJoinArrays = ByteUtils.joinArrays(SpeedTestProtocol.this.OldTestData, bArrRemoveFirstByte);
+                    while (bArrJoinArrays.length >= 6) {
+                        if (bArrJoinArrays[0] == -91 && bArrJoinArrays[5] == -91) {
+                            byte[] bArr = new byte[5];
+                            System.arraycopy(bArrJoinArrays, 0, bArr, 0, 5);
+                            SpeedTestProtocol.this.TestSignalTotalEffectiveNumberOfBytes += 5;
+                            byte[] bArr2 = new byte[4];
+                            System.arraycopy(bArr, 1, bArr2, 0, 4);
+                            int i4 = ByteBuffer.wrap(bArr2, 0, 4).order(ByteOrder.LITTLE_ENDIAN).getInt();
+                            bArrJoinArrays = ByteUtils.removeFirstBytes(bArrJoinArrays, 5);
+                            if (i2 != 0 && (i = i4 - i2) != 1) {
+                                SpeedTestProtocol.this.NumberofNumbersSkipped += i;
+                            }
+                            i2 = i4;
+                        } else {
+                            bArrJoinArrays = ByteUtils.removeFirstByte(bArrJoinArrays);
+                            SpeedTestProtocol.this.NumberofBytesDropped++;
+                        }
+                    }
+                    long jCurrentTimeMillis = (long) ((System.currentTimeMillis() - SpeedTestProtocol.this.TestSignalTSStart) / 1000.0d);
+                    if (jCurrentTimeMillis != 0) {
+                        String str = "Effective Throughput (bytes per second): " + (SpeedTestProtocol.this.TestSignalTotalEffectiveNumberOfBytes / jCurrentTimeMillis) + ", Number of Bytes Dropped: " + SpeedTestProtocol.this.NumberofBytesDropped + ", Numbers Skipped: " + SpeedTestProtocol.this.NumberofNumbersSkipped + ", (Duration S): " + jCurrentTimeMillis;
+                        System.out.println(str);
+                        if (SpeedTestProtocol.this.mSpeedTestListener != null) {
+                            SpeedTestProtocol.this.mSpeedTestListener.onNewResult(str);
+                        }
+                    }
+                    SpeedTestProtocol.this.OldTestData = bArrJoinArrays;
+                }
+            }
+        }
+    }
+}

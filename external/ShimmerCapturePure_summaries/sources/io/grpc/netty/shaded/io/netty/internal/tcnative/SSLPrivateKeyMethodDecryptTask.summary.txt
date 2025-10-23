@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/internal/tcnative/SSLPrivateKeyMethodDecryptTask.java
+// Size: 641 bytes
+// Modified: 2025-10-21 16:32:03.392019400 +0100
+
+package io.grpc.netty.shaded.io.netty.internal.tcnative;
+
+/* loaded from: classes3.dex */
+final class SSLPrivateKeyMethodDecryptTask extends SSLPrivateKeyMethodTask {
+    private final byte[] input;
+
+    SSLPrivateKeyMethodDecryptTask(long j, byte[] bArr, SSLPrivateKeyMethod sSLPrivateKeyMethod) {
+        super(j, sSLPrivateKeyMethod);
+        this.input = bArr;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.internal.tcnative.SSLPrivateKeyMethodTask
+    protected byte[] runTask(long j, SSLPrivateKeyMethod sSLPrivateKeyMethod) throws Exception {
+        return sSLPrivateKeyMethod.decrypt(j, this.input);
+    }
+}

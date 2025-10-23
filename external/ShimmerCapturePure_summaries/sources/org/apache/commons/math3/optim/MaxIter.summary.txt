@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optim/MaxIter.java
+// Size: 578 bytes
+// Modified: 2025-10-21 16:32:03.553674800 +0100
+
+package org.apache.commons.math3.optim;
+
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+
+/* loaded from: classes5.dex */
+public class MaxIter implements OptimizationData {
+    private final int maxIter;
+
+    public int getMaxIter() {
+        return this.maxIter;
+    }
+
+    public MaxIter(int i) {
+        if (i <= 0) {
+            throw new NotStrictlyPositiveException(Integer.valueOf(i));
+        }
+        this.maxIter = i;
+    }
+
+    public static MaxIter unlimited() {
+        return new MaxIter(Integer.MAX_VALUE);
+    }
+}

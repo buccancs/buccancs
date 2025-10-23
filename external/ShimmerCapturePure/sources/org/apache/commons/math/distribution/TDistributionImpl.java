@@ -1,0 +1,130 @@
+package org.apache.commons.math.distribution;
+
+import java.io.Serializable;
+
+import org.apache.commons.math.MathException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.special.Beta;
+import org.apache.commons.math.special.Gamma;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/distribution/TDistributionImpl.class */
+public class TDistributionImpl extends AbstractContinuousDistribution implements TDistribution, Serializable {
+    public static final double DEFAULT_INVERSE_ABSOLUTE_ACCURACY = 1.0E-9d;
+    private static final long serialVersionUID = -5852615386664158222L;
+    private final double solverAbsoluteAccuracy;
+    private double degreesOfFreedom;
+
+    public TDistributionImpl(double degreesOfFreedom, double inverseCumAccuracy) {
+        setDegreesOfFreedomInternal(degreesOfFreedom);
+        this.solverAbsoluteAccuracy = inverseCumAccuracy;
+    }
+
+    public TDistributionImpl(double degreesOfFreedom) {
+        this(degreesOfFreedom, 1.0E-9d);
+    }
+
+    private void setDegreesOfFreedomInternal(double newDegreesOfFreedom) {
+        if (newDegreesOfFreedom <= 0.0d) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_DEGREES_OF_FREEDOM, Double.valueOf(newDegreesOfFreedom));
+        }
+        this.degreesOfFreedom = newDegreesOfFreedom;
+    }
+
+    @Override // org.apache.commons.math.distribution.TDistribution
+    public double getDegreesOfFreedom() {
+        return this.degreesOfFreedom;
+    }
+
+    @Override // org.apache.commons.math.distribution.TDistribution
+    @Deprecated
+    public void setDegreesOfFreedom(double degreesOfFreedom) {
+        setDegreesOfFreedomInternal(degreesOfFreedom);
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    public double density(double x) {
+        double n = this.degreesOfFreedom;
+        double nPlus1Over2 = (n + 1.0d) / 2.0d;
+        return FastMath.exp(((Gamma.logGamma(nPlus1Over2) - (0.5d * (FastMath.log(3.141592653589793d) + FastMath.log(n)))) - Gamma.logGamma(n / 2.0d)) - (nPlus1Over2 * FastMath.log(1.0d + ((x * x) / n))));
+    }
+
+    @Override // org.apache.commons.math.distribution.Distribution
+    public double cumulativeProbability(double x) throws MathException {
+        double ret;
+        if (x == 0.0d) {
+            ret = 0.5d;
+        } else {
+            double t = Beta.regularizedBeta(this.degreesOfFreedom / (this.degreesOfFreedom + (x * x)), 0.5d * this.degreesOfFreedom, 0.5d);
+            if (x < 0.0d) {
+                ret = 0.5d * t;
+            } else {
+                ret = 1.0d - (0.5d * t);
+            }
+        }
+        return ret;
+    }
+
+    @Override
+    // org.apache.commons.math.distribution.AbstractContinuousDistribution, org.apache.commons.math.distribution.ContinuousDistribution
+    public double inverseCumulativeProbability(double p) throws MathException {
+        if (p == 0.0d) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        if (p == 1.0d) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return super.inverseCumulativeProbability(p);
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainLowerBound(double p) {
+        return -1.7976931348623157E308d;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getDomainUpperBound(double p) {
+        return Double.MAX_VALUE;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getInitialDomain(double p) {
+        return 0.0d;
+    }
+
+    @Override // org.apache.commons.math.distribution.AbstractContinuousDistribution
+    protected double getSolverAbsoluteAccuracy() {
+        return this.solverAbsoluteAccuracy;
+    }
+
+    public double getSupportLowerBound() {
+        return Double.NEGATIVE_INFINITY;
+    }
+
+    public double getSupportUpperBound() {
+        return Double.POSITIVE_INFINITY;
+    }
+
+    public double getNumericalMean() {
+        double df = getDegreesOfFreedom();
+        if (df > 1.0d) {
+            return 0.0d;
+        }
+        return Double.NaN;
+    }
+
+    public double getNumericalVariance() {
+        double df = getDegreesOfFreedom();
+        if (df > 2.0d) {
+            return df / (df - 2.0d);
+        }
+        if (df > 1.0d && df <= 2.0d) {
+            return Double.POSITIVE_INFINITY;
+        }
+        return Double.NaN;
+    }
+}

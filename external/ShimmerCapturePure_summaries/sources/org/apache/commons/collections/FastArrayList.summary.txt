@@ -1,0 +1,1049 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/FastArrayList.java
+// Size: 35917 bytes
+// Modified: 2025-10-21 16:32:00.599806900 +0100
+
+package org.apache.commons.collections;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
+
+/* loaded from: classes5.dex */
+public class FastArrayList extends ArrayList {
+    protected boolean fast = false;
+    protected ArrayList list;
+
+    public boolean getFast() {
+        return this.fast;
+    }
+
+    public void setFast(boolean z) {
+        this.fast = z;
+    }
+
+    public FastArrayList() {
+        this.list = null;
+        this.list = new ArrayList();
+    }
+
+    public FastArrayList(int i) {
+        this.list = null;
+        this.list = new ArrayList(i);
+    }
+
+    public FastArrayList(Collection collection) {
+        this.list = null;
+        this.list = new ArrayList(collection);
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public boolean add(Object obj) {
+        boolean zAdd;
+        boolean zAdd2;
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                zAdd2 = arrayList.add(obj);
+                this.list = arrayList;
+            }
+            return zAdd2;
+        }
+        synchronized (this.list) {
+            zAdd = this.list.add(obj);
+        }
+        return zAdd;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public void add(int i, Object obj) {
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                arrayList.add(i, obj);
+                this.list = arrayList;
+            }
+            return;
+        }
+        synchronized (this.list) {
+            this.list.add(i, obj);
+        }
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public boolean addAll(Collection collection) {
+        boolean zAddAll;
+        boolean zAddAll2;
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                zAddAll2 = arrayList.addAll(collection);
+                this.list = arrayList;
+            }
+            return zAddAll2;
+        }
+        synchronized (this.list) {
+            zAddAll = this.list.addAll(collection);
+        }
+        return zAddAll;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public boolean addAll(int i, Collection collection) {
+        boolean zAddAll;
+        boolean zAddAll2;
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                zAddAll2 = arrayList.addAll(i, collection);
+                this.list = arrayList;
+            }
+            return zAddAll2;
+        }
+        synchronized (this.list) {
+            zAddAll = this.list.addAll(i, collection);
+        }
+        return zAddAll;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public void clear() {
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                arrayList.clear();
+                this.list = arrayList;
+            }
+            return;
+        }
+        synchronized (this.list) {
+            this.list.clear();
+        }
+    }
+
+    @Override // java.util.ArrayList
+    public Object clone() {
+        FastArrayList fastArrayList;
+        FastArrayList fastArrayList2;
+        if (this.fast) {
+            fastArrayList2 = new FastArrayList(this.list);
+        } else {
+            synchronized (this.list) {
+                fastArrayList = new FastArrayList(this.list);
+            }
+            fastArrayList2 = fastArrayList;
+        }
+        fastArrayList2.setFast(getFast());
+        return fastArrayList2;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public boolean contains(Object obj) {
+        boolean zContains;
+        if (this.fast) {
+            return this.list.contains(obj);
+        }
+        synchronized (this.list) {
+            zContains = this.list.contains(obj);
+        }
+        return zContains;
+    }
+
+    @Override // java.util.AbstractCollection, java.util.Collection, java.util.List
+    public boolean containsAll(Collection collection) {
+        boolean zContainsAll;
+        if (this.fast) {
+            return this.list.containsAll(collection);
+        }
+        synchronized (this.list) {
+            zContainsAll = this.list.containsAll(collection);
+        }
+        return zContainsAll;
+    }
+
+    @Override // java.util.ArrayList
+    public void ensureCapacity(int i) {
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                arrayList.ensureCapacity(i);
+                this.list = arrayList;
+            }
+            return;
+        }
+        synchronized (this.list) {
+            this.list.ensureCapacity(i);
+        }
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.Collection, java.util.List
+    public boolean equals(Object obj) {
+        boolean z = true;
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof List)) {
+            return false;
+        }
+        List list = (List) obj;
+        if (this.fast) {
+            ListIterator listIterator = this.list.listIterator();
+            ListIterator listIterator2 = list.listIterator();
+            while (listIterator.hasNext() && listIterator2.hasNext()) {
+                Object next = listIterator.next();
+                Object next2 = listIterator2.next();
+                if (next == null) {
+                    if (next2 != null) {
+                        return false;
+                    }
+                } else if (!next.equals(next2)) {
+                    return false;
+                }
+            }
+            return (listIterator.hasNext() || listIterator2.hasNext()) ? false : true;
+        }
+        synchronized (this.list) {
+            ListIterator listIterator3 = this.list.listIterator();
+            ListIterator listIterator4 = list.listIterator();
+            while (listIterator3.hasNext() && listIterator4.hasNext()) {
+                Object next3 = listIterator3.next();
+                Object next4 = listIterator4.next();
+                if (next3 == null) {
+                    if (next4 != null) {
+                        return false;
+                    }
+                } else if (!next3.equals(next4)) {
+                    return false;
+                }
+            }
+            if (listIterator3.hasNext() || listIterator4.hasNext()) {
+                z = false;
+            }
+            return z;
+        }
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public Object get(int i) {
+        Object obj;
+        if (this.fast) {
+            return this.list.get(i);
+        }
+        synchronized (this.list) {
+            obj = this.list.get(i);
+        }
+        return obj;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.Collection, java.util.List
+    public int hashCode() {
+        int iHashCode = 1;
+        if (this.fast) {
+            Iterator it2 = this.list.iterator();
+            while (it2.hasNext()) {
+                Object next = it2.next();
+                iHashCode = (iHashCode * 31) + (next == null ? 0 : next.hashCode());
+            }
+            return iHashCode;
+        }
+        synchronized (this.list) {
+            Iterator it3 = this.list.iterator();
+            while (it3.hasNext()) {
+                Object next2 = it3.next();
+                iHashCode = (iHashCode * 31) + (next2 == null ? 0 : next2.hashCode());
+            }
+        }
+        return iHashCode;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public int indexOf(Object obj) {
+        int iIndexOf;
+        if (this.fast) {
+            return this.list.indexOf(obj);
+        }
+        synchronized (this.list) {
+            iIndexOf = this.list.indexOf(obj);
+        }
+        return iIndexOf;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public boolean isEmpty() {
+        boolean zIsEmpty;
+        if (this.fast) {
+            return this.list.isEmpty();
+        }
+        synchronized (this.list) {
+            zIsEmpty = this.list.isEmpty();
+        }
+        return zIsEmpty;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.AbstractCollection, java.util.Collection, java.lang.Iterable, java.util.List
+    public Iterator iterator() {
+        if (this.fast) {
+            return new ListIter(0);
+        }
+        return this.list.iterator();
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public int lastIndexOf(Object obj) {
+        int iLastIndexOf;
+        if (this.fast) {
+            return this.list.lastIndexOf(obj);
+        }
+        synchronized (this.list) {
+            iLastIndexOf = this.list.lastIndexOf(obj);
+        }
+        return iLastIndexOf;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public ListIterator listIterator() {
+        if (this.fast) {
+            return new ListIter(0);
+        }
+        return this.list.listIterator();
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public ListIterator listIterator(int i) {
+        if (this.fast) {
+            return new ListIter(i);
+        }
+        return this.list.listIterator(i);
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public Object remove(int i) {
+        Object objRemove;
+        Object objRemove2;
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                objRemove2 = arrayList.remove(i);
+                this.list = arrayList;
+            }
+            return objRemove2;
+        }
+        synchronized (this.list) {
+            objRemove = this.list.remove(i);
+        }
+        return objRemove;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public boolean remove(Object obj) {
+        boolean zRemove;
+        boolean zRemove2;
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                zRemove2 = arrayList.remove(obj);
+                this.list = arrayList;
+            }
+            return zRemove2;
+        }
+        synchronized (this.list) {
+            zRemove = this.list.remove(obj);
+        }
+        return zRemove;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public boolean removeAll(Collection collection) {
+        boolean zRemoveAll;
+        boolean zRemoveAll2;
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                zRemoveAll2 = arrayList.removeAll(collection);
+                this.list = arrayList;
+            }
+            return zRemoveAll2;
+        }
+        synchronized (this.list) {
+            zRemoveAll = this.list.removeAll(collection);
+        }
+        return zRemoveAll;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public boolean retainAll(Collection collection) {
+        boolean zRetainAll;
+        boolean zRetainAll2;
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                zRetainAll2 = arrayList.retainAll(collection);
+                this.list = arrayList;
+            }
+            return zRetainAll2;
+        }
+        synchronized (this.list) {
+            zRetainAll = this.list.retainAll(collection);
+        }
+        return zRetainAll;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public Object set(int i, Object obj) {
+        Object obj2;
+        if (this.fast) {
+            return this.list.set(i, obj);
+        }
+        synchronized (this.list) {
+            obj2 = this.list.set(i, obj);
+        }
+        return obj2;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public int size() {
+        int size;
+        if (this.fast) {
+            return this.list.size();
+        }
+        synchronized (this.list) {
+            size = this.list.size();
+        }
+        return size;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractList, java.util.List
+    public List subList(int i, int i2) {
+        if (this.fast) {
+            return new SubList(i, i2);
+        }
+        return this.list.subList(i, i2);
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public Object[] toArray() {
+        Object[] array;
+        if (this.fast) {
+            return this.list.toArray();
+        }
+        synchronized (this.list) {
+            array = this.list.toArray();
+        }
+        return array;
+    }
+
+    @Override // java.util.ArrayList, java.util.AbstractCollection, java.util.Collection, java.util.List
+    public Object[] toArray(Object[] objArr) {
+        Object[] array;
+        if (this.fast) {
+            return this.list.toArray(objArr);
+        }
+        synchronized (this.list) {
+            array = this.list.toArray(objArr);
+        }
+        return array;
+    }
+
+    @Override // java.util.AbstractCollection
+    public String toString() {
+        StringBuffer stringBuffer = new StringBuffer("FastArrayList[");
+        stringBuffer.append(this.list.toString());
+        stringBuffer.append("]");
+        return stringBuffer.toString();
+    }
+
+    @Override // java.util.ArrayList
+    public void trimToSize() {
+        if (this.fast) {
+            synchronized (this) {
+                ArrayList arrayList = (ArrayList) this.list.clone();
+                arrayList.trimToSize();
+                this.list = arrayList;
+            }
+            return;
+        }
+        synchronized (this.list) {
+            this.list.trimToSize();
+        }
+    }
+
+    private class SubList implements List {
+        private List expected;
+        private int first;
+        private int last;
+
+        static /* synthetic */ int access$208(SubList subList) {
+            int i = subList.last;
+            subList.last = i + 1;
+            return i;
+        }
+
+        static /* synthetic */ int access$210(SubList subList) {
+            int i = subList.last;
+            subList.last = i - 1;
+            return i;
+        }
+
+        public SubList(int i, int i2) {
+            this.first = i;
+            this.last = i2;
+            this.expected = FastArrayList.this.list;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public List get(List list) {
+            if (FastArrayList.this.list != this.expected) {
+                throw new ConcurrentModificationException();
+            }
+            return list.subList(this.first, this.last);
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public void clear() {
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    get(arrayList).clear();
+                    this.last = this.first;
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return;
+            }
+            synchronized (FastArrayList.this.list) {
+                get(this.expected).clear();
+            }
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean remove(Object obj) {
+            boolean zRemove;
+            boolean zRemove2;
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    zRemove2 = get(arrayList).remove(obj);
+                    if (zRemove2) {
+                        this.last--;
+                    }
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return zRemove2;
+            }
+            synchronized (FastArrayList.this.list) {
+                zRemove = get(this.expected).remove(obj);
+            }
+            return zRemove;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean removeAll(Collection collection) {
+            boolean zRemoveAll;
+            boolean zRemoveAll2;
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    List list = get(arrayList);
+                    zRemoveAll2 = list.removeAll(collection);
+                    if (zRemoveAll2) {
+                        this.last = this.first + list.size();
+                    }
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return zRemoveAll2;
+            }
+            synchronized (FastArrayList.this.list) {
+                zRemoveAll = get(this.expected).removeAll(collection);
+            }
+            return zRemoveAll;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean retainAll(Collection collection) {
+            boolean zRetainAll;
+            boolean zRetainAll2;
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    List list = get(arrayList);
+                    zRetainAll2 = list.retainAll(collection);
+                    if (zRetainAll2) {
+                        this.last = this.first + list.size();
+                    }
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return zRetainAll2;
+            }
+            synchronized (FastArrayList.this.list) {
+                zRetainAll = get(this.expected).retainAll(collection);
+            }
+            return zRetainAll;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public int size() {
+            int size;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).size();
+            }
+            synchronized (FastArrayList.this.list) {
+                size = get(this.expected).size();
+            }
+            return size;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean isEmpty() {
+            boolean zIsEmpty;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).isEmpty();
+            }
+            synchronized (FastArrayList.this.list) {
+                zIsEmpty = get(this.expected).isEmpty();
+            }
+            return zIsEmpty;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean contains(Object obj) {
+            boolean zContains;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).contains(obj);
+            }
+            synchronized (FastArrayList.this.list) {
+                zContains = get(this.expected).contains(obj);
+            }
+            return zContains;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean containsAll(Collection collection) {
+            boolean zContainsAll;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).containsAll(collection);
+            }
+            synchronized (FastArrayList.this.list) {
+                zContainsAll = get(this.expected).containsAll(collection);
+            }
+            return zContainsAll;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public Object[] toArray(Object[] objArr) {
+            Object[] array;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).toArray(objArr);
+            }
+            synchronized (FastArrayList.this.list) {
+                array = get(this.expected).toArray(objArr);
+            }
+            return array;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public Object[] toArray() {
+            Object[] array;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).toArray();
+            }
+            synchronized (FastArrayList.this.list) {
+                array = get(this.expected).toArray();
+            }
+            return array;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean equals(Object obj) {
+            boolean zEquals;
+            if (obj == this) {
+                return true;
+            }
+            if (FastArrayList.this.fast) {
+                return get(this.expected).equals(obj);
+            }
+            synchronized (FastArrayList.this.list) {
+                zEquals = get(this.expected).equals(obj);
+            }
+            return zEquals;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public int hashCode() {
+            int iHashCode;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).hashCode();
+            }
+            synchronized (FastArrayList.this.list) {
+                iHashCode = get(this.expected).hashCode();
+            }
+            return iHashCode;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean add(Object obj) {
+            boolean zAdd;
+            boolean zAdd2;
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    zAdd2 = get(arrayList).add(obj);
+                    if (zAdd2) {
+                        this.last++;
+                    }
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return zAdd2;
+            }
+            synchronized (FastArrayList.this.list) {
+                zAdd = get(this.expected).add(obj);
+            }
+            return zAdd;
+        }
+
+        @Override // java.util.List, java.util.Collection
+        public boolean addAll(Collection collection) {
+            boolean zAddAll;
+            boolean zAddAll2;
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    zAddAll2 = get(arrayList).addAll(collection);
+                    if (zAddAll2) {
+                        this.last += collection.size();
+                    }
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return zAddAll2;
+            }
+            synchronized (FastArrayList.this.list) {
+                zAddAll = get(this.expected).addAll(collection);
+            }
+            return zAddAll;
+        }
+
+        @Override // java.util.List
+        public void add(int i, Object obj) {
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    get(arrayList).add(i, obj);
+                    this.last++;
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return;
+            }
+            synchronized (FastArrayList.this.list) {
+                get(this.expected).add(i, obj);
+            }
+        }
+
+        @Override // java.util.List
+        public boolean addAll(int i, Collection collection) {
+            boolean zAddAll;
+            boolean zAddAll2;
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    zAddAll2 = get(arrayList).addAll(i, collection);
+                    FastArrayList.this.list = arrayList;
+                    if (zAddAll2) {
+                        this.last += collection.size();
+                    }
+                    this.expected = arrayList;
+                }
+                return zAddAll2;
+            }
+            synchronized (FastArrayList.this.list) {
+                zAddAll = get(this.expected).addAll(i, collection);
+            }
+            return zAddAll;
+        }
+
+        @Override // java.util.List
+        public Object remove(int i) {
+            Object objRemove;
+            Object objRemove2;
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    objRemove2 = get(arrayList).remove(i);
+                    this.last--;
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return objRemove2;
+            }
+            synchronized (FastArrayList.this.list) {
+                objRemove = get(this.expected).remove(i);
+            }
+            return objRemove;
+        }
+
+        @Override // java.util.List
+        public Object set(int i, Object obj) {
+            Object obj2;
+            Object obj3;
+            if (FastArrayList.this.fast) {
+                synchronized (FastArrayList.this) {
+                    ArrayList arrayList = (ArrayList) FastArrayList.this.list.clone();
+                    obj3 = get(arrayList).set(i, obj);
+                    FastArrayList.this.list = arrayList;
+                    this.expected = arrayList;
+                }
+                return obj3;
+            }
+            synchronized (FastArrayList.this.list) {
+                obj2 = get(this.expected).set(i, obj);
+            }
+            return obj2;
+        }
+
+        @Override // java.util.List, java.util.Collection, java.lang.Iterable
+        public Iterator iterator() {
+            return new SubListIter(0);
+        }
+
+        @Override // java.util.List
+        public ListIterator listIterator() {
+            return new SubListIter(0);
+        }
+
+        @Override // java.util.List
+        public ListIterator listIterator(int i) {
+            return new SubListIter(i);
+        }
+
+        @Override // java.util.List
+        public Object get(int i) {
+            Object obj;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).get(i);
+            }
+            synchronized (FastArrayList.this.list) {
+                obj = get(this.expected).get(i);
+            }
+            return obj;
+        }
+
+        @Override // java.util.List
+        public int indexOf(Object obj) {
+            int iIndexOf;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).indexOf(obj);
+            }
+            synchronized (FastArrayList.this.list) {
+                iIndexOf = get(this.expected).indexOf(obj);
+            }
+            return iIndexOf;
+        }
+
+        @Override // java.util.List
+        public int lastIndexOf(Object obj) {
+            int iLastIndexOf;
+            if (FastArrayList.this.fast) {
+                return get(this.expected).lastIndexOf(obj);
+            }
+            synchronized (FastArrayList.this.list) {
+                iLastIndexOf = get(this.expected).lastIndexOf(obj);
+            }
+            return iLastIndexOf;
+        }
+
+        @Override // java.util.List
+        public List subList(int i, int i2) {
+            if (FastArrayList.this.list != this.expected) {
+                throw new ConcurrentModificationException();
+            }
+            return FastArrayList.this.new SubList(this.first + i, i + i2);
+        }
+
+        private class SubListIter implements ListIterator {
+            private List expected;
+            private ListIterator iter;
+            private int lastReturnedIndex = -1;
+
+            public SubListIter(int i) {
+                ArrayList arrayList = FastArrayList.this.list;
+                this.expected = arrayList;
+                this.iter = SubList.this.get(arrayList).listIterator(i);
+            }
+
+            private void checkMod() {
+                if (FastArrayList.this.list != this.expected) {
+                    throw new ConcurrentModificationException();
+                }
+            }
+
+            List get() {
+                return SubList.this.get(this.expected);
+            }
+
+            @Override // java.util.ListIterator, java.util.Iterator
+            public boolean hasNext() {
+                checkMod();
+                return this.iter.hasNext();
+            }
+
+            @Override // java.util.ListIterator, java.util.Iterator
+            public Object next() {
+                checkMod();
+                this.lastReturnedIndex = this.iter.nextIndex();
+                return this.iter.next();
+            }
+
+            @Override // java.util.ListIterator
+            public boolean hasPrevious() {
+                checkMod();
+                return this.iter.hasPrevious();
+            }
+
+            @Override // java.util.ListIterator
+            public Object previous() {
+                checkMod();
+                this.lastReturnedIndex = this.iter.previousIndex();
+                return this.iter.previous();
+            }
+
+            @Override // java.util.ListIterator
+            public int previousIndex() {
+                checkMod();
+                return this.iter.previousIndex();
+            }
+
+            @Override // java.util.ListIterator
+            public int nextIndex() {
+                checkMod();
+                return this.iter.nextIndex();
+            }
+
+            @Override // java.util.ListIterator, java.util.Iterator
+            public void remove() {
+                checkMod();
+                if (this.lastReturnedIndex < 0) {
+                    throw new IllegalStateException();
+                }
+                get().remove(this.lastReturnedIndex);
+                SubList.access$210(SubList.this);
+                this.expected = FastArrayList.this.list;
+                this.iter = get().listIterator(this.lastReturnedIndex);
+                this.lastReturnedIndex = -1;
+            }
+
+            @Override // java.util.ListIterator
+            public void set(Object obj) {
+                checkMod();
+                if (this.lastReturnedIndex < 0) {
+                    throw new IllegalStateException();
+                }
+                get().set(this.lastReturnedIndex, obj);
+                this.expected = FastArrayList.this.list;
+                this.iter = get().listIterator(previousIndex() + 1);
+            }
+
+            @Override // java.util.ListIterator
+            public void add(Object obj) {
+                checkMod();
+                int iNextIndex = nextIndex();
+                get().add(iNextIndex, obj);
+                SubList.access$208(SubList.this);
+                this.expected = FastArrayList.this.list;
+                this.iter = get().listIterator(iNextIndex + 1);
+                this.lastReturnedIndex = -1;
+            }
+        }
+    }
+
+    private class ListIter implements ListIterator {
+        private List expected;
+        private ListIterator iter;
+        private int lastReturnedIndex = -1;
+
+        List get() {
+            return this.expected;
+        }
+
+        public ListIter(int i) {
+            this.expected = FastArrayList.this.list;
+            this.iter = get().listIterator(i);
+        }
+
+        private void checkMod() {
+            if (FastArrayList.this.list != this.expected) {
+                throw new ConcurrentModificationException();
+            }
+        }
+
+        @Override // java.util.ListIterator, java.util.Iterator
+        public boolean hasNext() {
+            return this.iter.hasNext();
+        }
+
+        @Override // java.util.ListIterator, java.util.Iterator
+        public Object next() {
+            this.lastReturnedIndex = this.iter.nextIndex();
+            return this.iter.next();
+        }
+
+        @Override // java.util.ListIterator
+        public boolean hasPrevious() {
+            return this.iter.hasPrevious();
+        }
+
+        @Override // java.util.ListIterator
+        public Object previous() {
+            this.lastReturnedIndex = this.iter.previousIndex();
+            return this.iter.previous();
+        }
+
+        @Override // java.util.ListIterator
+        public int previousIndex() {
+            return this.iter.previousIndex();
+        }
+
+        @Override // java.util.ListIterator
+        public int nextIndex() {
+            return this.iter.nextIndex();
+        }
+
+        @Override // java.util.ListIterator, java.util.Iterator
+        public void remove() {
+            checkMod();
+            if (this.lastReturnedIndex < 0) {
+                throw new IllegalStateException();
+            }
+            get().remove(this.lastReturnedIndex);
+            this.expected = FastArrayList.this.list;
+            this.iter = get().listIterator(this.lastReturnedIndex);
+            this.lastReturnedIndex = -1;
+        }
+
+        @Override // java.util.ListIterator
+        public void set(Object obj) {
+            checkMod();
+            if (this.lastReturnedIndex < 0) {
+                throw new IllegalStateException();
+            }
+            get().set(this.lastReturnedIndex, obj);
+            this.expected = FastArrayList.this.list;
+            this.iter = get().listIterator(previousIndex() + 1);
+        }
+
+        @Override // java.util.ListIterator
+        public void add(Object obj) {
+            checkMod();
+            int iNextIndex = nextIndex();
+            get().add(iNextIndex, obj);
+            this.expected = FastArrayList.this.list;
+            this.iter = get().listIterator(iNextIndex + 1);
+            this.lastReturnedIndex = -1;
+        }
+    }
+}

@@ -1,0 +1,58 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/sds/TlsContextManagerImpl.java
+// Size: 2969 bytes
+// Modified: 2025-10-21 16:32:11.148052300 +0100
+
+package io.grpc.xds.internal.sds;
+
+import com.google.common.base.Preconditions;
+import io.grpc.xds.EnvoyServerProtoData;
+import io.grpc.xds.internal.sds.ReferenceCountingMap;
+
+/* loaded from: classes3.dex */
+public final class TlsContextManagerImpl implements TlsContextManager {
+    private static TlsContextManagerImpl instance;
+    private final ReferenceCountingMap<EnvoyServerProtoData.UpstreamTlsContext, SslContextProvider> mapForClients;
+    private final ReferenceCountingMap<EnvoyServerProtoData.DownstreamTlsContext, SslContextProvider> mapForServers;
+
+    private TlsContextManagerImpl() {
+        this(new ClientSslContextProviderFactory(), new ServerSslContextProviderFactory());
+    }
+
+    TlsContextManagerImpl(ReferenceCountingMap.ValueFactory<EnvoyServerProtoData.UpstreamTlsContext, SslContextProvider> valueFactory, ReferenceCountingMap.ValueFactory<EnvoyServerProtoData.DownstreamTlsContext, SslContextProvider> valueFactory2) {
+        Preconditions.checkNotNull(valueFactory, "clientFactory");
+        Preconditions.checkNotNull(valueFactory2, "serverFactory");
+        this.mapForClients = new ReferenceCountingMap<>(valueFactory);
+        this.mapForServers = new ReferenceCountingMap<>(valueFactory2);
+    }
+
+    public static synchronized TlsContextManagerImpl getInstance() {
+        if (instance == null) {
+            instance = new TlsContextManagerImpl();
+        }
+        return instance;
+    }
+
+    @Override // io.grpc.xds.internal.sds.TlsContextManager
+    public SslContextProvider findOrCreateServerSslContextProvider(EnvoyServerProtoData.DownstreamTlsContext downstreamTlsContext) {
+        Preconditions.checkNotNull(downstreamTlsContext, "downstreamTlsContext");
+        return (SslContextProvider) this.mapForServers.get(downstreamTlsContext);
+    }
+
+    @Override // io.grpc.xds.internal.sds.TlsContextManager
+    public SslContextProvider findOrCreateClientSslContextProvider(EnvoyServerProtoData.UpstreamTlsContext upstreamTlsContext) {
+        Preconditions.checkNotNull(upstreamTlsContext, "upstreamTlsContext");
+        return (SslContextProvider) this.mapForClients.get(upstreamTlsContext);
+    }
+
+    @Override // io.grpc.xds.internal.sds.TlsContextManager
+    public SslContextProvider releaseClientSslContextProvider(SslContextProvider sslContextProvider) {
+        Preconditions.checkNotNull(sslContextProvider, "clientSslContextProvider");
+        return (SslContextProvider) this.mapForClients.release(sslContextProvider.getUpstreamTlsContext(), sslContextProvider);
+    }
+
+    @Override // io.grpc.xds.internal.sds.TlsContextManager
+    public SslContextProvider releaseServerSslContextProvider(SslContextProvider sslContextProvider) {
+        Preconditions.checkNotNull(sslContextProvider, "serverSslContextProvider");
+        return (SslContextProvider) this.mapForServers.release(sslContextProvider.getDownstreamTlsContext(), sslContextProvider);
+    }
+}

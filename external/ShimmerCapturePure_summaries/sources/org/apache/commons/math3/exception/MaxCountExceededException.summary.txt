@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/exception/MaxCountExceededException.java
+// Size: 793 bytes
+// Modified: 2025-10-21 16:32:05.133760300 +0100
+
+package org.apache.commons.math3.exception;
+
+import org.apache.commons.math3.exception.util.Localizable;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+
+/* loaded from: classes5.dex */
+public class MaxCountExceededException extends MathIllegalStateException {
+    private static final long serialVersionUID = 4330003017885151975L;
+    private final Number max;
+
+    public Number getMax() {
+        return this.max;
+    }
+
+    public MaxCountExceededException(Number number) {
+        this(LocalizedFormats.MAX_COUNT_EXCEEDED, number, new Object[0]);
+    }
+
+    public MaxCountExceededException(Localizable localizable, Number number, Object... objArr) {
+        getContext().addMessage(localizable, number, objArr);
+        this.max = number;
+    }
+}

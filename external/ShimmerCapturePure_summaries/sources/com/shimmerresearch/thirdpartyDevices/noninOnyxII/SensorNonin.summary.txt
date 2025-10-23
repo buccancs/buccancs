@@ -1,0 +1,158 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/thirdpartyDevices/noninOnyxII/SensorNonin.java
+// Size: 7865 bytes
+// Modified: 2025-10-21 16:32:12.773703400 +0100
+
+package com.shimmerresearch.thirdpartyDevices.noninOnyxII;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.ActionSetting;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public class SensorNonin extends AbstractSensor {
+    public static final ChannelDetails channelFooter;
+    public static final ChannelDetails channelHeader;
+    public static final ChannelDetails channelHeartRate;
+    public static final ChannelDetails channelSpO2;
+    public static final Map<String, ChannelDetails> mChannelMapRef;
+    public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
+    public static final SensorDetailsRef sensorNoninOynxII;
+    private static final long serialVersionUID = 5484199933550381154L;
+
+    public static class GuiLabelConfig {
+    }
+
+    public static class GuiLabelSensors {
+        public static String NONIN_ONYX_II = AbstractSensor.SENSORS.NONIN_ONYX_II.toString();
+    }
+
+    public static class LABEL_SENSOR_TILE {
+    }
+
+    public static class ObjectClusterSensorName {
+        public static String HEART_RATE = "Heart Rate";
+        public static String PACKET_FOOTER = "Packet Footer";
+        public static String PACKET_HEADER = "Packet Header";
+        public static String SPO2 = "%SpO2";
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void parseConfigMap(LinkedHashMap<String, Object> linkedHashMap) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    static {
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(GuiLabelSensors.NONIN_ONYX_II, (List<ShimmerVerObject>) null, (List<String>) Arrays.asList(ObjectClusterSensorName.PACKET_HEADER, ObjectClusterSensorName.HEART_RATE, ObjectClusterSensorName.SPO2, ObjectClusterSensorName.PACKET_FOOTER));
+        sensorNoninOynxII = sensorDetailsRef;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put(1000, sensorDetailsRef);
+        mSensorMapRef = Collections.unmodifiableMap(linkedHashMap);
+        ChannelDetails channelDetails = new ChannelDetails(ObjectClusterSensorName.PACKET_HEADER, ObjectClusterSensorName.PACKET_HEADER, ObjectClusterSensorName.PACKET_HEADER, ChannelDetails.CHANNEL_DATA_TYPE.UINT8, 1, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.NO_UNITS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL), false, false);
+        channelHeader = channelDetails;
+        ChannelDetails channelDetails2 = new ChannelDetails(ObjectClusterSensorName.HEART_RATE, ObjectClusterSensorName.HEART_RATE, ObjectClusterSensorName.HEART_RATE, ChannelDetails.CHANNEL_DATA_TYPE.UINT8, 1, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.BEATS_PER_MINUTE, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL));
+        channelHeartRate = channelDetails2;
+        ChannelDetails channelDetails3 = new ChannelDetails(ObjectClusterSensorName.SPO2, ObjectClusterSensorName.SPO2, ObjectClusterSensorName.SPO2, ChannelDetails.CHANNEL_DATA_TYPE.UINT8, 1, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.PERCENT, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL));
+        channelSpO2 = channelDetails3;
+        ChannelDetails channelDetails4 = new ChannelDetails(ObjectClusterSensorName.PACKET_FOOTER, ObjectClusterSensorName.PACKET_FOOTER, ObjectClusterSensorName.PACKET_FOOTER, ChannelDetails.CHANNEL_DATA_TYPE.UINT8, 1, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.NO_UNITS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL), false, false);
+        channelFooter = channelDetails4;
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put(ObjectClusterSensorName.PACKET_HEADER, channelDetails);
+        linkedHashMap2.put(ObjectClusterSensorName.HEART_RATE, channelDetails2);
+        linkedHashMap2.put(ObjectClusterSensorName.SPO2, channelDetails3);
+        linkedHashMap2.put(ObjectClusterSensorName.PACKET_FOOTER, channelDetails4);
+        mChannelMapRef = Collections.unmodifiableMap(linkedHashMap2);
+    }
+
+    public SensorNonin(ShimmerDevice shimmerDevice) {
+        super(AbstractSensor.SENSORS.NONIN_ONYX_II, shimmerDevice);
+        channelHeader.mChannelFormatDerivedFromShimmerDataPacket = ChannelDetails.CHANNEL_TYPE.CAL;
+        channelHeartRate.mChannelFormatDerivedFromShimmerDataPacket = ChannelDetails.CHANNEL_TYPE.CAL;
+        channelSpO2.mChannelFormatDerivedFromShimmerDataPacket = ChannelDetails.CHANNEL_TYPE.CAL;
+        channelFooter.mChannelFormatDerivedFromShimmerDataPacket = ChannelDetails.CHANNEL_TYPE.CAL;
+        initialise();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+        super.createLocalSensorMap(mSensorMapRef, mChannelMapRef);
+    }
+}

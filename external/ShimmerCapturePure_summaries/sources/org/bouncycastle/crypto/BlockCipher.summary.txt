@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/BlockCipher.java
+// Size: 397 bytes
+// Modified: 2025-10-21 16:32:00.982086300 +0100
+
+package org.bouncycastle.crypto;
+
+/* loaded from: classes5.dex */
+public interface BlockCipher {
+    String getAlgorithmName();
+
+    int getBlockSize();
+
+    void init(boolean z, CipherParameters cipherParameters) throws IllegalArgumentException;
+
+    int processBlock(byte[] bArr, int i, byte[] bArr2, int i2) throws IllegalStateException, DataLengthException;
+
+    void reset();
+}

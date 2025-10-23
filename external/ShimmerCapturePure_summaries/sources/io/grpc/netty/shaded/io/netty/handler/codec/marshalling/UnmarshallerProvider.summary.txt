@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/marshalling/UnmarshallerProvider.java
+// Size: 357 bytes
+// Modified: 2025-10-21 16:32:05.072808600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.marshalling;
+
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import org.jboss.marshalling.Unmarshaller;
+
+/* loaded from: classes3.dex */
+public interface UnmarshallerProvider {
+    Unmarshaller getUnmarshaller(ChannelHandlerContext channelHandlerContext) throws Exception;
+}

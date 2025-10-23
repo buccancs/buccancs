@@ -1,0 +1,2036 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Vhds;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOption;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.HeaderValueOptionOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.VirtualHost;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.VirtualHostOrBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public final class RouteConfiguration extends GeneratedMessageV3 implements RouteConfigurationOrBuilder {
+    public static final int INTERNAL_ONLY_HEADERS_FIELD_NUMBER = 3;
+    public static final int MOST_SPECIFIC_HEADER_MUTATIONS_WINS_FIELD_NUMBER = 10;
+    public static final int NAME_FIELD_NUMBER = 1;
+    public static final int REQUEST_HEADERS_TO_ADD_FIELD_NUMBER = 6;
+    public static final int REQUEST_HEADERS_TO_REMOVE_FIELD_NUMBER = 8;
+    public static final int RESPONSE_HEADERS_TO_ADD_FIELD_NUMBER = 4;
+    public static final int RESPONSE_HEADERS_TO_REMOVE_FIELD_NUMBER = 5;
+    public static final int VALIDATE_CLUSTERS_FIELD_NUMBER = 7;
+    public static final int VHDS_FIELD_NUMBER = 9;
+    public static final int VIRTUAL_HOSTS_FIELD_NUMBER = 2;
+    private static final long serialVersionUID = 0;
+    private static final RouteConfiguration DEFAULT_INSTANCE = new RouteConfiguration();
+    private static final Parser<RouteConfiguration> PARSER = new AbstractParser<RouteConfiguration>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public RouteConfiguration m13101parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new RouteConfiguration(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private LazyStringList internalOnlyHeaders_;
+    private byte memoizedIsInitialized;
+    private boolean mostSpecificHeaderMutationsWins_;
+    private volatile Object name_;
+    private List<HeaderValueOption> requestHeadersToAdd_;
+    private LazyStringList requestHeadersToRemove_;
+    private List<HeaderValueOption> responseHeadersToAdd_;
+    private LazyStringList responseHeadersToRemove_;
+    private BoolValue validateClusters_;
+    private Vhds vhds_;
+    private List<VirtualHost> virtualHosts_;
+
+    private RouteConfiguration(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private RouteConfiguration() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.name_ = "";
+        this.virtualHosts_ = Collections.emptyList();
+        this.internalOnlyHeaders_ = LazyStringArrayList.EMPTY;
+        this.responseHeadersToAdd_ = Collections.emptyList();
+        this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+        this.requestHeadersToAdd_ = Collections.emptyList();
+        this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+    }
+
+    private RouteConfiguration(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Vhds.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            this.name_ = codedInputStream.readStringRequireUtf8();
+                        case 18:
+                            if ((i & 1) == 0) {
+                                this.virtualHosts_ = new ArrayList();
+                                i |= 1;
+                            }
+                            this.virtualHosts_.add(codedInputStream.readMessage(VirtualHost.parser(), extensionRegistryLite));
+                        case 26:
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 2) == 0) {
+                                this.internalOnlyHeaders_ = new LazyStringArrayList();
+                                i |= 2;
+                            }
+                            this.internalOnlyHeaders_.add(stringRequireUtf8);
+                        case 34:
+                            if ((i & 4) == 0) {
+                                this.responseHeadersToAdd_ = new ArrayList();
+                                i |= 4;
+                            }
+                            this.responseHeadersToAdd_.add(codedInputStream.readMessage(HeaderValueOption.parser(), extensionRegistryLite));
+                        case 42:
+                            String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 8) == 0) {
+                                this.responseHeadersToRemove_ = new LazyStringArrayList();
+                                i |= 8;
+                            }
+                            this.responseHeadersToRemove_.add(stringRequireUtf82);
+                        case 50:
+                            if ((i & 16) == 0) {
+                                this.requestHeadersToAdd_ = new ArrayList();
+                                i |= 16;
+                            }
+                            this.requestHeadersToAdd_.add(codedInputStream.readMessage(HeaderValueOption.parser(), extensionRegistryLite));
+                        case 58:
+                            BoolValue boolValue = this.validateClusters_;
+                            builder = boolValue != null ? boolValue.toBuilder() : null;
+                            BoolValue message = codedInputStream.readMessage(BoolValue.parser(), extensionRegistryLite);
+                            this.validateClusters_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.validateClusters_ = builder.buildPartial();
+                            }
+                        case 66:
+                            String stringRequireUtf83 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 32) == 0) {
+                                this.requestHeadersToRemove_ = new LazyStringArrayList();
+                                i |= 32;
+                            }
+                            this.requestHeadersToRemove_.add(stringRequireUtf83);
+                        case 74:
+                            Vhds vhds = this.vhds_;
+                            builder = vhds != null ? vhds.m13421toBuilder() : null;
+                            Vhds vhds2 = (Vhds) codedInputStream.readMessage(Vhds.parser(), extensionRegistryLite);
+                            this.vhds_ = vhds2;
+                            if (builder != null) {
+                                builder.mergeFrom(vhds2);
+                                this.vhds_ = builder.m13428buildPartial();
+                            }
+                        case 80:
+                            this.mostSpecificHeaderMutationsWins_ = codedInputStream.readBool();
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.virtualHosts_ = Collections.unmodifiableList(this.virtualHosts_);
+                }
+                if ((i & 2) != 0) {
+                    this.internalOnlyHeaders_ = this.internalOnlyHeaders_.getUnmodifiableView();
+                }
+                if ((i & 4) != 0) {
+                    this.responseHeadersToAdd_ = Collections.unmodifiableList(this.responseHeadersToAdd_);
+                }
+                if ((i & 8) != 0) {
+                    this.responseHeadersToRemove_ = this.responseHeadersToRemove_.getUnmodifiableView();
+                }
+                if ((i & 16) != 0) {
+                    this.requestHeadersToAdd_ = Collections.unmodifiableList(this.requestHeadersToAdd_);
+                }
+                if ((i & 32) != 0) {
+                    this.requestHeadersToRemove_ = this.requestHeadersToRemove_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static RouteConfiguration getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<RouteConfiguration> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return RouteProto.internal_static_envoy_api_v2_RouteConfiguration_descriptor;
+    }
+
+    public static RouteConfiguration parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (RouteConfiguration) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static RouteConfiguration parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RouteConfiguration) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static RouteConfiguration parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (RouteConfiguration) PARSER.parseFrom(byteString);
+    }
+
+    public static RouteConfiguration parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RouteConfiguration) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static RouteConfiguration parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (RouteConfiguration) PARSER.parseFrom(bArr);
+    }
+
+    public static RouteConfiguration parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (RouteConfiguration) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static RouteConfiguration parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static RouteConfiguration parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RouteConfiguration parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static RouteConfiguration parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static RouteConfiguration parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static RouteConfiguration parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m13099toBuilder();
+    }
+
+    public static Builder newBuilder(RouteConfiguration routeConfiguration) {
+        return DEFAULT_INSTANCE.m13099toBuilder().mergeFrom(routeConfiguration);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public RouteConfiguration m13091getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    /* renamed from: getInternalOnlyHeadersList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo13093getInternalOnlyHeadersList() {
+        return this.internalOnlyHeaders_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public boolean getMostSpecificHeaderMutationsWins() {
+        return this.mostSpecificHeaderMutationsWins_;
+    }
+
+    public Parser<RouteConfiguration> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public List<HeaderValueOption> getRequestHeadersToAddList() {
+        return this.requestHeadersToAdd_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public List<? extends HeaderValueOptionOrBuilder> getRequestHeadersToAddOrBuilderList() {
+        return this.requestHeadersToAdd_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    /* renamed from: getRequestHeadersToRemoveList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo13094getRequestHeadersToRemoveList() {
+        return this.requestHeadersToRemove_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public List<HeaderValueOption> getResponseHeadersToAddList() {
+        return this.responseHeadersToAdd_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public List<? extends HeaderValueOptionOrBuilder> getResponseHeadersToAddOrBuilderList() {
+        return this.responseHeadersToAdd_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    /* renamed from: getResponseHeadersToRemoveList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo13095getResponseHeadersToRemoveList() {
+        return this.responseHeadersToRemove_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public List<VirtualHost> getVirtualHostsList() {
+        return this.virtualHosts_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public List<? extends VirtualHostOrBuilder> getVirtualHostsOrBuilderList() {
+        return this.virtualHosts_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public boolean hasValidateClusters() {
+        return this.validateClusters_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public boolean hasVhds() {
+        return this.vhds_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new RouteConfiguration();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return RouteProto.internal_static_envoy_api_v2_RouteConfiguration_fieldAccessorTable.ensureFieldAccessorsInitialized(RouteConfiguration.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public String getName() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.name_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public ByteString getNameBytes() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.name_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public int getVirtualHostsCount() {
+        return this.virtualHosts_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public VirtualHost getVirtualHosts(int i) {
+        return this.virtualHosts_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public VirtualHostOrBuilder getVirtualHostsOrBuilder(int i) {
+        return this.virtualHosts_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public Vhds getVhds() {
+        Vhds vhds = this.vhds_;
+        return vhds == null ? Vhds.getDefaultInstance() : vhds;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public VhdsOrBuilder getVhdsOrBuilder() {
+        return getVhds();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public int getInternalOnlyHeadersCount() {
+        return this.internalOnlyHeaders_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public String getInternalOnlyHeaders(int i) {
+        return (String) this.internalOnlyHeaders_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public ByteString getInternalOnlyHeadersBytes(int i) {
+        return this.internalOnlyHeaders_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public int getResponseHeadersToAddCount() {
+        return this.responseHeadersToAdd_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public HeaderValueOption getResponseHeadersToAdd(int i) {
+        return this.responseHeadersToAdd_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public HeaderValueOptionOrBuilder getResponseHeadersToAddOrBuilder(int i) {
+        return this.responseHeadersToAdd_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public int getResponseHeadersToRemoveCount() {
+        return this.responseHeadersToRemove_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public String getResponseHeadersToRemove(int i) {
+        return (String) this.responseHeadersToRemove_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public ByteString getResponseHeadersToRemoveBytes(int i) {
+        return this.responseHeadersToRemove_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public int getRequestHeadersToAddCount() {
+        return this.requestHeadersToAdd_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public HeaderValueOption getRequestHeadersToAdd(int i) {
+        return this.requestHeadersToAdd_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public HeaderValueOptionOrBuilder getRequestHeadersToAddOrBuilder(int i) {
+        return this.requestHeadersToAdd_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public int getRequestHeadersToRemoveCount() {
+        return this.requestHeadersToRemove_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public String getRequestHeadersToRemove(int i) {
+        return (String) this.requestHeadersToRemove_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public ByteString getRequestHeadersToRemoveBytes(int i) {
+        return this.requestHeadersToRemove_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public BoolValue getValidateClusters() {
+        BoolValue boolValue = this.validateClusters_;
+        return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+    public BoolValueOrBuilder getValidateClustersOrBuilder() {
+        return getValidateClusters();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.name_);
+        }
+        for (int i = 0; i < this.virtualHosts_.size(); i++) {
+            codedOutputStream.writeMessage(2, this.virtualHosts_.get(i));
+        }
+        for (int i2 = 0; i2 < this.internalOnlyHeaders_.size(); i2++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.internalOnlyHeaders_.getRaw(i2));
+        }
+        for (int i3 = 0; i3 < this.responseHeadersToAdd_.size(); i3++) {
+            codedOutputStream.writeMessage(4, this.responseHeadersToAdd_.get(i3));
+        }
+        for (int i4 = 0; i4 < this.responseHeadersToRemove_.size(); i4++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 5, this.responseHeadersToRemove_.getRaw(i4));
+        }
+        for (int i5 = 0; i5 < this.requestHeadersToAdd_.size(); i5++) {
+            codedOutputStream.writeMessage(6, this.requestHeadersToAdd_.get(i5));
+        }
+        if (this.validateClusters_ != null) {
+            codedOutputStream.writeMessage(7, getValidateClusters());
+        }
+        for (int i6 = 0; i6 < this.requestHeadersToRemove_.size(); i6++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 8, this.requestHeadersToRemove_.getRaw(i6));
+        }
+        if (this.vhds_ != null) {
+            codedOutputStream.writeMessage(9, getVhds());
+        }
+        boolean z = this.mostSpecificHeaderMutationsWins_;
+        if (z) {
+            codedOutputStream.writeBool(10, z);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getNameBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.name_) : 0;
+        for (int i2 = 0; i2 < this.virtualHosts_.size(); i2++) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(2, this.virtualHosts_.get(i2));
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i3 = 0; i3 < this.internalOnlyHeaders_.size(); i3++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.internalOnlyHeaders_.getRaw(i3));
+        }
+        int size = iComputeStringSize + iComputeStringSizeNoTag + mo13093getInternalOnlyHeadersList().size();
+        for (int i4 = 0; i4 < this.responseHeadersToAdd_.size(); i4++) {
+            size += CodedOutputStream.computeMessageSize(4, this.responseHeadersToAdd_.get(i4));
+        }
+        int iComputeStringSizeNoTag2 = 0;
+        for (int i5 = 0; i5 < this.responseHeadersToRemove_.size(); i5++) {
+            iComputeStringSizeNoTag2 += computeStringSizeNoTag(this.responseHeadersToRemove_.getRaw(i5));
+        }
+        int size2 = size + iComputeStringSizeNoTag2 + mo13095getResponseHeadersToRemoveList().size();
+        for (int i6 = 0; i6 < this.requestHeadersToAdd_.size(); i6++) {
+            size2 += CodedOutputStream.computeMessageSize(6, this.requestHeadersToAdd_.get(i6));
+        }
+        if (this.validateClusters_ != null) {
+            size2 += CodedOutputStream.computeMessageSize(7, getValidateClusters());
+        }
+        int iComputeStringSizeNoTag3 = 0;
+        for (int i7 = 0; i7 < this.requestHeadersToRemove_.size(); i7++) {
+            iComputeStringSizeNoTag3 += computeStringSizeNoTag(this.requestHeadersToRemove_.getRaw(i7));
+        }
+        int size3 = size2 + iComputeStringSizeNoTag3 + mo13094getRequestHeadersToRemoveList().size();
+        if (this.vhds_ != null) {
+            size3 += CodedOutputStream.computeMessageSize(9, getVhds());
+        }
+        boolean z = this.mostSpecificHeaderMutationsWins_;
+        if (z) {
+            size3 += CodedOutputStream.computeBoolSize(10, z);
+        }
+        int serializedSize = size3 + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof RouteConfiguration)) {
+            return super.equals(obj);
+        }
+        RouteConfiguration routeConfiguration = (RouteConfiguration) obj;
+        if (!getName().equals(routeConfiguration.getName()) || !getVirtualHostsList().equals(routeConfiguration.getVirtualHostsList()) || hasVhds() != routeConfiguration.hasVhds()) {
+            return false;
+        }
+        if ((!hasVhds() || getVhds().equals(routeConfiguration.getVhds())) && mo13093getInternalOnlyHeadersList().equals(routeConfiguration.mo13093getInternalOnlyHeadersList()) && getResponseHeadersToAddList().equals(routeConfiguration.getResponseHeadersToAddList()) && mo13095getResponseHeadersToRemoveList().equals(routeConfiguration.mo13095getResponseHeadersToRemoveList()) && getRequestHeadersToAddList().equals(routeConfiguration.getRequestHeadersToAddList()) && mo13094getRequestHeadersToRemoveList().equals(routeConfiguration.mo13094getRequestHeadersToRemoveList()) && getMostSpecificHeaderMutationsWins() == routeConfiguration.getMostSpecificHeaderMutationsWins() && hasValidateClusters() == routeConfiguration.hasValidateClusters()) {
+            return (!hasValidateClusters() || getValidateClusters().equals(routeConfiguration.getValidateClusters())) && this.unknownFields.equals(routeConfiguration.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getName().hashCode();
+        if (getVirtualHostsCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getVirtualHostsList().hashCode();
+        }
+        if (hasVhds()) {
+            iHashCode = (((iHashCode * 37) + 9) * 53) + getVhds().hashCode();
+        }
+        if (getInternalOnlyHeadersCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 3) * 53) + mo13093getInternalOnlyHeadersList().hashCode();
+        }
+        if (getResponseHeadersToAddCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + getResponseHeadersToAddList().hashCode();
+        }
+        if (getResponseHeadersToRemoveCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 5) * 53) + mo13095getResponseHeadersToRemoveList().hashCode();
+        }
+        if (getRequestHeadersToAddCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 6) * 53) + getRequestHeadersToAddList().hashCode();
+        }
+        if (getRequestHeadersToRemoveCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 8) * 53) + mo13094getRequestHeadersToRemoveList().hashCode();
+        }
+        int iHashBoolean = (((iHashCode * 37) + 10) * 53) + Internal.hashBoolean(getMostSpecificHeaderMutationsWins());
+        if (hasValidateClusters()) {
+            iHashBoolean = (((iHashBoolean * 37) + 7) * 53) + getValidateClusters().hashCode();
+        }
+        int iHashCode2 = (iHashBoolean * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m13096newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m13099toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements RouteConfigurationOrBuilder {
+        private int bitField0_;
+        private LazyStringList internalOnlyHeaders_;
+        private boolean mostSpecificHeaderMutationsWins_;
+        private Object name_;
+        private RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> requestHeadersToAddBuilder_;
+        private List<HeaderValueOption> requestHeadersToAdd_;
+        private LazyStringList requestHeadersToRemove_;
+        private RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> responseHeadersToAddBuilder_;
+        private List<HeaderValueOption> responseHeadersToAdd_;
+        private LazyStringList responseHeadersToRemove_;
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> validateClustersBuilder_;
+        private BoolValue validateClusters_;
+        private SingleFieldBuilderV3<Vhds, Vhds.Builder, VhdsOrBuilder> vhdsBuilder_;
+        private Vhds vhds_;
+        private RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> virtualHostsBuilder_;
+        private List<VirtualHost> virtualHosts_;
+
+        private Builder() {
+            this.name_ = "";
+            this.virtualHosts_ = Collections.emptyList();
+            this.internalOnlyHeaders_ = LazyStringArrayList.EMPTY;
+            this.responseHeadersToAdd_ = Collections.emptyList();
+            this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.requestHeadersToAdd_ = Collections.emptyList();
+            this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.name_ = "";
+            this.virtualHosts_ = Collections.emptyList();
+            this.internalOnlyHeaders_ = LazyStringArrayList.EMPTY;
+            this.responseHeadersToAdd_ = Collections.emptyList();
+            this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.requestHeadersToAdd_ = Collections.emptyList();
+            this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return RouteProto.internal_static_envoy_api_v2_RouteConfiguration_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public boolean getMostSpecificHeaderMutationsWins() {
+            return this.mostSpecificHeaderMutationsWins_;
+        }
+
+        public Builder setMostSpecificHeaderMutationsWins(boolean z) {
+            this.mostSpecificHeaderMutationsWins_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public boolean hasValidateClusters() {
+            return (this.validateClustersBuilder_ == null && this.validateClusters_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public boolean hasVhds() {
+            return (this.vhdsBuilder_ == null && this.vhds_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return RouteProto.internal_static_envoy_api_v2_RouteConfiguration_fieldAccessorTable.ensureFieldAccessorsInitialized(RouteConfiguration.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (RouteConfiguration.alwaysUseFieldBuilders) {
+                getVirtualHostsFieldBuilder();
+                getResponseHeadersToAddFieldBuilder();
+                getRequestHeadersToAddFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13110clear() {
+            super.clear();
+            this.name_ = "";
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.virtualHosts_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            if (this.vhdsBuilder_ == null) {
+                this.vhds_ = null;
+            } else {
+                this.vhds_ = null;
+                this.vhdsBuilder_ = null;
+            }
+            this.internalOnlyHeaders_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV32 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                this.responseHeadersToAdd_ = Collections.emptyList();
+                this.bitField0_ &= -5;
+            } else {
+                repeatedFieldBuilderV32.clear();
+            }
+            this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -9;
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV33 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV33 == null) {
+                this.requestHeadersToAdd_ = Collections.emptyList();
+                this.bitField0_ &= -17;
+            } else {
+                repeatedFieldBuilderV33.clear();
+            }
+            this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -33;
+            this.mostSpecificHeaderMutationsWins_ = false;
+            if (this.validateClustersBuilder_ == null) {
+                this.validateClusters_ = null;
+            } else {
+                this.validateClusters_ = null;
+                this.validateClustersBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return RouteProto.internal_static_envoy_api_v2_RouteConfiguration_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RouteConfiguration m13123getDefaultInstanceForType() {
+            return RouteConfiguration.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RouteConfiguration m13104build() throws UninitializedMessageException {
+            RouteConfiguration routeConfigurationM13106buildPartial = m13106buildPartial();
+            if (routeConfigurationM13106buildPartial.isInitialized()) {
+                return routeConfigurationM13106buildPartial;
+            }
+            throw newUninitializedMessageException(routeConfigurationM13106buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public RouteConfiguration m13106buildPartial() {
+            RouteConfiguration routeConfiguration = new RouteConfiguration(this);
+            routeConfiguration.name_ = this.name_;
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.virtualHosts_ = Collections.unmodifiableList(this.virtualHosts_);
+                    this.bitField0_ &= -2;
+                }
+                routeConfiguration.virtualHosts_ = this.virtualHosts_;
+            } else {
+                routeConfiguration.virtualHosts_ = repeatedFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<Vhds, Vhds.Builder, VhdsOrBuilder> singleFieldBuilderV3 = this.vhdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                routeConfiguration.vhds_ = this.vhds_;
+            } else {
+                routeConfiguration.vhds_ = singleFieldBuilderV3.build();
+            }
+            if ((this.bitField0_ & 2) != 0) {
+                this.internalOnlyHeaders_ = this.internalOnlyHeaders_.getUnmodifiableView();
+                this.bitField0_ &= -3;
+            }
+            routeConfiguration.internalOnlyHeaders_ = this.internalOnlyHeaders_;
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV32 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV32 == null) {
+                if ((this.bitField0_ & 4) != 0) {
+                    this.responseHeadersToAdd_ = Collections.unmodifiableList(this.responseHeadersToAdd_);
+                    this.bitField0_ &= -5;
+                }
+                routeConfiguration.responseHeadersToAdd_ = this.responseHeadersToAdd_;
+            } else {
+                routeConfiguration.responseHeadersToAdd_ = repeatedFieldBuilderV32.build();
+            }
+            if ((this.bitField0_ & 8) != 0) {
+                this.responseHeadersToRemove_ = this.responseHeadersToRemove_.getUnmodifiableView();
+                this.bitField0_ &= -9;
+            }
+            routeConfiguration.responseHeadersToRemove_ = this.responseHeadersToRemove_;
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV33 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV33 == null) {
+                if ((this.bitField0_ & 16) != 0) {
+                    this.requestHeadersToAdd_ = Collections.unmodifiableList(this.requestHeadersToAdd_);
+                    this.bitField0_ &= -17;
+                }
+                routeConfiguration.requestHeadersToAdd_ = this.requestHeadersToAdd_;
+            } else {
+                routeConfiguration.requestHeadersToAdd_ = repeatedFieldBuilderV33.build();
+            }
+            if ((this.bitField0_ & 32) != 0) {
+                this.requestHeadersToRemove_ = this.requestHeadersToRemove_.getUnmodifiableView();
+                this.bitField0_ &= -33;
+            }
+            routeConfiguration.requestHeadersToRemove_ = this.requestHeadersToRemove_;
+            routeConfiguration.mostSpecificHeaderMutationsWins_ = this.mostSpecificHeaderMutationsWins_;
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV32 = this.validateClustersBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                routeConfiguration.validateClusters_ = this.validateClusters_;
+            } else {
+                routeConfiguration.validateClusters_ = singleFieldBuilderV32.build();
+            }
+            onBuilt();
+            return routeConfiguration;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13122clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13134setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13112clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13115clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13136setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13102addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13127mergeFrom(Message message) {
+            if (message instanceof RouteConfiguration) {
+                return mergeFrom((RouteConfiguration) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(RouteConfiguration routeConfiguration) {
+            if (routeConfiguration == RouteConfiguration.getDefaultInstance()) {
+                return this;
+            }
+            if (!routeConfiguration.getName().isEmpty()) {
+                this.name_ = routeConfiguration.name_;
+                onChanged();
+            }
+            if (this.virtualHostsBuilder_ == null) {
+                if (!routeConfiguration.virtualHosts_.isEmpty()) {
+                    if (this.virtualHosts_.isEmpty()) {
+                        this.virtualHosts_ = routeConfiguration.virtualHosts_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureVirtualHostsIsMutable();
+                        this.virtualHosts_.addAll(routeConfiguration.virtualHosts_);
+                    }
+                    onChanged();
+                }
+            } else if (!routeConfiguration.virtualHosts_.isEmpty()) {
+                if (!this.virtualHostsBuilder_.isEmpty()) {
+                    this.virtualHostsBuilder_.addAllMessages(routeConfiguration.virtualHosts_);
+                } else {
+                    this.virtualHostsBuilder_.dispose();
+                    this.virtualHostsBuilder_ = null;
+                    this.virtualHosts_ = routeConfiguration.virtualHosts_;
+                    this.bitField0_ &= -2;
+                    this.virtualHostsBuilder_ = RouteConfiguration.alwaysUseFieldBuilders ? getVirtualHostsFieldBuilder() : null;
+                }
+            }
+            if (routeConfiguration.hasVhds()) {
+                mergeVhds(routeConfiguration.getVhds());
+            }
+            if (!routeConfiguration.internalOnlyHeaders_.isEmpty()) {
+                if (this.internalOnlyHeaders_.isEmpty()) {
+                    this.internalOnlyHeaders_ = routeConfiguration.internalOnlyHeaders_;
+                    this.bitField0_ &= -3;
+                } else {
+                    ensureInternalOnlyHeadersIsMutable();
+                    this.internalOnlyHeaders_.addAll(routeConfiguration.internalOnlyHeaders_);
+                }
+                onChanged();
+            }
+            if (this.responseHeadersToAddBuilder_ == null) {
+                if (!routeConfiguration.responseHeadersToAdd_.isEmpty()) {
+                    if (this.responseHeadersToAdd_.isEmpty()) {
+                        this.responseHeadersToAdd_ = routeConfiguration.responseHeadersToAdd_;
+                        this.bitField0_ &= -5;
+                    } else {
+                        ensureResponseHeadersToAddIsMutable();
+                        this.responseHeadersToAdd_.addAll(routeConfiguration.responseHeadersToAdd_);
+                    }
+                    onChanged();
+                }
+            } else if (!routeConfiguration.responseHeadersToAdd_.isEmpty()) {
+                if (!this.responseHeadersToAddBuilder_.isEmpty()) {
+                    this.responseHeadersToAddBuilder_.addAllMessages(routeConfiguration.responseHeadersToAdd_);
+                } else {
+                    this.responseHeadersToAddBuilder_.dispose();
+                    this.responseHeadersToAddBuilder_ = null;
+                    this.responseHeadersToAdd_ = routeConfiguration.responseHeadersToAdd_;
+                    this.bitField0_ &= -5;
+                    this.responseHeadersToAddBuilder_ = RouteConfiguration.alwaysUseFieldBuilders ? getResponseHeadersToAddFieldBuilder() : null;
+                }
+            }
+            if (!routeConfiguration.responseHeadersToRemove_.isEmpty()) {
+                if (this.responseHeadersToRemove_.isEmpty()) {
+                    this.responseHeadersToRemove_ = routeConfiguration.responseHeadersToRemove_;
+                    this.bitField0_ &= -9;
+                } else {
+                    ensureResponseHeadersToRemoveIsMutable();
+                    this.responseHeadersToRemove_.addAll(routeConfiguration.responseHeadersToRemove_);
+                }
+                onChanged();
+            }
+            if (this.requestHeadersToAddBuilder_ == null) {
+                if (!routeConfiguration.requestHeadersToAdd_.isEmpty()) {
+                    if (this.requestHeadersToAdd_.isEmpty()) {
+                        this.requestHeadersToAdd_ = routeConfiguration.requestHeadersToAdd_;
+                        this.bitField0_ &= -17;
+                    } else {
+                        ensureRequestHeadersToAddIsMutable();
+                        this.requestHeadersToAdd_.addAll(routeConfiguration.requestHeadersToAdd_);
+                    }
+                    onChanged();
+                }
+            } else if (!routeConfiguration.requestHeadersToAdd_.isEmpty()) {
+                if (!this.requestHeadersToAddBuilder_.isEmpty()) {
+                    this.requestHeadersToAddBuilder_.addAllMessages(routeConfiguration.requestHeadersToAdd_);
+                } else {
+                    this.requestHeadersToAddBuilder_.dispose();
+                    this.requestHeadersToAddBuilder_ = null;
+                    this.requestHeadersToAdd_ = routeConfiguration.requestHeadersToAdd_;
+                    this.bitField0_ &= -17;
+                    this.requestHeadersToAddBuilder_ = RouteConfiguration.alwaysUseFieldBuilders ? getRequestHeadersToAddFieldBuilder() : null;
+                }
+            }
+            if (!routeConfiguration.requestHeadersToRemove_.isEmpty()) {
+                if (this.requestHeadersToRemove_.isEmpty()) {
+                    this.requestHeadersToRemove_ = routeConfiguration.requestHeadersToRemove_;
+                    this.bitField0_ &= -33;
+                } else {
+                    ensureRequestHeadersToRemoveIsMutable();
+                    this.requestHeadersToRemove_.addAll(routeConfiguration.requestHeadersToRemove_);
+                }
+                onChanged();
+            }
+            if (routeConfiguration.getMostSpecificHeaderMutationsWins()) {
+                setMostSpecificHeaderMutationsWins(routeConfiguration.getMostSpecificHeaderMutationsWins());
+            }
+            if (routeConfiguration.hasValidateClusters()) {
+                mergeValidateClusters(routeConfiguration.getValidateClusters());
+            }
+            m13132mergeUnknownFields(routeConfiguration.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration.Builder m13128mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration.access$1800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration.Builder.m13128mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.name_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setName(String str) {
+            str.getClass();
+            this.name_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setNameBytes(ByteString byteString) {
+            byteString.getClass();
+            RouteConfiguration.checkByteStringIsUtf8(byteString);
+            this.name_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearName() {
+            this.name_ = RouteConfiguration.getDefaultInstance().getName();
+            onChanged();
+            return this;
+        }
+
+        private void ensureVirtualHostsIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.virtualHosts_ = new ArrayList(this.virtualHosts_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public List<VirtualHost> getVirtualHostsList() {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.virtualHosts_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public int getVirtualHostsCount() {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.virtualHosts_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public VirtualHost getVirtualHosts(int i) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.virtualHosts_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setVirtualHosts(int i, VirtualHost virtualHost) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                virtualHost.getClass();
+                ensureVirtualHostsIsMutable();
+                this.virtualHosts_.set(i, virtualHost);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, virtualHost);
+            }
+            return this;
+        }
+
+        public Builder setVirtualHosts(int i, VirtualHost.Builder builder) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureVirtualHostsIsMutable();
+                this.virtualHosts_.set(i, builder.m19486build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m19486build());
+            }
+            return this;
+        }
+
+        public Builder addVirtualHosts(VirtualHost virtualHost) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                virtualHost.getClass();
+                ensureVirtualHostsIsMutable();
+                this.virtualHosts_.add(virtualHost);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(virtualHost);
+            }
+            return this;
+        }
+
+        public Builder addVirtualHosts(int i, VirtualHost virtualHost) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                virtualHost.getClass();
+                ensureVirtualHostsIsMutable();
+                this.virtualHosts_.add(i, virtualHost);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, virtualHost);
+            }
+            return this;
+        }
+
+        public Builder addVirtualHosts(VirtualHost.Builder builder) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureVirtualHostsIsMutable();
+                this.virtualHosts_.add(builder.m19486build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m19486build());
+            }
+            return this;
+        }
+
+        public Builder addVirtualHosts(int i, VirtualHost.Builder builder) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureVirtualHostsIsMutable();
+                this.virtualHosts_.add(i, builder.m19486build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m19486build());
+            }
+            return this;
+        }
+
+        public Builder addAllVirtualHosts(Iterable<? extends VirtualHost> iterable) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureVirtualHostsIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.virtualHosts_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearVirtualHosts() {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.virtualHosts_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeVirtualHosts(int i) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureVirtualHostsIsMutable();
+                this.virtualHosts_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public VirtualHost.Builder getVirtualHostsBuilder(int i) {
+            return getVirtualHostsFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public VirtualHostOrBuilder getVirtualHostsOrBuilder(int i) {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.virtualHosts_.get(i);
+            }
+            return (VirtualHostOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public List<? extends VirtualHostOrBuilder> getVirtualHostsOrBuilderList() {
+            RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> repeatedFieldBuilderV3 = this.virtualHostsBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.virtualHosts_);
+        }
+
+        public VirtualHost.Builder addVirtualHostsBuilder() {
+            return getVirtualHostsFieldBuilder().addBuilder(VirtualHost.getDefaultInstance());
+        }
+
+        public VirtualHost.Builder addVirtualHostsBuilder(int i) {
+            return getVirtualHostsFieldBuilder().addBuilder(i, VirtualHost.getDefaultInstance());
+        }
+
+        public List<VirtualHost.Builder> getVirtualHostsBuilderList() {
+            return getVirtualHostsFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<VirtualHost, VirtualHost.Builder, VirtualHostOrBuilder> getVirtualHostsFieldBuilder() {
+            if (this.virtualHostsBuilder_ == null) {
+                this.virtualHostsBuilder_ = new RepeatedFieldBuilderV3<>(this.virtualHosts_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.virtualHosts_ = null;
+            }
+            return this.virtualHostsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public Vhds getVhds() {
+            SingleFieldBuilderV3<Vhds, Vhds.Builder, VhdsOrBuilder> singleFieldBuilderV3 = this.vhdsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Vhds vhds = this.vhds_;
+            return vhds == null ? Vhds.getDefaultInstance() : vhds;
+        }
+
+        public Builder setVhds(Vhds vhds) {
+            SingleFieldBuilderV3<Vhds, Vhds.Builder, VhdsOrBuilder> singleFieldBuilderV3 = this.vhdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                vhds.getClass();
+                this.vhds_ = vhds;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(vhds);
+            }
+            return this;
+        }
+
+        public Builder setVhds(Vhds.Builder builder) {
+            SingleFieldBuilderV3<Vhds, Vhds.Builder, VhdsOrBuilder> singleFieldBuilderV3 = this.vhdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.vhds_ = builder.m13426build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m13426build());
+            }
+            return this;
+        }
+
+        public Builder mergeVhds(Vhds vhds) {
+            SingleFieldBuilderV3<Vhds, Vhds.Builder, VhdsOrBuilder> singleFieldBuilderV3 = this.vhdsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Vhds vhds2 = this.vhds_;
+                if (vhds2 != null) {
+                    this.vhds_ = Vhds.newBuilder(vhds2).mergeFrom(vhds).m13428buildPartial();
+                } else {
+                    this.vhds_ = vhds;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(vhds);
+            }
+            return this;
+        }
+
+        public Builder clearVhds() {
+            if (this.vhdsBuilder_ == null) {
+                this.vhds_ = null;
+                onChanged();
+            } else {
+                this.vhds_ = null;
+                this.vhdsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Vhds.Builder getVhdsBuilder() {
+            onChanged();
+            return getVhdsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public VhdsOrBuilder getVhdsOrBuilder() {
+            SingleFieldBuilderV3<Vhds, Vhds.Builder, VhdsOrBuilder> singleFieldBuilderV3 = this.vhdsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (VhdsOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Vhds vhds = this.vhds_;
+            return vhds == null ? Vhds.getDefaultInstance() : vhds;
+        }
+
+        private SingleFieldBuilderV3<Vhds, Vhds.Builder, VhdsOrBuilder> getVhdsFieldBuilder() {
+            if (this.vhdsBuilder_ == null) {
+                this.vhdsBuilder_ = new SingleFieldBuilderV3<>(getVhds(), getParentForChildren(), isClean());
+                this.vhds_ = null;
+            }
+            return this.vhdsBuilder_;
+        }
+
+        private void ensureInternalOnlyHeadersIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.internalOnlyHeaders_ = new LazyStringArrayList(this.internalOnlyHeaders_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        /* renamed from: getInternalOnlyHeadersList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo13093getInternalOnlyHeadersList() {
+            return this.internalOnlyHeaders_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public int getInternalOnlyHeadersCount() {
+            return this.internalOnlyHeaders_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public String getInternalOnlyHeaders(int i) {
+            return (String) this.internalOnlyHeaders_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public ByteString getInternalOnlyHeadersBytes(int i) {
+            return this.internalOnlyHeaders_.getByteString(i);
+        }
+
+        public Builder setInternalOnlyHeaders(int i, String str) {
+            str.getClass();
+            ensureInternalOnlyHeadersIsMutable();
+            this.internalOnlyHeaders_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addInternalOnlyHeaders(String str) {
+            str.getClass();
+            ensureInternalOnlyHeadersIsMutable();
+            this.internalOnlyHeaders_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllInternalOnlyHeaders(Iterable<String> iterable) {
+            ensureInternalOnlyHeadersIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.internalOnlyHeaders_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearInternalOnlyHeaders() {
+            this.internalOnlyHeaders_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            onChanged();
+            return this;
+        }
+
+        public Builder addInternalOnlyHeadersBytes(ByteString byteString) {
+            byteString.getClass();
+            RouteConfiguration.checkByteStringIsUtf8(byteString);
+            ensureInternalOnlyHeadersIsMutable();
+            this.internalOnlyHeaders_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private void ensureResponseHeadersToAddIsMutable() {
+            if ((this.bitField0_ & 4) == 0) {
+                this.responseHeadersToAdd_ = new ArrayList(this.responseHeadersToAdd_);
+                this.bitField0_ |= 4;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public List<HeaderValueOption> getResponseHeadersToAddList() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.responseHeadersToAdd_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public int getResponseHeadersToAddCount() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.responseHeadersToAdd_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public HeaderValueOption getResponseHeadersToAdd(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.responseHeadersToAdd_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setResponseHeadersToAdd(int i, HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.set(i, headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder setResponseHeadersToAdd(int i, HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.set(i, builder.m15507build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m15507build());
+            }
+            return this;
+        }
+
+        public Builder addResponseHeadersToAdd(HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.add(headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder addResponseHeadersToAdd(int i, HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.add(i, headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder addResponseHeadersToAdd(HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.add(builder.m15507build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m15507build());
+            }
+            return this;
+        }
+
+        public Builder addResponseHeadersToAdd(int i, HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.add(i, builder.m15507build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m15507build());
+            }
+            return this;
+        }
+
+        public Builder addAllResponseHeadersToAdd(Iterable<? extends HeaderValueOption> iterable) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.responseHeadersToAdd_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearResponseHeadersToAdd() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.responseHeadersToAdd_ = Collections.emptyList();
+                this.bitField0_ &= -5;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeResponseHeadersToAdd(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureResponseHeadersToAddIsMutable();
+                this.responseHeadersToAdd_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public HeaderValueOption.Builder getResponseHeadersToAddBuilder(int i) {
+            return getResponseHeadersToAddFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public HeaderValueOptionOrBuilder getResponseHeadersToAddOrBuilder(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.responseHeadersToAdd_.get(i);
+            }
+            return (HeaderValueOptionOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public List<? extends HeaderValueOptionOrBuilder> getResponseHeadersToAddOrBuilderList() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.responseHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.responseHeadersToAdd_);
+        }
+
+        public HeaderValueOption.Builder addResponseHeadersToAddBuilder() {
+            return getResponseHeadersToAddFieldBuilder().addBuilder(HeaderValueOption.getDefaultInstance());
+        }
+
+        public HeaderValueOption.Builder addResponseHeadersToAddBuilder(int i) {
+            return getResponseHeadersToAddFieldBuilder().addBuilder(i, HeaderValueOption.getDefaultInstance());
+        }
+
+        public List<HeaderValueOption.Builder> getResponseHeadersToAddBuilderList() {
+            return getResponseHeadersToAddFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> getResponseHeadersToAddFieldBuilder() {
+            if (this.responseHeadersToAddBuilder_ == null) {
+                this.responseHeadersToAddBuilder_ = new RepeatedFieldBuilderV3<>(this.responseHeadersToAdd_, (this.bitField0_ & 4) != 0, getParentForChildren(), isClean());
+                this.responseHeadersToAdd_ = null;
+            }
+            return this.responseHeadersToAddBuilder_;
+        }
+
+        private void ensureResponseHeadersToRemoveIsMutable() {
+            if ((this.bitField0_ & 8) == 0) {
+                this.responseHeadersToRemove_ = new LazyStringArrayList(this.responseHeadersToRemove_);
+                this.bitField0_ |= 8;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        /* renamed from: getResponseHeadersToRemoveList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo13095getResponseHeadersToRemoveList() {
+            return this.responseHeadersToRemove_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public int getResponseHeadersToRemoveCount() {
+            return this.responseHeadersToRemove_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public String getResponseHeadersToRemove(int i) {
+            return (String) this.responseHeadersToRemove_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public ByteString getResponseHeadersToRemoveBytes(int i) {
+            return this.responseHeadersToRemove_.getByteString(i);
+        }
+
+        public Builder setResponseHeadersToRemove(int i, String str) {
+            str.getClass();
+            ensureResponseHeadersToRemoveIsMutable();
+            this.responseHeadersToRemove_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addResponseHeadersToRemove(String str) {
+            str.getClass();
+            ensureResponseHeadersToRemoveIsMutable();
+            this.responseHeadersToRemove_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllResponseHeadersToRemove(Iterable<String> iterable) {
+            ensureResponseHeadersToRemoveIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.responseHeadersToRemove_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearResponseHeadersToRemove() {
+            this.responseHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -9;
+            onChanged();
+            return this;
+        }
+
+        public Builder addResponseHeadersToRemoveBytes(ByteString byteString) {
+            byteString.getClass();
+            RouteConfiguration.checkByteStringIsUtf8(byteString);
+            ensureResponseHeadersToRemoveIsMutable();
+            this.responseHeadersToRemove_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private void ensureRequestHeadersToAddIsMutable() {
+            if ((this.bitField0_ & 16) == 0) {
+                this.requestHeadersToAdd_ = new ArrayList(this.requestHeadersToAdd_);
+                this.bitField0_ |= 16;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public List<HeaderValueOption> getRequestHeadersToAddList() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.requestHeadersToAdd_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public int getRequestHeadersToAddCount() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.requestHeadersToAdd_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public HeaderValueOption getRequestHeadersToAdd(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.requestHeadersToAdd_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setRequestHeadersToAdd(int i, HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.set(i, headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder setRequestHeadersToAdd(int i, HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.set(i, builder.m15507build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m15507build());
+            }
+            return this;
+        }
+
+        public Builder addRequestHeadersToAdd(HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.add(headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder addRequestHeadersToAdd(int i, HeaderValueOption headerValueOption) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerValueOption.getClass();
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.add(i, headerValueOption);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, headerValueOption);
+            }
+            return this;
+        }
+
+        public Builder addRequestHeadersToAdd(HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.add(builder.m15507build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m15507build());
+            }
+            return this;
+        }
+
+        public Builder addRequestHeadersToAdd(int i, HeaderValueOption.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.add(i, builder.m15507build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m15507build());
+            }
+            return this;
+        }
+
+        public Builder addAllRequestHeadersToAdd(Iterable<? extends HeaderValueOption> iterable) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.requestHeadersToAdd_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearRequestHeadersToAdd() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.requestHeadersToAdd_ = Collections.emptyList();
+                this.bitField0_ &= -17;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeRequestHeadersToAdd(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureRequestHeadersToAddIsMutable();
+                this.requestHeadersToAdd_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public HeaderValueOption.Builder getRequestHeadersToAddBuilder(int i) {
+            return getRequestHeadersToAddFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public HeaderValueOptionOrBuilder getRequestHeadersToAddOrBuilder(int i) {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.requestHeadersToAdd_.get(i);
+            }
+            return (HeaderValueOptionOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public List<? extends HeaderValueOptionOrBuilder> getRequestHeadersToAddOrBuilderList() {
+            RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> repeatedFieldBuilderV3 = this.requestHeadersToAddBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.requestHeadersToAdd_);
+        }
+
+        public HeaderValueOption.Builder addRequestHeadersToAddBuilder() {
+            return getRequestHeadersToAddFieldBuilder().addBuilder(HeaderValueOption.getDefaultInstance());
+        }
+
+        public HeaderValueOption.Builder addRequestHeadersToAddBuilder(int i) {
+            return getRequestHeadersToAddFieldBuilder().addBuilder(i, HeaderValueOption.getDefaultInstance());
+        }
+
+        public List<HeaderValueOption.Builder> getRequestHeadersToAddBuilderList() {
+            return getRequestHeadersToAddFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<HeaderValueOption, HeaderValueOption.Builder, HeaderValueOptionOrBuilder> getRequestHeadersToAddFieldBuilder() {
+            if (this.requestHeadersToAddBuilder_ == null) {
+                this.requestHeadersToAddBuilder_ = new RepeatedFieldBuilderV3<>(this.requestHeadersToAdd_, (this.bitField0_ & 16) != 0, getParentForChildren(), isClean());
+                this.requestHeadersToAdd_ = null;
+            }
+            return this.requestHeadersToAddBuilder_;
+        }
+
+        private void ensureRequestHeadersToRemoveIsMutable() {
+            if ((this.bitField0_ & 32) == 0) {
+                this.requestHeadersToRemove_ = new LazyStringArrayList(this.requestHeadersToRemove_);
+                this.bitField0_ |= 32;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        /* renamed from: getRequestHeadersToRemoveList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo13094getRequestHeadersToRemoveList() {
+            return this.requestHeadersToRemove_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public int getRequestHeadersToRemoveCount() {
+            return this.requestHeadersToRemove_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public String getRequestHeadersToRemove(int i) {
+            return (String) this.requestHeadersToRemove_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public ByteString getRequestHeadersToRemoveBytes(int i) {
+            return this.requestHeadersToRemove_.getByteString(i);
+        }
+
+        public Builder setRequestHeadersToRemove(int i, String str) {
+            str.getClass();
+            ensureRequestHeadersToRemoveIsMutable();
+            this.requestHeadersToRemove_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addRequestHeadersToRemove(String str) {
+            str.getClass();
+            ensureRequestHeadersToRemoveIsMutable();
+            this.requestHeadersToRemove_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllRequestHeadersToRemove(Iterable<String> iterable) {
+            ensureRequestHeadersToRemoveIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.requestHeadersToRemove_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearRequestHeadersToRemove() {
+            this.requestHeadersToRemove_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -33;
+            onChanged();
+            return this;
+        }
+
+        public Builder addRequestHeadersToRemoveBytes(ByteString byteString) {
+            byteString.getClass();
+            RouteConfiguration.checkByteStringIsUtf8(byteString);
+            ensureRequestHeadersToRemoveIsMutable();
+            this.requestHeadersToRemove_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearMostSpecificHeaderMutationsWins() {
+            this.mostSpecificHeaderMutationsWins_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public BoolValue getValidateClusters() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.validateClustersBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            BoolValue boolValue = this.validateClusters_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        public Builder setValidateClusters(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.validateClustersBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                boolValue.getClass();
+                this.validateClusters_ = boolValue;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(boolValue);
+            }
+            return this;
+        }
+
+        public Builder setValidateClusters(BoolValue.Builder builder) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.validateClustersBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.validateClusters_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeValidateClusters(BoolValue boolValue) {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.validateClustersBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                BoolValue boolValue2 = this.validateClusters_;
+                if (boolValue2 != null) {
+                    this.validateClusters_ = BoolValue.newBuilder(boolValue2).mergeFrom(boolValue).buildPartial();
+                } else {
+                    this.validateClusters_ = boolValue;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(boolValue);
+            }
+            return this;
+        }
+
+        public Builder clearValidateClusters() {
+            if (this.validateClustersBuilder_ == null) {
+                this.validateClusters_ = null;
+                onChanged();
+            } else {
+                this.validateClusters_ = null;
+                this.validateClustersBuilder_ = null;
+            }
+            return this;
+        }
+
+        public BoolValue.Builder getValidateClustersBuilder() {
+            onChanged();
+            return getValidateClustersFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfigurationOrBuilder
+        public BoolValueOrBuilder getValidateClustersOrBuilder() {
+            SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> singleFieldBuilderV3 = this.validateClustersBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            BoolValue boolValue = this.validateClusters_;
+            return boolValue == null ? BoolValue.getDefaultInstance() : boolValue;
+        }
+
+        private SingleFieldBuilderV3<BoolValue, BoolValue.Builder, BoolValueOrBuilder> getValidateClustersFieldBuilder() {
+            if (this.validateClustersBuilder_ == null) {
+                this.validateClustersBuilder_ = new SingleFieldBuilderV3<>(getValidateClusters(), getParentForChildren(), isClean());
+                this.validateClusters_ = null;
+            }
+            return this.validateClustersBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m13138setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m13132mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

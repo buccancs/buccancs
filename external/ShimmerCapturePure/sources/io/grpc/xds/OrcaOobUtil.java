@@ -1,0 +1,434 @@
+package io.grpc.xds;
+
+import androidx.core.app.NotificationCompat;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.Objects;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import com.google.common.base.Supplier;
+import com.google.protobuf.util.Durations;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.ChannelLogger;
+import io.grpc.ClientCall;
+import io.grpc.ConnectivityState;
+import io.grpc.ConnectivityStateInfo;
+import io.grpc.LoadBalancer;
+import io.grpc.Metadata;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.internal.BackoffPolicy;
+import io.grpc.internal.ExponentialBackoffPolicy;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.util.ForwardingLoadBalancerHelper;
+import io.grpc.util.ForwardingSubchannel;
+import io.grpc.xds.shaded.com.github.udpa.udpa.data.orca.v1.OrcaLoadReport;
+import io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OpenRcaServiceGrpc;
+import io.grpc.xds.shaded.com.github.udpa.udpa.service.orca.v1.OrcaLoadReportRequest;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+abstract class OrcaOobUtil {
+    private static final Logger logger = Logger.getLogger(OrcaPerRequestUtil.class.getName());
+    private static final OrcaOobUtil DEFAULT_INSTANCE = new OrcaOobUtil() { // from class: io.grpc.xds.OrcaOobUtil.1
+        @Override // io.grpc.xds.OrcaOobUtil
+        public OrcaReportingHelperWrapper newOrcaReportingHelperWrapper(LoadBalancer.Helper helper, OrcaOobReportListener orcaOobReportListener) {
+            return newOrcaReportingHelperWrapper(helper, orcaOobReportListener, new ExponentialBackoffPolicy.Provider(), GrpcUtil.STOPWATCH_SUPPLIER);
+        }
+    };
+
+    OrcaOobUtil() {
+    }
+
+    public static OrcaOobUtil getInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    static OrcaReportingHelperWrapper newOrcaReportingHelperWrapper(LoadBalancer.Helper helper, OrcaOobReportListener orcaOobReportListener, BackoffPolicy.Provider provider, Supplier<Stopwatch> supplier) {
+        final OrcaReportingHelper orcaReportingHelper = new OrcaReportingHelper(helper, orcaOobReportListener, provider, supplier);
+        return new OrcaReportingHelperWrapper() { // from class: io.grpc.xds.OrcaOobUtil.2
+            @Override // io.grpc.xds.OrcaOobUtil.OrcaReportingHelperWrapper
+            public LoadBalancer.Helper asHelper() {
+                return orcaReportingHelper;
+            }
+
+            @Override // io.grpc.xds.OrcaOobUtil.OrcaReportingHelperWrapper
+            public void setReportingConfig(OrcaReportingConfig orcaReportingConfig) {
+                orcaReportingHelper.setReportingConfig(orcaReportingConfig);
+            }
+        };
+    }
+
+    public abstract OrcaReportingHelperWrapper newOrcaReportingHelperWrapper(LoadBalancer.Helper helper, OrcaOobReportListener orcaOobReportListener);
+
+    public interface OrcaOobReportListener {
+        void onLoadReport(OrcaLoadReport orcaLoadReport);
+    }
+
+    public static abstract class OrcaReportingHelperWrapper {
+        public abstract LoadBalancer.Helper asHelper();
+
+        public abstract void setReportingConfig(OrcaReportingConfig orcaReportingConfig);
+    }
+
+    private static final class OrcaReportingHelper extends ForwardingLoadBalancerHelper implements OrcaOobReportListener {
+        private static final LoadBalancer.CreateSubchannelArgs.Key<OrcaReportingState> ORCA_REPORTING_STATE_KEY = LoadBalancer.CreateSubchannelArgs.Key.create("internal-orca-reporting-state");
+        private final BackoffPolicy.Provider backoffPolicyProvider;
+        private final LoadBalancer.Helper delegate;
+        private final OrcaOobReportListener listener;
+        private final Set<OrcaReportingState> orcaStates = new HashSet();
+        private final Supplier<Stopwatch> stopwatchSupplier;
+        private final SynchronizationContext syncContext;
+        @Nullable
+        private OrcaReportingConfig orcaConfig;
+
+        OrcaReportingHelper(LoadBalancer.Helper helper, OrcaOobReportListener orcaOobReportListener, BackoffPolicy.Provider provider, Supplier<Stopwatch> supplier) {
+            this.delegate = (LoadBalancer.Helper) Preconditions.checkNotNull(helper, "delegate");
+            this.listener = (OrcaOobReportListener) Preconditions.checkNotNull(orcaOobReportListener, "listener");
+            this.backoffPolicyProvider = (BackoffPolicy.Provider) Preconditions.checkNotNull(provider, "backoffPolicyProvider");
+            this.stopwatchSupplier = (Supplier) Preconditions.checkNotNull(supplier, "stopwatchSupplier");
+            this.syncContext = (SynchronizationContext) Preconditions.checkNotNull(helper.getSynchronizationContext(), "syncContext");
+        }
+
+        @Override // io.grpc.util.ForwardingLoadBalancerHelper
+        protected LoadBalancer.Helper delegate() {
+            return this.delegate;
+        }
+
+        @Override // io.grpc.util.ForwardingLoadBalancerHelper, io.grpc.LoadBalancer.Helper
+        public LoadBalancer.Subchannel createSubchannel(LoadBalancer.CreateSubchannelArgs createSubchannelArgs) {
+            boolean z;
+            this.syncContext.throwIfNotInThisSynchronizationContext();
+            LoadBalancer.CreateSubchannelArgs.Key<OrcaReportingState> key = ORCA_REPORTING_STATE_KEY;
+            OrcaReportingState orcaReportingState = (OrcaReportingState) createSubchannelArgs.getOption(key);
+            if (orcaReportingState == null) {
+                orcaReportingState = new OrcaReportingState(this, this.syncContext, delegate().getScheduledExecutorService());
+                createSubchannelArgs = createSubchannelArgs.toBuilder().addOption(key, orcaReportingState).build();
+                z = true;
+            } else {
+                z = false;
+            }
+            this.orcaStates.add(orcaReportingState);
+            orcaReportingState.listeners.add(this);
+            LoadBalancer.Subchannel subchannelCreateSubchannel = super.createSubchannel(createSubchannelArgs);
+            if (z) {
+                subchannelCreateSubchannel = new SubchannelImpl(subchannelCreateSubchannel, orcaReportingState);
+            }
+            OrcaReportingConfig orcaReportingConfig = this.orcaConfig;
+            if (orcaReportingConfig != null) {
+                orcaReportingState.setReportingConfig(this, orcaReportingConfig);
+            }
+            return subchannelCreateSubchannel;
+        }
+
+        void setReportingConfig(OrcaReportingConfig orcaReportingConfig) {
+            this.syncContext.throwIfNotInThisSynchronizationContext();
+            this.orcaConfig = orcaReportingConfig;
+            Iterator<OrcaReportingState> it2 = this.orcaStates.iterator();
+            while (it2.hasNext()) {
+                it2.next().setReportingConfig(this, orcaReportingConfig);
+            }
+        }
+
+        @Override // io.grpc.xds.OrcaOobUtil.OrcaOobReportListener
+        public void onLoadReport(OrcaLoadReport orcaLoadReport) {
+            this.syncContext.throwIfNotInThisSynchronizationContext();
+            if (this.orcaConfig != null) {
+                this.listener.onLoadReport(orcaLoadReport);
+            }
+        }
+
+        private final class OrcaReportingState implements LoadBalancer.SubchannelStateListener {
+
+            private final OrcaReportingHelper orcaHelper;
+            private final SynchronizationContext syncContext;
+            private final ScheduledExecutorService timeService;
+            private final List<OrcaOobReportListener> listeners = new ArrayList();
+            private final Map<OrcaReportingHelper, OrcaReportingConfig> configs = new HashMap();
+            @Nullable
+            private BackoffPolicy backoffPolicy;
+            private boolean disabled;
+            @Nullable
+            private OrcaReportingStream orcaRpc;
+            @Nullable
+            private OrcaReportingConfig overallConfig;
+            @Nullable
+            private SynchronizationContext.ScheduledHandle retryTimer;
+            @Nullable
+            private LoadBalancer.SubchannelStateListener stateListener;
+            @Nullable
+            private LoadBalancer.Subchannel subchannel;
+            @Nullable
+            private ChannelLogger subchannelLogger;
+            private final Runnable retryTask = new Runnable() { // from class: io.grpc.xds.OrcaOobUtil.OrcaReportingHelper.OrcaReportingState.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    OrcaReportingState.this.startRpc();
+                }
+            };
+            private ConnectivityStateInfo state = ConnectivityStateInfo.forNonError(ConnectivityState.IDLE);
+
+            OrcaReportingState(OrcaReportingHelper orcaReportingHelper, SynchronizationContext synchronizationContext, ScheduledExecutorService scheduledExecutorService) {
+                this.orcaHelper = (OrcaReportingHelper) Preconditions.checkNotNull(orcaReportingHelper, "orcaHelper");
+                this.syncContext = (SynchronizationContext) Preconditions.checkNotNull(synchronizationContext, "syncContext");
+                this.timeService = (ScheduledExecutorService) Preconditions.checkNotNull(scheduledExecutorService, "timeService");
+            }
+
+            void init(LoadBalancer.Subchannel subchannel, LoadBalancer.SubchannelStateListener subchannelStateListener) {
+                Preconditions.checkState(this.subchannel == null, "init() already called");
+                this.subchannel = (LoadBalancer.Subchannel) Preconditions.checkNotNull(subchannel, "subchannel");
+                this.subchannelLogger = (ChannelLogger) Preconditions.checkNotNull(subchannel.getChannelLogger(), "subchannelLogger");
+                this.stateListener = (LoadBalancer.SubchannelStateListener) Preconditions.checkNotNull(subchannelStateListener, "stateListener");
+            }
+
+            void setReportingConfig(OrcaReportingHelper orcaReportingHelper, OrcaReportingConfig orcaReportingConfig) {
+                this.configs.put(orcaReportingHelper, orcaReportingConfig);
+                if (this.overallConfig == null) {
+                    this.overallConfig = orcaReportingConfig.toBuilder().build();
+                } else {
+                    long reportIntervalNanos = Long.MAX_VALUE;
+                    for (OrcaReportingConfig orcaReportingConfig2 : this.configs.values()) {
+                        if (orcaReportingConfig2.getReportIntervalNanos() < reportIntervalNanos) {
+                            reportIntervalNanos = orcaReportingConfig2.getReportIntervalNanos();
+                        }
+                    }
+                    if (this.overallConfig.getReportIntervalNanos() == reportIntervalNanos) {
+                        return;
+                    } else {
+                        this.overallConfig = this.overallConfig.toBuilder().setReportInterval(reportIntervalNanos, TimeUnit.NANOSECONDS).build();
+                    }
+                }
+                stopRpc("ORCA reporting reconfigured");
+                adjustOrcaReporting();
+            }
+
+            @Override // io.grpc.LoadBalancer.SubchannelStateListener
+            public void onSubchannelState(ConnectivityStateInfo connectivityStateInfo) {
+                if (Objects.equal(this.state.getState(), ConnectivityState.READY) && !Objects.equal(connectivityStateInfo.getState(), ConnectivityState.READY)) {
+                    this.disabled = false;
+                }
+                if (Objects.equal(connectivityStateInfo.getState(), ConnectivityState.SHUTDOWN)) {
+                    this.orcaHelper.orcaStates.remove(this);
+                }
+                this.state = connectivityStateInfo;
+                adjustOrcaReporting();
+                this.stateListener.onSubchannelState(connectivityStateInfo);
+            }
+
+            void adjustOrcaReporting() {
+                if (!this.disabled && this.overallConfig != null && Objects.equal(this.state.getState(), ConnectivityState.READY)) {
+                    if (this.orcaRpc != null || isRetryTimerPending()) {
+                        return;
+                    }
+                    startRpc();
+                    return;
+                }
+                stopRpc("Client stops ORCA reporting");
+                this.backoffPolicy = null;
+            }
+
+            void startRpc() {
+                Preconditions.checkState(this.orcaRpc == null, "previous orca reporting RPC has not been cleaned up");
+                Preconditions.checkState(this.subchannel != null, "init() not called");
+                this.subchannelLogger.log(ChannelLogger.ChannelLogLevel.DEBUG, "Starting ORCA reporting for {0}", this.subchannel.getAllAddresses());
+                OrcaReportingStream orcaReportingStream = new OrcaReportingStream(this.subchannel.asChannel(), (Stopwatch) OrcaReportingHelper.this.stopwatchSupplier.get());
+                this.orcaRpc = orcaReportingStream;
+                orcaReportingStream.start();
+            }
+
+            void stopRpc(String str) {
+                OrcaReportingStream orcaReportingStream = this.orcaRpc;
+                if (orcaReportingStream != null) {
+                    orcaReportingStream.cancel(str);
+                    this.orcaRpc = null;
+                }
+                SynchronizationContext.ScheduledHandle scheduledHandle = this.retryTimer;
+                if (scheduledHandle != null) {
+                    scheduledHandle.cancel();
+                    this.retryTimer = null;
+                }
+            }
+
+            boolean isRetryTimerPending() {
+                SynchronizationContext.ScheduledHandle scheduledHandle = this.retryTimer;
+                return scheduledHandle != null && scheduledHandle.isPending();
+            }
+
+            public String toString() {
+                return MoreObjects.toStringHelper(this).add("disabled", this.disabled).add("orcaRpc", this.orcaRpc).add("reportingConfig", this.overallConfig).add("connectivityState", this.state).toString();
+            }
+
+            private class OrcaReportingStream extends ClientCall.Listener<OrcaLoadReport> {
+                private final ClientCall<OrcaLoadReportRequest, OrcaLoadReport> call;
+                private final Stopwatch stopwatch;
+                private boolean callHasResponded;
+
+                OrcaReportingStream(Channel channel, Stopwatch stopwatch) {
+                    this.call = ((Channel) Preconditions.checkNotNull(channel, "channel")).newCall(OpenRcaServiceGrpc.getStreamCoreMetricsMethod(), CallOptions.DEFAULT);
+                    this.stopwatch = (Stopwatch) Preconditions.checkNotNull(stopwatch, NotificationCompat.CATEGORY_STOPWATCH);
+                }
+
+                void start() {
+                    this.stopwatch.reset().start();
+                    this.call.start(this, new Metadata());
+                    this.call.sendMessage(OrcaLoadReportRequest.newBuilder().setReportInterval(Durations.fromNanos(OrcaReportingState.this.overallConfig.getReportIntervalNanos())).m10413build());
+                    this.call.halfClose();
+                    this.call.request(1);
+                }
+
+                @Override // io.grpc.ClientCall.Listener
+                public void onMessage(final OrcaLoadReport orcaLoadReport) {
+                    OrcaReportingState.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.OrcaOobUtil.OrcaReportingHelper.OrcaReportingState.OrcaReportingStream.1
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            OrcaReportingStream orcaReportingStream = OrcaReportingState.this.orcaRpc;
+                            OrcaReportingStream orcaReportingStream2 = OrcaReportingStream.this;
+                            if (orcaReportingStream == orcaReportingStream2) {
+                                orcaReportingStream2.handleResponse(orcaLoadReport);
+                            }
+                        }
+                    });
+                }
+
+                @Override // io.grpc.ClientCall.Listener
+                public void onClose(final Status status, Metadata metadata) {
+                    OrcaReportingState.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.OrcaOobUtil.OrcaReportingHelper.OrcaReportingState.OrcaReportingStream.2
+                        @Override // java.lang.Runnable
+                        public void run() {
+                            OrcaReportingStream orcaReportingStream = OrcaReportingState.this.orcaRpc;
+                            OrcaReportingStream orcaReportingStream2 = OrcaReportingStream.this;
+                            if (orcaReportingStream == orcaReportingStream2) {
+                                OrcaReportingState.this.orcaRpc = null;
+                                OrcaReportingStream.this.handleStreamClosed(status);
+                            }
+                        }
+                    });
+                }
+
+                void handleResponse(OrcaLoadReport orcaLoadReport) {
+                    this.callHasResponded = true;
+                    OrcaReportingState.this.backoffPolicy = null;
+                    OrcaReportingState.this.subchannelLogger.log(ChannelLogger.ChannelLogLevel.DEBUG, "Received an ORCA report: {0}", orcaLoadReport);
+                    Iterator it2 = OrcaReportingState.this.listeners.iterator();
+                    while (it2.hasNext()) {
+                        ((OrcaOobReportListener) it2.next()).onLoadReport(orcaLoadReport);
+                    }
+                    this.call.request(1);
+                }
+
+                void handleStreamClosed(Status status) {
+                    long jNextBackoffNanos;
+                    if (Objects.equal(status.getCode(), Status.Code.UNIMPLEMENTED)) {
+                        OrcaReportingState.this.disabled = true;
+                        OrcaOobUtil.logger.log(Level.SEVERE, "Backend {0} OpenRcaService is disabled. Server returned: {1}", new Object[]{OrcaReportingState.this.subchannel.getAllAddresses(), status});
+                        OrcaReportingState.this.subchannelLogger.log(ChannelLogger.ChannelLogLevel.ERROR, "OpenRcaService disabled: {0}", status);
+                        return;
+                    }
+                    if (this.callHasResponded) {
+                        jNextBackoffNanos = 0;
+                    } else {
+                        if (OrcaReportingState.this.backoffPolicy == null) {
+                            OrcaReportingState orcaReportingState = OrcaReportingState.this;
+                            orcaReportingState.backoffPolicy = OrcaReportingHelper.this.backoffPolicyProvider.get();
+                        }
+                        jNextBackoffNanos = OrcaReportingState.this.backoffPolicy.nextBackoffNanos() - this.stopwatch.elapsed(TimeUnit.NANOSECONDS);
+                    }
+                    ChannelLogger channelLogger = OrcaReportingState.this.subchannelLogger;
+                    ChannelLogger.ChannelLogLevel channelLogLevel = ChannelLogger.ChannelLogLevel.DEBUG;
+                    Object[] objArr = new Object[2];
+                    objArr[0] = status;
+                    objArr[1] = Long.valueOf(jNextBackoffNanos > 0 ? jNextBackoffNanos : 0L);
+                    channelLogger.log(channelLogLevel, "ORCA reporting stream closed with {0}, backoff in {1} ns", objArr);
+                    if (jNextBackoffNanos <= 0) {
+                        OrcaReportingState.this.startRpc();
+                        return;
+                    }
+                    Preconditions.checkState(!OrcaReportingState.this.isRetryTimerPending(), "Retry double scheduled");
+                    OrcaReportingState orcaReportingState2 = OrcaReportingState.this;
+                    orcaReportingState2.retryTimer = orcaReportingState2.syncContext.schedule(OrcaReportingState.this.retryTask, jNextBackoffNanos, TimeUnit.NANOSECONDS, OrcaReportingState.this.timeService);
+                }
+
+                void cancel(String str) {
+                    this.call.cancel(str, null);
+                }
+
+                public String toString() {
+                    return MoreObjects.toStringHelper(this).add("callStarted", this.call != null).add("callHasResponded", this.callHasResponded).toString();
+                }
+            }
+        }
+    }
+
+    static final class SubchannelImpl extends ForwardingSubchannel {
+        private final LoadBalancer.Subchannel delegate;
+        private final OrcaReportingHelper.OrcaReportingState orcaState;
+
+        SubchannelImpl(LoadBalancer.Subchannel subchannel, OrcaReportingHelper.OrcaReportingState orcaReportingState) {
+            this.delegate = (LoadBalancer.Subchannel) Preconditions.checkNotNull(subchannel, "delegate");
+            this.orcaState = (OrcaReportingHelper.OrcaReportingState) Preconditions.checkNotNull(orcaReportingState, "orcaState");
+        }
+
+        @Override // io.grpc.util.ForwardingSubchannel
+        protected LoadBalancer.Subchannel delegate() {
+            return this.delegate;
+        }
+
+        @Override // io.grpc.util.ForwardingSubchannel, io.grpc.LoadBalancer.Subchannel
+        public void start(LoadBalancer.SubchannelStateListener subchannelStateListener) {
+            this.orcaState.init(this, subchannelStateListener);
+            super.start(this.orcaState);
+        }
+    }
+
+    public static final class OrcaReportingConfig {
+        private final long reportIntervalNanos;
+
+        private OrcaReportingConfig(long j) {
+            this.reportIntervalNanos = j;
+        }
+
+        public static Builder newBuilder() {
+            return new Builder();
+        }
+
+        public long getReportIntervalNanos() {
+            return this.reportIntervalNanos;
+        }
+
+        public Builder toBuilder() {
+            return newBuilder().setReportInterval(this.reportIntervalNanos, TimeUnit.NANOSECONDS);
+        }
+
+        public String toString() {
+            return MoreObjects.toStringHelper(this).add("reportIntervalNanos", this.reportIntervalNanos).toString();
+        }
+
+        public static final class Builder {
+            private long reportIntervalNanos;
+
+            Builder() {
+            }
+
+            public Builder setReportInterval(long j, TimeUnit timeUnit) {
+                this.reportIntervalNanos = timeUnit.toNanos(j);
+                return this;
+            }
+
+            public OrcaReportingConfig build() {
+                return new OrcaReportingConfig(this.reportIntervalNanos);
+            }
+        }
+    }
+}

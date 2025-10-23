@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/LongAdderCounter.java
+// Size: 386 bytes
+// Modified: 2025-10-21 16:32:01.480743600 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+import java.util.concurrent.atomic.LongAdder;
+
+/* loaded from: classes3.dex */
+final class LongAdderCounter extends LongAdder implements LongCounter {
+    LongAdderCounter() {
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.LongCounter
+    public long value() {
+        return longValue();
+    }
+}

@@ -1,0 +1,24 @@
+package androidx.profileinstaller;
+
+import com.shimmerresearch.driver.ShimmerObject;
+
+import java.util.Arrays;
+
+/* loaded from: classes.dex */
+public class ProfileVersion {
+    public static final int MIN_SUPPORTED_SDK = 24;
+    static final byte[] V015_S = {ShimmerObject.SET_BLINK_LED, ShimmerObject.BLINK_LED_RESPONSE, ShimmerObject.BUFFER_SIZE_RESPONSE, 0};
+    static final byte[] V010_P = {ShimmerObject.SET_BLINK_LED, ShimmerObject.BLINK_LED_RESPONSE, ShimmerObject.SET_BLINK_LED, 0};
+    static final byte[] V009_O_MR1 = {ShimmerObject.SET_BLINK_LED, ShimmerObject.SET_BLINK_LED, 57, 0};
+    static final byte[] V005_O = {ShimmerObject.SET_BLINK_LED, ShimmerObject.SET_BLINK_LED, ShimmerObject.BUFFER_SIZE_RESPONSE, 0};
+    static final byte[] V001_N = {ShimmerObject.SET_BLINK_LED, ShimmerObject.SET_BLINK_LED, ShimmerObject.BLINK_LED_RESPONSE, 0};
+    static final byte[] METADATA_V001_N = {ShimmerObject.SET_BLINK_LED, ShimmerObject.SET_BLINK_LED, ShimmerObject.BLINK_LED_RESPONSE, 0};
+    static final byte[] METADATA_V002 = {ShimmerObject.SET_BLINK_LED, ShimmerObject.SET_BLINK_LED, ShimmerObject.GET_BLINK_LED, 0};
+
+    private ProfileVersion() {
+    }
+
+    static String dexKeySeparator(byte[] bArr) {
+        return (Arrays.equals(bArr, V001_N) || Arrays.equals(bArr, V005_O)) ? ":" : "!";
+    }
+}

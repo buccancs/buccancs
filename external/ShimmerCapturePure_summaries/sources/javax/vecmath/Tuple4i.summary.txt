@@ -1,0 +1,337 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/javax/vecmath/Tuple4i.java
+// Size: 8294 bytes
+// Modified: 2025-10-21 16:32:00.480725000 +0100
+
+package javax.vecmath;
+
+import java.io.Serializable;
+
+/* loaded from: classes4.dex */
+public abstract class Tuple4i implements Serializable, Cloneable {
+    static final long serialVersionUID = 8064614250942616720L;
+    public int w;
+    public int x;
+    public int y;
+    public int z;
+
+    public final void clamp(int i, int i2) {
+        int i3 = this.x;
+        if (i3 > i2) {
+            this.x = i2;
+        } else if (i3 < i) {
+            this.x = i;
+        }
+        int i4 = this.y;
+        if (i4 > i2) {
+            this.y = i2;
+        } else if (i4 < i) {
+            this.y = i;
+        }
+        int i5 = this.z;
+        if (i5 > i2) {
+            this.z = i2;
+        } else if (i5 < i) {
+            this.z = i;
+        }
+        int i6 = this.w;
+        if (i6 > i2) {
+            this.w = i2;
+        } else if (i6 < i) {
+            this.w = i;
+        }
+    }
+
+    public final void clampMax(int i) {
+        if (this.x > i) {
+            this.x = i;
+        }
+        if (this.y > i) {
+            this.y = i;
+        }
+        if (this.z > i) {
+            this.z = i;
+        }
+        if (this.w > i) {
+            this.w = i;
+        }
+    }
+
+    public final void clampMin(int i) {
+        if (this.x < i) {
+            this.x = i;
+        }
+        if (this.y < i) {
+            this.y = i;
+        }
+        if (this.z < i) {
+            this.z = i;
+        }
+        if (this.w < i) {
+            this.w = i;
+        }
+    }
+
+    public int hashCode() {
+        long j = ((((((this.x + 31) * 31) + this.y) * 31) + this.z) * 31) + this.w;
+        return (int) (j ^ (j >> 32));
+    }
+
+    public final void negate() {
+        this.x = -this.x;
+        this.y = -this.y;
+        this.z = -this.z;
+        this.w = -this.w;
+    }
+
+    public final void scale(int i) {
+        this.x *= i;
+        this.y *= i;
+        this.z *= i;
+        this.w *= i;
+    }
+
+    public final void set(int i, int i2, int i3, int i4) {
+        this.x = i;
+        this.y = i2;
+        this.z = i3;
+        this.w = i4;
+    }
+
+    public Tuple4i(int i, int i2, int i3, int i4) {
+        this.x = i;
+        this.y = i2;
+        this.z = i3;
+        this.w = i4;
+    }
+
+    public Tuple4i(int[] iArr) {
+        this.x = iArr[0];
+        this.y = iArr[1];
+        this.z = iArr[2];
+        this.w = iArr[3];
+    }
+
+    public Tuple4i(Tuple4i tuple4i) {
+        this.x = tuple4i.x;
+        this.y = tuple4i.y;
+        this.z = tuple4i.z;
+        this.w = tuple4i.w;
+    }
+
+    public Tuple4i() {
+        this.x = 0;
+        this.y = 0;
+        this.z = 0;
+        this.w = 0;
+    }
+
+    public final void set(int[] iArr) {
+        this.x = iArr[0];
+        this.y = iArr[1];
+        this.z = iArr[2];
+        this.w = iArr[3];
+    }
+
+    public final void set(Tuple4i tuple4i) {
+        this.x = tuple4i.x;
+        this.y = tuple4i.y;
+        this.z = tuple4i.z;
+        this.w = tuple4i.w;
+    }
+
+    public final void get(int[] iArr) {
+        iArr[0] = this.x;
+        iArr[1] = this.y;
+        iArr[2] = this.z;
+        iArr[3] = this.w;
+    }
+
+    public final void get(Tuple4i tuple4i) {
+        tuple4i.x = this.x;
+        tuple4i.y = this.y;
+        tuple4i.z = this.z;
+        tuple4i.w = this.w;
+    }
+
+    public final void add(Tuple4i tuple4i, Tuple4i tuple4i2) {
+        this.x = tuple4i.x + tuple4i2.x;
+        this.y = tuple4i.y + tuple4i2.y;
+        this.z = tuple4i.z + tuple4i2.z;
+        this.w = tuple4i.w + tuple4i2.w;
+    }
+
+    public final void add(Tuple4i tuple4i) {
+        this.x += tuple4i.x;
+        this.y += tuple4i.y;
+        this.z += tuple4i.z;
+        this.w += tuple4i.w;
+    }
+
+    public final void sub(Tuple4i tuple4i, Tuple4i tuple4i2) {
+        this.x = tuple4i.x - tuple4i2.x;
+        this.y = tuple4i.y - tuple4i2.y;
+        this.z = tuple4i.z - tuple4i2.z;
+        this.w = tuple4i.w - tuple4i2.w;
+    }
+
+    public final void sub(Tuple4i tuple4i) {
+        this.x -= tuple4i.x;
+        this.y -= tuple4i.y;
+        this.z -= tuple4i.z;
+        this.w -= tuple4i.w;
+    }
+
+    public final void negate(Tuple4i tuple4i) {
+        this.x = -tuple4i.x;
+        this.y = -tuple4i.y;
+        this.z = -tuple4i.z;
+        this.w = -tuple4i.w;
+    }
+
+    public final void scale(int i, Tuple4i tuple4i) {
+        this.x = tuple4i.x * i;
+        this.y = tuple4i.y * i;
+        this.z = tuple4i.z * i;
+        this.w = i * tuple4i.w;
+    }
+
+    public final void scaleAdd(int i, Tuple4i tuple4i, Tuple4i tuple4i2) {
+        this.x = (tuple4i.x * i) + tuple4i2.x;
+        this.y = (tuple4i.y * i) + tuple4i2.y;
+        this.z = (tuple4i.z * i) + tuple4i2.z;
+        this.w = (i * tuple4i.w) + tuple4i2.w;
+    }
+
+    public final void scaleAdd(int i, Tuple4i tuple4i) {
+        this.x = (this.x * i) + tuple4i.x;
+        this.y = (this.y * i) + tuple4i.y;
+        this.z = (this.z * i) + tuple4i.z;
+        this.w = (i * this.w) + tuple4i.w;
+    }
+
+    public String toString() {
+        return new StringBuffer("(").append(this.x).append(", ").append(this.y).append(", ").append(this.z).append(", ").append(this.w).append(")").toString();
+    }
+
+    public boolean equals(Object obj) {
+        try {
+            Tuple4i tuple4i = (Tuple4i) obj;
+            if (this.x == tuple4i.x && this.y == tuple4i.y && this.z == tuple4i.z) {
+                return this.w == tuple4i.w;
+            }
+            return false;
+        } catch (ClassCastException | NullPointerException unused) {
+            return false;
+        }
+    }
+
+    public final void clamp(int i, int i2, Tuple4i tuple4i) {
+        int i3 = tuple4i.x;
+        if (i3 > i2) {
+            this.x = i2;
+        } else if (i3 < i) {
+            this.x = i;
+        } else {
+            this.x = i3;
+        }
+        int i4 = tuple4i.y;
+        if (i4 > i2) {
+            this.y = i2;
+        } else if (i4 < i) {
+            this.y = i;
+        } else {
+            this.y = i4;
+        }
+        int i5 = tuple4i.z;
+        if (i5 > i2) {
+            this.z = i2;
+        } else if (i5 < i) {
+            this.z = i;
+        } else {
+            this.z = i5;
+        }
+        int i6 = tuple4i.w;
+        if (i6 > i2) {
+            this.w = i2;
+        } else if (i6 < i) {
+            this.w = i;
+        } else {
+            this.w = i6;
+        }
+    }
+
+    public final void clampMin(int i, Tuple4i tuple4i) {
+        int i2 = tuple4i.x;
+        if (i2 < i) {
+            this.x = i;
+        } else {
+            this.x = i2;
+        }
+        int i3 = tuple4i.y;
+        if (i3 < i) {
+            this.y = i;
+        } else {
+            this.y = i3;
+        }
+        int i4 = tuple4i.z;
+        if (i4 < i) {
+            this.z = i;
+        } else {
+            this.z = i4;
+        }
+        int i5 = tuple4i.w;
+        if (i5 < i) {
+            this.w = i;
+        } else {
+            this.w = i5;
+        }
+    }
+
+    public final void clampMax(int i, Tuple4i tuple4i) {
+        int i2 = tuple4i.x;
+        if (i2 > i) {
+            this.x = i;
+        } else {
+            this.x = i2;
+        }
+        int i3 = tuple4i.y;
+        if (i3 > i) {
+            this.y = i;
+        } else {
+            this.y = i3;
+        }
+        int i4 = tuple4i.z;
+        if (i4 > i) {
+            this.z = i;
+        } else {
+            this.z = i4;
+        }
+        if (tuple4i.w > i) {
+            this.w = i;
+        } else {
+            this.w = tuple4i.z;
+        }
+    }
+
+    public final void absolute(Tuple4i tuple4i) {
+        this.x = Math.abs(tuple4i.x);
+        this.y = Math.abs(tuple4i.y);
+        this.z = Math.abs(tuple4i.z);
+        this.w = Math.abs(tuple4i.w);
+    }
+
+    public final void absolute() {
+        this.x = Math.abs(this.x);
+        this.y = Math.abs(this.y);
+        this.z = Math.abs(this.z);
+        this.w = Math.abs(this.w);
+    }
+
+    public Object clone() {
+        try {
+            return super.clone();
+        } catch (CloneNotSupportedException unused) {
+            throw new InternalError();
+        }
+    }
+}

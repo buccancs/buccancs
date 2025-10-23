@@ -1,0 +1,94 @@
+package io.grpc.alts.internal;
+
+import androidx.lifecycle.LifecycleKt$$ExternalSyntheticBackportWithForwarding0;
+import com.google.common.base.Optional;
+import io.grpc.alts.internal.HandshakerServiceGrpc;
+import io.grpc.stub.StreamObserver;
+
+import java.io.IOException;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.atomic.AtomicReference;
+
+/* loaded from: classes2.dex */
+class AltsHandshakerStub {
+    private final AtomicReference<String> exceptionMessage;
+    private final StreamObserver<HandshakerResp> reader;
+    private final ArrayBlockingQueue<Optional<HandshakerResp>> responseQueue;
+    private final StreamObserver<HandshakerReq> writer;
+
+    AltsHandshakerStub(HandshakerServiceGrpc.HandshakerServiceStub handshakerServiceStub) {
+        Reader reader = new Reader();
+        this.reader = reader;
+        this.responseQueue = new ArrayBlockingQueue<>(1);
+        this.exceptionMessage = new AtomicReference<>();
+        this.writer = handshakerServiceStub.doHandshake(reader);
+    }
+
+    AltsHandshakerStub() {
+        this.reader = new Reader();
+        this.responseQueue = new ArrayBlockingQueue<>(1);
+        this.exceptionMessage = new AtomicReference<>();
+        this.writer = null;
+    }
+
+    AltsHandshakerStub(StreamObserver<HandshakerReq> streamObserver) {
+        this.reader = new Reader();
+        this.responseQueue = new ArrayBlockingQueue<>(1);
+        this.exceptionMessage = new AtomicReference<>();
+        this.writer = streamObserver;
+    }
+
+    StreamObserver<HandshakerResp> getReaderForTest() {
+        return this.reader;
+    }
+
+    public HandshakerResp send(HandshakerReq handshakerReq) throws InterruptedException, IOException {
+        maybeThrowIoException();
+        if (!this.responseQueue.isEmpty()) {
+            throw new IOException("Received an unexpected response.");
+        }
+        this.writer.onNext(handshakerReq);
+        Optional<HandshakerResp> optionalTake = this.responseQueue.take();
+        if (!optionalTake.isPresent()) {
+            maybeThrowIoException();
+        }
+        return optionalTake.get();
+    }
+
+    private void maybeThrowIoException() throws IOException {
+        if (this.exceptionMessage.get() != null) {
+            throw new IOException(this.exceptionMessage.get());
+        }
+    }
+
+    public void close() {
+        this.writer.onCompleted();
+    }
+
+    private class Reader implements StreamObserver<HandshakerResp> {
+        private Reader() {
+        }
+
+        @Override // io.grpc.stub.StreamObserver
+        public void onNext(HandshakerResp handshakerResp) {
+            try {
+                AltsHandshakerStub.this.responseQueue.add(Optional.of(handshakerResp));
+            } catch (IllegalStateException unused) {
+                LifecycleKt$$ExternalSyntheticBackportWithForwarding0.m(AltsHandshakerStub.this.exceptionMessage, null, "Received an unexpected response.");
+                AltsHandshakerStub.this.close();
+            }
+        }
+
+        @Override // io.grpc.stub.StreamObserver
+        public void onError(Throwable th) {
+            LifecycleKt$$ExternalSyntheticBackportWithForwarding0.m(AltsHandshakerStub.this.exceptionMessage, null, "Received a terminating error: " + th.toString());
+            AltsHandshakerStub.this.responseQueue.offer(Optional.absent());
+        }
+
+        @Override // io.grpc.stub.StreamObserver
+        public void onCompleted() {
+            LifecycleKt$$ExternalSyntheticBackportWithForwarding0.m(AltsHandshakerStub.this.exceptionMessage, null, "Response stream closed.");
+            AltsHandshakerStub.this.responseQueue.offer(Optional.absent());
+        }
+    }
+}

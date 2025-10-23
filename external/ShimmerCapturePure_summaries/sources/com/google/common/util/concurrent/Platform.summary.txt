@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/Platform.java
+// Size: 365 bytes
+// Modified: 2025-10-21 16:32:00.803494200 +0100
+
+package com.google.common.util.concurrent;
+
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+final class Platform {
+    static boolean isInstanceOfThrowableClass(@NullableDecl Throwable th, Class<? extends Throwable> cls) {
+        return cls.isInstance(th);
+    }
+
+    private Platform() {
+    }
+}

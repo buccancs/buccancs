@@ -1,0 +1,53 @@
+package org.apache.commons.math3.ode.nonstiff;
+
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.linear.FieldMatrix;
+
+/* loaded from: classes5.dex */
+public class AdamsBashforthFieldIntegrator<T extends RealFieldElement<T>> extends AdamsFieldIntegrator<T> {
+    private static final String METHOD_NAME = "Adams-Bashforth";
+
+    public AdamsBashforthFieldIntegrator(Field<T> field, int i, double d, double d2, double d3, double d4) throws NumberIsTooSmallException {
+        super(field, METHOD_NAME, i, i, d, d2, d3, d4);
+    }
+
+    public AdamsBashforthFieldIntegrator(Field<T> field, int i, double d, double d2, double[] dArr, double[] dArr2) throws IllegalArgumentException {
+        super(field, METHOD_NAME, i, i, d, d2, dArr, dArr2);
+    }
+
+    private T errorEstimation(T[] tArr, T[] tArr2, T[] tArr3, FieldMatrix<T> fieldMatrix) {
+        T zero = getField().getZero();
+        for (int i = 0; i < this.mainSetDimension; i++) {
+            RealFieldElement realFieldElement = (RealFieldElement) tArr2[i].abs();
+            RealFieldElement realFieldElement2 = (RealFieldElement) (this.vecAbsoluteTolerance == null ? ((RealFieldElement) realFieldElement.multiply(this.scalRelativeTolerance)).add(this.scalAbsoluteTolerance) : ((RealFieldElement) realFieldElement.multiply(this.vecRelativeTolerance[i])).add(this.vecAbsoluteTolerance[i]));
+            T zero2 = getField().getZero();
+            int i2 = fieldMatrix.getRowDimension() % 2 == 0 ? -1 : 1;
+            for (int rowDimension = fieldMatrix.getRowDimension() - 1; rowDimension >= 0; rowDimension--) {
+                zero2 = (T) zero2.add(((RealFieldElement) fieldMatrix.getEntry(rowDimension, i)).multiply(i2));
+                i2 = -i2;
+            }
+            RealFieldElement realFieldElement3 = (RealFieldElement) ((RealFieldElement) ((RealFieldElement) tArr2[i].subtract(tArr[i])).add((RealFieldElement) zero2.subtract(tArr3[i]))).divide(realFieldElement2);
+            zero = (T) zero.add(realFieldElement3.multiply(realFieldElement3));
+        }
+        return (T) ((RealFieldElement) zero.divide(this.mainSetDimension)).sqrt();
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:38:0x01bf A[PHI: r9
+  0x01bf: PHI (r9v5 double) = (r9v4 double), (r9v7 double) binds: [B:37:0x01bd, B:34:0x01ac] A[DONT_GENERATE, DONT_INLINE]] */
+    @Override
+    // org.apache.commons.math3.ode.nonstiff.AdamsFieldIntegrator, org.apache.commons.math3.ode.FirstOrderFieldIntegrator
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public org.apache.commons.math3.ode.FieldODEStateAndDerivative<T> integrate(org.apache.commons.math3.ode.FieldExpandableODE<T> r21, org.apache.commons.math3.ode.FieldODEState<T> r22, T r23) throws org.apache.commons.math3.exception.MaxCountExceededException, org.apache.commons.math3.exception.MathIllegalArgumentException {
+        /*
+            Method dump skipped, instructions count: 524
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.ode.nonstiff.AdamsBashforthFieldIntegrator.integrate(org.apache.commons.math3.ode.FieldExpandableODE, org.apache.commons.math3.ode.FieldODEState, org.apache.commons.math3.RealFieldElement):org.apache.commons.math3.ode.FieldODEStateAndDerivative");
+    }
+}

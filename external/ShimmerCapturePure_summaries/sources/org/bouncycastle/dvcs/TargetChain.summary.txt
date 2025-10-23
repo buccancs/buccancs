@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/dvcs/TargetChain.java
+// Size: 380 bytes
+// Modified: 2025-10-21 16:32:05.170923700 +0100
+
+package org.bouncycastle.dvcs;
+
+import org.bouncycastle.asn1.dvcs.TargetEtcChain;
+
+/* loaded from: classes5.dex */
+public class TargetChain {
+    private final TargetEtcChain certs;
+
+    public TargetChain(TargetEtcChain targetEtcChain) {
+        this.certs = targetEtcChain;
+    }
+
+    public TargetEtcChain toASN1Structure() {
+        return this.certs;
+    }
+}

@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/profileinstaller/FileSectionType.java
+// Size: 787 bytes
+// Modified: 2025-10-21 16:32:00.102931200 +0100
+
+package androidx.profileinstaller;
+
+/* loaded from: classes.dex */
+enum FileSectionType {
+    DEX_FILES(0),
+    EXTRA_DESCRIPTORS(1),
+    CLASSES(2),
+    METHODS(3),
+    AGGREGATION_COUNT(4);
+
+    private final long mValue;
+
+    public long getValue() {
+        return this.mValue;
+    }
+
+    FileSectionType(long j) {
+        this.mValue = j;
+    }
+
+    static FileSectionType fromValue(long j) {
+        FileSectionType[] fileSectionTypeArrValues = values();
+        for (int i = 0; i < fileSectionTypeArrValues.length; i++) {
+            if (fileSectionTypeArrValues[i].getValue() == j) {
+                return fileSectionTypeArrValues[i];
+            }
+        }
+        throw new IllegalArgumentException("Unsupported FileSection Type " + j);
+    }
+}

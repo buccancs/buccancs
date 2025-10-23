@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/http/HttpExecuteInterceptor.java
+// Size: 213 bytes
+// Modified: 2025-10-21 16:32:08.510717600 +0100
+
+package com.google.api.client.http;
+
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public interface HttpExecuteInterceptor {
+    void intercept(HttpRequest httpRequest) throws IOException;
+}

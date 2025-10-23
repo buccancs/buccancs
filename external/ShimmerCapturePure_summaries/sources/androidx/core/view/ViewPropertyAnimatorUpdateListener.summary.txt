@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/ViewPropertyAnimatorUpdateListener.java
+// Size: 190 bytes
+// Modified: 2025-10-21 16:32:00.008025100 +0100
+
+package androidx.core.view;
+
+import android.view.View;
+
+/* loaded from: classes.dex */
+public interface ViewPropertyAnimatorUpdateListener {
+    void onAnimationUpdate(View view);
+}

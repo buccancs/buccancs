@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/util/Charsets.java
+// Size: 320 bytes
+// Modified: 2025-10-21 16:32:00.120577800 +0100
+
+package com.google.api.client.util;
+
+import java.nio.charset.Charset;
+
+/* loaded from: classes.dex */
+public final class Charsets {
+    public static final Charset UTF_8 = Charset.forName("UTF-8");
+    public static final Charset ISO_8859_1 = Charset.forName("ISO-8859-1");
+
+    private Charsets() {
+    }
+}

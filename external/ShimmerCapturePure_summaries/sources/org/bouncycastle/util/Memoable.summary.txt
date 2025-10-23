@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/Memoable.java
+// Size: 159 bytes
+// Modified: 2025-10-21 16:32:00.750238700 +0100
+
+package org.bouncycastle.util;
+
+/* loaded from: classes5.dex */
+public interface Memoable {
+    Memoable copy();
+
+    void reset(Memoable memoable);
+}

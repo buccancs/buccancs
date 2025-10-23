@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/signers/DSAKCalculator.java
+// Size: 388 bytes
+// Modified: 2025-10-21 16:32:00.588776300 +0100
+
+package org.bouncycastle.crypto.signers;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+/* loaded from: classes5.dex */
+public interface DSAKCalculator {
+    void init(BigInteger bigInteger, BigInteger bigInteger2, byte[] bArr);
+
+    void init(BigInteger bigInteger, SecureRandom secureRandom);
+
+    boolean isDeterministic();
+
+    BigInteger nextK();
+}

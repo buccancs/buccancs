@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/IntegerHolder.java
+// Size: 164 bytes
+// Modified: 2025-10-21 16:32:00.248772300 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+@Deprecated
+/* loaded from: classes3.dex */
+public final class IntegerHolder {
+    public int value;
+}

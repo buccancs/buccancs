@@ -1,0 +1,1328 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/PlatformDependent.java
+// Size: 58675 bytes
+// Modified: 2025-10-21 16:32:07.315875300 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+import androidx.core.os.EnvironmentCompat;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger;
+import io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLoggerFactory;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscArrayQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscChunkedArrayQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.MpscUnboundedArrayQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.SpscLinkedQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.MpscAtomicArrayQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.MpscChunkedAtomicArrayQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.MpscUnboundedAtomicArrayQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic.SpscLinkedAtomicQueue;
+import io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.util.UnsafeAccess;
+import java.io.File;
+import java.lang.reflect.Field;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.security.AccessController;
+import java.security.PrivilegedAction;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Queue;
+import java.util.Random;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/* loaded from: classes3.dex */
+public final class PlatformDependent {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final int ADDRESS_SIZE;
+    private static final String[] ALLOWED_LINUX_OS_CLASSIFIERS;
+    public static final boolean BIG_ENDIAN_NATIVE_ORDER;
+    private static final int BIT_MODE;
+    private static final long BYTE_ARRAY_BASE_OFFSET;
+    private static final boolean CAN_ENABLE_TCP_NODELAY_BY_DEFAULT;
+    private static final Cleaner CLEANER;
+    private static final boolean DIRECT_BUFFER_PREFERRED;
+    private static final AtomicLong DIRECT_MEMORY_COUNTER;
+    private static final long DIRECT_MEMORY_LIMIT;
+    private static final boolean IS_IVKVM_DOT_NET;
+    private static final boolean IS_J9_JVM;
+    private static final boolean IS_OSX;
+    private static final boolean IS_WINDOWS;
+    private static final String LINUX_ID_LIKE_PREFIX = "ID_LIKE=";
+    private static final String LINUX_ID_PREFIX = "ID=";
+    private static final Set<String> LINUX_OS_CLASSIFIERS;
+    private static final int MAX_ALLOWED_MPSC_CAPACITY = 1073741824;
+    private static final long MAX_DIRECT_MEMORY;
+    private static final Pattern MAX_DIRECT_MEMORY_SIZE_ARG_PATTERN;
+    private static final boolean MAYBE_SUPER_USER;
+    private static final int MIN_MAX_MPSC_CAPACITY = 2048;
+    private static final int MPSC_CHUNK_SIZE = 1024;
+    private static final Cleaner NOOP;
+    private static final String NORMALIZED_ARCH;
+    private static final String NORMALIZED_OS;
+    private static final String[] OS_RELEASE_FILES;
+    private static final ThreadLocalRandomProvider RANDOM_PROVIDER;
+    private static final File TMPDIR;
+    private static final int UNINITIALIZED_ARRAY_ALLOCATION_THRESHOLD;
+    private static final Throwable UNSAFE_UNAVAILABILITY_CAUSE;
+    private static final boolean USE_DIRECT_BUFFER_NO_CLEANER;
+    private static final InternalLogger logger;
+
+    private interface ThreadLocalRandomProvider {
+        Random current();
+    }
+
+    public static int addressSize() {
+        return ADDRESS_SIZE;
+    }
+
+    public static int bitMode() {
+        return BIT_MODE;
+    }
+
+    public static boolean canEnableTcpNoDelayByDefault() {
+        return CAN_ENABLE_TCP_NODELAY_BY_DEFAULT;
+    }
+
+    public static boolean directBufferPreferred() {
+        return DIRECT_BUFFER_PREFERRED;
+    }
+
+    public static Throwable getUnsafeUnavailabilityCause() {
+        return UNSAFE_UNAVAILABILITY_CAUSE;
+    }
+
+    public static boolean hasUnsafe() {
+        return UNSAFE_UNAVAILABILITY_CAUSE == null;
+    }
+
+    private static int hashCodeAsciiSanitizeByte(char c) {
+        return c & 31;
+    }
+
+    public static boolean isIkvmDotNet() {
+        return IS_IVKVM_DOT_NET;
+    }
+
+    public static boolean isJ9Jvm() {
+        return IS_J9_JVM;
+    }
+
+    public static boolean isOsx() {
+        return IS_OSX;
+    }
+
+    public static boolean isWindows() {
+        return IS_WINDOWS;
+    }
+
+    public static long maxDirectMemory() {
+        return DIRECT_MEMORY_LIMIT;
+    }
+
+    public static boolean maybeSuperUser() {
+        return MAYBE_SUPER_USER;
+    }
+
+    public static String normalizedArch() {
+        return NORMALIZED_ARCH;
+    }
+
+    public static Set<String> normalizedLinuxClassifiers() {
+        return LINUX_OS_CLASSIFIERS;
+    }
+
+    public static String normalizedOs() {
+        return NORMALIZED_OS;
+    }
+
+    public static File tmpdir() {
+        return TMPDIR;
+    }
+
+    public static boolean useDirectBufferNoCleaner() {
+        return USE_DIRECT_BUFFER_NO_CLEANER;
+    }
+
+    static {
+        InternalLogger internalLoggerFactory = InternalLoggerFactory.getInstance((Class<?>) PlatformDependent.class);
+        logger = internalLoggerFactory;
+        MAX_DIRECT_MEMORY_SIZE_ARG_PATTERN = Pattern.compile("\\s*-XX:MaxDirectMemorySize\\s*=\\s*([0-9]+)\\s*([kKmMgG]?)\\s*$");
+        IS_WINDOWS = isWindows0();
+        IS_OSX = isOsx0();
+        IS_J9_JVM = isJ9Jvm0();
+        IS_IVKVM_DOT_NET = isIkvmDotNet0();
+        CAN_ENABLE_TCP_NODELAY_BY_DEFAULT = !isAndroid();
+        UNSAFE_UNAVAILABILITY_CAUSE = unsafeUnavailabilityCause0();
+        long jMaxDirectMemory0 = maxDirectMemory0();
+        MAX_DIRECT_MEMORY = jMaxDirectMemory0;
+        BYTE_ARRAY_BASE_OFFSET = byteArrayBaseOffset0();
+        TMPDIR = tmpdir0();
+        BIT_MODE = bitMode0();
+        NORMALIZED_ARCH = normalizeArch(SystemPropertyUtil.get("os.arch", ""));
+        NORMALIZED_OS = normalizeOs(SystemPropertyUtil.get("os.name", ""));
+        String[] strArr = {"fedora", "suse", "arch"};
+        ALLOWED_LINUX_OS_CLASSIFIERS = strArr;
+        ADDRESS_SIZE = addressSize0();
+        String[] strArr2 = {"/etc/os-release", "/usr/lib/os-release"};
+        OS_RELEASE_FILES = strArr2;
+        BIG_ENDIAN_NATIVE_ORDER = ByteOrder.nativeOrder() == ByteOrder.BIG_ENDIAN;
+        Cleaner cleaner = new Cleaner() { // from class: io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.1
+            @Override // io.grpc.netty.shaded.io.netty.util.internal.Cleaner
+            public void freeDirectBuffer(ByteBuffer byteBuffer) {
+            }
+        };
+        NOOP = cleaner;
+        if (javaVersion() >= 7) {
+            RANDOM_PROVIDER = new ThreadLocalRandomProvider() { // from class: io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.2
+                @Override // io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.ThreadLocalRandomProvider
+                public Random current() {
+                    return java.util.concurrent.ThreadLocalRandom.current();
+                }
+            };
+        } else {
+            RANDOM_PROVIDER = new ThreadLocalRandomProvider() { // from class: io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.3
+                @Override // io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.ThreadLocalRandomProvider
+                public Random current() {
+                    return ThreadLocalRandom.current();
+                }
+            };
+        }
+        long j = SystemPropertyUtil.getLong("io.grpc.netty.shaded.io.netty.maxDirectMemory", -1L);
+        if (j != 0 && hasUnsafe() && PlatformDependent0.hasDirectBufferNoCleanerConstructor()) {
+            USE_DIRECT_BUFFER_NO_CLEANER = true;
+            if (j < 0) {
+                if (jMaxDirectMemory0 <= 0) {
+                    DIRECT_MEMORY_COUNTER = null;
+                } else {
+                    DIRECT_MEMORY_COUNTER = new AtomicLong();
+                }
+                j = jMaxDirectMemory0;
+            } else {
+                DIRECT_MEMORY_COUNTER = new AtomicLong();
+            }
+        } else {
+            USE_DIRECT_BUFFER_NO_CLEANER = false;
+            DIRECT_MEMORY_COUNTER = null;
+        }
+        internalLoggerFactory.debug("-Dio.netty.maxDirectMemory: {} bytes", Long.valueOf(j));
+        if (j >= 1) {
+            jMaxDirectMemory0 = j;
+        }
+        DIRECT_MEMORY_LIMIT = jMaxDirectMemory0;
+        int i = SystemPropertyUtil.getInt("io.grpc.netty.shaded.io.netty.uninitializedArrayAllocationThreshold", 1024);
+        if (javaVersion() < 9 || !PlatformDependent0.hasAllocateArrayMethod()) {
+            i = -1;
+        }
+        UNINITIALIZED_ARRAY_ALLOCATION_THRESHOLD = i;
+        internalLoggerFactory.debug("-Dio.netty.uninitializedArrayAllocationThreshold: {}", Integer.valueOf(i));
+        MAYBE_SUPER_USER = maybeSuperUser0();
+        if (isAndroid()) {
+            CLEANER = cleaner;
+        } else if (javaVersion() >= 9) {
+            CLEANER = CleanerJava9.isSupported() ? new CleanerJava9() : cleaner;
+        } else {
+            CLEANER = CleanerJava6.isSupported() ? new CleanerJava6() : cleaner;
+        }
+        Cleaner cleaner2 = CLEANER;
+        boolean z = (cleaner2 == cleaner || SystemPropertyUtil.getBoolean("io.grpc.netty.shaded.io.netty.noPreferDirect", false)) ? false : true;
+        DIRECT_BUFFER_PREFERRED = z;
+        if (internalLoggerFactory.isDebugEnabled()) {
+            internalLoggerFactory.debug("-Dio.netty.noPreferDirect: {}", Boolean.valueOf(true ^ z));
+        }
+        if (cleaner2 == cleaner && !PlatformDependent0.isExplicitNoUnsafe()) {
+            internalLoggerFactory.info("Your platform does not provide complete low-level API for accessing direct buffers reliably. Unless explicitly requested, heap buffer will always be preferred to avoid potential system instability.");
+        }
+        final Set setUnmodifiableSet = Collections.unmodifiableSet(new HashSet(Arrays.asList(strArr)));
+        final LinkedHashSet linkedHashSet = new LinkedHashSet();
+        for (final String str : strArr2) {
+            final File file = new File(str);
+            if (((Boolean) AccessController.doPrivileged(new PrivilegedAction<Boolean>() { // from class: io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.4
+                /* JADX WARN: Can't rename method to resolve collision */
+                /* JADX WARN: Can't wrap try/catch for region: R(2:(3:52|6|(3:8|(3:56|10|61)(3:55|11|(3:57|13|60)(1:59))|58)(0))|47) */
+                /* JADX WARN: Removed duplicated region for block: B:50:0x0099 A[EXC_TOP_SPLITTER, SYNTHETIC] */
+                @Override // java.security.PrivilegedAction
+                /*
+                    Code decompiled incorrectly, please refer to instructions dump.
+                    To view partially-correct add '--show-bad-code' argument
+                */
+                public java.lang.Boolean run() throws java.lang.Throwable {
+                    /*
+                        r6 = this;
+                        java.io.File r0 = r1     // Catch: java.lang.SecurityException -> L9d
+                        boolean r0 = r0.exists()     // Catch: java.lang.SecurityException -> L9d
+                        if (r0 == 0) goto La9
+                        r0 = 0
+                        java.io.BufferedReader r1 = new java.io.BufferedReader     // Catch: java.lang.Throwable -> L67 java.io.IOException -> L6c java.lang.SecurityException -> L7e
+                        java.io.InputStreamReader r2 = new java.io.InputStreamReader     // Catch: java.lang.Throwable -> L67 java.io.IOException -> L6c java.lang.SecurityException -> L7e
+                        java.io.FileInputStream r3 = new java.io.FileInputStream     // Catch: java.lang.Throwable -> L67 java.io.IOException -> L6c java.lang.SecurityException -> L7e
+                        java.io.File r4 = r1     // Catch: java.lang.Throwable -> L67 java.io.IOException -> L6c java.lang.SecurityException -> L7e
+                        r3.<init>(r4)     // Catch: java.lang.Throwable -> L67 java.io.IOException -> L6c java.lang.SecurityException -> L7e
+                        java.nio.charset.Charset r4 = io.grpc.netty.shaded.io.netty.util.CharsetUtil.UTF_8     // Catch: java.lang.Throwable -> L67 java.io.IOException -> L6c java.lang.SecurityException -> L7e
+                        r2.<init>(r3, r4)     // Catch: java.lang.Throwable -> L67 java.io.IOException -> L6c java.lang.SecurityException -> L7e
+                        r1.<init>(r2)     // Catch: java.lang.Throwable -> L67 java.io.IOException -> L6c java.lang.SecurityException -> L7e
+                    L1c:
+                        java.lang.String r0 = r1.readLine()     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        if (r0 == 0) goto L5f
+                        java.lang.String r2 = "ID="
+                        boolean r2 = r0.startsWith(r2)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        if (r2 == 0) goto L3f
+                        r2 = 3
+                        java.lang.String r0 = r0.substring(r2)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        java.lang.String r0 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.access$000(r0)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        java.util.Set r2 = r2     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        java.util.Set r3 = r3     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        java.lang.String[] r0 = new java.lang.String[]{r0}     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.access$100(r2, r3, r0)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        goto L1c
+                    L3f:
+                        java.lang.String r2 = "ID_LIKE="
+                        boolean r2 = r0.startsWith(r2)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        if (r2 == 0) goto L1c
+                        r2 = 8
+                        java.lang.String r0 = r0.substring(r2)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        java.lang.String r0 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.access$000(r0)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        java.util.Set r2 = r2     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        java.util.Set r3 = r3     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        java.lang.String r4 = "[ ]+"
+                        java.lang.String[] r0 = r0.split(r4)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.access$100(r2, r3, r0)     // Catch: java.io.IOException -> L63 java.lang.SecurityException -> L65 java.lang.Throwable -> L96
+                        goto L1c
+                    L5f:
+                        r1.close()     // Catch: java.io.IOException -> L90 java.lang.SecurityException -> L9d
+                        goto L90
+                    L63:
+                        r0 = move-exception
+                        goto L70
+                    L65:
+                        r0 = move-exception
+                        goto L82
+                    L67:
+                        r1 = move-exception
+                        r5 = r1
+                        r1 = r0
+                        r0 = r5
+                        goto L97
+                    L6c:
+                        r1 = move-exception
+                        r5 = r1
+                        r1 = r0
+                        r0 = r5
+                    L70:
+                        io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger r2 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.access$200()     // Catch: java.lang.Throwable -> L96
+                        java.lang.String r3 = "Error while reading content of {}"
+                        java.lang.String r4 = r4     // Catch: java.lang.Throwable -> L96
+                        r2.debug(r3, r4, r0)     // Catch: java.lang.Throwable -> L96
+                        if (r1 == 0) goto L90
+                        goto L5f
+                    L7e:
+                        r1 = move-exception
+                        r5 = r1
+                        r1 = r0
+                        r0 = r5
+                    L82:
+                        io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger r2 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.access$200()     // Catch: java.lang.Throwable -> L96
+                        java.lang.String r3 = "Unable to read {}"
+                        java.lang.String r4 = r4     // Catch: java.lang.Throwable -> L96
+                        r2.debug(r3, r4, r0)     // Catch: java.lang.Throwable -> L96
+                        if (r1 == 0) goto L90
+                        goto L5f
+                    L90:
+                        r0 = 1
+                        java.lang.Boolean r0 = java.lang.Boolean.valueOf(r0)     // Catch: java.lang.SecurityException -> L9d
+                        return r0
+                    L96:
+                        r0 = move-exception
+                    L97:
+                        if (r1 == 0) goto L9c
+                        r1.close()     // Catch: java.io.IOException -> L9c java.lang.SecurityException -> L9d
+                    L9c:
+                        throw r0     // Catch: java.lang.SecurityException -> L9d
+                    L9d:
+                        r0 = move-exception
+                        io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger r1 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.access$200()
+                        java.lang.String r2 = "Unable to check if {} exists"
+                        java.lang.String r3 = r4
+                        r1.debug(r2, r3, r0)
+                    La9:
+                        r0 = 0
+                        java.lang.Boolean r0 = java.lang.Boolean.valueOf(r0)
+                        return r0
+                    */
+                    throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.AnonymousClass4.run():java.lang.Boolean");
+                }
+            })).booleanValue()) {
+                break;
+            }
+        }
+        LINUX_OS_CLASSIFIERS = Collections.unmodifiableSet(linkedHashSet);
+    }
+
+    public static boolean hasDirectBufferNoCleanerConstructor() {
+        return PlatformDependent0.hasDirectBufferNoCleanerConstructor();
+    }
+
+    public static byte[] allocateUninitializedArray(int i) {
+        int i2 = UNINITIALIZED_ARRAY_ALLOCATION_THRESHOLD;
+        if (i2 < 0 || i2 > i) {
+            return new byte[i];
+        }
+        return PlatformDependent0.allocateUninitializedArray(i);
+    }
+
+    public static boolean isAndroid() {
+        return PlatformDependent0.isAndroid();
+    }
+
+    public static int javaVersion() {
+        return PlatformDependent0.javaVersion();
+    }
+
+    public static boolean isUnaligned() {
+        return PlatformDependent0.isUnaligned();
+    }
+
+    public static long usedDirectMemory() {
+        AtomicLong atomicLong = DIRECT_MEMORY_COUNTER;
+        if (atomicLong != null) {
+            return atomicLong.get();
+        }
+        return -1L;
+    }
+
+    public static long allocateMemory(long j) {
+        return PlatformDependent0.allocateMemory(j);
+    }
+
+    public static void freeMemory(long j) {
+        PlatformDependent0.freeMemory(j);
+    }
+
+    public static long reallocateMemory(long j, long j2) {
+        return PlatformDependent0.reallocateMemory(j, j2);
+    }
+
+    public static void throwException(Throwable th) throws Throwable {
+        if (hasUnsafe()) {
+            PlatformDependent0.throwException(th);
+        } else {
+            throwException0(th);
+        }
+    }
+
+    private static <E extends Throwable> void throwException0(Throwable th) throws Throwable {
+        throw th;
+    }
+
+    public static <K, V> ConcurrentMap<K, V> newConcurrentHashMap() {
+        return new ConcurrentHashMap();
+    }
+
+    public static LongCounter newLongCounter() {
+        if (javaVersion() >= 8) {
+            return new LongAdderCounter();
+        }
+        return new AtomicLongCounter();
+    }
+
+    public static <K, V> ConcurrentMap<K, V> newConcurrentHashMap(int i) {
+        return new ConcurrentHashMap(i);
+    }
+
+    public static <K, V> ConcurrentMap<K, V> newConcurrentHashMap(int i, float f) {
+        return new ConcurrentHashMap(i, f);
+    }
+
+    public static <K, V> ConcurrentMap<K, V> newConcurrentHashMap(int i, float f, int i2) {
+        return new ConcurrentHashMap(i, f, i2);
+    }
+
+    public static <K, V> ConcurrentMap<K, V> newConcurrentHashMap(Map<? extends K, ? extends V> map) {
+        return new ConcurrentHashMap(map);
+    }
+
+    public static void freeDirectBuffer(ByteBuffer byteBuffer) {
+        CLEANER.freeDirectBuffer(byteBuffer);
+    }
+
+    public static long directBufferAddress(ByteBuffer byteBuffer) {
+        return PlatformDependent0.directBufferAddress(byteBuffer);
+    }
+
+    public static ByteBuffer directBuffer(long j, int i) {
+        if (PlatformDependent0.hasDirectBufferNoCleanerConstructor()) {
+            return PlatformDependent0.newDirectBuffer(j, i);
+        }
+        throw new UnsupportedOperationException("sun.misc.Unsafe or java.nio.DirectByteBuffer.<init>(long, int) not available");
+    }
+
+    public static Object getObject(Object obj, long j) {
+        return PlatformDependent0.getObject(obj, j);
+    }
+
+    public static int getInt(Object obj, long j) {
+        return PlatformDependent0.getInt(obj, j);
+    }
+
+    public static byte getByte(long j) {
+        return PlatformDependent0.getByte(j);
+    }
+
+    public static short getShort(long j) {
+        return PlatformDependent0.getShort(j);
+    }
+
+    public static int getInt(long j) {
+        return PlatformDependent0.getInt(j);
+    }
+
+    public static long getLong(long j) {
+        return PlatformDependent0.getLong(j);
+    }
+
+    public static byte getByte(byte[] bArr, int i) {
+        return PlatformDependent0.getByte(bArr, i);
+    }
+
+    public static byte getByte(byte[] bArr, long j) {
+        return PlatformDependent0.getByte(bArr, j);
+    }
+
+    public static short getShort(byte[] bArr, int i) {
+        return PlatformDependent0.getShort(bArr, i);
+    }
+
+    public static int getInt(byte[] bArr, int i) {
+        return PlatformDependent0.getInt(bArr, i);
+    }
+
+    public static int getInt(int[] iArr, long j) {
+        return PlatformDependent0.getInt(iArr, j);
+    }
+
+    public static long getLong(byte[] bArr, int i) {
+        return PlatformDependent0.getLong(bArr, i);
+    }
+
+    public static long getLong(long[] jArr, long j) {
+        return PlatformDependent0.getLong(jArr, j);
+    }
+
+    private static long getLongSafe(byte[] bArr, int i) {
+        if (BIG_ENDIAN_NATIVE_ORDER) {
+            return (bArr[i + 7] & 255) | (bArr[i] << 56) | ((bArr[i + 1] & 255) << 48) | ((bArr[i + 2] & 255) << 40) | ((bArr[i + 3] & 255) << 32) | ((bArr[i + 4] & 255) << 24) | ((bArr[i + 5] & 255) << 16) | ((bArr[i + 6] & 255) << 8);
+        }
+        return (bArr[i + 7] << 56) | ((bArr[i + 2] & 255) << 16) | (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 3] & 255) << 24) | ((bArr[i + 4] & 255) << 32) | ((bArr[i + 5] & 255) << 40) | ((bArr[i + 6] & 255) << 48);
+    }
+
+    private static int getIntSafe(byte[] bArr, int i) {
+        int i2;
+        int i3;
+        if (BIG_ENDIAN_NATIVE_ORDER) {
+            i2 = (bArr[i] << 24) | ((bArr[i + 1] & 255) << 16) | ((bArr[i + 2] & 255) << 8);
+            i3 = bArr[i + 3] & 255;
+        } else {
+            i2 = (bArr[i] & 255) | ((bArr[i + 1] & 255) << 8) | ((bArr[i + 2] & 255) << 16);
+            i3 = bArr[i + 3] << 24;
+        }
+        return i3 | i2;
+    }
+
+    private static short getShortSafe(byte[] bArr, int i) {
+        int i2;
+        int i3;
+        if (BIG_ENDIAN_NATIVE_ORDER) {
+            i2 = bArr[i] << 8;
+            i3 = bArr[i + 1] & 255;
+        } else {
+            i2 = bArr[i] & 255;
+            i3 = bArr[i + 1] << 8;
+        }
+        return (short) (i3 | i2);
+    }
+
+    private static int hashCodeAsciiCompute(CharSequence charSequence, int i, int i2) {
+        int iHashCodeAsciiSanitizeInt;
+        int iHashCodeAsciiSanitizeInt2;
+        if (BIG_ENDIAN_NATIVE_ORDER) {
+            iHashCodeAsciiSanitizeInt = (i2 * (-862048943)) + (hashCodeAsciiSanitizeInt(charSequence, i + 4) * 461845907);
+            iHashCodeAsciiSanitizeInt2 = hashCodeAsciiSanitizeInt(charSequence, i);
+        } else {
+            iHashCodeAsciiSanitizeInt = (i2 * (-862048943)) + (hashCodeAsciiSanitizeInt(charSequence, i) * 461845907);
+            iHashCodeAsciiSanitizeInt2 = hashCodeAsciiSanitizeInt(charSequence, i + 4);
+        }
+        return iHashCodeAsciiSanitizeInt + iHashCodeAsciiSanitizeInt2;
+    }
+
+    private static int hashCodeAsciiSanitizeInt(CharSequence charSequence, int i) {
+        int iCharAt;
+        int iCharAt2;
+        if (BIG_ENDIAN_NATIVE_ORDER) {
+            iCharAt = (charSequence.charAt(i + 3) & 31) | ((charSequence.charAt(i + 2) & 31) << 8) | ((charSequence.charAt(i + 1) & 31) << 16);
+            iCharAt2 = (charSequence.charAt(i) & 31) << 24;
+        } else {
+            iCharAt = ((charSequence.charAt(i + 3) & 31) << 24) | ((charSequence.charAt(i + 2) & 31) << 16) | ((charSequence.charAt(i + 1) & 31) << 8);
+            iCharAt2 = charSequence.charAt(i) & 31;
+        }
+        return iCharAt2 | iCharAt;
+    }
+
+    private static int hashCodeAsciiSanitizeShort(CharSequence charSequence, int i) {
+        int iCharAt;
+        int iCharAt2;
+        if (BIG_ENDIAN_NATIVE_ORDER) {
+            iCharAt = charSequence.charAt(i + 1) & 31;
+            iCharAt2 = (charSequence.charAt(i) & 31) << 8;
+        } else {
+            iCharAt = (charSequence.charAt(i + 1) & 31) << 8;
+            iCharAt2 = charSequence.charAt(i) & 31;
+        }
+        return iCharAt2 | iCharAt;
+    }
+
+    public static void putByte(long j, byte b) {
+        PlatformDependent0.putByte(j, b);
+    }
+
+    public static void putShort(long j, short s) {
+        PlatformDependent0.putShort(j, s);
+    }
+
+    public static void putInt(long j, int i) {
+        PlatformDependent0.putInt(j, i);
+    }
+
+    public static void putLong(long j, long j2) {
+        PlatformDependent0.putLong(j, j2);
+    }
+
+    public static void putByte(byte[] bArr, int i, byte b) {
+        PlatformDependent0.putByte(bArr, i, b);
+    }
+
+    public static void putShort(byte[] bArr, int i, short s) {
+        PlatformDependent0.putShort(bArr, i, s);
+    }
+
+    public static void putInt(byte[] bArr, int i, int i2) {
+        PlatformDependent0.putInt(bArr, i, i2);
+    }
+
+    public static void putLong(byte[] bArr, int i, long j) {
+        PlatformDependent0.putLong(bArr, i, j);
+    }
+
+    public static void putObject(Object obj, long j, Object obj2) {
+        PlatformDependent0.putObject(obj, j, obj2);
+    }
+
+    public static long objectFieldOffset(Field field) {
+        return PlatformDependent0.objectFieldOffset(field);
+    }
+
+    public static void copyMemory(long j, long j2, long j3) {
+        PlatformDependent0.copyMemory(j, j2, j3);
+    }
+
+    public static void copyMemory(byte[] bArr, int i, long j, long j2) {
+        PlatformDependent0.copyMemory(bArr, BYTE_ARRAY_BASE_OFFSET + i, null, j, j2);
+    }
+
+    public static void copyMemory(long j, byte[] bArr, int i, long j2) {
+        PlatformDependent0.copyMemory(null, j, bArr, BYTE_ARRAY_BASE_OFFSET + i, j2);
+    }
+
+    public static void setMemory(byte[] bArr, int i, long j, byte b) {
+        PlatformDependent0.setMemory(bArr, BYTE_ARRAY_BASE_OFFSET + i, j, b);
+    }
+
+    public static void setMemory(long j, long j2, byte b) {
+        PlatformDependent0.setMemory(j, j2, b);
+    }
+
+    public static ByteBuffer allocateDirectNoCleaner(int i) throws Throwable {
+        incrementMemoryCounter(i);
+        try {
+            return PlatformDependent0.allocateDirectNoCleaner(i);
+        } catch (Throwable th) {
+            decrementMemoryCounter(i);
+            throwException(th);
+            return null;
+        }
+    }
+
+    public static ByteBuffer reallocateDirectNoCleaner(ByteBuffer byteBuffer, int i) throws Throwable {
+        int iCapacity = i - byteBuffer.capacity();
+        incrementMemoryCounter(iCapacity);
+        try {
+            return PlatformDependent0.reallocateDirectNoCleaner(byteBuffer, i);
+        } catch (Throwable th) {
+            decrementMemoryCounter(iCapacity);
+            throwException(th);
+            return null;
+        }
+    }
+
+    public static void freeDirectNoCleaner(ByteBuffer byteBuffer) {
+        int iCapacity = byteBuffer.capacity();
+        PlatformDependent0.freeMemory(PlatformDependent0.directBufferAddress(byteBuffer));
+        decrementMemoryCounter(iCapacity);
+    }
+
+    private static void incrementMemoryCounter(int i) {
+        AtomicLong atomicLong = DIRECT_MEMORY_COUNTER;
+        if (atomicLong != null) {
+            long j = i;
+            long jAddAndGet = atomicLong.addAndGet(j);
+            long j2 = DIRECT_MEMORY_LIMIT;
+            if (jAddAndGet <= j2) {
+                return;
+            }
+            atomicLong.addAndGet(-i);
+            throw new OutOfDirectMemoryError("failed to allocate " + i + " byte(s) of direct memory (used: " + (jAddAndGet - j) + ", max: " + j2 + ')');
+        }
+    }
+
+    private static void decrementMemoryCounter(int i) {
+        AtomicLong atomicLong = DIRECT_MEMORY_COUNTER;
+        if (atomicLong != null) {
+            atomicLong.addAndGet(-i);
+        }
+    }
+
+    public static boolean equals(byte[] bArr, int i, byte[] bArr2, int i2, int i3) {
+        if (!hasUnsafe() || !PlatformDependent0.unalignedAccess()) {
+            return equalsSafe(bArr, i, bArr2, i2, i3);
+        }
+        return PlatformDependent0.equals(bArr, i, bArr2, i2, i3);
+    }
+
+    public static boolean isZero(byte[] bArr, int i, int i2) {
+        if (!hasUnsafe() || !PlatformDependent0.unalignedAccess()) {
+            return isZeroSafe(bArr, i, i2);
+        }
+        return PlatformDependent0.isZero(bArr, i, i2);
+    }
+
+    public static int equalsConstantTime(byte[] bArr, int i, byte[] bArr2, int i2, int i3) {
+        if (!hasUnsafe() || !PlatformDependent0.unalignedAccess()) {
+            return ConstantTimeUtils.equalsConstantTime(bArr, i, bArr2, i2, i3);
+        }
+        return PlatformDependent0.equalsConstantTime(bArr, i, bArr2, i2, i3);
+    }
+
+    public static int hashCodeAscii(byte[] bArr, int i, int i2) {
+        if (!hasUnsafe() || !PlatformDependent0.unalignedAccess()) {
+            return hashCodeAsciiSafe(bArr, i, i2);
+        }
+        return PlatformDependent0.hashCodeAscii(bArr, i, i2);
+    }
+
+    public static int hashCodeAscii(CharSequence charSequence) {
+        int i;
+        int length = charSequence.length();
+        int i2 = length & 7;
+        int iHashCodeAsciiCompute = -1028477387;
+        if (length >= 32) {
+            for (int i3 = length - 8; i3 >= i2; i3 -= 8) {
+                iHashCodeAsciiCompute = hashCodeAsciiCompute(charSequence, i3, iHashCodeAsciiCompute);
+            }
+        } else if (length >= 8) {
+            iHashCodeAsciiCompute = hashCodeAsciiCompute(charSequence, length - 8, -1028477387);
+            if (length >= 16) {
+                iHashCodeAsciiCompute = hashCodeAsciiCompute(charSequence, length - 16, iHashCodeAsciiCompute);
+                if (length >= 24) {
+                    iHashCodeAsciiCompute = hashCodeAsciiCompute(charSequence, length - 24, iHashCodeAsciiCompute);
+                }
+            }
+        }
+        if (i2 == 0) {
+            return iHashCodeAsciiCompute;
+        }
+        if (((i2 != 2) && (i2 != 4)) && (i2 != 6)) {
+            iHashCodeAsciiCompute = (iHashCodeAsciiCompute * (-862048943)) + hashCodeAsciiSanitizeByte(charSequence.charAt(0));
+            i = 1;
+        } else {
+            i = 0;
+        }
+        if ((i2 != 1) & (i2 != 4) & (i2 != 5)) {
+            iHashCodeAsciiCompute = (iHashCodeAsciiCompute * (i == 0 ? -862048943 : 461845907)) + PlatformDependent0.hashCodeAsciiSanitize(hashCodeAsciiSanitizeShort(charSequence, i));
+            i += 2;
+        }
+        if (i2 >= 4) {
+            return (iHashCodeAsciiCompute * (((i == 0) || (i == 3)) ? -862048943 : 461845907)) + hashCodeAsciiSanitizeInt(charSequence, i);
+        }
+        return iHashCodeAsciiCompute;
+    }
+
+    private static final class Mpsc {
+        private static final boolean USE_MPSC_CHUNKED_ARRAY_QUEUE;
+
+        private Mpsc() {
+        }
+
+        static {
+            if ((PlatformDependent.hasUnsafe() ? AccessController.doPrivileged(new PrivilegedAction<Object>() { // from class: io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.Mpsc.1
+                @Override // java.security.PrivilegedAction
+                public Object run() {
+                    return UnsafeAccess.UNSAFE;
+                }
+            }) : null) == null) {
+                PlatformDependent.logger.debug("org.jctools-core.MpscChunkedArrayQueue: unavailable");
+                USE_MPSC_CHUNKED_ARRAY_QUEUE = false;
+            } else {
+                PlatformDependent.logger.debug("org.jctools-core.MpscChunkedArrayQueue: available");
+                USE_MPSC_CHUNKED_ARRAY_QUEUE = true;
+            }
+        }
+
+        static <T> Queue<T> newMpscQueue(int i) {
+            int iMax = Math.max(Math.min(i, 1073741824), 2048);
+            return USE_MPSC_CHUNKED_ARRAY_QUEUE ? new MpscChunkedArrayQueue(1024, iMax) : new MpscChunkedAtomicArrayQueue(1024, iMax);
+        }
+
+        static <T> Queue<T> newMpscQueue() {
+            return USE_MPSC_CHUNKED_ARRAY_QUEUE ? new MpscUnboundedArrayQueue(1024) : new MpscUnboundedAtomicArrayQueue(1024);
+        }
+    }
+
+    public static <T> Queue<T> newMpscQueue() {
+        return Mpsc.newMpscQueue();
+    }
+
+    public static <T> Queue<T> newMpscQueue(int i) {
+        return Mpsc.newMpscQueue(i);
+    }
+
+    public static <T> Queue<T> newSpscQueue() {
+        return hasUnsafe() ? new SpscLinkedQueue() : new SpscLinkedAtomicQueue();
+    }
+
+    public static <T> Queue<T> newFixedMpscQueue(int i) {
+        return hasUnsafe() ? new MpscArrayQueue(i) : new MpscAtomicArrayQueue(i);
+    }
+
+    public static ClassLoader getClassLoader(Class<?> cls) {
+        return PlatformDependent0.getClassLoader(cls);
+    }
+
+    public static ClassLoader getContextClassLoader() {
+        return PlatformDependent0.getContextClassLoader();
+    }
+
+    public static ClassLoader getSystemClassLoader() {
+        return PlatformDependent0.getSystemClassLoader();
+    }
+
+    public static <C> Deque<C> newConcurrentDeque() {
+        if (javaVersion() < 7) {
+            return new LinkedBlockingDeque();
+        }
+        return new ConcurrentLinkedDeque();
+    }
+
+    public static Random threadLocalRandom() {
+        return RANDOM_PROVIDER.current();
+    }
+
+    private static boolean isWindows0() {
+        boolean zContains = SystemPropertyUtil.get("os.name", "").toLowerCase(Locale.US).contains("win");
+        if (zContains) {
+            logger.debug("Platform: Windows");
+        }
+        return zContains;
+    }
+
+    private static boolean isOsx0() {
+        String strReplaceAll = SystemPropertyUtil.get("os.name", "").toLowerCase(Locale.US).replaceAll("[^a-z0-9]+", "");
+        boolean z = strReplaceAll.startsWith("macosx") || strReplaceAll.startsWith("osx");
+        if (z) {
+            logger.debug("Platform: MacOS");
+        }
+        return z;
+    }
+
+    private static boolean maybeSuperUser0() {
+        String str = SystemPropertyUtil.get("user.name");
+        if (isWindows()) {
+            return "Administrator".equals(str);
+        }
+        return "root".equals(str) || "toor".equals(str);
+    }
+
+    private static Throwable unsafeUnavailabilityCause0() {
+        if (isAndroid()) {
+            logger.debug("sun.misc.Unsafe: unavailable (Android)");
+            return new UnsupportedOperationException("sun.misc.Unsafe: unavailable (Android)");
+        }
+        if (isIkvmDotNet()) {
+            logger.debug("sun.misc.Unsafe: unavailable (IKVM.NET)");
+            return new UnsupportedOperationException("sun.misc.Unsafe: unavailable (IKVM.NET)");
+        }
+        Throwable unsafeUnavailabilityCause = PlatformDependent0.getUnsafeUnavailabilityCause();
+        if (unsafeUnavailabilityCause != null) {
+            return unsafeUnavailabilityCause;
+        }
+        try {
+            boolean zHasUnsafe = PlatformDependent0.hasUnsafe();
+            logger.debug("sun.misc.Unsafe: {}", zHasUnsafe ? "available" : "unavailable");
+            if (zHasUnsafe) {
+                return null;
+            }
+            return PlatformDependent0.getUnsafeUnavailabilityCause();
+        } catch (Throwable th) {
+            logger.trace("Could not determine if Unsafe is available", th);
+            return new UnsupportedOperationException("Could not determine if Unsafe is available", th);
+        }
+    }
+
+    private static boolean isJ9Jvm0() {
+        String lowerCase = SystemPropertyUtil.get("java.vm.name", "").toLowerCase();
+        return lowerCase.startsWith("ibm j9") || lowerCase.startsWith("eclipse openj9");
+    }
+
+    private static boolean isIkvmDotNet0() {
+        return SystemPropertyUtil.get("java.vm.name", "").toUpperCase(Locale.US).equals("IKVM.NET");
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x0090, code lost:
+    
+        r6 = java.lang.Long.parseLong(r8.group(1));
+        r0 = r8.group(2).charAt(0);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x00a3, code lost:
+    
+        if (r0 == 'G') goto L37;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:25:0x00a7, code lost:
+    
+        if (r0 == 'K') goto L36;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:27:0x00ab, code lost:
+    
+        if (r0 == 'M') goto L35;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:29:0x00af, code lost:
+    
+        if (r0 == 'g') goto L37;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:31:0x00b3, code lost:
+    
+        if (r0 == 'k') goto L36;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:33:0x00b7, code lost:
+    
+        if (r0 == 'm') goto L35;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:35:0x00ba, code lost:
+    
+        r0 = 1048576;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:36:0x00be, code lost:
+    
+        r0 = 1024;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:37:0x00c1, code lost:
+    
+        r0 = 1073741824;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:38:0x00c4, code lost:
+    
+        r6 = r6 * r0;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private static long maxDirectMemory0() {
+        /*
+            r0 = 1
+            r1 = 0
+            r2 = 0
+            r4 = 0
+            java.lang.ClassLoader r5 = getSystemClassLoader()     // Catch: java.lang.Throwable -> L42
+            java.lang.String r6 = "java.vm.name"
+            java.lang.String r7 = ""
+            java.lang.String r6 = io.grpc.netty.shaded.io.netty.util.internal.SystemPropertyUtil.get(r6, r7)     // Catch: java.lang.Throwable -> L40
+            java.lang.String r6 = r6.toLowerCase()     // Catch: java.lang.Throwable -> L40
+            java.lang.String r7 = "ibm j9"
+            boolean r7 = r6.startsWith(r7)     // Catch: java.lang.Throwable -> L40
+            if (r7 != 0) goto L44
+            java.lang.String r7 = "eclipse openj9"
+            boolean r6 = r6.startsWith(r7)     // Catch: java.lang.Throwable -> L40
+            if (r6 != 0) goto L44
+            java.lang.String r6 = "sun.misc.VM"
+            java.lang.Class r6 = java.lang.Class.forName(r6, r0, r5)     // Catch: java.lang.Throwable -> L40
+            java.lang.String r7 = "maxDirectMemory"
+            java.lang.Class[] r8 = new java.lang.Class[r1]     // Catch: java.lang.Throwable -> L40
+            java.lang.reflect.Method r6 = r6.getDeclaredMethod(r7, r8)     // Catch: java.lang.Throwable -> L40
+            java.lang.Object[] r7 = new java.lang.Object[r1]     // Catch: java.lang.Throwable -> L40
+            java.lang.Object r6 = r6.invoke(r4, r7)     // Catch: java.lang.Throwable -> L40
+            java.lang.Number r6 = (java.lang.Number) r6     // Catch: java.lang.Throwable -> L40
+            long r6 = r6.longValue()     // Catch: java.lang.Throwable -> L40
+            goto L45
+        L40:
+            goto L44
+        L42:
+            r5 = r4
+        L44:
+            r6 = r2
+        L45:
+            int r8 = (r6 > r2 ? 1 : (r6 == r2 ? 0 : -1))
+            if (r8 <= 0) goto L4a
+            return r6
+        L4a:
+            java.lang.String r8 = "java.lang.management.ManagementFactory"
+            java.lang.Class r8 = java.lang.Class.forName(r8, r0, r5)     // Catch: java.lang.Throwable -> Lc7
+            java.lang.String r9 = "java.lang.management.RuntimeMXBean"
+            java.lang.Class r5 = java.lang.Class.forName(r9, r0, r5)     // Catch: java.lang.Throwable -> Lc7
+            java.lang.String r9 = "getRuntimeMXBean"
+            java.lang.Class[] r10 = new java.lang.Class[r1]     // Catch: java.lang.Throwable -> Lc7
+            java.lang.reflect.Method r8 = r8.getDeclaredMethod(r9, r10)     // Catch: java.lang.Throwable -> Lc7
+            java.lang.Object[] r9 = new java.lang.Object[r1]     // Catch: java.lang.Throwable -> Lc7
+            java.lang.Object r4 = r8.invoke(r4, r9)     // Catch: java.lang.Throwable -> Lc7
+            java.lang.String r8 = "getInputArguments"
+            java.lang.Class[] r9 = new java.lang.Class[r1]     // Catch: java.lang.Throwable -> Lc7
+            java.lang.reflect.Method r5 = r5.getDeclaredMethod(r8, r9)     // Catch: java.lang.Throwable -> Lc7
+            java.lang.Object[] r8 = new java.lang.Object[r1]     // Catch: java.lang.Throwable -> Lc7
+            java.lang.Object r4 = r5.invoke(r4, r8)     // Catch: java.lang.Throwable -> Lc7
+            java.util.List r4 = (java.util.List) r4     // Catch: java.lang.Throwable -> Lc7
+            int r5 = r4.size()     // Catch: java.lang.Throwable -> Lc7
+            int r5 = r5 - r0
+        L79:
+            if (r5 < 0) goto Lc8
+            java.util.regex.Pattern r8 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.MAX_DIRECT_MEMORY_SIZE_ARG_PATTERN     // Catch: java.lang.Throwable -> Lc7
+            java.lang.Object r9 = r4.get(r5)     // Catch: java.lang.Throwable -> Lc7
+            java.lang.CharSequence r9 = (java.lang.CharSequence) r9     // Catch: java.lang.Throwable -> Lc7
+            java.util.regex.Matcher r8 = r8.matcher(r9)     // Catch: java.lang.Throwable -> Lc7
+            boolean r9 = r8.matches()     // Catch: java.lang.Throwable -> Lc7
+            if (r9 != 0) goto L90
+            int r5 = r5 + (-1)
+            goto L79
+        L90:
+            java.lang.String r0 = r8.group(r0)     // Catch: java.lang.Throwable -> Lc7
+            long r6 = java.lang.Long.parseLong(r0)     // Catch: java.lang.Throwable -> Lc7
+            r0 = 2
+            java.lang.String r0 = r8.group(r0)     // Catch: java.lang.Throwable -> Lc7
+            char r0 = r0.charAt(r1)     // Catch: java.lang.Throwable -> Lc7
+            r1 = 71
+            if (r0 == r1) goto Lc1
+            r1 = 75
+            if (r0 == r1) goto Lbe
+            r1 = 77
+            if (r0 == r1) goto Lba
+            r1 = 103(0x67, float:1.44E-43)
+            if (r0 == r1) goto Lc1
+            r1 = 107(0x6b, float:1.5E-43)
+            if (r0 == r1) goto Lbe
+            r1 = 109(0x6d, float:1.53E-43)
+            if (r0 == r1) goto Lba
+            goto Lc8
+        Lba:
+            r0 = 1048576(0x100000, double:5.180654E-318)
+            goto Lc4
+        Lbe:
+            r0 = 1024(0x400, double:5.06E-321)
+            goto Lc4
+        Lc1:
+            r0 = 1073741824(0x40000000, double:5.304989477E-315)
+        Lc4:
+            long r6 = r6 * r0
+            goto Lc8
+        Lc7:
+        Lc8:
+            int r0 = (r6 > r2 ? 1 : (r6 == r2 ? 0 : -1))
+            if (r0 > 0) goto Le0
+            java.lang.Runtime r0 = java.lang.Runtime.getRuntime()
+            long r6 = r0.maxMemory()
+            io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger r0 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.logger
+            java.lang.String r1 = "maxDirectMemory: {} bytes (maybe)"
+            java.lang.Long r2 = java.lang.Long.valueOf(r6)
+            r0.debug(r1, r2)
+            goto Leb
+        Le0:
+            io.grpc.netty.shaded.io.netty.util.internal.logging.InternalLogger r0 = io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.logger
+            java.lang.String r1 = "maxDirectMemory: {} bytes"
+            java.lang.Long r2 = java.lang.Long.valueOf(r6)
+            r0.debug(r1, r2)
+        Leb:
+            return r6
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent.maxDirectMemory0():long");
+    }
+
+    private static File tmpdir0() {
+        File file;
+        File directory;
+        try {
+            directory = toDirectory(SystemPropertyUtil.get("io.grpc.netty.shaded.io.netty.tmpdir"));
+        } catch (Throwable unused) {
+        }
+        if (directory != null) {
+            logger.debug("-Dio.netty.tmpdir: {}", directory);
+            return directory;
+        }
+        File directory2 = toDirectory(SystemPropertyUtil.get("java.io.tmpdir"));
+        if (directory2 != null) {
+            logger.debug("-Dio.netty.tmpdir: {} (java.io.tmpdir)", directory2);
+            return directory2;
+        }
+        if (isWindows()) {
+            File directory3 = toDirectory(System.getenv("TEMP"));
+            if (directory3 != null) {
+                logger.debug("-Dio.netty.tmpdir: {} (%TEMP%)", directory3);
+                return directory3;
+            }
+            String str = System.getenv("USERPROFILE");
+            if (str != null) {
+                File directory4 = toDirectory(str + "\\AppData\\Local\\Temp");
+                if (directory4 != null) {
+                    logger.debug("-Dio.netty.tmpdir: {} (%USERPROFILE%\\AppData\\Local\\Temp)", directory4);
+                    return directory4;
+                }
+                File directory5 = toDirectory(str + "\\Local Settings\\Temp");
+                if (directory5 != null) {
+                    logger.debug("-Dio.netty.tmpdir: {} (%USERPROFILE%\\Local Settings\\Temp)", directory5);
+                    return directory5;
+                }
+            }
+        } else {
+            File directory6 = toDirectory(System.getenv("TMPDIR"));
+            if (directory6 != null) {
+                logger.debug("-Dio.netty.tmpdir: {} ($TMPDIR)", directory6);
+                return directory6;
+            }
+        }
+        if (isWindows()) {
+            file = new File("C:\\Windows\\Temp");
+        } else {
+            file = new File("/tmp");
+        }
+        logger.warn("Failed to get the temporary directory; falling back to: {}", file);
+        return file;
+    }
+
+    private static File toDirectory(String str) {
+        if (str == null) {
+            return null;
+        }
+        File file = new File(str);
+        file.mkdirs();
+        if (!file.isDirectory()) {
+            return null;
+        }
+        try {
+            return file.getAbsoluteFile();
+        } catch (Exception unused) {
+            return file;
+        }
+    }
+
+    private static int bitMode0() {
+        int i = SystemPropertyUtil.getInt("io.grpc.netty.shaded.io.netty.bitMode", 0);
+        if (i > 0) {
+            logger.debug("-Dio.netty.bitMode: {}", Integer.valueOf(i));
+            return i;
+        }
+        int i2 = SystemPropertyUtil.getInt("sun.arch.data.model", 0);
+        if (i2 > 0) {
+            logger.debug("-Dio.netty.bitMode: {} (sun.arch.data.model)", Integer.valueOf(i2));
+            return i2;
+        }
+        int i3 = SystemPropertyUtil.getInt("com.ibm.vm.bitmode", 0);
+        if (i3 > 0) {
+            logger.debug("-Dio.netty.bitMode: {} (com.ibm.vm.bitmode)", Integer.valueOf(i3));
+            return i3;
+        }
+        String strTrim = SystemPropertyUtil.get("os.arch", "").toLowerCase(Locale.US).trim();
+        if ("amd64".equals(strTrim) || "x86_64".equals(strTrim)) {
+            i3 = 64;
+        } else if ("i386".equals(strTrim) || "i486".equals(strTrim) || "i586".equals(strTrim) || "i686".equals(strTrim)) {
+            i3 = 32;
+        }
+        if (i3 > 0) {
+            logger.debug("-Dio.netty.bitMode: {} (os.arch: {})", Integer.valueOf(i3), strTrim);
+        }
+        Matcher matcher = Pattern.compile("([1-9][0-9]+)-?bit").matcher(SystemPropertyUtil.get("java.vm.name", "").toLowerCase(Locale.US));
+        if (matcher.find()) {
+            return Integer.parseInt(matcher.group(1));
+        }
+        return 64;
+    }
+
+    private static int addressSize0() {
+        if (hasUnsafe()) {
+            return PlatformDependent0.addressSize();
+        }
+        return -1;
+    }
+
+    private static long byteArrayBaseOffset0() {
+        if (hasUnsafe()) {
+            return PlatformDependent0.byteArrayBaseOffset();
+        }
+        return -1L;
+    }
+
+    private static boolean equalsSafe(byte[] bArr, int i, byte[] bArr2, int i2, int i3) {
+        int i4 = i3 + i;
+        while (i < i4) {
+            if (bArr[i] != bArr2[i2]) {
+                return false;
+            }
+            i++;
+            i2++;
+        }
+        return true;
+    }
+
+    private static boolean isZeroSafe(byte[] bArr, int i, int i2) {
+        int i3 = i2 + i;
+        while (i < i3) {
+            if (bArr[i] != 0) {
+                return false;
+            }
+            i++;
+        }
+        return true;
+    }
+
+    static int hashCodeAsciiSafe(byte[] bArr, int i, int i2) {
+        int iHashCodeAsciiSanitize;
+        int iHashCodeAsciiSanitize2;
+        int i3 = i2 & 7;
+        int i4 = i + i3;
+        int iHashCodeAsciiCompute = -1028477387;
+        for (int i5 = (i - 8) + i2; i5 >= i4; i5 -= 8) {
+            iHashCodeAsciiCompute = PlatformDependent0.hashCodeAsciiCompute(getLongSafe(bArr, i5), iHashCodeAsciiCompute);
+        }
+        switch (i3) {
+            case 1:
+                iHashCodeAsciiSanitize = iHashCodeAsciiCompute * (-862048943);
+                iHashCodeAsciiSanitize2 = PlatformDependent0.hashCodeAsciiSanitize(bArr[i]);
+                break;
+            case 2:
+                iHashCodeAsciiSanitize = iHashCodeAsciiCompute * (-862048943);
+                iHashCodeAsciiSanitize2 = PlatformDependent0.hashCodeAsciiSanitize(getShortSafe(bArr, i));
+                break;
+            case 3:
+                iHashCodeAsciiSanitize = ((iHashCodeAsciiCompute * (-862048943)) + PlatformDependent0.hashCodeAsciiSanitize(bArr[i])) * 461845907;
+                iHashCodeAsciiSanitize2 = PlatformDependent0.hashCodeAsciiSanitize(getShortSafe(bArr, i + 1));
+                break;
+            case 4:
+                iHashCodeAsciiSanitize = iHashCodeAsciiCompute * (-862048943);
+                iHashCodeAsciiSanitize2 = PlatformDependent0.hashCodeAsciiSanitize(getIntSafe(bArr, i));
+                break;
+            case 5:
+                iHashCodeAsciiSanitize = ((iHashCodeAsciiCompute * (-862048943)) + PlatformDependent0.hashCodeAsciiSanitize(bArr[i])) * 461845907;
+                iHashCodeAsciiSanitize2 = PlatformDependent0.hashCodeAsciiSanitize(getIntSafe(bArr, i + 1));
+                break;
+            case 6:
+                iHashCodeAsciiSanitize = ((iHashCodeAsciiCompute * (-862048943)) + PlatformDependent0.hashCodeAsciiSanitize(getShortSafe(bArr, i))) * 461845907;
+                iHashCodeAsciiSanitize2 = PlatformDependent0.hashCodeAsciiSanitize(getIntSafe(bArr, i + 2));
+                break;
+            case 7:
+                iHashCodeAsciiSanitize = ((((iHashCodeAsciiCompute * (-862048943)) + PlatformDependent0.hashCodeAsciiSanitize(bArr[i])) * 461845907) + PlatformDependent0.hashCodeAsciiSanitize(getShortSafe(bArr, i + 1))) * (-862048943);
+                iHashCodeAsciiSanitize2 = PlatformDependent0.hashCodeAsciiSanitize(getIntSafe(bArr, i + 3));
+                break;
+            default:
+                return iHashCodeAsciiCompute;
+        }
+        return iHashCodeAsciiSanitize + iHashCodeAsciiSanitize2;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void addClassifier(Set<String> set, Set<String> set2, String... strArr) {
+        for (String str : strArr) {
+            if (set.contains(str)) {
+                set2.add(str);
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static String normalizeOsReleaseVariableValue(String str) {
+        return str.trim().replaceAll("[\"']", "");
+    }
+
+    private static String normalize(String str) {
+        return str.toLowerCase(Locale.US).replaceAll("[^a-z0-9]+", "");
+    }
+
+    private static String normalizeArch(String str) {
+        String strNormalize = normalize(str);
+        return strNormalize.matches("^(x8664|amd64|ia32e|em64t|x64)$") ? "x86_64" : strNormalize.matches("^(x8632|x86|i[3-6]86|ia32|x32)$") ? "x86_32" : strNormalize.matches("^(ia64|itanium64)$") ? "itanium_64" : strNormalize.matches("^(sparc|sparc32)$") ? "sparc_32" : strNormalize.matches("^(sparcv9|sparc64)$") ? "sparc_64" : strNormalize.matches("^(arm|arm32)$") ? "arm_32" : "aarch64".equals(strNormalize) ? "aarch_64" : strNormalize.matches("^(ppc|ppc32)$") ? "ppc_32" : "ppc64".equals(strNormalize) ? "ppc_64" : "ppc64le".equals(strNormalize) ? "ppcle_64" : "s390".equals(strNormalize) ? "s390_32" : "s390x".equals(strNormalize) ? "s390_64" : EnvironmentCompat.MEDIA_UNKNOWN;
+    }
+
+    private static String normalizeOs(String str) {
+        String strNormalize = normalize(str);
+        if (strNormalize.startsWith("aix")) {
+            return "aix";
+        }
+        if (strNormalize.startsWith("hpux")) {
+            return "hpux";
+        }
+        if (strNormalize.startsWith("os400") && (strNormalize.length() <= 5 || !Character.isDigit(strNormalize.charAt(5)))) {
+            return "os400";
+        }
+        if (strNormalize.startsWith("linux")) {
+            return "linux";
+        }
+        String str2 = "osx";
+        if (!strNormalize.startsWith("macosx") && !strNormalize.startsWith("osx")) {
+            if (strNormalize.startsWith("freebsd")) {
+                return "freebsd";
+            }
+            if (strNormalize.startsWith("openbsd")) {
+                return "openbsd";
+            }
+            if (strNormalize.startsWith("netbsd")) {
+                return "netbsd";
+            }
+            str2 = "sunos";
+            if (!strNormalize.startsWith("solaris") && !strNormalize.startsWith("sunos")) {
+                return strNormalize.startsWith("windows") ? "windows" : EnvironmentCompat.MEDIA_UNKNOWN;
+            }
+        }
+        return str2;
+    }
+
+    private static final class AtomicLongCounter extends AtomicLong implements LongCounter {
+        private static final long serialVersionUID = 4074772784610639305L;
+
+        private AtomicLongCounter() {
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.util.internal.LongCounter
+        public void add(long j) {
+            addAndGet(j);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.util.internal.LongCounter
+        public void increment() {
+            incrementAndGet();
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.util.internal.LongCounter
+        public void decrement() {
+            decrementAndGet();
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.util.internal.LongCounter
+        public long value() {
+            return get();
+        }
+    }
+
+    private PlatformDependent() {
+    }
+}

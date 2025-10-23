@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/auth/http/AuthHttpConstants.java
+// Size: 218 bytes
+// Modified: 2025-10-21 16:32:00.138078500 +0100
+
+package com.google.auth.http;
+
+/* loaded from: classes.dex */
+public class AuthHttpConstants {
+    public static final String AUTHORIZATION = "Authorization";
+    public static final String BEARER = "Bearer";
+}

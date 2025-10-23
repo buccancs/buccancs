@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/Versioned.java
+// Size: 128 bytes
+// Modified: 2025-10-21 16:32:00.790959500 +0100
+
+package com.fasterxml.jackson.core;
+
+/* loaded from: classes.dex */
+public interface Versioned {
+    Version version();
+}

@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/TintableBackgroundView.java
+// Size: 436 bytes
+// Modified: 2025-10-21 16:31:59.982810300 +0100
+
+package androidx.core.view;
+
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+
+/* loaded from: classes.dex */
+public interface TintableBackgroundView {
+    ColorStateList getSupportBackgroundTintList();
+
+    PorterDuff.Mode getSupportBackgroundTintMode();
+
+    void setSupportBackgroundTintList(ColorStateList colorStateList);
+
+    void setSupportBackgroundTintMode(PorterDuff.Mode mode);
+}

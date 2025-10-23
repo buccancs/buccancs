@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/TypeAdapterFactory.java
+// Size: 214 bytes
+// Modified: 2025-10-21 16:32:09.929791600 +0100
+
+package com.google.gson;
+
+import com.google.gson.reflect.TypeToken;
+
+/* loaded from: classes.dex */
+public interface TypeAdapterFactory {
+    <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken);
+}

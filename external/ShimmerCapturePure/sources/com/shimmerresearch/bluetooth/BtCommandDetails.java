@@ -1,0 +1,30 @@
+package com.shimmerresearch.bluetooth;
+
+/* loaded from: classes2.dex */
+public class BtCommandDetails {
+    public byte expectedResponse;
+    public byte mCommand;
+    public String mDescription;
+    public int mExpectedResponseByteLength;
+
+    public BtCommandDetails(byte b, String str, byte b2) {
+        this.mExpectedResponseByteLength = 1;
+        this.mCommand = b;
+        this.mDescription = str;
+        this.expectedResponse = b2;
+    }
+
+    public BtCommandDetails(byte b, String str, int i) {
+        this.expectedResponse = (byte) 0;
+        this.mCommand = b;
+        this.mDescription = str;
+        this.mExpectedResponseByteLength = i;
+    }
+
+    public BtCommandDetails(byte b, String str) {
+        this.expectedResponse = (byte) 0;
+        this.mExpectedResponseByteLength = 1;
+        this.mCommand = b;
+        this.mDescription = str;
+    }
+}

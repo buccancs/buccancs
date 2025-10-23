@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/clj/fastble/exception/TimeoutException.java
+// Size: 219 bytes
+// Modified: 2025-10-21 16:32:00.783319400 +0100
+
+package com.clj.fastble.exception;
+
+/* loaded from: classes.dex */
+public class TimeoutException extends BleException {
+    public TimeoutException() {
+        super(100, "Timeout Exception Occurred!");
+    }
+}

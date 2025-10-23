@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/StepRenderer.java
+// Size: 502 bytes
+// Modified: 2025-10-21 16:32:10.609784300 +0100
+
+package com.androidplot.xy;
+
+import android.graphics.Path;
+import android.graphics.PointF;
+
+/* loaded from: classes.dex */
+public class StepRenderer extends LineAndPointRenderer<StepFormatter> {
+    public StepRenderer(XYPlot xYPlot) {
+        super(xYPlot);
+    }
+
+    @Override // com.androidplot.xy.LineAndPointRenderer
+    protected final void a(Path path, PointF pointF, PointF pointF2) {
+        path.lineTo(pointF.x, pointF2.y);
+        path.lineTo(pointF.x, pointF.y);
+    }
+}

@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/profileinstaller/R.java
+// Size: 123 bytes
+// Modified: 2025-10-21 16:32:00.115060000 +0100
+
+package androidx.profileinstaller;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

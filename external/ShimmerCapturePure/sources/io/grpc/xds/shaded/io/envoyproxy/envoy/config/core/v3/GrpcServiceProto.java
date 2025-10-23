@@ -1,0 +1,125 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.AnyProto;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.DurationProto;
+import com.google.protobuf.EmptyProto;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.StructProto;
+import com.google.protobuf.WrappersProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import org.apache.http.HttpHeaders;
+import udpa.annotations.Sensitive;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes6.dex */
+public final class GrpcServiceProto {
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_EnvoyGrpc_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_EnvoyGrpc_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_core_v3_GrpcService_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_core_v3_GrpcService_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n'envoy/config/core/v3/grpc_service.proto\u0012\u0014envoy.config.core.v3\u001a\u001fenvoy/config/core/v3/base.proto\u001a\u0019google/protobuf/any.proto\u001a\u001egoogle/protobuf/duration.proto\u001a\u001bgoogle/protobuf/empty.proto\u001a\u001cgoogle/protobuf/struct.proto\u001a\u001egoogle/protobuf/wrappers.proto\u001a udpa/annotations/sensitive.proto\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\u001a\u0017validate/validate.proto\"Å\u001b\n\u000bGrpcService\u0012A\n\nenvoy_grpc\u0018\u0001 \u0001(\u000b2+.envoy.config.core.v3.GrpcService.EnvoyGrpcH\u0000\u0012C\n\u000bgoogle_grpc\u0018\u0002 \u0001(\u000b2,.envoy.config.core.v3.GrpcService.GoogleGrpcH\u0000\u0012*\n\u0007timeout\u0018\u0003 \u0001(\u000b2\u0019.google.protobuf.Duration\u0012;\n\u0010initial_metadata\u0018\u0005 \u0003(\u000b2!.envoy.config.core.v3.HeaderValue\u001aZ\n\tEnvoyGrpc\u0012\u001d\n\fcluster_name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001:.\u009aÅ\u0088\u001e)\n'envoy.api.v2.core.GrpcService.EnvoyGrpc\u001a£\u0018\n\nGoogleGrpc\u0012\u001b\n\ntarget_uri\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012\\\n\u0013channel_credentials\u0018\u0002 \u0001(\u000b2?.envoy.config.core.v3.GrpcService.GoogleGrpc.ChannelCredentials\u0012V\n\u0010call_credentials\u0018\u0003 \u0003(\u000b2<.envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials\u0012\u001c\n\u000bstat_prefix\u0018\u0004 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012 \n\u0018credentials_factory_name\u0018\u0005 \u0001(\t\u0012'\n\u0006config\u0018\u0006 \u0001(\u000b2\u0017.google.protobuf.Struct\u0012C\n\u001dper_stream_buffer_limit_bytes\u0018\u0007 \u0001(\u000b2\u001c.google.protobuf.UInt32Value\u0012N\n\fchannel_args\u0018\b \u0001(\u000b28.envoy.config.core.v3.GrpcService.GoogleGrpc.ChannelArgs\u001aû\u0001\n\u000eSslCredentials\u00124\n\nroot_certs\u0018\u0001 \u0001(\u000b2 .envoy.config.core.v3.DataSource\u0012=\n\u000bprivate_key\u0018\u0002 \u0001(\u000b2 .envoy.config.core.v3.DataSourceB\u0006¸·\u008b¤\u0002\u0001\u00124\n\ncert_chain\u0018\u0003 \u0001(\u000b2 .envoy.config.core.v3.DataSource:>\u009aÅ\u0088\u001e9\n7envoy.api.v2.core.GrpcService.GoogleGrpc.SslCredentials\u001a`\n\u0016GoogleLocalCredentials:F\u009aÅ\u0088\u001eA\n?envoy.api.v2.core.GrpcService.GoogleGrpc.GoogleLocalCredentials\u001aá\u0002\n\u0012ChannelCredentials\u0012V\n\u000fssl_credentials\u0018\u0001 \u0001(\u000b2;.envoy.config.core.v3.GrpcService.GoogleGrpc.SslCredentialsH\u0000\u00120\n\u000egoogle_default\u0018\u0002 \u0001(\u000b2\u0016.google.protobuf.EmptyH\u0000\u0012`\n\u0011local_credentials\u0018\u0003 \u0001(\u000b2C.envoy.config.core.v3.GrpcService.GoogleGrpc.GoogleLocalCredentialsH\u0000:B\u009aÅ\u0088\u001e=\n;envoy.api.v2.core.GrpcService.GoogleGrpc.ChannelCredentialsB\u001b\n\u0014credential_specifier\u0012\u0003øB\u0001\u001a±\f\n\u000fCallCredentials\u0012\u0016\n\faccess_token\u0018\u0001 \u0001(\tH\u0000\u00127\n\u0015google_compute_engine\u0018\u0002 \u0001(\u000b2\u0016.google.protobuf.EmptyH\u0000\u0012\u001e\n\u0014google_refresh_token\u0018\u0003 \u0001(\tH\u0000\u0012\u0085\u0001\n\u001aservice_account_jwt_access\u0018\u0004 \u0001(\u000b2_.envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials.ServiceAccountJWTAccessCredentialsH\u0000\u0012g\n\ngoogle_iam\u0018\u0005 \u0001(\u000b2Q.envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials.GoogleIAMCredentialsH\u0000\u0012q\n\u000bfrom_plugin\u0018\u0006 \u0001(\u000b2Z.envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials.MetadataCredentialsFromPluginH\u0000\u0012^\n\u000bsts_service\u0018\u0007 \u0001(\u000b2G.envoy.config.core.v3.GrpcService.GoogleGrpc.CallCredentials.StsServiceH\u0000\u001aº\u0001\n\"ServiceAccountJWTAccessCredentials\u0012\u0010\n\bjson_key\u0018\u0001 \u0001(\t\u0012\u001e\n\u0016token_lifetime_seconds\u0018\u0002 \u0001(\u0004:b\u009aÅ\u0088\u001e]\n[envoy.api.v2.core.GrpcService.GoogleGrpc.CallCredentials.ServiceAccountJWTAccessCredentials\u001a¥\u0001\n\u0014GoogleIAMCredentials\u0012\u001b\n\u0013authorization_token\u0018\u0001 \u0001(\t\u0012\u001a\n\u0012authority_selector\u0018\u0002 \u0001(\t:T\u009aÅ\u0088\u001eO\nMenvoy.api.v2.core.GrpcService.GoogleGrpc.CallCredentials.GoogleIAMCredentials\u001a×\u0001\n\u001dMetadataCredentialsFromPlugin\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\u0012,\n\ftyped_config\u0018\u0003 \u0001(\u000b2\u0014.google.protobuf.AnyH\u0000:]\u009aÅ\u0088\u001eX\nVenvoy.api.v2.core.GrpcService.GoogleGrpc.CallCredentials.MetadataCredentialsFromPluginB\r\n\u000bconfig_typeJ\u0004\b\u0002\u0010\u0003R\u0006config\u001aË\u0002\n\nStsService\u0012\"\n\u001atoken_exchange_service_uri\u0018\u0001 \u0001(\t\u0012\u0010\n\bresource\u0018\u0002 \u0001(\t\u0012\u0010\n\baudience\u0018\u0003 \u0001(\t\u0012\r\n\u0005scope\u0018\u0004 \u0001(\t\u0012\u001c\n\u0014requested_token_type\u0018\u0005 \u0001(\t\u0012#\n\u0012subject_token_path\u0018\u0006 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012#\n\u0012subject_token_type\u0018\u0007 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012\u0018\n\u0010actor_token_path\u0018\b \u0001(\t\u0012\u0018\n\u0010actor_token_type\u0018\t \u0001(\t:J\u009aÅ\u0088\u001eE\nCenvoy.api.v2.core.GrpcService.GoogleGrpc.CallCredentials.StsService:?\u009aÅ\u0088\u001e:\n8envoy.api.v2.core.GrpcService.GoogleGrpc.CallCredentialsB\u001b\n\u0014credential_specifier\u0012\u0003øB\u0001\u001a\u009a\u0002\n\u000bChannelArgs\u0012P\n\u0004args\u0018\u0001 \u0003(\u000b2B.envoy.config.core.v3.GrpcService.GoogleGrpc.ChannelArgs.ArgsEntry\u001aL\n\u0005Value\u0012\u0016\n\fstring_value\u0018\u0001 \u0001(\tH\u0000\u0012\u0013\n\tint_value\u0018\u0002 \u0001(\u0003H\u0000B\u0016\n\u000fvalue_specifier\u0012\u0003øB\u0001\u001ak\n\tArgsEntry\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\t\u0012M\n\u0005value\u0018\u0002 \u0001(\u000b2>.envoy.config.core.v3.GrpcService.GoogleGrpc.ChannelArgs.Value:\u00028\u0001:/\u009aÅ\u0088\u001e*\n(envoy.api.v2.core.GrpcService.GoogleGrpc:$\u009aÅ\u0088\u001e\u001f\n\u001denvoy.api.v2.core.GrpcServiceB\u0017\n\u0010target_specifier\u0012\u0003øB\u0001J\u0004\b\u0004\u0010\u0005B@\n\"io.envoyproxy.envoy.config.core.v3B\u0010GrpcServiceProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{BaseProto.getDescriptor(), AnyProto.getDescriptor(), DurationProto.getDescriptor(), EmptyProto.getDescriptor(), StructProto.getDescriptor(), WrappersProto.getDescriptor(), Sensitive.getDescriptor(), Status.getDescriptor(), Versioning.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_core_v3_GrpcService_descriptor = descriptor2;
+        internal_static_envoy_config_core_v3_GrpcService_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"EnvoyGrpc", "GoogleGrpc", HttpHeaders.TIMEOUT, "InitialMetadata", "TargetSpecifier"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_envoy_config_core_v3_GrpcService_EnvoyGrpc_descriptor = descriptor3;
+        internal_static_envoy_config_core_v3_GrpcService_EnvoyGrpc_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"ClusterName"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(1);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_descriptor = descriptor4;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"TargetUri", "ChannelCredentials", "CallCredentials", "StatPrefix", "CredentialsFactoryName", "Config", "PerStreamBufferLimitBytes", "ChannelArgs"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) descriptor4.getNestedTypes().get(0);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_descriptor = descriptor5;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_SslCredentials_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"RootCerts", "PrivateKey", "CertChain"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) descriptor4.getNestedTypes().get(1);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_descriptor = descriptor6;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_GoogleLocalCredentials_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[0]);
+        Descriptors.Descriptor descriptor7 = (Descriptors.Descriptor) descriptor4.getNestedTypes().get(2);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_descriptor = descriptor7;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelCredentials_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor7, new String[]{"SslCredentials", "GoogleDefault", "LocalCredentials", "CredentialSpecifier"});
+        Descriptors.Descriptor descriptor8 = (Descriptors.Descriptor) descriptor4.getNestedTypes().get(3);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_descriptor = descriptor8;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor8, new String[]{"AccessToken", "GoogleComputeEngine", "GoogleRefreshToken", "ServiceAccountJwtAccess", "GoogleIam", "FromPlugin", "StsService", "CredentialSpecifier"});
+        Descriptors.Descriptor descriptor9 = (Descriptors.Descriptor) descriptor8.getNestedTypes().get(0);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_descriptor = descriptor9;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_ServiceAccountJWTAccessCredentials_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor9, new String[]{"JsonKey", "TokenLifetimeSeconds"});
+        Descriptors.Descriptor descriptor10 = (Descriptors.Descriptor) descriptor8.getNestedTypes().get(1);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_descriptor = descriptor10;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_GoogleIAMCredentials_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor10, new String[]{"AuthorizationToken", "AuthoritySelector"});
+        Descriptors.Descriptor descriptor11 = (Descriptors.Descriptor) descriptor8.getNestedTypes().get(2);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_descriptor = descriptor11;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_MetadataCredentialsFromPlugin_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor11, new String[]{"Name", "TypedConfig", "ConfigType"});
+        Descriptors.Descriptor descriptor12 = (Descriptors.Descriptor) descriptor8.getNestedTypes().get(3);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_descriptor = descriptor12;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_CallCredentials_StsService_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor12, new String[]{"TokenExchangeServiceUri", "Resource", "Audience", "Scope", "RequestedTokenType", "SubjectTokenPath", "SubjectTokenType", "ActorTokenPath", "ActorTokenType"});
+        Descriptors.Descriptor descriptor13 = (Descriptors.Descriptor) descriptor4.getNestedTypes().get(4);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_descriptor = descriptor13;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor13, new String[]{"Args"});
+        Descriptors.Descriptor descriptor14 = (Descriptors.Descriptor) descriptor13.getNestedTypes().get(0);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_descriptor = descriptor14;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_Value_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor14, new String[]{"StringValue", "IntValue", "ValueSpecifier"});
+        Descriptors.Descriptor descriptor15 = (Descriptors.Descriptor) descriptor13.getNestedTypes().get(1);
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry_descriptor = descriptor15;
+        internal_static_envoy_config_core_v3_GrpcService_GoogleGrpc_ChannelArgs_ArgsEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor15, new String[]{"Key", "Value"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Sensitive.sensitive);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        BaseProto.getDescriptor();
+        AnyProto.getDescriptor();
+        DurationProto.getDescriptor();
+        EmptyProto.getDescriptor();
+        StructProto.getDescriptor();
+        WrappersProto.getDescriptor();
+        Sensitive.getDescriptor();
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private GrpcServiceProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

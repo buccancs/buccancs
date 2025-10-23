@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/widget/TitleWidget.java
+// Size: 635 bytes
+// Modified: 2025-10-21 16:32:08.183554900 +0100
+
+package com.androidplot.ui.widget;
+
+import com.androidplot.Plot;
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.TextOrientationType;
+
+/* loaded from: classes.dex */
+public class TitleWidget extends TextLabelWidget {
+    private Plot a;
+
+    public TitleWidget(Plot plot, SizeMetrics sizeMetrics, TextOrientationType textOrientationType) {
+        super(sizeMetrics, textOrientationType);
+        this.a = plot;
+        getLabelPaint().setTextSize(14.0f);
+    }
+
+    @Override // com.androidplot.ui.widget.TextLabelWidget
+    protected final String a() {
+        return this.a.getTitle();
+    }
+}

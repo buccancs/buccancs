@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/differentiation/MultivariateDifferentiableVectorFunction.java
+// Size: 455 bytes
+// Modified: 2025-10-21 16:32:04.262822200 +0100
+
+package org.apache.commons.math3.analysis.differentiation;
+
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+
+/* loaded from: classes5.dex */
+public interface MultivariateDifferentiableVectorFunction extends MultivariateVectorFunction {
+    DerivativeStructure[] value(DerivativeStructure[] derivativeStructureArr) throws MathIllegalArgumentException;
+}

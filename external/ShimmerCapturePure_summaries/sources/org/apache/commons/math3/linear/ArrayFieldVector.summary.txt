@@ -1,0 +1,809 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/linear/ArrayFieldVector.java
+// Size: 34350 bytes
+// Modified: 2025-10-21 16:32:12.215554100 +0100
+
+package org.apache.commons.math3.linear;
+
+import java.io.Serializable;
+import java.util.Arrays;
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.ZeroException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.MathUtils;
+
+/* loaded from: classes5.dex */
+public class ArrayFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
+    private static final long serialVersionUID = 7648186910365927050L;
+    private T[] data;
+    private final Field<T> field;
+
+    public T[] getDataRef() {
+        return this.data;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public Field<T> getField() {
+        return this.field;
+    }
+
+    public ArrayFieldVector(Field<T> field) {
+        this(field, 0);
+    }
+
+    public ArrayFieldVector(Field<T> field, int i) {
+        this.field = field;
+        this.data = (T[]) ((FieldElement[]) MathArrays.buildArray(field, i));
+    }
+
+    public ArrayFieldVector(int i, T t) {
+        this(t.getField(), i);
+        Arrays.fill(this.data, t);
+    }
+
+    public ArrayFieldVector(T[] tArr) throws NullArgumentException, ZeroException {
+        MathUtils.checkNotNull(tArr);
+        try {
+            this.field = tArr[0].getField();
+            this.data = (T[]) ((FieldElement[]) tArr.clone());
+        } catch (ArrayIndexOutOfBoundsException unused) {
+            throw new ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT, new Object[0]);
+        }
+    }
+
+    public ArrayFieldVector(Field<T> field, T[] tArr) throws NullArgumentException {
+        MathUtils.checkNotNull(tArr);
+        this.field = field;
+        this.data = (T[]) ((FieldElement[]) tArr.clone());
+    }
+
+    public ArrayFieldVector(T[] tArr, boolean z) throws NullArgumentException, ZeroException {
+        MathUtils.checkNotNull(tArr);
+        if (tArr.length == 0) {
+            throw new ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT, new Object[0]);
+        }
+        this.field = tArr[0].getField();
+        this.data = z ? (T[]) ((FieldElement[]) tArr.clone()) : tArr;
+    }
+
+    public ArrayFieldVector(Field<T> field, T[] tArr, boolean z) throws NullArgumentException {
+        MathUtils.checkNotNull(tArr);
+        this.field = field;
+        this.data = z ? (T[]) ((FieldElement[]) tArr.clone()) : tArr;
+    }
+
+    public ArrayFieldVector(T[] tArr, int i, int i2) throws NullArgumentException, NumberIsTooLargeException {
+        MathUtils.checkNotNull(tArr);
+        int i3 = i + i2;
+        if (tArr.length < i3) {
+            throw new NumberIsTooLargeException(Integer.valueOf(i3), Integer.valueOf(tArr.length), true);
+        }
+        Field<T> field = tArr[0].getField();
+        this.field = field;
+        T[] tArr2 = (T[]) ((FieldElement[]) MathArrays.buildArray(field, i2));
+        this.data = tArr2;
+        System.arraycopy(tArr, i, tArr2, 0, i2);
+    }
+
+    public ArrayFieldVector(Field<T> field, T[] tArr, int i, int i2) throws NullArgumentException, NumberIsTooLargeException {
+        MathUtils.checkNotNull(tArr);
+        int i3 = i + i2;
+        if (tArr.length < i3) {
+            throw new NumberIsTooLargeException(Integer.valueOf(i3), Integer.valueOf(tArr.length), true);
+        }
+        this.field = field;
+        T[] tArr2 = (T[]) ((FieldElement[]) MathArrays.buildArray(field, i2));
+        this.data = tArr2;
+        System.arraycopy(tArr, i, tArr2, 0, i2);
+    }
+
+    public ArrayFieldVector(FieldVector<T> fieldVector) throws NullArgumentException {
+        MathUtils.checkNotNull(fieldVector);
+        Field<T> field = fieldVector.getField();
+        this.field = field;
+        this.data = (T[]) ((FieldElement[]) MathArrays.buildArray(field, fieldVector.getDimension()));
+        int i = 0;
+        while (true) {
+            FieldElement[] fieldElementArr = (T[]) this.data;
+            if (i >= fieldElementArr.length) {
+                return;
+            }
+            fieldElementArr[i] = fieldVector.getEntry(i);
+            i++;
+        }
+    }
+
+    public ArrayFieldVector(ArrayFieldVector<T> arrayFieldVector) throws NullArgumentException {
+        MathUtils.checkNotNull(arrayFieldVector);
+        this.field = arrayFieldVector.getField();
+        this.data = (T[]) ((FieldElement[]) arrayFieldVector.data.clone());
+    }
+
+    public ArrayFieldVector(ArrayFieldVector<T> arrayFieldVector, boolean z) throws NullArgumentException {
+        MathUtils.checkNotNull(arrayFieldVector);
+        this.field = arrayFieldVector.getField();
+        T[] tArr = arrayFieldVector.data;
+        this.data = z ? (T[]) ((FieldElement[]) tArr.clone()) : tArr;
+    }
+
+    @Deprecated
+    public ArrayFieldVector(ArrayFieldVector<T> arrayFieldVector, ArrayFieldVector<T> arrayFieldVector2) throws NullArgumentException {
+        this((FieldVector) arrayFieldVector, (FieldVector) arrayFieldVector2);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    public ArrayFieldVector(FieldVector<T> fieldVector, FieldVector<T> fieldVector2) throws NullArgumentException {
+        MathUtils.checkNotNull(fieldVector);
+        MathUtils.checkNotNull(fieldVector2);
+        Field<T> field = fieldVector.getField();
+        this.field = field;
+        Object[] objArr = fieldVector instanceof ArrayFieldVector ? ((ArrayFieldVector) fieldVector).data : (T[]) fieldVector.toArray();
+        Object[] objArr2 = fieldVector2 instanceof ArrayFieldVector ? ((ArrayFieldVector) fieldVector2).data : (T[]) fieldVector2.toArray();
+        T[] tArr = (T[]) ((FieldElement[]) MathArrays.buildArray(field, objArr.length + objArr2.length));
+        this.data = tArr;
+        System.arraycopy(objArr, 0, tArr, 0, objArr.length);
+        System.arraycopy(objArr2, 0, this.data, objArr.length, objArr2.length);
+    }
+
+    @Deprecated
+    public ArrayFieldVector(ArrayFieldVector<T> arrayFieldVector, T[] tArr) throws NullArgumentException {
+        this((FieldVector) arrayFieldVector, (FieldElement[]) tArr);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    public ArrayFieldVector(FieldVector<T> fieldVector, T[] tArr) throws NullArgumentException {
+        MathUtils.checkNotNull(fieldVector);
+        MathUtils.checkNotNull(tArr);
+        Field<T> field = fieldVector.getField();
+        this.field = field;
+        Object[] objArr = fieldVector instanceof ArrayFieldVector ? ((ArrayFieldVector) fieldVector).data : (T[]) fieldVector.toArray();
+        T[] tArr2 = (T[]) ((FieldElement[]) MathArrays.buildArray(field, objArr.length + tArr.length));
+        this.data = tArr2;
+        System.arraycopy(objArr, 0, tArr2, 0, objArr.length);
+        System.arraycopy(tArr, 0, this.data, objArr.length, tArr.length);
+    }
+
+    @Deprecated
+    public ArrayFieldVector(T[] tArr, ArrayFieldVector<T> arrayFieldVector) throws NullArgumentException {
+        this((FieldElement[]) tArr, (FieldVector) arrayFieldVector);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    public ArrayFieldVector(T[] tArr, FieldVector<T> fieldVector) throws NullArgumentException {
+        MathUtils.checkNotNull(tArr);
+        MathUtils.checkNotNull(fieldVector);
+        Field<T> field = fieldVector.getField();
+        this.field = field;
+        Object[] objArr = fieldVector instanceof ArrayFieldVector ? ((ArrayFieldVector) fieldVector).data : (T[]) fieldVector.toArray();
+        T[] tArr2 = (T[]) ((FieldElement[]) MathArrays.buildArray(field, tArr.length + objArr.length));
+        this.data = tArr2;
+        System.arraycopy(tArr, 0, tArr2, 0, tArr.length);
+        System.arraycopy(objArr, 0, this.data, tArr.length, objArr.length);
+    }
+
+    public ArrayFieldVector(T[] tArr, T[] tArr2) throws NullArgumentException, ZeroException {
+        MathUtils.checkNotNull(tArr);
+        MathUtils.checkNotNull(tArr2);
+        if (tArr.length + tArr2.length == 0) {
+            throw new ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT, new Object[0]);
+        }
+        T[] tArr3 = (T[]) ((FieldElement[]) MathArrays.buildArray(tArr[0].getField(), tArr.length + tArr2.length));
+        this.data = tArr3;
+        System.arraycopy(tArr, 0, tArr3, 0, tArr.length);
+        System.arraycopy(tArr2, 0, this.data, tArr.length, tArr2.length);
+        this.field = this.data[0].getField();
+    }
+
+    public ArrayFieldVector(Field<T> field, T[] tArr, T[] tArr2) throws NullArgumentException, ZeroException {
+        MathUtils.checkNotNull(tArr);
+        MathUtils.checkNotNull(tArr2);
+        if (tArr.length + tArr2.length == 0) {
+            throw new ZeroException(LocalizedFormats.VECTOR_MUST_HAVE_AT_LEAST_ONE_ELEMENT, new Object[0]);
+        }
+        T[] tArr3 = (T[]) ((FieldElement[]) MathArrays.buildArray(field, tArr.length + tArr2.length));
+        this.data = tArr3;
+        System.arraycopy(tArr, 0, tArr3, 0, tArr.length);
+        System.arraycopy(tArr2, 0, this.data, tArr.length, tArr2.length);
+        this.field = field;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> copy() {
+        return new ArrayFieldVector((ArrayFieldVector) this, true);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> add(FieldVector<T> fieldVector) throws DimensionMismatchException {
+        try {
+            return add((ArrayFieldVector) fieldVector);
+        } catch (ClassCastException unused) {
+            checkVectorDimensions(fieldVector);
+            FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+            int i = 0;
+            while (true) {
+                T[] tArr = this.data;
+                if (i < tArr.length) {
+                    fieldElementArr[i] = (FieldElement) tArr[i].add(fieldVector.getEntry(i));
+                    i++;
+                } else {
+                    return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+                }
+            }
+        }
+    }
+
+    public ArrayFieldVector<T> add(ArrayFieldVector<T> arrayFieldVector) throws DimensionMismatchException {
+        checkVectorDimensions(arrayFieldVector.data.length);
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                fieldElementArr[i] = (FieldElement) tArr[i].add(arrayFieldVector.data[i]);
+                i++;
+            } else {
+                return new ArrayFieldVector<>((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> subtract(FieldVector<T> fieldVector) throws DimensionMismatchException {
+        try {
+            return subtract((ArrayFieldVector) fieldVector);
+        } catch (ClassCastException unused) {
+            checkVectorDimensions(fieldVector);
+            FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+            int i = 0;
+            while (true) {
+                T[] tArr = this.data;
+                if (i < tArr.length) {
+                    fieldElementArr[i] = (FieldElement) tArr[i].subtract(fieldVector.getEntry(i));
+                    i++;
+                } else {
+                    return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+                }
+            }
+        }
+    }
+
+    public ArrayFieldVector<T> subtract(ArrayFieldVector<T> arrayFieldVector) throws DimensionMismatchException {
+        checkVectorDimensions(arrayFieldVector.data.length);
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                fieldElementArr[i] = (FieldElement) tArr[i].subtract(arrayFieldVector.data[i]);
+                i++;
+            } else {
+                return new ArrayFieldVector<>((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapAdd(T t) throws NullArgumentException {
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                fieldElementArr[i] = (FieldElement) tArr[i].add(t);
+                i++;
+            } else {
+                return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapAddToSelf(T t) throws NullArgumentException {
+        int i = 0;
+        while (true) {
+            FieldElement[] fieldElementArr = this.data;
+            if (i >= fieldElementArr.length) {
+                return this;
+            }
+            fieldElementArr[i] = (FieldElement) fieldElementArr[i].add(t);
+            i++;
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapSubtract(T t) throws NullArgumentException {
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                fieldElementArr[i] = (FieldElement) tArr[i].subtract(t);
+                i++;
+            } else {
+                return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapSubtractToSelf(T t) throws NullArgumentException {
+        int i = 0;
+        while (true) {
+            FieldElement[] fieldElementArr = this.data;
+            if (i >= fieldElementArr.length) {
+                return this;
+            }
+            fieldElementArr[i] = (FieldElement) fieldElementArr[i].subtract(t);
+            i++;
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapMultiply(T t) throws NullArgumentException {
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                fieldElementArr[i] = (FieldElement) tArr[i].multiply(t);
+                i++;
+            } else {
+                return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapMultiplyToSelf(T t) throws NullArgumentException {
+        int i = 0;
+        while (true) {
+            FieldElement[] fieldElementArr = this.data;
+            if (i >= fieldElementArr.length) {
+                return this;
+            }
+            fieldElementArr[i] = (FieldElement) fieldElementArr[i].multiply(t);
+            i++;
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapDivide(T t) throws NullArgumentException, MathArithmeticException {
+        MathUtils.checkNotNull(t);
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                fieldElementArr[i] = (FieldElement) tArr[i].divide(t);
+                i++;
+            } else {
+                return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapDivideToSelf(T t) throws NullArgumentException, MathArithmeticException {
+        MathUtils.checkNotNull(t);
+        int i = 0;
+        while (true) {
+            FieldElement[] fieldElementArr = this.data;
+            if (i >= fieldElementArr.length) {
+                return this;
+            }
+            fieldElementArr[i] = (FieldElement) fieldElementArr[i].divide(t);
+            i++;
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapInv() throws MathArithmeticException {
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        T one = this.field.getOne();
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                try {
+                    fieldElementArr[i] = (FieldElement) one.divide(tArr[i]);
+                    i++;
+                } catch (MathArithmeticException unused) {
+                    throw new MathArithmeticException(LocalizedFormats.INDEX, Integer.valueOf(i));
+                }
+            } else {
+                return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> mapInvToSelf() throws MathArithmeticException {
+        T one = this.field.getOne();
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i >= tArr.length) {
+                return this;
+            }
+            try {
+                tArr[i] = (FieldElement) one.divide(tArr[i]);
+                i++;
+            } catch (MathArithmeticException unused) {
+                throw new MathArithmeticException(LocalizedFormats.INDEX, Integer.valueOf(i));
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> ebeMultiply(FieldVector<T> fieldVector) throws DimensionMismatchException {
+        try {
+            return ebeMultiply((ArrayFieldVector) fieldVector);
+        } catch (ClassCastException unused) {
+            checkVectorDimensions(fieldVector);
+            FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+            int i = 0;
+            while (true) {
+                T[] tArr = this.data;
+                if (i < tArr.length) {
+                    fieldElementArr[i] = (FieldElement) tArr[i].multiply(fieldVector.getEntry(i));
+                    i++;
+                } else {
+                    return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+                }
+            }
+        }
+    }
+
+    public ArrayFieldVector<T> ebeMultiply(ArrayFieldVector<T> arrayFieldVector) throws DimensionMismatchException {
+        checkVectorDimensions(arrayFieldVector.data.length);
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                fieldElementArr[i] = (FieldElement) tArr[i].multiply(arrayFieldVector.data[i]);
+                i++;
+            } else {
+                return new ArrayFieldVector<>((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> ebeDivide(FieldVector<T> fieldVector) throws DimensionMismatchException, MathArithmeticException {
+        try {
+            return ebeDivide((ArrayFieldVector) fieldVector);
+        } catch (ClassCastException unused) {
+            checkVectorDimensions(fieldVector);
+            FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+            int i = 0;
+            while (true) {
+                T[] tArr = this.data;
+                if (i < tArr.length) {
+                    try {
+                        fieldElementArr[i] = (FieldElement) tArr[i].divide(fieldVector.getEntry(i));
+                        i++;
+                    } catch (MathArithmeticException unused2) {
+                        throw new MathArithmeticException(LocalizedFormats.INDEX, Integer.valueOf(i));
+                    }
+                } else {
+                    return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+                }
+            }
+        }
+    }
+
+    public ArrayFieldVector<T> ebeDivide(ArrayFieldVector<T> arrayFieldVector) throws DimensionMismatchException, MathArithmeticException {
+        checkVectorDimensions(arrayFieldVector.data.length);
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length);
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i < tArr.length) {
+                try {
+                    fieldElementArr[i] = (FieldElement) tArr[i].divide(arrayFieldVector.data[i]);
+                    i++;
+                } catch (MathArithmeticException unused) {
+                    throw new MathArithmeticException(LocalizedFormats.INDEX, Integer.valueOf(i));
+                }
+            } else {
+                return new ArrayFieldVector<>((Field) this.field, fieldElementArr, false);
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public T[] getData() {
+        return (T[]) ((FieldElement[]) this.data.clone());
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public T dotProduct(FieldVector<T> fieldVector) throws DimensionMismatchException {
+        try {
+            return (T) dotProduct((ArrayFieldVector) fieldVector);
+        } catch (ClassCastException unused) {
+            checkVectorDimensions(fieldVector);
+            T zero = this.field.getZero();
+            int i = 0;
+            while (true) {
+                T[] tArr = this.data;
+                if (i >= tArr.length) {
+                    return zero;
+                }
+                zero = (T) zero.add(tArr[i].multiply(fieldVector.getEntry(i)));
+                i++;
+            }
+        }
+    }
+
+    public T dotProduct(ArrayFieldVector<T> arrayFieldVector) throws DimensionMismatchException {
+        checkVectorDimensions(arrayFieldVector.data.length);
+        T zero = this.field.getZero();
+        int i = 0;
+        while (true) {
+            T[] tArr = this.data;
+            if (i >= tArr.length) {
+                return zero;
+            }
+            zero = (T) zero.add(tArr[i].multiply(arrayFieldVector.data[i]));
+            i++;
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> projection(FieldVector<T> fieldVector) throws DimensionMismatchException, MathArithmeticException {
+        return fieldVector.mapMultiply((FieldElement) dotProduct(fieldVector).divide(fieldVector.dotProduct(fieldVector)));
+    }
+
+    public ArrayFieldVector<T> projection(ArrayFieldVector<T> arrayFieldVector) throws DimensionMismatchException, MathArithmeticException {
+        return (ArrayFieldVector) arrayFieldVector.mapMultiply((FieldElement) dotProduct((ArrayFieldVector) arrayFieldVector).divide(arrayFieldVector.dotProduct((ArrayFieldVector) arrayFieldVector)));
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldMatrix<T> outerProduct(FieldVector<T> fieldVector) throws OutOfRangeException {
+        try {
+            return outerProduct((ArrayFieldVector) fieldVector);
+        } catch (ClassCastException unused) {
+            int length = this.data.length;
+            int dimension = fieldVector.getDimension();
+            Array2DRowFieldMatrix array2DRowFieldMatrix = new Array2DRowFieldMatrix(this.field, length, dimension);
+            for (int i = 0; i < length; i++) {
+                for (int i2 = 0; i2 < dimension; i2++) {
+                    array2DRowFieldMatrix.setEntry(i, i2, (FieldElement) this.data[i].multiply(fieldVector.getEntry(i2)));
+                }
+            }
+            return array2DRowFieldMatrix;
+        }
+    }
+
+    public FieldMatrix<T> outerProduct(ArrayFieldVector<T> arrayFieldVector) throws OutOfRangeException {
+        int length = this.data.length;
+        int length2 = arrayFieldVector.data.length;
+        Array2DRowFieldMatrix array2DRowFieldMatrix = new Array2DRowFieldMatrix(this.field, length, length2);
+        for (int i = 0; i < length; i++) {
+            for (int i2 = 0; i2 < length2; i2++) {
+                array2DRowFieldMatrix.setEntry(i, i2, (FieldElement) this.data[i].multiply(arrayFieldVector.data[i2]));
+            }
+        }
+        return array2DRowFieldMatrix;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public T getEntry(int i) {
+        return this.data[i];
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public int getDimension() {
+        return this.data.length;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> append(FieldVector<T> fieldVector) {
+        try {
+            return append((ArrayFieldVector) fieldVector);
+        } catch (ClassCastException unused) {
+            return new ArrayFieldVector((ArrayFieldVector) this, new ArrayFieldVector(fieldVector));
+        }
+    }
+
+    public ArrayFieldVector<T> append(ArrayFieldVector<T> arrayFieldVector) {
+        return new ArrayFieldVector<>((ArrayFieldVector) this, (ArrayFieldVector) arrayFieldVector);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> append(T t) {
+        FieldElement[] fieldElementArr = (FieldElement[]) MathArrays.buildArray(this.field, this.data.length + 1);
+        T[] tArr = this.data;
+        System.arraycopy(tArr, 0, fieldElementArr, 0, tArr.length);
+        fieldElementArr[this.data.length] = t;
+        return new ArrayFieldVector((Field) this.field, fieldElementArr, false);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public FieldVector<T> getSubVector(int i, int i2) throws OutOfRangeException, NotPositiveException {
+        if (i2 < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_ELEMENTS_SHOULD_BE_POSITIVE, Integer.valueOf(i2));
+        }
+        ArrayFieldVector arrayFieldVector = new ArrayFieldVector(this.field, i2);
+        try {
+            System.arraycopy(this.data, i, arrayFieldVector.data, 0, i2);
+        } catch (IndexOutOfBoundsException unused) {
+            checkIndex(i);
+            checkIndex((i + i2) - 1);
+        }
+        return arrayFieldVector;
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public void setEntry(int i, T t) throws OutOfRangeException {
+        try {
+            this.data[i] = t;
+        } catch (IndexOutOfBoundsException unused) {
+            checkIndex(i);
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public void setSubVector(int i, FieldVector<T> fieldVector) throws OutOfRangeException {
+        try {
+            try {
+                set(i, (ArrayFieldVector) fieldVector);
+            } catch (ClassCastException unused) {
+                for (int i2 = i; i2 < fieldVector.getDimension() + i; i2++) {
+                    ((T[]) this.data)[i2] = fieldVector.getEntry(i2 - i);
+                }
+            }
+        } catch (IndexOutOfBoundsException unused2) {
+            checkIndex(i);
+            checkIndex((i + fieldVector.getDimension()) - 1);
+        }
+    }
+
+    public void set(int i, ArrayFieldVector<T> arrayFieldVector) throws OutOfRangeException {
+        try {
+            T[] tArr = arrayFieldVector.data;
+            System.arraycopy(tArr, 0, this.data, i, tArr.length);
+        } catch (IndexOutOfBoundsException unused) {
+            checkIndex(i);
+            checkIndex((i + arrayFieldVector.data.length) - 1);
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public void set(T t) {
+        Arrays.fill(this.data, t);
+    }
+
+    @Override // org.apache.commons.math3.linear.FieldVector
+    public T[] toArray() {
+        return (T[]) ((FieldElement[]) this.data.clone());
+    }
+
+    protected void checkVectorDimensions(FieldVector<T> fieldVector) throws DimensionMismatchException {
+        checkVectorDimensions(fieldVector.getDimension());
+    }
+
+    protected void checkVectorDimensions(int i) throws DimensionMismatchException {
+        if (this.data.length != i) {
+            throw new DimensionMismatchException(this.data.length, i);
+        }
+    }
+
+    public T walkInDefaultOrder(FieldVectorPreservingVisitor<T> fieldVectorPreservingVisitor) {
+        int dimension = getDimension();
+        fieldVectorPreservingVisitor.start(dimension, 0, dimension - 1);
+        for (int i = 0; i < dimension; i++) {
+            fieldVectorPreservingVisitor.visit(i, getEntry(i));
+        }
+        return (T) fieldVectorPreservingVisitor.end();
+    }
+
+    public T walkInDefaultOrder(FieldVectorPreservingVisitor<T> fieldVectorPreservingVisitor, int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        checkIndices(i, i2);
+        fieldVectorPreservingVisitor.start(getDimension(), i, i2);
+        while (i <= i2) {
+            fieldVectorPreservingVisitor.visit(i, getEntry(i));
+            i++;
+        }
+        return (T) fieldVectorPreservingVisitor.end();
+    }
+
+    public T walkInOptimizedOrder(FieldVectorPreservingVisitor<T> fieldVectorPreservingVisitor) {
+        return (T) walkInDefaultOrder(fieldVectorPreservingVisitor);
+    }
+
+    public T walkInOptimizedOrder(FieldVectorPreservingVisitor<T> fieldVectorPreservingVisitor, int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        return (T) walkInDefaultOrder(fieldVectorPreservingVisitor, i, i2);
+    }
+
+    public T walkInDefaultOrder(FieldVectorChangingVisitor<T> fieldVectorChangingVisitor) throws OutOfRangeException {
+        int dimension = getDimension();
+        fieldVectorChangingVisitor.start(dimension, 0, dimension - 1);
+        for (int i = 0; i < dimension; i++) {
+            setEntry(i, fieldVectorChangingVisitor.visit(i, getEntry(i)));
+        }
+        return (T) fieldVectorChangingVisitor.end();
+    }
+
+    public T walkInDefaultOrder(FieldVectorChangingVisitor<T> fieldVectorChangingVisitor, int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        checkIndices(i, i2);
+        fieldVectorChangingVisitor.start(getDimension(), i, i2);
+        while (i <= i2) {
+            setEntry(i, fieldVectorChangingVisitor.visit(i, getEntry(i)));
+            i++;
+        }
+        return (T) fieldVectorChangingVisitor.end();
+    }
+
+    public T walkInOptimizedOrder(FieldVectorChangingVisitor<T> fieldVectorChangingVisitor) {
+        return (T) walkInDefaultOrder(fieldVectorChangingVisitor);
+    }
+
+    public T walkInOptimizedOrder(FieldVectorChangingVisitor<T> fieldVectorChangingVisitor, int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        return (T) walkInDefaultOrder(fieldVectorChangingVisitor, i, i2);
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        try {
+            FieldVector fieldVector = (FieldVector) obj;
+            if (this.data.length != fieldVector.getDimension()) {
+                return false;
+            }
+            int i = 0;
+            while (true) {
+                T[] tArr = this.data;
+                if (i >= tArr.length) {
+                    return true;
+                }
+                if (!tArr[i].equals(fieldVector.getEntry(i))) {
+                    return false;
+                }
+                i++;
+            }
+        } catch (ClassCastException unused) {
+            return false;
+        }
+    }
+
+    public int hashCode() {
+        int iHashCode = 3542;
+        for (T t : this.data) {
+            iHashCode ^= t.hashCode();
+        }
+        return iHashCode;
+    }
+
+    private void checkIndex(int i) throws OutOfRangeException {
+        if (i < 0 || i >= getDimension()) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX, Integer.valueOf(i), 0, Integer.valueOf(getDimension() - 1));
+        }
+    }
+
+    private void checkIndices(int i, int i2) throws NumberIsTooSmallException, OutOfRangeException {
+        int dimension = getDimension();
+        if (i < 0 || i >= dimension) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX, Integer.valueOf(i), 0, Integer.valueOf(dimension - 1));
+        }
+        if (i2 < 0 || i2 >= dimension) {
+            throw new OutOfRangeException(LocalizedFormats.INDEX, Integer.valueOf(i2), 0, Integer.valueOf(dimension - 1));
+        }
+        if (i2 < i) {
+            throw new NumberIsTooSmallException(LocalizedFormats.INITIAL_ROW_AFTER_FINAL_ROW, Integer.valueOf(i2), Integer.valueOf(i), false);
+        }
+    }
+}

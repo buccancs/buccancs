@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pkcs/jcajce/JcaPKCS8EncryptedPrivateKeyInfoBuilder.java
+// Size: 482 bytes
+// Modified: 2025-10-21 16:32:07.687387300 +0100
+
+package org.bouncycastle.pkcs.jcajce;
+
+import java.security.PrivateKey;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.pkcs.PKCS8EncryptedPrivateKeyInfoBuilder;
+
+/* loaded from: classes5.dex */
+public class JcaPKCS8EncryptedPrivateKeyInfoBuilder extends PKCS8EncryptedPrivateKeyInfoBuilder {
+    public JcaPKCS8EncryptedPrivateKeyInfoBuilder(PrivateKey privateKey) {
+        super(PrivateKeyInfo.getInstance(privateKey.getEncoded()));
+    }
+}

@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/test/NumberParsing.java
+// Size: 539 bytes
+// Modified: 2025-10-21 16:32:00.650503500 +0100
+
+package org.bouncycastle.util.test;
+
+/* loaded from: classes5.dex */
+public final class NumberParsing {
+    private NumberParsing() {
+    }
+
+    public static int decodeIntFromHex(String str) {
+        return (str.charAt(1) == 'x' || str.charAt(1) == 'X') ? Integer.parseInt(str.substring(2), 16) : Integer.parseInt(str, 16);
+    }
+
+    public static long decodeLongFromHex(String str) {
+        return (str.charAt(1) == 'x' || str.charAt(1) == 'X') ? Long.parseLong(str.substring(2), 16) : Long.parseLong(str, 16);
+    }
+}

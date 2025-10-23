@@ -1,0 +1,65 @@
+package io.grpc.services;
+
+import com.google.protobuf.MessageLite;
+
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/* loaded from: classes3.dex */
+class TempFileSink implements BinaryLogSink {
+    private static final Logger logger = Logger.getLogger(TempFileSink.class.getName());
+    private final OutputStream out;
+    private final String outPath;
+    private boolean closed;
+
+    TempFileSink() throws IOException {
+        File fileCreateTempFile = File.createTempFile("BINARY_INFO.", "");
+        this.outPath = fileCreateTempFile.getPath();
+        logger.log(Level.INFO, "Writing binary logs to to {0}", fileCreateTempFile.getAbsolutePath());
+        this.out = new BufferedOutputStream(new FileOutputStream(fileCreateTempFile));
+    }
+
+    String getPath() {
+        return this.outPath;
+    }
+
+    @Override // io.grpc.services.BinaryLogSink
+    public synchronized void write(MessageLite messageLite) {
+        if (this.closed) {
+            logger.log(Level.FINEST, "Attempt to write after TempFileSink is closed.");
+            return;
+        }
+        try {
+            messageLite.writeDelimitedTo(this.out);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Caught exception while writing", (Throwable) e);
+            closeQuietly();
+        }
+    }
+
+    @Override // java.io.Closeable, java.lang.AutoCloseable
+    public synchronized void close() throws IOException {
+        if (this.closed) {
+            return;
+        }
+        this.closed = true;
+        try {
+            this.out.flush();
+        } finally {
+            this.out.close();
+        }
+    }
+
+    private synchronized void closeQuietly() {
+        try {
+            close();
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Caught exception while closing", (Throwable) e);
+        }
+    }
+}

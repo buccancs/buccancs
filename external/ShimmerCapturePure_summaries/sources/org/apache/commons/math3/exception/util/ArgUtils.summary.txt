@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/exception/util/ArgUtils.java
+// Size: 694 bytes
+// Modified: 2025-10-21 16:32:00.506802800 +0100
+
+package org.apache.commons.math3.exception.util;
+
+import java.util.ArrayList;
+
+/* loaded from: classes5.dex */
+public class ArgUtils {
+    private ArgUtils() {
+    }
+
+    public static Object[] flatten(Object[] objArr) {
+        ArrayList arrayList = new ArrayList();
+        if (objArr != null) {
+            for (Object obj : objArr) {
+                if (obj instanceof Object[]) {
+                    for (Object obj2 : flatten((Object[]) obj)) {
+                        arrayList.add(obj2);
+                    }
+                } else {
+                    arrayList.add(obj);
+                }
+            }
+        }
+        return arrayList.toArray();
+    }
+}

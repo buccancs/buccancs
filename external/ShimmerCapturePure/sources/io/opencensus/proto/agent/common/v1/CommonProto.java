@@ -1,0 +1,61 @@
+package io.opencensus.proto.agent.common.v1;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.TimestampProto;
+
+/* loaded from: classes4.dex */
+public final class CommonProto {
+    static final Descriptors.Descriptor internal_static_opencensus_proto_agent_common_v1_LibraryInfo_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_agent_common_v1_LibraryInfo_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_agent_common_v1_Node_AttributesEntry_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_agent_common_v1_Node_AttributesEntry_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_agent_common_v1_Node_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_agent_common_v1_Node_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_agent_common_v1_ProcessIdentifier_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_agent_common_v1_ProcessIdentifier_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_opencensus_proto_agent_common_v1_ServiceInfo_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_opencensus_proto_agent_common_v1_ServiceInfo_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor;
+
+    static {
+        Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n-opencensus/proto/agent/common/v1/common.proto\u0012 opencensus.proto.agent.common.v1\u001a\u001fgoogle/protobuf/timestamp.proto\"Ø\u0002\n\u0004Node\u0012G\n\nidentifier\u0018\u0001 \u0001(\u000b23.opencensus.proto.agent.common.v1.ProcessIdentifier\u0012C\n\flibrary_info\u0018\u0002 \u0001(\u000b2-.opencensus.proto.agent.common.v1.LibraryInfo\u0012C\n\fservice_info\u0018\u0003 \u0001(\u000b2-.opencensus.proto.agent.common.v1.ServiceInfo\u0012J\n\nattributes\u0018\u0004 \u0003(\u000b26.opencensus.proto.agent.common.v1.Node.AttributesEntry\u001a1\n\u000fAttributesEntry\u0012\u000b\n\u0003key\u0018\u0001 \u0001(\t\u0012\r\n\u0005value\u0018\u0002 \u0001(\t:\u00028\u0001\"h\n\u0011ProcessIdentifier\u0012\u0011\n\thost_name\u0018\u0001 \u0001(\t\u0012\u000b\n\u0003pid\u0018\u0002 \u0001(\r\u00123\n\u000fstart_timestamp\u0018\u0003 \u0001(\u000b2\u001a.google.protobuf.Timestamp\"\u009b\u0002\n\u000bLibraryInfo\u0012H\n\blanguage\u0018\u0001 \u0001(\u000e26.opencensus.proto.agent.common.v1.LibraryInfo.Language\u0012\u0018\n\u0010exporter_version\u0018\u0002 \u0001(\t\u0012\u001c\n\u0014core_library_version\u0018\u0003 \u0001(\t\"\u0089\u0001\n\bLanguage\u0012\u0018\n\u0014LANGUAGE_UNSPECIFIED\u0010\u0000\u0012\u0007\n\u0003CPP\u0010\u0001\u0012\u000b\n\u0007C_SHARP\u0010\u0002\u0012\n\n\u0006ERLANG\u0010\u0003\u0012\u000b\n\u0007GO_LANG\u0010\u0004\u0012\b\n\u0004JAVA\u0010\u0005\u0012\u000b\n\u0007NODE_JS\u0010\u0006\u0012\u0007\n\u0003PHP\u0010\u0007\u0012\n\n\u0006PYTHON\u0010\b\u0012\b\n\u0004RUBY\u0010\t\"\u001b\n\u000bServiceInfo\u0012\f\n\u0004name\u0018\u0001 \u0001(\tB\u007f\n#io.opencensus.proto.agent.common.v1B\u000bCommonProtoP\u0001ZIgithub.com/census-instrumentation/opencensus-proto/gen-go/agent/common/v1b\u0006proto3"}, new Descriptors.FileDescriptor[]{TimestampProto.getDescriptor()}, new Descriptors.FileDescriptor.InternalDescriptorAssigner() { // from class: io.opencensus.proto.agent.common.v1.CommonProto.1
+            public ExtensionRegistry assignDescriptors(Descriptors.FileDescriptor fileDescriptor) {
+                Descriptors.FileDescriptor unused = CommonProto.descriptor = fileDescriptor;
+                return null;
+            }
+        });
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_opencensus_proto_agent_common_v1_Node_descriptor = descriptor2;
+        internal_static_opencensus_proto_agent_common_v1_Node_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Identifier", "LibraryInfo", "ServiceInfo", "Attributes"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_opencensus_proto_agent_common_v1_Node_AttributesEntry_descriptor = descriptor3;
+        internal_static_opencensus_proto_agent_common_v1_Node_AttributesEntry_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Key", "Value"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_opencensus_proto_agent_common_v1_ProcessIdentifier_descriptor = descriptor4;
+        internal_static_opencensus_proto_agent_common_v1_ProcessIdentifier_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"HostName", "Pid", "StartTimestamp"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_opencensus_proto_agent_common_v1_LibraryInfo_descriptor = descriptor5;
+        internal_static_opencensus_proto_agent_common_v1_LibraryInfo_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"Language", "ExporterVersion", "CoreLibraryVersion"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_opencensus_proto_agent_common_v1_ServiceInfo_descriptor = descriptor6;
+        internal_static_opencensus_proto_agent_common_v1_ServiceInfo_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"Name"});
+        TimestampProto.getDescriptor();
+    }
+
+    private CommonProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/FastThreadLocalRunnable.java
+// Size: 769 bytes
+// Modified: 2025-10-21 16:32:03.155919600 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+final class FastThreadLocalRunnable implements Runnable {
+    private final Runnable runnable;
+
+    private FastThreadLocalRunnable(Runnable runnable) {
+        this.runnable = (Runnable) ObjectUtil.checkNotNull(runnable, "runnable");
+    }
+
+    @Override // java.lang.Runnable
+    public void run() {
+        try {
+            this.runnable.run();
+        } finally {
+            FastThreadLocal.removeAll();
+        }
+    }
+
+    static Runnable wrap(Runnable runnable) {
+        return runnable instanceof FastThreadLocalRunnable ? runnable : new FastThreadLocalRunnable(runnable);
+    }
+}

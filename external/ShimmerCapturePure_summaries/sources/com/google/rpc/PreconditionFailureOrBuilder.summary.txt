@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/rpc/PreconditionFailureOrBuilder.java
+// Size: 576 bytes
+// Modified: 2025-10-21 16:32:02.148523300 +0100
+
+package com.google.rpc;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.rpc.PreconditionFailure;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface PreconditionFailureOrBuilder extends MessageOrBuilder {
+    PreconditionFailure.Violation getViolations(int i);
+
+    int getViolationsCount();
+
+    List<PreconditionFailure.Violation> getViolationsList();
+
+    PreconditionFailure.ViolationOrBuilder getViolationsOrBuilder(int i);
+
+    List<? extends PreconditionFailure.ViolationOrBuilder> getViolationsOrBuilderList();
+}

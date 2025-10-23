@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/http/HttpRequestInitializer.java
+// Size: 214 bytes
+// Modified: 2025-10-21 16:32:08.493581500 +0100
+
+package com.google.api.client.http;
+
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public interface HttpRequestInitializer {
+    void initialize(HttpRequest httpRequest) throws IOException;
+}

@@ -1,0 +1,40 @@
+package org.apache.commons.math.random;
+
+import java.util.Arrays;
+
+import org.apache.commons.math.exception.DimensionMismatchException;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/random/UncorrelatedRandomVectorGenerator.class */
+public class UncorrelatedRandomVectorGenerator implements RandomVectorGenerator {
+    private final NormalizedRandomGenerator generator;
+    private final double[] mean;
+    private final double[] standardDeviation;
+
+    public UncorrelatedRandomVectorGenerator(double[] mean, double[] standardDeviation, NormalizedRandomGenerator generator) {
+        if (mean.length != standardDeviation.length) {
+            throw new DimensionMismatchException(mean.length, standardDeviation.length);
+        }
+        this.mean = (double[]) mean.clone();
+        this.standardDeviation = (double[]) standardDeviation.clone();
+        this.generator = generator;
+    }
+
+    public UncorrelatedRandomVectorGenerator(int dimension, NormalizedRandomGenerator generator) {
+        this.mean = new double[dimension];
+        this.standardDeviation = new double[dimension];
+        Arrays.fill(this.standardDeviation, 1.0d);
+        this.generator = generator;
+    }
+
+    @Override // org.apache.commons.math.random.RandomVectorGenerator
+    public double[] nextVector() {
+        double[] random = new double[this.mean.length];
+        for (int i = 0; i < random.length; i++) {
+            random[i] = this.mean[i] + (this.standardDeviation[i] * this.generator.nextNormalizedDouble());
+        }
+        return random;
+    }
+}

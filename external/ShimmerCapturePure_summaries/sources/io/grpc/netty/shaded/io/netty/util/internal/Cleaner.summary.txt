@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/Cleaner.java
+// Size: 195 bytes
+// Modified: 2025-10-21 16:32:00.241748600 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+interface Cleaner {
+    void freeDirectBuffer(ByteBuffer byteBuffer);
+}

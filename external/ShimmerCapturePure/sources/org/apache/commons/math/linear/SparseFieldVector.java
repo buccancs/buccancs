@@ -1,0 +1,516 @@
+package org.apache.commons.math.linear;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import java.util.ConcurrentModificationException;
+import java.util.NoSuchElementException;
+
+import org.apache.commons.math.Field;
+import org.apache.commons.math.FieldElement;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.OpenIntToFieldHashMap;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/linear/SparseFieldVector.class */
+public class SparseFieldVector<T extends FieldElement<T>> implements FieldVector<T>, Serializable {
+    private static final long serialVersionUID = 7841233292190413362L;
+    private final Field<T> field;
+    private final OpenIntToFieldHashMap<T> entries;
+    private final int virtualSize;
+
+    public SparseFieldVector(Field<T> field) {
+        this(field, 0);
+    }
+
+    public SparseFieldVector(Field<T> field, int dimension) {
+        this.field = field;
+        this.virtualSize = dimension;
+        this.entries = new OpenIntToFieldHashMap<>(field);
+    }
+
+    protected SparseFieldVector(SparseFieldVector<T> v, int resize) {
+        this.field = v.field;
+        this.virtualSize = v.getDimension() + resize;
+        this.entries = new OpenIntToFieldHashMap<>(v.entries);
+    }
+
+    public SparseFieldVector(Field<T> field, int dimension, int expectedSize) {
+        this.field = field;
+        this.virtualSize = dimension;
+        this.entries = new OpenIntToFieldHashMap<>(field, expectedSize);
+    }
+
+    public SparseFieldVector(Field<T> field, T[] values) {
+        this.field = field;
+        this.virtualSize = values.length;
+        this.entries = new OpenIntToFieldHashMap<>(field);
+        for (int key = 0; key < values.length; key++) {
+            T value = values[key];
+            this.entries.put(key, value);
+        }
+    }
+
+    public SparseFieldVector(SparseFieldVector<T> v) {
+        this.field = v.field;
+        this.virtualSize = v.getDimension();
+        this.entries = new OpenIntToFieldHashMap<>(v.getEntries());
+    }
+
+    private OpenIntToFieldHashMap<T> getEntries() {
+        return this.entries;
+    }
+
+    public FieldVector<T> add(SparseFieldVector<T> v) throws MatrixIndexException, IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.getDimension());
+        SparseFieldVector<T> res = (SparseFieldVector) copy();
+        OpenIntToFieldHashMap<T>.Iterator iter = v.getEntries().iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            int key = iter.key();
+            FieldElement fieldElementValue = iter.value();
+            if (this.entries.containsKey(key)) {
+                res.setEntry(key, (FieldElement) this.entries.get(key).add(fieldElementValue));
+            } else {
+                res.setEntry(key, fieldElementValue);
+            }
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> add(T[] v) throws MatrixIndexException, IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        SparseFieldVector<T> res = new SparseFieldVector<>(this.field, getDimension());
+        for (int i = 0; i < v.length; i++) {
+            res.setEntry(i, (FieldElement) v[i].add(getEntry(i)));
+        }
+        return res;
+    }
+
+    public FieldVector<T> append(SparseFieldVector<T> v) throws MatrixIndexException, NoSuchElementException, ConcurrentModificationException {
+        SparseFieldVector<T> res = new SparseFieldVector<>(this, v.getDimension());
+        OpenIntToFieldHashMap<T>.Iterator iter = v.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            res.setEntry(iter.key() + this.virtualSize, iter.value());
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> append(FieldVector<T> v) {
+        if (v instanceof SparseFieldVector) {
+            return append((SparseFieldVector) v);
+        }
+        return append(v.toArray());
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> append(T d) throws MatrixIndexException {
+        FieldVector<T> res = new SparseFieldVector<>(this, 1);
+        res.setEntry(this.virtualSize, d);
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> append(T[] a) throws MatrixIndexException {
+        FieldVector<T> res = new SparseFieldVector<>(this, a.length);
+        for (int i = 0; i < a.length; i++) {
+            res.setEntry(i + this.virtualSize, a[i]);
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> copy() {
+        return new SparseFieldVector(this);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r0v14, types: [org.apache.commons.math.FieldElement] */
+    @Override // org.apache.commons.math.linear.FieldVector
+    public T dotProduct(FieldVector<T> v) throws IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.getDimension());
+        T res = this.field.getZero();
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            res = (FieldElement) res.add(v.getEntry(iter.key()).multiply(iter.value()));
+        }
+        return res;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Type inference failed for: r0v20, types: [org.apache.commons.math.FieldElement] */
+    @Override // org.apache.commons.math.linear.FieldVector
+    public T dotProduct(T[] v) throws IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.length);
+        T res = this.field.getZero();
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            int idx = iter.key();
+            T value = this.field.getZero();
+            if (idx < v.length) {
+                value = v[idx];
+            }
+            res = (FieldElement) res.add(value.multiply(iter.value()));
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> ebeDivide(FieldVector<T> v) throws MatrixIndexException, IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.getDimension());
+        SparseFieldVector<T> res = new SparseFieldVector<>(this);
+        OpenIntToFieldHashMap<T>.Iterator iter = res.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            res.setEntry(iter.key(), (FieldElement) iter.value().divide(v.getEntry(iter.key())));
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> ebeDivide(T[] v) throws MatrixIndexException, IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.length);
+        SparseFieldVector<T> res = new SparseFieldVector<>(this);
+        OpenIntToFieldHashMap<T>.Iterator iter = res.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            res.setEntry(iter.key(), (FieldElement) iter.value().divide(v[iter.key()]));
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> ebeMultiply(FieldVector<T> v) throws MatrixIndexException, IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.getDimension());
+        SparseFieldVector<T> res = new SparseFieldVector<>(this);
+        OpenIntToFieldHashMap<T>.Iterator iter = res.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            res.setEntry(iter.key(), (FieldElement) iter.value().multiply(v.getEntry(iter.key())));
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> ebeMultiply(T[] v) throws MatrixIndexException, IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.length);
+        SparseFieldVector<T> res = new SparseFieldVector<>(this);
+        OpenIntToFieldHashMap<T>.Iterator iter = res.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            res.setEntry(iter.key(), (FieldElement) iter.value().multiply(v[iter.key()]));
+        }
+        return res;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // org.apache.commons.math.linear.FieldVector
+    public T[] getData() throws NoSuchElementException, ConcurrentModificationException {
+        T[] tArr = (T[]) buildArray(this.virtualSize);
+        OpenIntToFieldHashMap<T>.Iterator it2 = this.entries.iterator();
+        while (it2.hasNext()) {
+            it2.advance();
+            tArr[it2.key()] = it2.value();
+        }
+        return tArr;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public int getDimension() {
+        return this.virtualSize;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public T getEntry(int i) throws MatrixIndexException {
+        checkIndex(i);
+        return (T) this.entries.get(i);
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public Field<T> getField() {
+        return this.field;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> getSubVector(int index, int n) throws MatrixIndexException, NoSuchElementException, ConcurrentModificationException {
+        checkIndex(index);
+        checkIndex((index + n) - 1);
+        SparseFieldVector<T> res = new SparseFieldVector<>(this.field, n);
+        int end = index + n;
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            int key = iter.key();
+            if (key >= index && key < end) {
+                res.setEntry(key - index, iter.value());
+            }
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapAdd(T d) {
+        return copy().mapAddToSelf(d);
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapAddToSelf(T d) throws MatrixIndexException {
+        for (int i = 0; i < this.virtualSize; i++) {
+            setEntry(i, (FieldElement) getEntry(i).add(d));
+        }
+        return this;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapDivide(T d) {
+        return copy().mapDivideToSelf(d);
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapDivideToSelf(T d) throws NoSuchElementException, ConcurrentModificationException {
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            this.entries.put(iter.key(), (FieldElement) iter.value().divide(d));
+        }
+        return this;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapInv() {
+        return copy().mapInvToSelf();
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapInvToSelf() throws MatrixIndexException {
+        for (int i = 0; i < this.virtualSize; i++) {
+            setEntry(i, (FieldElement) this.field.getOne().divide(getEntry(i)));
+        }
+        return this;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapMultiply(T d) {
+        return copy().mapMultiplyToSelf(d);
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapMultiplyToSelf(T d) throws NoSuchElementException, ConcurrentModificationException {
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            this.entries.put(iter.key(), (FieldElement) iter.value().multiply(d));
+        }
+        return this;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapSubtract(T d) {
+        return copy().mapSubtractToSelf(d);
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> mapSubtractToSelf(T d) {
+        return mapAddToSelf((FieldElement) this.field.getZero().subtract(d));
+    }
+
+    public FieldMatrix<T> outerProduct(SparseFieldVector<T> v) throws MatrixIndexException, IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.getDimension());
+        SparseFieldMatrix<T> res = new SparseFieldMatrix<>(this.field, this.virtualSize, this.virtualSize);
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            OpenIntToFieldHashMap<T>.Iterator iter2 = v.entries.iterator();
+            while (iter2.hasNext()) {
+                iter2.advance();
+                res.setEntry(iter.key(), iter2.key(), (FieldElement) iter.value().multiply(iter2.value()));
+            }
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldMatrix<T> outerProduct(T[] v) throws MatrixIndexException, IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.length);
+        FieldMatrix<T> res = new SparseFieldMatrix<>(this.field, this.virtualSize, this.virtualSize);
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            int row = iter.key();
+            FieldElement<T> value = iter.value();
+            for (int col = 0; col < this.virtualSize; col++) {
+                res.setEntry(row, col, value.multiply(v[col]));
+            }
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldMatrix<T> outerProduct(FieldVector<T> v) throws IllegalArgumentException {
+        if (v instanceof SparseFieldVector) {
+            return outerProduct((SparseFieldVector) v);
+        }
+        return outerProduct(v.toArray());
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> projection(FieldVector<T> v) throws IllegalArgumentException {
+        checkVectorDimensions(v.getDimension());
+        return v.mapMultiply((FieldElement) dotProduct(v).divide(v.dotProduct(v)));
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> projection(T[] v) throws IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        return projection(new SparseFieldVector(this.field, v));
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public void set(T value) throws MatrixIndexException {
+        for (int i = 0; i < this.virtualSize; i++) {
+            setEntry(i, value);
+        }
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public void setEntry(int index, T value) throws MatrixIndexException {
+        checkIndex(index);
+        this.entries.put(index, value);
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public void setSubVector(int index, FieldVector<T> v) throws MatrixIndexException {
+        checkIndex(index);
+        checkIndex((index + v.getDimension()) - 1);
+        setSubVector(index, v.getData());
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public void setSubVector(int index, T[] v) throws MatrixIndexException {
+        checkIndex(index);
+        checkIndex((index + v.length) - 1);
+        for (int i = 0; i < v.length; i++) {
+            setEntry(i + index, v[i]);
+        }
+    }
+
+    public SparseFieldVector<T> subtract(SparseFieldVector<T> v) throws MatrixIndexException, IllegalArgumentException, NoSuchElementException, ConcurrentModificationException {
+        checkVectorDimensions(v.getDimension());
+        SparseFieldVector<T> res = (SparseFieldVector) copy();
+        OpenIntToFieldHashMap<T>.Iterator iter = v.getEntries().iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            int key = iter.key();
+            if (this.entries.containsKey(key)) {
+                res.setEntry(key, (FieldElement) this.entries.get(key).subtract(iter.value()));
+            } else {
+                res.setEntry(key, (FieldElement) this.field.getZero().subtract(iter.value()));
+            }
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> subtract(FieldVector<T> v) throws IllegalArgumentException {
+        if (v instanceof SparseFieldVector) {
+            return subtract((SparseFieldVector) v);
+        }
+        return subtract(v.toArray());
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> subtract(T[] v) throws MatrixIndexException, IllegalArgumentException {
+        checkVectorDimensions(v.length);
+        SparseFieldVector<T> res = new SparseFieldVector<>(this);
+        for (int i = 0; i < v.length; i++) {
+            if (this.entries.containsKey(i)) {
+                res.setEntry(i, (FieldElement) this.entries.get(i).subtract(v[i]));
+            } else {
+                res.setEntry(i, (FieldElement) this.field.getZero().subtract(v[i]));
+            }
+        }
+        return res;
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public T[] toArray() {
+        return (T[]) getData();
+    }
+
+    private void checkIndex(int index) throws MatrixIndexException {
+        if (index < 0 || index >= getDimension()) {
+            throw new MatrixIndexException(LocalizedFormats.INDEX_OUT_OF_RANGE, Integer.valueOf(index), 0, Integer.valueOf(getDimension() - 1));
+        }
+    }
+
+    protected void checkVectorDimensions(int n) throws IllegalArgumentException {
+        if (getDimension() != n) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.VECTOR_LENGTH_MISMATCH, Integer.valueOf(getDimension()), Integer.valueOf(n));
+        }
+    }
+
+    @Override // org.apache.commons.math.linear.FieldVector
+    public FieldVector<T> add(FieldVector<T> v) throws IllegalArgumentException {
+        if (v instanceof SparseFieldVector) {
+            return add((SparseFieldVector) v);
+        }
+        return add(v.toArray());
+    }
+
+    private T[] buildArray(int i) {
+        return (T[]) ((FieldElement[]) Array.newInstance(this.field.getZero().getClass(), i));
+    }
+
+    public int hashCode() throws NoSuchElementException, ConcurrentModificationException {
+        int result = (31 * 1) + (this.field == null ? 0 : this.field.hashCode());
+        int result2 = (31 * result) + this.virtualSize;
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            int temp = iter.value().hashCode();
+            result2 = (31 * result2) + temp;
+        }
+        return result2;
+    }
+
+    public boolean equals(Object obj) throws NoSuchElementException, ConcurrentModificationException {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof SparseFieldVector)) {
+            return false;
+        }
+        SparseFieldVector<T> other = (SparseFieldVector) obj;
+        if (this.field == null) {
+            if (other.field != null) {
+                return false;
+            }
+        } else if (!this.field.equals(other.field)) {
+            return false;
+        }
+        if (this.virtualSize != other.virtualSize) {
+            return false;
+        }
+        OpenIntToFieldHashMap<T>.Iterator iter = this.entries.iterator();
+        while (iter.hasNext()) {
+            iter.advance();
+            if (!other.getEntry(iter.key()).equals(iter.value())) {
+                return false;
+            }
+        }
+        OpenIntToFieldHashMap<T>.Iterator iter2 = other.getEntries().iterator();
+        while (iter2.hasNext()) {
+            iter2.advance();
+            if (!iter2.value().equals(getEntry(iter2.key()))) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

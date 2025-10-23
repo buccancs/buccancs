@@ -1,0 +1,1879 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Parser;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.Int32Range;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.Int32RangeOrBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes5.dex */
+public final class ListenerFilterChainMatchPredicate extends GeneratedMessageV3 implements ListenerFilterChainMatchPredicateOrBuilder {
+    public static final int AND_MATCH_FIELD_NUMBER = 2;
+    public static final int ANY_MATCH_FIELD_NUMBER = 4;
+    public static final int DESTINATION_PORT_RANGE_FIELD_NUMBER = 5;
+    public static final int NOT_MATCH_FIELD_NUMBER = 3;
+    public static final int OR_MATCH_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private static final ListenerFilterChainMatchPredicate DEFAULT_INSTANCE = new ListenerFilterChainMatchPredicate();
+    private static final Parser<ListenerFilterChainMatchPredicate> PARSER = new AbstractParser<ListenerFilterChainMatchPredicate>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ListenerFilterChainMatchPredicate m17725parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ListenerFilterChainMatchPredicate(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private byte memoizedIsInitialized;
+    private int ruleCase_;
+    private Object rule_;
+
+    private ListenerFilterChainMatchPredicate(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.ruleCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ListenerFilterChainMatchPredicate() {
+        this.ruleCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ListenerFilterChainMatchPredicate(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                MatchSet.Builder builderM17769toBuilder = this.ruleCase_ == 1 ? ((MatchSet) this.rule_).m17769toBuilder() : null;
+                                MessageLite message = codedInputStream.readMessage(MatchSet.parser(), extensionRegistryLite);
+                                this.rule_ = message;
+                                if (builderM17769toBuilder != null) {
+                                    builderM17769toBuilder.mergeFrom((MatchSet) message);
+                                    this.rule_ = builderM17769toBuilder.m17776buildPartial();
+                                }
+                                this.ruleCase_ = 1;
+                            } else if (tag == 18) {
+                                MatchSet.Builder builderM17769toBuilder2 = this.ruleCase_ == 2 ? ((MatchSet) this.rule_).m17769toBuilder() : null;
+                                MessageLite message2 = codedInputStream.readMessage(MatchSet.parser(), extensionRegistryLite);
+                                this.rule_ = message2;
+                                if (builderM17769toBuilder2 != null) {
+                                    builderM17769toBuilder2.mergeFrom((MatchSet) message2);
+                                    this.rule_ = builderM17769toBuilder2.m17776buildPartial();
+                                }
+                                this.ruleCase_ = 2;
+                            } else if (tag == 26) {
+                                Builder builderM17723toBuilder = this.ruleCase_ == 3 ? ((ListenerFilterChainMatchPredicate) this.rule_).m17723toBuilder() : null;
+                                MessageLite message3 = codedInputStream.readMessage(parser(), extensionRegistryLite);
+                                this.rule_ = message3;
+                                if (builderM17723toBuilder != null) {
+                                    builderM17723toBuilder.mergeFrom((ListenerFilterChainMatchPredicate) message3);
+                                    this.rule_ = builderM17723toBuilder.m17730buildPartial();
+                                }
+                                this.ruleCase_ = 3;
+                            } else if (tag == 32) {
+                                this.ruleCase_ = 4;
+                                this.rule_ = Boolean.valueOf(codedInputStream.readBool());
+                            } else if (tag == 42) {
+                                Int32Range.Builder builderM32906toBuilder = this.ruleCase_ == 5 ? ((Int32Range) this.rule_).m32906toBuilder() : null;
+                                MessageLite message4 = codedInputStream.readMessage(Int32Range.parser(), extensionRegistryLite);
+                                this.rule_ = message4;
+                                if (builderM32906toBuilder != null) {
+                                    builderM32906toBuilder.mergeFrom((Int32Range) message4);
+                                    this.rule_ = builderM32906toBuilder.m32913buildPartial();
+                                }
+                                this.ruleCase_ = 5;
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    }
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ListenerFilterChainMatchPredicate getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ListenerFilterChainMatchPredicate> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_descriptor;
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ListenerFilterChainMatchPredicate) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ListenerFilterChainMatchPredicate) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ListenerFilterChainMatchPredicate) PARSER.parseFrom(byteString);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ListenerFilterChainMatchPredicate) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ListenerFilterChainMatchPredicate) PARSER.parseFrom(bArr);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ListenerFilterChainMatchPredicate) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ListenerFilterChainMatchPredicate parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m17723toBuilder();
+    }
+
+    public static Builder newBuilder(ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate) {
+        return DEFAULT_INSTANCE.m17723toBuilder().mergeFrom(listenerFilterChainMatchPredicate);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ListenerFilterChainMatchPredicate m17718getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ListenerFilterChainMatchPredicate> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public boolean hasAndMatch() {
+        return this.ruleCase_ == 2;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public boolean hasDestinationPortRange() {
+        return this.ruleCase_ == 5;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public boolean hasNotMatch() {
+        return this.ruleCase_ == 3;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public boolean hasOrMatch() {
+        return this.ruleCase_ == 1;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new ListenerFilterChainMatchPredicate();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_fieldAccessorTable.ensureFieldAccessorsInitialized(ListenerFilterChainMatchPredicate.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public RuleCase getRuleCase() {
+        return RuleCase.forNumber(this.ruleCase_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public MatchSet getOrMatch() {
+        if (this.ruleCase_ == 1) {
+            return (MatchSet) this.rule_;
+        }
+        return MatchSet.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public MatchSetOrBuilder getOrMatchOrBuilder() {
+        if (this.ruleCase_ == 1) {
+            return (MatchSet) this.rule_;
+        }
+        return MatchSet.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public MatchSet getAndMatch() {
+        if (this.ruleCase_ == 2) {
+            return (MatchSet) this.rule_;
+        }
+        return MatchSet.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public MatchSetOrBuilder getAndMatchOrBuilder() {
+        if (this.ruleCase_ == 2) {
+            return (MatchSet) this.rule_;
+        }
+        return MatchSet.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public ListenerFilterChainMatchPredicate getNotMatch() {
+        if (this.ruleCase_ == 3) {
+            return (ListenerFilterChainMatchPredicate) this.rule_;
+        }
+        return getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public ListenerFilterChainMatchPredicateOrBuilder getNotMatchOrBuilder() {
+        if (this.ruleCase_ == 3) {
+            return (ListenerFilterChainMatchPredicate) this.rule_;
+        }
+        return getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public boolean getAnyMatch() {
+        if (this.ruleCase_ == 4) {
+            return ((Boolean) this.rule_).booleanValue();
+        }
+        return false;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public Int32Range getDestinationPortRange() {
+        if (this.ruleCase_ == 5) {
+            return (Int32Range) this.rule_;
+        }
+        return Int32Range.getDefaultInstance();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+    public Int32RangeOrBuilder getDestinationPortRangeOrBuilder() {
+        if (this.ruleCase_ == 5) {
+            return (Int32Range) this.rule_;
+        }
+        return Int32Range.getDefaultInstance();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.ruleCase_ == 1) {
+            codedOutputStream.writeMessage(1, (MatchSet) this.rule_);
+        }
+        if (this.ruleCase_ == 2) {
+            codedOutputStream.writeMessage(2, (MatchSet) this.rule_);
+        }
+        if (this.ruleCase_ == 3) {
+            codedOutputStream.writeMessage(3, (ListenerFilterChainMatchPredicate) this.rule_);
+        }
+        if (this.ruleCase_ == 4) {
+            codedOutputStream.writeBool(4, ((Boolean) this.rule_).booleanValue());
+        }
+        if (this.ruleCase_ == 5) {
+            codedOutputStream.writeMessage(5, (Int32Range) this.rule_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.ruleCase_ == 1 ? CodedOutputStream.computeMessageSize(1, (MatchSet) this.rule_) : 0;
+        if (this.ruleCase_ == 2) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, (MatchSet) this.rule_);
+        }
+        if (this.ruleCase_ == 3) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(3, (ListenerFilterChainMatchPredicate) this.rule_);
+        }
+        if (this.ruleCase_ == 4) {
+            iComputeMessageSize += CodedOutputStream.computeBoolSize(4, ((Boolean) this.rule_).booleanValue());
+        }
+        if (this.ruleCase_ == 5) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(5, (Int32Range) this.rule_);
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ListenerFilterChainMatchPredicate)) {
+            return super.equals(obj);
+        }
+        ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate = (ListenerFilterChainMatchPredicate) obj;
+        if (!getRuleCase().equals(listenerFilterChainMatchPredicate.getRuleCase())) {
+            return false;
+        }
+        int i = this.ruleCase_;
+        if (i != 1) {
+            if (i != 2) {
+                if (i != 3) {
+                    if (i == 4) {
+                        if (getAnyMatch() != listenerFilterChainMatchPredicate.getAnyMatch()) {
+                            return false;
+                        }
+                    } else if (i == 5 && !getDestinationPortRange().equals(listenerFilterChainMatchPredicate.getDestinationPortRange())) {
+                        return false;
+                    }
+                } else if (!getNotMatch().equals(listenerFilterChainMatchPredicate.getNotMatch())) {
+                    return false;
+                }
+            } else if (!getAndMatch().equals(listenerFilterChainMatchPredicate.getAndMatch())) {
+                return false;
+            }
+        } else if (!getOrMatch().equals(listenerFilterChainMatchPredicate.getOrMatch())) {
+            return false;
+        }
+        return this.unknownFields.equals(listenerFilterChainMatchPredicate.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = 779 + getDescriptor().hashCode();
+        int i2 = this.ruleCase_;
+        if (i2 == 1) {
+            i = ((iHashCode2 * 37) + 1) * 53;
+            iHashCode = getOrMatch().hashCode();
+        } else if (i2 == 2) {
+            i = ((iHashCode2 * 37) + 2) * 53;
+            iHashCode = getAndMatch().hashCode();
+        } else if (i2 == 3) {
+            i = ((iHashCode2 * 37) + 3) * 53;
+            iHashCode = getNotMatch().hashCode();
+        } else if (i2 == 4) {
+            i = ((iHashCode2 * 37) + 4) * 53;
+            iHashCode = Internal.hashBoolean(getAnyMatch());
+        } else {
+            if (i2 == 5) {
+                i = ((iHashCode2 * 37) + 5) * 53;
+                iHashCode = getDestinationPortRange().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m17720newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m17723toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum RuleCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        OR_MATCH(1),
+        AND_MATCH(2),
+        NOT_MATCH(3),
+        ANY_MATCH(4),
+        DESTINATION_PORT_RANGE(5),
+        RULE_NOT_SET(0);
+
+        private final int value;
+
+        RuleCase(int i) {
+            this.value = i;
+        }
+
+        public static RuleCase forNumber(int i) {
+            if (i == 0) {
+                return RULE_NOT_SET;
+            }
+            if (i == 1) {
+                return OR_MATCH;
+            }
+            if (i == 2) {
+                return AND_MATCH;
+            }
+            if (i == 3) {
+                return NOT_MATCH;
+            }
+            if (i == 4) {
+                return ANY_MATCH;
+            }
+            if (i != 5) {
+                return null;
+            }
+            return DESTINATION_PORT_RANGE;
+        }
+
+        @Deprecated
+        public static RuleCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public interface MatchSetOrBuilder extends MessageOrBuilder {
+        ListenerFilterChainMatchPredicate getRules(int i);
+
+        int getRulesCount();
+
+        List<ListenerFilterChainMatchPredicate> getRulesList();
+
+        ListenerFilterChainMatchPredicateOrBuilder getRulesOrBuilder(int i);
+
+        List<? extends ListenerFilterChainMatchPredicateOrBuilder> getRulesOrBuilderList();
+    }
+
+    public static final class MatchSet extends GeneratedMessageV3 implements MatchSetOrBuilder {
+        public static final int RULES_FIELD_NUMBER = 1;
+        private static final MatchSet DEFAULT_INSTANCE = new MatchSet();
+        private static final Parser<MatchSet> PARSER = new AbstractParser<MatchSet>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSet.1
+            /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+            public MatchSet m17771parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+                return new MatchSet(codedInputStream, extensionRegistryLite);
+            }
+        };
+        private static final long serialVersionUID = 0;
+        private byte memoizedIsInitialized;
+        private List<ListenerFilterChainMatchPredicate> rules_;
+
+        private MatchSet(GeneratedMessageV3.Builder<?> builder) {
+            super(builder);
+            this.memoizedIsInitialized = (byte) -1;
+        }
+
+        private MatchSet() {
+            this.memoizedIsInitialized = (byte) -1;
+            this.rules_ = Collections.emptyList();
+        }
+
+        private MatchSet(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            this();
+            extensionRegistryLite.getClass();
+            UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+            boolean z = false;
+            boolean z2 = false;
+            while (!z) {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                if (!(z2 & true)) {
+                                    this.rules_ = new ArrayList();
+                                    z2 |= true;
+                                }
+                                this.rules_.add(codedInputStream.readMessage(ListenerFilterChainMatchPredicate.parser(), extensionRegistryLite));
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    } catch (InvalidProtocolBufferException e2) {
+                        throw e2.setUnfinishedMessage(this);
+                    }
+                } finally {
+                    if (z2 & true) {
+                        this.rules_ = Collections.unmodifiableList(this.rules_);
+                    }
+                    this.unknownFields = builderNewBuilder.build();
+                    makeExtensionsImmutable();
+                }
+            }
+        }
+
+        public static MatchSet getDefaultInstance() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public static Parser<MatchSet> parser() {
+            return PARSER;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_MatchSet_descriptor;
+        }
+
+        public static MatchSet parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+            return (MatchSet) PARSER.parseFrom(byteBuffer);
+        }
+
+        public static MatchSet parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MatchSet) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+        }
+
+        public static MatchSet parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+            return (MatchSet) PARSER.parseFrom(byteString);
+        }
+
+        public static MatchSet parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MatchSet) PARSER.parseFrom(byteString, extensionRegistryLite);
+        }
+
+        public static MatchSet parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+            return (MatchSet) PARSER.parseFrom(bArr);
+        }
+
+        public static MatchSet parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return (MatchSet) PARSER.parseFrom(bArr, extensionRegistryLite);
+        }
+
+        public static MatchSet parseFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+        }
+
+        public static MatchSet parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static MatchSet parseDelimitedFrom(InputStream inputStream) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+        }
+
+        public static MatchSet parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+        }
+
+        public static MatchSet parseFrom(CodedInputStream codedInputStream) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+        }
+
+        public static MatchSet parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+            return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+        }
+
+        public static Builder newBuilder() {
+            return DEFAULT_INSTANCE.m17769toBuilder();
+        }
+
+        public static Builder newBuilder(MatchSet matchSet) {
+            return DEFAULT_INSTANCE.m17769toBuilder().mergeFrom(matchSet);
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public MatchSet m17764getDefaultInstanceForType() {
+            return DEFAULT_INSTANCE;
+        }
+
+        public Parser<MatchSet> getParserForType() {
+            return PARSER;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+        public List<ListenerFilterChainMatchPredicate> getRulesList() {
+            return this.rules_;
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+        public List<? extends ListenerFilterChainMatchPredicateOrBuilder> getRulesOrBuilderList() {
+            return this.rules_;
+        }
+
+        public final boolean isInitialized() {
+            byte b = this.memoizedIsInitialized;
+            if (b == 1) {
+                return true;
+            }
+            if (b == 0) {
+                return false;
+            }
+            this.memoizedIsInitialized = (byte) 1;
+            return true;
+        }
+
+        protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+            return new MatchSet();
+        }
+
+        public final UnknownFieldSet getUnknownFields() {
+            return this.unknownFields;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_MatchSet_fieldAccessorTable.ensureFieldAccessorsInitialized(MatchSet.class, Builder.class);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+        public int getRulesCount() {
+            return this.rules_.size();
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+        public ListenerFilterChainMatchPredicate getRules(int i) {
+            return this.rules_.get(i);
+        }
+
+        @Override
+        // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+        public ListenerFilterChainMatchPredicateOrBuilder getRulesOrBuilder(int i) {
+            return this.rules_.get(i);
+        }
+
+        public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+            for (int i = 0; i < this.rules_.size(); i++) {
+                codedOutputStream.writeMessage(1, this.rules_.get(i));
+            }
+            this.unknownFields.writeTo(codedOutputStream);
+        }
+
+        public int getSerializedSize() {
+            int i = this.memoizedSize;
+            if (i != -1) {
+                return i;
+            }
+            int iComputeMessageSize = 0;
+            for (int i2 = 0; i2 < this.rules_.size(); i2++) {
+                iComputeMessageSize += CodedOutputStream.computeMessageSize(1, this.rules_.get(i2));
+            }
+            int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+            this.memoizedSize = serializedSize;
+            return serializedSize;
+        }
+
+        public boolean equals(Object obj) {
+            if (obj == this) {
+                return true;
+            }
+            if (!(obj instanceof MatchSet)) {
+                return super.equals(obj);
+            }
+            MatchSet matchSet = (MatchSet) obj;
+            return getRulesList().equals(matchSet.getRulesList()) && this.unknownFields.equals(matchSet.unknownFields);
+        }
+
+        public int hashCode() {
+            if (this.memoizedHashCode != 0) {
+                return this.memoizedHashCode;
+            }
+            int iHashCode = 779 + getDescriptor().hashCode();
+            if (getRulesCount() > 0) {
+                iHashCode = (((iHashCode * 37) + 1) * 53) + getRulesList().hashCode();
+            }
+            int iHashCode2 = (iHashCode * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode2;
+            return iHashCode2;
+        }
+
+        /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17766newBuilderForType() {
+            return newBuilder();
+        }
+
+        /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17769toBuilder() {
+            return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+            return new Builder(builderParent);
+        }
+
+        public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements MatchSetOrBuilder {
+            private int bitField0_;
+            private RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> rulesBuilder_;
+            private List<ListenerFilterChainMatchPredicate> rules_;
+
+            private Builder() {
+                this.rules_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+                super(builderParent);
+                this.rules_ = Collections.emptyList();
+                maybeForceBuilderInitialization();
+            }
+
+            public static final Descriptors.Descriptor getDescriptor() {
+                return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_MatchSet_descriptor;
+            }
+
+            public final boolean isInitialized() {
+                return true;
+            }
+
+            protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+                return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_MatchSet_fieldAccessorTable.ensureFieldAccessorsInitialized(MatchSet.class, Builder.class);
+            }
+
+            private void maybeForceBuilderInitialization() {
+                if (MatchSet.alwaysUseFieldBuilders) {
+                    getRulesFieldBuilder();
+                }
+            }
+
+            /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m17780clear() {
+                super.clear();
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.rules_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Descriptors.Descriptor getDescriptorForType() {
+                return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_MatchSet_descriptor;
+            }
+
+            /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MatchSet m17793getDefaultInstanceForType() {
+                return MatchSet.getDefaultInstance();
+            }
+
+            /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+            /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MatchSet m17774build() throws UninitializedMessageException {
+                MatchSet matchSetM17776buildPartial = m17776buildPartial();
+                if (matchSetM17776buildPartial.isInitialized()) {
+                    return matchSetM17776buildPartial;
+                }
+                throw newUninitializedMessageException(matchSetM17776buildPartial);
+            }
+
+            /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public MatchSet m17776buildPartial() {
+                MatchSet matchSet = new MatchSet(this);
+                int i = this.bitField0_;
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    if ((i & 1) != 0) {
+                        this.rules_ = Collections.unmodifiableList(this.rules_);
+                        this.bitField0_ &= -2;
+                    }
+                    matchSet.rules_ = this.rules_;
+                } else {
+                    matchSet.rules_ = repeatedFieldBuilderV3.build();
+                }
+                onBuilt();
+                return matchSet;
+            }
+
+            /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m17792clone() {
+                return (Builder) super.clone();
+            }
+
+            /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m17804setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.setField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m17782clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+                return (Builder) super.clearField(fieldDescriptor);
+            }
+
+            /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m17785clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+                return (Builder) super.clearOneof(oneofDescriptor);
+            }
+
+            /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m17806setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+                return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+            }
+
+            /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m17772addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+                return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+            }
+
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public Builder m17797mergeFrom(Message message) {
+                if (message instanceof MatchSet) {
+                    return mergeFrom((MatchSet) message);
+                }
+                super.mergeFrom(message);
+                return this;
+            }
+
+            public Builder mergeFrom(MatchSet matchSet) {
+                if (matchSet == MatchSet.getDefaultInstance()) {
+                    return this;
+                }
+                if (this.rulesBuilder_ == null) {
+                    if (!matchSet.rules_.isEmpty()) {
+                        if (this.rules_.isEmpty()) {
+                            this.rules_ = matchSet.rules_;
+                            this.bitField0_ &= -2;
+                        } else {
+                            ensureRulesIsMutable();
+                            this.rules_.addAll(matchSet.rules_);
+                        }
+                        onChanged();
+                    }
+                } else if (!matchSet.rules_.isEmpty()) {
+                    if (!this.rulesBuilder_.isEmpty()) {
+                        this.rulesBuilder_.addAllMessages(matchSet.rules_);
+                    } else {
+                        this.rulesBuilder_.dispose();
+                        this.rulesBuilder_ = null;
+                        this.rules_ = matchSet.rules_;
+                        this.bitField0_ &= -2;
+                        this.rulesBuilder_ = MatchSet.alwaysUseFieldBuilders ? getRulesFieldBuilder() : null;
+                    }
+                }
+                m17802mergeUnknownFields(matchSet.unknownFields);
+                onChanged();
+                return this;
+            }
+
+            /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+            /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            /*
+                Code decompiled incorrectly, please refer to instructions dump.
+                To view partially-correct add '--show-bad-code' argument
+            */
+            public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSet.Builder m17798mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+                /*
+                    r2 = this;
+                    r0 = 0
+                    com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSet.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate$MatchSet r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSet) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                    if (r3 == 0) goto L10
+                    r2.mergeFrom(r3)
+                L10:
+                    return r2
+                L11:
+                    r3 = move-exception
+                    goto L21
+                L13:
+                    r3 = move-exception
+                    com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                    io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate$MatchSet r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSet) r4     // Catch: java.lang.Throwable -> L11
+                    java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                    throw r3     // Catch: java.lang.Throwable -> L1f
+                L1f:
+                    r3 = move-exception
+                    r0 = r4
+                L21:
+                    if (r0 == 0) goto L26
+                    r2.mergeFrom(r0)
+                L26:
+                    throw r3
+                */
+                throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSet.Builder.m17798mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate$MatchSet$Builder");
+            }
+
+            private void ensureRulesIsMutable() {
+                if ((this.bitField0_ & 1) == 0) {
+                    this.rules_ = new ArrayList(this.rules_);
+                    this.bitField0_ |= 1;
+                }
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+            public List<ListenerFilterChainMatchPredicate> getRulesList() {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return Collections.unmodifiableList(this.rules_);
+                }
+                return repeatedFieldBuilderV3.getMessageList();
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+            public int getRulesCount() {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.rules_.size();
+                }
+                return repeatedFieldBuilderV3.getCount();
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+            public ListenerFilterChainMatchPredicate getRules(int i) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.rules_.get(i);
+                }
+                return repeatedFieldBuilderV3.getMessage(i);
+            }
+
+            public Builder setRules(int i, ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    listenerFilterChainMatchPredicate.getClass();
+                    ensureRulesIsMutable();
+                    this.rules_.set(i, listenerFilterChainMatchPredicate);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, listenerFilterChainMatchPredicate);
+                }
+                return this;
+            }
+
+            public Builder setRules(int i, Builder builder) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureRulesIsMutable();
+                    this.rules_.set(i, builder.m17728build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.setMessage(i, builder.m17728build());
+                }
+                return this;
+            }
+
+            public Builder addRules(ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    listenerFilterChainMatchPredicate.getClass();
+                    ensureRulesIsMutable();
+                    this.rules_.add(listenerFilterChainMatchPredicate);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(listenerFilterChainMatchPredicate);
+                }
+                return this;
+            }
+
+            public Builder addRules(int i, ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    listenerFilterChainMatchPredicate.getClass();
+                    ensureRulesIsMutable();
+                    this.rules_.add(i, listenerFilterChainMatchPredicate);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, listenerFilterChainMatchPredicate);
+                }
+                return this;
+            }
+
+            public Builder addRules(Builder builder) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureRulesIsMutable();
+                    this.rules_.add(builder.m17728build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(builder.m17728build());
+                }
+                return this;
+            }
+
+            public Builder addRules(int i, Builder builder) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureRulesIsMutable();
+                    this.rules_.add(i, builder.m17728build());
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addMessage(i, builder.m17728build());
+                }
+                return this;
+            }
+
+            public Builder addAllRules(Iterable<? extends ListenerFilterChainMatchPredicate> iterable) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureRulesIsMutable();
+                    AbstractMessageLite.Builder.addAll(iterable, this.rules_);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.addAllMessages(iterable);
+                }
+                return this;
+            }
+
+            public Builder clearRules() {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    this.rules_ = Collections.emptyList();
+                    this.bitField0_ &= -2;
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.clear();
+                }
+                return this;
+            }
+
+            public Builder removeRules(int i) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    ensureRulesIsMutable();
+                    this.rules_.remove(i);
+                    onChanged();
+                } else {
+                    repeatedFieldBuilderV3.remove(i);
+                }
+                return this;
+            }
+
+            public Builder getRulesBuilder(int i) {
+                return getRulesFieldBuilder().getBuilder(i);
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+            public ListenerFilterChainMatchPredicateOrBuilder getRulesOrBuilder(int i) {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 == null) {
+                    return this.rules_.get(i);
+                }
+                return (ListenerFilterChainMatchPredicateOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+            }
+
+            @Override
+            // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.MatchSetOrBuilder
+            public List<? extends ListenerFilterChainMatchPredicateOrBuilder> getRulesOrBuilderList() {
+                RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> repeatedFieldBuilderV3 = this.rulesBuilder_;
+                if (repeatedFieldBuilderV3 != null) {
+                    return repeatedFieldBuilderV3.getMessageOrBuilderList();
+                }
+                return Collections.unmodifiableList(this.rules_);
+            }
+
+            public Builder addRulesBuilder() {
+                return getRulesFieldBuilder().addBuilder(ListenerFilterChainMatchPredicate.getDefaultInstance());
+            }
+
+            public Builder addRulesBuilder(int i) {
+                return getRulesFieldBuilder().addBuilder(i, ListenerFilterChainMatchPredicate.getDefaultInstance());
+            }
+
+            public List<Builder> getRulesBuilderList() {
+                return getRulesFieldBuilder().getBuilderList();
+            }
+
+            private RepeatedFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> getRulesFieldBuilder() {
+                if (this.rulesBuilder_ == null) {
+                    this.rulesBuilder_ = new RepeatedFieldBuilderV3<>(this.rules_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                    this.rules_ = null;
+                }
+                return this.rulesBuilder_;
+            }
+
+            /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m17808setUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.setUnknownFields(unknownFieldSet);
+            }
+
+            /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+            public final Builder m17802mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+                return (Builder) super.mergeUnknownFields(unknownFieldSet);
+            }
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ListenerFilterChainMatchPredicateOrBuilder {
+        private SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> andMatchBuilder_;
+        private SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> destinationPortRangeBuilder_;
+        private SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> notMatchBuilder_;
+        private SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> orMatchBuilder_;
+        private int ruleCase_;
+        private Object rule_;
+
+        private Builder() {
+            this.ruleCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.ruleCase_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public boolean hasAndMatch() {
+            return this.ruleCase_ == 2;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public boolean hasDestinationPortRange() {
+            return this.ruleCase_ == 5;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public boolean hasNotMatch() {
+            return this.ruleCase_ == 3;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public boolean hasOrMatch() {
+            return this.ruleCase_ == 1;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_fieldAccessorTable.ensureFieldAccessorsInitialized(ListenerFilterChainMatchPredicate.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ListenerFilterChainMatchPredicate.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17734clear() {
+            super.clear();
+            this.ruleCase_ = 0;
+            this.rule_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ListenerComponentsProto.internal_static_envoy_api_v2_listener_ListenerFilterChainMatchPredicate_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ListenerFilterChainMatchPredicate m17747getDefaultInstanceForType() {
+            return ListenerFilterChainMatchPredicate.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ListenerFilterChainMatchPredicate m17728build() throws UninitializedMessageException {
+            ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicateM17730buildPartial = m17730buildPartial();
+            if (listenerFilterChainMatchPredicateM17730buildPartial.isInitialized()) {
+                return listenerFilterChainMatchPredicateM17730buildPartial;
+            }
+            throw newUninitializedMessageException(listenerFilterChainMatchPredicateM17730buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ListenerFilterChainMatchPredicate m17730buildPartial() {
+            ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate = new ListenerFilterChainMatchPredicate(this);
+            if (this.ruleCase_ == 1) {
+                SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.orMatchBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    listenerFilterChainMatchPredicate.rule_ = this.rule_;
+                } else {
+                    listenerFilterChainMatchPredicate.rule_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.ruleCase_ == 2) {
+                SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV32 = this.andMatchBuilder_;
+                if (singleFieldBuilderV32 == null) {
+                    listenerFilterChainMatchPredicate.rule_ = this.rule_;
+                } else {
+                    listenerFilterChainMatchPredicate.rule_ = singleFieldBuilderV32.build();
+                }
+            }
+            if (this.ruleCase_ == 3) {
+                SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> singleFieldBuilderV33 = this.notMatchBuilder_;
+                if (singleFieldBuilderV33 == null) {
+                    listenerFilterChainMatchPredicate.rule_ = this.rule_;
+                } else {
+                    listenerFilterChainMatchPredicate.rule_ = singleFieldBuilderV33.build();
+                }
+            }
+            if (this.ruleCase_ == 4) {
+                listenerFilterChainMatchPredicate.rule_ = this.rule_;
+            }
+            if (this.ruleCase_ == 5) {
+                SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> singleFieldBuilderV34 = this.destinationPortRangeBuilder_;
+                if (singleFieldBuilderV34 == null) {
+                    listenerFilterChainMatchPredicate.rule_ = this.rule_;
+                } else {
+                    listenerFilterChainMatchPredicate.rule_ = singleFieldBuilderV34.build();
+                }
+            }
+            listenerFilterChainMatchPredicate.ruleCase_ = this.ruleCase_;
+            onBuilt();
+            return listenerFilterChainMatchPredicate;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17746clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17758setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17736clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17739clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17760setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17726addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m17751mergeFrom(Message message) {
+            if (message instanceof ListenerFilterChainMatchPredicate) {
+                return mergeFrom((ListenerFilterChainMatchPredicate) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate) {
+            if (listenerFilterChainMatchPredicate == ListenerFilterChainMatchPredicate.getDefaultInstance()) {
+                return this;
+            }
+            int i = AnonymousClass2.$SwitchMap$io$envoyproxy$envoy$api$v2$listener$ListenerFilterChainMatchPredicate$RuleCase[listenerFilterChainMatchPredicate.getRuleCase().ordinal()];
+            if (i == 1) {
+                mergeOrMatch(listenerFilterChainMatchPredicate.getOrMatch());
+            } else if (i == 2) {
+                mergeAndMatch(listenerFilterChainMatchPredicate.getAndMatch());
+            } else if (i == 3) {
+                mergeNotMatch(listenerFilterChainMatchPredicate.getNotMatch());
+            } else if (i == 4) {
+                setAnyMatch(listenerFilterChainMatchPredicate.getAnyMatch());
+            } else if (i == 5) {
+                mergeDestinationPortRange(listenerFilterChainMatchPredicate.getDestinationPortRange());
+            }
+            m17756mergeUnknownFields(listenerFilterChainMatchPredicate.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.Builder m17752mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.access$1600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate.Builder.m17752mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public RuleCase getRuleCase() {
+            return RuleCase.forNumber(this.ruleCase_);
+        }
+
+        public Builder clearRule() {
+            this.ruleCase_ = 0;
+            this.rule_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public MatchSet getOrMatch() {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.orMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.ruleCase_ == 1) {
+                    return (MatchSet) this.rule_;
+                }
+                return MatchSet.getDefaultInstance();
+            }
+            if (this.ruleCase_ == 1) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return MatchSet.getDefaultInstance();
+        }
+
+        public Builder setOrMatch(MatchSet matchSet) {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.orMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                matchSet.getClass();
+                this.rule_ = matchSet;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(matchSet);
+            }
+            this.ruleCase_ = 1;
+            return this;
+        }
+
+        public Builder setOrMatch(MatchSet.Builder builder) {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.orMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.rule_ = builder.m17774build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m17774build());
+            }
+            this.ruleCase_ = 1;
+            return this;
+        }
+
+        public Builder mergeOrMatch(MatchSet matchSet) {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.orMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.ruleCase_ != 1 || this.rule_ == MatchSet.getDefaultInstance()) {
+                    this.rule_ = matchSet;
+                } else {
+                    this.rule_ = MatchSet.newBuilder((MatchSet) this.rule_).mergeFrom(matchSet).m17776buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.ruleCase_ == 1) {
+                    singleFieldBuilderV3.mergeFrom(matchSet);
+                }
+                this.orMatchBuilder_.setMessage(matchSet);
+            }
+            this.ruleCase_ = 1;
+            return this;
+        }
+
+        public Builder clearOrMatch() {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.orMatchBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.ruleCase_ == 1) {
+                    this.ruleCase_ = 0;
+                    this.rule_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.ruleCase_ == 1) {
+                this.ruleCase_ = 0;
+                this.rule_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public MatchSet.Builder getOrMatchBuilder() {
+            return getOrMatchFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public MatchSetOrBuilder getOrMatchOrBuilder() {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3;
+            int i = this.ruleCase_;
+            if (i == 1 && (singleFieldBuilderV3 = this.orMatchBuilder_) != null) {
+                return (MatchSetOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 1) {
+                return (MatchSet) this.rule_;
+            }
+            return MatchSet.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> getOrMatchFieldBuilder() {
+            if (this.orMatchBuilder_ == null) {
+                if (this.ruleCase_ != 1) {
+                    this.rule_ = MatchSet.getDefaultInstance();
+                }
+                this.orMatchBuilder_ = new SingleFieldBuilderV3<>((MatchSet) this.rule_, getParentForChildren(), isClean());
+                this.rule_ = null;
+            }
+            this.ruleCase_ = 1;
+            onChanged();
+            return this.orMatchBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public MatchSet getAndMatch() {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.andMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.ruleCase_ == 2) {
+                    return (MatchSet) this.rule_;
+                }
+                return MatchSet.getDefaultInstance();
+            }
+            if (this.ruleCase_ == 2) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return MatchSet.getDefaultInstance();
+        }
+
+        public Builder setAndMatch(MatchSet matchSet) {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.andMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                matchSet.getClass();
+                this.rule_ = matchSet;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(matchSet);
+            }
+            this.ruleCase_ = 2;
+            return this;
+        }
+
+        public Builder setAndMatch(MatchSet.Builder builder) {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.andMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.rule_ = builder.m17774build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m17774build());
+            }
+            this.ruleCase_ = 2;
+            return this;
+        }
+
+        public Builder mergeAndMatch(MatchSet matchSet) {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.andMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.ruleCase_ != 2 || this.rule_ == MatchSet.getDefaultInstance()) {
+                    this.rule_ = matchSet;
+                } else {
+                    this.rule_ = MatchSet.newBuilder((MatchSet) this.rule_).mergeFrom(matchSet).m17776buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.ruleCase_ == 2) {
+                    singleFieldBuilderV3.mergeFrom(matchSet);
+                }
+                this.andMatchBuilder_.setMessage(matchSet);
+            }
+            this.ruleCase_ = 2;
+            return this;
+        }
+
+        public Builder clearAndMatch() {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3 = this.andMatchBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.ruleCase_ == 2) {
+                    this.ruleCase_ = 0;
+                    this.rule_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.ruleCase_ == 2) {
+                this.ruleCase_ = 0;
+                this.rule_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public MatchSet.Builder getAndMatchBuilder() {
+            return getAndMatchFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public MatchSetOrBuilder getAndMatchOrBuilder() {
+            SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> singleFieldBuilderV3;
+            int i = this.ruleCase_;
+            if (i == 2 && (singleFieldBuilderV3 = this.andMatchBuilder_) != null) {
+                return (MatchSetOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 2) {
+                return (MatchSet) this.rule_;
+            }
+            return MatchSet.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<MatchSet, MatchSet.Builder, MatchSetOrBuilder> getAndMatchFieldBuilder() {
+            if (this.andMatchBuilder_ == null) {
+                if (this.ruleCase_ != 2) {
+                    this.rule_ = MatchSet.getDefaultInstance();
+                }
+                this.andMatchBuilder_ = new SingleFieldBuilderV3<>((MatchSet) this.rule_, getParentForChildren(), isClean());
+                this.rule_ = null;
+            }
+            this.ruleCase_ = 2;
+            onChanged();
+            return this.andMatchBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public ListenerFilterChainMatchPredicate getNotMatch() {
+            SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> singleFieldBuilderV3 = this.notMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.ruleCase_ == 3) {
+                    return (ListenerFilterChainMatchPredicate) this.rule_;
+                }
+                return ListenerFilterChainMatchPredicate.getDefaultInstance();
+            }
+            if (this.ruleCase_ == 3) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ListenerFilterChainMatchPredicate.getDefaultInstance();
+        }
+
+        public Builder setNotMatch(ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate) {
+            SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> singleFieldBuilderV3 = this.notMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                listenerFilterChainMatchPredicate.getClass();
+                this.rule_ = listenerFilterChainMatchPredicate;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(listenerFilterChainMatchPredicate);
+            }
+            this.ruleCase_ = 3;
+            return this;
+        }
+
+        public Builder setNotMatch(Builder builder) {
+            SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> singleFieldBuilderV3 = this.notMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.rule_ = builder.m17728build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m17728build());
+            }
+            this.ruleCase_ = 3;
+            return this;
+        }
+
+        public Builder mergeNotMatch(ListenerFilterChainMatchPredicate listenerFilterChainMatchPredicate) {
+            SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> singleFieldBuilderV3 = this.notMatchBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.ruleCase_ != 3 || this.rule_ == ListenerFilterChainMatchPredicate.getDefaultInstance()) {
+                    this.rule_ = listenerFilterChainMatchPredicate;
+                } else {
+                    this.rule_ = ListenerFilterChainMatchPredicate.newBuilder((ListenerFilterChainMatchPredicate) this.rule_).mergeFrom(listenerFilterChainMatchPredicate).m17730buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.ruleCase_ == 3) {
+                    singleFieldBuilderV3.mergeFrom(listenerFilterChainMatchPredicate);
+                }
+                this.notMatchBuilder_.setMessage(listenerFilterChainMatchPredicate);
+            }
+            this.ruleCase_ = 3;
+            return this;
+        }
+
+        public Builder clearNotMatch() {
+            SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> singleFieldBuilderV3 = this.notMatchBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.ruleCase_ == 3) {
+                    this.ruleCase_ = 0;
+                    this.rule_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.ruleCase_ == 3) {
+                this.ruleCase_ = 0;
+                this.rule_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Builder getNotMatchBuilder() {
+            return getNotMatchFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public ListenerFilterChainMatchPredicateOrBuilder getNotMatchOrBuilder() {
+            SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> singleFieldBuilderV3;
+            int i = this.ruleCase_;
+            if (i == 3 && (singleFieldBuilderV3 = this.notMatchBuilder_) != null) {
+                return (ListenerFilterChainMatchPredicateOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 3) {
+                return (ListenerFilterChainMatchPredicate) this.rule_;
+            }
+            return ListenerFilterChainMatchPredicate.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ListenerFilterChainMatchPredicate, Builder, ListenerFilterChainMatchPredicateOrBuilder> getNotMatchFieldBuilder() {
+            if (this.notMatchBuilder_ == null) {
+                if (this.ruleCase_ != 3) {
+                    this.rule_ = ListenerFilterChainMatchPredicate.getDefaultInstance();
+                }
+                this.notMatchBuilder_ = new SingleFieldBuilderV3<>((ListenerFilterChainMatchPredicate) this.rule_, getParentForChildren(), isClean());
+                this.rule_ = null;
+            }
+            this.ruleCase_ = 3;
+            onChanged();
+            return this.notMatchBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public boolean getAnyMatch() {
+            if (this.ruleCase_ == 4) {
+                return ((Boolean) this.rule_).booleanValue();
+            }
+            return false;
+        }
+
+        public Builder setAnyMatch(boolean z) {
+            this.ruleCase_ = 4;
+            this.rule_ = Boolean.valueOf(z);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAnyMatch() {
+            if (this.ruleCase_ == 4) {
+                this.ruleCase_ = 0;
+                this.rule_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public Int32Range getDestinationPortRange() {
+            SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> singleFieldBuilderV3 = this.destinationPortRangeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.ruleCase_ == 5) {
+                    return (Int32Range) this.rule_;
+                }
+                return Int32Range.getDefaultInstance();
+            }
+            if (this.ruleCase_ == 5) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return Int32Range.getDefaultInstance();
+        }
+
+        public Builder setDestinationPortRange(Int32Range int32Range) {
+            SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> singleFieldBuilderV3 = this.destinationPortRangeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                int32Range.getClass();
+                this.rule_ = int32Range;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(int32Range);
+            }
+            this.ruleCase_ = 5;
+            return this;
+        }
+
+        public Builder setDestinationPortRange(Int32Range.Builder builder) {
+            SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> singleFieldBuilderV3 = this.destinationPortRangeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.rule_ = builder.m32911build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m32911build());
+            }
+            this.ruleCase_ = 5;
+            return this;
+        }
+
+        public Builder mergeDestinationPortRange(Int32Range int32Range) {
+            SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> singleFieldBuilderV3 = this.destinationPortRangeBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.ruleCase_ != 5 || this.rule_ == Int32Range.getDefaultInstance()) {
+                    this.rule_ = int32Range;
+                } else {
+                    this.rule_ = Int32Range.newBuilder((Int32Range) this.rule_).mergeFrom(int32Range).m32913buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.ruleCase_ == 5) {
+                    singleFieldBuilderV3.mergeFrom(int32Range);
+                }
+                this.destinationPortRangeBuilder_.setMessage(int32Range);
+            }
+            this.ruleCase_ = 5;
+            return this;
+        }
+
+        public Builder clearDestinationPortRange() {
+            SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> singleFieldBuilderV3 = this.destinationPortRangeBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.ruleCase_ == 5) {
+                    this.ruleCase_ = 0;
+                    this.rule_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.ruleCase_ == 5) {
+                this.ruleCase_ = 0;
+                this.rule_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public Int32Range.Builder getDestinationPortRangeBuilder() {
+            return getDestinationPortRangeFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicateOrBuilder
+        public Int32RangeOrBuilder getDestinationPortRangeOrBuilder() {
+            SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> singleFieldBuilderV3;
+            int i = this.ruleCase_;
+            if (i == 5 && (singleFieldBuilderV3 = this.destinationPortRangeBuilder_) != null) {
+                return (Int32RangeOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 5) {
+                return (Int32Range) this.rule_;
+            }
+            return Int32Range.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<Int32Range, Int32Range.Builder, Int32RangeOrBuilder> getDestinationPortRangeFieldBuilder() {
+            if (this.destinationPortRangeBuilder_ == null) {
+                if (this.ruleCase_ != 5) {
+                    this.rule_ = Int32Range.getDefaultInstance();
+                }
+                this.destinationPortRangeBuilder_ = new SingleFieldBuilderV3<>((Int32Range) this.rule_, getParentForChildren(), isClean());
+                this.rule_ = null;
+            }
+            this.ruleCase_ = 5;
+            onChanged();
+            return this.destinationPortRangeBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m17762setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m17756mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.listener.ListenerFilterChainMatchPredicate$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$envoyproxy$envoy$api$v2$listener$ListenerFilterChainMatchPredicate$RuleCase;
+
+        static {
+            int[] iArr = new int[RuleCase.values().length];
+            $SwitchMap$io$envoyproxy$envoy$api$v2$listener$ListenerFilterChainMatchPredicate$RuleCase = iArr;
+            try {
+                iArr[RuleCase.OR_MATCH.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$listener$ListenerFilterChainMatchPredicate$RuleCase[RuleCase.AND_MATCH.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$listener$ListenerFilterChainMatchPredicate$RuleCase[RuleCase.NOT_MATCH.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$listener$ListenerFilterChainMatchPredicate$RuleCase[RuleCase.ANY_MATCH.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$listener$ListenerFilterChainMatchPredicate$RuleCase[RuleCase.DESTINATION_PORT_RANGE.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$io$envoyproxy$envoy$api$v2$listener$ListenerFilterChainMatchPredicate$RuleCase[RuleCase.RULE_NOT_SET.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+        }
+    }
+}

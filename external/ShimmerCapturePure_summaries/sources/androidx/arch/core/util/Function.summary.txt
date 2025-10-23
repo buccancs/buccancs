@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/arch/core/util/Function.java
+// Size: 125 bytes
+// Modified: 2025-10-21 16:31:59.964751300 +0100
+
+package androidx.arch.core.util;
+
+/* loaded from: classes.dex */
+public interface Function<I, O> {
+    O apply(I i);
+}

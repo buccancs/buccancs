@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/PointLabelFormatter.java
+// Size: 324 bytes
+// Modified: 2025-10-21 16:32:00.780317900 +0100
+
+package com.androidplot.xy;
+
+import android.graphics.Canvas;
+import android.graphics.PointF;
+
+/* loaded from: classes.dex */
+public class PointLabelFormatter implements PointFormatter {
+    @Override // com.androidplot.xy.PointFormatter
+    public void draw(Canvas canvas, Number number, PointF pointF) {
+    }
+}

@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/agent/common/v1/ProcessIdentifierOrBuilder.java
+// Size: 547 bytes
+// Modified: 2025-10-21 16:32:00.383159900 +0100
+
+package io.opencensus.proto.agent.common.v1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface ProcessIdentifierOrBuilder extends MessageOrBuilder {
+    String getHostName();
+
+    ByteString getHostNameBytes();
+
+    int getPid();
+
+    Timestamp getStartTimestamp();
+
+    TimestampOrBuilder getStartTimestampOrBuilder();
+
+    boolean hasStartTimestamp();
+}

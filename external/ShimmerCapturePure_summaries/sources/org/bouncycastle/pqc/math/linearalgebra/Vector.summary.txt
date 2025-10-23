@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/pqc/math/linearalgebra/Vector.java
+// Size: 553 bytes
+// Modified: 2025-10-21 16:32:03.863780500 +0100
+
+package org.bouncycastle.pqc.math.linearalgebra;
+
+/* loaded from: classes5.dex */
+public abstract class Vector {
+    protected int length;
+
+    public abstract Vector add(Vector vector);
+
+    public abstract boolean equals(Object obj);
+
+    public abstract byte[] getEncoded();
+
+    public final int getLength() {
+        return this.length;
+    }
+
+    public abstract int hashCode();
+
+    public abstract boolean isZero();
+
+    public abstract Vector multiply(Permutation permutation);
+
+    public abstract String toString();
+}

@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/javax/vecmath/SingularMatrixException.java
+// Size: 254 bytes
+// Modified: 2025-10-21 16:32:00.428520200 +0100
+
+package javax.vecmath;
+
+/* loaded from: classes4.dex */
+public class SingularMatrixException extends RuntimeException {
+    public SingularMatrixException() {
+    }
+
+    public SingularMatrixException(String str) {
+        super(str);
+    }
+}

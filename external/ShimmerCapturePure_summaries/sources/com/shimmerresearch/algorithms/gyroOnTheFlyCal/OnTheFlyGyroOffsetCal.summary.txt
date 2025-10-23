@@ -1,0 +1,105 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/algorithms/gyroOnTheFlyCal/OnTheFlyGyroOffsetCal.java
+// Size: 4030 bytes
+// Modified: 2025-10-21 16:32:07.449106600 +0100
+
+package com.shimmerresearch.algorithms.gyroOnTheFlyCal;
+
+import com.shimmerresearch.driver.calibration.CalibDetailsKinematic;
+import java.io.Serializable;
+import org.apache.commons.math.stat.descriptive.DescriptiveStatistics;
+
+/* loaded from: classes2.dex */
+public class OnTheFlyGyroOffsetCal implements Serializable {
+    public static final double DEFAULT_THRESHOLD = 1.2d;
+    private static final long serialVersionUID = -4153196345016560456L;
+    transient DescriptiveStatistics mGyroXCal;
+    transient DescriptiveStatistics mGyroXUncal;
+    transient DescriptiveStatistics mGyroYCal;
+    transient DescriptiveStatistics mGyroYUncal;
+    transient DescriptiveStatistics mGyroZCal;
+    transient DescriptiveStatistics mGyroZUncal;
+    private boolean mIsEnabled = false;
+    private double mOffsetThreshold = 1.2d;
+    private int bufferSize = 1;
+
+    public int getBufferSize() {
+        return this.bufferSize;
+    }
+
+    public double getOffsetThreshold() {
+        return this.mOffsetThreshold;
+    }
+
+    public boolean isEnabled() {
+        return this.mIsEnabled;
+    }
+
+    public void setOffsetThreshold(double d) {
+        this.mOffsetThreshold = d;
+    }
+
+    public void setIsEnabled(boolean z, int i, double d) {
+        setIsEnabled(z);
+        setOffsetThreshold(d);
+        setBufferSize(i);
+    }
+
+    public void setIsEnabled(boolean z) {
+        this.mIsEnabled = z;
+        setupBuffers();
+    }
+
+    public void setBufferSizeFromSamplingRate(double d) {
+        setBufferSize((int) Math.round(d));
+    }
+
+    public void setBufferSize(int i) {
+        this.bufferSize = i;
+        if (!this.mIsEnabled || i <= 0) {
+            return;
+        }
+        DescriptiveStatistics descriptiveStatistics = this.mGyroXCal;
+        if (descriptiveStatistics == null) {
+            setupBuffers();
+            return;
+        }
+        descriptiveStatistics.setWindowSize(i);
+        this.mGyroYCal.setWindowSize(i);
+        this.mGyroZCal.setWindowSize(i);
+        this.mGyroXUncal.setWindowSize(i);
+        this.mGyroYUncal.setWindowSize(i);
+        this.mGyroZUncal.setWindowSize(i);
+    }
+
+    protected void setupBuffers() {
+        if (this.mIsEnabled && this.mGyroXCal == null && this.bufferSize > 0) {
+            this.mGyroXCal = new DescriptiveStatistics(this.bufferSize);
+            this.mGyroYCal = new DescriptiveStatistics(this.bufferSize);
+            this.mGyroZCal = new DescriptiveStatistics(this.bufferSize);
+            this.mGyroXUncal = new DescriptiveStatistics(this.bufferSize);
+            this.mGyroYUncal = new DescriptiveStatistics(this.bufferSize);
+            this.mGyroZUncal = new DescriptiveStatistics(this.bufferSize);
+        }
+    }
+
+    public void updateGyroOnTheFlyGyroOVCal(CalibDetailsKinematic calibDetailsKinematic, double[] dArr, double[] dArr2) {
+        updateGyroOnTheFlyGyroOVCal(calibDetailsKinematic, dArr, dArr2[0], dArr2[1], dArr2[2]);
+    }
+
+    public void updateGyroOnTheFlyGyroOVCal(CalibDetailsKinematic calibDetailsKinematic, double[] dArr, double d, double d2, double d3) {
+        if (this.mGyroXCal == null) {
+            System.err.println("Gyro on-the-fly gyro calibration wasn't setup on connection...setting up now");
+            setupBuffers();
+        }
+        this.mGyroXCal.addValue(dArr[0]);
+        this.mGyroYCal.addValue(dArr[1]);
+        this.mGyroZCal.addValue(dArr[2]);
+        this.mGyroXUncal.addValue(d);
+        this.mGyroYUncal.addValue(d2);
+        this.mGyroZUncal.addValue(d3);
+        if (this.mGyroYCal.getWindowSize() != this.mGyroYCal.getN() || this.mGyroXCal.getStandardDeviation() >= this.mOffsetThreshold || this.mGyroYCal.getStandardDeviation() >= this.mOffsetThreshold || this.mGyroZCal.getStandardDeviation() >= this.mOffsetThreshold) {
+            return;
+        }
+        calibDetailsKinematic.updateCurrentOffsetVector(this.mGyroXUncal.getMean(), this.mGyroYUncal.getMean(), this.mGyroZUncal.getMean());
+    }
+}

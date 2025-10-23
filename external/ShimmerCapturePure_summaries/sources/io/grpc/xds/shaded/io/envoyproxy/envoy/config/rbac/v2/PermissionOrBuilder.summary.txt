@@ -1,0 +1,75 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/rbac/v2/PermissionOrBuilder.java
+// Size: 2155 bytes
+// Modified: 2025-10-21 16:32:10.693949800 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.CidrRange;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.CidrRangeOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcherOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.rbac.v2.Permission;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.MetadataMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.MetadataMatcherOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.PathMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.PathMatcherOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.StringMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.StringMatcherOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface PermissionOrBuilder extends MessageOrBuilder {
+    Permission.Set getAndRules();
+
+    Permission.SetOrBuilder getAndRulesOrBuilder();
+
+    boolean getAny();
+
+    CidrRange getDestinationIp();
+
+    CidrRangeOrBuilder getDestinationIpOrBuilder();
+
+    int getDestinationPort();
+
+    HeaderMatcher getHeader();
+
+    HeaderMatcherOrBuilder getHeaderOrBuilder();
+
+    MetadataMatcher getMetadata();
+
+    MetadataMatcherOrBuilder getMetadataOrBuilder();
+
+    Permission getNotRule();
+
+    PermissionOrBuilder getNotRuleOrBuilder();
+
+    Permission.Set getOrRules();
+
+    Permission.SetOrBuilder getOrRulesOrBuilder();
+
+    StringMatcher getRequestedServerName();
+
+    StringMatcherOrBuilder getRequestedServerNameOrBuilder();
+
+    Permission.RuleCase getRuleCase();
+
+    PathMatcher getUrlPath();
+
+    PathMatcherOrBuilder getUrlPathOrBuilder();
+
+    boolean hasAndRules();
+
+    boolean hasDestinationIp();
+
+    boolean hasHeader();
+
+    boolean hasMetadata();
+
+    boolean hasNotRule();
+
+    boolean hasOrRules();
+
+    boolean hasRequestedServerName();
+
+    boolean hasUrlPath();
+}

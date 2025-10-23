@@ -1,0 +1,437 @@
+package io.grpc.protobuf.services;
+
+import com.google.common.base.Preconditions;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.UninitializedMessageException;
+import io.grpc.BindableService;
+import io.grpc.InternalServer;
+import io.grpc.Server;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServiceDescriptor;
+import io.grpc.Status;
+import io.grpc.protobuf.ProtoFileDescriptorSupplier;
+import io.grpc.reflection.v1alpha.ErrorResponse;
+import io.grpc.reflection.v1alpha.ExtensionNumberResponse;
+import io.grpc.reflection.v1alpha.ExtensionRequest;
+import io.grpc.reflection.v1alpha.FileDescriptorResponse;
+import io.grpc.reflection.v1alpha.ListServiceResponse;
+import io.grpc.reflection.v1alpha.ServerReflectionGrpc;
+import io.grpc.reflection.v1alpha.ServerReflectionRequest;
+import io.grpc.reflection.v1alpha.ServerReflectionResponse;
+import io.grpc.reflection.v1alpha.ServiceResponse;
+import io.grpc.stub.ServerCallStreamObserver;
+import io.grpc.stub.StreamObserver;
+
+import java.util.ArrayDeque;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.WeakHashMap;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+public final class ProtoReflectionService extends ServerReflectionGrpc.ServerReflectionImplBase {
+    private final Object lock = new Object();
+    private final Map<Server, ServerReflectionIndex> serverReflectionIndexes = new WeakHashMap();
+
+    private ProtoReflectionService() {
+    }
+
+    public static BindableService newInstance() {
+        return new ProtoReflectionService();
+    }
+
+    private ServerReflectionIndex getRefreshedIndex() {
+        synchronized (this.lock) {
+            Server server = InternalServer.SERVER_CONTEXT_KEY.get();
+            ServerReflectionIndex serverReflectionIndex = this.serverReflectionIndexes.get(server);
+            if (serverReflectionIndex == null) {
+                ServerReflectionIndex serverReflectionIndex2 = new ServerReflectionIndex(server.getImmutableServices(), server.getMutableServices());
+                this.serverReflectionIndexes.put(server, serverReflectionIndex2);
+                return serverReflectionIndex2;
+            }
+            HashSet hashSet = new HashSet();
+            HashSet hashSet2 = new HashSet();
+            List<ServerServiceDefinition> mutableServices = server.getMutableServices();
+            Iterator<ServerServiceDefinition> it2 = mutableServices.iterator();
+            while (it2.hasNext()) {
+                ServiceDescriptor serviceDescriptor = it2.next().getServiceDescriptor();
+                if (serviceDescriptor.getSchemaDescriptor() instanceof ProtoFileDescriptorSupplier) {
+                    String name = serviceDescriptor.getName();
+                    hashSet.add(((ProtoFileDescriptorSupplier) serviceDescriptor.getSchemaDescriptor()).getFileDescriptor());
+                    hashSet2.add(name);
+                }
+            }
+            FileDescriptorIndex mutableServicesIndex = serverReflectionIndex.getMutableServicesIndex();
+            if (!mutableServicesIndex.getServiceFileDescriptors().equals(hashSet) || !mutableServicesIndex.getServiceNames().equals(hashSet2)) {
+                serverReflectionIndex = new ServerReflectionIndex(server.getImmutableServices(), mutableServices);
+                this.serverReflectionIndexes.put(server, serverReflectionIndex);
+            }
+            return serverReflectionIndex;
+        }
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionGrpc.ServerReflectionImplBase
+    public StreamObserver<ServerReflectionRequest> serverReflectionInfo(StreamObserver<ServerReflectionResponse> streamObserver) {
+        ServerCallStreamObserver serverCallStreamObserver = (ServerCallStreamObserver) streamObserver;
+        ProtoReflectionStreamObserver protoReflectionStreamObserver = new ProtoReflectionStreamObserver(getRefreshedIndex(), serverCallStreamObserver);
+        serverCallStreamObserver.setOnReadyHandler(protoReflectionStreamObserver);
+        serverCallStreamObserver.disableAutoRequest();
+        serverCallStreamObserver.request(1);
+        return protoReflectionStreamObserver;
+    }
+
+    private static class ProtoReflectionStreamObserver implements Runnable, StreamObserver<ServerReflectionRequest> {
+        private final ServerCallStreamObserver<ServerReflectionResponse> serverCallStreamObserver;
+        private final ServerReflectionIndex serverReflectionIndex;
+        private boolean closeAfterSend = false;
+        private ServerReflectionRequest request;
+
+        ProtoReflectionStreamObserver(ServerReflectionIndex serverReflectionIndex, ServerCallStreamObserver<ServerReflectionResponse> serverCallStreamObserver) {
+            this.serverReflectionIndex = serverReflectionIndex;
+            this.serverCallStreamObserver = (ServerCallStreamObserver) Preconditions.checkNotNull(serverCallStreamObserver, "observer");
+        }
+
+        @Override // java.lang.Runnable
+        public void run() throws UninitializedMessageException {
+            if (this.request != null) {
+                handleReflectionRequest();
+            }
+        }
+
+        @Override // io.grpc.stub.StreamObserver
+        public void onNext(ServerReflectionRequest serverReflectionRequest) throws UninitializedMessageException {
+            Preconditions.checkState(this.request == null);
+            this.request = (ServerReflectionRequest) Preconditions.checkNotNull(serverReflectionRequest);
+            handleReflectionRequest();
+        }
+
+        private void handleReflectionRequest() throws UninitializedMessageException {
+            if (this.serverCallStreamObserver.isReady()) {
+                int i = AnonymousClass1.$SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[this.request.getMessageRequestCase().ordinal()];
+                if (i == 1) {
+                    getFileByName(this.request);
+                } else if (i == 2) {
+                    getFileContainingSymbol(this.request);
+                } else if (i == 3) {
+                    getFileByExtension(this.request);
+                } else if (i == 4) {
+                    getAllExtensions(this.request);
+                } else if (i == 5) {
+                    listServices(this.request);
+                } else {
+                    sendErrorResponse(this.request, Status.Code.UNIMPLEMENTED, "not implemented " + this.request.getMessageRequestCase());
+                }
+                this.request = null;
+                if (this.closeAfterSend) {
+                    this.serverCallStreamObserver.onCompleted();
+                } else {
+                    this.serverCallStreamObserver.request(1);
+                }
+            }
+        }
+
+        @Override // io.grpc.stub.StreamObserver
+        public void onCompleted() {
+            if (this.request != null) {
+                this.closeAfterSend = true;
+            } else {
+                this.serverCallStreamObserver.onCompleted();
+            }
+        }
+
+        @Override // io.grpc.stub.StreamObserver
+        public void onError(Throwable th) {
+            this.serverCallStreamObserver.onError(th);
+        }
+
+        private void getFileByName(ServerReflectionRequest serverReflectionRequest) throws UninitializedMessageException {
+            Descriptors.FileDescriptor fileDescriptorByName = this.serverReflectionIndex.getFileDescriptorByName(serverReflectionRequest.getFileByFilename());
+            if (fileDescriptorByName != null) {
+                this.serverCallStreamObserver.onNext(createServerReflectionResponse(serverReflectionRequest, fileDescriptorByName));
+            } else {
+                sendErrorResponse(serverReflectionRequest, Status.Code.NOT_FOUND, "File not found.");
+            }
+        }
+
+        private void getFileContainingSymbol(ServerReflectionRequest serverReflectionRequest) throws UninitializedMessageException {
+            Descriptors.FileDescriptor fileDescriptorBySymbol = this.serverReflectionIndex.getFileDescriptorBySymbol(serverReflectionRequest.getFileContainingSymbol());
+            if (fileDescriptorBySymbol != null) {
+                this.serverCallStreamObserver.onNext(createServerReflectionResponse(serverReflectionRequest, fileDescriptorBySymbol));
+            } else {
+                sendErrorResponse(serverReflectionRequest, Status.Code.NOT_FOUND, "Symbol not found.");
+            }
+        }
+
+        private void getFileByExtension(ServerReflectionRequest serverReflectionRequest) throws UninitializedMessageException {
+            ExtensionRequest fileContainingExtension = serverReflectionRequest.getFileContainingExtension();
+            Descriptors.FileDescriptor fileDescriptorByExtensionAndNumber = this.serverReflectionIndex.getFileDescriptorByExtensionAndNumber(fileContainingExtension.getContainingType(), fileContainingExtension.getExtensionNumber());
+            if (fileDescriptorByExtensionAndNumber != null) {
+                this.serverCallStreamObserver.onNext(createServerReflectionResponse(serverReflectionRequest, fileDescriptorByExtensionAndNumber));
+            } else {
+                sendErrorResponse(serverReflectionRequest, Status.Code.NOT_FOUND, "Extension not found.");
+            }
+        }
+
+        private void getAllExtensions(ServerReflectionRequest serverReflectionRequest) throws UninitializedMessageException {
+            String allExtensionNumbersOfType = serverReflectionRequest.getAllExtensionNumbersOfType();
+            Set extensionNumbersOfType = this.serverReflectionIndex.getExtensionNumbersOfType(allExtensionNumbersOfType);
+            if (extensionNumbersOfType != null) {
+                this.serverCallStreamObserver.onNext(ServerReflectionResponse.newBuilder().setValidHost(serverReflectionRequest.getHost()).setOriginalRequest(serverReflectionRequest).setAllExtensionNumbersResponse(ExtensionNumberResponse.newBuilder().setBaseTypeName(allExtensionNumbersOfType).addAllExtensionNumber(extensionNumbersOfType)).m9906build());
+            } else {
+                sendErrorResponse(serverReflectionRequest, Status.Code.NOT_FOUND, "Type not found.");
+            }
+        }
+
+        private void listServices(ServerReflectionRequest serverReflectionRequest) {
+            ListServiceResponse.Builder builderNewBuilder = ListServiceResponse.newBuilder();
+            Iterator it2 = this.serverReflectionIndex.getServiceNames().iterator();
+            while (it2.hasNext()) {
+                builderNewBuilder.addService(ServiceResponse.newBuilder().setName((String) it2.next()));
+            }
+            this.serverCallStreamObserver.onNext(ServerReflectionResponse.newBuilder().setValidHost(serverReflectionRequest.getHost()).setOriginalRequest(serverReflectionRequest).setListServicesResponse(builderNewBuilder).m9906build());
+        }
+
+        private void sendErrorResponse(ServerReflectionRequest serverReflectionRequest, Status.Code code, String str) throws UninitializedMessageException {
+            this.serverCallStreamObserver.onNext(ServerReflectionResponse.newBuilder().setValidHost(serverReflectionRequest.getHost()).setOriginalRequest(serverReflectionRequest).setErrorResponse(ErrorResponse.newBuilder().setErrorCode(code.value()).setErrorMessage(str)).m9906build());
+        }
+
+        private ServerReflectionResponse createServerReflectionResponse(ServerReflectionRequest serverReflectionRequest, Descriptors.FileDescriptor fileDescriptor) {
+            FileDescriptorResponse.Builder builderNewBuilder = FileDescriptorResponse.newBuilder();
+            HashSet hashSet = new HashSet();
+            ArrayDeque arrayDeque = new ArrayDeque();
+            hashSet.add(fileDescriptor.getName());
+            arrayDeque.add(fileDescriptor);
+            while (!arrayDeque.isEmpty()) {
+                Descriptors.FileDescriptor fileDescriptor2 = (Descriptors.FileDescriptor) arrayDeque.remove();
+                builderNewBuilder.addFileDescriptorProto(fileDescriptor2.toProto().toByteString());
+                for (Descriptors.FileDescriptor fileDescriptor3 : fileDescriptor2.getDependencies()) {
+                    if (!hashSet.contains(fileDescriptor3.getName())) {
+                        hashSet.add(fileDescriptor3.getName());
+                        arrayDeque.add(fileDescriptor3);
+                    }
+                }
+            }
+            return ServerReflectionResponse.newBuilder().setValidHost(serverReflectionRequest.getHost()).setOriginalRequest(serverReflectionRequest).setFileDescriptorResponse(builderNewBuilder).m9906build();
+        }
+    }
+
+    /* renamed from: io.grpc.protobuf.services.ProtoReflectionService$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase;
+
+        static {
+            int[] iArr = new int[ServerReflectionRequest.MessageRequestCase.values().length];
+            $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase = iArr;
+            try {
+                iArr[ServerReflectionRequest.MessageRequestCase.FILE_BY_FILENAME.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[ServerReflectionRequest.MessageRequestCase.FILE_CONTAINING_SYMBOL.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[ServerReflectionRequest.MessageRequestCase.FILE_CONTAINING_EXTENSION.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[ServerReflectionRequest.MessageRequestCase.ALL_EXTENSION_NUMBERS_OF_TYPE.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[ServerReflectionRequest.MessageRequestCase.LIST_SERVICES.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+        }
+    }
+
+    private static final class ServerReflectionIndex {
+        private final FileDescriptorIndex immutableServicesIndex;
+        private final FileDescriptorIndex mutableServicesIndex;
+
+        public ServerReflectionIndex(List<ServerServiceDefinition> list, List<ServerServiceDefinition> list2) {
+            this.immutableServicesIndex = new FileDescriptorIndex(list);
+            this.mutableServicesIndex = new FileDescriptorIndex(list2);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public FileDescriptorIndex getMutableServicesIndex() {
+            return this.mutableServicesIndex;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public Set<String> getServiceNames() {
+            Set serviceNames = this.immutableServicesIndex.getServiceNames();
+            Set serviceNames2 = this.mutableServicesIndex.getServiceNames();
+            HashSet hashSet = new HashSet(serviceNames.size() + serviceNames2.size());
+            hashSet.addAll(serviceNames);
+            hashSet.addAll(serviceNames2);
+            return hashSet;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public Descriptors.FileDescriptor getFileDescriptorByName(String str) {
+            Descriptors.FileDescriptor fileDescriptorByName = this.immutableServicesIndex.getFileDescriptorByName(str);
+            return fileDescriptorByName == null ? this.mutableServicesIndex.getFileDescriptorByName(str) : fileDescriptorByName;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public Descriptors.FileDescriptor getFileDescriptorBySymbol(String str) {
+            Descriptors.FileDescriptor fileDescriptorBySymbol = this.immutableServicesIndex.getFileDescriptorBySymbol(str);
+            return fileDescriptorBySymbol == null ? this.mutableServicesIndex.getFileDescriptorBySymbol(str) : fileDescriptorBySymbol;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public Descriptors.FileDescriptor getFileDescriptorByExtensionAndNumber(String str, int i) {
+            Descriptors.FileDescriptor fileDescriptorByExtensionAndNumber = this.immutableServicesIndex.getFileDescriptorByExtensionAndNumber(str, i);
+            return fileDescriptorByExtensionAndNumber == null ? this.mutableServicesIndex.getFileDescriptorByExtensionAndNumber(str, i) : fileDescriptorByExtensionAndNumber;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public Set<Integer> getExtensionNumbersOfType(String str) {
+            Set<Integer> extensionNumbersOfType = this.immutableServicesIndex.getExtensionNumbersOfType(str);
+            return extensionNumbersOfType == null ? this.mutableServicesIndex.getExtensionNumbersOfType(str) : extensionNumbersOfType;
+        }
+    }
+
+    private static final class FileDescriptorIndex {
+        private final Set<String> serviceNames = new HashSet();
+        private final Set<Descriptors.FileDescriptor> serviceFileDescriptors = new HashSet();
+        private final Map<String, Descriptors.FileDescriptor> fileDescriptorsByName = new HashMap();
+        private final Map<String, Descriptors.FileDescriptor> fileDescriptorsBySymbol = new HashMap();
+        private final Map<String, Map<Integer, Descriptors.FileDescriptor>> fileDescriptorsByExtensionAndNumber = new HashMap();
+
+        FileDescriptorIndex(List<ServerServiceDefinition> list) {
+            ArrayDeque arrayDeque = new ArrayDeque();
+            HashSet hashSet = new HashSet();
+            Iterator<ServerServiceDefinition> it2 = list.iterator();
+            while (it2.hasNext()) {
+                ServiceDescriptor serviceDescriptor = it2.next().getServiceDescriptor();
+                if (serviceDescriptor.getSchemaDescriptor() instanceof ProtoFileDescriptorSupplier) {
+                    Descriptors.FileDescriptor fileDescriptor = ((ProtoFileDescriptorSupplier) serviceDescriptor.getSchemaDescriptor()).getFileDescriptor();
+                    String name = serviceDescriptor.getName();
+                    Preconditions.checkState(!this.serviceNames.contains(name), "Service already defined: %s", name);
+                    this.serviceFileDescriptors.add(fileDescriptor);
+                    this.serviceNames.add(name);
+                    if (!hashSet.contains(fileDescriptor.getName())) {
+                        hashSet.add(fileDescriptor.getName());
+                        arrayDeque.add(fileDescriptor);
+                    }
+                }
+            }
+            while (!arrayDeque.isEmpty()) {
+                Descriptors.FileDescriptor fileDescriptor2 = (Descriptors.FileDescriptor) arrayDeque.remove();
+                processFileDescriptor(fileDescriptor2);
+                for (Descriptors.FileDescriptor fileDescriptor3 : fileDescriptor2.getDependencies()) {
+                    if (!hashSet.contains(fileDescriptor3.getName())) {
+                        hashSet.add(fileDescriptor3.getName());
+                        arrayDeque.add(fileDescriptor3);
+                    }
+                }
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public Set<Descriptors.FileDescriptor> getServiceFileDescriptors() {
+            return Collections.unmodifiableSet(this.serviceFileDescriptors);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public Set<String> getServiceNames() {
+            return Collections.unmodifiableSet(this.serviceNames);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public Descriptors.FileDescriptor getFileDescriptorByName(String str) {
+            return this.fileDescriptorsByName.get(str);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public Descriptors.FileDescriptor getFileDescriptorBySymbol(String str) {
+            return this.fileDescriptorsBySymbol.get(str);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public Descriptors.FileDescriptor getFileDescriptorByExtensionAndNumber(String str, int i) {
+            if (this.fileDescriptorsByExtensionAndNumber.containsKey(str)) {
+                return this.fileDescriptorsByExtensionAndNumber.get(str).get(Integer.valueOf(i));
+            }
+            return null;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        @Nullable
+        public Set<Integer> getExtensionNumbersOfType(String str) {
+            if (this.fileDescriptorsByExtensionAndNumber.containsKey(str)) {
+                return Collections.unmodifiableSet(this.fileDescriptorsByExtensionAndNumber.get(str).keySet());
+            }
+            return null;
+        }
+
+        private void processFileDescriptor(Descriptors.FileDescriptor fileDescriptor) {
+            String name = fileDescriptor.getName();
+            Preconditions.checkState(!this.fileDescriptorsByName.containsKey(name), "File name already used: %s", name);
+            this.fileDescriptorsByName.put(name, fileDescriptor);
+            Iterator it2 = fileDescriptor.getServices().iterator();
+            while (it2.hasNext()) {
+                processService((Descriptors.ServiceDescriptor) it2.next(), fileDescriptor);
+            }
+            Iterator it3 = fileDescriptor.getMessageTypes().iterator();
+            while (it3.hasNext()) {
+                processType((Descriptors.Descriptor) it3.next(), fileDescriptor);
+            }
+            Iterator it4 = fileDescriptor.getExtensions().iterator();
+            while (it4.hasNext()) {
+                processExtension((Descriptors.FieldDescriptor) it4.next(), fileDescriptor);
+            }
+        }
+
+        private void processService(Descriptors.ServiceDescriptor serviceDescriptor, Descriptors.FileDescriptor fileDescriptor) {
+            String fullName = serviceDescriptor.getFullName();
+            Preconditions.checkState(!this.fileDescriptorsBySymbol.containsKey(fullName), "Service already defined: %s", fullName);
+            this.fileDescriptorsBySymbol.put(fullName, fileDescriptor);
+            Iterator it2 = serviceDescriptor.getMethods().iterator();
+            while (it2.hasNext()) {
+                String fullName2 = ((Descriptors.MethodDescriptor) it2.next()).getFullName();
+                Preconditions.checkState(!this.fileDescriptorsBySymbol.containsKey(fullName2), "Method already defined: %s", fullName2);
+                this.fileDescriptorsBySymbol.put(fullName2, fileDescriptor);
+            }
+        }
+
+        private void processType(Descriptors.Descriptor descriptor, Descriptors.FileDescriptor fileDescriptor) {
+            String fullName = descriptor.getFullName();
+            Preconditions.checkState(!this.fileDescriptorsBySymbol.containsKey(fullName), "Type already defined: %s", fullName);
+            this.fileDescriptorsBySymbol.put(fullName, fileDescriptor);
+            Iterator it2 = descriptor.getExtensions().iterator();
+            while (it2.hasNext()) {
+                processExtension((Descriptors.FieldDescriptor) it2.next(), fileDescriptor);
+            }
+            Iterator it3 = descriptor.getNestedTypes().iterator();
+            while (it3.hasNext()) {
+                processType((Descriptors.Descriptor) it3.next(), fileDescriptor);
+            }
+        }
+
+        private void processExtension(Descriptors.FieldDescriptor fieldDescriptor, Descriptors.FileDescriptor fileDescriptor) {
+            String fullName = fieldDescriptor.getContainingType().getFullName();
+            int number = fieldDescriptor.getNumber();
+            if (!this.fileDescriptorsByExtensionAndNumber.containsKey(fullName)) {
+                this.fileDescriptorsByExtensionAndNumber.put(fullName, new HashMap());
+            }
+            Preconditions.checkState(!this.fileDescriptorsByExtensionAndNumber.get(fullName).containsKey(Integer.valueOf(number)), "Extension name and number already defined: %s, %s", (Object) fullName, number);
+            this.fileDescriptorsByExtensionAndNumber.get(fullName).put(Integer.valueOf(number), fileDescriptor);
+        }
+    }
+}

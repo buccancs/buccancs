@@ -1,0 +1,64 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ode/FieldExpandableODE.java
+// Size: 2950 bytes
+// Modified: 2025-10-21 16:32:08.875638700 +0100
+
+package org.apache.commons.math3.ode;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.commons.math3.RealFieldElement;
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.util.MathArrays;
+
+/* loaded from: classes5.dex */
+public class FieldExpandableODE<T extends RealFieldElement<T>> {
+    private List<FieldSecondaryEquations<T>> components = new ArrayList();
+    private FieldEquationsMapper<T> mapper;
+    private final FirstOrderFieldDifferentialEquations<T> primary;
+
+    public FieldEquationsMapper<T> getMapper() {
+        return this.mapper;
+    }
+
+    public FieldExpandableODE(FirstOrderFieldDifferentialEquations<T> firstOrderFieldDifferentialEquations) {
+        this.primary = firstOrderFieldDifferentialEquations;
+        this.mapper = new FieldEquationsMapper<>(null, firstOrderFieldDifferentialEquations.getDimension());
+    }
+
+    public int addSecondaryEquations(FieldSecondaryEquations<T> fieldSecondaryEquations) {
+        this.components.add(fieldSecondaryEquations);
+        this.mapper = new FieldEquationsMapper<>(this.mapper, fieldSecondaryEquations.getDimension());
+        return this.components.size();
+    }
+
+    public void init(T t, T[] tArr, T t2) throws MathIllegalArgumentException {
+        int i = 0;
+        RealFieldElement[] realFieldElementArrExtractEquationData = this.mapper.extractEquationData(0, tArr);
+        this.primary.init(t, realFieldElementArrExtractEquationData, t2);
+        while (true) {
+            int i2 = i + 1;
+            if (i2 >= this.mapper.getNumberOfEquations()) {
+                return;
+            }
+            this.components.get(i).init(t, realFieldElementArrExtractEquationData, this.mapper.extractEquationData(i2, tArr), t2);
+            i = i2;
+        }
+    }
+
+    public T[] computeDerivatives(T t, T[] tArr) throws MaxCountExceededException, MathIllegalArgumentException {
+        T[] tArr2 = (T[]) ((RealFieldElement[]) MathArrays.buildArray(t.getField(), this.mapper.getTotalDimension()));
+        int i = 0;
+        RealFieldElement[] realFieldElementArrExtractEquationData = this.mapper.extractEquationData(0, tArr);
+        RealFieldElement[] realFieldElementArrComputeDerivatives = this.primary.computeDerivatives(t, realFieldElementArrExtractEquationData);
+        this.mapper.insertEquationData(0, realFieldElementArrComputeDerivatives, tArr2);
+        while (true) {
+            int i2 = i + 1;
+            if (i2 >= this.mapper.getNumberOfEquations()) {
+                return tArr2;
+            }
+            this.mapper.insertEquationData(i2, this.components.get(i).computeDerivatives(t, realFieldElementArrExtractEquationData, realFieldElementArrComputeDerivatives, this.mapper.extractEquationData(i2, tArr)), tArr2);
+            i = i2;
+        }
+    }
+}

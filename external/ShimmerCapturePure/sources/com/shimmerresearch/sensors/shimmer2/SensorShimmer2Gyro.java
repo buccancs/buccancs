@@ -1,0 +1,205 @@
+package com.shimmerresearch.sensors.shimmer2;
+
+import com.shimmerresearch.algorithms.gyroOnTheFlyCal.OnTheFlyGyroOffsetCal;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driver.calibration.CalibDetailsKinematic;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.ActionSetting;
+
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
+
+/* loaded from: classes2.dex */
+public class SensorShimmer2Gyro extends AbstractSensor {
+    protected static final double[][] AlignmentMatrixGyroShimmer2 = {new double[]{0.0d, -1.0d, 0.0d}, new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, 0.0d, -1.0d}};
+    protected static final double[][] OffsetVectorGyroShimmer2 = {new double[]{1843.0d}, new double[]{1843.0d}, new double[]{1843.0d}};
+    protected static final double[][] SensitivityMatrixGyroShimmer2 = {new double[]{2.73d, 0.0d, 0.0d}, new double[]{0.0d, 2.73d, 0.0d}, new double[]{0.0d, 0.0d, 2.73d}};
+    private static final long serialVersionUID = -8600361157087801458L;
+    public TreeMap<Integer, CalibDetails> mCalibMapGyroShimmer2r;
+    public CalibDetailsKinematic mCurrentCalibDetailsGyro;
+    public boolean mIsUsingDefaultGyroParam;
+    protected byte[] mGyroCalRawParams;
+    protected boolean mLowPowerGyro;
+    protected transient OnTheFlyGyroOffsetCal mOnTheFlyGyroOffsetCal;
+    private CalibDetailsKinematic calibDetailsShimmer2rGyro;
+    private int mGyroRange;
+
+    public SensorShimmer2Gyro(ShimmerDevice shimmerDevice) {
+        super(AbstractSensor.SENSORS.SHIMMER2R_GYRO, shimmerDevice);
+        this.mGyroRange = 0;
+        this.mLowPowerGyro = false;
+        this.mIsUsingDefaultGyroParam = true;
+        this.mGyroCalRawParams = new byte[22];
+        this.mOnTheFlyGyroOffsetCal = new OnTheFlyGyroOffsetCal();
+        this.calibDetailsShimmer2rGyro = new CalibDetailsKinematic(0, "Default", AlignmentMatrixGyroShimmer2, SensitivityMatrixGyroShimmer2, OffsetVectorGyroShimmer2);
+        TreeMap<Integer, CalibDetails> treeMap = new TreeMap<>();
+        this.mCalibMapGyroShimmer2r = treeMap;
+        treeMap.put(Integer.valueOf(this.calibDetailsShimmer2rGyro.mRangeValue), this.calibDetailsShimmer2rGyro);
+        this.mCurrentCalibDetailsGyro = null;
+        initialise();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return false;
+    }
+
+    public boolean checkLowPowerGyro() {
+        return this.mLowPowerGyro;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+    }
+
+    public int getGyroRange() {
+        return this.mGyroRange;
+    }
+
+    public void setGyroRange(int i) {
+        this.mGyroRange = i;
+        updateCurrentCalibInUse();
+    }
+
+    public int getLowPowerGyroEnabled() {
+        return this.mLowPowerGyro ? 1 : 0;
+    }
+
+    public OnTheFlyGyroOffsetCal getOnTheFlyCalGyro() {
+        return this.mOnTheFlyGyroOffsetCal;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void parseConfigMap(LinkedHashMap<String, Object> linkedHashMap) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        return false;
+    }
+
+    public void setLowPowerGyro(boolean z) {
+        this.mLowPowerGyro = z;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        str.hashCode();
+        return super.setConfigValueUsingConfigLabelCommon(num, str, obj);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        str.hashCode();
+        if (str.equals("Range")) {
+            return null;
+        }
+        return super.getConfigValueUsingConfigLabelCommon(num, str);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+        setOnTheFlyCalGyroBufferSize(d);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setCalibrationMapPerSensor(int i, TreeMap<Integer, CalibDetails> treeMap) {
+        super.setCalibrationMapPerSensor(i, treeMap);
+        updateCurrentCalibInUse();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateCalibMap() {
+        super.generateCalibMap();
+        TreeMap<Integer, CalibDetails> treeMap = this.mShimmerDevice.getHardwareVersion() == 1 ? this.mCalibMapGyroShimmer2r : this.mCalibMapGyroShimmer2r;
+        if (treeMap != null) {
+            setCalibrationMapPerSensor(1, treeMap);
+        }
+        updateCurrentCalibInUse();
+    }
+
+    public void updateCurrentCalibInUse() {
+        this.mCurrentCalibDetailsGyro = getCurrentCalibDetailsIfKinematic(1, getGyroRange());
+    }
+
+    public CalibDetailsKinematic getCurrentCalibDetailsGyro() {
+        CalibDetails calibForSensor = getCalibForSensor(1, getGyroRange());
+        if (calibForSensor != null) {
+            return (CalibDetailsKinematic) calibForSensor;
+        }
+        return null;
+    }
+
+    public void enableOnTheFlyGyroCal(boolean z, int i, double d) {
+        this.mOnTheFlyGyroOffsetCal.setIsEnabled(z, i, d);
+    }
+
+    public void setOnTheFlyGyroCal(boolean z) {
+        this.mOnTheFlyGyroOffsetCal.setIsEnabled(z);
+    }
+
+    public boolean isGyroOnTheFlyCalEnabled() {
+        return this.mOnTheFlyGyroOffsetCal.isEnabled();
+    }
+
+    public void setOnTheFlyCalGyroBufferSize(double d) {
+        this.mOnTheFlyGyroOffsetCal.setBufferSizeFromSamplingRate(d);
+    }
+
+    public void setOnTheFlyCalGyroThreshold(int i) {
+        this.mOnTheFlyGyroOffsetCal.setOffsetThreshold(i);
+    }
+
+    public void updateIsUsingDefaultGyroParam() {
+        this.mIsUsingDefaultGyroParam = getCurrentCalibDetailsGyro().isUsingDefaultParameters();
+    }
+}

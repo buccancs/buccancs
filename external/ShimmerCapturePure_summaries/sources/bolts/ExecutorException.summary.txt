@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/bolts/ExecutorException.java
+// Size: 229 bytes
+// Modified: 2025-10-21 16:32:00.039635000 +0100
+
+package bolts;
+
+/* loaded from: classes.dex */
+public class ExecutorException extends RuntimeException {
+    public ExecutorException(Exception exc) {
+        super("An exception was thrown by an Executor", exc);
+    }
+}

@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/NativeLibraryUtil.java
+// Size: 353 bytes
+// Modified: 2025-10-21 16:32:00.258104400 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+/* loaded from: classes3.dex */
+final class NativeLibraryUtil {
+    public static void loadLibrary(String str, boolean z) {
+        if (z) {
+            System.load(str);
+        } else {
+            System.loadLibrary(str);
+        }
+    }
+
+    private NativeLibraryUtil() {
+    }
+}

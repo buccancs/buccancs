@@ -1,0 +1,45 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/genetics/Chromosome.java
+// Size: 1324 bytes
+// Modified: 2025-10-21 16:32:02.885639900 +0100
+
+package org.apache.commons.math.genetics;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/genetics/Chromosome.class */
+public abstract class Chromosome implements Comparable<Chromosome>, Fitness {
+    private double fitness = Double.MIN_VALUE;
+
+    public double getFitness() {
+        if (this.fitness == Double.MIN_VALUE) {
+            this.fitness = fitness();
+        }
+        return this.fitness;
+    }
+
+    @Override // java.lang.Comparable
+    public int compareTo(Chromosome another) {
+        return Double.valueOf(getFitness()).compareTo(Double.valueOf(another.getFitness()));
+    }
+
+    protected boolean isSame(Chromosome another) {
+        return false;
+    }
+
+    protected Chromosome findSameChromosome(Population population) {
+        for (Chromosome anotherChr : population) {
+            if (isSame(anotherChr)) {
+                return anotherChr;
+            }
+        }
+        return null;
+    }
+
+    public void searchForFitnessUpdate(Population population) {
+        Chromosome sameChromosome = findSameChromosome(population);
+        if (sameChromosome != null) {
+            this.fitness = sameChromosome.getFitness();
+        }
+    }
+}

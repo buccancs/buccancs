@@ -1,0 +1,1161 @@
+package io.grpc.reflection.v1alpha;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.MessageLite;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.reflection.v1alpha.ExtensionRequest;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class ServerReflectionRequest extends GeneratedMessageV3 implements ServerReflectionRequestOrBuilder {
+    public static final int ALL_EXTENSION_NUMBERS_OF_TYPE_FIELD_NUMBER = 6;
+    public static final int FILE_BY_FILENAME_FIELD_NUMBER = 3;
+    public static final int FILE_CONTAINING_EXTENSION_FIELD_NUMBER = 5;
+    public static final int FILE_CONTAINING_SYMBOL_FIELD_NUMBER = 4;
+    public static final int HOST_FIELD_NUMBER = 1;
+    public static final int LIST_SERVICES_FIELD_NUMBER = 7;
+    private static final long serialVersionUID = 0;
+    private static final ServerReflectionRequest DEFAULT_INSTANCE = new ServerReflectionRequest();
+    private static final Parser<ServerReflectionRequest> PARSER = new AbstractParser<ServerReflectionRequest>() { // from class: io.grpc.reflection.v1alpha.ServerReflectionRequest.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ServerReflectionRequest m9857parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ServerReflectionRequest(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object host_;
+    private byte memoizedIsInitialized;
+    private int messageRequestCase_;
+    private Object messageRequest_;
+
+    private ServerReflectionRequest(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.messageRequestCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ServerReflectionRequest() {
+        this.messageRequestCase_ = 0;
+        this.memoizedIsInitialized = (byte) -1;
+        this.host_ = "";
+    }
+
+    private ServerReflectionRequest(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            this.host_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 26) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            this.messageRequestCase_ = 3;
+                            this.messageRequest_ = stringRequireUtf8;
+                        } else if (tag == 34) {
+                            String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                            this.messageRequestCase_ = 4;
+                            this.messageRequest_ = stringRequireUtf82;
+                        } else if (tag == 42) {
+                            ExtensionRequest.Builder builderM9717toBuilder = this.messageRequestCase_ == 5 ? ((ExtensionRequest) this.messageRequest_).m9717toBuilder() : null;
+                            MessageLite message = codedInputStream.readMessage(ExtensionRequest.parser(), extensionRegistryLite);
+                            this.messageRequest_ = message;
+                            if (builderM9717toBuilder != null) {
+                                builderM9717toBuilder.mergeFrom((ExtensionRequest) message);
+                                this.messageRequest_ = builderM9717toBuilder.m9724buildPartial();
+                            }
+                            this.messageRequestCase_ = 5;
+                        } else if (tag == 50) {
+                            String stringRequireUtf83 = codedInputStream.readStringRequireUtf8();
+                            this.messageRequestCase_ = 6;
+                            this.messageRequest_ = stringRequireUtf83;
+                        } else if (tag == 58) {
+                            String stringRequireUtf84 = codedInputStream.readStringRequireUtf8();
+                            this.messageRequestCase_ = 7;
+                            this.messageRequest_ = stringRequireUtf84;
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ServerReflectionRequest getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ServerReflectionRequest> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_descriptor;
+    }
+
+    public static ServerReflectionRequest parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ServerReflectionRequest) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ServerReflectionRequest parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ServerReflectionRequest) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ServerReflectionRequest parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ServerReflectionRequest) PARSER.parseFrom(byteString);
+    }
+
+    public static ServerReflectionRequest parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ServerReflectionRequest) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ServerReflectionRequest parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ServerReflectionRequest) PARSER.parseFrom(bArr);
+    }
+
+    public static ServerReflectionRequest parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ServerReflectionRequest) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ServerReflectionRequest parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ServerReflectionRequest parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ServerReflectionRequest parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ServerReflectionRequest parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ServerReflectionRequest parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ServerReflectionRequest parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m9855toBuilder();
+    }
+
+    public static Builder newBuilder(ServerReflectionRequest serverReflectionRequest) {
+        return DEFAULT_INSTANCE.m9855toBuilder().mergeFrom(serverReflectionRequest);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ServerReflectionRequest m9850getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ServerReflectionRequest> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public boolean hasFileContainingExtension() {
+        return this.messageRequestCase_ == 5;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new ServerReflectionRequest();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(ServerReflectionRequest.class, Builder.class);
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public MessageRequestCase getMessageRequestCase() {
+        return MessageRequestCase.forNumber(this.messageRequestCase_);
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public String getHost() {
+        Object obj = this.host_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.host_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public ByteString getHostBytes() {
+        Object obj = this.host_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.host_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public String getFileByFilename() {
+        String str = this.messageRequestCase_ == 3 ? this.messageRequest_ : "";
+        if (str instanceof String) {
+            return (String) str;
+        }
+        String stringUtf8 = ((ByteString) str).toStringUtf8();
+        if (this.messageRequestCase_ == 3) {
+            this.messageRequest_ = stringUtf8;
+        }
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public ByteString getFileByFilenameBytes() {
+        String str = this.messageRequestCase_ == 3 ? this.messageRequest_ : "";
+        if (str instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+            if (this.messageRequestCase_ == 3) {
+                this.messageRequest_ = byteStringCopyFromUtf8;
+            }
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) str;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public String getFileContainingSymbol() {
+        String str = this.messageRequestCase_ == 4 ? this.messageRequest_ : "";
+        if (str instanceof String) {
+            return (String) str;
+        }
+        String stringUtf8 = ((ByteString) str).toStringUtf8();
+        if (this.messageRequestCase_ == 4) {
+            this.messageRequest_ = stringUtf8;
+        }
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public ByteString getFileContainingSymbolBytes() {
+        String str = this.messageRequestCase_ == 4 ? this.messageRequest_ : "";
+        if (str instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+            if (this.messageRequestCase_ == 4) {
+                this.messageRequest_ = byteStringCopyFromUtf8;
+            }
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) str;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public ExtensionRequest getFileContainingExtension() {
+        if (this.messageRequestCase_ == 5) {
+            return (ExtensionRequest) this.messageRequest_;
+        }
+        return ExtensionRequest.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public ExtensionRequestOrBuilder getFileContainingExtensionOrBuilder() {
+        if (this.messageRequestCase_ == 5) {
+            return (ExtensionRequest) this.messageRequest_;
+        }
+        return ExtensionRequest.getDefaultInstance();
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public String getAllExtensionNumbersOfType() {
+        String str = this.messageRequestCase_ == 6 ? this.messageRequest_ : "";
+        if (str instanceof String) {
+            return (String) str;
+        }
+        String stringUtf8 = ((ByteString) str).toStringUtf8();
+        if (this.messageRequestCase_ == 6) {
+            this.messageRequest_ = stringUtf8;
+        }
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public ByteString getAllExtensionNumbersOfTypeBytes() {
+        String str = this.messageRequestCase_ == 6 ? this.messageRequest_ : "";
+        if (str instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+            if (this.messageRequestCase_ == 6) {
+                this.messageRequest_ = byteStringCopyFromUtf8;
+            }
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) str;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public String getListServices() {
+        String str = this.messageRequestCase_ == 7 ? this.messageRequest_ : "";
+        if (str instanceof String) {
+            return (String) str;
+        }
+        String stringUtf8 = ((ByteString) str).toStringUtf8();
+        if (this.messageRequestCase_ == 7) {
+            this.messageRequest_ = stringUtf8;
+        }
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+    public ByteString getListServicesBytes() {
+        String str = this.messageRequestCase_ == 7 ? this.messageRequest_ : "";
+        if (str instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+            if (this.messageRequestCase_ == 7) {
+                this.messageRequest_ = byteStringCopyFromUtf8;
+            }
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) str;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getHostBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.host_);
+        }
+        if (this.messageRequestCase_ == 3) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.messageRequest_);
+        }
+        if (this.messageRequestCase_ == 4) {
+            GeneratedMessageV3.writeString(codedOutputStream, 4, this.messageRequest_);
+        }
+        if (this.messageRequestCase_ == 5) {
+            codedOutputStream.writeMessage(5, (ExtensionRequest) this.messageRequest_);
+        }
+        if (this.messageRequestCase_ == 6) {
+            GeneratedMessageV3.writeString(codedOutputStream, 6, this.messageRequest_);
+        }
+        if (this.messageRequestCase_ == 7) {
+            GeneratedMessageV3.writeString(codedOutputStream, 7, this.messageRequest_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getHostBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.host_) : 0;
+        if (this.messageRequestCase_ == 3) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(3, this.messageRequest_);
+        }
+        if (this.messageRequestCase_ == 4) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(4, this.messageRequest_);
+        }
+        if (this.messageRequestCase_ == 5) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(5, (ExtensionRequest) this.messageRequest_);
+        }
+        if (this.messageRequestCase_ == 6) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(6, this.messageRequest_);
+        }
+        if (this.messageRequestCase_ == 7) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(7, this.messageRequest_);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ServerReflectionRequest)) {
+            return super.equals(obj);
+        }
+        ServerReflectionRequest serverReflectionRequest = (ServerReflectionRequest) obj;
+        if (!getHost().equals(serverReflectionRequest.getHost()) || !getMessageRequestCase().equals(serverReflectionRequest.getMessageRequestCase())) {
+            return false;
+        }
+        int i = this.messageRequestCase_;
+        if (i != 3) {
+            if (i != 4) {
+                if (i != 5) {
+                    if (i == 6) {
+                        if (!getAllExtensionNumbersOfType().equals(serverReflectionRequest.getAllExtensionNumbersOfType())) {
+                            return false;
+                        }
+                    } else if (i == 7 && !getListServices().equals(serverReflectionRequest.getListServices())) {
+                        return false;
+                    }
+                } else if (!getFileContainingExtension().equals(serverReflectionRequest.getFileContainingExtension())) {
+                    return false;
+                }
+            } else if (!getFileContainingSymbol().equals(serverReflectionRequest.getFileContainingSymbol())) {
+                return false;
+            }
+        } else if (!getFileByFilename().equals(serverReflectionRequest.getFileByFilename())) {
+            return false;
+        }
+        return this.unknownFields.equals(serverReflectionRequest.unknownFields);
+    }
+
+    public int hashCode() {
+        int i;
+        int iHashCode;
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode2 = ((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getHost().hashCode();
+        int i2 = this.messageRequestCase_;
+        if (i2 == 3) {
+            i = ((iHashCode2 * 37) + 3) * 53;
+            iHashCode = getFileByFilename().hashCode();
+        } else if (i2 == 4) {
+            i = ((iHashCode2 * 37) + 4) * 53;
+            iHashCode = getFileContainingSymbol().hashCode();
+        } else if (i2 == 5) {
+            i = ((iHashCode2 * 37) + 5) * 53;
+            iHashCode = getFileContainingExtension().hashCode();
+        } else if (i2 == 6) {
+            i = ((iHashCode2 * 37) + 6) * 53;
+            iHashCode = getAllExtensionNumbersOfType().hashCode();
+        } else {
+            if (i2 == 7) {
+                i = ((iHashCode2 * 37) + 7) * 53;
+                iHashCode = getListServices().hashCode();
+            }
+            int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+            this.memoizedHashCode = iHashCode3;
+            return iHashCode3;
+        }
+        iHashCode2 = i + iHashCode;
+        int iHashCode32 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode32;
+        return iHashCode32;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m9852newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m9855toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum MessageRequestCase implements Internal.EnumLite, AbstractMessageLite.InternalOneOfEnum {
+        FILE_BY_FILENAME(3),
+        FILE_CONTAINING_SYMBOL(4),
+        FILE_CONTAINING_EXTENSION(5),
+        ALL_EXTENSION_NUMBERS_OF_TYPE(6),
+        LIST_SERVICES(7),
+        MESSAGEREQUEST_NOT_SET(0);
+
+        private final int value;
+
+        MessageRequestCase(int i) {
+            this.value = i;
+        }
+
+        public static MessageRequestCase forNumber(int i) {
+            if (i == 0) {
+                return MESSAGEREQUEST_NOT_SET;
+            }
+            if (i == 3) {
+                return FILE_BY_FILENAME;
+            }
+            if (i == 4) {
+                return FILE_CONTAINING_SYMBOL;
+            }
+            if (i == 5) {
+                return FILE_CONTAINING_EXTENSION;
+            }
+            if (i == 6) {
+                return ALL_EXTENSION_NUMBERS_OF_TYPE;
+            }
+            if (i != 7) {
+                return null;
+            }
+            return LIST_SERVICES;
+        }
+
+        @Deprecated
+        public static MessageRequestCase valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public int getNumber() {
+            return this.value;
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ServerReflectionRequestOrBuilder {
+        private SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> fileContainingExtensionBuilder_;
+        private Object host_;
+        private int messageRequestCase_;
+        private Object messageRequest_;
+
+        private Builder() {
+            this.messageRequestCase_ = 0;
+            this.host_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.messageRequestCase_ = 0;
+            this.host_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_descriptor;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public boolean hasFileContainingExtension() {
+            return this.messageRequestCase_ == 5;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_fieldAccessorTable.ensureFieldAccessorsInitialized(ServerReflectionRequest.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ServerReflectionRequest.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9866clear() {
+            super.clear();
+            this.host_ = "";
+            this.messageRequestCase_ = 0;
+            this.messageRequest_ = null;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ServerReflectionProto.internal_static_grpc_reflection_v1alpha_ServerReflectionRequest_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ServerReflectionRequest m9879getDefaultInstanceForType() {
+            return ServerReflectionRequest.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ServerReflectionRequest m9860build() throws UninitializedMessageException {
+            ServerReflectionRequest serverReflectionRequestM9862buildPartial = m9862buildPartial();
+            if (serverReflectionRequestM9862buildPartial.isInitialized()) {
+                return serverReflectionRequestM9862buildPartial;
+            }
+            throw newUninitializedMessageException(serverReflectionRequestM9862buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ServerReflectionRequest m9862buildPartial() {
+            ServerReflectionRequest serverReflectionRequest = new ServerReflectionRequest(this);
+            serverReflectionRequest.host_ = this.host_;
+            if (this.messageRequestCase_ == 3) {
+                serverReflectionRequest.messageRequest_ = this.messageRequest_;
+            }
+            if (this.messageRequestCase_ == 4) {
+                serverReflectionRequest.messageRequest_ = this.messageRequest_;
+            }
+            if (this.messageRequestCase_ == 5) {
+                SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> singleFieldBuilderV3 = this.fileContainingExtensionBuilder_;
+                if (singleFieldBuilderV3 == null) {
+                    serverReflectionRequest.messageRequest_ = this.messageRequest_;
+                } else {
+                    serverReflectionRequest.messageRequest_ = singleFieldBuilderV3.build();
+                }
+            }
+            if (this.messageRequestCase_ == 6) {
+                serverReflectionRequest.messageRequest_ = this.messageRequest_;
+            }
+            if (this.messageRequestCase_ == 7) {
+                serverReflectionRequest.messageRequest_ = this.messageRequest_;
+            }
+            serverReflectionRequest.messageRequestCase_ = this.messageRequestCase_;
+            onBuilt();
+            return serverReflectionRequest;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9878clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9890setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9868clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9871clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9892setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9858addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m9883mergeFrom(Message message) {
+            if (message instanceof ServerReflectionRequest) {
+                return mergeFrom((ServerReflectionRequest) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ServerReflectionRequest serverReflectionRequest) {
+            if (serverReflectionRequest == ServerReflectionRequest.getDefaultInstance()) {
+                return this;
+            }
+            if (!serverReflectionRequest.getHost().isEmpty()) {
+                this.host_ = serverReflectionRequest.host_;
+                onChanged();
+            }
+            int i = AnonymousClass2.$SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[serverReflectionRequest.getMessageRequestCase().ordinal()];
+            if (i == 1) {
+                this.messageRequestCase_ = 3;
+                this.messageRequest_ = serverReflectionRequest.messageRequest_;
+                onChanged();
+            } else if (i == 2) {
+                this.messageRequestCase_ = 4;
+                this.messageRequest_ = serverReflectionRequest.messageRequest_;
+                onChanged();
+            } else if (i == 3) {
+                mergeFileContainingExtension(serverReflectionRequest.getFileContainingExtension());
+            } else if (i == 4) {
+                this.messageRequestCase_ = 6;
+                this.messageRequest_ = serverReflectionRequest.messageRequest_;
+                onChanged();
+            } else if (i == 5) {
+                this.messageRequestCase_ = 7;
+                this.messageRequest_ = serverReflectionRequest.messageRequest_;
+                onChanged();
+            }
+            m9888mergeUnknownFields(serverReflectionRequest.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.reflection.v1alpha.ServerReflectionRequest.Builder m9884mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.reflection.v1alpha.ServerReflectionRequest.access$800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.reflection.v1alpha.ServerReflectionRequest r3 = (io.grpc.reflection.v1alpha.ServerReflectionRequest) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.reflection.v1alpha.ServerReflectionRequest r4 = (io.grpc.reflection.v1alpha.ServerReflectionRequest) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.reflection.v1alpha.ServerReflectionRequest.Builder.m9884mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.reflection.v1alpha.ServerReflectionRequest$Builder");
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public MessageRequestCase getMessageRequestCase() {
+            return MessageRequestCase.forNumber(this.messageRequestCase_);
+        }
+
+        public Builder clearMessageRequest() {
+            this.messageRequestCase_ = 0;
+            this.messageRequest_ = null;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public String getHost() {
+            Object obj = this.host_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.host_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setHost(String str) {
+            str.getClass();
+            this.host_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public ByteString getHostBytes() {
+            Object obj = this.host_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.host_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setHostBytes(ByteString byteString) {
+            byteString.getClass();
+            ServerReflectionRequest.checkByteStringIsUtf8(byteString);
+            this.host_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearHost() {
+            this.host_ = ServerReflectionRequest.getDefaultInstance().getHost();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public String getFileByFilename() {
+            String str = this.messageRequestCase_ == 3 ? this.messageRequest_ : "";
+            if (!(str instanceof String)) {
+                String stringUtf8 = ((ByteString) str).toStringUtf8();
+                if (this.messageRequestCase_ == 3) {
+                    this.messageRequest_ = stringUtf8;
+                }
+                return stringUtf8;
+            }
+            return (String) str;
+        }
+
+        public Builder setFileByFilename(String str) {
+            str.getClass();
+            this.messageRequestCase_ = 3;
+            this.messageRequest_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public ByteString getFileByFilenameBytes() {
+            String str = this.messageRequestCase_ == 3 ? this.messageRequest_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.messageRequestCase_ == 3) {
+                    this.messageRequest_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        public Builder setFileByFilenameBytes(ByteString byteString) {
+            byteString.getClass();
+            ServerReflectionRequest.checkByteStringIsUtf8(byteString);
+            this.messageRequestCase_ = 3;
+            this.messageRequest_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearFileByFilename() {
+            if (this.messageRequestCase_ == 3) {
+                this.messageRequestCase_ = 0;
+                this.messageRequest_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public String getFileContainingSymbol() {
+            String str = this.messageRequestCase_ == 4 ? this.messageRequest_ : "";
+            if (!(str instanceof String)) {
+                String stringUtf8 = ((ByteString) str).toStringUtf8();
+                if (this.messageRequestCase_ == 4) {
+                    this.messageRequest_ = stringUtf8;
+                }
+                return stringUtf8;
+            }
+            return (String) str;
+        }
+
+        public Builder setFileContainingSymbol(String str) {
+            str.getClass();
+            this.messageRequestCase_ = 4;
+            this.messageRequest_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public ByteString getFileContainingSymbolBytes() {
+            String str = this.messageRequestCase_ == 4 ? this.messageRequest_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.messageRequestCase_ == 4) {
+                    this.messageRequest_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        public Builder setFileContainingSymbolBytes(ByteString byteString) {
+            byteString.getClass();
+            ServerReflectionRequest.checkByteStringIsUtf8(byteString);
+            this.messageRequestCase_ = 4;
+            this.messageRequest_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearFileContainingSymbol() {
+            if (this.messageRequestCase_ == 4) {
+                this.messageRequestCase_ = 0;
+                this.messageRequest_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public ExtensionRequest getFileContainingExtension() {
+            SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> singleFieldBuilderV3 = this.fileContainingExtensionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageRequestCase_ == 5) {
+                    return (ExtensionRequest) this.messageRequest_;
+                }
+                return ExtensionRequest.getDefaultInstance();
+            }
+            if (this.messageRequestCase_ == 5) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            return ExtensionRequest.getDefaultInstance();
+        }
+
+        public Builder setFileContainingExtension(ExtensionRequest extensionRequest) {
+            SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> singleFieldBuilderV3 = this.fileContainingExtensionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                extensionRequest.getClass();
+                this.messageRequest_ = extensionRequest;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(extensionRequest);
+            }
+            this.messageRequestCase_ = 5;
+            return this;
+        }
+
+        public Builder setFileContainingExtension(ExtensionRequest.Builder builder) {
+            SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> singleFieldBuilderV3 = this.fileContainingExtensionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.messageRequest_ = builder.m9722build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m9722build());
+            }
+            this.messageRequestCase_ = 5;
+            return this;
+        }
+
+        public Builder mergeFileContainingExtension(ExtensionRequest extensionRequest) {
+            SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> singleFieldBuilderV3 = this.fileContainingExtensionBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                if (this.messageRequestCase_ != 5 || this.messageRequest_ == ExtensionRequest.getDefaultInstance()) {
+                    this.messageRequest_ = extensionRequest;
+                } else {
+                    this.messageRequest_ = ExtensionRequest.newBuilder((ExtensionRequest) this.messageRequest_).mergeFrom(extensionRequest).m9724buildPartial();
+                }
+                onChanged();
+            } else {
+                if (this.messageRequestCase_ == 5) {
+                    singleFieldBuilderV3.mergeFrom(extensionRequest);
+                }
+                this.fileContainingExtensionBuilder_.setMessage(extensionRequest);
+            }
+            this.messageRequestCase_ = 5;
+            return this;
+        }
+
+        public Builder clearFileContainingExtension() {
+            SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> singleFieldBuilderV3 = this.fileContainingExtensionBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                if (this.messageRequestCase_ == 5) {
+                    this.messageRequestCase_ = 0;
+                    this.messageRequest_ = null;
+                }
+                singleFieldBuilderV3.clear();
+            } else if (this.messageRequestCase_ == 5) {
+                this.messageRequestCase_ = 0;
+                this.messageRequest_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        public ExtensionRequest.Builder getFileContainingExtensionBuilder() {
+            return getFileContainingExtensionFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public ExtensionRequestOrBuilder getFileContainingExtensionOrBuilder() {
+            SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> singleFieldBuilderV3;
+            int i = this.messageRequestCase_;
+            if (i == 5 && (singleFieldBuilderV3 = this.fileContainingExtensionBuilder_) != null) {
+                return (ExtensionRequestOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            if (i == 5) {
+                return (ExtensionRequest) this.messageRequest_;
+            }
+            return ExtensionRequest.getDefaultInstance();
+        }
+
+        private SingleFieldBuilderV3<ExtensionRequest, ExtensionRequest.Builder, ExtensionRequestOrBuilder> getFileContainingExtensionFieldBuilder() {
+            if (this.fileContainingExtensionBuilder_ == null) {
+                if (this.messageRequestCase_ != 5) {
+                    this.messageRequest_ = ExtensionRequest.getDefaultInstance();
+                }
+                this.fileContainingExtensionBuilder_ = new SingleFieldBuilderV3<>((ExtensionRequest) this.messageRequest_, getParentForChildren(), isClean());
+                this.messageRequest_ = null;
+            }
+            this.messageRequestCase_ = 5;
+            onChanged();
+            return this.fileContainingExtensionBuilder_;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public String getAllExtensionNumbersOfType() {
+            String str = this.messageRequestCase_ == 6 ? this.messageRequest_ : "";
+            if (!(str instanceof String)) {
+                String stringUtf8 = ((ByteString) str).toStringUtf8();
+                if (this.messageRequestCase_ == 6) {
+                    this.messageRequest_ = stringUtf8;
+                }
+                return stringUtf8;
+            }
+            return (String) str;
+        }
+
+        public Builder setAllExtensionNumbersOfType(String str) {
+            str.getClass();
+            this.messageRequestCase_ = 6;
+            this.messageRequest_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public ByteString getAllExtensionNumbersOfTypeBytes() {
+            String str = this.messageRequestCase_ == 6 ? this.messageRequest_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.messageRequestCase_ == 6) {
+                    this.messageRequest_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        public Builder setAllExtensionNumbersOfTypeBytes(ByteString byteString) {
+            byteString.getClass();
+            ServerReflectionRequest.checkByteStringIsUtf8(byteString);
+            this.messageRequestCase_ = 6;
+            this.messageRequest_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAllExtensionNumbersOfType() {
+            if (this.messageRequestCase_ == 6) {
+                this.messageRequestCase_ = 0;
+                this.messageRequest_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public String getListServices() {
+            String str = this.messageRequestCase_ == 7 ? this.messageRequest_ : "";
+            if (!(str instanceof String)) {
+                String stringUtf8 = ((ByteString) str).toStringUtf8();
+                if (this.messageRequestCase_ == 7) {
+                    this.messageRequest_ = stringUtf8;
+                }
+                return stringUtf8;
+            }
+            return (String) str;
+        }
+
+        public Builder setListServices(String str) {
+            str.getClass();
+            this.messageRequestCase_ = 7;
+            this.messageRequest_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.reflection.v1alpha.ServerReflectionRequestOrBuilder
+        public ByteString getListServicesBytes() {
+            String str = this.messageRequestCase_ == 7 ? this.messageRequest_ : "";
+            if (str instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) str);
+                if (this.messageRequestCase_ == 7) {
+                    this.messageRequest_ = byteStringCopyFromUtf8;
+                }
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) str;
+        }
+
+        public Builder setListServicesBytes(ByteString byteString) {
+            byteString.getClass();
+            ServerReflectionRequest.checkByteStringIsUtf8(byteString);
+            this.messageRequestCase_ = 7;
+            this.messageRequest_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearListServices() {
+            if (this.messageRequestCase_ == 7) {
+                this.messageRequestCase_ = 0;
+                this.messageRequest_ = null;
+                onChanged();
+            }
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m9894setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m9888mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+
+    /* renamed from: io.grpc.reflection.v1alpha.ServerReflectionRequest$2, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass2 {
+        static final /* synthetic */ int[] $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase;
+
+        static {
+            int[] iArr = new int[MessageRequestCase.values().length];
+            $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase = iArr;
+            try {
+                iArr[MessageRequestCase.FILE_BY_FILENAME.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[MessageRequestCase.FILE_CONTAINING_SYMBOL.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[MessageRequestCase.FILE_CONTAINING_EXTENSION.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[MessageRequestCase.ALL_EXTENSION_NUMBERS_OF_TYPE.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[MessageRequestCase.LIST_SERVICES.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$io$grpc$reflection$v1alpha$ServerReflectionRequest$MessageRequestCase[MessageRequestCase.MESSAGEREQUEST_NOT_SET.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+        }
+    }
+}

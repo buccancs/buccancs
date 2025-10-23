@@ -1,0 +1,429 @@
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import com.google.common.base.Supplier;
+import com.google.protobuf.util.Durations;
+import io.grpc.InternalLogId;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.internal.BackoffPolicy;
+import io.grpc.stub.StreamObserver;
+import io.grpc.xds.EnvoyProtoData;
+import io.grpc.xds.XdsClient;
+import io.grpc.xds.XdsLogger;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v2.LoadReportingServiceGrpc;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v2.LoadStatsRequest;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v2.LoadStatsResponse;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadReportingServiceGrpc;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsRequest;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class LoadReportClient {
+    static final String TARGET_NAME_METADATA_KEY = "PROXYLESS_CLIENT_HOSTNAME";
+    private final BackoffPolicy.Provider backoffPolicyProvider;
+    private final LoadStatsManager loadStatsManager;
+    private final InternalLogId logId;
+    private final XdsLogger logger;
+    private final EnvoyProtoData.Node node;
+    private final Stopwatch retryStopwatch;
+    private final SynchronizationContext syncContext;
+    private final ScheduledExecutorService timerService;
+    private final XdsClient.XdsChannel xdsChannel;
+    @Nullable
+    private BackoffPolicy lrsRpcRetryPolicy;
+    @Nullable
+    private SynchronizationContext.ScheduledHandle lrsRpcRetryTimer;
+    @Nullable
+    private LrsStream lrsStream;
+    private boolean started;
+
+    LoadReportClient(String str, LoadStatsManager loadStatsManager, XdsClient.XdsChannel xdsChannel, EnvoyProtoData.Node node, SynchronizationContext synchronizationContext, ScheduledExecutorService scheduledExecutorService, BackoffPolicy.Provider provider, Supplier<Stopwatch> supplier) {
+        this.loadStatsManager = (LoadStatsManager) Preconditions.checkNotNull(loadStatsManager, "loadStatsManager");
+        this.xdsChannel = (XdsClient.XdsChannel) Preconditions.checkNotNull(xdsChannel, "xdsChannel");
+        this.syncContext = (SynchronizationContext) Preconditions.checkNotNull(synchronizationContext, "syncContext");
+        this.timerService = (ScheduledExecutorService) Preconditions.checkNotNull(scheduledExecutorService, "timeService");
+        this.backoffPolicyProvider = (BackoffPolicy.Provider) Preconditions.checkNotNull(provider, "backoffPolicyProvider");
+        Preconditions.checkNotNull(supplier, "stopwatchSupplier");
+        this.retryStopwatch = supplier.get();
+        Preconditions.checkNotNull(str, "targetName");
+        Preconditions.checkNotNull(node, "node");
+        HashMap map = new HashMap();
+        if (node.getMetadata() != null) {
+            map.putAll(node.getMetadata());
+        }
+        map.put(TARGET_NAME_METADATA_KEY, str);
+        this.node = node.toBuilder().setMetadata(map).build();
+        InternalLogId internalLogIdAllocate = InternalLogId.allocate("lrs-client", str);
+        this.logId = internalLogIdAllocate;
+        XdsLogger xdsLoggerWithLogId = XdsLogger.withLogId(internalLogIdAllocate);
+        this.logger = xdsLoggerWithLogId;
+        xdsLoggerWithLogId.log(XdsLogger.XdsLogLevel.INFO, "Created");
+    }
+
+    void startLoadReporting() {
+        if (this.started) {
+            return;
+        }
+        this.started = true;
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Starting load reporting RPC");
+        startLrsRpc();
+    }
+
+    void stopLoadReporting() {
+        if (this.started) {
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Stopping load reporting RPC");
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.lrsRpcRetryTimer;
+            if (scheduledHandle != null) {
+                scheduledHandle.cancel();
+            }
+            LrsStream lrsStream = this.lrsStream;
+            if (lrsStream != null) {
+                lrsStream.close(Status.CANCELLED.withDescription("stop load reporting").asException());
+            }
+            this.started = false;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void startLrsRpc() {
+        Preconditions.checkState(this.lrsStream == null, "previous lbStream has not been cleared yet");
+        if (this.xdsChannel.isUseProtocolV3()) {
+            this.lrsStream = new LrsStreamV3();
+        } else {
+            this.lrsStream = new LrsStreamV2();
+        }
+        this.retryStopwatch.reset().start();
+        this.lrsStream.start();
+    }
+
+    static class LoadReportingTask implements Runnable {
+        private final LrsStream stream;
+
+        LoadReportingTask(LrsStream lrsStream) {
+            this.stream = lrsStream;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            this.stream.sendLoadReport();
+        }
+    }
+
+    private static final class LoadStatsRequestData {
+
+        @Nullable
+        final List<EnvoyProtoData.ClusterStats> clusterStatsList;
+        final EnvoyProtoData.Node node;
+
+        LoadStatsRequestData(EnvoyProtoData.Node node, @Nullable List<EnvoyProtoData.ClusterStats> list) {
+            this.node = (EnvoyProtoData.Node) Preconditions.checkNotNull(node, "node");
+            this.clusterStatsList = list;
+        }
+
+        LoadStatsRequest toEnvoyProtoV2() {
+            LoadStatsRequest.Builder builderNewBuilder = LoadStatsRequest.newBuilder();
+            builderNewBuilder.setNode(this.node.toEnvoyProtoNodeV2());
+            List<EnvoyProtoData.ClusterStats> list = this.clusterStatsList;
+            if (list != null) {
+                Iterator<EnvoyProtoData.ClusterStats> it2 = list.iterator();
+                while (it2.hasNext()) {
+                    builderNewBuilder.addClusterStats(it2.next().toEnvoyProtoClusterStatsV2());
+                }
+            }
+            return builderNewBuilder.m32631build();
+        }
+
+        io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsRequest toEnvoyProtoV3() {
+            LoadStatsRequest.Builder builderNewBuilder = io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsRequest.newBuilder();
+            builderNewBuilder.setNode(this.node.toEnvoyProtoNode());
+            List<EnvoyProtoData.ClusterStats> list = this.clusterStatsList;
+            if (list != null) {
+                Iterator<EnvoyProtoData.ClusterStats> it2 = list.iterator();
+                while (it2.hasNext()) {
+                    builderNewBuilder.addClusterStats(it2.next().toEnvoyProtoClusterStats());
+                }
+            }
+            return builderNewBuilder.m32724build();
+        }
+    }
+
+    private static final class LoadStatsResponseData {
+        final List<String> clusters;
+        final long loadReportingIntervalNanos;
+        final boolean sendAllClusters;
+
+        LoadStatsResponseData(boolean z, List<String> list, long j) {
+            this.sendAllClusters = z;
+            this.clusters = (List) Preconditions.checkNotNull(list, "clusters");
+            this.loadReportingIntervalNanos = j;
+        }
+
+        static LoadStatsResponseData fromEnvoyProtoV2(LoadStatsResponse loadStatsResponse) {
+            return new LoadStatsResponseData(loadStatsResponse.getSendAllClusters(), loadStatsResponse.mo32667getClustersList(), Durations.toNanos(loadStatsResponse.getLoadReportingInterval()));
+        }
+
+        static LoadStatsResponseData fromEnvoyProtoV3(io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse loadStatsResponse) {
+            return new LoadStatsResponseData(loadStatsResponse.getSendAllClusters(), loadStatsResponse.mo32760getClustersList(), Durations.toNanos(loadStatsResponse.getLoadReportingInterval()));
+        }
+
+        List<String> getClustersList() {
+            return this.clusters;
+        }
+
+        long getLoadReportingIntervalNanos() {
+            return this.loadReportingIntervalNanos;
+        }
+
+        boolean getSendAllClusters() {
+            return this.sendAllClusters;
+        }
+    }
+
+    class LrsRpcRetryTask implements Runnable {
+        LrsRpcRetryTask() {
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            LoadReportClient.this.startLrsRpc();
+        }
+    }
+
+    private abstract class LrsStream {
+        boolean closed;
+        List<String> clusterNames;
+        boolean initialResponseReceived;
+        long loadReportIntervalNano;
+        SynchronizationContext.ScheduledHandle loadReportTimer;
+        boolean reportAllClusters;
+
+        private LrsStream() {
+            this.loadReportIntervalNano = -1L;
+        }
+
+        abstract void sendError(Exception exc);
+
+        abstract void sendLoadStatsRequest(LoadStatsRequestData loadStatsRequestData);
+
+        abstract void start();
+
+        final void handleResponse(final LoadStatsResponseData loadStatsResponseData) {
+            LoadReportClient.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.LoadReportClient.LrsStream.1
+                @Override // java.lang.Runnable
+                public void run() {
+                    if (LrsStream.this.closed) {
+                        return;
+                    }
+                    if (!LrsStream.this.initialResponseReceived) {
+                        LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Initial LRS response received");
+                        LrsStream.this.initialResponseReceived = true;
+                    }
+                    LrsStream.this.reportAllClusters = loadStatsResponseData.getSendAllClusters();
+                    if (LrsStream.this.reportAllClusters) {
+                        LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Report loads for all clusters");
+                    } else {
+                        LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Report loads for clusters: ", loadStatsResponseData.getClustersList());
+                        LrsStream.this.clusterNames = loadStatsResponseData.getClustersList();
+                    }
+                    long loadReportingIntervalNanos = loadStatsResponseData.getLoadReportingIntervalNanos();
+                    LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Update load reporting interval to {0} ns", Long.valueOf(loadReportingIntervalNanos));
+                    LrsStream.this.loadReportIntervalNano = loadReportingIntervalNanos;
+                    LrsStream.this.scheduleNextLoadReport();
+                }
+            });
+        }
+
+        final void handleRpcError(final Throwable th) {
+            LoadReportClient.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.LoadReportClient.LrsStream.2
+                @Override // java.lang.Runnable
+                public void run() {
+                    LrsStream.this.handleStreamClosed(Status.fromThrowable(th));
+                }
+            });
+        }
+
+        final void handleRpcComplete() {
+            LoadReportClient.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.LoadReportClient.LrsStream.3
+                @Override // java.lang.Runnable
+                public void run() {
+                    LrsStream.this.handleStreamClosed(Status.UNAVAILABLE.withDescription("Closed by server"));
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void sendLoadReport() {
+            List<EnvoyProtoData.ClusterStats> arrayList;
+            if (this.reportAllClusters) {
+                arrayList = LoadReportClient.this.loadStatsManager.getAllLoadReports();
+            } else {
+                arrayList = new ArrayList<>();
+                Iterator<String> it2 = this.clusterNames.iterator();
+                while (it2.hasNext()) {
+                    arrayList.addAll(LoadReportClient.this.loadStatsManager.getClusterLoadReports(it2.next()));
+                }
+            }
+            sendLoadStatsRequest(new LoadStatsRequestData(LoadReportClient.this.node, arrayList));
+            scheduleNextLoadReport();
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void scheduleNextLoadReport() {
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.loadReportTimer;
+            if (scheduledHandle != null && scheduledHandle.isPending()) {
+                this.loadReportTimer.cancel();
+                this.loadReportTimer = null;
+            }
+            if (this.loadReportIntervalNano > 0) {
+                this.loadReportTimer = LoadReportClient.this.syncContext.schedule(new LoadReportingTask(this), this.loadReportIntervalNano, TimeUnit.NANOSECONDS, LoadReportClient.this.timerService);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void handleStreamClosed(Status status) {
+            Preconditions.checkArgument(!status.isOk(), "unexpected OK status");
+            if (this.closed) {
+                return;
+            }
+            LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.ERROR, "LRS stream closed with status {0}: {1}. Cause: {2}", status.getCode(), status.getDescription(), status.getCause());
+            this.closed = true;
+            cleanUp();
+            if (this.initialResponseReceived || LoadReportClient.this.lrsRpcRetryPolicy == null) {
+                LoadReportClient loadReportClient = LoadReportClient.this;
+                loadReportClient.lrsRpcRetryPolicy = loadReportClient.backoffPolicyProvider.get();
+            }
+            long jNextBackoffNanos = !this.initialResponseReceived ? LoadReportClient.this.lrsRpcRetryPolicy.nextBackoffNanos() - LoadReportClient.this.retryStopwatch.elapsed(TimeUnit.NANOSECONDS) : 0L;
+            LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Retry LRS stream in {0} ns", Long.valueOf(jNextBackoffNanos));
+            if (jNextBackoffNanos <= 0) {
+                LoadReportClient.this.startLrsRpc();
+            } else {
+                LoadReportClient loadReportClient2 = LoadReportClient.this;
+                loadReportClient2.lrsRpcRetryTimer = loadReportClient2.syncContext.schedule(LoadReportClient.this.new LrsRpcRetryTask(), jNextBackoffNanos, TimeUnit.NANOSECONDS, LoadReportClient.this.timerService);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void close(Exception exc) {
+            if (this.closed) {
+                return;
+            }
+            this.closed = true;
+            cleanUp();
+            sendError(exc);
+        }
+
+        private void cleanUp() {
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.loadReportTimer;
+            if (scheduledHandle != null) {
+                scheduledHandle.cancel();
+                this.loadReportTimer = null;
+            }
+            if (LoadReportClient.this.lrsStream == this) {
+                LoadReportClient.this.lrsStream = null;
+            }
+        }
+    }
+
+    private final class LrsStreamV2 extends LrsStream {
+        StreamObserver<LoadStatsRequest> lrsRequestWriterV2;
+
+        private LrsStreamV2() {
+            super();
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override
+        // io.grpc.xds.LoadReportClient.LrsStream
+        void start() {
+            this.lrsRequestWriterV2 = ((LoadReportingServiceGrpc.LoadReportingServiceStub) LoadReportingServiceGrpc.newStub(LoadReportClient.this.xdsChannel.getManagedChannel()).withWaitForReady()).streamLoadStats(new StreamObserver<LoadStatsResponse>() { // from class: io.grpc.xds.LoadReportClient.LrsStreamV2.1
+                @Override // io.grpc.stub.StreamObserver
+                public void onNext(LoadStatsResponse loadStatsResponse) {
+                    LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Received LRS response:\n{0}", loadStatsResponse);
+                    LrsStreamV2.this.handleResponse(LoadStatsResponseData.fromEnvoyProtoV2(loadStatsResponse));
+                }
+
+                @Override // io.grpc.stub.StreamObserver
+                public void onError(Throwable th) {
+                    LrsStreamV2.this.handleRpcError(th);
+                }
+
+                @Override // io.grpc.stub.StreamObserver
+                public void onCompleted() {
+                    LrsStreamV2.this.handleRpcComplete();
+                }
+            });
+            LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Sending initial LRS request");
+            sendLoadStatsRequest(new LoadStatsRequestData(LoadReportClient.this.node, null));
+        }
+
+        @Override
+            // io.grpc.xds.LoadReportClient.LrsStream
+        void sendLoadStatsRequest(LoadStatsRequestData loadStatsRequestData) {
+            LoadStatsRequest envoyProtoV2 = loadStatsRequestData.toEnvoyProtoV2();
+            this.lrsRequestWriterV2.onNext(envoyProtoV2);
+            LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Sent LoadStatsRequest\n{0}", envoyProtoV2);
+        }
+
+        @Override
+            // io.grpc.xds.LoadReportClient.LrsStream
+        void sendError(Exception exc) {
+            this.lrsRequestWriterV2.onError(exc);
+        }
+    }
+
+    private final class LrsStreamV3 extends LrsStream {
+        StreamObserver<io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsRequest> lrsRequestWriterV3;
+
+        private LrsStreamV3() {
+            super();
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override
+        // io.grpc.xds.LoadReportClient.LrsStream
+        void start() {
+            this.lrsRequestWriterV3 = ((LoadReportingServiceGrpc.LoadReportingServiceStub) io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadReportingServiceGrpc.newStub(LoadReportClient.this.xdsChannel.getManagedChannel()).withWaitForReady()).streamLoadStats(new StreamObserver<io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse>() { // from class: io.grpc.xds.LoadReportClient.LrsStreamV3.1
+                @Override // io.grpc.stub.StreamObserver
+                public void onNext(io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse loadStatsResponse) {
+                    LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Received LRS response:\n{0}", loadStatsResponse);
+                    LrsStreamV3.this.handleResponse(LoadStatsResponseData.fromEnvoyProtoV3(loadStatsResponse));
+                }
+
+                @Override // io.grpc.stub.StreamObserver
+                public void onError(Throwable th) {
+                    LrsStreamV3.this.handleRpcError(th);
+                }
+
+                @Override // io.grpc.stub.StreamObserver
+                public void onCompleted() {
+                    LrsStreamV3.this.handleRpcComplete();
+                }
+            });
+            LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Sending initial LRS request");
+            sendLoadStatsRequest(new LoadStatsRequestData(LoadReportClient.this.node, null));
+        }
+
+        @Override
+            // io.grpc.xds.LoadReportClient.LrsStream
+        void sendLoadStatsRequest(LoadStatsRequestData loadStatsRequestData) {
+            io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsRequest envoyProtoV3 = loadStatsRequestData.toEnvoyProtoV3();
+            this.lrsRequestWriterV3.onNext(envoyProtoV3);
+            LoadReportClient.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Sent LoadStatsRequest\n{0}", envoyProtoV3);
+        }
+
+        @Override
+            // io.grpc.xds.LoadReportClient.LrsStream
+        void sendError(Exception exc) {
+            this.lrsRequestWriterV3.onError(exc);
+        }
+    }
+}

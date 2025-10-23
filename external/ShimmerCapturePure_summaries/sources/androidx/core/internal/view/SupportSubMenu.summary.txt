@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/internal/view/SupportSubMenu.java
+// Size: 171 bytes
+// Modified: 2025-10-21 16:32:00.750238700 +0100
+
+package androidx.core.internal.view;
+
+import android.view.SubMenu;
+
+/* loaded from: classes.dex */
+public interface SupportSubMenu extends SupportMenu, SubMenu {
+}

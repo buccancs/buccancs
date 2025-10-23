@@ -1,0 +1,904 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/XYGraphWidget.java
+// Size: 30709 bytes
+// Modified: 2025-10-21 16:32:13.066033300 +0100
+
+package com.androidplot.xy;
+
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.Region;
+import androidx.core.view.InputDeviceCompat;
+import com.androidplot.exception.PlotRenderException;
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.widget.Widget;
+import com.androidplot.util.FontUtils;
+import com.androidplot.util.ValPixConverter;
+import com.androidplot.util.ZHash;
+import com.androidplot.util.ZIndexable;
+import java.text.DecimalFormat;
+import java.text.Format;
+import java.util.Iterator;
+
+/* loaded from: classes.dex */
+public class XYGraphWidget extends Widget {
+    private Format A;
+    private Paint B;
+    private Paint C;
+    private Paint D;
+    private Paint E;
+    private RectF F;
+    private RectF G;
+    private float H;
+    private float I;
+    private boolean J;
+    private boolean K;
+    private boolean L;
+    private boolean M;
+    private ZHash<RectRegion, AxisValueLabelFormatter> N;
+    private float a;
+    private float b;
+    private float c;
+    private float d;
+    private float e;
+    private float f;
+    private int g;
+    private int h;
+    private float i;
+    private float j;
+    private float k;
+    private float l;
+    private int m;
+    private int n;
+    private Paint o;
+    private Paint p;
+    private Paint q;
+    private Paint r;
+    private Paint s;
+    private Paint t;
+    private Paint u;
+    private Paint v;
+    private Paint w;
+    private Paint x;
+    private XYPlot y;
+    private Format z;
+
+    public enum XYPlotOrientation {
+        HORIZONTAL,
+        VERTICAL
+    }
+
+    public ZIndexable<RectRegion> getAxisValueLabelRegions() {
+        return this.N;
+    }
+
+    public Paint getCursorLabelBackgroundPaint() {
+        return this.x;
+    }
+
+    public Paint getCursorLabelPaint() {
+        return this.w;
+    }
+
+    public float getDomainCursorPosition() {
+        return this.H;
+    }
+
+    public float getDomainLabelHorizontalOffset() {
+        return this.d;
+    }
+
+    public Paint getDomainLabelPaint() {
+        return this.s;
+    }
+
+    public int getDomainLabelTickExtension() {
+        return this.m;
+    }
+
+    public float getDomainLabelVerticalOffset() {
+        return this.c;
+    }
+
+    public float getDomainLabelWidth() {
+        return this.a;
+    }
+
+    public Paint getDomainOriginLabelPaint() {
+        return this.D;
+    }
+
+    public Paint getDomainOriginLinePaint() {
+        return this.B;
+    }
+
+    public Format getDomainValueFormat() {
+        return this.A;
+    }
+
+    public Paint getGridBackgroundPaint() {
+        return this.o;
+    }
+
+    public Paint getGridLinePaint() {
+        return this.p;
+    }
+
+    public float getGridPaddingBottom() {
+        return this.j;
+    }
+
+    public float getGridPaddingLeft() {
+        return this.k;
+    }
+
+    public float getGridPaddingRight() {
+        return this.l;
+    }
+
+    public float getGridPaddingTop() {
+        return this.i;
+    }
+
+    public RectF getGridRect() {
+        return this.G;
+    }
+
+    public float getRangeCursorPosition() {
+        return this.I;
+    }
+
+    public float getRangeLabelHorizontalOffset() {
+        return this.e;
+    }
+
+    public Paint getRangeLabelPaint() {
+        return this.t;
+    }
+
+    public int getRangeLabelTickExtension() {
+        return this.n;
+    }
+
+    public float getRangeLabelVerticalOffset() {
+        return this.f;
+    }
+
+    public float getRangeLabelWidth() {
+        return this.b;
+    }
+
+    public Paint getRangeOriginLabelPaint() {
+        return this.E;
+    }
+
+    public Paint getRangeOriginLinePaint() {
+        return this.C;
+    }
+
+    @Deprecated
+    public int getRangeTicksPerLabel() {
+        return this.g;
+    }
+
+    public Format getRangeValueFormat() {
+        return this.z;
+    }
+
+    public int getTicksPerDomainLabel() {
+        return this.h;
+    }
+
+    public int getTicksPerRangeLabel() {
+        return this.g;
+    }
+
+    public boolean isDomainAxisBottom() {
+        return this.M;
+    }
+
+    public boolean isDrawMarkersEnabled() {
+        return this.K;
+    }
+
+    public boolean isRangeAxisLeft() {
+        return this.L;
+    }
+
+    public void setCursorLabelBackgroundPaint(Paint paint) {
+        this.x = paint;
+    }
+
+    public void setCursorLabelPaint(Paint paint) {
+        this.w = paint;
+    }
+
+    public void setDomainAxisBottom(boolean z) {
+        this.M = z;
+    }
+
+    public void setDomainCursorPosition(float f) {
+        this.H = f;
+    }
+
+    public void setDomainLabelHorizontalOffset(float f) {
+        this.d = f;
+    }
+
+    public void setDomainLabelPaint(Paint paint) {
+        this.s = paint;
+    }
+
+    public void setDomainLabelTickExtension(int i) {
+        this.m = i;
+    }
+
+    public void setDomainLabelVerticalOffset(float f) {
+        this.c = f;
+    }
+
+    public void setDomainLabelWidth(float f) {
+        this.a = f;
+    }
+
+    public void setDomainOriginLabelPaint(Paint paint) {
+        this.D = paint;
+    }
+
+    public void setDomainOriginLinePaint(Paint paint) {
+        this.B = paint;
+    }
+
+    public void setDomainValueFormat(Format format) {
+        this.A = format;
+    }
+
+    public void setDrawMarkersEnabled(boolean z) {
+        this.K = z;
+    }
+
+    public void setGridBackgroundPaint(Paint paint) {
+        this.o = paint;
+    }
+
+    public void setGridPaddingBottom(float f) {
+        this.j = f;
+    }
+
+    public void setGridPaddingLeft(float f) {
+        this.k = f;
+    }
+
+    public void setGridPaddingRight(float f) {
+        this.l = f;
+    }
+
+    public void setGridPaddingTop(float f) {
+        this.i = f;
+    }
+
+    public void setRangeAxisLeft(boolean z) {
+        this.L = z;
+    }
+
+    public void setRangeCursorPosition(float f) {
+        this.I = f;
+    }
+
+    public void setRangeLabelHorizontalOffset(float f) {
+        this.e = f;
+    }
+
+    public void setRangeLabelPaint(Paint paint) {
+        this.t = paint;
+    }
+
+    public void setRangeLabelTickExtension(int i) {
+        this.n = i;
+    }
+
+    public void setRangeLabelVerticalOffset(float f) {
+        this.f = f;
+    }
+
+    public void setRangeLabelWidth(float f) {
+        this.b = f;
+    }
+
+    public void setRangeOriginLabelPaint(Paint paint) {
+        this.E = paint;
+    }
+
+    public void setRangeOriginLinePaint(Paint paint) {
+        this.C = paint;
+    }
+
+    @Deprecated
+    public void setRangeTicksPerLabel(int i) {
+        this.g = i;
+    }
+
+    public void setRangeValueFormat(Format format) {
+        this.z = format;
+    }
+
+    public void setTicksPerDomainLabel(int i) {
+        this.h = i;
+    }
+
+    public void setTicksPerRangeLabel(int i) {
+        this.g = i;
+    }
+
+    public XYGraphWidget(XYPlot xYPlot, SizeMetrics sizeMetrics) {
+        super(sizeMetrics);
+        this.a = 15.0f;
+        this.b = 41.0f;
+        this.c = -5.0f;
+        this.d = 0.0f;
+        this.e = 1.0f;
+        this.f = 0.0f;
+        this.g = 1;
+        this.h = 1;
+        this.i = 0.0f;
+        this.j = 0.0f;
+        this.k = 0.0f;
+        this.l = 0.0f;
+        this.m = 5;
+        this.n = 5;
+        this.J = true;
+        this.K = true;
+        this.L = true;
+        this.M = true;
+        Paint paint = new Paint();
+        this.o = paint;
+        paint.setColor(Color.rgb(140, 140, 140));
+        this.o.setStyle(Paint.Style.FILL);
+        Paint paint2 = new Paint();
+        this.p = paint2;
+        paint2.setColor(Color.rgb(180, 180, 180));
+        this.p.setAntiAlias(true);
+        this.p.setStyle(Paint.Style.STROKE);
+        Paint paint3 = this.p;
+        this.q = paint3;
+        this.r = paint3;
+        Paint paint4 = new Paint();
+        this.B = paint4;
+        paint4.setColor(-1);
+        this.B.setAntiAlias(true);
+        Paint paint5 = new Paint();
+        this.C = paint5;
+        paint5.setColor(-1);
+        this.C.setAntiAlias(true);
+        Paint paint6 = new Paint();
+        this.D = paint6;
+        paint6.setColor(-1);
+        this.D.setAntiAlias(true);
+        this.D.setTextAlign(Paint.Align.CENTER);
+        Paint paint7 = new Paint();
+        this.E = paint7;
+        paint7.setColor(-1);
+        this.E.setAntiAlias(true);
+        this.E.setTextAlign(Paint.Align.RIGHT);
+        Paint paint8 = new Paint();
+        this.s = paint8;
+        paint8.setColor(-3355444);
+        this.s.setAntiAlias(true);
+        this.s.setTextAlign(Paint.Align.CENTER);
+        Paint paint9 = new Paint();
+        this.t = paint9;
+        paint9.setColor(-3355444);
+        this.t.setAntiAlias(true);
+        this.t.setTextAlign(Paint.Align.RIGHT);
+        Paint paint10 = new Paint();
+        this.u = paint10;
+        paint10.setColor(InputDeviceCompat.SOURCE_ANY);
+        Paint paint11 = new Paint();
+        this.v = paint11;
+        paint11.setColor(InputDeviceCompat.SOURCE_ANY);
+        Paint paint12 = new Paint();
+        this.w = paint12;
+        paint12.setColor(InputDeviceCompat.SOURCE_ANY);
+        Paint paint13 = new Paint();
+        this.x = paint13;
+        paint13.setColor(Color.argb(100, 50, 50, 50));
+        setMarginTop(7.0f);
+        setMarginRight(4.0f);
+        setMarginBottom(4.0f);
+        this.z = new DecimalFormat("0.0");
+        this.A = new DecimalFormat("0.0");
+        this.N = new ZHash<>();
+        this.y = xYPlot;
+    }
+
+    public void addAxisValueLabelRegion(RectRegion rectRegion, AxisValueLabelFormatter axisValueLabelFormatter) {
+        this.N.addToTop(rectRegion, axisValueLabelFormatter);
+    }
+
+    public void addDomainAxisValueLabelRegion(double d, double d2, AxisValueLabelFormatter axisValueLabelFormatter) {
+        addAxisValueLabelRegion(new RectRegion(Double.valueOf(d), Double.valueOf(d2), Double.valueOf(Double.POSITIVE_INFINITY), Double.valueOf(Double.NEGATIVE_INFINITY), null), axisValueLabelFormatter);
+    }
+
+    public void addRangeAxisValueLabelRegion(double d, double d2, AxisValueLabelFormatter axisValueLabelFormatter) {
+        addAxisValueLabelRegion(new RectRegion(Double.valueOf(Double.POSITIVE_INFINITY), Double.valueOf(Double.NEGATIVE_INFINITY), Double.valueOf(d), Double.valueOf(d2), null), axisValueLabelFormatter);
+    }
+
+    public AxisValueLabelFormatter getAxisValueLabelFormatterForVal(double d, double d2) {
+        for (RectRegion rectRegion : this.N.elements()) {
+            if (rectRegion.containsValue(Double.valueOf(d), Double.valueOf(d2))) {
+                return this.N.get(rectRegion);
+            }
+        }
+        return null;
+    }
+
+    public AxisValueLabelFormatter getAxisValueLabelFormatterForDomainVal(double d) {
+        for (RectRegion rectRegion : this.N.elements()) {
+            if (rectRegion.containsDomainValue(Double.valueOf(d))) {
+                return this.N.get(rectRegion);
+            }
+        }
+        return null;
+    }
+
+    public AxisValueLabelFormatter getAxisValueLabelFormatterForRangeVal(double d) {
+        for (RectRegion rectRegion : this.N.elements()) {
+            if (rectRegion.containsRangeValue(Double.valueOf(d))) {
+                return this.N.get(rectRegion);
+            }
+        }
+        return null;
+    }
+
+    private String a(Number number) {
+        return this.z.format(number);
+    }
+
+    private String b(Number number) {
+        return this.A.format(number);
+    }
+
+    public Double getYVal(PointF pointF) {
+        return getYVal(pointF.y);
+    }
+
+    public Double getYVal(float f) {
+        if (this.y.getCalculatedMinY() == null || this.y.getCalculatedMaxY() == null) {
+            return null;
+        }
+        return Double.valueOf(ValPixConverter.pixToVal(f - this.G.top, this.y.getCalculatedMinY().doubleValue(), this.y.getCalculatedMaxY().doubleValue(), this.G.height(), true));
+    }
+
+    public Double getXVal(PointF pointF) {
+        return getXVal(pointF.x);
+    }
+
+    public Double getXVal(float f) {
+        if (this.y.getCalculatedMinX() == null || this.y.getCalculatedMaxX() == null) {
+            return null;
+        }
+        return Double.valueOf(ValPixConverter.pixToVal(f - this.G.left, this.y.getCalculatedMinX().doubleValue(), this.y.getCalculatedMaxX().doubleValue(), this.G.width(), false));
+    }
+
+    @Override // com.androidplot.ui.widget.Widget
+    protected void doOnDraw(Canvas canvas, RectF rectF) throws PlotRenderException {
+        boolean z;
+        RectF rectF2 = new RectF(rectF.left + (this.L ? this.b : 1.0f), rectF.top + (this.M ? 1.0f : this.a), rectF.right - (this.L ? 1.0f : this.b), rectF.bottom - (this.M ? this.a : 1.0f));
+        this.F = rectF2;
+        RectF rectF3 = new RectF(rectF2.left + this.k, rectF2.top + this.i, rectF2.right - this.l, rectF2.bottom - this.j);
+        this.G = rectF3;
+        if (rectF3.height() <= 0.0f || this.G.width() <= 0.0f || this.y.getCalculatedMinX() == null || this.y.getCalculatedMaxX() == null || this.y.getCalculatedMinY() == null || this.y.getCalculatedMaxY() == null) {
+            return;
+        }
+        a(canvas);
+        c(canvas);
+        boolean z2 = true;
+        if (this.u == null || this.H > this.G.right || this.H < this.G.left) {
+            z = false;
+        } else {
+            canvas.drawLine(this.H, this.G.top, this.H, this.G.bottom, this.u);
+            z = true;
+        }
+        if (this.v == null || this.I < this.G.top || this.I > this.G.bottom) {
+            z2 = false;
+        } else {
+            canvas.drawLine(this.G.left, this.I, this.G.right, this.I, this.v);
+        }
+        if (this.J && this.w != null && z2 && z) {
+            String str = ("X=" + getDomainValueFormat().format(getDomainCursorVal())) + " Y=" + getRangeValueFormat().format(getRangeCursorVal());
+            RectF rectF4 = new RectF(FontUtils.getPackedStringDimensions(str, this.w));
+            rectF4.offsetTo(this.H, this.I - rectF4.height());
+            if (rectF4.right >= this.G.right) {
+                rectF4.offsetTo(this.H - rectF4.width(), rectF4.top);
+            }
+            if (rectF4.top <= this.G.top) {
+                rectF4.offsetTo(rectF4.left, this.I);
+            }
+            Paint paint = this.x;
+            if (paint != null) {
+                canvas.drawRect(rectF4, paint);
+            }
+            canvas.drawText(str, rectF4.left, rectF4.bottom, this.w);
+        }
+        if (isDrawMarkersEnabled()) {
+            b(canvas);
+        }
+    }
+
+    static /* synthetic */ class a {
+        static final /* synthetic */ int[] a;
+
+        static {
+            int[] iArr = new int[XYAxisType.values().length];
+            a = iArr;
+            try {
+                iArr[XYAxisType.DOMAIN.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                a[XYAxisType.RANGE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+        }
+    }
+
+    private void a(Canvas canvas, XYAxisType xYAxisType, Number number, float f, float f2, Paint paint) {
+        AxisValueLabelFormatter axisValueLabelFormatterForDomainVal;
+        String strB;
+        double dDoubleValue = number.doubleValue();
+        int i = a.a[xYAxisType.ordinal()];
+        if (i == 1) {
+            axisValueLabelFormatterForDomainVal = getAxisValueLabelFormatterForDomainVal(dDoubleValue);
+            strB = b(number);
+        } else if (i != 2) {
+            axisValueLabelFormatterForDomainVal = null;
+            strB = null;
+        } else {
+            axisValueLabelFormatterForDomainVal = getAxisValueLabelFormatterForRangeVal(dDoubleValue);
+            strB = a(number);
+        }
+        if (axisValueLabelFormatterForDomainVal != null) {
+            Paint paint2 = new Paint(paint);
+            paint2.setColor(axisValueLabelFormatterForDomainVal.getColor());
+            paint = paint2;
+        }
+        canvas.drawText(strB, f, f2, paint);
+    }
+
+    private void a(Canvas canvas, float f, Number number, Paint paint, Paint paint2, boolean z) {
+        float f2;
+        if (z) {
+            if (paint2 != null) {
+                canvas.drawLine(f, this.F.top, f, this.F.bottom, paint2);
+                return;
+            }
+            return;
+        }
+        if (paint2 != null) {
+            if (this.M) {
+                canvas.drawLine(f, this.F.top, f, this.F.bottom + this.m, paint2);
+            } else {
+                canvas.drawLine(f, this.F.top - this.m, f, this.F.bottom, paint2);
+            }
+        }
+        if (paint != null) {
+            float fontHeight = FontUtils.getFontHeight(paint);
+            if (this.M) {
+                f2 = this.F.bottom + this.m + this.c + fontHeight;
+            } else {
+                f2 = (this.F.top - this.m) - this.c;
+            }
+            a(canvas, XYAxisType.DOMAIN, number, f + this.d, f2, paint);
+        }
+    }
+
+    public void drawRangeTick(Canvas canvas, float f, Number number, Paint paint, Paint paint2, boolean z) {
+        float f2;
+        if (z) {
+            if (paint2 != null) {
+                canvas.drawLine(this.F.left, f, this.F.right, f, paint2);
+                return;
+            }
+            return;
+        }
+        if (paint2 != null) {
+            if (this.L) {
+                canvas.drawLine(this.F.left - this.n, f, this.F.right, f, paint2);
+            } else {
+                canvas.drawLine(this.F.left, f, this.F.right + this.n, f, paint2);
+            }
+        }
+        if (paint != null) {
+            if (this.L) {
+                f2 = this.F.left - (this.n + this.e);
+            } else {
+                f2 = this.F.right + this.n + this.e;
+            }
+            a(canvas, XYAxisType.RANGE, number, f2, f - this.f, paint);
+        }
+    }
+
+    private void a(Canvas canvas) throws PlotRenderException {
+        float fValToPix;
+        float fValToPix2;
+        Paint paint = this.o;
+        if (paint != null) {
+            canvas.drawRect(this.F, paint);
+        }
+        if (this.y.getDomainOrigin() != null) {
+            fValToPix = ValPixConverter.valToPix(this.y.getDomainOrigin().doubleValue(), this.y.getCalculatedMinX().doubleValue(), this.y.getCalculatedMaxX().doubleValue(), this.G.width(), false) + this.G.left;
+        } else {
+            fValToPix = this.G.left;
+        }
+        float f = fValToPix;
+        XYStep step = XYStepCalculator.getStep(this.y, XYAxisType.DOMAIN, this.G, Double.valueOf(this.y.getCalculatedMinX().doubleValue()), Double.valueOf(this.y.getCalculatedMaxX().doubleValue()));
+        if (f >= this.G.left && f <= this.G.right) {
+            Paint paint2 = this.B;
+            if (paint2 != null) {
+                paint2.setTextAlign(Paint.Align.CENTER);
+            }
+            a(canvas, f, (Number) Double.valueOf(this.y.getDomainOrigin().doubleValue()), this.D, this.B, false);
+        }
+        int i = 1;
+        float stepPix = f - step.getStepPix();
+        int i2 = 1;
+        while (stepPix >= this.G.left) {
+            double dDoubleValue = this.y.getDomainOrigin().doubleValue() - (i2 * step.getStepVal());
+            if (stepPix >= this.G.left && stepPix <= this.G.right) {
+                if (i2 % getTicksPerDomainLabel() == 0) {
+                    a(canvas, stepPix, (Number) Double.valueOf(dDoubleValue), this.s, this.r, false);
+                } else {
+                    a(canvas, stepPix, (Number) Double.valueOf(dDoubleValue), this.s, this.r, true);
+                }
+            }
+            i2++;
+            stepPix = f - (i2 * step.getStepPix());
+        }
+        float stepPix2 = step.getStepPix() + f;
+        int i3 = 1;
+        while (stepPix2 <= this.G.right) {
+            double dDoubleValue2 = this.y.getDomainOrigin().doubleValue() + (i3 * step.getStepVal());
+            if (stepPix2 >= this.G.left && stepPix2 <= this.G.right) {
+                if (i3 % getTicksPerDomainLabel() == 0) {
+                    a(canvas, stepPix2, (Number) Double.valueOf(dDoubleValue2), this.s, this.r, false);
+                } else {
+                    a(canvas, stepPix2, (Number) Double.valueOf(dDoubleValue2), this.s, this.r, true);
+                }
+            }
+            i3++;
+            stepPix2 = f + (i3 * step.getStepPix());
+        }
+        if (this.y.getRangeOrigin() != null) {
+            fValToPix2 = ValPixConverter.valToPix(this.y.getRangeOrigin().doubleValue(), this.y.getCalculatedMinY().doubleValue(), this.y.getCalculatedMaxY().doubleValue(), this.G.height(), true) + this.G.top;
+        } else {
+            fValToPix2 = this.G.bottom;
+        }
+        float f2 = fValToPix2;
+        XYStep step2 = XYStepCalculator.getStep(this.y, XYAxisType.RANGE, this.G, Double.valueOf(this.y.getCalculatedMinY().doubleValue()), Double.valueOf(this.y.getCalculatedMaxY().doubleValue()));
+        if (f2 >= this.G.top && f2 <= this.G.bottom) {
+            Paint paint3 = this.C;
+            if (paint3 != null) {
+                paint3.setTextAlign(Paint.Align.RIGHT);
+            }
+            drawRangeTick(canvas, f2, Double.valueOf(this.y.getRangeOrigin().doubleValue()), this.E, this.C, false);
+        }
+        float stepPix3 = f2 - step2.getStepPix();
+        int i4 = 1;
+        while (stepPix3 >= this.G.top) {
+            double dDoubleValue3 = this.y.getRangeOrigin().doubleValue() + (i4 * step2.getStepVal());
+            if (stepPix3 >= this.G.top && stepPix3 <= this.G.bottom) {
+                if (i4 % getTicksPerRangeLabel() == 0) {
+                    drawRangeTick(canvas, stepPix3, Double.valueOf(dDoubleValue3), this.t, this.q, false);
+                } else {
+                    drawRangeTick(canvas, stepPix3, Double.valueOf(dDoubleValue3), this.t, this.q, true);
+                }
+            }
+            i4++;
+            stepPix3 = f2 - (i4 * step2.getStepPix());
+        }
+        float stepPix4 = step2.getStepPix() + f2;
+        while (stepPix4 <= this.G.bottom) {
+            double dDoubleValue4 = this.y.getRangeOrigin().doubleValue() - (i * step2.getStepVal());
+            if (stepPix4 >= this.G.top && stepPix4 <= this.G.bottom) {
+                if (i % getTicksPerRangeLabel() == 0) {
+                    drawRangeTick(canvas, stepPix4, Double.valueOf(dDoubleValue4), this.t, this.q, false);
+                } else {
+                    drawRangeTick(canvas, stepPix4, Double.valueOf(dDoubleValue4), this.t, this.q, true);
+                }
+            }
+            i++;
+            stepPix4 = f2 + (i * step2.getStepPix());
+        }
+    }
+
+    private void a(Canvas canvas, String str, ValueMarker valueMarker, float f, float f2) {
+        RectF rectF = new RectF(FontUtils.getStringDimensions(str, valueMarker.getTextPaint()));
+        rectF.offsetTo(f + 2.0f, (f2 - 2.0f) - rectF.height());
+        if (rectF.right > this.G.right) {
+            rectF.offset(-(rectF.right - this.G.right), 0.0f);
+        }
+        if (rectF.top < this.G.top) {
+            rectF.offset(0.0f, this.G.top - rectF.top);
+        }
+        canvas.drawText(str, rectF.left, rectF.bottom, valueMarker.getTextPaint());
+    }
+
+    private void b(Canvas canvas) {
+        for (YValueMarker yValueMarker : this.y.a) {
+            if (yValueMarker.getValue() != null) {
+                float fValToPix = ValPixConverter.valToPix(yValueMarker.getValue().doubleValue(), this.y.getCalculatedMinY().doubleValue(), this.y.getCalculatedMaxY().doubleValue(), this.G.height(), true) + this.G.top;
+                canvas.drawLine(this.G.left, fValToPix, this.G.right, fValToPix, yValueMarker.getLinePaint());
+                float pixelValue = yValueMarker.getTextPosition().getPixelValue(this.G.width()) + this.G.left;
+                if (yValueMarker.getText() != null) {
+                    a(canvas, yValueMarker.getText(), yValueMarker, pixelValue, fValToPix);
+                } else {
+                    a(canvas, a(yValueMarker.getValue()), yValueMarker, pixelValue, fValToPix);
+                }
+            }
+        }
+        for (XValueMarker xValueMarker : this.y.b) {
+            if (xValueMarker.getValue() != null) {
+                float fValToPix2 = ValPixConverter.valToPix(xValueMarker.getValue().doubleValue(), this.y.getCalculatedMinX().doubleValue(), this.y.getCalculatedMaxX().doubleValue(), this.G.width(), false) + this.G.left;
+                canvas.drawLine(fValToPix2, this.G.top, fValToPix2, this.G.bottom, xValueMarker.getLinePaint());
+                float pixelValue2 = xValueMarker.getTextPosition().getPixelValue(this.G.height()) + this.G.top;
+                if (xValueMarker.getText() != null) {
+                    a(canvas, xValueMarker.getText(), xValueMarker, fValToPix2, pixelValue2);
+                } else {
+                    a(canvas, b(xValueMarker.getValue()), xValueMarker, fValToPix2, pixelValue2);
+                }
+            }
+        }
+    }
+
+    private void c(Canvas canvas) throws PlotRenderException {
+        try {
+            canvas.save(31);
+            canvas.clipRect(this.F, Region.Op.INTERSECT);
+            Iterator<XYSeriesRenderer> it2 = this.y.getRendererList().iterator();
+            while (it2.hasNext()) {
+                it2.next().render(canvas, this.G);
+            }
+        } finally {
+            canvas.restore();
+        }
+    }
+
+    public void setGridLinePaint(Paint paint) {
+        if (paint == null) {
+            this.p = null;
+        } else {
+            Paint paint2 = new Paint(paint);
+            this.p = paint2;
+            paint2.setStyle(Paint.Style.STROKE);
+        }
+        Paint paint3 = this.p;
+        this.r = paint3;
+        this.q = paint3;
+    }
+
+    public Paint getGridDomainLinePaint() {
+        if (this.r == this.q) {
+            Paint paint = new Paint(this.q);
+            this.r = paint;
+            paint.setStyle(Paint.Style.STROKE);
+        }
+        return this.r;
+    }
+
+    public void setGridDomainLinePaint(Paint paint) {
+        if (paint == null) {
+            this.r = null;
+            return;
+        }
+        Paint paint2 = new Paint(paint);
+        this.r = paint2;
+        paint2.setStyle(Paint.Style.STROKE);
+    }
+
+    public Paint getGridRangeLinePaint() {
+        if (this.r == this.q) {
+            Paint paint = new Paint(this.q);
+            this.r = paint;
+            paint.setStyle(Paint.Style.STROKE);
+        }
+        return this.q;
+    }
+
+    public void setGridRangeLinePaint(Paint paint) {
+        if (paint == null) {
+            this.q = null;
+            return;
+        }
+        Paint paint2 = new Paint(paint);
+        this.q = paint2;
+        paint2.setStyle(Paint.Style.STROKE);
+    }
+
+    public void setCursorPosition(float f, float f2) {
+        setDomainCursorPosition(f);
+        setRangeCursorPosition(f2);
+    }
+
+    public void setCursorPosition(PointF pointF) {
+        setCursorPosition(pointF.x, pointF.y);
+    }
+
+    public Double getDomainCursorVal() {
+        return getXVal(getDomainCursorPosition());
+    }
+
+    public Double getRangeCursorVal() {
+        return getYVal(getRangeCursorPosition());
+    }
+
+    public void setRangeAxisPosition(boolean z, boolean z2, int i, String str) {
+        setRangeAxisLeft(z);
+        if (z2) {
+            setRangeLabelWidth(1.0f);
+            setRangeLabelHorizontalOffset(-2.0f);
+            setRangeLabelVerticalOffset(2.0f);
+            Paint rangeLabelPaint = getRangeLabelPaint();
+            if (rangeLabelPaint != null) {
+                rangeLabelPaint.setTextAlign(z ? Paint.Align.LEFT : Paint.Align.RIGHT);
+            }
+            Paint rangeOriginLabelPaint = getRangeOriginLabelPaint();
+            if (rangeOriginLabelPaint != null) {
+                rangeOriginLabelPaint.setTextAlign(z ? Paint.Align.LEFT : Paint.Align.RIGHT);
+            }
+            setRangeLabelTickExtension(0);
+            return;
+        }
+        setRangeLabelWidth(1.0f);
+        setRangeLabelHorizontalOffset(1.0f);
+        setRangeLabelTickExtension(i);
+        Paint rangeLabelPaint2 = getRangeLabelPaint();
+        if (rangeLabelPaint2 != null) {
+            rangeLabelPaint2.setTextAlign(!z ? Paint.Align.LEFT : Paint.Align.RIGHT);
+            Rect packedStringDimensions = FontUtils.getPackedStringDimensions(str, rangeLabelPaint2);
+            setRangeLabelVerticalOffset(packedStringDimensions.top / 2);
+            setRangeLabelWidth(packedStringDimensions.right + getRangeLabelTickExtension());
+        }
+        Paint rangeOriginLabelPaint2 = getRangeOriginLabelPaint();
+        if (rangeOriginLabelPaint2 != null) {
+            rangeOriginLabelPaint2.setTextAlign(!z ? Paint.Align.LEFT : Paint.Align.RIGHT);
+        }
+    }
+
+    public void setDomainAxisPosition(boolean z, boolean z2, int i, String str) {
+        setDomainAxisBottom(z);
+        if (z2) {
+            setDomainLabelWidth(1.0f);
+            setDomainLabelVerticalOffset(2.0f);
+            setDomainLabelTickExtension(0);
+            Paint domainLabelPaint = getDomainLabelPaint();
+            if (domainLabelPaint != null) {
+                FontUtils.getFontHeight(domainLabelPaint);
+                Rect packedStringDimensions = FontUtils.getPackedStringDimensions(str, domainLabelPaint);
+                if (z) {
+                    setDomainLabelVerticalOffset(packedStringDimensions.top * 2);
+                    return;
+                } else {
+                    setDomainLabelVerticalOffset(packedStringDimensions.top - 1.0f);
+                    return;
+                }
+            }
+            return;
+        }
+        setDomainLabelWidth(1.0f);
+        setDomainLabelTickExtension(i);
+        Paint domainLabelPaint2 = getDomainLabelPaint();
+        if (domainLabelPaint2 != null) {
+            float fontHeight = FontUtils.getFontHeight(domainLabelPaint2);
+            FontUtils.getPackedStringDimensions(str, domainLabelPaint2);
+            if (z) {
+                setDomainLabelVerticalOffset(-4.0f);
+            } else {
+                setDomainLabelVerticalOffset(1.0f);
+            }
+            setDomainLabelWidth(fontHeight + getDomainLabelTickExtension());
+        }
+    }
+}

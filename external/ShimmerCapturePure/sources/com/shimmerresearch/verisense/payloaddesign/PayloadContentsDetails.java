@@ -1,0 +1,409 @@
+package com.shimmerresearch.verisense.payloaddesign;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.driverUtilities.UtilParseData;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import com.shimmerresearch.verisense.VerisenseDevice;
+import com.shimmerresearch.verisense.payloaddesign.AsmBinaryFileConstants;
+import com.shimmerresearch.verisense.payloaddesign.DataBlockDetails;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeMap;
+import java.util.zip.DataFormatException;
+
+/* loaded from: classes2.dex */
+public abstract class PayloadContentsDetails implements Serializable {
+    public static final List<AbstractSensor.SENSORS> SENSORS_TO_EXCLUDE_FROM_SENSOR_CSV_GENERATION = Arrays.asList(AbstractSensor.SENSORS.CLOCK);
+    private static final long serialVersionUID = -7481013763683220629L;
+    public static boolean DEBUG_ACCEL_ARRAYS = false;
+    public static boolean SPLIT_CSVS_AT_MIDDAY_AND_MIDNIGHT = true;
+    private static boolean DEBUG_DATA_BLOCKS = false;
+    public transient VerisenseDevice verisenseDevice;
+    public transient DatasetToSave datasetToSave = new DatasetToSave();
+    protected transient List<DataBlockDetails> listOfDataBlocksInOrder = new ArrayList();
+    protected transient byte[] byteBuffer = null;
+    protected Set<DataBlockDetails.DATABLOCK_SENSOR_ID> setOfPayloadSensorIds = new HashSet();
+    private VerisenseTimeDetails timeDetailsRwc = new VerisenseTimeDetails();
+    private VerisenseTimeDetails timeDetailsUcClock = new VerisenseTimeDetails();
+    private long temperatureUncal = 0;
+    private double temperatureCal = 0.0d;
+    private long batteryVoltageCal = -1;
+    private int payloadIndex = 0;
+    private int payloadSplitIndex = 0;
+    private double payloadPackagingDelayMs = Double.NaN;
+
+    public PayloadContentsDetails(VerisenseDevice verisenseDevice) {
+        this.verisenseDevice = verisenseDevice;
+    }
+
+    /* JADX WARN: Type inference failed for: r0v0, types: [boolean, int] */
+    public static int calculateExtendedPayloadConfigBytesSize(ShimmerVerObject shimmerVerObject) {
+        ??IsPayloadDesignV2orAbove = isPayloadDesignV2orAbove(shimmerVerObject);
+        int i = IsPayloadDesignV2orAbove;
+        if (isPayloadDesignV3orAbove(shimmerVerObject)) {
+            i = IsPayloadDesignV2orAbove + 4;
+        }
+        int i2 = i;
+        if (isPayloadDesignV4orAbove(shimmerVerObject)) {
+            i2 = i + 5;
+        }
+        int i3 = i2;
+        if (isPayloadDesignV5orAbove(shimmerVerObject)) {
+            i3 = i2 + 1;
+        }
+        int i4 = i3;
+        if (isPayloadDesignV6orAbove(shimmerVerObject)) {
+            i4 = i3 + 2;
+        }
+        int i5 = i4;
+        if (isPayloadDesignV7orAbove(shimmerVerObject)) {
+            i5 = i4 + 1;
+        }
+        int i6 = i5;
+        if (isPayloadDesignV8orAbove(shimmerVerObject)) {
+            i6 = i5 + 4;
+        }
+        return isPayloadDesignV12orAbove(shimmerVerObject) ? i6 + 1 : i6;
+    }
+
+    public static boolean isPayloadDesignV1orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_SPECIAL_VERSIONS.V_0_31_000);
+    }
+
+    public static boolean isPayloadDesignV2orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF19_027);
+    }
+
+    public static boolean isPayloadDesignV3orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF19_035);
+    }
+
+    public static boolean isPayloadDesignV4orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF20_012_1);
+    }
+
+    public static boolean isPayloadDesignV5orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF20_012_2);
+    }
+
+    public static boolean isPayloadDesignV6orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF20_012_3);
+    }
+
+    public static boolean isPayloadDesignV7orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF20_012_4) && !VerisenseDevice.isFwMajorMinorInternalVerEqual(shimmerVerObject, VerisenseDevice.FW_SPECIAL_VERSIONS.V_1_02_071);
+    }
+
+    public static boolean isPayloadDesignV8orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF20_012_5);
+    }
+
+    public static boolean isPayloadDesignV9orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF20_012_6);
+    }
+
+    public static boolean isPayloadDesignV10orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF21_010_1);
+    }
+
+    public static boolean isPayloadDesignV11orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF21_010_2);
+    }
+
+    public static boolean isPayloadDesignV12orAbove(ShimmerVerObject shimmerVerObject) {
+        return VerisenseDevice.compareFwVersions(shimmerVerObject, VerisenseDevice.FW_CHANGES.CCF21_010_3);
+    }
+
+    public static boolean isCsvHeaderDesignAzMarkingPoint(ShimmerVerObject shimmerVerObject) {
+        return !isPayloadDesignV7orAbove(shimmerVerObject);
+    }
+
+    public static int calculatePayloadHeaderBytesSize(ShimmerVerObject shimmerVerObject) {
+        return calculatePayloadConfigBytesSize(shimmerVerObject) + 4;
+    }
+
+    public static int calculatePayloadConfigBytesSize(ShimmerVerObject shimmerVerObject) {
+        if (isPayloadDesignV2orAbove(shimmerVerObject)) {
+            return 6 + calculateExtendedPayloadConfigBytesSize(shimmerVerObject);
+        }
+        return 2;
+    }
+
+    public long getBatteryVoltageCal() {
+        return this.batteryVoltageCal;
+    }
+
+    public byte[] getByteBuffer() {
+        return this.byteBuffer;
+    }
+
+    public void setByteBuffer(byte[] bArr) {
+        this.byteBuffer = bArr;
+    }
+
+    public int getPayloadIndex() {
+        return this.payloadIndex;
+    }
+
+    public void setPayloadIndex(int i) {
+        this.payloadIndex = i;
+    }
+
+    public double getPayloadPackagingDelayMs() {
+        return this.payloadPackagingDelayMs;
+    }
+
+    public int getPayloadSplitIndex() {
+        return this.payloadSplitIndex;
+    }
+
+    public void setPayloadSplitIndex(int i) {
+        this.payloadSplitIndex = i;
+    }
+
+    public double getTemperatureCal() {
+        return this.temperatureCal;
+    }
+
+    public long getTemperatureUncal() {
+        return this.temperatureUncal;
+    }
+
+    public VerisenseTimeDetails getTimeDetailsRwc() {
+        return this.timeDetailsRwc;
+    }
+
+    public VerisenseTimeDetails getTimeDetailsUcClock() {
+        return this.timeDetailsUcClock;
+    }
+
+    public abstract void parsePayloadContentsMetaData(int i) throws IOException;
+
+    public abstract void parsePayloadSensorData();
+
+    public void setBatteryVoltage(long j) {
+        this.batteryVoltageCal = j;
+    }
+
+    public void setTemperature(long j, double d) {
+        this.temperatureUncal = j;
+        this.temperatureCal = d;
+    }
+
+    public double getEndTimeRwcMs() {
+        return this.timeDetailsRwc.getEndTimeMs();
+    }
+
+    public String getEndTimeRwcStr() {
+        return this.timeDetailsRwc.getEndTimeStr();
+    }
+
+    public double getDataEndTimeRwcMs() {
+        return this.listOfDataBlocksInOrder.get(r0.size() - 1).getEndTimeRwcMs();
+    }
+
+    public String getDataEndTimeRwcStr() {
+        return UtilVerisenseDriver.convertMilliSecondsToCsvHeaderFormat((long) getDataEndTimeRwcMs());
+    }
+
+    public double getStartTimeRwcMs() {
+        return this.timeDetailsRwc.getStartTimeMs();
+    }
+
+    public String getStartTimeRwcStr() {
+        return this.timeDetailsRwc.getStartTimeStr();
+    }
+
+    public double calculatePayloadDurationMs() {
+        return getEndTimeRwcMs() - getStartTimeRwcMs();
+    }
+
+    public String getPayloadDurationStr() {
+        return UtilVerisenseDriver.convertSecondsToHHmmssSSS(calculatePayloadDurationMs() / 1000.0d);
+    }
+
+    public void calculateAndSetPayloadPackagingDelayMs() {
+        this.payloadPackagingDelayMs = getEndTimeRwcMs() - getDataEndTimeRwcMs();
+    }
+
+    public String getPayloadPackagingDelayStr() {
+        double payloadPackagingDelayMs = getPayloadPackagingDelayMs();
+        return !Double.isNaN(payloadPackagingDelayMs) ? UtilVerisenseDriver.convertSecondsToHHmmssSSS(payloadPackagingDelayMs / 1000.0d) : "Unknown";
+    }
+
+    public boolean parsePayloadContentsHeaderAndFooter(byte[] bArr, int i, int i2) throws DataFormatException, IOException {
+        setPayloadIndex(i);
+        if (this.verisenseDevice.dataCompressionMode == AsmBinaryFileConstants.DATA_COMPRESSION_MODE.ZLIB) {
+            bArr = Compressor.decompress(bArr);
+        } else if (this.verisenseDevice.dataCompressionMode != AsmBinaryFileConstants.DATA_COMPRESSION_MODE.NONE) {
+            this.verisenseDevice.consolePrintLn("Compression method not supported");
+        }
+        if (bArr == null) {
+            System.err.println("issue with data decompression, returning.");
+            return false;
+        }
+        setByteBuffer(bArr);
+        parsePayloadContentsMetaData(i2);
+        sortDataBlocksByContinuity();
+        this.datasetToSave.updateSampleCountForEachDataSegmentDetails();
+        if (!DEBUG_DATA_BLOCKS) {
+            return true;
+        }
+        printListOfDataBlockDetails();
+        System.out.println("");
+        this.datasetToSave.printListOfDataBlockDetailsBySensor();
+        return true;
+    }
+
+    protected int parseTemperatureBytes(int i) {
+        byte[] bArr = new byte[2];
+        System.arraycopy(this.byteBuffer, i, bArr, 0, 2);
+        long data = UtilParseData.parseData(bArr, ChannelDetails.CHANNEL_DATA_TYPE.INT16, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB);
+        setTemperature(data, this.verisenseDevice.calibrateTemperature(data));
+        return i + 2;
+    }
+
+    protected int parseBatteryVoltageBytes(int i) {
+        byte[] bArr = new byte[2];
+        System.arraycopy(this.byteBuffer, i, bArr, 0, 2);
+        setBatteryVoltage(UtilParseData.parseData(bArr, ChannelDetails.CHANNEL_DATA_TYPE.UINT12, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB));
+        return i + 2;
+    }
+
+    public void printListOfDataBlockDetails() {
+        System.out.println("Sorted in temporal order:");
+        DataSegmentDetails.printListOfDataBlockDetails(this.listOfDataBlocksInOrder, false);
+        System.out.println("");
+    }
+
+    public List<DataSegmentDetails> getListOfDataSegmentsForSensorClassKey(AbstractSensor.SENSORS sensors) {
+        return this.datasetToSave.getListOfDataSegmentsForSensorClassKey(sensors);
+    }
+
+    public void consolePrintTsDifferenceUnexpected(String str) {
+        StringBuilder sb = new StringBuilder("Time gap between payloads is large, starting new files:");
+        sb.append(str);
+        sb.append("\tFor sampling rate=" + this.verisenseDevice.getFastestSamplingRateOfSensors(Configuration.COMMUNICATION_TYPE.SD) + Configuration.CHANNEL_UNITS.FREQUENCY);
+        System.out.println(sb.toString());
+    }
+
+    private void sortDataBlocksByContinuity() {
+        this.datasetToSave.reset();
+        int i = 0;
+        while (i < this.listOfDataBlocksInOrder.size()) {
+            DataBlockDetails dataBlockDetails = this.listOfDataBlocksInOrder.get(i);
+            for (AbstractSensor.SENSORS sensors : this.verisenseDevice.getMapOfSensorIdsPerDataBlock().get(dataBlockDetails.datablockSensorId)) {
+                if (!SENSORS_TO_EXCLUDE_FROM_SENSOR_CSV_GENERATION.contains(sensors)) {
+                    List<DataSegmentDetails> arrayList = this.datasetToSave.getMapOfDataSegmentsPerSensor().get(sensors);
+                    DataSegmentDetails dataSegmentDetails = null;
+                    if (arrayList == null) {
+                        arrayList = new ArrayList<>();
+                        this.datasetToSave.putInMapOfDataSegmentsPerSensor(sensors, arrayList);
+                    } else if (!dataBlockDetails.isResultOfSplitAtMiddayOrMidnight()) {
+                        DataBlockDetails dataBlockDetailsRecombineDataBlockDetailsForContinuityCheck = (!dataBlockDetails.isFirstPartOfSplitDataBlock() || this.listOfDataBlocksInOrder.size() <= i) ? dataBlockDetails : DataBlockDetails.recombineDataBlockDetailsForContinuityCheck(dataBlockDetails, this.listOfDataBlocksInOrder.get(i + 1));
+                        DataSegmentDetails dataSegmentDetails2 = arrayList.get(arrayList.size() - 1);
+                        if (UtilCsvSplitting.isDataBlockContinuous(sensors, dataSegmentDetails2, dataBlockDetailsRecombineDataBlockDetailsForContinuityCheck).isEmpty()) {
+                            dataSegmentDetails = dataSegmentDetails2;
+                        } else {
+                            dataBlockDetails.setFirstDataBlockAfterSplitBySampleDueToTimeGapOrOverlap();
+                        }
+                    }
+                    if (dataSegmentDetails == null) {
+                        dataSegmentDetails = new DataSegmentDetails();
+                        arrayList.add(dataSegmentDetails);
+                    }
+                    dataSegmentDetails.addDataBlock(dataBlockDetails);
+                }
+            }
+            i++;
+        }
+    }
+
+    public TreeMap<AbstractSensor.SENSORS, List<DataSegmentDetails>> getMapOfDataSegmentsPerSensor() {
+        return this.datasetToSave.getMapOfDataSegmentsPerSensor();
+    }
+
+    public void calculatePayloadStartTimeMsRwc() {
+        calculatePayloadStartTimeMsUcClockOrRwc(false);
+    }
+
+    public void calculatePayloadStartTimeMsUcClock() {
+        calculatePayloadStartTimeMsUcClockOrRwc(true);
+    }
+
+    public void calculatePayloadStartTimeMsUcClockOrRwc(boolean z) {
+        double startTimeMs;
+        ArrayList arrayList = new ArrayList();
+        Iterator<DataBlockDetails.DATABLOCK_SENSOR_ID> it2 = this.setOfPayloadSensorIds.iterator();
+        while (it2.hasNext()) {
+            arrayList.add(it2.next());
+        }
+        if (this.listOfDataBlocksInOrder.size() > 0) {
+            DataBlockDetails dataBlockDetails = this.listOfDataBlocksInOrder.get(0);
+            startTimeMs = (z ? dataBlockDetails.getTimeDetailsUcClock() : dataBlockDetails.getTimeDetailsRwc()).getStartTimeMs();
+            for (DataBlockDetails dataBlockDetails2 : this.listOfDataBlocksInOrder) {
+                if (arrayList.size() == 0) {
+                    break;
+                } else if (arrayList.contains(dataBlockDetails2.datablockSensorId)) {
+                    startTimeMs = Math.min(startTimeMs, (z ? dataBlockDetails2.getTimeDetailsUcClock() : dataBlockDetails2.getTimeDetailsRwc()).getStartTimeMs());
+                    arrayList.remove(dataBlockDetails2.datablockSensorId);
+                }
+            }
+        } else {
+            startTimeMs = Double.NaN;
+        }
+        (z ? getTimeDetailsUcClock() : getTimeDetailsRwc()).setStartTimeMs(startTimeMs);
+    }
+
+    public boolean isSplitDetectedWithinPayload() {
+        Iterator<List<DataSegmentDetails>> it2 = this.datasetToSave.getMapOfDataSegmentsPerSensor().values().iterator();
+        while (it2.hasNext()) {
+            if (it2.next().size() > 1) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public PayloadContentsDetails deepClone() throws IOException {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            new ObjectOutputStream(byteArrayOutputStream).writeObject(this);
+            return (PayloadContentsDetails) new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray())).readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e2) {
+            e2.printStackTrace();
+            return null;
+        }
+    }
+
+    public void shiftEndTimesByMsValue(double d) {
+        VerisenseTimeDetails verisenseTimeDetails = this.timeDetailsRwc;
+        verisenseTimeDetails.setEndTimeMs(verisenseTimeDetails.getEndTimeMs() + d);
+        VerisenseTimeDetails verisenseTimeDetails2 = this.timeDetailsUcClock;
+        verisenseTimeDetails2.setEndTimeMs(verisenseTimeDetails2.getEndTimeMs() + d);
+    }
+
+    public void shiftStartTimesByMsValue(double d) {
+        VerisenseTimeDetails verisenseTimeDetails = this.timeDetailsRwc;
+        verisenseTimeDetails.setStartTimeMs(verisenseTimeDetails.getStartTimeMs() + d);
+        VerisenseTimeDetails verisenseTimeDetails2 = this.timeDetailsUcClock;
+        verisenseTimeDetails2.setStartTimeMs(verisenseTimeDetails2.getStartTimeMs() + d);
+    }
+}

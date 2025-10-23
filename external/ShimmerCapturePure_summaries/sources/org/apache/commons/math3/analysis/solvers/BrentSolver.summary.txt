@@ -1,0 +1,72 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/solvers/BrentSolver.java
+// Size: 2876 bytes
+// Modified: 2025-10-21 16:32:08.237931200 +0100
+
+package org.apache.commons.math3.analysis.solvers;
+
+import org.apache.commons.math3.exception.NoBracketingException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class BrentSolver extends AbstractUnivariateSolver {
+    private static final double DEFAULT_ABSOLUTE_ACCURACY = 1.0E-6d;
+
+    public BrentSolver() {
+        this(1.0E-6d);
+    }
+
+    public BrentSolver(double d) {
+        super(d);
+    }
+
+    public BrentSolver(double d, double d2) {
+        super(d, d2);
+    }
+
+    public BrentSolver(double d, double d2, double d3) {
+        super(d, d2, d3);
+    }
+
+    @Override // org.apache.commons.math3.analysis.solvers.BaseAbstractUnivariateSolver
+    protected double doSolve() throws TooManyEvaluationsException, NoBracketingException, NumberIsTooLargeException {
+        double min = getMin();
+        double max = getMax();
+        double startValue = getStartValue();
+        double functionValueAccuracy = getFunctionValueAccuracy();
+        verifySequence(min, startValue, max);
+        double dComputeObjectiveValue = computeObjectiveValue(startValue);
+        if (FastMath.abs(dComputeObjectiveValue) <= functionValueAccuracy) {
+            return startValue;
+        }
+        double dComputeObjectiveValue2 = computeObjectiveValue(min);
+        if (FastMath.abs(dComputeObjectiveValue2) <= functionValueAccuracy) {
+            return min;
+        }
+        if (dComputeObjectiveValue * dComputeObjectiveValue2 < 0.0d) {
+            return brent(min, startValue, dComputeObjectiveValue2, dComputeObjectiveValue);
+        }
+        double dComputeObjectiveValue3 = computeObjectiveValue(max);
+        if (FastMath.abs(dComputeObjectiveValue3) <= functionValueAccuracy) {
+            return max;
+        }
+        if (dComputeObjectiveValue * dComputeObjectiveValue3 < 0.0d) {
+            return brent(startValue, max, dComputeObjectiveValue, dComputeObjectiveValue3);
+        }
+        throw new NoBracketingException(min, max, dComputeObjectiveValue2, dComputeObjectiveValue3);
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:31:0x00c6  */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private double brent(double r43, double r45, double r47, double r49) {
+        /*
+            Method dump skipped, instructions count: 278
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.analysis.solvers.BrentSolver.brent(double, double, double, double):double");
+    }
+}

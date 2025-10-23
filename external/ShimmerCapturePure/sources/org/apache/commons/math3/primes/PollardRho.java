@@ -1,0 +1,146 @@
+package org.apache.commons.math3.primes;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+class PollardRho {
+    private PollardRho() {
+    }
+
+    public static List<Integer> primeFactors(int i) {
+        ArrayList arrayList = new ArrayList();
+        int iSmallTrialDivision = SmallPrimes.smallTrialDivision(i, arrayList);
+        if (1 == iSmallTrialDivision) {
+            return arrayList;
+        }
+        if (SmallPrimes.millerRabinPrimeTest(iSmallTrialDivision)) {
+            arrayList.add(Integer.valueOf(iSmallTrialDivision));
+            return arrayList;
+        }
+        int iRhoBrent = rhoBrent(iSmallTrialDivision);
+        arrayList.add(Integer.valueOf(iRhoBrent));
+        arrayList.add(Integer.valueOf(iSmallTrialDivision / iRhoBrent));
+        return arrayList;
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0053, code lost:
+    
+        r2 = gcdPositive(org.apache.commons.math3.util.FastMath.abs(r11), r19);
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:17:0x005c, code lost:
+    
+        if (1 == r2) goto L19;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x005e, code lost:
+    
+        return r2;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x005f, code lost:
+    
+        r6 = r6 + 25;
+     */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    static int rhoBrent(int r19) {
+        /*
+            r0 = r19
+            int r1 = org.apache.commons.math3.primes.SmallPrimes.PRIMES_LAST
+            r4 = 2
+            r5 = 1
+        L6:
+            r6 = 0
+            r8 = r4
+            r7 = 0
+        L9:
+            if (r7 >= r5) goto L16
+            long r8 = (long) r8
+            long r8 = r8 * r8
+            long r10 = (long) r1
+            long r8 = r8 + r10
+            long r10 = (long) r0
+            long r8 = r8 % r10
+            int r8 = (int) r8
+            int r7 = r7 + 1
+            goto L9
+        L16:
+            int r7 = r5 - r6
+            r9 = 25
+            int r7 = org.apache.commons.math3.util.FastMath.min(r9, r7)
+            r10 = -3
+            r11 = 1
+        L20:
+            if (r10 >= r7) goto L53
+            long r12 = (long) r8
+            long r12 = r12 * r12
+            long r14 = (long) r1
+            long r12 = r12 + r14
+            long r14 = (long) r0
+            long r12 = r12 % r14
+            int r8 = (int) r12
+            int r12 = r4 - r8
+            int r12 = org.apache.commons.math3.util.FastMath.abs(r12)
+            long r12 = (long) r12
+            r16 = 0
+            int r18 = (r16 > r12 ? 1 : (r16 == r12 ? 0 : -1))
+            if (r18 != 0) goto L3f
+            int r5 = org.apache.commons.math3.primes.SmallPrimes.PRIMES_LAST
+            int r1 = r1 + r5
+            r6 = -25
+            r5 = 1
+            r8 = 2
+            goto L53
+        L3f:
+            long r2 = (long) r11
+            long r2 = r2 * r12
+            long r2 = r2 % r14
+            int r11 = (int) r2
+            if (r11 != 0) goto L50
+            int r1 = (int) r12
+            int r1 = org.apache.commons.math3.util.FastMath.abs(r1)
+            int r0 = gcdPositive(r1, r0)
+            return r0
+        L50:
+            int r10 = r10 + 1
+            goto L20
+        L53:
+            int r2 = org.apache.commons.math3.util.FastMath.abs(r11)
+            int r2 = gcdPositive(r2, r0)
+            r3 = 1
+            if (r3 == r2) goto L5f
+            return r2
+        L5f:
+            int r6 = r6 + r9
+            if (r6 < r5) goto L16
+            int r5 = r5 * 2
+            r4 = r8
+            goto L6
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.primes.PollardRho.rhoBrent(int):int");
+    }
+
+    static int gcdPositive(int i, int i2) {
+        if (i == 0) {
+            return i2;
+        }
+        if (i2 == 0) {
+            return i;
+        }
+        int iNumberOfTrailingZeros = Integer.numberOfTrailingZeros(i);
+        int iNumberOfTrailingZeros2 = i >> iNumberOfTrailingZeros;
+        int iNumberOfTrailingZeros3 = Integer.numberOfTrailingZeros(i2);
+        int iMin = i2 >> iNumberOfTrailingZeros3;
+        int iMin2 = FastMath.min(iNumberOfTrailingZeros, iNumberOfTrailingZeros3);
+        while (iNumberOfTrailingZeros2 != iMin) {
+            int i3 = iNumberOfTrailingZeros2 - iMin;
+            iMin = FastMath.min(iNumberOfTrailingZeros2, iMin);
+            int iAbs = FastMath.abs(i3);
+            iNumberOfTrailingZeros2 = iAbs >> Integer.numberOfTrailingZeros(iAbs);
+        }
+        return iNumberOfTrailingZeros2 << iMin2;
+    }
+}

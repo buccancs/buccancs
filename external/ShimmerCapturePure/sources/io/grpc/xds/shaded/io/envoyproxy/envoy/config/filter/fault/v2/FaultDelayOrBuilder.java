@@ -1,0 +1,37 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2;
+
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultDelay;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.FractionalPercent;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.FractionalPercentOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface FaultDelayOrBuilder extends MessageOrBuilder {
+    FaultDelay.FaultDelaySecifierCase getFaultDelaySecifierCase();
+
+    Duration getFixedDelay();
+
+    DurationOrBuilder getFixedDelayOrBuilder();
+
+    FaultDelay.HeaderDelay getHeaderDelay();
+
+    FaultDelay.HeaderDelayOrBuilder getHeaderDelayOrBuilder();
+
+    FractionalPercent getPercentage();
+
+    FractionalPercentOrBuilder getPercentageOrBuilder();
+
+    @Deprecated
+    FaultDelay.FaultDelayType getType();
+
+    @Deprecated
+    int getTypeValue();
+
+    boolean hasFixedDelay();
+
+    boolean hasHeaderDelay();
+
+    boolean hasPercentage();
+}

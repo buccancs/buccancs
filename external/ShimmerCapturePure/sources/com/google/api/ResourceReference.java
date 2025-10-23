@@ -1,0 +1,542 @@
+package com.google.api;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes.dex */
+public final class ResourceReference extends GeneratedMessageV3 implements ResourceReferenceOrBuilder {
+    public static final int CHILD_TYPE_FIELD_NUMBER = 2;
+    public static final int TYPE_FIELD_NUMBER = 1;
+    private static final ResourceReference DEFAULT_INSTANCE = new ResourceReference();
+    private static final Parser<ResourceReference> PARSER = new AbstractParser<ResourceReference>() { // from class: com.google.api.ResourceReference.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ResourceReference m2384parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ResourceReference(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private volatile Object childType_;
+    private byte memoizedIsInitialized;
+    private volatile Object type_;
+
+    private ResourceReference(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ResourceReference() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.type_ = "";
+        this.childType_ = "";
+    }
+
+    private ResourceReference(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                this.type_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 18) {
+                                this.childType_ = codedInputStream.readStringRequireUtf8();
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (IOException e) {
+                        throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                    }
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ResourceReference getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ResourceReference> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ResourceProto.internal_static_google_api_ResourceReference_descriptor;
+    }
+
+    public static ResourceReference parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ResourceReference) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ResourceReference parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ResourceReference) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ResourceReference parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ResourceReference) PARSER.parseFrom(byteString);
+    }
+
+    public static ResourceReference parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ResourceReference) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ResourceReference parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ResourceReference) PARSER.parseFrom(bArr);
+    }
+
+    public static ResourceReference parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ResourceReference) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ResourceReference parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ResourceReference parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ResourceReference parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ResourceReference parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ResourceReference parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ResourceReference parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m2383toBuilder();
+    }
+
+    public static Builder newBuilder(ResourceReference resourceReference) {
+        return DEFAULT_INSTANCE.m2383toBuilder().mergeFrom(resourceReference);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ResourceReference m2378getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ResourceReference> getParserForType() {
+        return PARSER;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ResourceProto.internal_static_google_api_ResourceReference_fieldAccessorTable.ensureFieldAccessorsInitialized(ResourceReference.class, Builder.class);
+    }
+
+    @Override // com.google.api.ResourceReferenceOrBuilder
+    public String getType() {
+        Object obj = this.type_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.type_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.api.ResourceReferenceOrBuilder
+    public ByteString getTypeBytes() {
+        Object obj = this.type_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.type_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.api.ResourceReferenceOrBuilder
+    public String getChildType() {
+        Object obj = this.childType_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.childType_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.api.ResourceReferenceOrBuilder
+    public ByteString getChildTypeBytes() {
+        Object obj = this.childType_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.childType_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getTypeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.type_);
+        }
+        if (!getChildTypeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.childType_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getTypeBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.type_) : 0;
+        if (!getChildTypeBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(2, this.childType_);
+        }
+        int serializedSize = iComputeStringSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ResourceReference)) {
+            return super.equals(obj);
+        }
+        ResourceReference resourceReference = (ResourceReference) obj;
+        return getType().equals(resourceReference.getType()) && getChildType().equals(resourceReference.getChildType()) && this.unknownFields.equals(resourceReference.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getType().hashCode()) * 37) + 2) * 53) + getChildType().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode;
+        return iHashCode;
+    }
+
+    /* renamed from: newBuilderForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m2381newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m2383toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* renamed from: newBuilderForType, reason: merged with bridge method [inline-methods] */
+    public Builder m2380newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ResourceReferenceOrBuilder {
+        private Object childType_;
+        private Object type_;
+
+        private Builder() {
+            this.type_ = "";
+            this.childType_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.type_ = "";
+            this.childType_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ResourceProto.internal_static_google_api_ResourceReference_descriptor;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ResourceProto.internal_static_google_api_ResourceReference_fieldAccessorTable.ensureFieldAccessorsInitialized(ResourceReference.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ResourceReference.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2394clear() {
+            super.clear();
+            this.type_ = "";
+            this.childType_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ResourceProto.internal_static_google_api_ResourceReference_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ResourceReference m2407getDefaultInstanceForType() {
+            return ResourceReference.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ResourceReference m2388build() throws UninitializedMessageException {
+            ResourceReference resourceReferenceM2390buildPartial = m2390buildPartial();
+            if (resourceReferenceM2390buildPartial.isInitialized()) {
+                return resourceReferenceM2390buildPartial;
+            }
+            throw newUninitializedMessageException(resourceReferenceM2390buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ResourceReference m2390buildPartial() {
+            ResourceReference resourceReference = new ResourceReference(this);
+            resourceReference.type_ = this.type_;
+            resourceReference.childType_ = this.childType_;
+            onBuilt();
+            return resourceReference;
+        }
+
+        /* renamed from: clone, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2405clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2418setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2396clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2399clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2420setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2386addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m2412mergeFrom(Message message) {
+            if (message instanceof ResourceReference) {
+                return mergeFrom((ResourceReference) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ResourceReference resourceReference) {
+            if (resourceReference == ResourceReference.getDefaultInstance()) {
+                return this;
+            }
+            if (!resourceReference.getType().isEmpty()) {
+                this.type_ = resourceReference.type_;
+                onChanged();
+            }
+            if (!resourceReference.getChildType().isEmpty()) {
+                this.childType_ = resourceReference.childType_;
+                onChanged();
+            }
+            m2416mergeUnknownFields(resourceReference.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public com.google.api.ResourceReference.Builder m2413mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = com.google.api.ResourceReference.access$700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                com.google.api.ResourceReference r3 = (com.google.api.ResourceReference) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                com.google.api.ResourceReference r4 = (com.google.api.ResourceReference) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: com.google.api.ResourceReference.Builder.m2413mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.google.api.ResourceReference$Builder");
+        }
+
+        @Override // com.google.api.ResourceReferenceOrBuilder
+        public String getType() {
+            Object obj = this.type_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.type_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setType(String str) {
+            str.getClass();
+            this.type_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.api.ResourceReferenceOrBuilder
+        public ByteString getTypeBytes() {
+            Object obj = this.type_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.type_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setTypeBytes(ByteString byteString) {
+            byteString.getClass();
+            ResourceReference.checkByteStringIsUtf8(byteString);
+            this.type_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearType() {
+            this.type_ = ResourceReference.getDefaultInstance().getType();
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.api.ResourceReferenceOrBuilder
+        public String getChildType() {
+            Object obj = this.childType_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.childType_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setChildType(String str) {
+            str.getClass();
+            this.childType_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.api.ResourceReferenceOrBuilder
+        public ByteString getChildTypeBytes() {
+            Object obj = this.childType_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.childType_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setChildTypeBytes(ByteString byteString) {
+            byteString.getClass();
+            ResourceReference.checkByteStringIsUtf8(byteString);
+            this.childType_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearChildType() {
+            this.childType_ = ResourceReference.getDefaultInstance().getChildType();
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m2422setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m2416mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

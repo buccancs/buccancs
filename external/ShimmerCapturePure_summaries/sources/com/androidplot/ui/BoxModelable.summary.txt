@@ -1,0 +1,48 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/BoxModelable.java
+// Size: 849 bytes
+// Modified: 2025-10-21 16:32:00.066888300 +0100
+
+package com.androidplot.ui;
+
+import android.graphics.RectF;
+
+/* loaded from: classes.dex */
+public interface BoxModelable {
+    float getMarginBottom();
+
+    float getMarginLeft();
+
+    float getMarginRight();
+
+    float getMarginTop();
+
+    RectF getMarginatedRect(RectF rectF);
+
+    RectF getPaddedRect(RectF rectF);
+
+    float getPaddingBottom();
+
+    float getPaddingLeft();
+
+    float getPaddingRight();
+
+    float getPaddingTop();
+
+    void setMarginLeft(float f);
+
+    void setMarginRight(float f);
+
+    void setMarginTop(float f);
+
+    void setMargins(float f, float f2, float f3, float f4);
+
+    void setPadding(float f, float f2, float f3, float f4);
+
+    void setPaddingBottom(float f);
+
+    void setPaddingLeft(float f);
+
+    void setPaddingRight(float f);
+
+    void setPaddingTop(float f);
+}

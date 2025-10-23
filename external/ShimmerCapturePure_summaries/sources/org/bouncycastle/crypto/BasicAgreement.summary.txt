@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/BasicAgreement.java
+// Size: 290 bytes
+// Modified: 2025-10-21 16:32:00.983087800 +0100
+
+package org.bouncycastle.crypto;
+
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public interface BasicAgreement {
+    BigInteger calculateAgreement(CipherParameters cipherParameters);
+
+    int getFieldSize();
+
+    void init(CipherParameters cipherParameters);
+}

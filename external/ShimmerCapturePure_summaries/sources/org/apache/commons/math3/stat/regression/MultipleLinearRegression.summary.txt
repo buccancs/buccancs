@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/stat/regression/MultipleLinearRegression.java
+// Size: 381 bytes
+// Modified: 2025-10-21 16:32:00.590783300 +0100
+
+package org.apache.commons.math3.stat.regression;
+
+/* loaded from: classes5.dex */
+public interface MultipleLinearRegression {
+    double estimateRegressandVariance();
+
+    double[] estimateRegressionParameters();
+
+    double[] estimateRegressionParametersStandardErrors();
+
+    double[][] estimateRegressionParametersVariance();
+
+    double[] estimateResiduals();
+}

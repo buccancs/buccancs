@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/ASN1Encoding.java
+// Size: 236 bytes
+// Modified: 2025-10-21 16:32:00.552672700 +0100
+
+package org.bouncycastle.asn1;
+
+/* loaded from: classes5.dex */
+public interface ASN1Encoding {
+    public static final String BER = "BER";
+    public static final String DER = "DER";
+    public static final String DL = "DL";
+}

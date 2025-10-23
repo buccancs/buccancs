@@ -1,0 +1,163 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optimization/direct/BaseAbstractMultivariateVectorOptimizer.java
+// Size: 6096 bytes
+// Modified: 2025-10-21 16:32:10.529758000 +0100
+
+package org.apache.commons.math3.optimization.direct;
+
+import org.apache.commons.math3.analysis.MultivariateVectorFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.linear.RealMatrix;
+import org.apache.commons.math3.optimization.BaseMultivariateVectorOptimizer;
+import org.apache.commons.math3.optimization.ConvergenceChecker;
+import org.apache.commons.math3.optimization.InitialGuess;
+import org.apache.commons.math3.optimization.OptimizationData;
+import org.apache.commons.math3.optimization.PointVectorValuePair;
+import org.apache.commons.math3.optimization.SimpleVectorValueChecker;
+import org.apache.commons.math3.optimization.Target;
+import org.apache.commons.math3.optimization.Weight;
+import org.apache.commons.math3.util.Incrementor;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public abstract class BaseAbstractMultivariateVectorOptimizer<FUNC extends MultivariateVectorFunction> implements BaseMultivariateVectorOptimizer<FUNC> {
+    private ConvergenceChecker<PointVectorValuePair> checker;
+    protected final Incrementor evaluations;
+    private FUNC function;
+    private double[] start;
+    private double[] target;
+
+    @Deprecated
+    private double[] weight;
+    private RealMatrix weightMatrix;
+
+    protected abstract PointVectorValuePair doOptimize();
+
+    @Override // org.apache.commons.math3.optimization.BaseOptimizer
+    public ConvergenceChecker<PointVectorValuePair> getConvergenceChecker() {
+        return this.checker;
+    }
+
+    protected FUNC getObjectiveFunction() {
+        return this.function;
+    }
+
+    @Deprecated
+    protected double[] getTargetRef() {
+        return this.target;
+    }
+
+    @Deprecated
+    protected double[] getWeightRef() {
+        return this.weight;
+    }
+
+    @Deprecated
+    protected BaseAbstractMultivariateVectorOptimizer() {
+        this(new SimpleVectorValueChecker());
+    }
+
+    protected BaseAbstractMultivariateVectorOptimizer(ConvergenceChecker<PointVectorValuePair> convergenceChecker) {
+        this.evaluations = new Incrementor();
+        this.checker = convergenceChecker;
+    }
+
+    @Override // org.apache.commons.math3.optimization.BaseOptimizer
+    public int getMaxEvaluations() {
+        return this.evaluations.getMaximalCount();
+    }
+
+    @Override // org.apache.commons.math3.optimization.BaseOptimizer
+    public int getEvaluations() {
+        return this.evaluations.getCount();
+    }
+
+    protected double[] computeObjectiveValue(double[] dArr) {
+        try {
+            this.evaluations.incrementCount();
+            return this.function.value(dArr);
+        } catch (MaxCountExceededException e) {
+            throw new TooManyEvaluationsException(e.getMax());
+        }
+    }
+
+    @Override // org.apache.commons.math3.optimization.BaseMultivariateVectorOptimizer
+    @Deprecated
+    public PointVectorValuePair optimize(int i, FUNC func, double[] dArr, double[] dArr2, double[] dArr3) {
+        return optimizeInternal(i, func, dArr, dArr2, dArr3);
+    }
+
+    protected PointVectorValuePair optimize(int i, FUNC func, OptimizationData... optimizationDataArr) throws TooManyEvaluationsException, DimensionMismatchException {
+        return optimizeInternal(i, func, optimizationDataArr);
+    }
+
+    @Deprecated
+    protected PointVectorValuePair optimizeInternal(int i, FUNC func, double[] dArr, double[] dArr2, double[] dArr3) {
+        if (func == null) {
+            throw new NullArgumentException();
+        }
+        if (dArr == null) {
+            throw new NullArgumentException();
+        }
+        if (dArr2 == null) {
+            throw new NullArgumentException();
+        }
+        if (dArr3 == null) {
+            throw new NullArgumentException();
+        }
+        if (dArr.length == dArr2.length) {
+            return optimizeInternal(i, func, new Target(dArr), new Weight(dArr2), new InitialGuess(dArr3));
+        }
+        throw new DimensionMismatchException(dArr.length, dArr2.length);
+    }
+
+    protected PointVectorValuePair optimizeInternal(int i, FUNC func, OptimizationData... optimizationDataArr) throws TooManyEvaluationsException, DimensionMismatchException {
+        this.evaluations.setMaximalCount(i);
+        this.evaluations.resetCount();
+        this.function = func;
+        parseOptimizationData(optimizationDataArr);
+        checkParameters();
+        setUp();
+        return doOptimize();
+    }
+
+    public double[] getStartPoint() {
+        return (double[]) this.start.clone();
+    }
+
+    public RealMatrix getWeight() {
+        return this.weightMatrix.copy();
+    }
+
+    public double[] getTarget() {
+        return (double[]) this.target.clone();
+    }
+
+    protected void setUp() {
+        int length = this.target.length;
+        this.weight = new double[length];
+        for (int i = 0; i < length; i++) {
+            this.weight[i] = this.weightMatrix.getEntry(i, i);
+        }
+    }
+
+    private void parseOptimizationData(OptimizationData... optimizationDataArr) {
+        for (OptimizationData optimizationData : optimizationDataArr) {
+            if (optimizationData instanceof Target) {
+                this.target = ((Target) optimizationData).getTarget();
+            } else if (optimizationData instanceof Weight) {
+                this.weightMatrix = ((Weight) optimizationData).getWeight();
+            } else if (optimizationData instanceof InitialGuess) {
+                this.start = ((InitialGuess) optimizationData).getInitialGuess();
+            }
+        }
+    }
+
+    private void checkParameters() {
+        if (this.target.length != this.weightMatrix.getColumnDimension()) {
+            throw new DimensionMismatchException(this.target.length, this.weightMatrix.getColumnDimension());
+        }
+    }
+}

@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/TableSizingMethod.java
+// Size: 121 bytes
+// Modified: 2025-10-21 16:32:00.078888500 +0100
+
+package com.androidplot.ui;
+
+/* loaded from: classes.dex */
+public enum TableSizingMethod {
+    AUTO,
+    FIXED
+}

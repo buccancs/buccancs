@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/string/StringDecoder.java
+// Size: 1422 bytes
+// Modified: 2025-10-21 16:32:07.821058800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.string;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandler;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.handler.codec.MessageToMessageDecoder;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.nio.charset.Charset;
+import java.util.List;
+
+@ChannelHandler.Sharable
+/* loaded from: classes3.dex */
+public class StringDecoder extends MessageToMessageDecoder<ByteBuf> {
+    private final Charset charset;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.MessageToMessageDecoder
+    protected /* bridge */ /* synthetic */ void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List list) throws Exception {
+        decode2(channelHandlerContext, byteBuf, (List<Object>) list);
+    }
+
+    public StringDecoder() {
+        this(Charset.defaultCharset());
+    }
+
+    public StringDecoder(Charset charset) {
+        this.charset = (Charset) ObjectUtil.checkNotNull(charset, "charset");
+    }
+
+    /* renamed from: decode, reason: avoid collision after fix types in other method */
+    protected void decode2(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
+        list.add(byteBuf.toString(this.charset));
+    }
+}

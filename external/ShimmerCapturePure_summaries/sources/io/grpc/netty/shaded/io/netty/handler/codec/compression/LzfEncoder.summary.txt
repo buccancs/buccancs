@@ -1,0 +1,121 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/compression/LzfEncoder.java
+// Size: 4754 bytes
+// Modified: 2025-10-21 16:32:08.821946200 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.compression;
+
+import com.ning.compress.BufferRecycler;
+import com.ning.compress.lzf.ChunkEncoder;
+import com.ning.compress.lzf.LZFChunk;
+import com.ning.compress.lzf.LZFEncoder;
+import com.ning.compress.lzf.util.ChunkEncoderFactory;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.handler.codec.MessageToByteEncoder;
+
+/* loaded from: classes3.dex */
+public class LzfEncoder extends MessageToByteEncoder<ByteBuf> {
+    private static final int MIN_BLOCK_TO_COMPRESS = 16;
+    private final int compressThreshold;
+    private final ChunkEncoder encoder;
+    private final BufferRecycler recycler;
+
+    public LzfEncoder() {
+        this(false);
+    }
+
+    public LzfEncoder(boolean z) {
+        this(z, 65535);
+    }
+
+    public LzfEncoder(boolean z, int i) {
+        this(z, i, 16);
+    }
+
+    public LzfEncoder(int i) {
+        this(false, i);
+    }
+
+    public LzfEncoder(boolean z, int i, int i2) {
+        ChunkEncoder chunkEncoderOptimalNonAllocatingInstance;
+        super(false);
+        if (i < 16 || i > 65535) {
+            throw new IllegalArgumentException("totalLength: " + i + " (expected: 16-65535)");
+        }
+        if (i2 < 16) {
+            throw new IllegalArgumentException("compressThreshold:" + i2 + " expected >=16");
+        }
+        this.compressThreshold = i2;
+        if (z) {
+            chunkEncoderOptimalNonAllocatingInstance = ChunkEncoderFactory.safeNonAllocatingInstance(i);
+        } else {
+            chunkEncoderOptimalNonAllocatingInstance = ChunkEncoderFactory.optimalNonAllocatingInstance(i);
+        }
+        this.encoder = chunkEncoderOptimalNonAllocatingInstance;
+        this.recycler = BufferRecycler.instance();
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.MessageToByteEncoder
+    public void encode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, ByteBuf byteBuf2) throws Exception {
+        byte[] bArrAllocInputBuffer;
+        int iArrayOffset;
+        int iEncodeNonCompress;
+        int i = byteBuf.readableBytes();
+        int i2 = byteBuf.readerIndex();
+        if (byteBuf.hasArray()) {
+            bArrAllocInputBuffer = byteBuf.array();
+            iArrayOffset = byteBuf.arrayOffset() + i2;
+        } else {
+            bArrAllocInputBuffer = this.recycler.allocInputBuffer(i);
+            iArrayOffset = 0;
+            byteBuf.getBytes(i2, bArrAllocInputBuffer, 0, i);
+        }
+        byte[] bArr = bArrAllocInputBuffer;
+        byteBuf2.ensureWritable(LZFEncoder.estimateMaxWorkspaceSize(i));
+        byte[] bArrArray = byteBuf2.array();
+        int iArrayOffset2 = byteBuf2.arrayOffset() + byteBuf2.writerIndex();
+        if (i >= this.compressThreshold) {
+            iEncodeNonCompress = encodeCompress(bArr, iArrayOffset, i, bArrArray, iArrayOffset2);
+        } else {
+            iEncodeNonCompress = encodeNonCompress(bArr, iArrayOffset, i, bArrArray, iArrayOffset2);
+        }
+        byteBuf2.writerIndex(byteBuf2.writerIndex() + iEncodeNonCompress);
+        byteBuf.skipBytes(i);
+        if (byteBuf.hasArray()) {
+            return;
+        }
+        this.recycler.releaseInputBuffer(bArr);
+    }
+
+    private int encodeCompress(byte[] bArr, int i, int i2, byte[] bArr2, int i3) {
+        return LZFEncoder.appendEncoded(this.encoder, bArr, i, i2, bArr2, i3) - i3;
+    }
+
+    private static int lzfEncodeNonCompress(byte[] bArr, int i, int i2, byte[] bArr2, int i3) {
+        int iMin = Math.min(65535, i2);
+        int iAppendNonCompressed = LZFChunk.appendNonCompressed(bArr, i, iMin, bArr2, i3);
+        int i4 = i2 - iMin;
+        if (i4 < 1) {
+            return iAppendNonCompressed;
+        }
+        int i5 = i + iMin;
+        do {
+            int iMin2 = Math.min(i4, 65535);
+            iAppendNonCompressed = LZFChunk.appendNonCompressed(bArr, i5, iMin2, bArr2, iAppendNonCompressed);
+            i5 += iMin2;
+            i4 -= iMin2;
+        } while (i4 > 0);
+        return iAppendNonCompressed;
+    }
+
+    private static int encodeNonCompress(byte[] bArr, int i, int i2, byte[] bArr2, int i3) {
+        return lzfEncodeNonCompress(bArr, i, i2, bArr2, i3) - i3;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelHandler
+    public void handlerRemoved(ChannelHandlerContext channelHandlerContext) throws Exception {
+        this.encoder.close();
+        super.handlerRemoved(channelHandlerContext);
+    }
+}

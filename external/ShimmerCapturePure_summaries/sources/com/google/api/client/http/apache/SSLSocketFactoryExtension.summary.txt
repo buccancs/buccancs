@@ -1,0 +1,38 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/http/apache/SSLSocketFactoryExtension.java
+// Size: 1525 bytes
+// Modified: 2025-10-21 16:32:00.113061100 +0100
+
+package com.google.api.client.http.apache;
+
+import java.io.IOException;
+import java.net.Socket;
+import java.security.KeyManagementException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocket;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+
+/* loaded from: classes.dex */
+final class SSLSocketFactoryExtension extends SSLSocketFactory {
+    private final javax.net.ssl.SSLSocketFactory socketFactory;
+
+    /* JADX WARN: 'super' call moved to the top of the method (can break code semantics) */
+    SSLSocketFactoryExtension(SSLContext sSLContext) throws UnrecoverableKeyException, NoSuchAlgorithmException, KeyManagementException, KeyStoreException {
+        super(null);
+        this.socketFactory = sSLContext.getSocketFactory();
+    }
+
+    @Override // org.apache.http.conn.ssl.SSLSocketFactory, org.apache.http.conn.scheme.SocketFactory
+    public Socket createSocket() throws IOException {
+        return this.socketFactory.createSocket();
+    }
+
+    @Override // org.apache.http.conn.ssl.SSLSocketFactory, org.apache.http.conn.scheme.LayeredSocketFactory
+    public Socket createSocket(Socket socket, String str, int i, boolean z) throws IOException {
+        SSLSocket sSLSocket = (SSLSocket) this.socketFactory.createSocket(socket, str, i, z);
+        getHostnameVerifier().verify(str, sSLSocket);
+        return sSLSocket;
+    }
+}

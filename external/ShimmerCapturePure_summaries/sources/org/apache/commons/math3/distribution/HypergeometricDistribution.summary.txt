@@ -1,0 +1,167 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/distribution/HypergeometricDistribution.java
+// Size: 6636 bytes
+// Modified: 2025-10-21 16:32:09.463055400 +0100
+
+package org.apache.commons.math3.distribution;
+
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooLargeException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class HypergeometricDistribution extends AbstractIntegerDistribution {
+    private static final long serialVersionUID = -436928820673516179L;
+    private final int numberOfSuccesses;
+    private double numericalVariance;
+    private boolean numericalVarianceIsCalculated;
+    private final int populationSize;
+    private final int sampleSize;
+
+    public int getNumberOfSuccesses() {
+        return this.numberOfSuccesses;
+    }
+
+    public int getPopulationSize() {
+        return this.populationSize;
+    }
+
+    public int getSampleSize() {
+        return this.sampleSize;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public boolean isSupportConnected() {
+        return true;
+    }
+
+    public HypergeometricDistribution(int i, int i2, int i3) throws NotStrictlyPositiveException, NotPositiveException, NumberIsTooLargeException {
+        this(new Well19937c(), i, i2, i3);
+    }
+
+    public HypergeometricDistribution(RandomGenerator randomGenerator, int i, int i2, int i3) throws NotStrictlyPositiveException, NotPositiveException, NumberIsTooLargeException {
+        super(randomGenerator);
+        this.numericalVariance = Double.NaN;
+        this.numericalVarianceIsCalculated = false;
+        if (i <= 0) {
+            throw new NotStrictlyPositiveException(LocalizedFormats.POPULATION_SIZE, Integer.valueOf(i));
+        }
+        if (i2 < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SUCCESSES, Integer.valueOf(i2));
+        }
+        if (i3 < 0) {
+            throw new NotPositiveException(LocalizedFormats.NUMBER_OF_SAMPLES, Integer.valueOf(i3));
+        }
+        if (i2 > i) {
+            throw new NumberIsTooLargeException(LocalizedFormats.NUMBER_OF_SUCCESS_LARGER_THAN_POPULATION_SIZE, Integer.valueOf(i2), Integer.valueOf(i), true);
+        }
+        if (i3 > i) {
+            throw new NumberIsTooLargeException(LocalizedFormats.SAMPLE_SIZE_LARGER_THAN_POPULATION_SIZE, Integer.valueOf(i3), Integer.valueOf(i), true);
+        }
+        this.numberOfSuccesses = i2;
+        this.populationSize = i;
+        this.sampleSize = i3;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double cumulativeProbability(int i) {
+        int[] domain = getDomain(this.populationSize, this.numberOfSuccesses, this.sampleSize);
+        int i2 = domain[0];
+        if (i < i2) {
+            return 0.0d;
+        }
+        if (i >= domain[1]) {
+            return 1.0d;
+        }
+        return innerCumulativeProbability(i2, i, 1);
+    }
+
+    private int[] getDomain(int i, int i2, int i3) {
+        return new int[]{getLowerDomain(i, i2, i3), getUpperDomain(i2, i3)};
+    }
+
+    private int getLowerDomain(int i, int i2, int i3) {
+        return FastMath.max(0, i2 - (i - i3));
+    }
+
+    private int getUpperDomain(int i, int i2) {
+        return FastMath.min(i2, i);
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double probability(int i) {
+        double dLogProbability = logProbability(i);
+        if (dLogProbability == Double.NEGATIVE_INFINITY) {
+            return 0.0d;
+        }
+        return FastMath.exp(dLogProbability);
+    }
+
+    @Override // org.apache.commons.math3.distribution.AbstractIntegerDistribution
+    public double logProbability(int i) {
+        int[] domain = getDomain(this.populationSize, this.numberOfSuccesses, this.sampleSize);
+        if (i < domain[0] || i > domain[1]) {
+            return Double.NEGATIVE_INFINITY;
+        }
+        int i2 = this.sampleSize;
+        int i3 = this.populationSize;
+        double d = i2 / i3;
+        double d2 = (i3 - i2) / i3;
+        return (SaddlePointExpansion.logBinomialProbability(i, this.numberOfSuccesses, d, d2) + SaddlePointExpansion.logBinomialProbability(this.sampleSize - i, this.populationSize - this.numberOfSuccesses, d, d2)) - SaddlePointExpansion.logBinomialProbability(this.sampleSize, this.populationSize, d, d2);
+    }
+
+    public double upperCumulativeProbability(int i) {
+        int[] domain = getDomain(this.populationSize, this.numberOfSuccesses, this.sampleSize);
+        if (i <= domain[0]) {
+            return 1.0d;
+        }
+        int i2 = domain[1];
+        if (i > i2) {
+            return 0.0d;
+        }
+        return innerCumulativeProbability(i2, i, -1);
+    }
+
+    private double innerCumulativeProbability(int i, int i2, int i3) {
+        double dProbability = probability(i);
+        while (i != i2) {
+            i += i3;
+            dProbability += probability(i);
+        }
+        return dProbability;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalMean() {
+        return getSampleSize() * (getNumberOfSuccesses() / getPopulationSize());
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalVariance() {
+        if (!this.numericalVarianceIsCalculated) {
+            this.numericalVariance = calculateNumericalVariance();
+            this.numericalVarianceIsCalculated = true;
+        }
+        return this.numericalVariance;
+    }
+
+    protected double calculateNumericalVariance() {
+        double populationSize = getPopulationSize();
+        double numberOfSuccesses = getNumberOfSuccesses();
+        double sampleSize = getSampleSize();
+        return (((sampleSize * numberOfSuccesses) * (populationSize - sampleSize)) * (populationSize - numberOfSuccesses)) / ((populationSize * populationSize) * (populationSize - 1.0d));
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportLowerBound() {
+        return FastMath.max(0, (getSampleSize() + getNumberOfSuccesses()) - getPopulationSize());
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportUpperBound() {
+        return FastMath.min(getNumberOfSuccesses(), getSampleSize());
+    }
+}

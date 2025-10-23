@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/XYStepMode.java
+// Size: 156 bytes
+// Modified: 2025-10-21 16:32:00.046109700 +0100
+
+package com.androidplot.xy;
+
+/* loaded from: classes.dex */
+public enum XYStepMode {
+    SUBDIVIDE,
+    INCREMENT_BY_VAL,
+    INCREMENT_BY_PIXELS
+}

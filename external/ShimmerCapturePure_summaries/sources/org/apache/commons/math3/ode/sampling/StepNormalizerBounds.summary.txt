@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ode/sampling/StepNormalizerBounds.java
+// Size: 549 bytes
+// Modified: 2025-10-21 16:32:00.498154600 +0100
+
+package org.apache.commons.math3.ode.sampling;
+
+/* loaded from: classes5.dex */
+public enum StepNormalizerBounds {
+    NEITHER(false, false),
+    FIRST(true, false),
+    LAST(false, true),
+    BOTH(true, true);
+
+    private final boolean first;
+    private final boolean last;
+
+    public boolean firstIncluded() {
+        return this.first;
+    }
+
+    public boolean lastIncluded() {
+        return this.last;
+    }
+
+    StepNormalizerBounds(boolean z, boolean z2) {
+        this.first = z;
+        this.last = z2;
+    }
+}

@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/wiredProtocol/SmartDockActiveSlotDetails.java
+// Size: 806 bytes
+// Modified: 2025-10-21 16:32:00.254778600 +0100
+
+package com.shimmerresearch.comms.wiredProtocol;
+
+import java.util.Collections;
+import java.util.Map;
+import java.util.TreeMap;
+
+/* loaded from: classes2.dex */
+public class SmartDockActiveSlotDetails {
+    public static final int CONNECTION_TYPE_DISCONNECTED = 0;
+    public static final int CONNECTION_TYPE_WITHOUT_SD_CARD = 2;
+    public static final int CONNECTION_TYPE_WITH_SD_CARD = 1;
+    public static final Map<Integer, String> mMapOfConnectionTypes;
+    public int mSlot = -1;
+    public int mConnectionType = 0;
+
+    static {
+        TreeMap treeMap = new TreeMap();
+        treeMap.put(0, "Disconnected");
+        treeMap.put(1, "With SD access");
+        treeMap.put(2, "Without SD access");
+        mMapOfConnectionTypes = Collections.unmodifiableMap(treeMap);
+    }
+}

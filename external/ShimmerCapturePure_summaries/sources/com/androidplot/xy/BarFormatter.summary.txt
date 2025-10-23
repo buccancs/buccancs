@@ -1,0 +1,42 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/BarFormatter.java
+// Size: 882 bytes
+// Modified: 2025-10-21 16:32:03.665683500 +0100
+
+package com.androidplot.xy;
+
+import android.graphics.Paint;
+
+/* loaded from: classes.dex */
+public class BarFormatter extends XYSeriesFormatter {
+    private Paint a;
+    private Paint b;
+
+    public Paint getBorderPaint() {
+        return this.b;
+    }
+
+    public Paint getFillPaint() {
+        return this.a;
+    }
+
+    public void setBorderPaint(Paint paint) {
+        this.b = paint;
+    }
+
+    public void setFillPaint(Paint paint) {
+        this.a = paint;
+    }
+
+    public BarFormatter(int i, int i2) {
+        Paint paint = new Paint();
+        this.a = paint;
+        paint.setStyle(Paint.Style.FILL);
+        this.a.setAlpha(100);
+        Paint paint2 = new Paint();
+        this.b = paint2;
+        paint2.setStyle(Paint.Style.STROKE);
+        this.b.setAlpha(100);
+        this.a.setColor(i);
+        this.b.setColor(i2);
+    }
+}

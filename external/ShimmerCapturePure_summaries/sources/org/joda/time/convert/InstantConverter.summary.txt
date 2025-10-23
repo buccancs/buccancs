@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/convert/InstantConverter.java
+// Size: 400 bytes
+// Modified: 2025-10-21 16:32:07.907134300 +0100
+
+package org.joda.time.convert;
+
+import org.joda.time.Chronology;
+import org.joda.time.DateTimeZone;
+
+/* loaded from: classes2.dex */
+public interface InstantConverter extends Converter {
+    Chronology getChronology(Object obj, Chronology chronology);
+
+    Chronology getChronology(Object obj, DateTimeZone dateTimeZone);
+
+    long getInstantMillis(Object obj, Chronology chronology);
+}

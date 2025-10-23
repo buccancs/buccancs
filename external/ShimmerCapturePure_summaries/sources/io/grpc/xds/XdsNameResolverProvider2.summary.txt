@@ -1,0 +1,79 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/XdsNameResolverProvider2.java
+// Size: 4301 bytes
+// Modified: 2025-10-21 16:32:15.030322800 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import com.google.common.base.Supplier;
+import io.grpc.NameResolver;
+import io.grpc.NameResolverProvider;
+import io.grpc.SynchronizationContext;
+import io.grpc.internal.BackoffPolicy;
+import io.grpc.internal.ExponentialBackoffPolicy;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.internal.ObjectPool;
+import io.grpc.xds.Bootstrapper;
+import io.grpc.xds.XdsClient;
+import java.net.URI;
+import java.util.concurrent.ScheduledExecutorService;
+
+/* loaded from: classes3.dex */
+public final class XdsNameResolverProvider2 extends NameResolverProvider {
+    private static final String SCHEME = "xds";
+
+    @Override // io.grpc.NameResolver.Factory
+    public String getDefaultScheme() {
+        return SCHEME;
+    }
+
+    @Override // io.grpc.NameResolverProvider
+    protected boolean isAvailable() {
+        return true;
+    }
+
+    @Override // io.grpc.NameResolverProvider
+    protected int priority() {
+        return 4;
+    }
+
+    @Override // io.grpc.NameResolver.Factory
+    public XdsNameResolver2 newNameResolver(URI uri, NameResolver.Args args) {
+        if (!SCHEME.equals(uri.getScheme())) {
+            return null;
+        }
+        String str = (String) Preconditions.checkNotNull(uri.getPath(), "targetPath");
+        Preconditions.checkArgument(str.startsWith("/"), "the path component (%s) of the target (%s) must start with '/'", str, uri);
+        String strSubstring = str.substring(1);
+        return new XdsNameResolver2(strSubstring, args.getServiceConfigParser(), args.getSynchronizationContext(), new RefCountedXdsClientPoolFactory(strSubstring, XdsClient.XdsChannelFactory.getInstance(), args.getSynchronizationContext(), args.getScheduledExecutorService(), new ExponentialBackoffPolicy.Provider(), GrpcUtil.STOPWATCH_SUPPLIER));
+    }
+
+    static class RefCountedXdsClientPoolFactory implements XdsClient.XdsClientPoolFactory {
+        private final BackoffPolicy.Provider backoffPolicyProvider;
+        private final XdsClient.XdsChannelFactory channelFactory;
+        private final String serviceName;
+        private final Supplier<Stopwatch> stopwatchSupplier;
+        private final SynchronizationContext syncContext;
+        private final ScheduledExecutorService timeService;
+
+        RefCountedXdsClientPoolFactory(String str, XdsClient.XdsChannelFactory xdsChannelFactory, SynchronizationContext synchronizationContext, ScheduledExecutorService scheduledExecutorService, BackoffPolicy.Provider provider, Supplier<Stopwatch> supplier) {
+            this.serviceName = (String) Preconditions.checkNotNull(str, "serviceName");
+            this.channelFactory = (XdsClient.XdsChannelFactory) Preconditions.checkNotNull(xdsChannelFactory, "channelFactory");
+            this.syncContext = (SynchronizationContext) Preconditions.checkNotNull(synchronizationContext, "syncContext");
+            this.timeService = (ScheduledExecutorService) Preconditions.checkNotNull(scheduledExecutorService, "timeService");
+            this.backoffPolicyProvider = (BackoffPolicy.Provider) Preconditions.checkNotNull(provider, "backoffPolicyProvider");
+            this.stopwatchSupplier = (Supplier) Preconditions.checkNotNull(supplier, "stopwatchSupplier");
+        }
+
+        @Override // io.grpc.xds.XdsClient.XdsClientPoolFactory
+        public ObjectPool<XdsClient> newXdsClientObjectPool(final Bootstrapper.BootstrapInfo bootstrapInfo) {
+            return new XdsClient.RefCountedXdsClientObjectPool(new XdsClient.XdsClientFactory() { // from class: io.grpc.xds.XdsNameResolverProvider2.RefCountedXdsClientPoolFactory.1
+                @Override // io.grpc.xds.XdsClient.XdsClientFactory
+                XdsClient createXdsClient() {
+                    return new XdsClientImpl(RefCountedXdsClientPoolFactory.this.serviceName, bootstrapInfo.getServers(), RefCountedXdsClientPoolFactory.this.channelFactory, bootstrapInfo.getNode(), RefCountedXdsClientPoolFactory.this.syncContext, RefCountedXdsClientPoolFactory.this.timeService, RefCountedXdsClientPoolFactory.this.backoffPolicyProvider, RefCountedXdsClientPoolFactory.this.stopwatchSupplier);
+                }
+            });
+        }
+    }
+}

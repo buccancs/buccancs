@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/services/BinaryLogSink.java
+// Size: 229 bytes
+// Modified: 2025-10-21 16:32:00.474700000 +0100
+
+package io.grpc.services;
+
+import com.google.protobuf.MessageLite;
+import java.io.Closeable;
+
+/* loaded from: classes3.dex */
+public interface BinaryLogSink extends Closeable {
+    void write(MessageLite messageLite);
+}

@@ -1,0 +1,740 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes4.dex */
+public final class LoadStatsResponse extends GeneratedMessageV3 implements LoadStatsResponseOrBuilder {
+    public static final int CLUSTERS_FIELD_NUMBER = 1;
+    public static final int LOAD_REPORTING_INTERVAL_FIELD_NUMBER = 2;
+    public static final int REPORT_ENDPOINT_GRANULARITY_FIELD_NUMBER = 3;
+    public static final int SEND_ALL_CLUSTERS_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0;
+    private static final LoadStatsResponse DEFAULT_INSTANCE = new LoadStatsResponse();
+    private static final Parser<LoadStatsResponse> PARSER = new AbstractParser<LoadStatsResponse>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public LoadStatsResponse m32768parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new LoadStatsResponse(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private LazyStringList clusters_;
+    private Duration loadReportingInterval_;
+    private byte memoizedIsInitialized;
+    private boolean reportEndpointGranularity_;
+    private boolean sendAllClusters_;
+
+    private LoadStatsResponse(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private LoadStatsResponse() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.clusters_ = LazyStringArrayList.EMPTY;
+    }
+
+    private LoadStatsResponse(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if (!(z2 & true)) {
+                                this.clusters_ = new LazyStringArrayList();
+                                z2 |= true;
+                            }
+                            this.clusters_.add(stringRequireUtf8);
+                        } else if (tag == 18) {
+                            Duration duration = this.loadReportingInterval_;
+                            Duration.Builder builder = duration != null ? duration.toBuilder() : null;
+                            Duration message = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                            this.loadReportingInterval_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.loadReportingInterval_ = builder.buildPartial();
+                            }
+                        } else if (tag == 24) {
+                            this.reportEndpointGranularity_ = codedInputStream.readBool();
+                        } else if (tag == 32) {
+                            this.sendAllClusters_ = codedInputStream.readBool();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.clusters_ = this.clusters_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static LoadStatsResponse getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<LoadStatsResponse> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return LrsProto.internal_static_envoy_service_load_stats_v3_LoadStatsResponse_descriptor;
+    }
+
+    public static LoadStatsResponse parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (LoadStatsResponse) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static LoadStatsResponse parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LoadStatsResponse) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static LoadStatsResponse parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (LoadStatsResponse) PARSER.parseFrom(byteString);
+    }
+
+    public static LoadStatsResponse parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LoadStatsResponse) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static LoadStatsResponse parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (LoadStatsResponse) PARSER.parseFrom(bArr);
+    }
+
+    public static LoadStatsResponse parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (LoadStatsResponse) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static LoadStatsResponse parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static LoadStatsResponse parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static LoadStatsResponse parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static LoadStatsResponse parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static LoadStatsResponse parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static LoadStatsResponse parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m32766toBuilder();
+    }
+
+    public static Builder newBuilder(LoadStatsResponse loadStatsResponse) {
+        return DEFAULT_INSTANCE.m32766toBuilder().mergeFrom(loadStatsResponse);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    /* renamed from: getClustersList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo32760getClustersList() {
+        return this.clusters_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public LoadStatsResponse m32761getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<LoadStatsResponse> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    public boolean getReportEndpointGranularity() {
+        return this.reportEndpointGranularity_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    public boolean getSendAllClusters() {
+        return this.sendAllClusters_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    public boolean hasLoadReportingInterval() {
+        return this.loadReportingInterval_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new LoadStatsResponse();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return LrsProto.internal_static_envoy_service_load_stats_v3_LoadStatsResponse_fieldAccessorTable.ensureFieldAccessorsInitialized(LoadStatsResponse.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    public int getClustersCount() {
+        return this.clusters_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    public String getClusters(int i) {
+        return (String) this.clusters_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    public ByteString getClustersBytes(int i) {
+        return this.clusters_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    public Duration getLoadReportingInterval() {
+        Duration duration = this.loadReportingInterval_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+    public DurationOrBuilder getLoadReportingIntervalOrBuilder() {
+        return getLoadReportingInterval();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        for (int i = 0; i < this.clusters_.size(); i++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.clusters_.getRaw(i));
+        }
+        if (this.loadReportingInterval_ != null) {
+            codedOutputStream.writeMessage(2, getLoadReportingInterval());
+        }
+        boolean z = this.reportEndpointGranularity_;
+        if (z) {
+            codedOutputStream.writeBool(3, z);
+        }
+        boolean z2 = this.sendAllClusters_;
+        if (z2) {
+            codedOutputStream.writeBool(4, z2);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.clusters_.size(); i2++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.clusters_.getRaw(i2));
+        }
+        int size = iComputeStringSizeNoTag + mo32760getClustersList().size();
+        if (this.loadReportingInterval_ != null) {
+            size += CodedOutputStream.computeMessageSize(2, getLoadReportingInterval());
+        }
+        boolean z = this.reportEndpointGranularity_;
+        if (z) {
+            size += CodedOutputStream.computeBoolSize(3, z);
+        }
+        boolean z2 = this.sendAllClusters_;
+        if (z2) {
+            size += CodedOutputStream.computeBoolSize(4, z2);
+        }
+        int serializedSize = size + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof LoadStatsResponse)) {
+            return super.equals(obj);
+        }
+        LoadStatsResponse loadStatsResponse = (LoadStatsResponse) obj;
+        if (mo32760getClustersList().equals(loadStatsResponse.mo32760getClustersList()) && getSendAllClusters() == loadStatsResponse.getSendAllClusters() && hasLoadReportingInterval() == loadStatsResponse.hasLoadReportingInterval()) {
+            return (!hasLoadReportingInterval() || getLoadReportingInterval().equals(loadStatsResponse.getLoadReportingInterval())) && getReportEndpointGranularity() == loadStatsResponse.getReportEndpointGranularity() && this.unknownFields.equals(loadStatsResponse.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (getClustersCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + mo32760getClustersList().hashCode();
+        }
+        int iHashBoolean = (((iHashCode * 37) + 4) * 53) + Internal.hashBoolean(getSendAllClusters());
+        if (hasLoadReportingInterval()) {
+            iHashBoolean = (((iHashBoolean * 37) + 2) * 53) + getLoadReportingInterval().hashCode();
+        }
+        int iHashBoolean2 = (((((iHashBoolean * 37) + 3) * 53) + Internal.hashBoolean(getReportEndpointGranularity())) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashBoolean2;
+        return iHashBoolean2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m32763newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m32766toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements LoadStatsResponseOrBuilder {
+        private int bitField0_;
+        private LazyStringList clusters_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> loadReportingIntervalBuilder_;
+        private Duration loadReportingInterval_;
+        private boolean reportEndpointGranularity_;
+        private boolean sendAllClusters_;
+
+        private Builder() {
+            this.clusters_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.clusters_ = LazyStringArrayList.EMPTY;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return LrsProto.internal_static_envoy_service_load_stats_v3_LoadStatsResponse_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        public boolean getReportEndpointGranularity() {
+            return this.reportEndpointGranularity_;
+        }
+
+        public Builder setReportEndpointGranularity(boolean z) {
+            this.reportEndpointGranularity_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        public boolean getSendAllClusters() {
+            return this.sendAllClusters_;
+        }
+
+        public Builder setSendAllClusters(boolean z) {
+            this.sendAllClusters_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        public boolean hasLoadReportingInterval() {
+            return (this.loadReportingIntervalBuilder_ == null && this.loadReportingInterval_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return LrsProto.internal_static_envoy_service_load_stats_v3_LoadStatsResponse_fieldAccessorTable.ensureFieldAccessorsInitialized(LoadStatsResponse.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = LoadStatsResponse.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m32777clear() {
+            super.clear();
+            this.clusters_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            this.sendAllClusters_ = false;
+            if (this.loadReportingIntervalBuilder_ == null) {
+                this.loadReportingInterval_ = null;
+            } else {
+                this.loadReportingInterval_ = null;
+                this.loadReportingIntervalBuilder_ = null;
+            }
+            this.reportEndpointGranularity_ = false;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return LrsProto.internal_static_envoy_service_load_stats_v3_LoadStatsResponse_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LoadStatsResponse m32790getDefaultInstanceForType() {
+            return LoadStatsResponse.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LoadStatsResponse m32771build() throws UninitializedMessageException {
+            LoadStatsResponse loadStatsResponseM32773buildPartial = m32773buildPartial();
+            if (loadStatsResponseM32773buildPartial.isInitialized()) {
+                return loadStatsResponseM32773buildPartial;
+            }
+            throw newUninitializedMessageException(loadStatsResponseM32773buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public LoadStatsResponse m32773buildPartial() {
+            LoadStatsResponse loadStatsResponse = new LoadStatsResponse(this);
+            if ((this.bitField0_ & 1) != 0) {
+                this.clusters_ = this.clusters_.getUnmodifiableView();
+                this.bitField0_ &= -2;
+            }
+            loadStatsResponse.clusters_ = this.clusters_;
+            loadStatsResponse.sendAllClusters_ = this.sendAllClusters_;
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.loadReportingIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                loadStatsResponse.loadReportingInterval_ = this.loadReportingInterval_;
+            } else {
+                loadStatsResponse.loadReportingInterval_ = singleFieldBuilderV3.build();
+            }
+            loadStatsResponse.reportEndpointGranularity_ = this.reportEndpointGranularity_;
+            onBuilt();
+            return loadStatsResponse;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m32789clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m32801setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m32779clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m32782clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m32803setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m32769addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m32794mergeFrom(Message message) {
+            if (message instanceof LoadStatsResponse) {
+                return mergeFrom((LoadStatsResponse) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(LoadStatsResponse loadStatsResponse) {
+            if (loadStatsResponse == LoadStatsResponse.getDefaultInstance()) {
+                return this;
+            }
+            if (!loadStatsResponse.clusters_.isEmpty()) {
+                if (this.clusters_.isEmpty()) {
+                    this.clusters_ = loadStatsResponse.clusters_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureClustersIsMutable();
+                    this.clusters_.addAll(loadStatsResponse.clusters_);
+                }
+                onChanged();
+            }
+            if (loadStatsResponse.getSendAllClusters()) {
+                setSendAllClusters(loadStatsResponse.getSendAllClusters());
+            }
+            if (loadStatsResponse.hasLoadReportingInterval()) {
+                mergeLoadReportingInterval(loadStatsResponse.getLoadReportingInterval());
+            }
+            if (loadStatsResponse.getReportEndpointGranularity()) {
+                setReportEndpointGranularity(loadStatsResponse.getReportEndpointGranularity());
+            }
+            m32799mergeUnknownFields(loadStatsResponse.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse.Builder m32795mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse.Builder.m32795mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponse$Builder");
+        }
+
+        private void ensureClustersIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.clusters_ = new LazyStringArrayList(this.clusters_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        /* renamed from: getClustersList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo32760getClustersList() {
+            return this.clusters_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        public int getClustersCount() {
+            return this.clusters_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        public String getClusters(int i) {
+            return (String) this.clusters_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        public ByteString getClustersBytes(int i) {
+            return this.clusters_.getByteString(i);
+        }
+
+        public Builder setClusters(int i, String str) {
+            str.getClass();
+            ensureClustersIsMutable();
+            this.clusters_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addClusters(String str) {
+            str.getClass();
+            ensureClustersIsMutable();
+            this.clusters_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllClusters(Iterable<String> iterable) {
+            ensureClustersIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.clusters_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearClusters() {
+            this.clusters_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        public Builder addClustersBytes(ByteString byteString) {
+            byteString.getClass();
+            LoadStatsResponse.checkByteStringIsUtf8(byteString);
+            ensureClustersIsMutable();
+            this.clusters_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSendAllClusters() {
+            this.sendAllClusters_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        public Duration getLoadReportingInterval() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.loadReportingIntervalBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.loadReportingInterval_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setLoadReportingInterval(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.loadReportingIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.loadReportingInterval_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setLoadReportingInterval(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.loadReportingIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.loadReportingInterval_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeLoadReportingInterval(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.loadReportingIntervalBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.loadReportingInterval_;
+                if (duration2 != null) {
+                    this.loadReportingInterval_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.loadReportingInterval_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearLoadReportingInterval() {
+            if (this.loadReportingIntervalBuilder_ == null) {
+                this.loadReportingInterval_ = null;
+                onChanged();
+            } else {
+                this.loadReportingInterval_ = null;
+                this.loadReportingIntervalBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getLoadReportingIntervalBuilder() {
+            onChanged();
+            return getLoadReportingIntervalFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.service.load_stats.v3.LoadStatsResponseOrBuilder
+        public DurationOrBuilder getLoadReportingIntervalOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.loadReportingIntervalBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.loadReportingInterval_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getLoadReportingIntervalFieldBuilder() {
+            if (this.loadReportingIntervalBuilder_ == null) {
+                this.loadReportingIntervalBuilder_ = new SingleFieldBuilderV3<>(getLoadReportingInterval(), getParentForChildren(), isClean());
+                this.loadReportingInterval_ = null;
+            }
+            return this.loadReportingIntervalBuilder_;
+        }
+
+        public Builder clearReportEndpointGranularity() {
+            this.reportEndpointGranularity_ = false;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m32805setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m32799mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/type/DateOrBuilder.java
+// Size: 235 bytes
+// Modified: 2025-10-21 16:32:00.196082700 +0100
+
+package com.google.type;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface DateOrBuilder extends MessageOrBuilder {
+    int getDay();
+
+    int getMonth();
+
+    int getYear();
+}

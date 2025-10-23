@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/TransformedIterator.java
+// Size: 822 bytes
+// Modified: 2025-10-21 16:32:03.123618600 +0100
+
+package com.google.common.collect;
+
+import com.google.common.base.Preconditions;
+import java.util.Iterator;
+
+/* loaded from: classes.dex */
+abstract class TransformedIterator<F, T> implements Iterator<T> {
+    final Iterator<? extends F> backingIterator;
+
+    abstract T transform(F f);
+
+    TransformedIterator(Iterator<? extends F> it2) {
+        this.backingIterator = (Iterator) Preconditions.checkNotNull(it2);
+    }
+
+    @Override // java.util.Iterator
+    public final boolean hasNext() {
+        return this.backingIterator.hasNext();
+    }
+
+    @Override // java.util.Iterator
+    public final T next() {
+        return transform(this.backingIterator.next());
+    }
+
+    @Override // java.util.Iterator
+    public final void remove() {
+        this.backingIterator.remove();
+    }
+}

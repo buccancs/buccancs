@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/ConscryptHostnameVerifier.java
+// Size: 200 bytes
+// Modified: 2025-10-21 16:32:00.671368300 +0100
+
+package org.conscrypt;
+
+import javax.net.ssl.SSLSession;
+
+/* loaded from: classes5.dex */
+public interface ConscryptHostnameVerifier {
+    boolean verify(String str, SSLSession sSLSession);
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optimization/MultivariateDifferentiableVectorOptimizer.java
+// Size: 345 bytes
+// Modified: 2025-10-21 16:32:04.263821700 +0100
+
+package org.apache.commons.math3.optimization;
+
+import org.apache.commons.math3.analysis.differentiation.MultivariateDifferentiableVectorFunction;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public interface MultivariateDifferentiableVectorOptimizer extends BaseMultivariateVectorOptimizer<MultivariateDifferentiableVectorFunction> {
+}

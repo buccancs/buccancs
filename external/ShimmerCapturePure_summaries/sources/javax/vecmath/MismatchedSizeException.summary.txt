@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/javax/vecmath/MismatchedSizeException.java
+// Size: 254 bytes
+// Modified: 2025-10-21 16:32:00.418490200 +0100
+
+package javax.vecmath;
+
+/* loaded from: classes4.dex */
+public class MismatchedSizeException extends RuntimeException {
+    public MismatchedSizeException() {
+    }
+
+    public MismatchedSizeException(String str) {
+        super(str);
+    }
+}

@@ -1,0 +1,192 @@
+package com.shimmerresearch.comms.wiredProtocol;
+
+import bolts.TaskCompletionSource;
+import com.shimmerresearch.comms.StringListener;
+import com.shimmerresearch.comms.serialPortInterface.InterfaceSerialPortHal;
+import com.shimmerresearch.comms.wiredProtocol.UartPacketDetails;
+import com.shimmerresearch.driver.ShimmerMsg;
+import com.shimmerresearch.driver.shimmer2r3.BluetoothModuleVersionDetails;
+import com.shimmerresearch.driverUtilities.ExpansionBoardDetails;
+import com.shimmerresearch.driverUtilities.ShimmerBattStatusDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.verisense.communication.ByteCommunicationListener;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+
+/* loaded from: classes2.dex */
+public class CommsProtocolWiredShimmerViaDock extends AbstractCommsProtocolWired {
+    boolean ackNotReceivedForTestCommand;
+    StringListener mStringTestListener;
+
+    public CommsProtocolWiredShimmerViaDock(String str, String str2, InterfaceSerialPortHal interfaceSerialPortHal) {
+        super(str, str2, interfaceSerialPortHal);
+        this.ackNotReceivedForTestCommand = true;
+        interfaceSerialPortHal.registerSerialPortRxEventCallback(this);
+    }
+
+    public void addTestStringListener(StringListener stringListener) {
+        this.mStringTestListener = stringListener;
+    }
+
+    @Override // com.shimmerresearch.driver.BasicProcessWithCallBack
+    protected void processMsgFromCallback(ShimmerMsg shimmerMsg) {
+    }
+
+    public String readMacId() throws DockException {
+        byte[] bArrProcessShimmerGetCommand = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.MAC, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_MAC_ID_GET);
+        if (bArrProcessShimmerGetCommand.length < 6) {
+            throw new DockException(this.mUniqueId, this.mComPort, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_MAC_ID_GET, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
+        }
+        return UtilShimmer.bytesToHexString(Arrays.copyOf(bArrProcessShimmerGetCommand, 6));
+    }
+
+    public ShimmerBattStatusDetails readBattStatus() throws ExecutionException {
+        byte[] bArrProcessShimmerGetCommand = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.BAT.VALUE, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_BATT_STATUS_GET);
+        if (bArrProcessShimmerGetCommand.length < 3) {
+            throw new DockException(this.mUniqueId, this.mComPort, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_BATT_STATUS_GET, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
+        }
+        return new ShimmerBattStatusDetails(bArrProcessShimmerGetCommand);
+    }
+
+    public ShimmerVerObject readHwFwVersion() throws ExecutionException {
+        byte[] bArrProcessShimmerGetCommand = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.VER, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_VERSION_INFO_GET);
+        if (bArrProcessShimmerGetCommand.length < 7) {
+            throw new DockException(this.mUniqueId, this.mComPort, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_VERSION_INFO_GET, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
+        }
+        return new ShimmerVerObject(bArrProcessShimmerGetCommand);
+    }
+
+    public long readRealWorldClockConfigTime() throws ExecutionException {
+        byte[] bArrProcessShimmerGetCommand = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.RTC_CFG_TIME, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RTC_CONFIG_TIME_GET);
+        if (bArrProcessShimmerGetCommand.length >= 8) {
+            return UtilShimmer.convertShimmerRtcDataBytesToMilliSecondsLSB(Arrays.copyOf(bArrProcessShimmerGetCommand, 8));
+        }
+        throw new DockException(this.mUniqueId, this.mComPort, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RTC_CONFIG_TIME_GET, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
+    }
+
+    public long readCurrentTime() throws ExecutionException {
+        byte[] bArrProcessShimmerGetCommand = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.CURR_LOCAL_TIME, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RTC_CURRENT_TIME_GET);
+        if (bArrProcessShimmerGetCommand.length >= 8) {
+            return UtilShimmer.convertShimmerRtcDataBytesToMilliSecondsLSB(Arrays.copyOf(bArrProcessShimmerGetCommand, 8));
+        }
+        throw new DockException(this.mUniqueId, this.mComPort, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RTC_CURRENT_TIME_GET, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
+    }
+
+    public long writeRealWorldClockFromPcTime() throws ExecutionException {
+        return writeRealWorldClock(System.currentTimeMillis());
+    }
+
+    public long writeRealWorldClock(long j) throws ExecutionException {
+        processShimmerSetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.RTC_CFG_TIME, UtilShimmer.convertMilliSecondsToShimmerRtcDataBytesLSB(j), ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RTC_CONFIG_TIME_SET);
+        return j;
+    }
+
+    public byte[] readInfoMem(int i, int i2) throws ExecutionException {
+        return processShimmerMemGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.INFOMEM, i, i2, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_INFOMEM_GET);
+    }
+
+    public void writeInfoMem(int i, byte[] bArr) throws ExecutionException {
+        processShimmerMemSetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.INFOMEM, i, bArr, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_INFOMEM_SET);
+    }
+
+    public ExpansionBoardDetails readDaughterCardID() throws ExecutionException {
+        return new ExpansionBoardDetails(processShimmerMemGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DAUGHTER_CARD.CARD_ID, 0, 16, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_DAUGHTER_ID_GET));
+    }
+
+    public void writeDaughterCardId(int i, byte[] bArr) throws ExecutionException {
+        processShimmerMemSetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DAUGHTER_CARD.CARD_ID, i, bArr, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_DAUGHTER_ID_SET);
+    }
+
+    public byte[] readDaughterCardMemory(int i, int i2) throws ExecutionException {
+        return processShimmerMemGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DAUGHTER_CARD.CARD_MEM, i, i2, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_DAUGHTER_MEM_GET);
+    }
+
+    public void writeDaughterCardMemory(int i, byte[] bArr) throws ExecutionException {
+        processShimmerMemSetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.DAUGHTER_CARD.CARD_MEM, i, bArr, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_DAUGHTER_MEM_SET);
+    }
+
+    public byte[] read802154RadioSettings() throws ExecutionException {
+        byte[] bArrProcessShimmerGetCommand = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.RADIO_802154.SETTINGS, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RADIO_802154_GET_SETTINGS);
+        if (bArrProcessShimmerGetCommand.length >= 9) {
+            return Arrays.copyOf(bArrProcessShimmerGetCommand, 9);
+        }
+        throw new DockException(this.mUniqueId, this.mComPort, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_RADIO_802154_GET_SETTINGS, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
+    }
+
+    public BluetoothModuleVersionDetails readBtFwVersion() throws ExecutionException {
+        byte[] bArrProcessShimmerGetCommand = processShimmerGetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.BLUETOOTH.VER, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_BT_FW_VERSION_INFO_GET);
+        if (bArrProcessShimmerGetCommand.length == 0) {
+            throw new DockException(this.mUniqueId, this.mComPort, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_BT_FW_VERSION_INFO_GET, ErrorCodesWiredProtocol.SHIMMERUART_COMM_ERR_MESSAGE_CONTENTS);
+        }
+        BluetoothModuleVersionDetails bluetoothModuleVersionDetails = new BluetoothModuleVersionDetails();
+        bluetoothModuleVersionDetails.parseBtModuleVerBytes(bArrProcessShimmerGetCommand);
+        return bluetoothModuleVersionDetails;
+    }
+
+    public boolean readMainTest(UartComponentPropertyDetails uartComponentPropertyDetails) throws ExecutionException {
+        final TaskCompletionSource taskCompletionSource = new TaskCompletionSource();
+        final ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        this.ackNotReceivedForTestCommand = true;
+        setListener(new ByteCommunicationListener() { // from class: com.shimmerresearch.comms.wiredProtocol.CommsProtocolWiredShimmerViaDock.1
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventConnected() {
+            }
+
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventDisconnected() {
+            }
+
+            @Override // com.shimmerresearch.verisense.communication.ByteCommunicationListener
+            public void eventNewBytesReceived(byte[] bArr) {
+                System.out.println("Test : " + UtilShimmer.bytesToHexString(bArr));
+                try {
+                    byteArrayOutputStream.write(bArr);
+                    String str = new String(byteArrayOutputStream.toByteArray());
+                    if (CommsProtocolWiredShimmerViaDock.this.ackNotReceivedForTestCommand) {
+                        byte[] byteArray = byteArrayOutputStream.toByteArray();
+                        if (UtilShimmer.doesFirstBytesMatch(byteArray, AbstractCommsProtocolWired.TEST_ACK)) {
+                            byteArrayOutputStream.reset();
+                            byteArrayOutputStream.write(byteArray, AbstractCommsProtocolWired.TEST_ACK.length, byteArray.length - AbstractCommsProtocolWired.TEST_ACK.length);
+                            str = new String(byteArrayOutputStream.toByteArray());
+                            CommsProtocolWiredShimmerViaDock.this.ackNotReceivedForTestCommand = false;
+                        }
+                    }
+                    System.out.println(str);
+                    if (CommsProtocolWiredShimmerViaDock.this.mStringTestListener != null) {
+                        CommsProtocolWiredShimmerViaDock.this.mStringTestListener.eventNewStringRx(str);
+                    }
+                    if (str.contains(AbstractCommsProtocolWired.TEST_ENDING)) {
+                        taskCompletionSource.setResult(true);
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    taskCompletionSource.setResult(false);
+                }
+            }
+        });
+        this.mTestStreaming = true;
+        processShimmerSetCommandNoWait(uartComponentPropertyDetails, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_VERSION_INFO_GET, null);
+        try {
+            boolean zWaitForCompletion = taskCompletionSource.getTask().waitForCompletion(60L, TimeUnit.SECONDS);
+            this.mTestStreaming = false;
+            return zWaitForCompletion;
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            this.mTestStreaming = false;
+            return false;
+        }
+    }
+
+    public boolean isTestStreaming() {
+        return this.mTestStreaming;
+    }
+
+    public void writeJumpToBootloaderMode(byte b) throws ExecutionException {
+        processShimmerSetCommand(UartPacketDetails.UART_COMPONENT_AND_PROPERTY.MAIN_PROCESSOR.ENTER_BOOTLOADER, new byte[]{b}, ErrorCodesWiredProtocol.SHIMMERUART_CMD_ERR_ENTER_BOOTLOADER_SET);
+    }
+}

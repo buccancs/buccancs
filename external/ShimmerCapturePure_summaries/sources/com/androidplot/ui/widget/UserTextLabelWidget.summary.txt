@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/widget/UserTextLabelWidget.java
+// Size: 567 bytes
+// Modified: 2025-10-21 16:32:05.332004200 +0100
+
+package com.androidplot.ui.widget;
+
+import com.androidplot.ui.SizeMetrics;
+import com.androidplot.ui.TextOrientationType;
+
+/* loaded from: classes.dex */
+public class UserTextLabelWidget extends TextLabelWidget {
+    private String a;
+
+    @Override // com.androidplot.ui.widget.TextLabelWidget
+    protected final String a() {
+        return this.a;
+    }
+
+    public UserTextLabelWidget(String str, SizeMetrics sizeMetrics, TextOrientationType textOrientationType) {
+        super(sizeMetrics, textOrientationType);
+        this.a = str;
+    }
+}

@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/unix/Limits.java
+// Size: 519 bytes
+// Modified: 2025-10-21 16:32:00.841679400 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.unix;
+
+/* loaded from: classes3.dex */
+public final class Limits {
+    public static final int IOV_MAX = LimitsStaticallyReferencedJniMethods.iovMax();
+    public static final int UIO_MAX_IOV = LimitsStaticallyReferencedJniMethods.uioMaxIov();
+    public static final long SSIZE_MAX = LimitsStaticallyReferencedJniMethods.ssizeMax();
+    public static final int SIZEOF_JLONG = LimitsStaticallyReferencedJniMethods.sizeOfjlong();
+
+    private Limits() {
+    }
+}

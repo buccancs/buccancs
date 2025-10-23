@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/lifecycle/LifecycleKt$$ExternalSyntheticBackportWithForwarding0.java
+// Size: 555 bytes
+// Modified: 2025-10-21 16:31:59.983811700 +0100
+
+package androidx.lifecycle;
+
+import java.util.concurrent.atomic.AtomicReference;
+
+/* compiled from: D8$$SyntheticClass */
+/* loaded from: classes.dex */
+public final /* synthetic */ class LifecycleKt$$ExternalSyntheticBackportWithForwarding0 {
+    public static /* synthetic */ boolean m(AtomicReference atomicReference, Object obj, Object obj2) {
+        while (!atomicReference.compareAndSet(obj, obj2)) {
+            if (atomicReference.get() != obj) {
+                return false;
+            }
+        }
+        return true;
+    }
+}

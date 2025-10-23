@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/util/Collections2.java
+// Size: 285 bytes
+// Modified: 2025-10-21 16:32:00.127709900 +0100
+
+package com.google.api.client.util;
+
+import java.util.Collection;
+
+/* loaded from: classes.dex */
+public final class Collections2 {
+    static <T> Collection<T> cast(Iterable<T> iterable) {
+        return (Collection) iterable;
+    }
+
+    private Collections2() {
+    }
+}

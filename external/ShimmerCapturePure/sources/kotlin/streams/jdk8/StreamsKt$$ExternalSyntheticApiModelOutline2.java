@@ -1,0 +1,20 @@
+package kotlin.streams.jdk8;
+
+import java.security.cert.PKIXRevocationChecker;
+
+/* compiled from: D8$$SyntheticClass */
+/* loaded from: classes4.dex */
+public final /* synthetic */ class StreamsKt$$ExternalSyntheticApiModelOutline2 {
+    public static /* bridge */ /* synthetic */ PKIXRevocationChecker m(Object obj) {
+        return (PKIXRevocationChecker) obj;
+    }
+
+    /* renamed from: m, reason: collision with other method in class */
+    public static /* synthetic */ void m40103m() {
+    }
+
+    /* renamed from: m, reason: collision with other method in class */
+    public static /* bridge */ /* synthetic */ boolean m40104m(Object obj) {
+        return obj instanceof PKIXRevocationChecker;
+    }
+}

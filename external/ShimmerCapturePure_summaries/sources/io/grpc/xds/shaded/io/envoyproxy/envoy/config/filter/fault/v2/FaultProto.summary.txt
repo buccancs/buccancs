@@ -1,0 +1,76 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/fault/v2/FaultProto.java
+// Size: 7117 bytes
+// Modified: 2025-10-21 16:32:04.002802600 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.DurationProto;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import envoy.annotations.Deprecation;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.PercentProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Migrate;
+import udpa.annotations.Status;
+
+/* loaded from: classes6.dex */
+public final class FaultProto {
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n(envoy/config/filter/fault/v2/fault.proto\u0012\u001cenvoy.config.filter.fault.v2\u001a\u0018envoy/type/percent.proto\u001a\u001egoogle/protobuf/duration.proto\u001a#envoy/annotations/deprecation.proto\u001a\u001eudpa/annotations/migrate.proto\u001a\u001dudpa/annotations/status.proto\u001a\u0017validate/validate.proto\"é\u0002\n\nFaultDelay\u0012O\n\u0004type\u0018\u0001 \u0001(\u000e27.envoy.config.filter.fault.v2.FaultDelay.FaultDelayTypeB\b\u0018\u0001¸îòÒ\u0005\u0001\u0012:\n\u000bfixed_delay\u0018\u0003 \u0001(\u000b2\u0019.google.protobuf.DurationB\búB\u0005ª\u0001\u0002*\u0000H\u0000\u0012L\n\fheader_delay\u0018\u0005 \u0001(\u000b24.envoy.config.filter.fault.v2.FaultDelay.HeaderDelayH\u0000\u00121\n\npercentage\u0018\u0004 \u0001(\u000b2\u001d.envoy.type.FractionalPercent\u001a\r\n\u000bHeaderDelay\"\u001b\n\u000eFaultDelayType\u0012\t\n\u0005FIXED\u0010\u0000B\u001b\n\u0014fault_delay_secifier\u0012\u0003øB\u0001J\u0004\b\u0002\u0010\u0003\"²\u0002\n\u000eFaultRateLimit\u0012N\n\u000bfixed_limit\u0018\u0001 \u0001(\u000b27.envoy.config.filter.fault.v2.FaultRateLimit.FixedLimitH\u0000\u0012P\n\fheader_limit\u0018\u0003 \u0001(\u000b28.envoy.config.filter.fault.v2.FaultRateLimit.HeaderLimitH\u0000\u00121\n\npercentage\u0018\u0002 \u0001(\u000b2\u001d.envoy.type.FractionalPercent\u001a)\n\nFixedLimit\u0012\u001b\n\nlimit_kbps\u0018\u0001 \u0001(\u0004B\u0007úB\u00042\u0002(\u0001\u001a\r\n\u000bHeaderLimitB\u0011\n\nlimit_type\u0012\u0003øB\u0001Br\n*io.envoyproxy.envoy.config.filter.fault.v2B\nFaultProtoP\u0001ò\u0098þ\u008f\u0005*\u0012(envoy.extensions.filters.common.fault.v3º\u0080ÈÑ\u0006\u0002\u0010\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{PercentProto.getDescriptor(), DurationProto.getDescriptor(), Deprecation.getDescriptor(), Migrate.getDescriptor(), Status.getDescriptor(), Validate.getDescriptor()});
+    static final Descriptors.Descriptor internal_static_envoy_config_filter_fault_v2_FaultDelay_HeaderDelay_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_filter_fault_v2_FaultDelay_HeaderDelay_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_filter_fault_v2_FaultDelay_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_filter_fault_v2_FaultDelay_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_filter_fault_v2_FaultRateLimit_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_filter_fault_v2_FaultRateLimit_fieldAccessorTable;
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    private FaultProto() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_filter_fault_v2_FaultDelay_descriptor = descriptor2;
+        internal_static_envoy_config_filter_fault_v2_FaultDelay_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Type", "FixedDelay", "HeaderDelay", "Percentage", "FaultDelaySecifier"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_envoy_config_filter_fault_v2_FaultDelay_HeaderDelay_descriptor = descriptor3;
+        internal_static_envoy_config_filter_fault_v2_FaultDelay_HeaderDelay_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[0]);
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_config_filter_fault_v2_FaultRateLimit_descriptor = descriptor4;
+        internal_static_envoy_config_filter_fault_v2_FaultRateLimit_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"FixedLimit", "HeaderLimit", "Percentage", "LimitType"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) descriptor4.getNestedTypes().get(0);
+        internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_descriptor = descriptor5;
+        internal_static_envoy_config_filter_fault_v2_FaultRateLimit_FixedLimit_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"LimitKbps"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) descriptor4.getNestedTypes().get(1);
+        internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_descriptor = descriptor6;
+        internal_static_envoy_config_filter_fault_v2_FaultRateLimit_HeaderLimit_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[0]);
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Deprecation.disallowedByDefault);
+        extensionRegistryNewInstance.add(Migrate.fileMigrate);
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        PercentProto.getDescriptor();
+        DurationProto.getDescriptor();
+        Deprecation.getDescriptor();
+        Migrate.getDescriptor();
+        Status.getDescriptor();
+        Validate.getDescriptor();
+    }
+}

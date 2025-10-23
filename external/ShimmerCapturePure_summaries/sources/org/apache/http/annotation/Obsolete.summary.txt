@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/annotation/Obsolete.java
+// Size: 429 bytes
+// Modified: 2025-10-21 16:32:00.543615300 +0100
+
+package org.apache.http.annotation;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.FIELD, ElementType.METHOD, ElementType.TYPE})
+@Documented
+@Retention(RetentionPolicy.CLASS)
+/* loaded from: classes5.dex */
+public @interface Obsolete {
+}

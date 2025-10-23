@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/eac/CertificationAuthorityReference.java
+// Size: 364 bytes
+// Modified: 2025-10-21 16:32:00.980086200 +0100
+
+package org.bouncycastle.asn1.eac;
+
+/* loaded from: classes5.dex */
+public class CertificationAuthorityReference extends CertificateHolderReference {
+    public CertificationAuthorityReference(String str, String str2, String str3) {
+        super(str, str2, str3);
+    }
+
+    CertificationAuthorityReference(byte[] bArr) {
+        super(bArr);
+    }
+}

@@ -1,0 +1,111 @@
+package com.google.re2j;
+
+import com.shimmerresearch.comms.radioProtocol.ShimmerLiteProtocolInstructionSet;
+
+import java.util.HashMap;
+
+/* loaded from: classes2.dex */
+class CharGroup {
+    static final HashMap<String, CharGroup> PERL_GROUPS;
+    static final HashMap<String, CharGroup> POSIX_GROUPS;
+    private static final int[] code1;
+    private static final int[] code10;
+    private static final int[] code11;
+    private static final int[] code12;
+    private static final int[] code13;
+    private static final int[] code14;
+    private static final int[] code15;
+    private static final int[] code16;
+    private static final int[] code17;
+    private static final int[] code2;
+    private static final int[] code3;
+    private static final int[] code4;
+    private static final int[] code5;
+    private static final int[] code6;
+    private static final int[] code7;
+    private static final int[] code8;
+    private static final int[] code9;
+
+    static {
+        int[] iArr = {48, 57};
+        code1 = iArr;
+        int[] iArr2 = {9, 10, 12, 13, 32, 32};
+        code2 = iArr2;
+        int[] iArr3 = {48, 57, 65, 90, 95, 95, 97, 122};
+        code3 = iArr3;
+        HashMap<String, CharGroup> map = new HashMap<>();
+        PERL_GROUPS = map;
+        map.put("\\d", new CharGroup(1, iArr));
+        map.put("\\D", new CharGroup(-1, iArr));
+        map.put("\\s", new CharGroup(1, iArr2));
+        map.put("\\S", new CharGroup(-1, iArr2));
+        map.put("\\w", new CharGroup(1, iArr3));
+        map.put("\\W", new CharGroup(-1, iArr3));
+        int[] iArr4 = {48, 57, 65, 90, 97, 122};
+        code4 = iArr4;
+        int[] iArr5 = {65, 90, 97, 122};
+        code5 = iArr5;
+        int[] iArr6 = {0, 127};
+        code6 = iArr6;
+        int[] iArr7 = {9, 9, 32, 32};
+        code7 = iArr7;
+        int[] iArr8 = {0, 31, 127, 127};
+        code8 = iArr8;
+        int[] iArr9 = {48, 57};
+        code9 = iArr9;
+        int[] iArr10 = {33, ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsGet.GET_EXPID_COMMAND_VALUE};
+        code10 = iArr10;
+        int[] iArr11 = {97, 122};
+        code11 = iArr11;
+        int[] iArr12 = {32, ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsGet.GET_EXPID_COMMAND_VALUE};
+        code12 = iArr12;
+        int[] iArr13 = {33, 47, 58, 64, 91, 96, 123, ShimmerLiteProtocolInstructionSet.LiteProtocolInstructionSet.InstructionsGet.GET_EXPID_COMMAND_VALUE};
+        code13 = iArr13;
+        int[] iArr14 = {9, 13, 32, 32};
+        code14 = iArr14;
+        int[] iArr15 = {65, 90};
+        code15 = iArr15;
+        int[] iArr16 = {48, 57, 65, 90, 95, 95, 97, 122};
+        code16 = iArr16;
+        int[] iArr17 = {48, 57, 65, 70, 97, 102};
+        code17 = iArr17;
+        HashMap<String, CharGroup> map2 = new HashMap<>();
+        POSIX_GROUPS = map2;
+        map2.put("[:alnum:]", new CharGroup(1, iArr4));
+        map2.put("[:^alnum:]", new CharGroup(-1, iArr4));
+        map2.put("[:alpha:]", new CharGroup(1, iArr5));
+        map2.put("[:^alpha:]", new CharGroup(-1, iArr5));
+        map2.put("[:ascii:]", new CharGroup(1, iArr6));
+        map2.put("[:^ascii:]", new CharGroup(-1, iArr6));
+        map2.put("[:blank:]", new CharGroup(1, iArr7));
+        map2.put("[:^blank:]", new CharGroup(-1, iArr7));
+        map2.put("[:cntrl:]", new CharGroup(1, iArr8));
+        map2.put("[:^cntrl:]", new CharGroup(-1, iArr8));
+        map2.put("[:digit:]", new CharGroup(1, iArr9));
+        map2.put("[:^digit:]", new CharGroup(-1, iArr9));
+        map2.put("[:graph:]", new CharGroup(1, iArr10));
+        map2.put("[:^graph:]", new CharGroup(-1, iArr10));
+        map2.put("[:lower:]", new CharGroup(1, iArr11));
+        map2.put("[:^lower:]", new CharGroup(-1, iArr11));
+        map2.put("[:print:]", new CharGroup(1, iArr12));
+        map2.put("[:^print:]", new CharGroup(-1, iArr12));
+        map2.put("[:punct:]", new CharGroup(1, iArr13));
+        map2.put("[:^punct:]", new CharGroup(-1, iArr13));
+        map2.put("[:space:]", new CharGroup(1, iArr14));
+        map2.put("[:^space:]", new CharGroup(-1, iArr14));
+        map2.put("[:upper:]", new CharGroup(1, iArr15));
+        map2.put("[:^upper:]", new CharGroup(-1, iArr15));
+        map2.put("[:word:]", new CharGroup(1, iArr16));
+        map2.put("[:^word:]", new CharGroup(-1, iArr16));
+        map2.put("[:xdigit:]", new CharGroup(1, iArr17));
+        map2.put("[:^xdigit:]", new CharGroup(-1, iArr17));
+    }
+
+    final int[] cls;
+    final int sign;
+
+    private CharGroup(int i, int[] iArr) {
+        this.sign = i;
+        this.cls = iArr;
+    }
+}

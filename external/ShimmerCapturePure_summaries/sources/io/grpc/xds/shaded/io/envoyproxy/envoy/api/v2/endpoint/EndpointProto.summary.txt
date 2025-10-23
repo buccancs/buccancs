@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/endpoint/EndpointProto.java
+// Size: 1317 bytes
+// Modified: 2025-10-21 16:32:04.454926900 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import udpa.annotations.Status;
+
+/* loaded from: classes3.dex */
+public final class EndpointProto {
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n$envoy/api/v2/endpoint/endpoint.proto\u0012\u0015envoy.api.v2.endpoint\u001a\u001dudpa/annotations/status.proto\u001a/envoy/api/v2/endpoint/endpoint_components.protoB6\n#io.envoyproxy.envoy.api.v2.endpointB\rEndpointProtoP\u0001P\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{Status.getDescriptor(), EndpointComponentsProto.getDescriptor()});
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    private EndpointProto() {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+
+    static {
+        Status.getDescriptor();
+        EndpointComponentsProto.getDescriptor();
+    }
+}

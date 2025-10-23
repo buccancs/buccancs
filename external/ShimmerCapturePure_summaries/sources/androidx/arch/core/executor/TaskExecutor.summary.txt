@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/arch/core/executor/TaskExecutor.java
+// Size: 484 bytes
+// Modified: 2025-10-21 16:32:00.110060200 +0100
+
+package androidx.arch.core.executor;
+
+/* loaded from: classes.dex */
+public abstract class TaskExecutor {
+    public abstract void executeOnDiskIO(Runnable runnable);
+
+    public abstract boolean isMainThread();
+
+    public abstract void postToMainThread(Runnable runnable);
+
+    public void executeOnMainThread(Runnable runnable) {
+        if (isMainThread()) {
+            runnable.run();
+        } else {
+            postToMainThread(runnable);
+        }
+    }
+}

@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/io/pem/PemGenerationException.java
+// Size: 505 bytes
+// Modified: 2025-10-21 16:32:00.639473100 +0100
+
+package org.bouncycastle.util.io.pem;
+
+import java.io.IOException;
+
+/* loaded from: classes5.dex */
+public class PemGenerationException extends IOException {
+    private Throwable cause;
+
+    public PemGenerationException(String str) {
+        super(str);
+    }
+
+    public PemGenerationException(String str, Throwable th) {
+        super(str);
+        this.cause = th;
+    }
+
+    @Override // java.lang.Throwable
+    public Throwable getCause() {
+        return this.cause;
+    }
+}

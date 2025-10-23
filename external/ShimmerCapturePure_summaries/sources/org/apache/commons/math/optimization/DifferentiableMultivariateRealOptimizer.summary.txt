@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/optimization/DifferentiableMultivariateRealOptimizer.java
+// Size: 1088 bytes
+// Modified: 2025-10-21 16:32:04.228685000 +0100
+
+package org.apache.commons.math.optimization;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.analysis.DifferentiableMultivariateRealFunction;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/DifferentiableMultivariateRealOptimizer.class */
+public interface DifferentiableMultivariateRealOptimizer {
+    void setMaxIterations(int i);
+
+    int getMaxIterations();
+
+    int getIterations();
+
+    void setMaxEvaluations(int i);
+
+    int getMaxEvaluations();
+
+    int getEvaluations();
+
+    int getGradientEvaluations();
+
+    void setConvergenceChecker(RealConvergenceChecker realConvergenceChecker);
+
+    RealConvergenceChecker getConvergenceChecker();
+
+    RealPointValuePair optimize(DifferentiableMultivariateRealFunction differentiableMultivariateRealFunction, GoalType goalType, double[] dArr) throws FunctionEvaluationException, OptimizationException, IllegalArgumentException;
+}

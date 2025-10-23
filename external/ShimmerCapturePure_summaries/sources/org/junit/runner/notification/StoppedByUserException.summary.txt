@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/runner/notification/StoppedByUserException.java
+// Size: 195 bytes
+// Modified: 2025-10-21 16:32:00.715700100 +0100
+
+package org.junit.runner.notification;
+
+/* loaded from: classes2.dex */
+public class StoppedByUserException extends RuntimeException {
+    private static final long serialVersionUID = 1;
+}

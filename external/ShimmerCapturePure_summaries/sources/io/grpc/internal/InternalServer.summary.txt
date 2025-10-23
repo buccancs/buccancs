@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/InternalServer.java
+// Size: 505 bytes
+// Modified: 2025-10-21 16:32:06.409809400 +0100
+
+package io.grpc.internal;
+
+import io.grpc.InternalChannelz;
+import io.grpc.InternalInstrumented;
+import java.io.IOException;
+import java.net.SocketAddress;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public interface InternalServer {
+    SocketAddress getListenSocketAddress();
+
+    @Nullable
+    InternalInstrumented<InternalChannelz.SocketStats> getListenSocketStats();
+
+    void shutdown();
+
+    void start(ServerListener serverListener) throws IOException;
+}

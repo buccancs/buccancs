@@ -1,0 +1,121 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/exgConfig/ExGConfigOptionDetails.java
+// Size: 4087 bytes
+// Modified: 2025-10-21 16:32:00.817030700 +0100
+
+package com.shimmerresearch.exgConfig;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+/* loaded from: classes2.dex */
+public class ExGConfigOptionDetails implements Serializable {
+    private static final long serialVersionUID = -1545421734104890760L;
+    public Integer[] ConfigValues;
+    public String GuiLabel;
+    public String[] GuiValues;
+    public int bitShift;
+    public int byteIndex;
+    public EXG_CHIP_INDEX chipIndex;
+    public ExGConfigOption[] mExGConfigOptions;
+    public int mask;
+    public SettingType settingType;
+
+    public enum EXG_CHIP_INDEX {
+        CHIP1,
+        CHIP2
+    }
+
+    public enum SettingType {
+        COMBOBOX,
+        CHECKBOX
+    }
+
+    public Integer[] getConfigValues() {
+        return this.ConfigValues;
+    }
+
+    public String[] getGuiValues() {
+        return this.GuiValues;
+    }
+
+    public ExGConfigOptionDetails(EXG_CHIP_INDEX exg_chip_index, int i, String str, int i2) {
+        this.chipIndex = EXG_CHIP_INDEX.CHIP1;
+        this.byteIndex = 0;
+        this.bitShift = 0;
+        this.mask = 0;
+        this.settingType = SettingType.CHECKBOX;
+        this.chipIndex = exg_chip_index;
+        this.byteIndex = i;
+        this.GuiLabel = str;
+        this.bitShift = i2;
+        this.mask = 1;
+        this.settingType = SettingType.CHECKBOX;
+    }
+
+    public ExGConfigOptionDetails(EXG_CHIP_INDEX exg_chip_index, int i, String str, String[] strArr, Integer[] numArr, int i2, int i3) {
+        this.chipIndex = EXG_CHIP_INDEX.CHIP1;
+        this.byteIndex = 0;
+        this.bitShift = 0;
+        this.mask = 0;
+        this.settingType = SettingType.CHECKBOX;
+        this.chipIndex = exg_chip_index;
+        this.byteIndex = i;
+        this.GuiLabel = str;
+        this.GuiValues = strArr;
+        this.ConfigValues = numArr;
+        this.bitShift = i2;
+        this.mask = i3;
+        this.settingType = SettingType.COMBOBOX;
+    }
+
+    public ExGConfigOptionDetails(EXG_CHIP_INDEX exg_chip_index, int i, String str, ExGConfigOption[] exGConfigOptionArr, int i2, int i3) {
+        this.chipIndex = EXG_CHIP_INDEX.CHIP1;
+        this.byteIndex = 0;
+        this.bitShift = 0;
+        this.mask = 0;
+        this.settingType = SettingType.CHECKBOX;
+        this.chipIndex = exg_chip_index;
+        this.byteIndex = i;
+        this.GuiLabel = str;
+        this.bitShift = i2;
+        this.mask = i3;
+        this.settingType = SettingType.COMBOBOX;
+        this.mExGConfigOptions = exGConfigOptionArr;
+        generateGuiAndConfigValues();
+    }
+
+    public void generateGuiAndConfigValues() {
+        ExGConfigOption[] exGConfigOptionArr = this.mExGConfigOptions;
+        this.GuiValues = new String[exGConfigOptionArr.length];
+        this.ConfigValues = new Integer[exGConfigOptionArr.length];
+        int i = 0;
+        while (true) {
+            ExGConfigOption[] exGConfigOptionArr2 = this.mExGConfigOptions;
+            if (i >= exGConfigOptionArr2.length) {
+                return;
+            }
+            ExGConfigOption exGConfigOption = exGConfigOptionArr2[i];
+            this.GuiValues[i] = exGConfigOption.guiValue;
+            this.ConfigValues[i] = Integer.valueOf(exGConfigOption.configValueInt);
+            i++;
+        }
+    }
+
+    public ExGConfigOptionDetails deepClone() throws IOException {
+        try {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            new ObjectOutputStream(byteArrayOutputStream).writeObject(this);
+            return (ExGConfigOptionDetails) new ObjectInputStream(new ByteArrayInputStream(byteArrayOutputStream.toByteArray())).readObject();
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        } catch (ClassNotFoundException e2) {
+            e2.printStackTrace();
+            return null;
+        }
+    }
+}

@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/comms/serialPortInterface/SerialPortListener.java
+// Size: 169 bytes
+// Modified: 2025-10-21 16:32:00.251779600 +0100
+
+package com.shimmerresearch.comms.serialPortInterface;
+
+/* loaded from: classes2.dex */
+public interface SerialPortListener {
+    void serialPortRxEvent(int i);
+}

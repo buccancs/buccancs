@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/lifecycle/OnLifecycleEvent.java
+// Size: 420 bytes
+// Modified: 2025-10-21 16:32:03.658683000 +0100
+
+package androidx.lifecycle;
+
+import androidx.lifecycle.Lifecycle;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
+@Deprecated
+/* loaded from: classes.dex */
+public @interface OnLifecycleEvent {
+    Lifecycle.Event value();
+}

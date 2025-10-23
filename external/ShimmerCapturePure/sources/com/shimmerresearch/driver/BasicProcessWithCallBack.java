@@ -1,0 +1,370 @@
+package com.shimmerresearch.driver;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.concurrent.LinkedBlockingDeque;
+
+/* loaded from: classes2.dex */
+public abstract class BasicProcessWithCallBack {
+    protected ConsumerThread mGUIConsumerThread;
+    protected LinkedBlockingDeque<ShimmerMsg> mQueue;
+    protected Callable mThread;
+    private boolean mIsDebug;
+    private List<Callable> mListOfConsumers;
+    private List<BasicProcessWithCallBack> mListOfMsgProducers;
+    private List<WaitForData> mListWaitForData;
+    private WaitForData mWaitForData;
+    private String threadName;
+
+    public BasicProcessWithCallBack() {
+        this.mThread = null;
+        this.mQueue = new LinkedBlockingDeque<>(1024);
+        this.mGUIConsumerThread = null;
+        this.mWaitForData = null;
+        this.mListOfConsumers = Collections.synchronizedList(new ArrayList());
+        this.mListOfMsgProducers = new ArrayList();
+        this.mListWaitForData = Collections.synchronizedList(new ArrayList());
+        this.threadName = "";
+        this.mIsDebug = false;
+    }
+
+    public BasicProcessWithCallBack(BasicProcessWithCallBack basicProcessWithCallBack) {
+        this.mThread = null;
+        this.mQueue = new LinkedBlockingDeque<>(1024);
+        this.mGUIConsumerThread = null;
+        this.mWaitForData = null;
+        this.mListOfConsumers = Collections.synchronizedList(new ArrayList());
+        this.mListOfMsgProducers = new ArrayList();
+        this.mListWaitForData = Collections.synchronizedList(new ArrayList());
+        this.threadName = "";
+        this.mIsDebug = false;
+        this.mWaitForData = new WaitForData(basicProcessWithCallBack);
+    }
+
+    protected abstract void processMsgFromCallback(ShimmerMsg shimmerMsg);
+
+    public void queueMethod(ShimmerMsg shimmerMsg) throws InterruptedException {
+        try {
+            this.mQueue.put(shimmerMsg);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void queueMethod(int i, Object obj) throws InterruptedException {
+        try {
+            this.mQueue.put(new ShimmerMsg(i, obj));
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getQueueSize() {
+        return this.mQueue.size();
+    }
+
+    public void startConsumerThreadIfNull() {
+        ConsumerThread consumerThread = this.mGUIConsumerThread;
+        if (consumerThread == null || consumerThread.stop) {
+            this.mGUIConsumerThread = new ConsumerThread();
+            if (!this.threadName.isEmpty()) {
+                this.mGUIConsumerThread.setName(this.threadName);
+            }
+            this.mGUIConsumerThread.start();
+        }
+    }
+
+    public void removeConsumer(BasicProcessWithCallBack basicProcessWithCallBack) {
+        synchronized (this.mListOfConsumers) {
+            Iterator<Callable> it2 = this.mListOfConsumers.iterator();
+            while (it2.hasNext()) {
+                Callable next = it2.next();
+                if (next instanceof WaitForData) {
+                    Iterator<WaitForData> it3 = basicProcessWithCallBack.mListWaitForData.iterator();
+                    while (it3.hasNext()) {
+                        if (next.equals(it3.next())) {
+                            it2.remove();
+                        }
+                    }
+                    if (next.equals(basicProcessWithCallBack.mWaitForData)) {
+                        it2.remove();
+                    }
+                }
+            }
+        }
+    }
+
+    public void stopConsumerThread() throws InterruptedException {
+        ConsumerThread consumerThread = this.mGUIConsumerThread;
+        if (consumerThread != null) {
+            consumerThread.stop = true;
+            try {
+                this.mQueue.put(new ShimmerMsg(0, new EndThread()));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void setWaitForData(BasicProcessWithCallBack basicProcessWithCallBack) {
+        startConsumerThreadIfNull();
+        this.mListOfMsgProducers.add(basicProcessWithCallBack);
+        if (this.mWaitForData != null) {
+            synchronized (this.mListWaitForData) {
+                this.mListWaitForData.add(new WaitForData(basicProcessWithCallBack));
+            }
+        } else {
+            this.mWaitForData = new WaitForData(basicProcessWithCallBack);
+        }
+        if (this.mIsDebug) {
+            printListOfThreads();
+        }
+    }
+
+    public void removeSetWaitForData(BasicProcessWithCallBack basicProcessWithCallBack) throws InterruptedException {
+        BasicProcessWithCallBack basicProcessWithCallBackReturnBasicProcessWithCallBack;
+        StringBuilder sb = this.mIsDebug ? new StringBuilder() : null;
+        WaitForData waitForData = this.mWaitForData;
+        if (waitForData != null && ((basicProcessWithCallBackReturnBasicProcessWithCallBack = waitForData.returnBasicProcessWithCallBack()) == basicProcessWithCallBack || basicProcessWithCallBackReturnBasicProcessWithCallBack.equals(basicProcessWithCallBack))) {
+            if (sb != null) {
+                sb.append("\tRemoving thread\tSimpleName: " + basicProcessWithCallBack.threadName + "\tHashCode: " + this.mWaitForData.hashCode());
+            }
+            this.mWaitForData = null;
+        }
+        synchronized (this.mListWaitForData) {
+            Iterator<WaitForData> it2 = this.mListWaitForData.iterator();
+            while (it2.hasNext()) {
+                WaitForData next = it2.next();
+                BasicProcessWithCallBack basicProcessWithCallBackReturnBasicProcessWithCallBack2 = next.returnBasicProcessWithCallBack();
+                if (basicProcessWithCallBackReturnBasicProcessWithCallBack2 == basicProcessWithCallBack || basicProcessWithCallBackReturnBasicProcessWithCallBack2.equals(basicProcessWithCallBack)) {
+                    basicProcessWithCallBack.removeConsumer(this);
+                    if (sb != null) {
+                        sb.append("\n\tRemoving thread\tSimpleName: " + basicProcessWithCallBack.threadName + "\tHashCode: " + next.hashCode());
+                    }
+                    it2.remove();
+                }
+            }
+        }
+        synchronized (this.mListOfMsgProducers) {
+            Iterator<BasicProcessWithCallBack> it3 = this.mListOfMsgProducers.iterator();
+            while (it3.hasNext()) {
+                BasicProcessWithCallBack next2 = it3.next();
+                if (next2 == basicProcessWithCallBack || next2.equals(basicProcessWithCallBack)) {
+                    basicProcessWithCallBack.removeConsumer(this);
+                    if (sb != null) {
+                        sb.append("\n\tRemoving thread\tSimpleName: " + basicProcessWithCallBack.threadName + "\tHashCode: " + next2.hashCode());
+                    }
+                    it3.remove();
+                }
+            }
+        }
+        if (sb != null && sb.length() > 0) {
+            consolePrintLn("");
+            consolePrintLn(getClass().getSimpleName() + " -> BasicProcessWithCallBack");
+            consolePrintLn(sb.toString());
+        }
+        if (this.mWaitForData == null && this.mListWaitForData.isEmpty() && this.mListOfMsgProducers.isEmpty()) {
+            stopConsumerThread();
+        }
+        if (this.mIsDebug) {
+            printListOfThreads();
+        }
+    }
+
+    public void removeSetWaitForDataAll() {
+        Iterator<BasicProcessWithCallBack> it2 = this.mListOfMsgProducers.iterator();
+        while (it2.hasNext()) {
+            it2.next().removeConsumer(this);
+        }
+        this.mWaitForData = null;
+        Iterator<WaitForData> it3 = this.mListWaitForData.iterator();
+        while (it3.hasNext()) {
+            it3.remove();
+        }
+    }
+
+    public void setWaitForDataWithSingleInstanceCheck(BasicProcessWithCallBack basicProcessWithCallBack) {
+        startConsumerThreadIfNull();
+        WaitForData waitForData = this.mWaitForData;
+        if (waitForData != null) {
+            boolean zEquals = waitForData.returnBasicProcessWithCallBack().equals(basicProcessWithCallBack);
+            if (!zEquals) {
+                synchronized (this.mListWaitForData) {
+                    for (WaitForData waitForData2 : this.mListWaitForData) {
+                        if (waitForData2 != null && waitForData2.returnBasicProcessWithCallBack() != null && waitForData2.returnBasicProcessWithCallBack().equals(basicProcessWithCallBack)) {
+                            zEquals = true;
+                        }
+                    }
+                }
+            }
+            if (zEquals) {
+                return;
+            }
+            synchronized (this.mListWaitForData) {
+                this.mListOfMsgProducers.add(basicProcessWithCallBack);
+                this.mListWaitForData.add(new WaitForData(basicProcessWithCallBack));
+            }
+            return;
+        }
+        this.mWaitForData = new WaitForData(basicProcessWithCallBack);
+    }
+
+    public void passCallback(Callable callable) {
+        if (this.mThread == null) {
+            this.mThread = callable;
+            return;
+        }
+        synchronized (this.mListOfConsumers) {
+            this.mListOfConsumers.add(callable);
+        }
+    }
+
+    public void sendCallBackMsg(ShimmerMsg shimmerMsg) {
+        Callable callable = this.mThread;
+        if (callable != null) {
+            callable.callBackMethod(shimmerMsg);
+        }
+        synchronized (this.mListOfConsumers) {
+            Iterator<Callable> it2 = this.mListOfConsumers.iterator();
+            while (it2.hasNext()) {
+                it2.next().callBackMethod(shimmerMsg);
+            }
+        }
+    }
+
+    public void sendCallBackMsg(int i, Object obj) {
+        Callable callable = this.mThread;
+        if (callable != null) {
+            callable.callBackMethod(i, obj);
+        }
+        synchronized (this.mListOfConsumers) {
+            Iterator<Callable> it2 = this.mListOfConsumers.iterator();
+            while (it2.hasNext()) {
+                it2.next().callBackMethod(i, obj);
+            }
+        }
+    }
+
+    public void setThreadName(String str) {
+        this.threadName = str;
+        ConsumerThread consumerThread = this.mGUIConsumerThread;
+        if (consumerThread != null) {
+            consumerThread.setName(str);
+        }
+    }
+
+    public void processMsgFromCallbackFromUpperLevel(ShimmerMsg shimmerMsg) {
+        processMsgFromCallback(shimmerMsg);
+    }
+
+    public void printListOfThreads() {
+        consolePrintLn("");
+        consolePrintLn(getClass().getSimpleName() + " -> BasicProcessWithCallBack: Printing List of Threads");
+        StringBuilder sb = new StringBuilder("\tmWaitForData:");
+        WaitForData waitForData = this.mWaitForData;
+        if (waitForData != null) {
+            sb.append("\n\t\tSimple Name: " + waitForData.getClass().getSimpleName() + "\t" + this.mWaitForData.returnBasicProcessWithCallBack().getClass().getSimpleName() + "\tHashCode: " + this.mWaitForData.hashCode());
+        } else {
+            sb.append("\n\t\tnull");
+        }
+        sb.append("\n\tmListOfConsumers:");
+        synchronized (this.mListOfConsumers) {
+            if (this.mListOfConsumers.size() > 0) {
+                for (Callable callable : this.mListOfConsumers) {
+                    sb.append("\n\t\tSimple Name: " + callable.getClass().getSimpleName() + "\tHashCode: " + callable.hashCode());
+                }
+            } else {
+                sb.append("\n\t\tempty");
+            }
+        }
+        sb.append("\n\tmListWaitForData:");
+        synchronized (this.mListWaitForData) {
+            if (this.mListWaitForData.size() > 0) {
+                for (WaitForData waitForData2 : this.mListWaitForData) {
+                    sb.append("\n\t\tSimple Name: " + waitForData2.getClass().getSimpleName() + "\t" + waitForData2.returnBasicProcessWithCallBack().getClass().getSimpleName() + "\tHashCode: " + waitForData2.hashCode());
+                }
+            } else {
+                sb.append("\n\t\tempty");
+            }
+        }
+        sb.append("\n\tmListOfMsgProducers:");
+        synchronized (this.mListOfMsgProducers) {
+            if (this.mListOfMsgProducers.size() > 0) {
+                for (BasicProcessWithCallBack basicProcessWithCallBack : this.mListOfMsgProducers) {
+                    sb.append("\n\t\tSimple Name: " + basicProcessWithCallBack.getClass().getSimpleName() + "\t\tHashCode: " + basicProcessWithCallBack.hashCode());
+                }
+            } else {
+                sb.append("\n\t\tempty");
+            }
+        }
+        consolePrintLn(sb.toString());
+        consolePrintLn("");
+    }
+
+    private void consolePrintLn(String str) {
+        System.out.println(str);
+    }
+
+    private class EndThread {
+        private EndThread() {
+        }
+    }
+
+    public class ConsumerThread extends Thread {
+        public boolean stop = false;
+
+        public ConsumerThread() {
+        }
+
+        @Override // java.lang.Thread, java.lang.Runnable
+        public void run() throws InterruptedException {
+            while (!this.stop) {
+                try {
+                    ShimmerMsg shimmerMsgTake = BasicProcessWithCallBack.this.mQueue.take();
+                    if (shimmerMsgTake.mB instanceof EndThread) {
+                        this.stop = true;
+                    } else {
+                        BasicProcessWithCallBack.this.processMsgFromCallback(shimmerMsgTake);
+                    }
+                } catch (InterruptedException e) {
+                    System.out.print("QUE BLOCKED");
+                    e.printStackTrace();
+                }
+            }
+            BasicProcessWithCallBack.this.removeSetWaitForDataAll();
+        }
+    }
+
+    public class WaitForData implements Callable {
+        BasicProcessWithCallBack track;
+
+        public WaitForData(BasicProcessWithCallBack basicProcessWithCallBack) {
+            this.track = basicProcessWithCallBack;
+            basicProcessWithCallBack.passCallback(this);
+        }
+
+        public BasicProcessWithCallBack returnBasicProcessWithCallBack() {
+            return this.track;
+        }
+
+        @Override // com.shimmerresearch.driver.Callable
+        public void callBackMethod(ShimmerMsg shimmerMsg) throws InterruptedException {
+            try {
+                BasicProcessWithCallBack.this.mQueue.put(shimmerMsg);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        @Override // com.shimmerresearch.driver.Callable
+        public void callBackMethod(int i, Object obj) throws InterruptedException {
+            try {
+                BasicProcessWithCallBack.this.mQueue.put(new ShimmerMsg(i, obj));
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}

@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/MetadataOrBuilder.java
+// Size: 595 bytes
+// Modified: 2025-10-21 16:32:00.405485200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Struct;
+import java.util.Map;
+
+/* loaded from: classes6.dex */
+public interface MetadataOrBuilder extends MessageOrBuilder {
+    boolean containsFilterMetadata(String str);
+
+    @Deprecated
+    Map<String, Struct> getFilterMetadata();
+
+    int getFilterMetadataCount();
+
+    Map<String, Struct> getFilterMetadataMap();
+
+    Struct getFilterMetadataOrDefault(String str, Struct struct);
+
+    Struct getFilterMetadataOrThrow(String str);
+}

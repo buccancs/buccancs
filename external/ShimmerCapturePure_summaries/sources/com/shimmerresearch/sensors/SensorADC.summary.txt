@@ -1,0 +1,438 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/sensors/SensorADC.java
+// Size: 31286 bytes
+// Modified: 2025-10-21 16:32:05.260219100 +0100
+
+package com.shimmerresearch.sensors;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.SensorGroupingDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.sensors.AbstractSensor;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public class SensorADC extends AbstractSensor {
+    public static final ChannelDetails channel_EXT_ADC_0;
+    public static final ChannelDetails channel_EXT_ADC_1;
+    public static final ChannelDetails channel_EXT_ADC_2;
+    public static final ChannelDetails channel_EXT_EXP_ADC_A15;
+    public static final ChannelDetails channel_EXT_EXP_ADC_A6;
+    public static final ChannelDetails channel_EXT_EXP_ADC_A7;
+    public static final ChannelDetails channel_INT_ADC_0;
+    public static final ChannelDetails channel_INT_ADC_1;
+    public static final ChannelDetails channel_INT_ADC_2;
+    public static final ChannelDetails channel_INT_ADC_3;
+    public static final ChannelDetails channel_INT_EXP_ADC_A1;
+    public static final ChannelDetails channel_INT_EXP_ADC_A12;
+    public static final ChannelDetails channel_INT_EXP_ADC_A13;
+    public static final ChannelDetails channel_INT_EXP_ADC_A14;
+    public static final Map<String, ChannelDetails> mChannelMapRef;
+    public static final Map<String, ChannelDetails> mChannelMapRef3r;
+    public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
+    public static final Map<Integer, SensorDetailsRef> mSensorMapRef3r;
+    public static final SensorDetailsRef sensorADC_EXT_ADC_0Ref;
+    public static final SensorDetailsRef sensorADC_EXT_ADC_1Ref;
+    public static final SensorDetailsRef sensorADC_EXT_ADC_2Ref;
+    public static final SensorDetailsRef sensorADC_EXT_EXP_ADC_A15Ref;
+    public static final SensorDetailsRef sensorADC_EXT_EXP_ADC_A6Ref;
+    public static final SensorDetailsRef sensorADC_EXT_EXP_ADC_A7Ref;
+    public static final SensorDetailsRef sensorADC_INT_ADC_0Ref;
+    public static final SensorDetailsRef sensorADC_INT_ADC_1Ref;
+    public static final SensorDetailsRef sensorADC_INT_ADC_2Ref;
+    public static final SensorDetailsRef sensorADC_INT_ADC_3Ref;
+    public static final SensorDetailsRef sensorADC_INT_EXP_ADC_A12Ref;
+    public static final SensorDetailsRef sensorADC_INT_EXP_ADC_A13Ref;
+    public static final SensorDetailsRef sensorADC_INT_EXP_ADC_A14Ref;
+    public static final SensorDetailsRef sensorADC_INT_EXP_ADC_A1Ref;
+    public static final SensorGroupingDetails sensorGroupExternalExpansionADCs;
+    public static final SensorGroupingDetails sensorGroupInternalExpansionADCs;
+    private static final long serialVersionUID = 7267049827248328113L;
+    protected int mPpg1AdcSelectionProto3DeluxeBoard;
+    protected int mPpg2AdcSelectionProto3DeluxeBoard;
+    protected int mPpgAdcSelectionGsrBoard;
+
+    public static class DatabaseChannelHandles {
+        public static final String EXT_ADC_0 = "F5437a_Ext_A0";
+        public static final String EXT_ADC_1 = "F5437a_Ext_A1";
+        public static final String EXT_ADC_2 = "F5437a_Ext_A2";
+        public static final String EXT_ADC_A15 = "F5437a_Ext_A15";
+        public static final String EXT_ADC_A6 = "F5437a_Ext_A6";
+        public static final String EXT_ADC_A7 = "F5437a_Ext_A7";
+        public static final String INT_ADC_0 = "F5437a_Int_A0";
+        public static final String INT_ADC_1 = "F5437a_Int_A1";
+        public static final String INT_ADC_2 = "F5437a_Int_A2";
+        public static final String INT_ADC_3 = "F5437a_Int_A3";
+        public static final String INT_ADC_A1 = "F5437a_Int_A1";
+        public static final String INT_ADC_A12 = "F5437a_Int_A12";
+        public static final String INT_ADC_A13 = "F5437a_Int_A13";
+        public static final String INT_ADC_A14 = "F5437a_Int_A14";
+    }
+
+    public static class ObjectClusterSensorName {
+        public static String EXT_ADC_0 = "Ext_Exp_A0";
+        public static String EXT_ADC_1 = "Ext_Exp_A1";
+        public static String EXT_ADC_2 = "Ext_Exp_A2";
+        public static String EXT_EXP_ADC_A15 = "Ext_Exp_A15";
+        public static String EXT_EXP_ADC_A6 = "Ext_Exp_A6";
+        public static String EXT_EXP_ADC_A7 = "Ext_Exp_A7";
+        public static String INT_ADC_0 = "Int_Exp_A0";
+        public static String INT_ADC_1 = "Int_Exp_A1";
+        public static String INT_ADC_2 = "Int_Exp_A2";
+        public static String INT_ADC_3 = "Int_Exp_A3";
+        public static String INT_EXP_ADC_A1 = "Int_Exp_A1";
+        public static String INT_EXP_ADC_A12 = "Int_Exp_A12";
+        public static String INT_EXP_ADC_A13 = "Int_Exp_A13";
+        public static String INT_EXP_ADC_A14 = "Int_Exp_A14";
+    }
+
+    public static double calibrateU12AdcValueToVolts(double d, double d2, double d3, double d4) {
+        return (d - d2) * ((d3 / d4) / 4095.0d);
+    }
+
+    public static double calibrateU14AdcValueToVolts(double d, double d2, double d3, double d4) {
+        return (d - d2) * ((d3 / d4) / 16383.0d);
+    }
+
+    public static int uncalibrateU12AdcValueFromMillivolts(double d, double d2, double d3, double d4) {
+        return (int) ((d / (((d3 * 1000.0d) / d4) / 4095.0d)) + d2);
+    }
+
+    public static int uncalibrateU12AdcValueFromVolts(double d, double d2, double d3, double d4) {
+        return (int) ((d / ((d3 / d4) / 4095.0d)) + d2);
+    }
+
+    public static int uncalibrateU14AdcValueFromMillivolts(double d, double d2, double d3, double d4) {
+        return (int) ((d / (((d3 * 1000.0d) / d4) / 16383.0d)) + d2);
+    }
+
+    public static int uncalibrateU14AdcValueFromVolts(double d, double d2, double d3, double d4) {
+        return (int) ((d / ((d3 / d4) / 16383.0d)) + d2);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void parseConfigMap(LinkedHashMap<String, Object> linkedHashMap) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    public class GuiLabelConfig {
+        public GuiLabelConfig() {
+        }
+    }
+
+    public class GuiLabelSensors {
+        public static final String EXT_ADC_0 = "Ext A0";
+        public static final String EXT_ADC_1 = "Ext A1";
+        public static final String EXT_ADC_2 = "Ext A2";
+        public static final String EXT_EXP_A15 = "Ext A15";
+        public static final String EXT_EXP_A6 = "Ext A6";
+        public static final String EXT_EXP_A7 = "Ext A7";
+        public static final String INT_ADC_0 = "Int A0";
+        public static final String INT_ADC_1 = "Int A1";
+        public static final String INT_ADC_2 = "Int A2";
+        public static final String INT_ADC_3 = "Int A3";
+        public static final String INT_EXP_A1 = "Int A1";
+        public static final String INT_EXP_A12 = "Int A12";
+        public static final String INT_EXP_A13 = "Int A13";
+        public static final String INT_EXP_A14 = "Int A14";
+
+        public GuiLabelSensors() {
+        }
+    }
+
+    public class LABEL_SENSOR_TILE {
+        public static final String EXTERNAL_EXPANSION_ADC = "External Expansion ADCs";
+        public static final String INTERNAL_EXPANSION_ADC = "Internal Expansion ADCs";
+        public static final String PROTO3_DELUXE = "Proto Deluxe";
+        public static final String PROTO3_MINI = "Proto Mini";
+
+        public LABEL_SENSOR_TILE() {
+        }
+    }
+
+    public enum MICROCONTROLLER_ADC_PROPERTIES {
+        SHIMMER2R3_3V0(0.0d, 3.0d, 1.0d),
+        VERISENSE_1V8(0.0d, 0.45d, 0.25d),
+        VERISENSE_3V0(0.0d, 0.75d, 0.25d);
+
+        double gain;
+        double offset;
+        double vRefP;
+
+        MICROCONTROLLER_ADC_PROPERTIES(double d, double d2, double d3) {
+            this.offset = d;
+            this.vRefP = d2;
+            this.gain = d3;
+        }
+
+        public static MICROCONTROLLER_ADC_PROPERTIES getMicrocontrollerAdcPropertiesForShimmerVersionObject(ShimmerVerObject shimmerVerObject) {
+            return shimmerVerObject.isShimmerGenVerisense() ? shimmerVerObject.getHardwareVersion() == 62 ? VERISENSE_3V0 : VERISENSE_1V8 : SHIMMER2R3_3V0;
+        }
+    }
+
+    static {
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(2L, 2L, GuiLabelSensors.EXT_EXP_A7, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoExtAdcs, null, null, Arrays.asList(ObjectClusterSensorName.EXT_EXP_ADC_A7), false);
+        sensorADC_EXT_EXP_ADC_A7Ref = sensorDetailsRef;
+        SensorDetailsRef sensorDetailsRef2 = new SensorDetailsRef(1L, 1L, GuiLabelSensors.EXT_EXP_A6, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoExtAdcs, null, null, Arrays.asList(ObjectClusterSensorName.EXT_EXP_ADC_A6), false);
+        sensorADC_EXT_EXP_ADC_A6Ref = sensorDetailsRef2;
+        SensorDetailsRef sensorDetailsRef3 = new SensorDetailsRef(2048L, 2048L, GuiLabelSensors.EXT_EXP_A15, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoExtAdcs, null, null, Arrays.asList(ObjectClusterSensorName.EXT_EXP_ADC_A15), false);
+        sensorADC_EXT_EXP_ADC_A15Ref = sensorDetailsRef3;
+        SensorDetailsRef sensorDetailsRef4 = new SensorDetailsRef(2L, 2L, GuiLabelSensors.EXT_ADC_0, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoExtAdcs, null, null, Arrays.asList(ObjectClusterSensorName.EXT_ADC_0), false);
+        sensorADC_EXT_ADC_0Ref = sensorDetailsRef4;
+        SensorDetailsRef sensorDetailsRef5 = new SensorDetailsRef(1L, 1L, GuiLabelSensors.EXT_ADC_1, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoExtAdcs, null, null, Arrays.asList(ObjectClusterSensorName.EXT_ADC_1), false);
+        sensorADC_EXT_ADC_1Ref = sensorDetailsRef5;
+        SensorDetailsRef sensorDetailsRef6 = new SensorDetailsRef(2048L, 2048L, GuiLabelSensors.EXT_ADC_2, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoExtAdcs, null, null, Arrays.asList(ObjectClusterSensorName.EXT_ADC_2), false);
+        sensorADC_EXT_ADC_2Ref = sensorDetailsRef6;
+        SensorDetailsRef sensorDetailsRef7 = new SensorDetailsRef(1024L, 1024L, "Int A1", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntExpA1, Arrays.asList(113, 18, 14, 16, 104, 19, 100, 101, 102, 116, 103, 106), Arrays.asList("Int Exp Power"), Arrays.asList(ObjectClusterSensorName.INT_EXP_ADC_A1), false);
+        sensorADC_INT_EXP_ADC_A1Ref = sensorDetailsRef7;
+        SensorDetailsRef sensorDetailsRef8 = new SensorDetailsRef(512L, 512L, GuiLabelSensors.INT_EXP_A12, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntExpA12, Arrays.asList(105, 8, 11, 110, 9, 12, 100, 101, 102, 116, 103, 106, 16, 15), Arrays.asList("Int Exp Power"), Arrays.asList(ObjectClusterSensorName.INT_EXP_ADC_A12), false);
+        sensorADC_INT_EXP_ADC_A12Ref = sensorDetailsRef8;
+        SensorDetailsRef sensorDetailsRef9 = new SensorDetailsRef(256L, 256L, GuiLabelSensors.INT_EXP_A13, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntExpA13, Arrays.asList(105, 8, 11, 110, 9, 12, 100, 101, 102, 116, 103, 106, 16, 15), Arrays.asList("Int Exp Power"), Arrays.asList(ObjectClusterSensorName.INT_EXP_ADC_A13), false);
+        sensorADC_INT_EXP_ADC_A13Ref = sensorDetailsRef9;
+        SensorDetailsRef sensorDetailsRef10 = new SensorDetailsRef(8388608L, 8388608L, GuiLabelSensors.INT_EXP_A14, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntExpA14, Arrays.asList(113, 18, 14, 19, 100, 101, 102, 116, 103, 106, 16, 15), Arrays.asList("Int Exp Power"), Arrays.asList(ObjectClusterSensorName.INT_EXP_ADC_A14), false);
+        sensorADC_INT_EXP_ADC_A14Ref = sensorDetailsRef10;
+        SensorDetailsRef sensorDetailsRef11 = new SensorDetailsRef(1024L, 1024L, GuiLabelSensors.INT_ADC_3, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntExpA17, Arrays.asList(113, 18, 14, 16, 104, 19, 100, 101, 102, 116, 103, 106), Arrays.asList("Int Exp Power"), Arrays.asList(ObjectClusterSensorName.INT_ADC_3), false);
+        sensorADC_INT_ADC_3Ref = sensorDetailsRef11;
+        SensorDetailsRef sensorDetailsRef12 = new SensorDetailsRef(512L, 512L, GuiLabelSensors.INT_ADC_0, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntExpA10, Arrays.asList(105, 8, 11, 110, 9, 12, 100, 101, 102, 116, 103, 106, 16, 15), Arrays.asList("Int Exp Power"), Arrays.asList(ObjectClusterSensorName.INT_ADC_0), false);
+        sensorADC_INT_ADC_0Ref = sensorDetailsRef12;
+        SensorDetailsRef sensorDetailsRef13 = new SensorDetailsRef(256L, 256L, "Int A1", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntExpA15, Arrays.asList(105, 8, 11, 110, 9, 12, 100, 101, 102, 116, 103, 106, 16, 15), Arrays.asList("Int Exp Power"), Arrays.asList(ObjectClusterSensorName.INT_ADC_1), false);
+        sensorADC_INT_ADC_1Ref = sensorDetailsRef13;
+        SensorDetailsRef sensorDetailsRef14 = new SensorDetailsRef(8388608L, 8388608L, GuiLabelSensors.INT_ADC_2, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntExpA16, Arrays.asList(113, 18, 14, 19, 100, 101, 102, 116, 103, 106, 16, 15), Arrays.asList("Int Exp Power"), Arrays.asList(ObjectClusterSensorName.INT_ADC_2), false);
+        sensorADC_INT_ADC_2Ref = sensorDetailsRef14;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put(4, sensorDetailsRef);
+        linkedHashMap.put(5, sensorDetailsRef2);
+        linkedHashMap.put(6, sensorDetailsRef3);
+        linkedHashMap.put(17, sensorDetailsRef7);
+        linkedHashMap.put(7, sensorDetailsRef8);
+        linkedHashMap.put(10, sensorDetailsRef9);
+        linkedHashMap.put(13, sensorDetailsRef10);
+        mSensorMapRef = Collections.unmodifiableMap(linkedHashMap);
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put(4, sensorDetailsRef4);
+        linkedHashMap2.put(5, sensorDetailsRef5);
+        linkedHashMap2.put(6, sensorDetailsRef6);
+        linkedHashMap2.put(17, sensorDetailsRef11);
+        linkedHashMap2.put(7, sensorDetailsRef12);
+        linkedHashMap2.put(10, sensorDetailsRef13);
+        linkedHashMap2.put(13, sensorDetailsRef14);
+        mSensorMapRef3r = Collections.unmodifiableMap(linkedHashMap2);
+        sensorGroupExternalExpansionADCs = new SensorGroupingDetails(LABEL_SENSOR_TILE.EXTERNAL_EXPANSION_ADC, Arrays.asList(5, 4, 6), Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoExtAdcs);
+        sensorGroupInternalExpansionADCs = new SensorGroupingDetails(LABEL_SENSOR_TILE.INTERNAL_EXPANSION_ADC, Arrays.asList(17, 7, 10, 13), Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoIntAdcsGeneral);
+        ChannelDetails channelDetails = new ChannelDetails(ObjectClusterSensorName.EXT_EXP_ADC_A7, ObjectClusterSensorName.EXT_EXP_ADC_A7, DatabaseChannelHandles.EXT_ADC_A7, ChannelDetails.CHANNEL_DATA_TYPE.UINT12, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 13);
+        channel_EXT_EXP_ADC_A7 = channelDetails;
+        ChannelDetails channelDetails2 = new ChannelDetails(ObjectClusterSensorName.EXT_ADC_0, ObjectClusterSensorName.EXT_ADC_0, DatabaseChannelHandles.EXT_ADC_0, ChannelDetails.CHANNEL_DATA_TYPE.UINT14, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 13);
+        channel_EXT_ADC_0 = channelDetails2;
+        ChannelDetails channelDetails3 = new ChannelDetails(ObjectClusterSensorName.EXT_EXP_ADC_A6, ObjectClusterSensorName.EXT_EXP_ADC_A6, DatabaseChannelHandles.EXT_ADC_A6, ChannelDetails.CHANNEL_DATA_TYPE.UINT12, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 14);
+        channel_EXT_EXP_ADC_A6 = channelDetails3;
+        ChannelDetails channelDetails4 = new ChannelDetails(ObjectClusterSensorName.EXT_ADC_1, ObjectClusterSensorName.EXT_ADC_1, DatabaseChannelHandles.EXT_ADC_1, ChannelDetails.CHANNEL_DATA_TYPE.UINT14, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 14);
+        channel_EXT_ADC_1 = channelDetails4;
+        ChannelDetails channelDetails5 = new ChannelDetails(ObjectClusterSensorName.EXT_EXP_ADC_A15, ObjectClusterSensorName.EXT_EXP_ADC_A15, DatabaseChannelHandles.EXT_ADC_A15, ChannelDetails.CHANNEL_DATA_TYPE.UINT12, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 15);
+        channel_EXT_EXP_ADC_A15 = channelDetails5;
+        ChannelDetails channelDetails6 = new ChannelDetails(ObjectClusterSensorName.EXT_ADC_2, ObjectClusterSensorName.EXT_ADC_2, DatabaseChannelHandles.EXT_ADC_2, ChannelDetails.CHANNEL_DATA_TYPE.UINT14, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 15);
+        channel_EXT_ADC_2 = channelDetails6;
+        ChannelDetails channelDetails7 = new ChannelDetails(ObjectClusterSensorName.INT_EXP_ADC_A1, ObjectClusterSensorName.INT_EXP_ADC_A1, "F5437a_Int_A1", ChannelDetails.CHANNEL_DATA_TYPE.UINT12, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 16);
+        channel_INT_EXP_ADC_A1 = channelDetails7;
+        ChannelDetails channelDetails8 = new ChannelDetails(ObjectClusterSensorName.INT_ADC_3, ObjectClusterSensorName.INT_ADC_3, DatabaseChannelHandles.INT_ADC_3, ChannelDetails.CHANNEL_DATA_TYPE.UINT14, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 16);
+        channel_INT_ADC_3 = channelDetails8;
+        ChannelDetails channelDetails9 = new ChannelDetails(ObjectClusterSensorName.INT_EXP_ADC_A12, ObjectClusterSensorName.INT_EXP_ADC_A12, DatabaseChannelHandles.INT_ADC_A12, ChannelDetails.CHANNEL_DATA_TYPE.UINT12, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 17);
+        channel_INT_EXP_ADC_A12 = channelDetails9;
+        ChannelDetails channelDetails10 = new ChannelDetails(ObjectClusterSensorName.INT_ADC_0, ObjectClusterSensorName.INT_ADC_0, DatabaseChannelHandles.INT_ADC_0, ChannelDetails.CHANNEL_DATA_TYPE.UINT14, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 17);
+        channel_INT_ADC_0 = channelDetails10;
+        ChannelDetails channelDetails11 = new ChannelDetails(ObjectClusterSensorName.INT_EXP_ADC_A13, ObjectClusterSensorName.INT_EXP_ADC_A13, DatabaseChannelHandles.INT_ADC_A13, ChannelDetails.CHANNEL_DATA_TYPE.UINT12, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 18);
+        channel_INT_EXP_ADC_A13 = channelDetails11;
+        ChannelDetails channelDetails12 = new ChannelDetails(ObjectClusterSensorName.INT_ADC_1, ObjectClusterSensorName.INT_ADC_1, "F5437a_Int_A1", ChannelDetails.CHANNEL_DATA_TYPE.UINT14, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 18);
+        channel_INT_ADC_1 = channelDetails12;
+        ChannelDetails channelDetails13 = new ChannelDetails(ObjectClusterSensorName.INT_EXP_ADC_A14, ObjectClusterSensorName.INT_EXP_ADC_A14, DatabaseChannelHandles.INT_ADC_A14, ChannelDetails.CHANNEL_DATA_TYPE.UINT12, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 19);
+        channel_INT_EXP_ADC_A14 = channelDetails13;
+        ChannelDetails channelDetails14 = new ChannelDetails(ObjectClusterSensorName.INT_ADC_2, ObjectClusterSensorName.INT_ADC_2, DatabaseChannelHandles.INT_ADC_2, ChannelDetails.CHANNEL_DATA_TYPE.UINT14, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB, Configuration.CHANNEL_UNITS.MILLIVOLTS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 19);
+        channel_INT_ADC_2 = channelDetails14;
+        LinkedHashMap linkedHashMap3 = new LinkedHashMap();
+        linkedHashMap3.put(ObjectClusterSensorName.EXT_EXP_ADC_A7, channelDetails);
+        linkedHashMap3.put(ObjectClusterSensorName.EXT_EXP_ADC_A6, channelDetails3);
+        linkedHashMap3.put(ObjectClusterSensorName.EXT_EXP_ADC_A15, channelDetails5);
+        linkedHashMap3.put(ObjectClusterSensorName.INT_EXP_ADC_A1, channelDetails7);
+        linkedHashMap3.put(ObjectClusterSensorName.INT_EXP_ADC_A12, channelDetails9);
+        linkedHashMap3.put(ObjectClusterSensorName.INT_EXP_ADC_A13, channelDetails11);
+        linkedHashMap3.put(ObjectClusterSensorName.INT_EXP_ADC_A14, channelDetails13);
+        mChannelMapRef = Collections.unmodifiableMap(linkedHashMap3);
+        LinkedHashMap linkedHashMap4 = new LinkedHashMap();
+        linkedHashMap4.put(ObjectClusterSensorName.EXT_ADC_0, channelDetails2);
+        linkedHashMap4.put(ObjectClusterSensorName.EXT_ADC_1, channelDetails4);
+        linkedHashMap4.put(ObjectClusterSensorName.EXT_ADC_2, channelDetails6);
+        linkedHashMap4.put(ObjectClusterSensorName.INT_ADC_3, channelDetails8);
+        linkedHashMap4.put(ObjectClusterSensorName.INT_ADC_0, channelDetails10);
+        linkedHashMap4.put(ObjectClusterSensorName.INT_ADC_1, channelDetails12);
+        linkedHashMap4.put(ObjectClusterSensorName.INT_ADC_2, channelDetails14);
+        mChannelMapRef3r = Collections.unmodifiableMap(linkedHashMap4);
+    }
+
+    public SensorADC(ShimmerVerObject shimmerVerObject) {
+        super(AbstractSensor.SENSORS.ADC, shimmerVerObject);
+        this.mPpgAdcSelectionGsrBoard = 0;
+        this.mPpg1AdcSelectionProto3DeluxeBoard = 0;
+        this.mPpg2AdcSelectionProto3DeluxeBoard = 0;
+        initialise();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+        if (getHardwareVersion() == 10) {
+            super.createLocalSensorMapWithCustomParser(mSensorMapRef3r, mChannelMapRef3r);
+        } else {
+            super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+        this.mSensorGroupingMap = new LinkedHashMap<>();
+        this.mSensorGroupingMap.put(Integer.valueOf(Configuration.Shimmer3.LABEL_SENSOR_TILE.EXTERNAL_EXPANSION_ADC.ordinal()), sensorGroupExternalExpansionADCs);
+        this.mSensorGroupingMap.put(Integer.valueOf(Configuration.Shimmer3.LABEL_SENSOR_TILE.INTERNAL_EXPANSION_ADC.ordinal()), sensorGroupInternalExpansionADCs);
+        super.updateSensorGroupingMap();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        return processMspAdcChannel(sensorDetails, bArr, communication_type, objectCluster, z, d);
+    }
+
+    public static ObjectCluster processMspAdcChannel(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        sensorDetails.processDataCommon(bArr, communication_type, objectCluster, z, d);
+        if (mEnableCalibration) {
+            int size = sensorDetails.mListOfChannels.size();
+            for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
+                objectCluster.addCalData(channelDetails, calibrateMspAdcChannelToMillivolts(ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData), objectCluster.getIndexKeeper() - size);
+                size--;
+            }
+        }
+        return objectCluster;
+    }
+
+    public static double calibrateMspAdcChannelToMillivolts(double d) {
+        return calibrateAdcChannelToMillivolts(d, MICROCONTROLLER_ADC_PROPERTIES.SHIMMER2R3_3V0);
+    }
+
+    public static double calibrateMspAdcChannelToMillivolts3r(double d) {
+        return calibrateAdcChannelToMillivolts3r(d, MICROCONTROLLER_ADC_PROPERTIES.SHIMMER2R3_3V0);
+    }
+
+    public static double calibrateAdcChannelToMillivolts(double d, MICROCONTROLLER_ADC_PROPERTIES microcontroller_adc_properties) {
+        return calibrateU12AdcValueToMillivolts(d, microcontroller_adc_properties.offset, microcontroller_adc_properties.vRefP, microcontroller_adc_properties.gain);
+    }
+
+    public static double calibrateAdcChannelToMillivolts3r(double d, MICROCONTROLLER_ADC_PROPERTIES microcontroller_adc_properties) {
+        return calibrateU14AdcValueToMillivolts(d, microcontroller_adc_properties.offset, microcontroller_adc_properties.vRefP, microcontroller_adc_properties.gain);
+    }
+
+    public static double calibrateMspAdcChannelToVolts(double d) {
+        return calibrateAdcChannelToVolts(d, MICROCONTROLLER_ADC_PROPERTIES.SHIMMER2R3_3V0);
+    }
+
+    public static double calibrateMspAdcChannelToVolts3r(double d) {
+        return calibrateAdcChannelToVolts(d, MICROCONTROLLER_ADC_PROPERTIES.SHIMMER2R3_3V0);
+    }
+
+    public static double calibrateAdcChannelToVolts(double d, MICROCONTROLLER_ADC_PROPERTIES microcontroller_adc_properties) {
+        return calibrateU12AdcValueToVolts(d, microcontroller_adc_properties.offset, microcontroller_adc_properties.vRefP, microcontroller_adc_properties.gain);
+    }
+
+    public static double calibrateAdcChannelToVolts3r(double d, MICROCONTROLLER_ADC_PROPERTIES microcontroller_adc_properties) {
+        return calibrateU14AdcValueToVolts(d, microcontroller_adc_properties.offset, microcontroller_adc_properties.vRefP, microcontroller_adc_properties.gain);
+    }
+
+    public static int uncalibrateMspAdcChannelFromVolts(double d) {
+        return uncalibrateAdcChannelFromVolts(d, MICROCONTROLLER_ADC_PROPERTIES.SHIMMER2R3_3V0);
+    }
+
+    public static int uncalibrateMspAdcChannelFromVolts3r(double d) {
+        return uncalibrateAdcChannelFromVolts3r(d, MICROCONTROLLER_ADC_PROPERTIES.SHIMMER2R3_3V0);
+    }
+
+    public static int uncalibrateAdcChannelFromVolts(double d, MICROCONTROLLER_ADC_PROPERTIES microcontroller_adc_properties) {
+        return uncalibrateU12AdcValueFromVolts(d, microcontroller_adc_properties.offset, microcontroller_adc_properties.vRefP, microcontroller_adc_properties.gain);
+    }
+
+    public static int uncalibrateAdcChannelFromVolts3r(double d, MICROCONTROLLER_ADC_PROPERTIES microcontroller_adc_properties) {
+        return uncalibrateU14AdcValueFromVolts(d, microcontroller_adc_properties.offset, microcontroller_adc_properties.vRefP, microcontroller_adc_properties.gain);
+    }
+
+    public static double calibrateU12AdcValueToMillivolts(double d, double d2, double d3, double d4) {
+        return calibrateU12AdcValueToVolts(d, d2, d3 * 1000.0d, d4);
+    }
+
+    public static double calibrateU14AdcValueToMillivolts(double d, double d2, double d3, double d4) {
+        return calibrateU14AdcValueToVolts(d, d2, d3 * 1000.0d, d4);
+    }
+
+    public static double calibrateAdcValueToMillivolts(double d, double d2, double d3, double d4, ChannelDetails.CHANNEL_DATA_TYPE channel_data_type) {
+        return (d - d2) * (((d3 * 1000.0d) / d4) / channel_data_type.getMaxVal());
+    }
+}

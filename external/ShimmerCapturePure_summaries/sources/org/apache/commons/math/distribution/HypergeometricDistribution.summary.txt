@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/distribution/HypergeometricDistribution.java
+// Size: 603 bytes
+// Modified: 2025-10-21 16:32:01.745184000 +0100
+
+package org.apache.commons.math.distribution;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/distribution/HypergeometricDistribution.class */
+public interface HypergeometricDistribution extends IntegerDistribution {
+    int getNumberOfSuccesses();
+
+    int getPopulationSize();
+
+    int getSampleSize();
+
+    @Deprecated
+    void setNumberOfSuccesses(int i);
+
+    @Deprecated
+    void setPopulationSize(int i);
+
+    @Deprecated
+    void setSampleSize(int i);
+}

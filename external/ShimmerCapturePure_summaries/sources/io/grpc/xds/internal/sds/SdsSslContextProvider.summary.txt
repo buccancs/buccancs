@@ -1,0 +1,112 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/sds/SdsSslContextProvider.java
+// Size: 5508 bytes
+// Modified: 2025-10-21 16:32:12.840850400 +0100
+
+package io.grpc.xds.internal.sds;
+
+import com.google.common.base.Preconditions;
+import com.google.protobuf.UninitializedMessageException;
+import io.grpc.xds.EnvoyServerProtoData;
+import io.grpc.xds.internal.sds.SdsClient;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Node;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.CertificateValidationContext;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.SdsSecretConfig;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.Secret;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.TlsCertificate;
+import java.util.concurrent.Executor;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+abstract class SdsSslContextProvider extends DynamicSslContextProvider implements SdsClient.SecretWatcher {
+    private static final Logger logger = Logger.getLogger(SdsSslContextProvider.class.getName());
+
+    @Nullable
+    private final SdsClient certSdsClient;
+
+    @Nullable
+    private final SdsSecretConfig certSdsConfig;
+
+    @Nullable
+    private CertificateValidationContext certificateValidationContext;
+
+    @Nullable
+    protected TlsCertificate tlsCertificate;
+
+    @Nullable
+    private final SdsClient validationContextSdsClient;
+
+    @Nullable
+    private final SdsSecretConfig validationContextSdsConfig;
+
+    protected SdsSslContextProvider(Node node, SdsSecretConfig sdsSecretConfig, SdsSecretConfig sdsSecretConfig2, CertificateValidationContext certificateValidationContext, Executor executor, Executor executor2, EnvoyServerProtoData.BaseTlsContext baseTlsContext) throws UninitializedMessageException {
+        super(baseTlsContext, certificateValidationContext);
+        this.certSdsConfig = sdsSecretConfig;
+        this.validationContextSdsConfig = sdsSecretConfig2;
+        if (sdsSecretConfig == null || !sdsSecretConfig.isInitialized()) {
+            this.certSdsClient = null;
+        } else {
+            SdsClient sdsClientCreateSdsClient = SdsClient.Factory.createSdsClient(sdsSecretConfig, node, executor, executor2);
+            this.certSdsClient = sdsClientCreateSdsClient;
+            sdsClientCreateSdsClient.start();
+            sdsClientCreateSdsClient.watchSecret(this);
+        }
+        if (sdsSecretConfig2 == null || !sdsSecretConfig2.isInitialized()) {
+            this.validationContextSdsClient = null;
+            return;
+        }
+        SdsClient sdsClientCreateSdsClient2 = SdsClient.Factory.createSdsClient(sdsSecretConfig2, node, executor, executor2);
+        this.validationContextSdsClient = sdsClientCreateSdsClient2;
+        sdsClientCreateSdsClient2.start();
+        sdsClientCreateSdsClient2.watchSecret(this);
+    }
+
+    @Override // io.grpc.xds.internal.sds.SdsClient.SecretWatcher
+    public final synchronized void onSecretChanged(Secret secret) {
+        Preconditions.checkNotNull(secret);
+        if (secret.hasTlsCertificate()) {
+            Preconditions.checkState(secret.getName().equals(this.certSdsConfig.getName()), "tlsCert names don't match");
+            logger.log(Level.FINEST, "onSecretChanged certSdsConfig.name={0}", this.certSdsConfig.getName());
+            this.tlsCertificate = secret.getTlsCertificate();
+            if (this.certificateValidationContext != null || this.validationContextSdsConfig == null) {
+                updateSslContext();
+            }
+        } else if (secret.hasValidationContext()) {
+            Preconditions.checkState(secret.getName().equals(this.validationContextSdsConfig.getName()), "validationContext names don't match");
+            logger.log(Level.FINEST, "onSecretChanged validationContextSdsConfig.name={0}", this.validationContextSdsConfig.getName());
+            this.certificateValidationContext = secret.getValidationContext();
+            if (this.tlsCertificate != null || this.certSdsConfig == null) {
+                updateSslContext();
+            }
+        } else {
+            throw new UnsupportedOperationException("Unexpected secret type:" + secret.getTypeCase());
+        }
+    }
+
+    @Override // io.grpc.xds.internal.sds.DynamicSslContextProvider
+    protected final CertificateValidationContext generateCertificateValidationContext() {
+        if (this.staticCertificateValidationContext == null) {
+            return this.certificateValidationContext;
+        }
+        CertificateValidationContext certificateValidationContext = this.certificateValidationContext;
+        if (certificateValidationContext == null) {
+            return this.staticCertificateValidationContext;
+        }
+        return certificateValidationContext.m31604toBuilder().mergeFrom(this.staticCertificateValidationContext).m31609build();
+    }
+
+    @Override // io.grpc.xds.internal.sds.SslContextProvider, io.grpc.xds.internal.sds.Closeable, java.io.Closeable, java.lang.AutoCloseable
+    public final void close() {
+        SdsClient sdsClient = this.certSdsClient;
+        if (sdsClient != null) {
+            sdsClient.cancelSecretWatch(this);
+            this.certSdsClient.shutdown();
+        }
+        SdsClient sdsClient2 = this.validationContextSdsClient;
+        if (sdsClient2 != null) {
+            sdsClient2.cancelSecretWatch(this);
+            this.validationContextSdsClient.shutdown();
+        }
+    }
+}

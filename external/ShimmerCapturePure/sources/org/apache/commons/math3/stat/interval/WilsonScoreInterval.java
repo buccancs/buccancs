@@ -1,0 +1,22 @@
+package org.apache.commons.math3.stat.interval;
+
+import org.apache.commons.math3.distribution.NormalDistribution;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class WilsonScoreInterval implements BinomialConfidenceInterval {
+    @Override // org.apache.commons.math3.stat.interval.BinomialConfidenceInterval
+    public ConfidenceInterval createInterval(int i, int i2, double d) throws OutOfRangeException {
+        IntervalUtils.checkParameters(i, i2, d);
+        double dInverseCumulativeProbability = new NormalDistribution().inverseCumulativeProbability(1.0d - ((1.0d - d) / 2.0d));
+        double dPow = FastMath.pow(dInverseCumulativeProbability, 2);
+        double d2 = i;
+        double d3 = i2 / d2;
+        double d4 = 1.0d / d2;
+        double d5 = 1.0d / ((d4 * dPow) + 1.0d);
+        double d6 = ((1.0d / (i * 2)) * dPow) + d3;
+        double dSqrt = dInverseCumulativeProbability * FastMath.sqrt((d4 * d3 * (1.0d - d3)) + ((1.0d / (FastMath.pow(d2, 2) * 4.0d)) * dPow));
+        return new ConfidenceInterval((d6 - dSqrt) * d5, d5 * (d6 + dSqrt), d);
+    }
+}

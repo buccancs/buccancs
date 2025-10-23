@@ -1,0 +1,51 @@
+package io.grpc.xds;
+
+import com.google.protobuf.UninitializedMessageException;
+import io.grpc.Context;
+import io.grpc.Contexts;
+import io.grpc.ForwardingServerCall;
+import io.grpc.Metadata;
+import io.grpc.ServerCall;
+import io.grpc.ServerCallHandler;
+import io.grpc.ServerInterceptor;
+import io.grpc.Status;
+import io.grpc.protobuf.ProtoUtils;
+import io.grpc.services.CallMetricRecorder;
+import io.grpc.services.InternalCallMetricRecorder;
+import io.grpc.xds.shaded.com.github.udpa.udpa.data.orca.v1.OrcaLoadReport;
+
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+final class OrcaMetricReportingServerInterceptor implements ServerInterceptor {
+    static final Metadata.Key<OrcaLoadReport> ORCA_ENDPOINT_LOAD_METRICS_KEY = Metadata.Key.of("x-endpoint-load-metrics-bin", ProtoUtils.metadataMarshaller(OrcaLoadReport.getDefaultInstance()));
+    private static final OrcaMetricReportingServerInterceptor INSTANCE = new OrcaMetricReportingServerInterceptor();
+
+    OrcaMetricReportingServerInterceptor() {
+    }
+
+    public static OrcaMetricReportingServerInterceptor getInstance() {
+        return INSTANCE;
+    }
+
+    @Override // io.grpc.ServerInterceptor
+    public <ReqT, RespT> ServerCall.Listener<ReqT> interceptCall(ServerCall<ReqT, RespT> serverCall, Metadata metadata, ServerCallHandler<ReqT, RespT> serverCallHandler) {
+        Context contextCurrent = Context.current();
+        final CallMetricRecorder callMetricRecorderNewCallMetricRecorder = InternalCallMetricRecorder.CONTEXT_KEY.get(contextCurrent);
+        if (callMetricRecorderNewCallMetricRecorder == null) {
+            callMetricRecorderNewCallMetricRecorder = InternalCallMetricRecorder.newCallMetricRecorder();
+            contextCurrent = contextCurrent.withValue(InternalCallMetricRecorder.CONTEXT_KEY, callMetricRecorderNewCallMetricRecorder);
+        }
+        return Contexts.interceptCall(contextCurrent, new ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT>(serverCall) { // from class: io.grpc.xds.OrcaMetricReportingServerInterceptor.1
+            @Override
+            // io.grpc.ForwardingServerCall.SimpleForwardingServerCall, io.grpc.ForwardingServerCall, io.grpc.PartialForwardingServerCall, io.grpc.ServerCall
+            public void close(Status status, Metadata metadata2) throws UninitializedMessageException {
+                Map<String, Double> mapFinalizeAndDump = InternalCallMetricRecorder.finalizeAndDump(callMetricRecorderNewCallMetricRecorder);
+                if (!mapFinalizeAndDump.isEmpty()) {
+                    metadata2.put(OrcaMetricReportingServerInterceptor.ORCA_ENDPOINT_LOAD_METRICS_KEY, OrcaLoadReport.newBuilder().putAllRequestCost(mapFinalizeAndDump).m10366build());
+                }
+                super.close(status, metadata2);
+            }
+        }, metadata, serverCallHandler);
+    }
+}

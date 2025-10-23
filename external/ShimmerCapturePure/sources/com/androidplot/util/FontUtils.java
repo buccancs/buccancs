@@ -1,0 +1,36 @@
+package com.androidplot.util;
+
+import android.graphics.Paint;
+import android.graphics.Rect;
+
+/* loaded from: classes.dex */
+public class FontUtils {
+    public static float getFontHeight(Paint paint) {
+        Paint.FontMetrics fontMetrics = paint.getFontMetrics();
+        return (-fontMetrics.ascent) + fontMetrics.descent;
+    }
+
+    @Deprecated
+    public static float getStringHeight(String str, Paint paint) {
+        paint.getTextBounds(str, 0, str.length(), new Rect());
+        return r0.height();
+    }
+
+    @Deprecated
+    public static float getHalfStringHeight(String str, Paint paint) {
+        return getStringHeight(str, paint) / 2.0f;
+    }
+
+    public static Rect getPackedStringDimensions(String str, Paint paint) {
+        Rect rect = new Rect();
+        paint.getTextBounds(str, 0, str.length(), rect);
+        return rect;
+    }
+
+    public static Rect getStringDimensions(String str, Paint paint) {
+        Rect rect = new Rect();
+        paint.getTextBounds(str, 0, str.length(), rect);
+        rect.bottom = rect.top + ((int) getFontHeight(paint));
+        return rect;
+    }
+}

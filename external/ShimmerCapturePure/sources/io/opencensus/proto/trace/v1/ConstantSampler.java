@@ -1,0 +1,502 @@
+package io.opencensus.proto.trace.v1;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes4.dex */
+public final class ConstantSampler extends GeneratedMessageV3 implements ConstantSamplerOrBuilder {
+    public static final int DECISION_FIELD_NUMBER = 1;
+    private static final ConstantSampler DEFAULT_INSTANCE = new ConstantSampler();
+    private static final Parser<ConstantSampler> PARSER = new AbstractParser<ConstantSampler>() { // from class: io.opencensus.proto.trace.v1.ConstantSampler.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ConstantSampler m37887parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ConstantSampler(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private int decision_;
+    private byte memoizedIsInitialized;
+
+    private ConstantSampler(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ConstantSampler() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.decision_ = 0;
+    }
+
+    private ConstantSampler(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag != 8) {
+                            if (!parseUnknownFieldProto3(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        } else {
+                            this.decision_ = codedInputStream.readEnum();
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ConstantSampler getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ConstantSampler> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return TraceConfigProto.internal_static_opencensus_proto_trace_v1_ConstantSampler_descriptor;
+    }
+
+    public static ConstantSampler parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ConstantSampler) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ConstantSampler parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ConstantSampler) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ConstantSampler parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ConstantSampler) PARSER.parseFrom(byteString);
+    }
+
+    public static ConstantSampler parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ConstantSampler) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ConstantSampler parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ConstantSampler) PARSER.parseFrom(bArr);
+    }
+
+    public static ConstantSampler parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ConstantSampler) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ConstantSampler parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ConstantSampler parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ConstantSampler parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ConstantSampler parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ConstantSampler parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ConstantSampler parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m37885toBuilder();
+    }
+
+    public static Builder newBuilder(ConstantSampler constantSampler) {
+        return DEFAULT_INSTANCE.m37885toBuilder().mergeFrom(constantSampler);
+    }
+
+    @Override // io.opencensus.proto.trace.v1.ConstantSamplerOrBuilder
+    public int getDecisionValue() {
+        return this.decision_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ConstantSampler m37880getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ConstantSampler> getParserForType() {
+        return PARSER;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return TraceConfigProto.internal_static_opencensus_proto_trace_v1_ConstantSampler_fieldAccessorTable.ensureFieldAccessorsInitialized(ConstantSampler.class, Builder.class);
+    }
+
+    @Override // io.opencensus.proto.trace.v1.ConstantSamplerOrBuilder
+    public ConstantDecision getDecision() {
+        ConstantDecision constantDecisionValueOf = ConstantDecision.valueOf(this.decision_);
+        return constantDecisionValueOf == null ? ConstantDecision.UNRECOGNIZED : constantDecisionValueOf;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.decision_ != ConstantDecision.ALWAYS_OFF.getNumber()) {
+            codedOutputStream.writeEnum(1, this.decision_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeEnumSize = (this.decision_ != ConstantDecision.ALWAYS_OFF.getNumber() ? CodedOutputStream.computeEnumSize(1, this.decision_) : 0) + this.unknownFields.getSerializedSize();
+        this.memoizedSize = iComputeEnumSize;
+        return iComputeEnumSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ConstantSampler)) {
+            return super.equals(obj);
+        }
+        ConstantSampler constantSampler = (ConstantSampler) obj;
+        return this.decision_ == constantSampler.decision_ && this.unknownFields.equals(constantSampler.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + this.decision_) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode;
+        return iHashCode;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m37882newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m37885toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum ConstantDecision implements ProtocolMessageEnum {
+        ALWAYS_OFF(0),
+        ALWAYS_ON(1),
+        ALWAYS_PARENT(2),
+        UNRECOGNIZED(-1);
+
+        public static final int ALWAYS_OFF_VALUE = 0;
+        public static final int ALWAYS_ON_VALUE = 1;
+        public static final int ALWAYS_PARENT_VALUE = 2;
+        private static final Internal.EnumLiteMap<ConstantDecision> internalValueMap = new Internal.EnumLiteMap<ConstantDecision>() { // from class: io.opencensus.proto.trace.v1.ConstantSampler.ConstantDecision.1
+            public ConstantDecision findValueByNumber(int i) {
+                return ConstantDecision.forNumber(i);
+            }
+        };
+        private static final ConstantDecision[] VALUES = values();
+        private final int value;
+
+        ConstantDecision(int i) {
+            this.value = i;
+        }
+
+        public static ConstantDecision forNumber(int i) {
+            if (i == 0) {
+                return ALWAYS_OFF;
+            }
+            if (i == 1) {
+                return ALWAYS_ON;
+            }
+            if (i != 2) {
+                return null;
+            }
+            return ALWAYS_PARENT;
+        }
+
+        public static Internal.EnumLiteMap<ConstantDecision> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static ConstantDecision valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) ConstantSampler.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static ConstantDecision valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ConstantSamplerOrBuilder {
+        private int decision_;
+
+        private Builder() {
+            this.decision_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.decision_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return TraceConfigProto.internal_static_opencensus_proto_trace_v1_ConstantSampler_descriptor;
+        }
+
+        @Override // io.opencensus.proto.trace.v1.ConstantSamplerOrBuilder
+        public int getDecisionValue() {
+            return this.decision_;
+        }
+
+        public Builder setDecisionValue(int i) {
+            this.decision_ = i;
+            onChanged();
+            return this;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return TraceConfigProto.internal_static_opencensus_proto_trace_v1_ConstantSampler_fieldAccessorTable.ensureFieldAccessorsInitialized(ConstantSampler.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ConstantSampler.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37896clear() {
+            super.clear();
+            this.decision_ = 0;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return TraceConfigProto.internal_static_opencensus_proto_trace_v1_ConstantSampler_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ConstantSampler m37909getDefaultInstanceForType() {
+            return ConstantSampler.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ConstantSampler m37890build() throws UninitializedMessageException {
+            ConstantSampler constantSamplerM37892buildPartial = m37892buildPartial();
+            if (constantSamplerM37892buildPartial.isInitialized()) {
+                return constantSamplerM37892buildPartial;
+            }
+            throw newUninitializedMessageException(constantSamplerM37892buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ConstantSampler m37892buildPartial() {
+            ConstantSampler constantSampler = new ConstantSampler(this);
+            constantSampler.decision_ = this.decision_;
+            onBuilt();
+            return constantSampler;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37908clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37920setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37898clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37901clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37922setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37888addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m37913mergeFrom(Message message) {
+            if (message instanceof ConstantSampler) {
+                return mergeFrom((ConstantSampler) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ConstantSampler constantSampler) {
+            if (constantSampler == ConstantSampler.getDefaultInstance()) {
+                return this;
+            }
+            if (constantSampler.decision_ != 0) {
+                setDecisionValue(constantSampler.getDecisionValue());
+            }
+            m37918mergeUnknownFields(constantSampler.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.opencensus.proto.trace.v1.ConstantSampler.Builder m37914mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.opencensus.proto.trace.v1.ConstantSampler.access$600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.opencensus.proto.trace.v1.ConstantSampler r3 = (io.opencensus.proto.trace.v1.ConstantSampler) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.opencensus.proto.trace.v1.ConstantSampler r4 = (io.opencensus.proto.trace.v1.ConstantSampler) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.opencensus.proto.trace.v1.ConstantSampler.Builder.m37914mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.opencensus.proto.trace.v1.ConstantSampler$Builder");
+        }
+
+        @Override // io.opencensus.proto.trace.v1.ConstantSamplerOrBuilder
+        public ConstantDecision getDecision() {
+            ConstantDecision constantDecisionValueOf = ConstantDecision.valueOf(this.decision_);
+            return constantDecisionValueOf == null ? ConstantDecision.UNRECOGNIZED : constantDecisionValueOf;
+        }
+
+        public Builder setDecision(ConstantDecision constantDecision) {
+            constantDecision.getClass();
+            this.decision_ = constantDecision.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearDecision() {
+            this.decision_ = 0;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m37924setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFieldsProto3(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m37918mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/serialization/ClassLoaderClassResolver.java
+// Size: 683 bytes
+// Modified: 2025-10-21 16:32:00.852718100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.serialization;
+
+/* loaded from: classes3.dex */
+class ClassLoaderClassResolver implements ClassResolver {
+    private final ClassLoader classLoader;
+
+    ClassLoaderClassResolver(ClassLoader classLoader) {
+        this.classLoader = classLoader;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.serialization.ClassResolver
+    public Class<?> resolve(String str) throws ClassNotFoundException {
+        try {
+            return this.classLoader.loadClass(str);
+        } catch (ClassNotFoundException unused) {
+            return Class.forName(str, false, this.classLoader);
+        }
+    }
+}

@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/net/ParseException.java
+// Size: 250 bytes
+// Modified: 2025-10-21 16:32:00.046109700 +0100
+
+package androidx.core.net;
+
+/* loaded from: classes.dex */
+public class ParseException extends RuntimeException {
+    public final String response;
+
+    ParseException(String str) {
+        super(str);
+        this.response = str;
+    }
+}

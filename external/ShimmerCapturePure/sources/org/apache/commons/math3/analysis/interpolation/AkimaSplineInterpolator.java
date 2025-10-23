@@ -1,0 +1,111 @@
+package org.apache.commons.math3.analysis.interpolation;
+
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.analysis.polynomials.PolynomialSplineFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NonMonotonicSequenceException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
+import org.apache.commons.math3.util.Precision;
+
+/* loaded from: classes5.dex */
+public class AkimaSplineInterpolator implements UnivariateInterpolator {
+    private static final int MINIMUM_NUMBER_POINTS = 5;
+
+    @Override // org.apache.commons.math3.analysis.interpolation.UnivariateInterpolator
+    public PolynomialSplineFunction interpolate(double[] dArr, double[] dArr2) throws NumberIsTooSmallException, NonMonotonicSequenceException, DimensionMismatchException {
+        if (dArr == null || dArr2 == null) {
+            throw new NullArgumentException();
+        }
+        if (dArr.length != dArr2.length) {
+            throw new DimensionMismatchException(dArr.length, dArr2.length);
+        }
+        if (dArr.length < 5) {
+            throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_OF_POINTS, Integer.valueOf(dArr.length), 5, true);
+        }
+        MathArrays.checkOrder(dArr);
+        int length = dArr.length - 1;
+        double[] dArr3 = new double[length];
+        double[] dArr4 = new double[length];
+        int i = 0;
+        while (i < length) {
+            int i2 = i + 1;
+            dArr3[i] = (dArr2[i2] - dArr2[i]) / (dArr[i2] - dArr[i]);
+            i = i2;
+        }
+        for (int i3 = 1; i3 < length; i3++) {
+            dArr4[i3] = FastMath.abs(dArr3[i3] - dArr3[i3 - 1]);
+        }
+        int length2 = dArr.length;
+        double[] dArr5 = new double[length2];
+        int i4 = 2;
+        while (i4 < length2 - 2) {
+            int i5 = i4 + 1;
+            double d = dArr4[i5];
+            int i6 = i4 - 1;
+            double d2 = dArr4[i6];
+            if (Precision.equals(d, 0.0d) && Precision.equals(d2, 0.0d)) {
+                double d3 = dArr[i4];
+                double d4 = dArr[i5];
+                double d5 = dArr[i6];
+                dArr5[i4] = (((d4 - d3) * dArr3[i6]) + ((d3 - d5) * dArr3[i4])) / (d4 - d5);
+            } else {
+                dArr5[i4] = ((dArr3[i6] * d) + (dArr3[i4] * d2)) / (d + d2);
+            }
+            i4 = i5;
+        }
+        dArr5[0] = differentiateThreePoint(dArr, dArr2, 0, 0, 1, 2);
+        dArr5[1] = differentiateThreePoint(dArr, dArr2, 1, 0, 1, 2);
+        dArr5[dArr.length - 2] = differentiateThreePoint(dArr, dArr2, dArr.length - 2, dArr.length - 3, dArr.length - 2, dArr.length - 1);
+        dArr5[dArr.length - 1] = differentiateThreePoint(dArr, dArr2, dArr.length - 1, dArr.length - 3, dArr.length - 2, dArr.length - 1);
+        return interpolateHermiteSorted(dArr, dArr2, dArr5);
+    }
+
+    private double differentiateThreePoint(double[] dArr, double[] dArr2, int i, int i2, int i3, int i4) {
+        double d = dArr2[i2];
+        double d2 = dArr2[i3];
+        double d3 = dArr2[i4];
+        double d4 = dArr[i];
+        double d5 = dArr[i2];
+        double d6 = d4 - d5;
+        double d7 = dArr[i3] - d5;
+        double d8 = dArr[i4] - d5;
+        double d9 = d2 - d;
+        double d10 = ((d3 - d) - ((d8 / d7) * d9)) / ((d8 * d8) - (d8 * d7));
+        return (d10 * 2.0d * d6) + ((d9 - ((d10 * d7) * d7)) / d7);
+    }
+
+    private PolynomialSplineFunction interpolateHermiteSorted(double[] dArr, double[] dArr2, double[] dArr3) {
+        if (dArr.length != dArr2.length) {
+            throw new DimensionMismatchException(dArr.length, dArr2.length);
+        }
+        if (dArr.length != dArr3.length) {
+            throw new DimensionMismatchException(dArr.length, dArr3.length);
+        }
+        if (dArr.length < 2) {
+            throw new NumberIsTooSmallException(LocalizedFormats.NUMBER_OF_POINTS, Integer.valueOf(dArr.length), 2, true);
+        }
+        int length = dArr.length - 1;
+        PolynomialFunction[] polynomialFunctionArr = new PolynomialFunction[length];
+        double[] dArr4 = new double[4];
+        int i = 0;
+        while (i < length) {
+            int i2 = i + 1;
+            double d = dArr[i2] - dArr[i];
+            double d2 = dArr2[i];
+            double d3 = dArr2[i2];
+            double d4 = dArr3[i];
+            double d5 = dArr3[i2];
+            dArr4[0] = d2;
+            dArr4[1] = dArr3[i];
+            dArr4[2] = (((((d3 - d2) * 3.0d) / d) - (d4 * 2.0d)) - d5) / d;
+            dArr4[3] = (((((d2 - d3) * 2.0d) / d) + d4) + d5) / (d * d);
+            polynomialFunctionArr[i] = new PolynomialFunction(dArr4);
+            i = i2;
+        }
+        return new PolynomialSplineFunction(dArr, polynomialFunctionArr);
+    }
+}

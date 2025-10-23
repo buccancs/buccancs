@@ -1,0 +1,113 @@
+package com.androidplot.xy;
+
+import android.graphics.Paint;
+import androidx.core.internal.view.SupportMenu;
+import androidx.core.view.ViewCompat;
+
+/* loaded from: classes.dex */
+public class LineAndPointFormatter extends XYSeriesFormatter<XYRegionFormatter> {
+    private int a;
+    private FillDirection b;
+    private Paint c;
+    private Paint d;
+    private Paint e;
+
+    protected LineAndPointFormatter() {
+        this(Integer.valueOf(SupportMenu.CATEGORY_MASK), -16711936, -16776961);
+    }
+
+    public LineAndPointFormatter(Integer num, Integer num2, Integer num3) {
+        this(num, num2, num3, FillDirection.BOTTOM);
+    }
+
+    public LineAndPointFormatter(Integer num, Integer num2, Integer num3, FillDirection fillDirection) {
+        this.a = 1;
+        a(num);
+        if (num2 == null) {
+            this.d = null;
+        } else {
+            Paint paint = new Paint();
+            this.d = paint;
+            paint.setAntiAlias(true);
+            this.d.setStrokeWidth(4.5f);
+            this.d.setColor(num2.intValue());
+            this.d.setStrokeCap(Paint.Cap.ROUND);
+        }
+        b(num3);
+        setFillDirection(fillDirection);
+    }
+
+    public FillDirection getFillDirection() {
+        return this.b;
+    }
+
+    public void setFillDirection(FillDirection fillDirection) {
+        this.b = fillDirection;
+    }
+
+    public Paint getFillPaint() {
+        return this.e;
+    }
+
+    public void setFillPaint(Paint paint) {
+        this.e = paint;
+    }
+
+    public int getLabelStep() {
+        return this.a;
+    }
+
+    public void setLabelStep(int i) {
+        this.a = i;
+    }
+
+    public Paint getLinePaint() {
+        return this.c;
+    }
+
+    public void setLinePaint(Paint paint) {
+        this.c = paint;
+    }
+
+    public Paint getVertexPaint() {
+        return this.d;
+    }
+
+    public void setVertexPaint(Paint paint) {
+        this.d = paint;
+    }
+
+    protected final void a(Integer num) {
+        if (num == null) {
+            this.c = null;
+            return;
+        }
+        Paint paint = new Paint();
+        this.c = paint;
+        paint.setAntiAlias(true);
+        this.c.setStrokeWidth(1.5f);
+        this.c.setColor(num.intValue());
+        this.c.setStyle(Paint.Style.STROKE);
+    }
+
+    protected final void b(Integer num) {
+        if (num == null) {
+            this.e = null;
+            return;
+        }
+        Paint paint = new Paint();
+        this.e = paint;
+        paint.setAntiAlias(true);
+        this.e.setColor(num.intValue());
+    }
+
+    public void enableShadows() {
+        this.c.setShadowLayer(1.0f, 3.0f, 3.0f, ViewCompat.MEASURED_STATE_MASK);
+        this.d.setShadowLayer(1.0f, 3.0f, 3.0f, ViewCompat.MEASURED_STATE_MASK);
+    }
+
+    public void disableShadows() {
+        this.c.setShadowLayer(0.0f, 0.0f, 0.0f, ViewCompat.MEASURED_STATE_MASK);
+        this.d.setShadowLayer(0.0f, 0.0f, 0.0f, ViewCompat.MEASURED_STATE_MASK);
+    }
+}

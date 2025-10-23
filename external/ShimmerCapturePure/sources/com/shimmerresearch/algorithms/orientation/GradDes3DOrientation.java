@@ -1,0 +1,264 @@
+package com.shimmerresearch.algorithms.orientation;
+
+/* loaded from: classes2.dex */
+public class GradDes3DOrientation {
+    public static final double Q0_INITIAL_DEFAULT = 1.0d;
+    public static final double Q1_INITIAL_DEFAULT = 0.0d;
+    public static final double Q2_INITIAL_DEFAULT = 0.0d;
+    public static final double Q3_INITIAL_DEFAULT = 0.0d;
+    public static double BETA = 0.5d;
+    double mBeta;
+    double mSamplingPeriod;
+    double q0;
+    double q0Initial;
+    double q1;
+    double q1Initial;
+    double q2;
+    double q2Initial;
+    double q3;
+    double q3Initial;
+
+    public GradDes3DOrientation(double d) {
+        this(BETA, d, 1.0d, 0.0d, 0.0d, 0.0d);
+    }
+
+    public GradDes3DOrientation(double d, double d2, double d3, double d4, double d5, double d6) {
+        this.mBeta = BETA;
+        this.mSamplingPeriod = 1.0d;
+        setSamplingPeriod(d2);
+        setInitialConditions(d, d3, d4, d5, d6);
+    }
+
+    public double getBeta() {
+        return this.mBeta;
+    }
+
+    public double getQ0() {
+        return this.q0;
+    }
+
+    public double getQ1() {
+        return this.q1;
+    }
+
+    public double getQ2() {
+        return this.q2;
+    }
+
+    public double getQ3() {
+        return this.q3;
+    }
+
+    public void setInitialConditions(double d, double d2, double d3, double d4, double d5) {
+        this.mBeta = d;
+        this.q0 = d2;
+        this.q1 = d3;
+        this.q2 = d4;
+        this.q3 = d5;
+        this.q0Initial = d2;
+        this.q1Initial = d3;
+        this.q2Initial = d4;
+        this.q3Initial = d5;
+    }
+
+    public void setSamplingPeriod(double d) {
+        this.mSamplingPeriod = d;
+    }
+
+    public void resetInitialConditions() {
+        setInitialConditions(this.mBeta, this.q0Initial, this.q1Initial, this.q2Initial, this.q3Initial);
+    }
+
+    public Orientation3DObject update(double d, double d2, double d3, double d4, double d5, double d6, double d7, double d8, double d9) {
+        double d10;
+        double d11;
+        double d12;
+        double d13;
+        double d14;
+        double d15;
+        if (d7 == 0.0d && d8 == 0.0d && d9 == 0.0d) {
+            return update(d4, d5, d6, d, d2, d3);
+        }
+        double d16 = this.q0;
+        double d17 = d16 * d16;
+        double d18 = this.q1;
+        double d19 = d18 * d18;
+        double d20 = this.q2;
+        double d21 = d20 * d20;
+        double d22 = this.q3;
+        double d23 = d22 * d22;
+        double d24 = d16 * 2.0d;
+        double d25 = d18 * 2.0d;
+        double d26 = d20 * 2.0d;
+        double d27 = d22 * 2.0d;
+        double d28 = d16 * d18;
+        double d29 = d16 * d20;
+        double d30 = d16 * d22;
+        double d31 = d18 * d20;
+        double d32 = d18 * d22;
+        double d33 = d20 * d22;
+        double dSqrt = Math.sqrt((d * d) + (d2 * d2) + (d3 * d3));
+        if (!isFinite(dSqrt) || dSqrt <= 0.0d) {
+            d10 = d;
+            d11 = d2;
+            d12 = d3;
+        } else {
+            double d34 = 1.0d / dSqrt;
+            d10 = d * d34;
+            d11 = d2 * d34;
+            d12 = d34 * d3;
+        }
+        double d35 = d12;
+        double dSqrt2 = Math.sqrt((d7 * d7) + (d8 * d8) + (d9 * d9));
+        if (!isFinite(dSqrt2) || dSqrt2 <= 0.0d) {
+            d13 = d7;
+            d14 = d8;
+            d15 = d9;
+        } else {
+            double d36 = 1.0d / dSqrt2;
+            d13 = d7 * d36;
+            d14 = d8 * d36;
+            d15 = d36 * d9;
+        }
+        double d37 = d14 * 2.0d;
+        double d38 = d31 - d30;
+        double d39 = d32 + d29;
+        double d40 = ((((d17 + d19) - d21) - d23) * d13) + (d37 * d38) + (d15 * 2.0d * d39);
+        double d41 = d13 * 2.0d;
+        double d42 = d17 - d19;
+        double d43 = ((d30 + d31) * d41) + (((d42 + d21) - d23) * d14 * 2.0d * d15 * (d33 - d28));
+        double d44 = d32 - d29;
+        double d45 = d28 + d33;
+        double d46 = (d41 * d44) + (d37 * d45) + (((d42 - d21) + d23) * d15);
+        double dSqrt3 = Math.sqrt((d40 * d40) + (d43 * d43));
+        double d47 = (d44 * 2.0d) - d10;
+        double d48 = (d45 * 2.0d) - d11;
+        double d49 = ((-d26) * d47) + (d25 * d48);
+        double d50 = this.q2;
+        double d51 = ((((0.5d - d21) - d23) * dSqrt3) + (d44 * d46)) - d13;
+        double d52 = -dSqrt3;
+        double d53 = this.q3;
+        double d54 = d52 * d53;
+        double d55 = this.q1;
+        double d56 = ((d38 * dSqrt3) + (d45 * d46)) - d14;
+        double d57 = ((d39 * dSqrt3) + (((0.5d - d19) - d21) * d46)) - d15;
+        double d58 = (d49 - ((d46 * d50) * d51)) + ((d54 + (d46 * d55)) * d56) + (dSqrt3 * d50 * d57);
+        double d59 = (1.0d - ((d19 + d21) * 2.0d)) - d35;
+        double d60 = this.q0;
+        double d61 = (((d27 * d47) + (d24 * d48)) - ((d55 * 4.0d) * d59)) + (d46 * d53 * d51) + (((dSqrt3 * d50) + (d46 * d60)) * d56) + (((dSqrt3 * d53) - (d46 * d25)) * d57);
+        double d62 = ((((-d24) * d47) + (d27 * d48)) - ((4.0d * d50) * d59)) + (((d52 * d26) - (d46 * d60)) * d51) + (((dSqrt3 * d55) + (d53 * d46)) * d56) + (((dSqrt3 * d60) - (d46 * d26)) * d57);
+        double d63 = (d25 * d47) + (d26 * d48) + (((d52 * d27) + (d46 * d55)) * d51) + (((d52 * d60) + (d46 * d50)) * d56) + (dSqrt3 * d55 * d57);
+        double d64 = d58;
+        double dSqrt4 = 1.0d / Math.sqrt((((d64 * d64) + (d61 * d61)) + (d62 * d62)) + (d63 * d63));
+        if (isFinite(dSqrt4) && dSqrt4 > 0.0d) {
+            d64 *= dSqrt4;
+            d61 *= dSqrt4;
+            d62 *= dSqrt4;
+            d63 *= dSqrt4;
+        }
+        double d65 = this.q1;
+        double d66 = this.q2;
+        double d67 = this.q3;
+        double d68 = this.mBeta;
+        double d69 = (((((-d65) * d4) - (d66 * d5)) - (d67 * d6)) * 0.5d) - (d64 * d68);
+        double d70 = this.q0;
+        double d71 = ((((d70 * d4) - (d67 * d5)) + (d66 * d6)) * 0.5d) - (d61 * d68);
+        double d72 = ((((d67 * d4) + (d70 * d5)) - (d65 * d6)) * 0.5d) - (d62 * d68);
+        double d73 = (((((-d66) * d4) + (d65 * d5)) + (d70 * d6)) * 0.5d) - (d68 * d63);
+        double d74 = this.mSamplingPeriod;
+        double d75 = d70 + (d69 * d74);
+        this.q0 = d75;
+        double d76 = d65 + (d71 * d74);
+        this.q1 = d76;
+        double d77 = d66 + (d72 * d74);
+        this.q2 = d77;
+        double d78 = d67 + (d73 * d74);
+        this.q3 = d78;
+        double dSqrt5 = 1.0d / Math.sqrt((((d75 * d75) + (d76 * d76)) + (d77 * d77)) + (d78 * d78));
+        this.q0 *= dSqrt5;
+        this.q1 *= dSqrt5;
+        this.q2 *= dSqrt5;
+        this.q3 *= dSqrt5;
+        return new Orientation3DObject(this.q0, this.q1, this.q2, this.q3);
+    }
+
+    public Orientation3DObject update(double d, double d2, double d3, double d4, double d5, double d6) {
+        double d7;
+        double d8;
+        double d9;
+        double d10 = this.q1;
+        double d11 = this.q2;
+        double d12 = this.q3;
+        double d13 = ((((-d10) * d4) - (d11 * d5)) - (d12 * d6)) * 0.5d;
+        double d14 = this.q0;
+        double d15 = (((d14 * d4) + (d11 * d6)) - (d12 * d5)) * 0.5d;
+        double d16 = (((d14 * d5) - (d10 * d6)) + (d12 * d4)) * 0.5d;
+        double d17 = (((d14 * d6) + (d10 * d5)) - (d11 * d4)) * 0.5d;
+        if (d != 0.0d || d2 != 0.0d || d3 != 0.0d) {
+            double dSqrt = Math.sqrt((d * d) + (d2 * d2) + (d3 * d3));
+            if (!isFinite(dSqrt) || dSqrt <= 0.0d) {
+                d7 = d;
+                d8 = d2;
+                d9 = d3;
+            } else {
+                double d18 = 1.0d / dSqrt;
+                d7 = d * d18;
+                d8 = d2 * d18;
+                d9 = d18 * d3;
+            }
+            double d19 = this.q0;
+            double d20 = d19 * 2.0d;
+            double d21 = this.q1;
+            double d22 = d21 * 2.0d;
+            double d23 = this.q2;
+            double d24 = d23 * 2.0d;
+            double d25 = this.q3;
+            double d26 = 2.0d * d25;
+            double d27 = d19 * 4.0d;
+            double d28 = d21 * 4.0d;
+            double d29 = d23 * 4.0d;
+            double d30 = d21 * 8.0d;
+            double d31 = 8.0d * d23;
+            double d32 = d21 * d21;
+            double d33 = d23 * d23;
+            double d34 = d25 * d25;
+            double d35 = (((d27 * d33) + (d24 * d7)) + (d27 * d32)) - (d22 * d8);
+            double d36 = d19 * d19 * 4.0d;
+            double d37 = (((((d28 * d34) - (d26 * d7)) + (d21 * d36)) - (d20 * d8)) - d28) + (d30 * d32) + (d30 * d33) + (d28 * d9);
+            double d38 = (((((d36 * d23) + (d20 * d7)) + (d34 * d29)) - (d26 * d8)) - d29) + (d31 * d32) + (d31 * d33) + (d29 * d9);
+            double d39 = ((((d32 * 4.0d) * d25) - (d22 * d7)) + ((d33 * 4.0d) * d25)) - (d24 * d8);
+            double dSqrt2 = 1.0d / Math.sqrt((((d37 * d37) + (d38 * d38)) + (d39 * d39)) + (d35 * d35));
+            if (isFinite(dSqrt2) && dSqrt2 > 0.0d) {
+                d35 *= dSqrt2;
+                d37 *= dSqrt2;
+                d38 *= dSqrt2;
+                d39 *= dSqrt2;
+            }
+            double d40 = this.mBeta;
+            d13 -= d35 * d40;
+            d15 -= d37 * d40;
+            d16 -= d38 * d40;
+            d17 -= d40 * d39;
+        }
+        double d41 = this.q0;
+        double d42 = this.mSamplingPeriod;
+        double d43 = d41 + (d13 * d42);
+        this.q0 = d43;
+        double d44 = this.q1 + (d15 * d42);
+        this.q1 = d44;
+        double d45 = this.q2 + (d16 * d42);
+        this.q2 = d45;
+        double d46 = this.q3 + (d17 * d42);
+        this.q3 = d46;
+        double dSqrt3 = 1.0d / Math.sqrt((((d44 * d44) + (d45 * d45)) + (d46 * d46)) + (d43 * d43));
+        this.q0 *= dSqrt3;
+        this.q1 *= dSqrt3;
+        this.q2 *= dSqrt3;
+        this.q3 *= dSqrt3;
+        return new Orientation3DObject(this.q0, this.q1, this.q2, this.q3);
+    }
+
+    public boolean isFinite(double d) {
+        return (Double.isNaN(d) || Double.isInfinite(d)) ? false : true;
+    }
+}

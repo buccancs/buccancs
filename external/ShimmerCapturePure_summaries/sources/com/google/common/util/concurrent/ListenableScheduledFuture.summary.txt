@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/util/concurrent/ListenableScheduledFuture.java
+// Size: 226 bytes
+// Modified: 2025-10-21 16:32:01.295344200 +0100
+
+package com.google.common.util.concurrent;
+
+import java.util.concurrent.ScheduledFuture;
+
+/* loaded from: classes.dex */
+public interface ListenableScheduledFuture<V> extends ScheduledFuture<V>, ListenableFuture<V> {
+}

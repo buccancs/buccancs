@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ssl/SslHandshakeTimeoutException.java
+// Size: 294 bytes
+// Modified: 2025-10-21 16:32:00.264113400 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+import javax.net.ssl.SSLHandshakeException;
+
+/* loaded from: classes3.dex */
+public final class SslHandshakeTimeoutException extends SSLHandshakeException {
+    SslHandshakeTimeoutException(String str) {
+        super(str);
+    }
+}

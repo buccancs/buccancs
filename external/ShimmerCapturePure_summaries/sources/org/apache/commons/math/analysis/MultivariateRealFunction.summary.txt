@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/analysis/MultivariateRealFunction.java
+// Size: 464 bytes
+// Modified: 2025-10-21 16:32:00.499802900 +0100
+
+package org.apache.commons.math.analysis;
+
+import org.apache.commons.math.FunctionEvaluationException;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/MultivariateRealFunction.class */
+public interface MultivariateRealFunction {
+    double value(double[] dArr) throws FunctionEvaluationException, IllegalArgumentException;
+}

@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/os/OperationCanceledException.java
+// Size: 390 bytes
+// Modified: 2025-10-21 16:32:00.754240400 +0100
+
+package androidx.core.os;
+
+import androidx.core.util.ObjectsCompat;
+
+/* loaded from: classes.dex */
+public class OperationCanceledException extends RuntimeException {
+    public OperationCanceledException() {
+        this(null);
+    }
+
+    public OperationCanceledException(String str) {
+        super(ObjectsCompat.toString(str, "The operation has been canceled."));
+    }
+}

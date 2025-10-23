@@ -1,0 +1,33 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/shaded/org/jctools/queues/atomic/BaseMpscLinkedAtomicArrayQueueConsumerFields.java
+// Size: 1211 bytes
+// Modified: 2025-10-21 16:32:01.491788800 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.atomic;
+
+import java.util.concurrent.atomic.AtomicLongFieldUpdater;
+import java.util.concurrent.atomic.AtomicReferenceArray;
+
+/* compiled from: BaseMpscLinkedAtomicArrayQueue.java */
+/* loaded from: classes3.dex */
+abstract class BaseMpscLinkedAtomicArrayQueueConsumerFields<E> extends BaseMpscLinkedAtomicArrayQueuePad2<E> {
+    private static final AtomicLongFieldUpdater<BaseMpscLinkedAtomicArrayQueueConsumerFields> C_INDEX_UPDATER = AtomicLongFieldUpdater.newUpdater(BaseMpscLinkedAtomicArrayQueueConsumerFields.class, "consumerIndex");
+    protected AtomicReferenceArray<E> consumerBuffer;
+    private volatile long consumerIndex;
+    protected long consumerMask;
+
+    final long lpConsumerIndex() {
+        return this.consumerIndex;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.util.internal.shaded.org.jctools.queues.IndexedQueueSizeUtil.IndexedQueue
+    public final long lvConsumerIndex() {
+        return this.consumerIndex;
+    }
+
+    BaseMpscLinkedAtomicArrayQueueConsumerFields() {
+    }
+
+    final void soConsumerIndex(long j) {
+        C_INDEX_UPDATER.lazySet(this, j);
+    }
+}

@@ -1,0 +1,652 @@
+package io.grpc.netty.shaded.io.netty.channel.epoll;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.channel.AddressedEnvelope;
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelMetadata;
+import io.grpc.netty.shaded.io.netty.channel.ChannelOutboundBuffer;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPipeline;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.channel.DefaultAddressedEnvelope;
+import io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel;
+import io.grpc.netty.shaded.io.netty.channel.epoll.NativeDatagramPacketArray;
+import io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel;
+import io.grpc.netty.shaded.io.netty.channel.socket.DatagramPacket;
+import io.grpc.netty.shaded.io.netty.channel.socket.InternetProtocolFamily;
+import io.grpc.netty.shaded.io.netty.channel.unix.DatagramSocketAddress;
+import io.grpc.netty.shaded.io.netty.channel.unix.Errors;
+import io.grpc.netty.shaded.io.netty.channel.unix.Socket;
+import io.grpc.netty.shaded.io.netty.channel.unix.UnixChannelUtil;
+import io.grpc.netty.shaded.io.netty.util.ReferenceCountUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import io.grpc.netty.shaded.io.netty.util.internal.RecyclableArrayList;
+import io.grpc.netty.shaded.io.netty.util.internal.StringUtil;
+
+import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.NetworkInterface;
+import java.net.PortUnreachableException;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+
+import kotlin.text.Typography;
+
+/* loaded from: classes3.dex */
+public final class EpollDatagramChannel extends AbstractEpollChannel implements DatagramChannel {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final ChannelMetadata METADATA = new ChannelMetadata(true);
+    private static final String EXPECTED_TYPES = " (expected: " + StringUtil.simpleClassName((Class<?>) DatagramPacket.class) + ", " + StringUtil.simpleClassName((Class<?>) AddressedEnvelope.class) + Typography.less + StringUtil.simpleClassName((Class<?>) ByteBuf.class) + ", " + StringUtil.simpleClassName((Class<?>) InetSocketAddress.class) + ">, " + StringUtil.simpleClassName((Class<?>) ByteBuf.class) + ')';
+    private final EpollDatagramChannelConfig config;
+    private volatile boolean connected;
+
+    public EpollDatagramChannel() {
+        this((InternetProtocolFamily) null);
+    }
+
+    /* JADX WARN: Illegal instructions before constructor call */
+    public EpollDatagramChannel(InternetProtocolFamily internetProtocolFamily) {
+        boolean zIsIPv6Preferred;
+        if (internetProtocolFamily == null) {
+            zIsIPv6Preferred = Socket.isIPv6Preferred();
+        } else {
+            zIsIPv6Preferred = internetProtocolFamily == InternetProtocolFamily.IPv6;
+        }
+        this(LinuxSocket.newSocketDgram(zIsIPv6Preferred), false);
+    }
+
+    public EpollDatagramChannel(int i) {
+        this(new LinuxSocket(i), true);
+    }
+
+    private EpollDatagramChannel(LinuxSocket linuxSocket, boolean z) {
+        super((Channel) null, linuxSocket, z);
+        this.config = new EpollDatagramChannelConfig(this);
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public EpollDatagramChannelConfig config() {
+        return this.config;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public boolean isConnected() {
+        return this.connected;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public ChannelMetadata metadata() {
+        return METADATA;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public /* bridge */ /* synthetic */ boolean isOpen() {
+        return super.isOpen();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.AbstractChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public InetSocketAddress remoteAddress() {
+        return (InetSocketAddress) super.remoteAddress();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.AbstractChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public InetSocketAddress localAddress() {
+        return (InetSocketAddress) super.localAddress();
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.Channel
+    public boolean isActive() {
+        return this.socket.isOpen() && ((this.config.getActiveOnOpen() && isRegistered()) || this.active);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture joinGroup(InetAddress inetAddress) {
+        return joinGroup(inetAddress, newPromise());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture joinGroup(InetAddress inetAddress, ChannelPromise channelPromise) {
+        try {
+            return joinGroup(inetAddress, NetworkInterface.getByInetAddress(localAddress().getAddress()), null, channelPromise);
+        } catch (IOException e) {
+            channelPromise.setFailure((Throwable) e);
+            return channelPromise;
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture joinGroup(InetSocketAddress inetSocketAddress, NetworkInterface networkInterface) {
+        return joinGroup(inetSocketAddress, networkInterface, newPromise());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture joinGroup(InetSocketAddress inetSocketAddress, NetworkInterface networkInterface, ChannelPromise channelPromise) {
+        return joinGroup(inetSocketAddress.getAddress(), networkInterface, null, channelPromise);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture joinGroup(InetAddress inetAddress, NetworkInterface networkInterface, InetAddress inetAddress2) {
+        return joinGroup(inetAddress, networkInterface, inetAddress2, newPromise());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture joinGroup(InetAddress inetAddress, NetworkInterface networkInterface, InetAddress inetAddress2, ChannelPromise channelPromise) {
+        ObjectUtil.checkNotNull(inetAddress, "multicastAddress");
+        ObjectUtil.checkNotNull(networkInterface, "networkInterface");
+        try {
+            this.socket.joinGroup(inetAddress, networkInterface, inetAddress2);
+            channelPromise.setSuccess();
+        } catch (IOException e) {
+            channelPromise.setFailure((Throwable) e);
+        }
+        return channelPromise;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture leaveGroup(InetAddress inetAddress) {
+        return leaveGroup(inetAddress, newPromise());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture leaveGroup(InetAddress inetAddress, ChannelPromise channelPromise) {
+        try {
+            return leaveGroup(inetAddress, NetworkInterface.getByInetAddress(localAddress().getAddress()), null, channelPromise);
+        } catch (IOException e) {
+            channelPromise.setFailure((Throwable) e);
+            return channelPromise;
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture leaveGroup(InetSocketAddress inetSocketAddress, NetworkInterface networkInterface) {
+        return leaveGroup(inetSocketAddress, networkInterface, newPromise());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture leaveGroup(InetSocketAddress inetSocketAddress, NetworkInterface networkInterface, ChannelPromise channelPromise) {
+        return leaveGroup(inetSocketAddress.getAddress(), networkInterface, null, channelPromise);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture leaveGroup(InetAddress inetAddress, NetworkInterface networkInterface, InetAddress inetAddress2) {
+        return leaveGroup(inetAddress, networkInterface, inetAddress2, newPromise());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture leaveGroup(InetAddress inetAddress, NetworkInterface networkInterface, InetAddress inetAddress2, ChannelPromise channelPromise) {
+        ObjectUtil.checkNotNull(inetAddress, "multicastAddress");
+        ObjectUtil.checkNotNull(networkInterface, "networkInterface");
+        try {
+            this.socket.leaveGroup(inetAddress, networkInterface, inetAddress2);
+            channelPromise.setSuccess();
+        } catch (IOException e) {
+            channelPromise.setFailure((Throwable) e);
+        }
+        return channelPromise;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture block(InetAddress inetAddress, NetworkInterface networkInterface, InetAddress inetAddress2) {
+        return block(inetAddress, networkInterface, inetAddress2, newPromise());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture block(InetAddress inetAddress, NetworkInterface networkInterface, InetAddress inetAddress2, ChannelPromise channelPromise) {
+        ObjectUtil.checkNotNull(inetAddress, "multicastAddress");
+        ObjectUtil.checkNotNull(inetAddress2, "sourceToBlock");
+        ObjectUtil.checkNotNull(networkInterface, "networkInterface");
+        channelPromise.setFailure((Throwable) new UnsupportedOperationException("Multicast not supported"));
+        return channelPromise;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture block(InetAddress inetAddress, InetAddress inetAddress2) {
+        return block(inetAddress, inetAddress2, newPromise());
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.socket.DatagramChannel
+    public ChannelFuture block(InetAddress inetAddress, InetAddress inetAddress2, ChannelPromise channelPromise) {
+        try {
+            return block(inetAddress, NetworkInterface.getByInetAddress(localAddress().getAddress()), inetAddress2, channelPromise);
+        } catch (Throwable th) {
+            channelPromise.setFailure(th);
+            return channelPromise;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    public AbstractEpollChannel.AbstractEpollUnsafe newUnsafe() {
+        return new EpollDatagramChannelUnsafe();
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected void doBind(SocketAddress socketAddress) throws Exception {
+        if (socketAddress instanceof InetSocketAddress) {
+            InetSocketAddress inetSocketAddress = (InetSocketAddress) socketAddress;
+            if (inetSocketAddress.getAddress().isAnyLocalAddress() && (inetSocketAddress.getAddress() instanceof Inet4Address) && Socket.isIPv6Preferred()) {
+                socketAddress = new InetSocketAddress(LinuxSocket.INET6_ANY, inetSocketAddress.getPort());
+            }
+        }
+        super.doBind(socketAddress);
+        this.active = true;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected void doWrite(ChannelOutboundBuffer channelOutboundBuffer) throws Exception {
+        while (true) {
+            Object objCurrent = channelOutboundBuffer.current();
+            if (objCurrent == null) {
+                clearFlag(Native.EPOLLOUT);
+                return;
+            }
+            try {
+            } catch (IOException e) {
+                channelOutboundBuffer.remove(e);
+            }
+            if (Native.IS_SUPPORTING_SENDMMSG && channelOutboundBuffer.size() > 1) {
+                NativeDatagramPacketArray nativeDatagramPacketArrayCleanDatagramPacketArray = cleanDatagramPacketArray();
+                nativeDatagramPacketArrayCleanDatagramPacketArray.add(channelOutboundBuffer, isConnected());
+                int iCount = nativeDatagramPacketArrayCleanDatagramPacketArray.count();
+                if (iCount >= 1) {
+                    NativeDatagramPacketArray.NativeDatagramPacket[] nativeDatagramPacketArrPackets = nativeDatagramPacketArrayCleanDatagramPacketArray.packets();
+                    int i = 0;
+                    while (iCount > 0) {
+                        int iSendmmsg = this.socket.sendmmsg(nativeDatagramPacketArrPackets, i, iCount);
+                        if (iSendmmsg == 0) {
+                            setFlag(Native.EPOLLOUT);
+                            return;
+                        }
+                        for (int i2 = 0; i2 < iSendmmsg; i2++) {
+                            channelOutboundBuffer.remove();
+                        }
+                        iCount -= iSendmmsg;
+                        i += iSendmmsg;
+                    }
+                }
+            }
+            for (int writeSpinCount = config().getWriteSpinCount(); writeSpinCount > 0; writeSpinCount--) {
+                if (doWriteMessage(objCurrent)) {
+                    channelOutboundBuffer.remove();
+                }
+            }
+            setFlag(Native.EPOLLOUT);
+            return;
+        }
+    }
+
+    /* JADX WARN: Removed duplicated region for block: B:29:0x00cd A[ORIG_RETURN, RETURN] */
+    /* JADX WARN: Removed duplicated region for block: B:31:? A[RETURN, SYNTHETIC] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private boolean doWriteMessage(java.lang.Object r13) throws java.lang.Exception {
+        /*
+            r12 = this;
+            boolean r0 = r13 instanceof io.grpc.netty.shaded.io.netty.channel.AddressedEnvelope
+            if (r0 == 0) goto L13
+            io.grpc.netty.shaded.io.netty.channel.AddressedEnvelope r13 = (io.grpc.netty.shaded.io.netty.channel.AddressedEnvelope) r13
+            java.lang.Object r0 = r13.content()
+            io.grpc.netty.shaded.io.netty.buffer.ByteBuf r0 = (io.grpc.netty.shaded.io.netty.buffer.ByteBuf) r0
+            java.net.SocketAddress r13 = r13.recipient()
+            java.net.InetSocketAddress r13 = (java.net.InetSocketAddress) r13
+            goto L17
+        L13:
+            r0 = r13
+            io.grpc.netty.shaded.io.netty.buffer.ByteBuf r0 = (io.grpc.netty.shaded.io.netty.buffer.ByteBuf) r0
+            r13 = 0
+        L17:
+            int r1 = r0.readableBytes()
+            r2 = 1
+            if (r1 != 0) goto L1f
+            return r2
+        L1f:
+            boolean r1 = r0.hasMemoryAddress()
+            r3 = 0
+            if (r1 == 0) goto L53
+            long r5 = r0.memoryAddress()
+            if (r13 != 0) goto L3c
+            io.grpc.netty.shaded.io.netty.channel.epoll.LinuxSocket r13 = r12.socket
+            int r1 = r0.readerIndex()
+            int r0 = r0.writerIndex()
+            int r13 = r13.writeAddress(r5, r1, r0)
+            goto Lc5
+        L3c:
+            io.grpc.netty.shaded.io.netty.channel.epoll.LinuxSocket r4 = r12.socket
+            int r7 = r0.readerIndex()
+            int r8 = r0.writerIndex()
+            java.net.InetAddress r9 = r13.getAddress()
+            int r10 = r13.getPort()
+            int r13 = r4.sendToAddress(r5, r7, r8, r9, r10)
+            goto Lc5
+        L53:
+            int r1 = r0.nioBufferCount()
+            if (r1 <= r2) goto L92
+            io.grpc.netty.shaded.io.netty.channel.EventLoop r1 = r12.eventLoop()
+            io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop r1 = (io.grpc.netty.shaded.io.netty.channel.epoll.EpollEventLoop) r1
+            io.grpc.netty.shaded.io.netty.channel.unix.IovArray r1 = r1.cleanIovArray()
+            int r4 = r0.readerIndex()
+            int r5 = r0.readableBytes()
+            r1.add(r0, r4, r5)
+            int r9 = r1.count()
+            if (r13 != 0) goto L7f
+            io.grpc.netty.shaded.io.netty.channel.epoll.LinuxSocket r13 = r12.socket
+            long r0 = r1.memoryAddress(r3)
+            long r0 = r13.writevAddresses(r0, r9)
+            goto Lc6
+        L7f:
+            io.grpc.netty.shaded.io.netty.channel.epoll.LinuxSocket r6 = r12.socket
+            long r7 = r1.memoryAddress(r3)
+            java.net.InetAddress r10 = r13.getAddress()
+            int r11 = r13.getPort()
+            int r13 = r6.sendToAddresses(r7, r9, r10, r11)
+            goto Lc5
+        L92:
+            int r1 = r0.readerIndex()
+            int r4 = r0.readableBytes()
+            java.nio.ByteBuffer r6 = r0.internalNioBuffer(r1, r4)
+            if (r13 != 0) goto Laf
+            io.grpc.netty.shaded.io.netty.channel.epoll.LinuxSocket r13 = r12.socket
+            int r0 = r6.position()
+            int r1 = r6.limit()
+            int r13 = r13.write(r6, r0, r1)
+            goto Lc5
+        Laf:
+            io.grpc.netty.shaded.io.netty.channel.epoll.LinuxSocket r5 = r12.socket
+            int r7 = r6.position()
+            int r8 = r6.limit()
+            java.net.InetAddress r9 = r13.getAddress()
+            int r10 = r13.getPort()
+            int r13 = r5.sendTo(r6, r7, r8, r9, r10)
+        Lc5:
+            long r0 = (long) r13
+        Lc6:
+            r4 = 0
+            int r13 = (r0 > r4 ? 1 : (r0 == r4 ? 0 : -1))
+            if (r13 <= 0) goto Lcd
+            goto Lce
+        Lcd:
+            r2 = 0
+        Lce:
+            return r2
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.channel.epoll.EpollDatagramChannel.doWriteMessage(java.lang.Object):boolean");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected Object filterOutboundMessage(Object obj) {
+        if (obj instanceof DatagramPacket) {
+            DatagramPacket datagramPacket = (DatagramPacket) obj;
+            ByteBuf byteBuf = (ByteBuf) datagramPacket.content();
+            return UnixChannelUtil.isBufferCopyNeededForWrite(byteBuf) ? new DatagramPacket(newDirectBuffer(datagramPacket, byteBuf), datagramPacket.recipient()) : obj;
+        }
+        if (obj instanceof ByteBuf) {
+            ByteBuf byteBuf2 = (ByteBuf) obj;
+            return UnixChannelUtil.isBufferCopyNeededForWrite(byteBuf2) ? newDirectBuffer(byteBuf2) : byteBuf2;
+        }
+        if (obj instanceof AddressedEnvelope) {
+            AddressedEnvelope addressedEnvelope = (AddressedEnvelope) obj;
+            if ((addressedEnvelope.content() instanceof ByteBuf) && (addressedEnvelope.recipient() == null || (addressedEnvelope.recipient() instanceof InetSocketAddress))) {
+                ByteBuf byteBuf3 = (ByteBuf) addressedEnvelope.content();
+                return UnixChannelUtil.isBufferCopyNeededForWrite(byteBuf3) ? new DefaultAddressedEnvelope(newDirectBuffer(addressedEnvelope, byteBuf3), (InetSocketAddress) addressedEnvelope.recipient()) : addressedEnvelope;
+            }
+        }
+        throw new UnsupportedOperationException("unsupported message type: " + StringUtil.simpleClassName(obj) + EXPECTED_TYPES);
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected void doDisconnect() throws Exception {
+        this.socket.disconnect();
+        this.active = false;
+        this.connected = false;
+        resetCachedAddresses();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel
+    protected boolean doConnect(SocketAddress socketAddress, SocketAddress socketAddress2) throws Exception {
+        if (!super.doConnect(socketAddress, socketAddress2)) {
+            return false;
+        }
+        this.connected = true;
+        return true;
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel, io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected void doClose() throws Exception {
+        super.doClose();
+        this.connected = false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean connectedRead(EpollRecvByteAllocatorHandle epollRecvByteAllocatorHandle, ByteBuf byteBuf, int i) throws Exception {
+        int iWritableBytes;
+        int address;
+        try {
+            if (i != 0) {
+                iWritableBytes = Math.min(byteBuf.writableBytes(), i);
+            } else {
+                iWritableBytes = byteBuf.writableBytes();
+            }
+            epollRecvByteAllocatorHandle.attemptedBytesRead(iWritableBytes);
+            int iWriterIndex = byteBuf.writerIndex();
+            if (byteBuf.hasMemoryAddress()) {
+                address = this.socket.readAddress(byteBuf.memoryAddress(), iWriterIndex, iWriterIndex + iWritableBytes);
+            } else {
+                ByteBuffer byteBufferInternalNioBuffer = byteBuf.internalNioBuffer(iWriterIndex, iWritableBytes);
+                address = this.socket.read(byteBufferInternalNioBuffer, byteBufferInternalNioBuffer.position(), byteBufferInternalNioBuffer.limit());
+            }
+            if (address <= 0) {
+                epollRecvByteAllocatorHandle.lastBytesRead(address);
+            }
+            byteBuf.writerIndex(iWriterIndex + address);
+            if (i <= 0) {
+                iWritableBytes = address;
+            }
+            epollRecvByteAllocatorHandle.lastBytesRead(iWritableBytes);
+            DatagramPacket datagramPacket = new DatagramPacket(byteBuf, localAddress(), remoteAddress());
+            epollRecvByteAllocatorHandle.incMessagesRead(1);
+            pipeline().fireChannelRead((Object) datagramPacket);
+            return true;
+        } finally {
+            if (byteBuf != null) {
+                byteBuf.release();
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public IOException translateForConnected(Errors.NativeIoException nativeIoException) {
+        if (nativeIoException.expectedErr() != Errors.ERROR_ECONNREFUSED_NEGATIVE) {
+            return nativeIoException;
+        }
+        PortUnreachableException portUnreachableException = new PortUnreachableException(nativeIoException.getMessage());
+        portUnreachableException.initCause(nativeIoException);
+        return portUnreachableException;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean scatteringRead(EpollRecvByteAllocatorHandle epollRecvByteAllocatorHandle, ByteBuf byteBuf, int i, int i2) throws IOException {
+        RecyclableArrayList recyclableArrayList = null;
+        try {
+            int iWriterIndex = byteBuf.writerIndex();
+            NativeDatagramPacketArray nativeDatagramPacketArrayCleanDatagramPacketArray = cleanDatagramPacketArray();
+            int i3 = 0;
+            while (i3 < i2 && nativeDatagramPacketArrayCleanDatagramPacketArray.addWritable(byteBuf, iWriterIndex, i)) {
+                i3++;
+                iWriterIndex += i;
+            }
+            epollRecvByteAllocatorHandle.attemptedBytesRead(iWriterIndex - byteBuf.writerIndex());
+            NativeDatagramPacketArray.NativeDatagramPacket[] nativeDatagramPacketArrPackets = nativeDatagramPacketArrayCleanDatagramPacketArray.packets();
+            int iRecvmmsg = this.socket.recvmmsg(nativeDatagramPacketArrPackets, 0, nativeDatagramPacketArrayCleanDatagramPacketArray.count());
+            if (iRecvmmsg == 0) {
+                epollRecvByteAllocatorHandle.lastBytesRead(-1);
+                if (byteBuf != null) {
+                    byteBuf.release();
+                }
+                return false;
+            }
+            int i4 = iRecvmmsg * i;
+            byteBuf.writerIndex(i4);
+            InetSocketAddress inetSocketAddressLocalAddress = localAddress();
+            if (iRecvmmsg == 1) {
+                DatagramPacket datagramPacketNewDatagramPacket = nativeDatagramPacketArrPackets[0].newDatagramPacket(byteBuf, inetSocketAddressLocalAddress);
+                epollRecvByteAllocatorHandle.lastBytesRead(i);
+                epollRecvByteAllocatorHandle.incMessagesRead(1);
+                pipeline().fireChannelRead((Object) datagramPacketNewDatagramPacket);
+                return true;
+            }
+            RecyclableArrayList recyclableArrayListNewInstance = RecyclableArrayList.newInstance();
+            for (int i5 = 0; i5 < iRecvmmsg; i5++) {
+                recyclableArrayListNewInstance.add(nativeDatagramPacketArrPackets[i5].newDatagramPacket(byteBuf.readRetainedSlice(i), inetSocketAddressLocalAddress));
+            }
+            epollRecvByteAllocatorHandle.lastBytesRead(i4);
+            epollRecvByteAllocatorHandle.incMessagesRead(iRecvmmsg);
+            for (int i6 = 0; i6 < iRecvmmsg; i6++) {
+                pipeline().fireChannelRead(recyclableArrayListNewInstance.set(i6, Unpooled.EMPTY_BUFFER));
+            }
+            recyclableArrayListNewInstance.recycle();
+            if (byteBuf != null) {
+                byteBuf.release();
+            }
+            return true;
+        } catch (Throwable th) {
+            if (byteBuf != null) {
+                byteBuf.release();
+            }
+            if (0 != 0) {
+                for (int i7 = 0; i7 < recyclableArrayList.size(); i7++) {
+                    ReferenceCountUtil.release(recyclableArrayList.get(i7));
+                }
+                recyclableArrayList.recycle();
+            }
+            throw th;
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean read(EpollRecvByteAllocatorHandle epollRecvByteAllocatorHandle, ByteBuf byteBuf, int i) throws IOException {
+        int iWritableBytes;
+        DatagramSocketAddress datagramSocketAddressRecvFrom;
+        try {
+            if (i != 0) {
+                iWritableBytes = Math.min(byteBuf.writableBytes(), i);
+            } else {
+                iWritableBytes = byteBuf.writableBytes();
+            }
+            epollRecvByteAllocatorHandle.attemptedBytesRead(iWritableBytes);
+            int iWriterIndex = byteBuf.writerIndex();
+            if (byteBuf.hasMemoryAddress()) {
+                datagramSocketAddressRecvFrom = this.socket.recvFromAddress(byteBuf.memoryAddress(), iWriterIndex, iWriterIndex + iWritableBytes);
+            } else {
+                ByteBuffer byteBufferInternalNioBuffer = byteBuf.internalNioBuffer(iWriterIndex, iWritableBytes);
+                datagramSocketAddressRecvFrom = this.socket.recvFrom(byteBufferInternalNioBuffer, byteBufferInternalNioBuffer.position(), byteBufferInternalNioBuffer.limit());
+            }
+            if (datagramSocketAddressRecvFrom == null) {
+                epollRecvByteAllocatorHandle.lastBytesRead(-1);
+            }
+            InetSocketAddress inetSocketAddressLocalAddress = datagramSocketAddressRecvFrom.localAddress();
+            if (inetSocketAddressLocalAddress == null) {
+                inetSocketAddressLocalAddress = localAddress();
+            }
+            int iReceivedAmount = datagramSocketAddressRecvFrom.receivedAmount();
+            if (i <= 0) {
+                iWritableBytes = iReceivedAmount;
+            }
+            epollRecvByteAllocatorHandle.lastBytesRead(iWritableBytes);
+            byteBuf.writerIndex(iWriterIndex + iReceivedAmount);
+            epollRecvByteAllocatorHandle.incMessagesRead(1);
+            pipeline().fireChannelRead((Object) new DatagramPacket(byteBuf, inetSocketAddressLocalAddress, datagramSocketAddressRecvFrom));
+            return true;
+        } finally {
+            if (byteBuf != null) {
+                byteBuf.release();
+            }
+        }
+    }
+
+    private NativeDatagramPacketArray cleanDatagramPacketArray() {
+        return ((EpollEventLoop) eventLoop()).cleanDatagramPacketArray();
+    }
+
+    final class EpollDatagramChannelUnsafe extends AbstractEpollChannel.AbstractEpollUnsafe {
+        static final /* synthetic */ boolean $assertionsDisabled = false;
+
+        EpollDatagramChannelUnsafe() {
+            super();
+        }
+
+        @Override
+            // io.grpc.netty.shaded.io.netty.channel.epoll.AbstractEpollChannel.AbstractEpollUnsafe
+        void epollInReady() {
+            int iWritableBytes;
+            boolean zScatteringRead;
+            EpollDatagramChannelConfig epollDatagramChannelConfigConfig = EpollDatagramChannel.this.config();
+            if (EpollDatagramChannel.this.shouldBreakEpollInReady(epollDatagramChannelConfigConfig)) {
+                clearEpollIn0();
+                return;
+            }
+            EpollRecvByteAllocatorHandle epollRecvByteAllocatorHandleRecvBufAllocHandle = recvBufAllocHandle();
+            epollRecvByteAllocatorHandleRecvBufAllocHandle.edgeTriggered(EpollDatagramChannel.this.isFlagSet(Native.EPOLLET));
+            ChannelPipeline channelPipelinePipeline = EpollDatagramChannel.this.pipeline();
+            ByteBufAllocator allocator = epollDatagramChannelConfigConfig.getAllocator();
+            epollRecvByteAllocatorHandleRecvBufAllocHandle.reset(epollDatagramChannelConfigConfig);
+            epollInBefore();
+            try {
+                boolean zIsConnected = EpollDatagramChannel.this.isConnected();
+                do {
+                    ByteBuf byteBufAllocate = epollRecvByteAllocatorHandleRecvBufAllocHandle.allocate(allocator);
+                    int maxDatagramPayloadSize = EpollDatagramChannel.this.config().getMaxDatagramPayloadSize();
+                    if (Native.IS_SUPPORTING_RECVMMSG) {
+                        iWritableBytes = maxDatagramPayloadSize == 0 ? 1 : byteBufAllocate.writableBytes() / maxDatagramPayloadSize;
+                    } else {
+                        iWritableBytes = 0;
+                    }
+                    if (iWritableBytes > 1) {
+                        zScatteringRead = EpollDatagramChannel.this.scatteringRead(epollRecvByteAllocatorHandleRecvBufAllocHandle, byteBufAllocate, maxDatagramPayloadSize, iWritableBytes);
+                    } else if (zIsConnected) {
+                        try {
+                            zScatteringRead = EpollDatagramChannel.this.connectedRead(epollRecvByteAllocatorHandleRecvBufAllocHandle, byteBufAllocate, maxDatagramPayloadSize);
+                        } catch (Errors.NativeIoException e) {
+                            if (zIsConnected) {
+                                throw EpollDatagramChannel.this.translateForConnected(e);
+                            }
+                            throw e;
+                        }
+                    } else {
+                        zScatteringRead = EpollDatagramChannel.this.read(epollRecvByteAllocatorHandleRecvBufAllocHandle, byteBufAllocate, maxDatagramPayloadSize);
+                    }
+                    if (!zScatteringRead) {
+                        break;
+                    } else {
+                        this.readPending = false;
+                    }
+                } while (epollRecvByteAllocatorHandleRecvBufAllocHandle.continueReading());
+                th = null;
+            } catch (Throwable th) {
+                th = th;
+            }
+            try {
+                epollRecvByteAllocatorHandleRecvBufAllocHandle.readComplete();
+                channelPipelinePipeline.fireChannelReadComplete();
+                if (th != null) {
+                    channelPipelinePipeline.fireExceptionCaught(th);
+                }
+            } finally {
+                epollInFinally(epollDatagramChannelConfigConfig);
+            }
+        }
+    }
+}

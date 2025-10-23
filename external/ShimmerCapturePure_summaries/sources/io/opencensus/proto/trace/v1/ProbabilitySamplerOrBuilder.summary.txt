@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/trace/v1/ProbabilitySamplerOrBuilder.java
+// Size: 236 bytes
+// Modified: 2025-10-21 16:32:00.376013400 +0100
+
+package io.opencensus.proto.trace.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes4.dex */
+public interface ProbabilitySamplerOrBuilder extends MessageOrBuilder {
+    double getSamplingProbability();
+}

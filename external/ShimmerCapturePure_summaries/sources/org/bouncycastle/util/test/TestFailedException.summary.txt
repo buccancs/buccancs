@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/test/TestFailedException.java
+// Size: 347 bytes
+// Modified: 2025-10-21 16:32:01.058859000 +0100
+
+package org.bouncycastle.util.test;
+
+/* loaded from: classes5.dex */
+public class TestFailedException extends RuntimeException {
+    private TestResult _result;
+
+    public TestFailedException(TestResult testResult) {
+        this._result = testResult;
+    }
+
+    public TestResult getResult() {
+        return this._result;
+    }
+}

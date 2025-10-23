@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/TlsFatalAlertReceived.java
+// Size: 405 bytes
+// Modified: 2025-10-21 16:32:01.846788400 +0100
+
+package org.bouncycastle.crypto.tls;
+
+/* loaded from: classes5.dex */
+public class TlsFatalAlertReceived extends TlsException {
+    protected short alertDescription;
+
+    public TlsFatalAlertReceived(short s) {
+        super(AlertDescription.getText(s), null);
+        this.alertDescription = s;
+    }
+
+    public short getAlertDescription() {
+        return this.alertDescription;
+    }
+}

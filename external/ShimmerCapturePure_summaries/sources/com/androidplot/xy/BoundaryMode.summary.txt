@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/BoundaryMode.java
+// Size: 141 bytes
+// Modified: 2025-10-21 16:32:00.081887500 +0100
+
+package com.androidplot.xy;
+
+/* loaded from: classes.dex */
+public enum BoundaryMode {
+    FIXED,
+    AUTO,
+    GROW,
+    SHRINNK
+}

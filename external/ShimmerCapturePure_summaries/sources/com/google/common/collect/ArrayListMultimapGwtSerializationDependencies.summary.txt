@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/ArrayListMultimapGwtSerializationDependencies.java
+// Size: 341 bytes
+// Modified: 2025-10-21 16:32:03.410675600 +0100
+
+package com.google.common.collect;
+
+import java.util.Collection;
+import java.util.Map;
+
+/* loaded from: classes.dex */
+abstract class ArrayListMultimapGwtSerializationDependencies<K, V> extends AbstractListMultimap<K, V> {
+    ArrayListMultimapGwtSerializationDependencies(Map<K, Collection<V>> map) {
+        super(map);
+    }
+}

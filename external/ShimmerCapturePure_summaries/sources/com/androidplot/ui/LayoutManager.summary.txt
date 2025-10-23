@@ -1,0 +1,313 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/ui/LayoutManager.java
+// Size: 10722 bytes
+// Modified: 2025-10-21 16:32:07.911681400 +0100
+
+package com.androidplot.ui;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.RectF;
+import android.graphics.Region;
+import android.view.MotionEvent;
+import android.view.View;
+import androidx.core.view.InputDeviceCompat;
+import androidx.core.view.ViewCompat;
+import com.androidplot.exception.PlotRenderException;
+import com.androidplot.ui.widget.Widget;
+import com.androidplot.util.PixelUtils;
+import com.androidplot.util.ZHash;
+import com.androidplot.xy.XLayoutStyle;
+import com.androidplot.xy.YLayoutStyle;
+
+/* loaded from: classes.dex */
+public class LayoutManager extends ZHash<Widget, PositionMetrics> implements View.OnTouchListener {
+    private Paint b;
+    private Paint d;
+    private Paint f;
+    private Paint h;
+    private Paint j;
+    private boolean a = true;
+    private boolean c = true;
+    private boolean e = true;
+    private boolean g = true;
+    private boolean i = true;
+
+    public Paint getMarginPaint() {
+        return this.h;
+    }
+
+    public Paint getOutlinePaint() {
+        return this.d;
+    }
+
+    public Paint getOutlineShadowPaint() {
+        return this.f;
+    }
+
+    public Paint getPaddingPaint() {
+        return this.j;
+    }
+
+    public boolean isDrawAnchorsEnabled() {
+        return this.a;
+    }
+
+    public boolean isDrawMarginsEnabled() {
+        return this.g;
+    }
+
+    public boolean isDrawOutlineShadowsEnabled() {
+        return this.e;
+    }
+
+    public boolean isDrawOutlinesEnabled() {
+        return this.c;
+    }
+
+    public boolean isDrawPaddingEnabled() {
+        return this.i;
+    }
+
+    @Override // android.view.View.OnTouchListener
+    public boolean onTouch(View view, MotionEvent motionEvent) {
+        return false;
+    }
+
+    public void setDrawAnchorsEnabled(boolean z) {
+        this.a = z;
+    }
+
+    public void setDrawMarginsEnabled(boolean z) {
+        this.g = z;
+    }
+
+    public void setDrawOutlineShadowsEnabled(boolean z) {
+        this.e = z;
+    }
+
+    public void setDrawOutlinesEnabled(boolean z) {
+        this.c = z;
+    }
+
+    public void setDrawPaddingEnabled(boolean z) {
+        this.i = z;
+    }
+
+    public void setMarginPaint(Paint paint) {
+        this.h = paint;
+    }
+
+    public void setOutlinePaint(Paint paint) {
+        this.d = paint;
+    }
+
+    public void setOutlineShadowPaint(Paint paint) {
+        this.f = paint;
+    }
+
+    public void setPaddingPaint(Paint paint) {
+        this.j = paint;
+    }
+
+    public LayoutManager() {
+        Paint paint = new Paint();
+        this.b = paint;
+        paint.setStyle(Paint.Style.FILL);
+        this.b.setColor(-16711936);
+        Paint paint2 = new Paint();
+        this.d = paint2;
+        paint2.setColor(-16711936);
+        this.d.setStyle(Paint.Style.STROKE);
+        Paint paint3 = new Paint();
+        this.f = paint3;
+        paint3.setColor(-12303292);
+        this.f.setStyle(Paint.Style.FILL);
+        this.f.setShadowLayer(3.0f, 5.0f, 5.0f, ViewCompat.MEASURED_STATE_MASK);
+        Paint paint4 = new Paint();
+        this.h = paint4;
+        paint4.setColor(InputDeviceCompat.SOURCE_ANY);
+        this.h.setStyle(Paint.Style.FILL);
+        this.h.setAlpha(200);
+        Paint paint5 = new Paint();
+        this.j = paint5;
+        paint5.setColor(-16776961);
+        this.j.setStyle(Paint.Style.FILL);
+        this.j.setAlpha(200);
+    }
+
+    public void disableAllMarkup() {
+        setDrawOutlinesEnabled(false);
+        setDrawAnchorsEnabled(false);
+        setDrawMarginsEnabled(false);
+        setDrawPaddingEnabled(false);
+        setDrawOutlineShadowsEnabled(false);
+    }
+
+    public AnchorPosition getElementAnchor(Widget widget) {
+        return get(widget).getAnchor();
+    }
+
+    public boolean setElementAnchor(Widget widget, AnchorPosition anchorPosition) {
+        PositionMetrics positionMetrics = get(widget);
+        if (positionMetrics == null) {
+            return false;
+        }
+        positionMetrics.setAnchor(anchorPosition);
+        return true;
+    }
+
+    public static PointF getAnchorCoordinates(RectF rectF, AnchorPosition anchorPosition) {
+        return PixelUtils.add(new PointF(rectF.left, rectF.top), getAnchorOffset(rectF.width(), rectF.height(), anchorPosition));
+    }
+
+    public static PointF getAnchorCoordinates(float f, float f2, float f3, float f4, AnchorPosition anchorPosition) {
+        return getAnchorCoordinates(new RectF(f, f2, f3 + f, f4 + f2), anchorPosition);
+    }
+
+    static /* synthetic */ class a {
+        static final /* synthetic */ int[] a;
+
+        static {
+            int[] iArr = new int[AnchorPosition.values().length];
+            a = iArr;
+            try {
+                iArr[AnchorPosition.LEFT_TOP.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                a[AnchorPosition.LEFT_MIDDLE.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                a[AnchorPosition.LEFT_BOTTOM.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                a[AnchorPosition.RIGHT_TOP.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                a[AnchorPosition.RIGHT_BOTTOM.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                a[AnchorPosition.RIGHT_MIDDLE.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                a[AnchorPosition.TOP_MIDDLE.ordinal()] = 7;
+            } catch (NoSuchFieldError unused7) {
+            }
+            try {
+                a[AnchorPosition.BOTTOM_MIDDLE.ordinal()] = 8;
+            } catch (NoSuchFieldError unused8) {
+            }
+            try {
+                a[AnchorPosition.CENTER.ordinal()] = 9;
+            } catch (NoSuchFieldError unused9) {
+            }
+        }
+    }
+
+    /* JADX WARN: Can't fix incorrect switch cases order, some code will duplicate */
+    public static PointF getAnchorOffset(float f, float f2, AnchorPosition anchorPosition) {
+        PointF pointF = new PointF();
+        switch (a.a[anchorPosition.ordinal()]) {
+            case 1:
+                return pointF;
+            case 2:
+                pointF.set(0.0f, f2 / 2.0f);
+                return pointF;
+            case 3:
+                pointF.set(0.0f, f2);
+                return pointF;
+            case 4:
+                pointF.set(f, 0.0f);
+                return pointF;
+            case 5:
+                pointF.set(f, f2);
+                return pointF;
+            case 6:
+                pointF.set(f, f2 / 2.0f);
+                return pointF;
+            case 7:
+                pointF.set(f / 2.0f, 0.0f);
+                return pointF;
+            case 8:
+                pointF.set(f / 2.0f, f2);
+                return pointF;
+            case 9:
+                pointF.set(f / 2.0f, f2 / 2.0f);
+                return pointF;
+            default:
+                throw new IllegalArgumentException("Unsupported anchor location: " + anchorPosition);
+        }
+    }
+
+    public PointF getElementCoordinates(float f, float f2, RectF rectF, PositionMetrics positionMetrics) {
+        return PixelUtils.sub(new PointF(positionMetrics.getxPositionMetric().getPixelValue(rectF.width()) + rectF.left, positionMetrics.getyPositionMetric().getPixelValue(rectF.height()) + rectF.top), getAnchorOffset(f2, f, positionMetrics.getAnchor()));
+    }
+
+    public synchronized void draw(Canvas canvas, RectF rectF, RectF rectF2, RectF rectF3) throws PlotRenderException {
+        if (isDrawMarginsEnabled()) {
+            a(canvas, rectF, rectF2, this.h);
+        }
+        if (isDrawPaddingEnabled()) {
+            a(canvas, rectF2, rectF3, this.j);
+        }
+        for (Widget widget : getKeysAsList()) {
+            try {
+                canvas.save(31);
+                PositionMetrics positionMetrics = get(widget);
+                float widthPix = widget.getWidthPix(rectF3.width());
+                float heightPix = widget.getHeightPix(rectF3.height());
+                PointF elementCoordinates = getElementCoordinates(heightPix, widthPix, rectF3, positionMetrics);
+                RectF rectF4 = new RectF(elementCoordinates.x, elementCoordinates.y, elementCoordinates.x + widthPix, elementCoordinates.y + heightPix);
+                if (this.e) {
+                    canvas.drawRect(rectF4, this.f);
+                }
+                if (widget.isClippingEnabled()) {
+                    canvas.clipRect(rectF4, Region.Op.INTERSECT);
+                }
+                widget.draw(canvas, rectF4);
+                RectF marginatedRect = widget.getMarginatedRect(rectF4);
+                RectF paddedRect = widget.getPaddedRect(marginatedRect);
+                if (this.g) {
+                    a(canvas, rectF4, marginatedRect, getMarginPaint());
+                }
+                if (this.i) {
+                    a(canvas, marginatedRect, paddedRect, getPaddingPaint());
+                }
+                if (this.a) {
+                    PointF anchorCoordinates = getAnchorCoordinates(elementCoordinates.x, elementCoordinates.y, widthPix, heightPix, positionMetrics.getAnchor());
+                    canvas.drawRect(anchorCoordinates.x - 4.0f, anchorCoordinates.y - 4.0f, anchorCoordinates.x + 4.0f, anchorCoordinates.y + 4.0f, this.b);
+                }
+                if (this.c) {
+                    this.d.setAntiAlias(true);
+                    canvas.drawRect(rectF4, this.d);
+                }
+                canvas.restore();
+            } finally {
+            }
+        }
+    }
+
+    private static void a(Canvas canvas, RectF rectF, RectF rectF2, Paint paint) {
+        try {
+            canvas.save(31);
+            canvas.clipRect(rectF2, Region.Op.DIFFERENCE);
+            canvas.drawRect(rectF, paint);
+        } finally {
+            canvas.restore();
+        }
+    }
+
+    public void position(Widget widget, float f, XLayoutStyle xLayoutStyle, float f2, YLayoutStyle yLayoutStyle) {
+        position(widget, f, xLayoutStyle, f2, yLayoutStyle, AnchorPosition.LEFT_TOP);
+    }
+
+    public void position(Widget widget, float f, XLayoutStyle xLayoutStyle, float f2, YLayoutStyle yLayoutStyle, AnchorPosition anchorPosition) {
+        addToTop(widget, new PositionMetrics(f, xLayoutStyle, f2, yLayoutStyle, anchorPosition));
+    }
+}

@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/random/GaussianRandomGenerator.java
+// Size: 502 bytes
+// Modified: 2025-10-21 16:32:01.783298100 +0100
+
+package org.apache.commons.math3.random;
+
+/* loaded from: classes5.dex */
+public class GaussianRandomGenerator implements NormalizedRandomGenerator {
+    private final RandomGenerator generator;
+
+    public GaussianRandomGenerator(RandomGenerator randomGenerator) {
+        this.generator = randomGenerator;
+    }
+
+    @Override // org.apache.commons.math3.random.NormalizedRandomGenerator
+    public double nextNormalizedDouble() {
+        return this.generator.nextGaussian();
+    }
+}

@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/grpc/netty/package-info.java
+// Size: 111 bytes
+// Modified: 2025-10-21 16:32:01.445968100 +0100
+
+@CheckReturnValue
+package io.grpc.netty.shaded.io.grpc.netty;
+
+import javax.annotation.CheckReturnValue;
+

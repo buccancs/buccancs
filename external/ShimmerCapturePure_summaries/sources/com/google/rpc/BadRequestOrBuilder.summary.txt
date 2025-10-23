@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/rpc/BadRequestOrBuilder.java
+// Size: 567 bytes
+// Modified: 2025-10-21 16:32:02.133196900 +0100
+
+package com.google.rpc;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.rpc.BadRequest;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface BadRequestOrBuilder extends MessageOrBuilder {
+    BadRequest.FieldViolation getFieldViolations(int i);
+
+    int getFieldViolationsCount();
+
+    List<BadRequest.FieldViolation> getFieldViolationsList();
+
+    BadRequest.FieldViolationOrBuilder getFieldViolationsOrBuilder(int i);
+
+    List<? extends BadRequest.FieldViolationOrBuilder> getFieldViolationsOrBuilderList();
+}

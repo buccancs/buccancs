@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socksx/v5/Socks5InitialRequest.java
+// Size: 234 bytes
+// Modified: 2025-10-21 16:32:03.154919100 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socksx.v5;
+
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface Socks5InitialRequest extends Socks5Message {
+    List<Socks5AuthMethod> authMethods();
+}

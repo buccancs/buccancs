@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/params/ECKeyParameters.java
+// Size: 415 bytes
+// Modified: 2025-10-21 16:32:04.532740300 +0100
+
+package org.bouncycastle.crypto.params;
+
+/* loaded from: classes5.dex */
+public class ECKeyParameters extends AsymmetricKeyParameter {
+    ECDomainParameters params;
+
+    protected ECKeyParameters(boolean z, ECDomainParameters eCDomainParameters) {
+        super(z);
+        this.params = eCDomainParameters;
+    }
+
+    public ECDomainParameters getParameters() {
+        return this.params;
+    }
+}

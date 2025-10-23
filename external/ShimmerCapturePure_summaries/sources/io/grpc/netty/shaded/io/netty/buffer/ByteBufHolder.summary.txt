@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/buffer/ByteBufHolder.java
+// Size: 800 bytes
+// Modified: 2025-10-21 16:32:03.382958300 +0100
+
+package io.grpc.netty.shaded.io.netty.buffer;
+
+import io.grpc.netty.shaded.io.netty.util.ReferenceCounted;
+
+/* loaded from: classes3.dex */
+public interface ByteBufHolder extends ReferenceCounted {
+    ByteBuf content();
+
+    ByteBufHolder copy();
+
+    ByteBufHolder duplicate();
+
+    ByteBufHolder replace(ByteBuf byteBuf);
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    ByteBufHolder retain();
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    ByteBufHolder retain(int i);
+
+    ByteBufHolder retainedDuplicate();
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    ByteBufHolder touch();
+
+    @Override // io.grpc.netty.shaded.io.netty.util.ReferenceCounted
+    ByteBufHolder touch(Object obj);
+}

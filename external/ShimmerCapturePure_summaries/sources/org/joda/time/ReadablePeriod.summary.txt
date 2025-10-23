@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/ReadablePeriod.java
+// Size: 491 bytes
+// Modified: 2025-10-21 16:32:03.667190600 +0100
+
+package org.joda.time;
+
+/* loaded from: classes2.dex */
+public interface ReadablePeriod {
+    boolean equals(Object obj);
+
+    int get(DurationFieldType durationFieldType);
+
+    DurationFieldType getFieldType(int i);
+
+    PeriodType getPeriodType();
+
+    int getValue(int i);
+
+    int hashCode();
+
+    boolean isSupported(DurationFieldType durationFieldType);
+
+    int size();
+
+    MutablePeriod toMutablePeriod();
+
+    Period toPeriod();
+
+    String toString();
+}

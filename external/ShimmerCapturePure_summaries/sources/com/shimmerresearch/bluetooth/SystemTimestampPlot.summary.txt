@@ -1,0 +1,40 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/bluetooth/SystemTimestampPlot.java
+// Size: 1936 bytes
+// Modified: 2025-10-21 16:32:07.456107400 +0100
+
+package com.shimmerresearch.bluetooth;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.sensors.SensorSystemTimeStamp;
+import java.io.Serializable;
+
+/* loaded from: classes2.dex */
+public class SystemTimestampPlot implements Serializable {
+    private static final long serialVersionUID = -5726844230890469880L;
+    private boolean mIsFirstSystemTimestampOffsetStored = false;
+    private double mOffsetFirstTime = -1.0d;
+    private boolean mIsFirstSystemTimestampOffsetPlotStored = false;
+    private double mFirstSystemTimestampPlot = -1.0d;
+
+    public void reset() {
+        this.mIsFirstSystemTimestampOffsetStored = false;
+        this.mIsFirstSystemTimestampOffsetPlotStored = false;
+    }
+
+    public ObjectCluster processSystemTimestampPlot(ObjectCluster objectCluster) {
+        if (!this.mIsFirstSystemTimestampOffsetStored) {
+            this.mIsFirstSystemTimestampOffsetStored = true;
+            this.mOffsetFirstTime = objectCluster.mSystemTimeStamp - objectCluster.getTimestampMilliSecs();
+        }
+        double timestampMilliSecs = objectCluster.getTimestampMilliSecs() + this.mOffsetFirstTime;
+        if (!this.mIsFirstSystemTimestampOffsetPlotStored) {
+            this.mIsFirstSystemTimestampOffsetPlotStored = true;
+            this.mFirstSystemTimestampPlot = timestampMilliSecs;
+        }
+        objectCluster.addDataToMap(SensorSystemTimeStamp.ObjectClusterSensorName.SYSTEM_TIMESTAMP_PLOT, ChannelDetails.CHANNEL_TYPE.CAL.toString(), Configuration.CHANNEL_UNITS.MILLISECONDS, timestampMilliSecs);
+        objectCluster.addCalData(SensorSystemTimeStamp.channelSystemTimestampPlotZeroed, this.mIsFirstSystemTimestampOffsetPlotStored ? timestampMilliSecs - this.mFirstSystemTimestampPlot : 0.0d);
+        return objectCluster;
+    }
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/InstanceCreator.java
+// Size: 170 bytes
+// Modified: 2025-10-21 16:32:00.132726600 +0100
+
+package com.google.gson;
+
+import java.lang.reflect.Type;
+
+/* loaded from: classes.dex */
+public interface InstanceCreator<T> {
+    T createInstance(Type type);
+}

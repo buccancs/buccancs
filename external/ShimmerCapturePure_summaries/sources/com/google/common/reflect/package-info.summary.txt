@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/reflect/package-info.java
+// Size: 207 bytes
+// Modified: 2025-10-21 16:32:03.117086100 +0100
+
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package com.google.common.reflect;
+
+import com.google.errorprone.annotations.CheckReturnValue;
+import javax.annotation.ParametersAreNonnullByDefault;
+

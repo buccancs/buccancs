@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/svm/PlatformDependentSubstitution.java
+// Size: 606 bytes
+// Modified: 2025-10-21 16:32:00.405485200 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal.svm;
+
+import com.oracle.svm.core.annotate.Alias;
+import com.oracle.svm.core.annotate.RecomputeFieldValue;
+import com.oracle.svm.core.annotate.TargetClass;
+
+@TargetClass(className = "io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent")
+/* loaded from: classes3.dex */
+final class PlatformDependentSubstitution {
+
+    @RecomputeFieldValue(declClass = byte[].class, kind = RecomputeFieldValue.Kind.ArrayBaseOffset)
+    @Alias
+    private static long BYTE_ARRAY_BASE_OFFSET;
+
+    private PlatformDependentSubstitution() {
+    }
+}

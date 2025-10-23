@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/route/VirtualClusterOrBuilder.java
+// Size: 854 bytes
+// Modified: 2025-10-21 16:32:05.828136200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.RequestMethod;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface VirtualClusterOrBuilder extends MessageOrBuilder {
+    HeaderMatcher getHeaders(int i);
+
+    int getHeadersCount();
+
+    List<HeaderMatcher> getHeadersList();
+
+    HeaderMatcherOrBuilder getHeadersOrBuilder(int i);
+
+    List<? extends HeaderMatcherOrBuilder> getHeadersOrBuilderList();
+
+    @Deprecated
+    RequestMethod getMethod();
+
+    @Deprecated
+    int getMethodValue();
+
+    String getName();
+
+    ByteString getNameBytes();
+
+    @Deprecated
+    String getPattern();
+
+    @Deprecated
+    ByteString getPatternBytes();
+}

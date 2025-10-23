@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/builders/NullBuilder.java
+// Size: 360 bytes
+// Modified: 2025-10-21 16:32:04.542793700 +0100
+
+package org.junit.internal.builders;
+
+import org.junit.runner.Runner;
+import org.junit.runners.model.RunnerBuilder;
+
+/* loaded from: classes2.dex */
+public class NullBuilder extends RunnerBuilder {
+    @Override // org.junit.runners.model.RunnerBuilder
+    public Runner runnerForClass(Class<?> cls) throws Throwable {
+        return null;
+    }
+}

@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/stats/v1/DistributionAggregationOrBuilder.java
+// Size: 341 bytes
+// Modified: 2025-10-21 16:32:00.468692800 +0100
+
+package io.opencensus.proto.stats.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface DistributionAggregationOrBuilder extends MessageOrBuilder {
+    double getBucketBounds(int i);
+
+    int getBucketBoundsCount();
+
+    List<Double> getBucketBoundsList();
+}

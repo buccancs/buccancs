@@ -1,0 +1,288 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/stat/Frequency.java
+// Size: 8694 bytes
+// Modified: 2025-10-21 16:32:04.765982800 +0100
+
+package org.apache.commons.math.stat;
+
+import java.io.Serializable;
+import java.text.NumberFormat;
+import java.util.Comparator;
+import java.util.Iterator;
+import java.util.TreeMap;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/Frequency.class */
+public class Frequency implements Serializable {
+    private static final long serialVersionUID = -3845586908418844111L;
+    private final TreeMap<Comparable<?>, Long> freqTable;
+
+    public Frequency() {
+        this.freqTable = new TreeMap<>();
+    }
+
+    public Frequency(Comparator<?> comparator) {
+        this.freqTable = new TreeMap<>(comparator);
+    }
+
+    public String toString() {
+        NumberFormat nf = NumberFormat.getPercentInstance();
+        StringBuilder outBuffer = new StringBuilder();
+        outBuffer.append("Value \t Freq. \t Pct. \t Cum Pct. \n");
+        for (Comparable<?> value : this.freqTable.keySet()) {
+            outBuffer.append(value);
+            outBuffer.append('\t');
+            outBuffer.append(getCount(value));
+            outBuffer.append('\t');
+            outBuffer.append(nf.format(getPct(value)));
+            outBuffer.append('\t');
+            outBuffer.append(nf.format(getCumPct(value)));
+            outBuffer.append('\n');
+        }
+        return outBuffer.toString();
+    }
+
+    @Deprecated
+    public void addValue(Object v) {
+        if (!(v instanceof Comparable)) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.CLASS_DOESNT_IMPLEMENT_COMPARABLE, v.getClass().getName());
+        }
+        addValue((Comparable<?>) v);
+    }
+
+    public void addValue(Comparable<?> v) {
+        Comparable<?> obj = v;
+        if (v instanceof Integer) {
+            obj = Long.valueOf(((Integer) v).longValue());
+        }
+        try {
+            Long count = this.freqTable.get(obj);
+            if (count == null) {
+                this.freqTable.put(obj, 1L);
+            } else {
+                this.freqTable.put(obj, Long.valueOf(count.longValue() + 1));
+            }
+        } catch (ClassCastException e) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.INSTANCES_NOT_COMPARABLE_TO_EXISTING_VALUES, v.getClass().getName());
+        }
+    }
+
+    public void addValue(int v) {
+        addValue((Comparable<?>) Long.valueOf(v));
+    }
+
+    @Deprecated
+    public void addValue(Integer v) {
+        addValue((Comparable<?>) Long.valueOf(v.longValue()));
+    }
+
+    public void addValue(long v) {
+        addValue((Comparable<?>) Long.valueOf(v));
+    }
+
+    public void addValue(char v) {
+        addValue((Comparable<?>) Character.valueOf(v));
+    }
+
+    public void clear() {
+        this.freqTable.clear();
+    }
+
+    public Iterator<Comparable<?>> valuesIterator() {
+        return this.freqTable.keySet().iterator();
+    }
+
+    public long getSumFreq() {
+        long result = 0;
+        Iterator<Long> iterator = this.freqTable.values().iterator();
+        while (iterator.hasNext()) {
+            result += iterator.next().longValue();
+        }
+        return result;
+    }
+
+    @Deprecated
+    public long getCount(Object v) {
+        return getCount((Comparable<?>) v);
+    }
+
+    public long getCount(Comparable<?> v) {
+        if (v instanceof Integer) {
+            return getCount(((Integer) v).longValue());
+        }
+        long result = 0;
+        try {
+            Long count = this.freqTable.get(v);
+            if (count != null) {
+                result = count.longValue();
+            }
+        } catch (ClassCastException e) {
+        }
+        return result;
+    }
+
+    public long getCount(int v) {
+        return getCount((Comparable<?>) Long.valueOf(v));
+    }
+
+    public long getCount(long v) {
+        return getCount((Comparable<?>) Long.valueOf(v));
+    }
+
+    public long getCount(char v) {
+        return getCount((Comparable<?>) Character.valueOf(v));
+    }
+
+    public int getUniqueCount() {
+        return this.freqTable.keySet().size();
+    }
+
+    @Deprecated
+    public double getPct(Object v) {
+        return getPct((Comparable<?>) v);
+    }
+
+    public double getPct(Comparable<?> v) {
+        long sumFreq = getSumFreq();
+        if (sumFreq == 0) {
+            return Double.NaN;
+        }
+        return getCount(v) / sumFreq;
+    }
+
+    public double getPct(int v) {
+        return getPct((Comparable<?>) Long.valueOf(v));
+    }
+
+    public double getPct(long v) {
+        return getPct((Comparable<?>) Long.valueOf(v));
+    }
+
+    public double getPct(char v) {
+        return getPct((Comparable<?>) Character.valueOf(v));
+    }
+
+    @Deprecated
+    public long getCumFreq(Object v) {
+        return getCumFreq((Comparable<?>) v);
+    }
+
+    public long getCumFreq(Comparable<?> v) {
+        if (getSumFreq() == 0) {
+            return 0L;
+        }
+        if (v instanceof Integer) {
+            return getCumFreq(((Integer) v).longValue());
+        }
+        Comparator<? super Comparable<?>> comparator = this.freqTable.comparator();
+        if (comparator == null) {
+            comparator = new NaturalComparator();
+        }
+        long result = 0;
+        try {
+            Long value = this.freqTable.get(v);
+            if (value != null) {
+                result = value.longValue();
+            }
+            if (comparator.compare(v, this.freqTable.firstKey()) < 0) {
+                return 0L;
+            }
+            if (comparator.compare(v, this.freqTable.lastKey()) >= 0) {
+                return getSumFreq();
+            }
+            Iterator<Comparable<?>> values = valuesIterator();
+            while (values.hasNext()) {
+                Comparable<?> nextValue = values.next();
+                if (comparator.compare(v, nextValue) > 0) {
+                    result += getCount(nextValue);
+                } else {
+                    return result;
+                }
+            }
+            return result;
+        } catch (ClassCastException e) {
+            return result;
+        }
+    }
+
+    public long getCumFreq(int v) {
+        return getCumFreq((Comparable<?>) Long.valueOf(v));
+    }
+
+    public long getCumFreq(long v) {
+        return getCumFreq((Comparable<?>) Long.valueOf(v));
+    }
+
+    public long getCumFreq(char v) {
+        return getCumFreq((Comparable<?>) Character.valueOf(v));
+    }
+
+    @Deprecated
+    public double getCumPct(Object v) {
+        return getCumPct((Comparable<?>) v);
+    }
+
+    public double getCumPct(Comparable<?> v) {
+        long sumFreq = getSumFreq();
+        if (sumFreq == 0) {
+            return Double.NaN;
+        }
+        return getCumFreq(v) / sumFreq;
+    }
+
+    public double getCumPct(int v) {
+        return getCumPct((Comparable<?>) Long.valueOf(v));
+    }
+
+    public double getCumPct(long v) {
+        return getCumPct((Comparable<?>) Long.valueOf(v));
+    }
+
+    public double getCumPct(char v) {
+        return getCumPct((Comparable<?>) Character.valueOf(v));
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/Frequency$NaturalComparator.class */
+    private static class NaturalComparator<T extends Comparable<T>> implements Comparator<Comparable<T>>, Serializable {
+        private static final long serialVersionUID = -3852193713161395148L;
+
+        private NaturalComparator() {
+        }
+
+        @Override // java.util.Comparator
+        public int compare(Comparable<T> o1, Comparable<T> o2) {
+            return o1.compareTo(o2);
+        }
+    }
+
+    public int hashCode() {
+        int result = (31 * 1) + (this.freqTable == null ? 0 : this.freqTable.hashCode());
+        return result;
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Frequency)) {
+            return false;
+        }
+        Frequency other = (Frequency) obj;
+        if (this.freqTable == null) {
+            if (other.freqTable != null) {
+                return false;
+            }
+            return true;
+        }
+        if (!this.freqTable.equals(other.freqTable)) {
+            return false;
+        }
+        return true;
+    }
+}

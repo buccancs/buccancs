@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/spdy/SpdySynReplyFrame.java
+// Size: 799 bytes
+// Modified: 2025-10-21 16:32:02.248309700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.spdy;
+
+/* loaded from: classes3.dex */
+public interface SpdySynReplyFrame extends SpdyHeadersFrame {
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeadersFrame
+    SpdySynReplyFrame setInvalid();
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeadersFrame, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyStreamFrame, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyDataFrame
+    SpdySynReplyFrame setLast(boolean z);
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyHeadersFrame, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyStreamFrame, io.grpc.netty.shaded.io.netty.handler.codec.spdy.SpdyDataFrame
+    SpdySynReplyFrame setStreamId(int i);
+}

@@ -1,0 +1,1365 @@
+package com.google.type;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class PostalAddress extends GeneratedMessageV3 implements PostalAddressOrBuilder {
+    public static final int ADDRESS_LINES_FIELD_NUMBER = 9;
+    public static final int ADMINISTRATIVE_AREA_FIELD_NUMBER = 6;
+    public static final int LANGUAGE_CODE_FIELD_NUMBER = 3;
+    public static final int LOCALITY_FIELD_NUMBER = 7;
+    public static final int ORGANIZATION_FIELD_NUMBER = 11;
+    public static final int POSTAL_CODE_FIELD_NUMBER = 4;
+    public static final int RECIPIENTS_FIELD_NUMBER = 10;
+    public static final int REGION_CODE_FIELD_NUMBER = 2;
+    public static final int REVISION_FIELD_NUMBER = 1;
+    public static final int SORTING_CODE_FIELD_NUMBER = 5;
+    public static final int SUBLOCALITY_FIELD_NUMBER = 8;
+    private static final long serialVersionUID = 0;
+    private static final PostalAddress DEFAULT_INSTANCE = new PostalAddress();
+    private static final Parser<PostalAddress> PARSER = new AbstractParser<PostalAddress>() { // from class: com.google.type.PostalAddress.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public PostalAddress m4325parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new PostalAddress(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private LazyStringList addressLines_;
+    private volatile Object administrativeArea_;
+    private int bitField0_;
+    private volatile Object languageCode_;
+    private volatile Object locality_;
+    private byte memoizedIsInitialized;
+    private volatile Object organization_;
+    private volatile Object postalCode_;
+    private LazyStringList recipients_;
+    private volatile Object regionCode_;
+    private int revision_;
+    private volatile Object sortingCode_;
+    private volatile Object sublocality_;
+
+    private PostalAddress(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private PostalAddress() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.regionCode_ = "";
+        this.languageCode_ = "";
+        this.postalCode_ = "";
+        this.sortingCode_ = "";
+        this.administrativeArea_ = "";
+        this.locality_ = "";
+        this.sublocality_ = "";
+        this.addressLines_ = LazyStringArrayList.EMPTY;
+        this.recipients_ = LazyStringArrayList.EMPTY;
+        this.organization_ = "";
+    }
+
+    private PostalAddress(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 8:
+                            this.revision_ = codedInputStream.readInt32();
+                        case 18:
+                            this.regionCode_ = codedInputStream.readStringRequireUtf8();
+                        case 26:
+                            this.languageCode_ = codedInputStream.readStringRequireUtf8();
+                        case 34:
+                            this.postalCode_ = codedInputStream.readStringRequireUtf8();
+                        case 42:
+                            this.sortingCode_ = codedInputStream.readStringRequireUtf8();
+                        case 50:
+                            this.administrativeArea_ = codedInputStream.readStringRequireUtf8();
+                        case 58:
+                            this.locality_ = codedInputStream.readStringRequireUtf8();
+                        case 66:
+                            this.sublocality_ = codedInputStream.readStringRequireUtf8();
+                        case 74:
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 256) == 0) {
+                                this.addressLines_ = new LazyStringArrayList();
+                                i |= 256;
+                            }
+                            this.addressLines_.add(stringRequireUtf8);
+                        case 82:
+                            String stringRequireUtf82 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 512) == 0) {
+                                this.recipients_ = new LazyStringArrayList();
+                                i |= 512;
+                            }
+                            this.recipients_.add(stringRequireUtf82);
+                        case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                            this.organization_ = codedInputStream.readStringRequireUtf8();
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 256) != 0) {
+                    this.addressLines_ = this.addressLines_.getUnmodifiableView();
+                }
+                if ((i & 512) != 0) {
+                    this.recipients_ = this.recipients_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static PostalAddress getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<PostalAddress> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return PostalAddressProto.internal_static_google_type_PostalAddress_descriptor;
+    }
+
+    public static PostalAddress parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (PostalAddress) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static PostalAddress parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (PostalAddress) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static PostalAddress parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (PostalAddress) PARSER.parseFrom(byteString);
+    }
+
+    public static PostalAddress parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (PostalAddress) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static PostalAddress parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (PostalAddress) PARSER.parseFrom(bArr);
+    }
+
+    public static PostalAddress parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (PostalAddress) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static PostalAddress parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static PostalAddress parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static PostalAddress parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static PostalAddress parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static PostalAddress parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static PostalAddress parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m4323toBuilder();
+    }
+
+    public static Builder newBuilder(PostalAddress postalAddress) {
+        return DEFAULT_INSTANCE.m4323toBuilder().mergeFrom(postalAddress);
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    /* renamed from: getAddressLinesList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo4316getAddressLinesList() {
+        return this.addressLines_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public PostalAddress m4317getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<PostalAddress> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    /* renamed from: getRecipientsList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo4319getRecipientsList() {
+        return this.recipients_;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public int getRevision() {
+        return this.revision_;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return PostalAddressProto.internal_static_google_type_PostalAddress_fieldAccessorTable.ensureFieldAccessorsInitialized(PostalAddress.class, Builder.class);
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getRegionCode() {
+        Object obj = this.regionCode_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.regionCode_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getRegionCodeBytes() {
+        Object obj = this.regionCode_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.regionCode_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getLanguageCode() {
+        Object obj = this.languageCode_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.languageCode_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getLanguageCodeBytes() {
+        Object obj = this.languageCode_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.languageCode_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getPostalCode() {
+        Object obj = this.postalCode_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.postalCode_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getPostalCodeBytes() {
+        Object obj = this.postalCode_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.postalCode_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getSortingCode() {
+        Object obj = this.sortingCode_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.sortingCode_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getSortingCodeBytes() {
+        Object obj = this.sortingCode_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.sortingCode_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getAdministrativeArea() {
+        Object obj = this.administrativeArea_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.administrativeArea_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getAdministrativeAreaBytes() {
+        Object obj = this.administrativeArea_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.administrativeArea_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getLocality() {
+        Object obj = this.locality_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.locality_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getLocalityBytes() {
+        Object obj = this.locality_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.locality_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getSublocality() {
+        Object obj = this.sublocality_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.sublocality_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getSublocalityBytes() {
+        Object obj = this.sublocality_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.sublocality_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public int getAddressLinesCount() {
+        return this.addressLines_.size();
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getAddressLines(int i) {
+        return (String) this.addressLines_.get(i);
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getAddressLinesBytes(int i) {
+        return this.addressLines_.getByteString(i);
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public int getRecipientsCount() {
+        return this.recipients_.size();
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getRecipients(int i) {
+        return (String) this.recipients_.get(i);
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getRecipientsBytes(int i) {
+        return this.recipients_.getByteString(i);
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public String getOrganization() {
+        Object obj = this.organization_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.organization_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // com.google.type.PostalAddressOrBuilder
+    public ByteString getOrganizationBytes() {
+        Object obj = this.organization_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.organization_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        int i = this.revision_;
+        if (i != 0) {
+            codedOutputStream.writeInt32(1, i);
+        }
+        if (!getRegionCodeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.regionCode_);
+        }
+        if (!getLanguageCodeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.languageCode_);
+        }
+        if (!getPostalCodeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 4, this.postalCode_);
+        }
+        if (!getSortingCodeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 5, this.sortingCode_);
+        }
+        if (!getAdministrativeAreaBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 6, this.administrativeArea_);
+        }
+        if (!getLocalityBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 7, this.locality_);
+        }
+        if (!getSublocalityBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 8, this.sublocality_);
+        }
+        for (int i2 = 0; i2 < this.addressLines_.size(); i2++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 9, this.addressLines_.getRaw(i2));
+        }
+        for (int i3 = 0; i3 < this.recipients_.size(); i3++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 10, this.recipients_.getRaw(i3));
+        }
+        if (!getOrganizationBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 11, this.organization_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int i2 = this.revision_;
+        int iComputeInt32Size = i2 != 0 ? CodedOutputStream.computeInt32Size(1, i2) : 0;
+        if (!getRegionCodeBytes().isEmpty()) {
+            iComputeInt32Size += GeneratedMessageV3.computeStringSize(2, this.regionCode_);
+        }
+        if (!getLanguageCodeBytes().isEmpty()) {
+            iComputeInt32Size += GeneratedMessageV3.computeStringSize(3, this.languageCode_);
+        }
+        if (!getPostalCodeBytes().isEmpty()) {
+            iComputeInt32Size += GeneratedMessageV3.computeStringSize(4, this.postalCode_);
+        }
+        if (!getSortingCodeBytes().isEmpty()) {
+            iComputeInt32Size += GeneratedMessageV3.computeStringSize(5, this.sortingCode_);
+        }
+        if (!getAdministrativeAreaBytes().isEmpty()) {
+            iComputeInt32Size += GeneratedMessageV3.computeStringSize(6, this.administrativeArea_);
+        }
+        if (!getLocalityBytes().isEmpty()) {
+            iComputeInt32Size += GeneratedMessageV3.computeStringSize(7, this.locality_);
+        }
+        if (!getSublocalityBytes().isEmpty()) {
+            iComputeInt32Size += GeneratedMessageV3.computeStringSize(8, this.sublocality_);
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i3 = 0; i3 < this.addressLines_.size(); i3++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.addressLines_.getRaw(i3));
+        }
+        int size = iComputeInt32Size + iComputeStringSizeNoTag + mo4316getAddressLinesList().size();
+        int iComputeStringSizeNoTag2 = 0;
+        for (int i4 = 0; i4 < this.recipients_.size(); i4++) {
+            iComputeStringSizeNoTag2 += computeStringSizeNoTag(this.recipients_.getRaw(i4));
+        }
+        int size2 = size + iComputeStringSizeNoTag2 + mo4319getRecipientsList().size();
+        if (!getOrganizationBytes().isEmpty()) {
+            size2 += GeneratedMessageV3.computeStringSize(11, this.organization_);
+        }
+        int serializedSize = size2 + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof PostalAddress)) {
+            return super.equals(obj);
+        }
+        PostalAddress postalAddress = (PostalAddress) obj;
+        return getRevision() == postalAddress.getRevision() && getRegionCode().equals(postalAddress.getRegionCode()) && getLanguageCode().equals(postalAddress.getLanguageCode()) && getPostalCode().equals(postalAddress.getPostalCode()) && getSortingCode().equals(postalAddress.getSortingCode()) && getAdministrativeArea().equals(postalAddress.getAdministrativeArea()) && getLocality().equals(postalAddress.getLocality()) && getSublocality().equals(postalAddress.getSublocality()) && mo4316getAddressLinesList().equals(postalAddress.mo4316getAddressLinesList()) && mo4319getRecipientsList().equals(postalAddress.mo4319getRecipientsList()) && getOrganization().equals(postalAddress.getOrganization()) && this.unknownFields.equals(postalAddress.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((((((((((((((((((((((((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + getRevision()) * 37) + 2) * 53) + getRegionCode().hashCode()) * 37) + 3) * 53) + getLanguageCode().hashCode()) * 37) + 4) * 53) + getPostalCode().hashCode()) * 37) + 5) * 53) + getSortingCode().hashCode()) * 37) + 6) * 53) + getAdministrativeArea().hashCode()) * 37) + 7) * 53) + getLocality().hashCode()) * 37) + 8) * 53) + getSublocality().hashCode();
+        if (getAddressLinesCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 9) * 53) + mo4316getAddressLinesList().hashCode();
+        }
+        if (getRecipientsCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 10) * 53) + mo4319getRecipientsList().hashCode();
+        }
+        int iHashCode2 = (((((iHashCode * 37) + 11) * 53) + getOrganization().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m4320newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m4323toBuilder() {
+        if (this == DEFAULT_INSTANCE) {
+            return new Builder();
+        }
+        return new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements PostalAddressOrBuilder {
+        private LazyStringList addressLines_;
+        private Object administrativeArea_;
+        private int bitField0_;
+        private Object languageCode_;
+        private Object locality_;
+        private Object organization_;
+        private Object postalCode_;
+        private LazyStringList recipients_;
+        private Object regionCode_;
+        private int revision_;
+        private Object sortingCode_;
+        private Object sublocality_;
+
+        private Builder() {
+            this.regionCode_ = "";
+            this.languageCode_ = "";
+            this.postalCode_ = "";
+            this.sortingCode_ = "";
+            this.administrativeArea_ = "";
+            this.locality_ = "";
+            this.sublocality_ = "";
+            this.addressLines_ = LazyStringArrayList.EMPTY;
+            this.recipients_ = LazyStringArrayList.EMPTY;
+            this.organization_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.regionCode_ = "";
+            this.languageCode_ = "";
+            this.postalCode_ = "";
+            this.sortingCode_ = "";
+            this.administrativeArea_ = "";
+            this.locality_ = "";
+            this.sublocality_ = "";
+            this.addressLines_ = LazyStringArrayList.EMPTY;
+            this.recipients_ = LazyStringArrayList.EMPTY;
+            this.organization_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return PostalAddressProto.internal_static_google_type_PostalAddress_descriptor;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public int getRevision() {
+            return this.revision_;
+        }
+
+        public Builder setRevision(int i) {
+            this.revision_ = i;
+            onChanged();
+            return this;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return PostalAddressProto.internal_static_google_type_PostalAddress_fieldAccessorTable.ensureFieldAccessorsInitialized(PostalAddress.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = PostalAddress.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4334clear() {
+            super.clear();
+            this.revision_ = 0;
+            this.regionCode_ = "";
+            this.languageCode_ = "";
+            this.postalCode_ = "";
+            this.sortingCode_ = "";
+            this.administrativeArea_ = "";
+            this.locality_ = "";
+            this.sublocality_ = "";
+            this.addressLines_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -257;
+            this.recipients_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -513;
+            this.organization_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return PostalAddressProto.internal_static_google_type_PostalAddress_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public PostalAddress m4347getDefaultInstanceForType() {
+            return PostalAddress.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public PostalAddress m4328build() throws UninitializedMessageException {
+            PostalAddress postalAddressM4330buildPartial = m4330buildPartial();
+            if (postalAddressM4330buildPartial.isInitialized()) {
+                return postalAddressM4330buildPartial;
+            }
+            throw newUninitializedMessageException(postalAddressM4330buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public PostalAddress m4330buildPartial() {
+            PostalAddress postalAddress = new PostalAddress(this);
+            postalAddress.revision_ = this.revision_;
+            postalAddress.regionCode_ = this.regionCode_;
+            postalAddress.languageCode_ = this.languageCode_;
+            postalAddress.postalCode_ = this.postalCode_;
+            postalAddress.sortingCode_ = this.sortingCode_;
+            postalAddress.administrativeArea_ = this.administrativeArea_;
+            postalAddress.locality_ = this.locality_;
+            postalAddress.sublocality_ = this.sublocality_;
+            if ((this.bitField0_ & 256) != 0) {
+                this.addressLines_ = this.addressLines_.getUnmodifiableView();
+                this.bitField0_ &= -257;
+            }
+            postalAddress.addressLines_ = this.addressLines_;
+            if ((this.bitField0_ & 512) != 0) {
+                this.recipients_ = this.recipients_.getUnmodifiableView();
+                this.bitField0_ &= -513;
+            }
+            postalAddress.recipients_ = this.recipients_;
+            postalAddress.organization_ = this.organization_;
+            postalAddress.bitField0_ = 0;
+            onBuilt();
+            return postalAddress;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4346clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4358setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4336clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4339clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4360setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4326addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m4351mergeFrom(Message message) {
+            if (message instanceof PostalAddress) {
+                return mergeFrom((PostalAddress) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(PostalAddress postalAddress) {
+            if (postalAddress == PostalAddress.getDefaultInstance()) {
+                return this;
+            }
+            if (postalAddress.getRevision() != 0) {
+                setRevision(postalAddress.getRevision());
+            }
+            if (!postalAddress.getRegionCode().isEmpty()) {
+                this.regionCode_ = postalAddress.regionCode_;
+                onChanged();
+            }
+            if (!postalAddress.getLanguageCode().isEmpty()) {
+                this.languageCode_ = postalAddress.languageCode_;
+                onChanged();
+            }
+            if (!postalAddress.getPostalCode().isEmpty()) {
+                this.postalCode_ = postalAddress.postalCode_;
+                onChanged();
+            }
+            if (!postalAddress.getSortingCode().isEmpty()) {
+                this.sortingCode_ = postalAddress.sortingCode_;
+                onChanged();
+            }
+            if (!postalAddress.getAdministrativeArea().isEmpty()) {
+                this.administrativeArea_ = postalAddress.administrativeArea_;
+                onChanged();
+            }
+            if (!postalAddress.getLocality().isEmpty()) {
+                this.locality_ = postalAddress.locality_;
+                onChanged();
+            }
+            if (!postalAddress.getSublocality().isEmpty()) {
+                this.sublocality_ = postalAddress.sublocality_;
+                onChanged();
+            }
+            if (!postalAddress.addressLines_.isEmpty()) {
+                if (this.addressLines_.isEmpty()) {
+                    this.addressLines_ = postalAddress.addressLines_;
+                    this.bitField0_ &= -257;
+                } else {
+                    ensureAddressLinesIsMutable();
+                    this.addressLines_.addAll(postalAddress.addressLines_);
+                }
+                onChanged();
+            }
+            if (!postalAddress.recipients_.isEmpty()) {
+                if (this.recipients_.isEmpty()) {
+                    this.recipients_ = postalAddress.recipients_;
+                    this.bitField0_ &= -513;
+                } else {
+                    ensureRecipientsIsMutable();
+                    this.recipients_.addAll(postalAddress.recipients_);
+                }
+                onChanged();
+            }
+            if (!postalAddress.getOrganization().isEmpty()) {
+                this.organization_ = postalAddress.organization_;
+                onChanged();
+            }
+            m4356mergeUnknownFields(postalAddress.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public com.google.type.PostalAddress.Builder m4352mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = com.google.type.PostalAddress.access$1700()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                com.google.type.PostalAddress r3 = (com.google.type.PostalAddress) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                com.google.type.PostalAddress r4 = (com.google.type.PostalAddress) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: com.google.type.PostalAddress.Builder.m4352mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):com.google.type.PostalAddress$Builder");
+        }
+
+        public Builder clearRevision() {
+            this.revision_ = 0;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getRegionCode() {
+            Object obj = this.regionCode_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.regionCode_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setRegionCode(String str) {
+            str.getClass();
+            this.regionCode_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getRegionCodeBytes() {
+            Object obj = this.regionCode_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.regionCode_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setRegionCodeBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            this.regionCode_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearRegionCode() {
+            this.regionCode_ = PostalAddress.getDefaultInstance().getRegionCode();
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getLanguageCode() {
+            Object obj = this.languageCode_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.languageCode_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setLanguageCode(String str) {
+            str.getClass();
+            this.languageCode_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getLanguageCodeBytes() {
+            Object obj = this.languageCode_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.languageCode_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setLanguageCodeBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            this.languageCode_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearLanguageCode() {
+            this.languageCode_ = PostalAddress.getDefaultInstance().getLanguageCode();
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getPostalCode() {
+            Object obj = this.postalCode_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.postalCode_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setPostalCode(String str) {
+            str.getClass();
+            this.postalCode_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getPostalCodeBytes() {
+            Object obj = this.postalCode_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.postalCode_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setPostalCodeBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            this.postalCode_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearPostalCode() {
+            this.postalCode_ = PostalAddress.getDefaultInstance().getPostalCode();
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getSortingCode() {
+            Object obj = this.sortingCode_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.sortingCode_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setSortingCode(String str) {
+            str.getClass();
+            this.sortingCode_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getSortingCodeBytes() {
+            Object obj = this.sortingCode_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.sortingCode_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setSortingCodeBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            this.sortingCode_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSortingCode() {
+            this.sortingCode_ = PostalAddress.getDefaultInstance().getSortingCode();
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getAdministrativeArea() {
+            Object obj = this.administrativeArea_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.administrativeArea_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setAdministrativeArea(String str) {
+            str.getClass();
+            this.administrativeArea_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getAdministrativeAreaBytes() {
+            Object obj = this.administrativeArea_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.administrativeArea_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setAdministrativeAreaBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            this.administrativeArea_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAdministrativeArea() {
+            this.administrativeArea_ = PostalAddress.getDefaultInstance().getAdministrativeArea();
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getLocality() {
+            Object obj = this.locality_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.locality_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setLocality(String str) {
+            str.getClass();
+            this.locality_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getLocalityBytes() {
+            Object obj = this.locality_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.locality_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setLocalityBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            this.locality_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearLocality() {
+            this.locality_ = PostalAddress.getDefaultInstance().getLocality();
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getSublocality() {
+            Object obj = this.sublocality_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.sublocality_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setSublocality(String str) {
+            str.getClass();
+            this.sublocality_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getSublocalityBytes() {
+            Object obj = this.sublocality_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.sublocality_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setSublocalityBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            this.sublocality_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearSublocality() {
+            this.sublocality_ = PostalAddress.getDefaultInstance().getSublocality();
+            onChanged();
+            return this;
+        }
+
+        private void ensureAddressLinesIsMutable() {
+            if ((this.bitField0_ & 256) == 0) {
+                this.addressLines_ = new LazyStringArrayList(this.addressLines_);
+                this.bitField0_ |= 256;
+            }
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        /* renamed from: getAddressLinesList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo4316getAddressLinesList() {
+            return this.addressLines_.getUnmodifiableView();
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public int getAddressLinesCount() {
+            return this.addressLines_.size();
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getAddressLines(int i) {
+            return (String) this.addressLines_.get(i);
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getAddressLinesBytes(int i) {
+            return this.addressLines_.getByteString(i);
+        }
+
+        public Builder setAddressLines(int i, String str) {
+            str.getClass();
+            ensureAddressLinesIsMutable();
+            this.addressLines_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAddressLines(String str) {
+            str.getClass();
+            ensureAddressLinesIsMutable();
+            this.addressLines_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllAddressLines(Iterable<String> iterable) {
+            ensureAddressLinesIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.addressLines_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAddressLines() {
+            this.addressLines_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -257;
+            onChanged();
+            return this;
+        }
+
+        public Builder addAddressLinesBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            ensureAddressLinesIsMutable();
+            this.addressLines_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        private void ensureRecipientsIsMutable() {
+            if ((this.bitField0_ & 512) == 0) {
+                this.recipients_ = new LazyStringArrayList(this.recipients_);
+                this.bitField0_ |= 512;
+            }
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        /* renamed from: getRecipientsList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo4319getRecipientsList() {
+            return this.recipients_.getUnmodifiableView();
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public int getRecipientsCount() {
+            return this.recipients_.size();
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getRecipients(int i) {
+            return (String) this.recipients_.get(i);
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getRecipientsBytes(int i) {
+            return this.recipients_.getByteString(i);
+        }
+
+        public Builder setRecipients(int i, String str) {
+            str.getClass();
+            ensureRecipientsIsMutable();
+            this.recipients_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addRecipients(String str) {
+            str.getClass();
+            ensureRecipientsIsMutable();
+            this.recipients_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllRecipients(Iterable<String> iterable) {
+            ensureRecipientsIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.recipients_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearRecipients() {
+            this.recipients_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -513;
+            onChanged();
+            return this;
+        }
+
+        public Builder addRecipientsBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            ensureRecipientsIsMutable();
+            this.recipients_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public String getOrganization() {
+            Object obj = this.organization_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.organization_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setOrganization(String str) {
+            str.getClass();
+            this.organization_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // com.google.type.PostalAddressOrBuilder
+        public ByteString getOrganizationBytes() {
+            Object obj = this.organization_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.organization_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setOrganizationBytes(ByteString byteString) {
+            byteString.getClass();
+            PostalAddress.checkByteStringIsUtf8(byteString);
+            this.organization_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearOrganization() {
+            this.organization_ = PostalAddress.getDefaultInstance().getOrganization();
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m4362setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m4356mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

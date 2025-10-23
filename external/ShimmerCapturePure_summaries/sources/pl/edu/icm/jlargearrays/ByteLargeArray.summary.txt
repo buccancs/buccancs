@@ -1,0 +1,785 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/pl/edu/icm/jlargearrays/ByteLargeArray.java
+// Size: 25064 bytes
+// Modified: 2025-10-21 16:32:08.987004000 +0100
+
+package pl.edu.icm.jlargearrays;
+
+import org.apache.commons.math3.util.FastMath;
+import pl.edu.icm.jlargearrays.LargeArray;
+import sun.misc.Cleaner;
+
+/* loaded from: classes2.dex */
+public class ByteLargeArray extends LargeArray {
+    private static final long serialVersionUID = 3135411647668758832L;
+    private byte[] data;
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final byte[] getData() {
+        return this.data;
+    }
+
+    public ByteLargeArray(long j) {
+        this(j, true);
+    }
+
+    public ByteLargeArray(long j, boolean z) {
+        this.type = LargeArrayType.BYTE;
+        this.sizeof = 1L;
+        if (j <= 0) {
+            throw new IllegalArgumentException(j + " is not a positive long value");
+        }
+        this.length = j;
+        if (j > getMaxSizeOf32bitArray()) {
+            this.ptr = LargeArrayUtils.UNSAFE.allocateMemory(this.length * this.sizeof);
+            if (z) {
+                zeroNativeMemory(j);
+            }
+            Cleaner.create(this, new LargeArray.Deallocator(this.ptr, this.length, this.sizeof));
+            MemoryCounter.increaseCounter(this.length * this.sizeof);
+            return;
+        }
+        this.data = new byte[(int) j];
+    }
+
+    public ByteLargeArray(long j, byte b) {
+        this.type = LargeArrayType.BYTE;
+        this.sizeof = 1L;
+        if (j <= 0) {
+            throw new IllegalArgumentException(j + " is not a positive long value");
+        }
+        this.length = j;
+        this.isConstant = true;
+        this.data = new byte[]{b};
+    }
+
+    public ByteLargeArray(byte[] bArr) {
+        this.type = LargeArrayType.BYTE;
+        this.sizeof = 1L;
+        this.length = bArr.length;
+        this.data = bArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public ByteLargeArray clone() {
+        if (this.isConstant) {
+            return new ByteLargeArray(this.length, getByte(0L));
+        }
+        ByteLargeArray byteLargeArray = new ByteLargeArray(this.length, false);
+        LargeArrayUtils.arraycopy(this, 0L, byteLargeArray, 0L, this.length);
+        return byteLargeArray;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public boolean equals(Object obj) {
+        return super.equals(obj) && this.data == ((ByteLargeArray) obj).data;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public int hashCode() {
+        int iHashCode = super.hashCode() * 29;
+        byte[] bArr = this.data;
+        return iHashCode + (bArr != null ? bArr.hashCode() : 0);
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final Byte get(long j) {
+        return Byte.valueOf(getByte(j));
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final Byte getFromNative(long j) {
+        return Byte.valueOf(LargeArrayUtils.UNSAFE.getByte(this.ptr + j));
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final boolean getBoolean(long j) {
+        return this.ptr != 0 ? LargeArrayUtils.UNSAFE.getByte(this.ptr + j) != 0 : this.isConstant ? this.data[0] != 0 : this.data[(int) j] != 0;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final byte getByte(long j) {
+        if (this.ptr != 0) {
+            return LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+        }
+        if (this.isConstant) {
+            return this.data[0];
+        }
+        return this.data[(int) j];
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final short getUnsignedByte(long j) {
+        byte b;
+        if (this.ptr != 0) {
+            b = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+        } else if (this.isConstant) {
+            b = this.data[0];
+        } else {
+            b = this.data[(int) j];
+        }
+        return (short) (b & 255);
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final short getShort(long j) {
+        byte b;
+        if (this.ptr != 0) {
+            b = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+        } else if (this.isConstant) {
+            b = this.data[0];
+        } else {
+            b = this.data[(int) j];
+        }
+        return b;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final int getInt(long j) {
+        if (this.ptr != 0) {
+            return LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+        }
+        if (this.isConstant) {
+            return this.data[0];
+        }
+        return this.data[(int) j];
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final long getLong(long j) {
+        byte b;
+        if (this.ptr != 0) {
+            b = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+        } else if (this.isConstant) {
+            b = this.data[0];
+        } else {
+            b = this.data[(int) j];
+        }
+        return b;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final float getFloat(long j) {
+        byte b;
+        if (this.ptr != 0) {
+            b = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+        } else if (this.isConstant) {
+            b = this.data[0];
+        } else {
+            b = this.data[(int) j];
+        }
+        return b;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final double getDouble(long j) {
+        byte b;
+        if (this.ptr != 0) {
+            b = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+        } else if (this.isConstant) {
+            b = this.data[0];
+        } else {
+            b = this.data[(int) j];
+        }
+        return b;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final boolean[] getBooleanData(boolean[] zArr, long j, long j2, long j3) {
+        if (j < 0 || j >= this.length) {
+            throw new ArrayIndexOutOfBoundsException("startPos < 0 || startPos >= length");
+        }
+        if (j2 < 0 || j2 > this.length || j2 < j) {
+            throw new ArrayIndexOutOfBoundsException("endPos < 0 || endPos > length || endPos < startPos");
+        }
+        if (j3 < 1) {
+            throw new IllegalArgumentException("step < 1");
+        }
+        long jCeil = (long) FastMath.ceil((j2 - j) / j3);
+        if (jCeil > 1073741824) {
+            return null;
+        }
+        if (zArr == null || zArr.length < jCeil) {
+            zArr = new boolean[(int) jCeil];
+        }
+        int i = 0;
+        if (this.ptr != 0) {
+            int i2 = 0;
+            while (j < j2) {
+                int i3 = i2 + 1;
+                zArr[i2] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j) != 0;
+                j += j3;
+                i2 = i3;
+            }
+        } else if (this.isConstant) {
+            boolean z = this.data[0] != 0;
+            while (j < j2) {
+                zArr[i] = z;
+                j += j3;
+                i++;
+            }
+        } else {
+            int i4 = 0;
+            while (j < j2) {
+                int i5 = i4 + 1;
+                zArr[i4] = this.data[(int) j] != 0;
+                j += j3;
+                i4 = i5;
+            }
+        }
+        return zArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final boolean[] getBooleanData() {
+        if (this.length > 1073741824) {
+            return null;
+        }
+        boolean[] zArr = new boolean[(int) this.length];
+        if (this.ptr != 0) {
+            int i = 0;
+            while (true) {
+                long j = i;
+                if (j >= this.length) {
+                    break;
+                }
+                zArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j) != 0;
+                i++;
+            }
+        } else if (this.isConstant) {
+            boolean z = this.data[0] != 0;
+            for (int i2 = 0; i2 < this.length; i2++) {
+                zArr[i2] = z;
+            }
+        } else {
+            for (int i3 = 0; i3 < this.length; i3++) {
+                zArr[i3] = this.data[i3] != 0;
+            }
+        }
+        return zArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final byte[] getByteData() {
+        if (this.length > 1073741824) {
+            return null;
+        }
+        byte[] bArr = new byte[(int) this.length];
+        int i = 0;
+        if (this.ptr != 0) {
+            while (true) {
+                long j = i;
+                if (j >= this.length) {
+                    break;
+                }
+                bArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+                i++;
+            }
+        } else if (this.isConstant) {
+            byte b = this.data[0];
+            while (i < this.length) {
+                bArr[i] = b;
+                i++;
+            }
+        } else {
+            System.arraycopy(this.data, 0, bArr, 0, (int) this.length);
+        }
+        return bArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final byte[] getByteData(byte[] bArr, long j, long j2, long j3) {
+        if (j < 0 || j >= this.length) {
+            throw new ArrayIndexOutOfBoundsException("startPos < 0 || startPos >= length");
+        }
+        if (j2 < 0 || j2 > this.length || j2 < j) {
+            throw new ArrayIndexOutOfBoundsException("endPos < 0 || endPos > length || endPos < startPos");
+        }
+        if (j3 < 1) {
+            throw new IllegalArgumentException("step < 1");
+        }
+        long jCeil = (long) FastMath.ceil((j2 - j) / j3);
+        if (jCeil > 1073741824) {
+            return null;
+        }
+        if (bArr == null || bArr.length < jCeil) {
+            bArr = new byte[(int) jCeil];
+        }
+        int i = 0;
+        if (this.ptr != 0) {
+            while (j < j2) {
+                bArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+                j += j3;
+                i++;
+            }
+        } else if (this.isConstant) {
+            int i2 = 0;
+            while (j < j2) {
+                bArr[i2] = this.data[0];
+                j += j3;
+                i2++;
+            }
+        } else {
+            while (j < j2) {
+                bArr[i] = this.data[(int) j];
+                j += j3;
+                i++;
+            }
+        }
+        return bArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final short[] getShortData() {
+        if (this.length > 1073741824) {
+            return null;
+        }
+        short[] sArr = new short[(int) this.length];
+        int i = 0;
+        if (this.ptr != 0) {
+            while (true) {
+                if (i >= this.length) {
+                    break;
+                }
+                sArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + r1);
+                i++;
+            }
+        } else if (this.isConstant) {
+            short s = this.data[0];
+            while (i < this.length) {
+                sArr[i] = s;
+                i++;
+            }
+        } else {
+            while (i < this.length) {
+                sArr[i] = this.data[i];
+                i++;
+            }
+        }
+        return sArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final short[] getShortData(short[] sArr, long j, long j2, long j3) {
+        if (j < 0 || j >= this.length) {
+            throw new ArrayIndexOutOfBoundsException("startPos < 0 || startPos >= length");
+        }
+        if (j2 < 0 || j2 > this.length || j2 < j) {
+            throw new ArrayIndexOutOfBoundsException("endPos < 0 || endPos > length || endPos < startPos");
+        }
+        if (j3 < 1) {
+            throw new IllegalArgumentException("step < 1");
+        }
+        long jCeil = (long) FastMath.ceil((j2 - j) / j3);
+        if (jCeil > 1073741824) {
+            return null;
+        }
+        if (sArr == null || sArr.length < jCeil) {
+            sArr = new short[(int) jCeil];
+        }
+        int i = 0;
+        if (this.ptr != 0) {
+            while (j < j2) {
+                sArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+                j += j3;
+                i++;
+            }
+        } else if (this.isConstant) {
+            int i2 = 0;
+            while (j < j2) {
+                sArr[i2] = this.data[0];
+                j += j3;
+                i2++;
+            }
+        } else {
+            while (j < j2) {
+                sArr[i] = this.data[(int) j];
+                j += j3;
+                i++;
+            }
+        }
+        return sArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final int[] getIntData() {
+        if (this.length > 1073741824) {
+            return null;
+        }
+        int[] iArr = new int[(int) this.length];
+        int i = 0;
+        if (this.ptr != 0) {
+            while (true) {
+                long j = i;
+                if (j >= this.length) {
+                    break;
+                }
+                iArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+                i++;
+            }
+        } else if (this.isConstant) {
+            byte b = this.data[0];
+            while (i < this.length) {
+                iArr[i] = b;
+                i++;
+            }
+        } else {
+            while (i < this.length) {
+                iArr[i] = this.data[i];
+                i++;
+            }
+        }
+        return iArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final int[] getIntData(int[] iArr, long j, long j2, long j3) {
+        if (j < 0 || j >= this.length) {
+            throw new ArrayIndexOutOfBoundsException("startPos < 0 || startPos >= length");
+        }
+        if (j2 < 0 || j2 > this.length || j2 < j) {
+            throw new ArrayIndexOutOfBoundsException("endPos < 0 || endPos > length || endPos < startPos");
+        }
+        if (j3 < 1) {
+            throw new IllegalArgumentException("step < 1");
+        }
+        long jCeil = (long) FastMath.ceil((j2 - j) / j3);
+        if (jCeil > 1073741824) {
+            return null;
+        }
+        if (iArr == null || iArr.length < jCeil) {
+            iArr = new int[(int) jCeil];
+        }
+        int i = 0;
+        if (this.ptr != 0) {
+            while (j < j2) {
+                iArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+                j += j3;
+                i++;
+            }
+        } else if (this.isConstant) {
+            int i2 = 0;
+            while (j < j2) {
+                iArr[i2] = this.data[0];
+                j += j3;
+                i2++;
+            }
+        } else {
+            while (j < j2) {
+                iArr[i] = this.data[(int) j];
+                j += j3;
+                i++;
+            }
+        }
+        return iArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final long[] getLongData() {
+        if (this.length > 1073741824) {
+            return null;
+        }
+        long[] jArr = new long[(int) this.length];
+        int i = 0;
+        if (this.ptr != 0) {
+            while (true) {
+                if (i >= this.length) {
+                    break;
+                }
+                jArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + r1);
+                i++;
+            }
+        } else if (this.isConstant) {
+            byte b = this.data[0];
+            while (i < this.length) {
+                jArr[i] = b;
+                i++;
+            }
+        } else {
+            while (i < this.length) {
+                jArr[i] = this.data[i];
+                i++;
+            }
+        }
+        return jArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final long[] getLongData(long[] jArr, long j, long j2, long j3) {
+        if (j < 0 || j >= this.length) {
+            throw new ArrayIndexOutOfBoundsException("startPos < 0 || startPos >= length");
+        }
+        if (j2 < 0 || j2 > this.length || j2 < j) {
+            throw new ArrayIndexOutOfBoundsException("endPos < 0 || endPos > length || endPos < startPos");
+        }
+        if (j3 < 1) {
+            throw new IllegalArgumentException("step < 1");
+        }
+        long jCeil = (long) FastMath.ceil((j2 - j) / j3);
+        if (jCeil > 1073741824) {
+            return null;
+        }
+        if (jArr == null || jArr.length < jCeil) {
+            jArr = new long[(int) jCeil];
+        }
+        int i = 0;
+        if (this.ptr != 0) {
+            while (j < j2) {
+                jArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+                j += j3;
+                i++;
+            }
+        } else if (this.isConstant) {
+            int i2 = 0;
+            while (j < j2) {
+                jArr[i2] = this.data[0];
+                j += j3;
+                i2++;
+            }
+        } else {
+            while (j < j2) {
+                jArr[i] = this.data[(int) j];
+                j += j3;
+                i++;
+            }
+        }
+        return jArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final float[] getFloatData() {
+        if (this.length > 1073741824) {
+            return null;
+        }
+        float[] fArr = new float[(int) this.length];
+        int i = 0;
+        if (this.ptr != 0) {
+            while (true) {
+                if (i >= this.length) {
+                    break;
+                }
+                fArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + r1);
+                i++;
+            }
+        } else if (this.isConstant) {
+            byte b = this.data[0];
+            while (i < this.length) {
+                fArr[i] = b;
+                i++;
+            }
+        } else {
+            while (i < this.length) {
+                fArr[i] = this.data[i];
+                i++;
+            }
+        }
+        return fArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final float[] getFloatData(float[] fArr, long j, long j2, long j3) {
+        if (j < 0 || j >= this.length) {
+            throw new ArrayIndexOutOfBoundsException("startPos < 0 || startPos >= length");
+        }
+        if (j2 < 0 || j2 > this.length || j2 < j) {
+            throw new ArrayIndexOutOfBoundsException("endPos < 0 || endPos > length || endPos < startPos");
+        }
+        if (j3 < 1) {
+            throw new IllegalArgumentException("step < 1");
+        }
+        long jCeil = (long) FastMath.ceil((j2 - j) / j3);
+        if (jCeil > 1073741824) {
+            return null;
+        }
+        if (fArr == null || fArr.length < jCeil) {
+            fArr = new float[(int) jCeil];
+        }
+        int i = 0;
+        if (this.ptr != 0) {
+            while (j < j2) {
+                fArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+                j += j3;
+                i++;
+            }
+        } else if (this.isConstant) {
+            int i2 = 0;
+            while (j < j2) {
+                fArr[i2] = this.data[0];
+                j += j3;
+                i2++;
+            }
+        } else {
+            while (j < j2) {
+                fArr[i] = this.data[(int) j];
+                j += j3;
+                i++;
+            }
+        }
+        return fArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final double[] getDoubleData() {
+        if (this.length > 1073741824) {
+            return null;
+        }
+        double[] dArr = new double[(int) this.length];
+        int i = 0;
+        if (this.ptr != 0) {
+            while (true) {
+                if (i >= this.length) {
+                    break;
+                }
+                dArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + r1);
+                i++;
+            }
+        } else if (this.isConstant) {
+            byte b = this.data[0];
+            while (i < this.length) {
+                dArr[i] = b;
+                i++;
+            }
+        } else {
+            while (i < this.length) {
+                dArr[i] = this.data[i];
+                i++;
+            }
+        }
+        return dArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final double[] getDoubleData(double[] dArr, long j, long j2, long j3) {
+        if (j < 0 || j >= this.length) {
+            throw new ArrayIndexOutOfBoundsException("startPos < 0 || startPos >= length");
+        }
+        if (j2 < 0 || j2 > this.length || j2 < j) {
+            throw new ArrayIndexOutOfBoundsException("endPos < 0 || endPos > length || endPos < startPos");
+        }
+        if (j3 < 1) {
+            throw new IllegalArgumentException("step < 1");
+        }
+        long jCeil = (long) FastMath.ceil((j2 - j) / j3);
+        if (jCeil > 1073741824) {
+            return null;
+        }
+        if (dArr == null || dArr.length < jCeil) {
+            dArr = new double[(int) jCeil];
+        }
+        int i = 0;
+        if (this.ptr != 0) {
+            while (j < j2) {
+                dArr[i] = LargeArrayUtils.UNSAFE.getByte(this.ptr + j);
+                j += j3;
+                i++;
+            }
+        } else if (this.isConstant) {
+            int i2 = 0;
+            while (j < j2) {
+                dArr[i2] = this.data[0];
+                j += j3;
+                i2++;
+            }
+        } else {
+            while (j < j2) {
+                dArr[i] = this.data[(int) j];
+                j += j3;
+                i++;
+            }
+        }
+        return dArr;
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setToNative(long j, Object obj) {
+        LargeArrayUtils.UNSAFE.putByte(this.ptr + j, ((Byte) obj).byteValue());
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setBoolean(long j, boolean z) {
+        if (this.ptr != 0) {
+            LargeArrayUtils.UNSAFE.putByte(this.ptr + j, z ? (byte) 1 : (byte) 0);
+        } else {
+            if (this.isConstant) {
+                throw new IllegalAccessError("Constant arrays cannot be modified.");
+            }
+            this.data[(int) j] = z ? (byte) 1 : (byte) 0;
+        }
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setByte(long j, byte b) {
+        if (this.ptr != 0) {
+            LargeArrayUtils.UNSAFE.putByte(this.ptr + j, b);
+        } else {
+            if (this.isConstant) {
+                throw new IllegalAccessError("Constant arrays cannot be modified.");
+            }
+            this.data[(int) j] = b;
+        }
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setUnsignedByte(long j, short s) {
+        setShort(j, s);
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setShort(long j, short s) {
+        if (this.ptr != 0) {
+            LargeArrayUtils.UNSAFE.putByte(this.ptr + j, (byte) s);
+        } else {
+            if (this.isConstant) {
+                throw new IllegalAccessError("Constant arrays cannot be modified.");
+            }
+            this.data[(int) j] = (byte) s;
+        }
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setInt(long j, int i) {
+        if (this.ptr != 0) {
+            LargeArrayUtils.UNSAFE.putByte(this.ptr + j, (byte) i);
+        } else {
+            if (this.isConstant) {
+                throw new IllegalAccessError("Constant arrays cannot be modified.");
+            }
+            this.data[(int) j] = (byte) i;
+        }
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setLong(long j, long j2) {
+        if (this.ptr != 0) {
+            LargeArrayUtils.UNSAFE.putByte(this.ptr + j, (byte) j2);
+        } else {
+            if (this.isConstant) {
+                throw new IllegalAccessError("Constant arrays cannot be modified.");
+            }
+            this.data[(int) j] = (byte) j2;
+        }
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setFloat(long j, float f) {
+        if (this.ptr != 0) {
+            LargeArrayUtils.UNSAFE.putByte(this.ptr + j, (byte) f);
+        } else {
+            if (this.isConstant) {
+                throw new IllegalAccessError("Constant arrays cannot be modified.");
+            }
+            this.data[(int) j] = (byte) f;
+        }
+    }
+
+    @Override // pl.edu.icm.jlargearrays.LargeArray
+    public final void setDouble(long j, double d) {
+        if (this.ptr != 0) {
+            LargeArrayUtils.UNSAFE.putByte(this.ptr + j, (byte) d);
+        } else {
+            if (this.isConstant) {
+                throw new IllegalAccessError("Constant arrays cannot be modified.");
+            }
+            this.data[(int) j] = (byte) d;
+        }
+    }
+}

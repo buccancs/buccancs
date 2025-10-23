@@ -1,0 +1,34 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/jce/provider/CertStatus.java
+// Size: 639 bytes
+// Modified: 2025-10-21 16:32:00.665338100 +0100
+
+package org.bouncycastle.jce.provider;
+
+import java.util.Date;
+
+/* loaded from: classes5.dex */
+class CertStatus {
+    public static final int UNDETERMINED = 12;
+    public static final int UNREVOKED = 11;
+    int certStatus = 11;
+    Date revocationDate = null;
+
+    CertStatus() {
+    }
+
+    public int getCertStatus() {
+        return this.certStatus;
+    }
+
+    public Date getRevocationDate() {
+        return this.revocationDate;
+    }
+
+    public void setCertStatus(int i) {
+        this.certStatus = i;
+    }
+
+    public void setRevocationDate(Date date) {
+        this.revocationDate = date;
+    }
+}

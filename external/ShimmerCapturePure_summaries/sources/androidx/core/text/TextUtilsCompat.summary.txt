@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/text/TextUtilsCompat.java
+// Size: 449 bytes
+// Modified: 2025-10-21 16:32:00.035600000 +0100
+
+package androidx.core.text;
+
+import android.text.TextUtils;
+import java.util.Locale;
+
+/* loaded from: classes.dex */
+public final class TextUtilsCompat {
+    public static String htmlEncode(String str) {
+        return TextUtils.htmlEncode(str);
+    }
+
+    public static int getLayoutDirectionFromLocale(Locale locale) {
+        return TextUtils.getLayoutDirectionFromLocale(locale);
+    }
+
+    private TextUtilsCompat() {
+    }
+}

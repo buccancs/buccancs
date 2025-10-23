@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/TypedExtensionConfigOrBuilder.java
+// Size: 506 bytes
+// Modified: 2025-10-21 16:32:00.314663700 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface TypedExtensionConfigOrBuilder extends MessageOrBuilder {
+    String getName();
+
+    ByteString getNameBytes();
+
+    Any getTypedConfig();
+
+    AnyOrBuilder getTypedConfigOrBuilder();
+
+    boolean hasTypedConfig();
+}

@@ -1,0 +1,26 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3;
+
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SubstitutionFormatString;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.SubstitutionFormatStringOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface LocalReplyConfigOrBuilder extends MessageOrBuilder {
+    SubstitutionFormatString getBodyFormat();
+
+    SubstitutionFormatStringOrBuilder getBodyFormatOrBuilder();
+
+    ResponseMapper getMappers(int i);
+
+    int getMappersCount();
+
+    List<ResponseMapper> getMappersList();
+
+    ResponseMapperOrBuilder getMappersOrBuilder(int i);
+
+    List<? extends ResponseMapperOrBuilder> getMappersOrBuilderList();
+
+    boolean hasBodyFormat();
+}

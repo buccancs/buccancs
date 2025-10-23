@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/asn1/ASN1EncodableVector.java
+// Size: 767 bytes
+// Modified: 2025-10-21 16:32:01.808717100 +0100
+
+package org.bouncycastle.asn1;
+
+import java.util.Enumeration;
+import java.util.Vector;
+
+/* loaded from: classes5.dex */
+public class ASN1EncodableVector {
+    private final Vector v = new Vector();
+
+    public void add(ASN1Encodable aSN1Encodable) {
+        this.v.addElement(aSN1Encodable);
+    }
+
+    public void addAll(ASN1EncodableVector aSN1EncodableVector) {
+        Enumeration enumerationElements = aSN1EncodableVector.v.elements();
+        while (enumerationElements.hasMoreElements()) {
+            this.v.addElement(enumerationElements.nextElement());
+        }
+    }
+
+    public ASN1Encodable get(int i) {
+        return (ASN1Encodable) this.v.elementAt(i);
+    }
+
+    public int size() {
+        return this.v.size();
+    }
+}

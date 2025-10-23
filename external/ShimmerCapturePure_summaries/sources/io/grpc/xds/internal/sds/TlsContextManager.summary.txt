@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/sds/TlsContextManager.java
+// Size: 601 bytes
+// Modified: 2025-10-21 16:32:07.220480200 +0100
+
+package io.grpc.xds.internal.sds;
+
+import io.grpc.xds.EnvoyServerProtoData;
+
+/* loaded from: classes3.dex */
+public interface TlsContextManager {
+    SslContextProvider findOrCreateClientSslContextProvider(EnvoyServerProtoData.UpstreamTlsContext upstreamTlsContext);
+
+    SslContextProvider findOrCreateServerSslContextProvider(EnvoyServerProtoData.DownstreamTlsContext downstreamTlsContext);
+
+    SslContextProvider releaseClientSslContextProvider(SslContextProvider sslContextProvider);
+
+    SslContextProvider releaseServerSslContextProvider(SslContextProvider sslContextProvider);
+}

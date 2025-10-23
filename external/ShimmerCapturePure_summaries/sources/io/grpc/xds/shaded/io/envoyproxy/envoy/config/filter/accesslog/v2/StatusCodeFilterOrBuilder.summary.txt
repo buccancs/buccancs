@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/accesslog/v2/StatusCodeFilterOrBuilder.java
+// Size: 363 bytes
+// Modified: 2025-10-21 16:32:04.666949800 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2;
+
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes6.dex */
+public interface StatusCodeFilterOrBuilder extends MessageOrBuilder {
+    ComparisonFilter getComparison();
+
+    ComparisonFilterOrBuilder getComparisonOrBuilder();
+
+    boolean hasComparison();
+}

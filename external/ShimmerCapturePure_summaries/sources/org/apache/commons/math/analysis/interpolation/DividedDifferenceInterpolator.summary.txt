@@ -1,0 +1,46 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/analysis/interpolation/DividedDifferenceInterpolator.java
+// Size: 2062 bytes
+// Modified: 2025-10-21 16:32:06.944521800 +0100
+
+package org.apache.commons.math.analysis.interpolation;
+
+import java.io.Serializable;
+import org.apache.commons.math.DuplicateSampleAbscissaException;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunctionLagrangeForm;
+import org.apache.commons.math.analysis.polynomials.PolynomialFunctionNewtonForm;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/interpolation/DividedDifferenceInterpolator.class */
+public class DividedDifferenceInterpolator implements UnivariateRealInterpolator, Serializable {
+    private static final long serialVersionUID = 107049519551235069L;
+
+    @Override // org.apache.commons.math.analysis.interpolation.UnivariateRealInterpolator
+    public PolynomialFunctionNewtonForm interpolate(double[] x, double[] y) throws DuplicateSampleAbscissaException, IllegalArgumentException {
+        PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y);
+        double[] c = new double[x.length - 1];
+        System.arraycopy(x, 0, c, 0, c.length);
+        double[] a = computeDividedDifference(x, y);
+        return new PolynomialFunctionNewtonForm(a, c);
+    }
+
+    protected static double[] computeDividedDifference(double[] x, double[] y) throws DuplicateSampleAbscissaException, IllegalArgumentException {
+        PolynomialFunctionLagrangeForm.verifyInterpolationArray(x, y);
+        double[] divdiff = (double[]) y.clone();
+        int n = x.length;
+        double[] a = new double[n];
+        a[0] = divdiff[0];
+        for (int i = 1; i < n; i++) {
+            for (int j = 0; j < n - i; j++) {
+                double denominator = x[j + i] - x[j];
+                if (denominator == 0.0d) {
+                    throw new DuplicateSampleAbscissaException(x[j], j, j + i);
+                }
+                divdiff[j] = (divdiff[j + 1] - divdiff[j]) / denominator;
+            }
+            a[i] = divdiff[0];
+        }
+        return a;
+    }
+}

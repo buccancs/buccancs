@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/okhttp/OkHttpChannelProvider.java
+// Size: 874 bytes
+// Modified: 2025-10-21 16:32:09.512739700 +0100
+
+package io.grpc.okhttp;
+
+import io.grpc.InternalServiceProviders;
+import io.grpc.ManagedChannelProvider;
+
+/* loaded from: classes3.dex */
+public final class OkHttpChannelProvider extends ManagedChannelProvider {
+    @Override // io.grpc.ManagedChannelProvider
+    public boolean isAvailable() {
+        return true;
+    }
+
+    @Override // io.grpc.ManagedChannelProvider
+    public int priority() {
+        return InternalServiceProviders.isAndroid(getClass().getClassLoader()) ? 8 : 3;
+    }
+
+    @Override // io.grpc.ManagedChannelProvider
+    public OkHttpChannelBuilder builderForAddress(String str, int i) {
+        return OkHttpChannelBuilder.forAddress(str, i);
+    }
+
+    @Override // io.grpc.ManagedChannelProvider
+    public OkHttpChannelBuilder builderForTarget(String str) {
+        return OkHttpChannelBuilder.forTarget(str);
+    }
+}

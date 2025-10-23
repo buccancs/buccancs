@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/fragment/app/SpecialEffectsControllerFactory.java
+// Size: 217 bytes
+// Modified: 2025-10-21 16:32:04.572159400 +0100
+
+package androidx.fragment.app;
+
+import android.view.ViewGroup;
+
+/* loaded from: classes.dex */
+interface SpecialEffectsControllerFactory {
+    SpecialEffectsController createController(ViewGroup viewGroup);
+}

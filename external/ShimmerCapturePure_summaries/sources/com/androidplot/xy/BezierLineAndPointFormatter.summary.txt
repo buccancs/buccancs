@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/BezierLineAndPointFormatter.java
+// Size: 432 bytes
+// Modified: 2025-10-21 16:32:03.342703100 +0100
+
+package com.androidplot.xy;
+
+/* loaded from: classes.dex */
+public class BezierLineAndPointFormatter extends LineAndPointFormatter {
+    public BezierLineAndPointFormatter(Integer num, Integer num2, Integer num3) {
+        super(num, num2, num3);
+    }
+
+    public BezierLineAndPointFormatter(Integer num, Integer num2, Integer num3, FillDirection fillDirection) {
+        super(num, num2, num3, fillDirection);
+    }
+}

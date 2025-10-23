@@ -1,0 +1,6 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/json/rpc2/package-info.java
+// Size: 44 bytes
+// Modified: 2025-10-21 16:32:00.135725400 +0100
+
+package com.google.api.client.json.rpc2;
+

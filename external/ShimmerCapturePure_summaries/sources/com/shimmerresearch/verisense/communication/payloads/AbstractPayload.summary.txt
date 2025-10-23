@@ -1,0 +1,52 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/communication/payloads/AbstractPayload.java
+// Size: 2058 bytes
+// Modified: 2025-10-21 16:32:04.389507300 +0100
+
+package com.shimmerresearch.verisense.communication.payloads;
+
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.UtilParseData;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import org.apache.commons.lang3.ArrayUtils;
+
+/* loaded from: classes2.dex */
+public abstract class AbstractPayload {
+    protected static final String CONSOLE_DIVIDER_STRING = "********************************************************\n";
+    public static final byte VALID_CONFIG_BYTE = 90;
+    public boolean isSuccess;
+    protected byte[] payloadContents;
+
+    public abstract String generateDebugString();
+
+    public abstract byte[] generatePayloadContents();
+
+    public byte[] getPayloadContents() {
+        return this.payloadContents;
+    }
+
+    public abstract boolean parsePayloadContents(byte[] bArr);
+
+    public static long parseByteArrayAtIndex(byte[] bArr, int i, ChannelDetails.CHANNEL_DATA_TYPE channel_data_type) {
+        return parseByteArrayAtIndex(bArr, i, channel_data_type, ChannelDetails.CHANNEL_DATA_ENDIAN.LSB);
+    }
+
+    public static long parseByteArrayAtIndex(byte[] bArr, int i, ChannelDetails.CHANNEL_DATA_TYPE channel_data_type, ChannelDetails.CHANNEL_DATA_ENDIAN channel_data_endian) {
+        int numBytes = channel_data_type.getNumBytes();
+        byte[] bArr2 = new byte[numBytes];
+        System.arraycopy(bArr, i, bArr2, 0, numBytes);
+        return UtilParseData.parseData(bArr2, channel_data_type, channel_data_endian);
+    }
+
+    public static String parseVerisenseId(byte[] bArr, int i) {
+        byte[] bArr2 = new byte[6];
+        System.arraycopy(bArr, i, bArr2, 0, 6);
+        ArrayUtils.reverse(bArr2);
+        return UtilShimmer.bytesToHexString(bArr2).toUpperCase();
+    }
+
+    public static byte[] generateVerisenseIdBytes(String str) {
+        byte[] bArrHexStringToByteArray = UtilShimmer.hexStringToByteArray(str);
+        ArrayUtils.reverse(bArrHexStringToByteArray);
+        return bArrHexStringToByteArray;
+    }
+}

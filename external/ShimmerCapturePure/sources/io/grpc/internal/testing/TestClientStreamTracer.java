@@ -1,0 +1,158 @@
+package io.grpc.internal.testing;
+
+import androidx.lifecycle.LifecycleKt$$ExternalSyntheticBackportWithForwarding0;
+import io.grpc.ClientStreamTracer;
+import io.grpc.Metadata;
+import io.grpc.Status;
+import io.grpc.internal.testing.TestStreamTracer;
+
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public class TestClientStreamTracer extends ClientStreamTracer implements TestStreamTracer {
+    protected final CountDownLatch outboundHeadersLatch = new CountDownLatch(1);
+    protected final AtomicReference<Throwable> outboundHeadersCalled = new AtomicReference<>();
+    protected final AtomicReference<Throwable> inboundHeadersCalled = new AtomicReference<>();
+    protected final AtomicReference<Metadata> inboundTrailers = new AtomicReference<>();
+    private final TestStreamTracer.TestBaseStreamTracer delegate = new TestStreamTracer.TestBaseStreamTracer();
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public void await() throws InterruptedException {
+        this.delegate.await();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public boolean await(long j, TimeUnit timeUnit) throws InterruptedException {
+        return this.delegate.await(j, timeUnit);
+    }
+
+    public boolean getInboundHeaders() {
+        return this.inboundHeadersCalled.get() != null;
+    }
+
+    @Nullable
+    public Metadata getInboundTrailers() {
+        return this.inboundTrailers.get();
+    }
+
+    public boolean getOutboundHeaders() {
+        return this.outboundHeadersCalled.get() != null;
+    }
+
+    public boolean awaitOutboundHeaders(int i, TimeUnit timeUnit) throws Exception {
+        return this.outboundHeadersLatch.await(i, timeUnit);
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public Status getStatus() {
+        return this.delegate.getStatus();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public long getInboundWireSize() {
+        return this.delegate.getInboundWireSize();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public long getInboundUncompressedSize() {
+        return this.delegate.getInboundUncompressedSize();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public long getOutboundWireSize() {
+        return this.delegate.getOutboundWireSize();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public long getOutboundUncompressedSize() {
+        return this.delegate.getOutboundUncompressedSize();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public void setFailDuplicateCallbacks(boolean z) {
+        this.delegate.setFailDuplicateCallbacks(z);
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public String nextOutboundEvent() {
+        return this.delegate.nextOutboundEvent();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public String nextInboundEvent() {
+        return this.delegate.nextInboundEvent();
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void outboundWireSize(long j) {
+        this.delegate.outboundWireSize(j);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void inboundWireSize(long j) {
+        this.delegate.inboundWireSize(j);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void outboundUncompressedSize(long j) {
+        this.delegate.outboundUncompressedSize(j);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void inboundUncompressedSize(long j) {
+        this.delegate.inboundUncompressedSize(j);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void streamClosed(Status status) {
+        this.delegate.streamClosed(status);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void inboundMessage(int i) {
+        this.delegate.inboundMessage(i);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void outboundMessage(int i) {
+        this.delegate.outboundMessage(i);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void outboundMessageSent(int i, long j, long j2) {
+        this.delegate.outboundMessageSent(i, j, j2);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void inboundMessageRead(int i, long j, long j2) {
+        this.delegate.inboundMessageRead(i, j, j2);
+    }
+
+    @Override // io.grpc.ClientStreamTracer
+    public void outboundHeaders() {
+        if (!LifecycleKt$$ExternalSyntheticBackportWithForwarding0.m(this.outboundHeadersCalled, null, new Exception("first stack")) && this.delegate.failDuplicateCallbacks.get()) {
+            throw new AssertionError("outboundHeaders called more than once", new Exception("second stack", this.outboundHeadersCalled.get()));
+        }
+        this.outboundHeadersLatch.countDown();
+    }
+
+    @Override // io.grpc.ClientStreamTracer
+    public void inboundHeaders() {
+        if (!LifecycleKt$$ExternalSyntheticBackportWithForwarding0.m(this.inboundHeadersCalled, null, new Exception("first stack")) && this.delegate.failDuplicateCallbacks.get()) {
+            throw new AssertionError("inboundHeaders called more than once", new Exception("second stack", this.inboundHeadersCalled.get()));
+        }
+    }
+
+    @Override // io.grpc.ClientStreamTracer
+    public void inboundTrailers(Metadata metadata) {
+        if (this.delegate.getStatus() != null) {
+            throw new AssertionError("stream has already been closed with " + this.delegate.getStatus(), this.delegate.streamClosedStack.get());
+        }
+        if (!LifecycleKt$$ExternalSyntheticBackportWithForwarding0.m(this.inboundTrailers, null, metadata) && this.delegate.failDuplicateCallbacks.get()) {
+            throw new AssertionError("inboundTrailers called more than once");
+        }
+    }
+}

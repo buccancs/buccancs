@@ -1,0 +1,59 @@
+package io.opencensus.tags;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import javax.annotation.Nullable;
+
+/* loaded from: classes4.dex */
+public abstract class TagContext {
+    protected abstract Iterator<Tag> getIterator();
+
+    public String toString() {
+        return "TagContext";
+    }
+
+    public boolean equals(@Nullable Object obj) {
+        if (!(obj instanceof TagContext)) {
+            return false;
+        }
+        Iterator<Tag> iterator = getIterator();
+        Iterator<Tag> iterator2 = ((TagContext) obj).getIterator();
+        HashMap map = new HashMap();
+        while (iterator != null && iterator.hasNext()) {
+            Tag next = iterator.next();
+            if (map.containsKey(next)) {
+                map.put(next, Integer.valueOf(((Integer) map.get(next)).intValue() + 1));
+            } else {
+                map.put(next, 1);
+            }
+        }
+        while (iterator2 != null && iterator2.hasNext()) {
+            Tag next2 = iterator2.next();
+            if (!map.containsKey(next2)) {
+                return false;
+            }
+            int iIntValue = ((Integer) map.get(next2)).intValue();
+            if (iIntValue > 1) {
+                map.put(next2, Integer.valueOf(iIntValue - 1));
+            } else {
+                map.remove(next2);
+            }
+        }
+        return map.isEmpty();
+    }
+
+    public final int hashCode() {
+        Iterator<Tag> iterator = getIterator();
+        int iHashCode = 0;
+        if (iterator == null) {
+            return 0;
+        }
+        while (iterator.hasNext()) {
+            Tag next = iterator.next();
+            if (next != null) {
+                iHashCode += next.hashCode();
+            }
+        }
+        return iHashCode;
+    }
+}

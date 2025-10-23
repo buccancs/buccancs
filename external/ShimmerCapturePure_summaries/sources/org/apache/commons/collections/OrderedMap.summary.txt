@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/OrderedMap.java
+// Size: 301 bytes
+// Modified: 2025-10-21 16:32:03.495284500 +0100
+
+package org.apache.commons.collections;
+
+/* loaded from: classes5.dex */
+public interface OrderedMap extends IterableMap {
+    Object firstKey();
+
+    Object lastKey();
+
+    Object nextKey(Object obj);
+
+    OrderedMapIterator orderedMapIterator();
+
+    Object previousKey(Object obj);
+}

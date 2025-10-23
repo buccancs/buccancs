@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/ReadOnlyIterator.java
+// Size: 746 bytes
+// Modified: 2025-10-21 16:32:00.868157000 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+import java.util.Iterator;
+
+/* loaded from: classes3.dex */
+public final class ReadOnlyIterator<T> implements Iterator<T> {
+    private final Iterator<? extends T> iterator;
+
+    public ReadOnlyIterator(Iterator<? extends T> it2) {
+        this.iterator = (Iterator) ObjectUtil.checkNotNull(it2, "iterator");
+    }
+
+    @Override // java.util.Iterator
+    public boolean hasNext() {
+        return this.iterator.hasNext();
+    }
+
+    @Override // java.util.Iterator
+    public T next() {
+        return this.iterator.next();
+    }
+
+    @Override // java.util.Iterator
+    public void remove() {
+        throw new UnsupportedOperationException("read-only");
+    }
+}

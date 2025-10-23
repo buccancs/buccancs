@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/ssl/OpenSslTlsv13X509ExtendedTrustManager$1$1$$ExternalSyntheticApiModelOutline0.java
+// Size: 246 bytes
+// Modified: 2025-10-21 16:32:01.472032800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.ssl;
+
+/* compiled from: D8$$SyntheticClass */
+/* loaded from: classes3.dex */
+public final /* synthetic */ class OpenSslTlsv13X509ExtendedTrustManager$1$1$$ExternalSyntheticApiModelOutline0 {
+}

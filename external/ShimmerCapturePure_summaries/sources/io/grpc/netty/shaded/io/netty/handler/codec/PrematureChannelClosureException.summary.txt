@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/PrematureChannelClosureException.java
+// Size: 580 bytes
+// Modified: 2025-10-21 16:32:00.848069300 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec;
+
+/* loaded from: classes3.dex */
+public class PrematureChannelClosureException extends CodecException {
+    private static final long serialVersionUID = 4907642202594703094L;
+
+    public PrematureChannelClosureException() {
+    }
+
+    public PrematureChannelClosureException(String str, Throwable th) {
+        super(str, th);
+    }
+
+    public PrematureChannelClosureException(String str) {
+        super(str);
+    }
+
+    public PrematureChannelClosureException(Throwable th) {
+        super(th);
+    }
+}

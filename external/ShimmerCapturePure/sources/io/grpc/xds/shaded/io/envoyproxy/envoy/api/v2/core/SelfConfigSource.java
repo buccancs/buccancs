@@ -1,0 +1,429 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class SelfConfigSource extends GeneratedMessageV3 implements SelfConfigSourceOrBuilder {
+    public static final int TRANSPORT_API_VERSION_FIELD_NUMBER = 1;
+    private static final SelfConfigSource DEFAULT_INSTANCE = new SelfConfigSource();
+    private static final Parser<SelfConfigSource> PARSER = new AbstractParser<SelfConfigSource>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public SelfConfigSource m16753parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new SelfConfigSource(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private static final long serialVersionUID = 0;
+    private byte memoizedIsInitialized;
+    private int transportApiVersion_;
+
+    private SelfConfigSource(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private SelfConfigSource() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.transportApiVersion_ = 0;
+    }
+
+    private SelfConfigSource(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 8) {
+                            this.transportApiVersion_ = codedInputStream.readEnum();
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static SelfConfigSource getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<SelfConfigSource> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return ConfigSourceProto.internal_static_envoy_api_v2_core_SelfConfigSource_descriptor;
+    }
+
+    public static SelfConfigSource parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (SelfConfigSource) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static SelfConfigSource parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SelfConfigSource) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static SelfConfigSource parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (SelfConfigSource) PARSER.parseFrom(byteString);
+    }
+
+    public static SelfConfigSource parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SelfConfigSource) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static SelfConfigSource parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (SelfConfigSource) PARSER.parseFrom(bArr);
+    }
+
+    public static SelfConfigSource parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (SelfConfigSource) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static SelfConfigSource parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static SelfConfigSource parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static SelfConfigSource parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static SelfConfigSource parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static SelfConfigSource parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static SelfConfigSource parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m16751toBuilder();
+    }
+
+    public static Builder newBuilder(SelfConfigSource selfConfigSource) {
+        return DEFAULT_INSTANCE.m16751toBuilder().mergeFrom(selfConfigSource);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public SelfConfigSource m16746getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<SelfConfigSource> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSourceOrBuilder
+    public int getTransportApiVersionValue() {
+        return this.transportApiVersion_;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new SelfConfigSource();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return ConfigSourceProto.internal_static_envoy_api_v2_core_SelfConfigSource_fieldAccessorTable.ensureFieldAccessorsInitialized(SelfConfigSource.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSourceOrBuilder
+    public ApiVersion getTransportApiVersion() {
+        ApiVersion apiVersionValueOf = ApiVersion.valueOf(this.transportApiVersion_);
+        return apiVersionValueOf == null ? ApiVersion.UNRECOGNIZED : apiVersionValueOf;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.transportApiVersion_ != ApiVersion.AUTO.getNumber()) {
+            codedOutputStream.writeEnum(1, this.transportApiVersion_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeEnumSize = (this.transportApiVersion_ != ApiVersion.AUTO.getNumber() ? CodedOutputStream.computeEnumSize(1, this.transportApiVersion_) : 0) + this.unknownFields.getSerializedSize();
+        this.memoizedSize = iComputeEnumSize;
+        return iComputeEnumSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof SelfConfigSource)) {
+            return super.equals(obj);
+        }
+        SelfConfigSource selfConfigSource = (SelfConfigSource) obj;
+        return this.transportApiVersion_ == selfConfigSource.transportApiVersion_ && this.unknownFields.equals(selfConfigSource.unknownFields);
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((((779 + getDescriptor().hashCode()) * 37) + 1) * 53) + this.transportApiVersion_) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode;
+        return iHashCode;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m16748newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m16751toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements SelfConfigSourceOrBuilder {
+        private int transportApiVersion_;
+
+        private Builder() {
+            this.transportApiVersion_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.transportApiVersion_ = 0;
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return ConfigSourceProto.internal_static_envoy_api_v2_core_SelfConfigSource_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSourceOrBuilder
+        public int getTransportApiVersionValue() {
+            return this.transportApiVersion_;
+        }
+
+        public Builder setTransportApiVersionValue(int i) {
+            this.transportApiVersion_ = i;
+            onChanged();
+            return this;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return ConfigSourceProto.internal_static_envoy_api_v2_core_SelfConfigSource_fieldAccessorTable.ensureFieldAccessorsInitialized(SelfConfigSource.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = SelfConfigSource.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16762clear() {
+            super.clear();
+            this.transportApiVersion_ = 0;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return ConfigSourceProto.internal_static_envoy_api_v2_core_SelfConfigSource_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SelfConfigSource m16775getDefaultInstanceForType() {
+            return SelfConfigSource.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SelfConfigSource m16756build() throws UninitializedMessageException {
+            SelfConfigSource selfConfigSourceM16758buildPartial = m16758buildPartial();
+            if (selfConfigSourceM16758buildPartial.isInitialized()) {
+                return selfConfigSourceM16758buildPartial;
+            }
+            throw newUninitializedMessageException(selfConfigSourceM16758buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public SelfConfigSource m16758buildPartial() {
+            SelfConfigSource selfConfigSource = new SelfConfigSource(this);
+            selfConfigSource.transportApiVersion_ = this.transportApiVersion_;
+            onBuilt();
+            return selfConfigSource;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16774clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16786setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16764clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16767clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16788setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16754addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m16779mergeFrom(Message message) {
+            if (message instanceof SelfConfigSource) {
+                return mergeFrom((SelfConfigSource) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(SelfConfigSource selfConfigSource) {
+            if (selfConfigSource == SelfConfigSource.getDefaultInstance()) {
+                return this;
+            }
+            if (selfConfigSource.transportApiVersion_ != 0) {
+                setTransportApiVersionValue(selfConfigSource.getTransportApiVersionValue());
+            }
+            m16784mergeUnknownFields(selfConfigSource.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource.Builder m16780mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource.access$600()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource.Builder.m16780mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSource$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.SelfConfigSourceOrBuilder
+        public ApiVersion getTransportApiVersion() {
+            ApiVersion apiVersionValueOf = ApiVersion.valueOf(this.transportApiVersion_);
+            return apiVersionValueOf == null ? ApiVersion.UNRECOGNIZED : apiVersionValueOf;
+        }
+
+        public Builder setTransportApiVersion(ApiVersion apiVersion) {
+            apiVersion.getClass();
+            this.transportApiVersion_ = apiVersion.getNumber();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearTransportApiVersion() {
+            this.transportApiVersion_ = 0;
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m16790setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m16784mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/InternalKnownTransport.java
+// Size: 124 bytes
+// Modified: 2025-10-21 16:32:00.180007800 +0100
+
+package io.grpc;
+
+/* loaded from: classes2.dex */
+public enum InternalKnownTransport {
+    NETTY,
+    NETTY_SHADED
+}

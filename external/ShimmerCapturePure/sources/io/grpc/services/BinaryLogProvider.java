@@ -1,0 +1,127 @@
+package io.grpc.services;
+
+import com.google.common.base.Preconditions;
+import io.grpc.BinaryLog;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.ClientCall;
+import io.grpc.ClientInterceptor;
+import io.grpc.ClientInterceptors;
+import io.grpc.InternalClientInterceptors;
+import io.grpc.InternalServerInterceptors;
+import io.grpc.MethodDescriptor;
+import io.grpc.ServerInterceptor;
+import io.grpc.ServerMethodDefinition;
+
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+public abstract class BinaryLogProvider extends BinaryLog {
+    public static final MethodDescriptor.Marshaller<byte[]> BYTEARRAY_MARSHALLER = new ByteArrayMarshaller();
+    private final ClientInterceptor binaryLogShim = new BinaryLogShim();
+
+    private static MethodDescriptor<byte[], byte[]> toByteBufferMethod(MethodDescriptor<?, ?> methodDescriptor) {
+        MethodDescriptor.Marshaller marshaller = BYTEARRAY_MARSHALLER;
+        return methodDescriptor.toBuilder(marshaller, marshaller).build();
+    }
+
+    @Override // java.io.Closeable, java.lang.AutoCloseable
+    public void close() throws IOException {
+    }
+
+    @Nullable
+    protected abstract ClientInterceptor getClientInterceptor(String str, CallOptions callOptions);
+
+    @Nullable
+    protected abstract ServerInterceptor getServerInterceptor(String str);
+
+    @Override // io.grpc.BinaryLog
+    public final Channel wrapChannel(Channel channel) {
+        return ClientInterceptors.intercept(channel, this.binaryLogShim);
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // io.grpc.BinaryLog
+    public final <ReqT, RespT> ServerMethodDefinition<?, ?> wrapMethodDefinition(ServerMethodDefinition<ReqT, RespT> serverMethodDefinition) {
+        ServerInterceptor serverInterceptor = getServerInterceptor(serverMethodDefinition.getMethodDescriptor().getFullMethodName());
+        if (serverInterceptor == null) {
+            return serverMethodDefinition;
+        }
+        MethodDescriptor<byte[], byte[]> byteBufferMethod = toByteBufferMethod(serverMethodDefinition.getMethodDescriptor());
+        return ServerMethodDefinition.create(byteBufferMethod, InternalServerInterceptors.interceptCallHandlerCreate(serverInterceptor, InternalServerInterceptors.wrapMethod(serverMethodDefinition, byteBufferMethod).getServerCallHandler()));
+    }
+
+    private static final class ByteArrayMarshaller implements MethodDescriptor.Marshaller<byte[]> {
+        private ByteArrayMarshaller() {
+        }
+
+        @Override // io.grpc.MethodDescriptor.Marshaller
+        public InputStream stream(byte[] bArr) {
+            return new ByteArrayInputStream(bArr);
+        }
+
+        @Override // io.grpc.MethodDescriptor.Marshaller
+        public byte[] parse(InputStream inputStream) {
+            try {
+                return parseHelper(inputStream);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        private byte[] parseHelper(InputStream inputStream) throws IOException {
+            try {
+                return IoUtils.toByteArray(inputStream);
+            } finally {
+                inputStream.close();
+            }
+        }
+    }
+
+    private static final class IoUtils {
+        private static final int MAX_BUFFER_LENGTH = 16384;
+
+        private IoUtils() {
+        }
+
+        public static byte[] toByteArray(InputStream inputStream) throws IOException {
+            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+            copy(inputStream, byteArrayOutputStream);
+            return byteArrayOutputStream.toByteArray();
+        }
+
+        public static long copy(InputStream inputStream, OutputStream outputStream) throws IOException {
+            Preconditions.checkNotNull(inputStream);
+            Preconditions.checkNotNull(outputStream);
+            byte[] bArr = new byte[16384];
+            long j = 0;
+            while (true) {
+                int i = inputStream.read(bArr);
+                if (i == -1) {
+                    return j;
+                }
+                outputStream.write(bArr, 0, i);
+                j += i;
+            }
+        }
+    }
+
+    private final class BinaryLogShim implements ClientInterceptor {
+        private BinaryLogShim() {
+        }
+
+        @Override // io.grpc.ClientInterceptor
+        public <ReqT, RespT> ClientCall<ReqT, RespT> interceptCall(MethodDescriptor<ReqT, RespT> methodDescriptor, CallOptions callOptions, Channel channel) {
+            ClientInterceptor clientInterceptor = BinaryLogProvider.this.getClientInterceptor(methodDescriptor.getFullMethodName(), callOptions);
+            if (clientInterceptor == null) {
+                return channel.newCall(methodDescriptor, callOptions);
+            }
+            return InternalClientInterceptors.wrapClientInterceptor(clientInterceptor, BinaryLogProvider.BYTEARRAY_MARSHALLER, BinaryLogProvider.BYTEARRAY_MARSHALLER).interceptCall(methodDescriptor, callOptions, channel);
+        }
+    }
+}

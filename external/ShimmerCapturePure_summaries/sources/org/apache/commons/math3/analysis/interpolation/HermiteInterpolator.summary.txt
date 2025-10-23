@@ -1,0 +1,119 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/interpolation/HermiteInterpolator.java
+// Size: 5610 bytes
+// Modified: 2025-10-21 16:32:10.188791600 +0100
+
+package org.apache.commons.math3.analysis.interpolation;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableVectorFunction;
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NoDataException;
+import org.apache.commons.math3.exception.ZeroException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.util.CombinatoricsUtils;
+
+/* loaded from: classes5.dex */
+public class HermiteInterpolator implements UnivariateDifferentiableVectorFunction {
+    private final List<Double> abscissae = new ArrayList();
+    private final List<double[]> topDiagonal = new ArrayList();
+    private final List<double[]> bottomDiagonal = new ArrayList();
+
+    /* JADX WARN: Multi-variable type inference failed */
+    public void addSamplePoint(double d, double[]... dArr) throws ZeroException, MathArithmeticException {
+        for (int i = 0; i < dArr.length; i++) {
+            double[] dArr2 = (double[]) dArr[i].clone();
+            if (i > 1) {
+                double dFactorial = 1.0d / CombinatoricsUtils.factorial(i);
+                for (int i2 = 0; i2 < dArr2.length; i2++) {
+                    dArr2[i2] = dArr2[i2] * dFactorial;
+                }
+            }
+            int size = this.abscissae.size();
+            this.bottomDiagonal.add(size - i, dArr2);
+            int i3 = i;
+            double[] dArr3 = dArr2;
+            while (i3 < size) {
+                i3++;
+                int i4 = size - i3;
+                double[] dArr4 = this.bottomDiagonal.get(i4);
+                double dDoubleValue = 1.0d / (d - this.abscissae.get(i4).doubleValue());
+                if (Double.isInfinite(dDoubleValue)) {
+                    throw new ZeroException(LocalizedFormats.DUPLICATED_ABSCISSA_DIVISION_BY_ZERO, Double.valueOf(d));
+                }
+                for (int i5 = 0; i5 < dArr2.length; i5++) {
+                    dArr4[i5] = (dArr3[i5] - dArr4[i5]) * dDoubleValue;
+                }
+                dArr3 = dArr4;
+            }
+            this.topDiagonal.add(dArr3.clone());
+            this.abscissae.add(Double.valueOf(d));
+        }
+    }
+
+    public PolynomialFunction[] getPolynomials() throws NoDataException {
+        checkInterpolation();
+        PolynomialFunction polynomialFunctionPolynomial = polynomial(0.0d);
+        int length = this.topDiagonal.get(0).length;
+        PolynomialFunction[] polynomialFunctionArr = new PolynomialFunction[length];
+        for (int i = 0; i < length; i++) {
+            polynomialFunctionArr[i] = polynomialFunctionPolynomial;
+        }
+        PolynomialFunction polynomialFunctionPolynomial2 = polynomial(1.0d);
+        for (int i2 = 0; i2 < this.topDiagonal.size(); i2++) {
+            double[] dArr = this.topDiagonal.get(i2);
+            for (int i3 = 0; i3 < length; i3++) {
+                polynomialFunctionArr[i3] = polynomialFunctionArr[i3].add(polynomialFunctionPolynomial2.multiply(polynomial(dArr[i3])));
+            }
+            polynomialFunctionPolynomial2 = polynomialFunctionPolynomial2.multiply(polynomial(-this.abscissae.get(i2).doubleValue(), 1.0d));
+        }
+        return polynomialFunctionArr;
+    }
+
+    @Override // org.apache.commons.math3.analysis.UnivariateVectorFunction
+    public double[] value(double d) throws NoDataException {
+        checkInterpolation();
+        int length = this.topDiagonal.get(0).length;
+        double[] dArr = new double[length];
+        double dDoubleValue = 1.0d;
+        for (int i = 0; i < this.topDiagonal.size(); i++) {
+            double[] dArr2 = this.topDiagonal.get(i);
+            for (int i2 = 0; i2 < length; i2++) {
+                dArr[i2] = dArr[i2] + (dArr2[i2] * dDoubleValue);
+            }
+            dDoubleValue *= d - this.abscissae.get(i).doubleValue();
+        }
+        return dArr;
+    }
+
+    @Override // org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableVectorFunction
+    public DerivativeStructure[] value(DerivativeStructure derivativeStructure) throws NoDataException, DimensionMismatchException {
+        checkInterpolation();
+        int length = this.topDiagonal.get(0).length;
+        DerivativeStructure[] derivativeStructureArr = new DerivativeStructure[length];
+        Arrays.fill(derivativeStructureArr, derivativeStructure.getField().getZero());
+        DerivativeStructure one = derivativeStructure.getField().getOne();
+        for (int i = 0; i < this.topDiagonal.size(); i++) {
+            double[] dArr = this.topDiagonal.get(i);
+            for (int i2 = 0; i2 < length; i2++) {
+                derivativeStructureArr[i2] = derivativeStructureArr[i2].add(one.multiply(dArr[i2]));
+            }
+            one = one.multiply(derivativeStructure.subtract(this.abscissae.get(i).doubleValue()));
+        }
+        return derivativeStructureArr;
+    }
+
+    private void checkInterpolation() throws NoDataException {
+        if (this.abscissae.isEmpty()) {
+            throw new NoDataException(LocalizedFormats.EMPTY_INTERPOLATION_SAMPLE);
+        }
+    }
+
+    private PolynomialFunction polynomial(double... dArr) {
+        return new PolynomialFunction(dArr);
+    }
+}

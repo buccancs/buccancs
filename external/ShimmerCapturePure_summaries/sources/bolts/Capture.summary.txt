@@ -1,0 +1,25 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/bolts/Capture.java
+// Size: 317 bytes
+// Modified: 2025-10-21 16:32:00.037629100 +0100
+
+package bolts;
+
+/* loaded from: classes.dex */
+public class Capture<T> {
+    private T value;
+
+    public T get() {
+        return this.value;
+    }
+
+    public void set(T t) {
+        this.value = t;
+    }
+
+    public Capture() {
+    }
+
+    public Capture(T t) {
+        this.value = t;
+    }
+}

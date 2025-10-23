@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/iterators/EmptyMapIterator.java
+// Size: 425 bytes
+// Modified: 2025-10-21 16:32:02.864768500 +0100
+
+package org.apache.commons.collections.iterators;
+
+import org.apache.commons.collections.MapIterator;
+import org.apache.commons.collections.ResettableIterator;
+
+/* loaded from: classes5.dex */
+public class EmptyMapIterator extends AbstractEmptyIterator implements MapIterator, ResettableIterator {
+    public static final MapIterator INSTANCE = new EmptyMapIterator();
+
+    protected EmptyMapIterator() {
+    }
+}

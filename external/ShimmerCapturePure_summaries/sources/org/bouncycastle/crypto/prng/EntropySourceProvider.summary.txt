@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/prng/EntropySourceProvider.java
+// Size: 150 bytes
+// Modified: 2025-10-21 16:32:01.003647000 +0100
+
+package org.bouncycastle.crypto.prng;
+
+/* loaded from: classes5.dex */
+public interface EntropySourceProvider {
+    EntropySource get(int i);
+}

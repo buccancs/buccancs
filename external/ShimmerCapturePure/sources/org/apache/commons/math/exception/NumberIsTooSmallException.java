@@ -1,0 +1,32 @@
+package org.apache.commons.math.exception;
+
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/exception/NumberIsTooSmallException.class */
+public class NumberIsTooSmallException extends MathIllegalNumberException {
+    private static final long serialVersionUID = -6100997100383932834L;
+    private final Number min;
+    private final boolean boundIsAllowed;
+
+    public NumberIsTooSmallException(Number wrong, Number min, boolean boundIsAllowed) {
+        this(null, wrong, min, boundIsAllowed);
+    }
+
+    public NumberIsTooSmallException(Localizable specific, Number wrong, Number min, boolean boundIsAllowed) {
+        super(specific, boundIsAllowed ? LocalizedFormats.NUMBER_TOO_SMALL : LocalizedFormats.NUMBER_TOO_SMALL_BOUND_EXCLUDED, wrong, min);
+        this.min = min;
+        this.boundIsAllowed = boundIsAllowed;
+    }
+
+    public boolean getBoundIsAllowed() {
+        return this.boundIsAllowed;
+    }
+
+    public Number getMin() {
+        return this.min;
+    }
+}

@@ -1,0 +1,1488 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/XdsClientImpl.java
+// Size: 79395 bytes
+// Modified: 2025-10-21 16:32:14.990497000 +0100
+
+package io.grpc.xds;
+
+import androidx.core.app.NotificationCompat;
+import com.google.common.base.Preconditions;
+import com.google.common.base.Stopwatch;
+import com.google.common.base.Supplier;
+import com.google.common.collect.ImmutableList;
+import com.google.protobuf.Any;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.TypeRegistry;
+import com.google.protobuf.util.JsonFormat;
+import io.grpc.InternalLogId;
+import io.grpc.Status;
+import io.grpc.SynchronizationContext;
+import io.grpc.internal.BackoffPolicy;
+import io.grpc.stub.StreamObserver;
+import io.grpc.xds.Bootstrapper;
+import io.grpc.xds.EnvoyProtoData;
+import io.grpc.xds.EnvoyServerProtoData;
+import io.grpc.xds.LoadStatsManager;
+import io.grpc.xds.XdsClient;
+import io.grpc.xds.XdsLogger;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DiscoveryRequest;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.cluster.v3.Cluster;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.Address;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.ClusterLoadAssignment;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.LbEndpoint;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.endpoint.v3.LocalityLbEndpoints;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.FilterChain;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.listener.v3.Listener;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.Route;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteConfiguration;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.VirtualHost;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.extensions.transport_sockets.tls.v3.UpstreamTlsContext;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v2.AggregatedDiscoveryServiceGrpc;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3.AggregatedDiscoveryServiceGrpc;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3.DiscoveryRequest;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3.DiscoveryResponse;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class XdsClientImpl extends XdsClient {
+    static final String ADS_TYPE_URL_CDS = "type.googleapis.com/envoy.config.cluster.v3.Cluster";
+    static final String ADS_TYPE_URL_CDS_V2 = "type.googleapis.com/envoy.api.v2.Cluster";
+    static final String ADS_TYPE_URL_EDS = "type.googleapis.com/envoy.config.endpoint.v3.ClusterLoadAssignment";
+    static final String ADS_TYPE_URL_EDS_V2 = "type.googleapis.com/envoy.api.v2.ClusterLoadAssignment";
+    static final String ADS_TYPE_URL_LDS = "type.googleapis.com/envoy.config.listener.v3.Listener";
+    static final String ADS_TYPE_URL_LDS_V2 = "type.googleapis.com/envoy.api.v2.Listener";
+    static final String ADS_TYPE_URL_RDS = "type.googleapis.com/envoy.config.route.v3.RouteConfiguration";
+    static final String ADS_TYPE_URL_RDS_V2 = "type.googleapis.com/envoy.api.v2.RouteConfiguration";
+    static final int INITIAL_RESOURCE_FETCH_TIMEOUT_SEC = 15;
+    private static final String TYPE_URL_HTTP_CONNECTION_MANAGER = "type.googleapis.com/envoy.extensions.filters.network.http_connection_manager.v3.HttpConnectionManager";
+    private static final String TYPE_URL_HTTP_CONNECTION_MANAGER_V2 = "type.googleapis.com/envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager";
+
+    @Nullable
+    private AbstractAdsStream adsStream;
+    private final Stopwatch adsStreamRetryStopwatch;
+    private final BackoffPolicy.Provider backoffPolicyProvider;
+
+    @Nullable
+    private XdsClient.ConfigWatcher configWatcher;
+
+    @Nullable
+    private String ldsResourceName;
+
+    @Nullable
+    private SynchronizationContext.ScheduledHandle ldsRespTimer;
+
+    @Nullable
+    private XdsClient.ListenerWatcher listenerWatcher;
+    private int loadReportCount;
+    private final InternalLogId logId;
+    private final XdsLogger logger;
+
+    @Nullable
+    private LoadReportClient lrsClient;
+    private EnvoyProtoData.Node node;
+
+    @Nullable
+    private SynchronizationContext.ScheduledHandle rdsRespTimer;
+
+    @Nullable
+    private BackoffPolicy retryBackoffPolicy;
+
+    @Nullable
+    private SynchronizationContext.ScheduledHandle rpcRetryTimer;
+    private final Supplier<Stopwatch> stopwatchSupplier;
+    private final SynchronizationContext syncContext;
+    private final String targetName;
+    private final ScheduledExecutorService timeService;
+    private final XdsClient.XdsChannel xdsChannel;
+    private final MessagePrinter respPrinter = new MessagePrinter();
+    private final Map<String, XdsClient.ClusterUpdate> clusterNamesToClusterUpdates = new HashMap();
+    private final Set<String> absentCdsResources = new HashSet();
+    private final Map<String, XdsClient.EndpointUpdate> clusterNamesToEndpointUpdates = new HashMap();
+    private final Set<String> absentEdsResources = new HashSet();
+    private final Map<String, Set<XdsClient.ClusterWatcher>> clusterWatchers = new HashMap();
+    private final Map<String, Set<XdsClient.EndpointWatcher>> endpointWatchers = new HashMap();
+    private final Map<String, SynchronizationContext.ScheduledHandle> cdsRespTimers = new HashMap();
+    private final Map<String, SynchronizationContext.ScheduledHandle> edsRespTimers = new HashMap();
+    private final LoadStatsManager loadStatsManager = new LoadStatsManager();
+    private int listenerPort = -1;
+
+    XdsClientImpl(String str, List<Bootstrapper.ServerInfo> list, XdsClient.XdsChannelFactory xdsChannelFactory, EnvoyProtoData.Node node, SynchronizationContext synchronizationContext, ScheduledExecutorService scheduledExecutorService, BackoffPolicy.Provider provider, Supplier<Stopwatch> supplier) {
+        this.targetName = (String) Preconditions.checkNotNull(str, "targetName");
+        this.xdsChannel = ((XdsClient.XdsChannelFactory) Preconditions.checkNotNull(xdsChannelFactory, "channelFactory")).createChannel((List) Preconditions.checkNotNull(list, "servers"));
+        this.node = (EnvoyProtoData.Node) Preconditions.checkNotNull(node, "node");
+        this.syncContext = (SynchronizationContext) Preconditions.checkNotNull(synchronizationContext, "syncContext");
+        this.timeService = (ScheduledExecutorService) Preconditions.checkNotNull(scheduledExecutorService, "timeService");
+        this.backoffPolicyProvider = (BackoffPolicy.Provider) Preconditions.checkNotNull(provider, "backoffPolicyProvider");
+        this.stopwatchSupplier = (Supplier) Preconditions.checkNotNull(supplier, NotificationCompat.CATEGORY_STOPWATCH);
+        this.adsStreamRetryStopwatch = supplier.get();
+        InternalLogId internalLogIdAllocate = InternalLogId.allocate("xds-client", str);
+        this.logId = internalLogIdAllocate;
+        XdsLogger xdsLoggerWithLogId = XdsLogger.withLogId(internalLogIdAllocate);
+        this.logger = xdsLoggerWithLogId;
+        xdsLoggerWithLogId.log(XdsLogger.XdsLogLevel.INFO, "Created");
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void shutdown() {
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Shutting down");
+        this.xdsChannel.getManagedChannel().shutdown();
+        AbstractAdsStream abstractAdsStream = this.adsStream;
+        if (abstractAdsStream != null) {
+            abstractAdsStream.close(Status.CANCELLED.withDescription("shutdown").asException());
+        }
+        cleanUpResources();
+        LoadReportClient loadReportClient = this.lrsClient;
+        if (loadReportClient != null) {
+            loadReportClient.stopLoadReporting();
+            this.lrsClient = null;
+        }
+        SynchronizationContext.ScheduledHandle scheduledHandle = this.rpcRetryTimer;
+        if (scheduledHandle != null) {
+            scheduledHandle.cancel();
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void cleanUpResources() {
+        this.clusterNamesToClusterUpdates.clear();
+        this.absentCdsResources.clear();
+        this.clusterNamesToEndpointUpdates.clear();
+        this.absentEdsResources.clear();
+        SynchronizationContext.ScheduledHandle scheduledHandle = this.ldsRespTimer;
+        if (scheduledHandle != null) {
+            scheduledHandle.cancel();
+            this.ldsRespTimer = null;
+        }
+        SynchronizationContext.ScheduledHandle scheduledHandle2 = this.rdsRespTimer;
+        if (scheduledHandle2 != null) {
+            scheduledHandle2.cancel();
+            this.rdsRespTimer = null;
+        }
+        Iterator<SynchronizationContext.ScheduledHandle> it2 = this.cdsRespTimers.values().iterator();
+        while (it2.hasNext()) {
+            it2.next().cancel();
+        }
+        this.cdsRespTimers.clear();
+        Iterator<SynchronizationContext.ScheduledHandle> it3 = this.edsRespTimers.values().iterator();
+        while (it3.hasNext()) {
+            it3.next().cancel();
+        }
+        this.edsRespTimers.clear();
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void watchConfigData(String str, XdsClient.ConfigWatcher configWatcher) {
+        Preconditions.checkState(this.configWatcher == null, "watcher for %s already registered", str);
+        Preconditions.checkState(this.listenerWatcher == null, "ListenerWatcher already registered");
+        this.ldsResourceName = (String) Preconditions.checkNotNull(str, "targetAuthority");
+        this.configWatcher = (XdsClient.ConfigWatcher) Preconditions.checkNotNull(configWatcher, "watcher");
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Started watching config {0}", this.ldsResourceName);
+        SynchronizationContext.ScheduledHandle scheduledHandle = this.rpcRetryTimer;
+        if (scheduledHandle == null || !scheduledHandle.isPending()) {
+            if (this.adsStream == null) {
+                startRpcStream();
+            }
+            this.adsStream.sendXdsRequest(ResourceType.LDS, ImmutableList.of(this.ldsResourceName));
+            this.ldsRespTimer = this.syncContext.schedule(new LdsResourceFetchTimeoutTask(this.ldsResourceName), 15L, TimeUnit.SECONDS, this.timeService);
+        }
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void watchClusterData(String str, XdsClient.ClusterWatcher clusterWatcher) {
+        boolean z;
+        Preconditions.checkNotNull(str, "clusterName");
+        Preconditions.checkNotNull(clusterWatcher, "watcher");
+        if (this.clusterWatchers.containsKey(str)) {
+            z = false;
+        } else {
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Start watching cluster {0}", str);
+            this.clusterWatchers.put(str, new HashSet());
+            z = true;
+        }
+        Set<XdsClient.ClusterWatcher> set = this.clusterWatchers.get(str);
+        Preconditions.checkState(!set.contains(clusterWatcher), "watcher for %s already registered", str);
+        set.add(clusterWatcher);
+        if (this.absentCdsResources.contains(str)) {
+            this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Cluster resource {0} is known to be absent", str);
+            clusterWatcher.onResourceDoesNotExist(str);
+            return;
+        }
+        if (this.clusterNamesToClusterUpdates.containsKey(str)) {
+            this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Retrieve cluster info {0} from local cache", str);
+            clusterWatcher.onClusterChanged(this.clusterNamesToClusterUpdates.get(str));
+        } else if (z) {
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.rpcRetryTimer;
+            if (scheduledHandle == null || !scheduledHandle.isPending()) {
+                if (this.adsStream == null) {
+                    startRpcStream();
+                }
+                this.adsStream.sendXdsRequest(ResourceType.CDS, this.clusterWatchers.keySet());
+                this.cdsRespTimers.put(str, this.syncContext.schedule(new CdsResourceFetchTimeoutTask(str), 15L, TimeUnit.SECONDS, this.timeService));
+            }
+        }
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void cancelClusterDataWatch(String str, XdsClient.ClusterWatcher clusterWatcher) {
+        Preconditions.checkNotNull(clusterWatcher, "watcher");
+        Set<XdsClient.ClusterWatcher> set = this.clusterWatchers.get(str);
+        Preconditions.checkState(set != null && set.contains(clusterWatcher), "watcher for %s was not registered", str);
+        set.remove(clusterWatcher);
+        if (set.isEmpty()) {
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Stop watching cluster {0}", str);
+            this.clusterWatchers.remove(str);
+            this.absentCdsResources.remove(str);
+            this.clusterNamesToClusterUpdates.remove(str);
+            if (this.cdsRespTimers.containsKey(str)) {
+                this.cdsRespTimers.get(str).cancel();
+                this.cdsRespTimers.remove(str);
+            }
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.rpcRetryTimer;
+            if (scheduledHandle == null || !scheduledHandle.isPending()) {
+                Preconditions.checkState(this.adsStream != null, "Severe bug: ADS stream was not created while an endpoint watcher was registered");
+                this.adsStream.sendXdsRequest(ResourceType.CDS, this.clusterWatchers.keySet());
+            }
+        }
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void watchEndpointData(String str, XdsClient.EndpointWatcher endpointWatcher) {
+        boolean z;
+        Preconditions.checkNotNull(endpointWatcher, "watcher");
+        if (this.endpointWatchers.containsKey(str)) {
+            z = false;
+        } else {
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Start watching endpoints in cluster {0}", str);
+            this.endpointWatchers.put(str, new HashSet());
+            z = true;
+        }
+        Set<XdsClient.EndpointWatcher> set = this.endpointWatchers.get(str);
+        Preconditions.checkState(!set.contains(endpointWatcher), "watcher for %s already registered", str);
+        set.add(endpointWatcher);
+        if (this.absentEdsResources.contains(str)) {
+            this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Endpoint resource for cluster {0} is known to be absent.", str);
+            endpointWatcher.onResourceDoesNotExist(str);
+            return;
+        }
+        if (this.clusterNamesToEndpointUpdates.containsKey(str)) {
+            this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Retrieve endpoints info for cluster {0} from local cache.", str);
+            endpointWatcher.onEndpointChanged(this.clusterNamesToEndpointUpdates.get(str));
+        } else if (z) {
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.rpcRetryTimer;
+            if (scheduledHandle == null || !scheduledHandle.isPending()) {
+                if (this.adsStream == null) {
+                    startRpcStream();
+                }
+                this.adsStream.sendXdsRequest(ResourceType.EDS, this.endpointWatchers.keySet());
+                this.edsRespTimers.put(str, this.syncContext.schedule(new EdsResourceFetchTimeoutTask(str), 15L, TimeUnit.SECONDS, this.timeService));
+            }
+        }
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void cancelEndpointDataWatch(String str, XdsClient.EndpointWatcher endpointWatcher) {
+        Preconditions.checkNotNull(endpointWatcher, "watcher");
+        Set<XdsClient.EndpointWatcher> set = this.endpointWatchers.get(str);
+        Preconditions.checkState(set != null && set.contains(endpointWatcher), "watcher for %s was not registered", str);
+        set.remove(endpointWatcher);
+        if (set.isEmpty()) {
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Stop watching endpoints in cluster {0}", str);
+            this.endpointWatchers.remove(str);
+            this.absentEdsResources.remove(str);
+            this.clusterNamesToEndpointUpdates.remove(str);
+            if (this.edsRespTimers.containsKey(str)) {
+                this.edsRespTimers.get(str).cancel();
+                this.edsRespTimers.remove(str);
+            }
+            SynchronizationContext.ScheduledHandle scheduledHandle = this.rpcRetryTimer;
+            if (scheduledHandle == null || !scheduledHandle.isPending()) {
+                this.adsStream.sendXdsRequest(ResourceType.EDS, this.endpointWatchers.keySet());
+            }
+        }
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void watchListenerData(int i, XdsClient.ListenerWatcher listenerWatcher) {
+        Preconditions.checkState(this.configWatcher == null, "ListenerWatcher cannot be set when ConfigWatcher set");
+        Preconditions.checkState(this.listenerWatcher == null, "ListenerWatcher already registered");
+        this.listenerWatcher = (XdsClient.ListenerWatcher) Preconditions.checkNotNull(listenerWatcher, "watcher");
+        Preconditions.checkArgument(i > 0, "port needs to be > 0");
+        this.listenerPort = i;
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Started watching listener for port {0}", Integer.valueOf(i));
+        SynchronizationContext.ScheduledHandle scheduledHandle = this.rpcRetryTimer;
+        if (scheduledHandle == null || !scheduledHandle.isPending()) {
+            if (this.adsStream == null) {
+                startRpcStream();
+            }
+            updateNodeMetadataForListenerRequest(i);
+            this.adsStream.sendXdsRequest(ResourceType.LDS, ImmutableList.of());
+            this.ldsRespTimer = this.syncContext.schedule(new ListenerResourceFetchTimeoutTask(":" + i), 15L, TimeUnit.SECONDS, this.timeService);
+        }
+    }
+
+    private void updateNodeMetadataForListenerRequest(int i) {
+        HashMap map = new HashMap();
+        if (this.node.getMetadata() != null) {
+            map.putAll(this.node.getMetadata());
+        }
+        map.put("TRAFFICDIRECTOR_PROXYLESS", "1");
+        this.node = this.node.toBuilder().setMetadata(map).addListeningAddresses(new EnvoyProtoData.Address("0.0.0.0", i)).build();
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void reportClientStats() {
+        if (this.lrsClient == null) {
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Turning on load reporting");
+            this.lrsClient = new LoadReportClient(this.targetName, this.loadStatsManager, this.xdsChannel, this.node, this.syncContext, this.timeService, this.backoffPolicyProvider, this.stopwatchSupplier);
+        }
+        if (this.loadReportCount == 0) {
+            this.lrsClient.startLoadReporting();
+        }
+        this.loadReportCount++;
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void cancelClientStatsReport() {
+        Preconditions.checkState(this.loadReportCount > 0, "load reporting was never started");
+        int i = this.loadReportCount - 1;
+        this.loadReportCount = i;
+        if (i == 0) {
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Turning off load reporting");
+            this.lrsClient.stopLoadReporting();
+            this.lrsClient = null;
+        }
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    LoadStatsManager.LoadStatsStore addClientStats(String str, @Nullable String str2) {
+        return this.loadStatsManager.addLoadStats(str, str2);
+    }
+
+    @Override // io.grpc.xds.XdsClient
+    void removeClientStats(String str, @Nullable String str2) {
+        this.loadStatsManager.removeLoadStats(str, str2);
+    }
+
+    public String toString() {
+        return this.logId.toString();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void startRpcStream() {
+        Preconditions.checkState(this.adsStream == null, "Previous adsStream has not been cleared yet");
+        if (this.xdsChannel.isUseProtocolV3()) {
+            this.adsStream = new AdsStream();
+        } else {
+            this.adsStream = new AdsStreamV2();
+        }
+        this.adsStream.start();
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "ADS stream started");
+        this.adsStreamRetryStopwatch.reset().start();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void handleLdsResponse(DiscoveryResponseData discoveryResponseData) throws InvalidProtoDataException {
+        Preconditions.checkState((this.configWatcher != null) != (this.listenerWatcher != null), "No LDS request was ever sent. Management server is doing something wrong");
+        if (this.listenerWatcher != null) {
+            handleLdsResponseForListener(discoveryResponseData);
+        } else {
+            handleLdsResponseForConfigUpdate(discoveryResponseData);
+        }
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    /* JADX WARN: Removed duplicated region for block: B:47:0x015a  */
+    /* JADX WARN: Removed duplicated region for block: B:49:0x016c  */
+    /* JADX WARN: Type inference failed for: r13v14, types: [io.grpc.xds.XdsLogger] */
+    /* JADX WARN: Type inference failed for: r13v15, types: [io.grpc.xds.XdsClient$ConfigUpdate$Builder] */
+    /* JADX WARN: Type inference failed for: r1v20 */
+    /* JADX WARN: Type inference failed for: r1v33 */
+    /* JADX WARN: Type inference failed for: r1v34 */
+    /* JADX WARN: Type inference failed for: r1v9, types: [java.util.Collection] */
+    /* JADX WARN: Type inference failed for: r2v6, types: [java.lang.Object[]] */
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    private void handleLdsResponseForConfigUpdate(io.grpc.xds.XdsClientImpl.DiscoveryResponseData r13) throws io.grpc.xds.XdsClientImpl.InvalidProtoDataException {
+        /*
+            Method dump skipped, instructions count: 592
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.XdsClientImpl.handleLdsResponseForConfigUpdate(io.grpc.xds.XdsClientImpl$DiscoveryResponseData):void");
+    }
+
+    private void handleLdsResponseForListener(DiscoveryResponseData discoveryResponseData) {
+        Preconditions.checkState(this.ldsResourceName == null && this.listenerPort > 0 && this.listenerWatcher != null, "LDS request for ListenerWatcher was never sent!");
+        this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Listener count: {0}", Integer.valueOf(discoveryResponseData.getResourcesList().size()));
+        try {
+            XdsClient.ListenerUpdate listenerUpdateBuild = null;
+            Listener listener = null;
+            for (Any anyBuild : discoveryResponseData.getResourcesList()) {
+                if (anyBuild.getTypeUrl().equals(ADS_TYPE_URL_LDS_V2)) {
+                    anyBuild = anyBuild.toBuilder().setTypeUrl(ADS_TYPE_URL_LDS).build();
+                }
+                Listener listener2 = (Listener) anyBuild.unpack(Listener.class);
+                this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Found listener {0}", listener2.toString());
+                if (isRequestedListener(listener2)) {
+                    this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Requested listener found: {0}", listener2.getName());
+                    listener = listener2;
+                }
+            }
+            if (listener != null) {
+                SynchronizationContext.ScheduledHandle scheduledHandle = this.ldsRespTimer;
+                if (scheduledHandle != null) {
+                    scheduledHandle.cancel();
+                    this.ldsRespTimer = null;
+                }
+                try {
+                    listenerUpdateBuild = XdsClient.ListenerUpdate.newBuilder().setListener(EnvoyServerProtoData.Listener.fromEnvoyProtoListener(listener)).build();
+                } catch (InvalidProtocolBufferException e) {
+                    this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Failed to unpack Listener in LDS response {0}", e);
+                    this.adsStream.sendNackRequest(ResourceType.LDS, ImmutableList.of(), discoveryResponseData.getVersionInfo(), "Malformed LDS response: " + e);
+                    return;
+                }
+            } else if (this.ldsRespTimer == null) {
+                this.listenerWatcher.onResourceDoesNotExist(":" + this.listenerPort);
+            }
+            this.adsStream.sendAckRequest(ResourceType.LDS, ImmutableList.of(), discoveryResponseData.getVersionInfo());
+            if (listenerUpdateBuild != null) {
+                this.listenerWatcher.onListenerChanged(listenerUpdateBuild);
+            }
+        } catch (InvalidProtocolBufferException e2) {
+            this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Failed to unpack Listeners in LDS response {0}", e2);
+            this.adsStream.sendNackRequest(ResourceType.LDS, ImmutableList.of(), discoveryResponseData.getVersionInfo(), "Malformed LDS response: " + e2);
+        }
+    }
+
+    private boolean isRequestedListener(Listener listener) {
+        return isAddressMatching(listener.getAddress()) && hasMatchingFilter(listener.getFilterChainsList());
+    }
+
+    private boolean isAddressMatching(Address address) {
+        return address.hasSocketAddress() && address.getSocketAddress().getPortValue() == this.listenerPort;
+    }
+
+    private boolean hasMatchingFilter(List<FilterChain> list) {
+        Iterator<FilterChain> it2 = list.iterator();
+        while (it2.hasNext()) {
+            if (this.listenerPort == it2.next().getFilterChainMatch().getDestinationPort().getValue()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void handleRdsResponse(DiscoveryResponseData discoveryResponseData) {
+        List<EnvoyProtoData.Route> listFindRoutesInRouteConfig;
+        Preconditions.checkState(this.adsStream.rdsResourceName != null, "Never requested for RDS resources, management server is doing something wrong");
+        ArrayList arrayList = new ArrayList(discoveryResponseData.getResourcesList().size());
+        try {
+            RouteConfiguration routeConfiguration = null;
+            for (Any anyBuild : discoveryResponseData.getResourcesList()) {
+                if (anyBuild.getTypeUrl().equals(ADS_TYPE_URL_RDS_V2)) {
+                    anyBuild = anyBuild.toBuilder().setTypeUrl(ADS_TYPE_URL_RDS).build();
+                }
+                RouteConfiguration routeConfiguration2 = (RouteConfiguration) anyBuild.unpack(RouteConfiguration.class);
+                arrayList.add(routeConfiguration2.getName());
+                if (routeConfiguration2.getName().equals(this.adsStream.rdsResourceName)) {
+                    routeConfiguration = routeConfiguration2;
+                }
+            }
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Received RDS response for resources: {0}", arrayList);
+            if (routeConfiguration != null) {
+                try {
+                    listFindRoutesInRouteConfig = findRoutesInRouteConfig(routeConfiguration, this.ldsResourceName);
+                } catch (InvalidProtoDataException e) {
+                    String message = e.getMessage();
+                    this.adsStream.sendNackRequest(ResourceType.RDS, ImmutableList.of(this.adsStream.rdsResourceName), discoveryResponseData.getVersionInfo(), "RouteConfiguration " + routeConfiguration.getName() + ": cannot find a valid cluster name in any virtual hosts with domains matching: " + this.ldsResourceName + " with the reason: " + message);
+                    return;
+                }
+            } else {
+                listFindRoutesInRouteConfig = null;
+            }
+            this.adsStream.sendAckRequest(ResourceType.RDS, ImmutableList.of(this.adsStream.rdsResourceName), discoveryResponseData.getVersionInfo());
+            if (listFindRoutesInRouteConfig != null) {
+                SynchronizationContext.ScheduledHandle scheduledHandle = this.rdsRespTimer;
+                if (scheduledHandle != null) {
+                    scheduledHandle.cancel();
+                    this.rdsRespTimer = null;
+                }
+                this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Found routes: {0}", listFindRoutesInRouteConfig);
+                this.configWatcher.onConfigChanged(XdsClient.ConfigUpdate.newBuilder().addRoutes(listFindRoutesInRouteConfig).build());
+            }
+        } catch (InvalidProtocolBufferException e2) {
+            this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Failed to unpack RouteConfiguration in RDS response {0}", e2);
+            this.adsStream.sendNackRequest(ResourceType.RDS, ImmutableList.of(this.adsStream.rdsResourceName), discoveryResponseData.getVersionInfo(), "Malformed RDS response: " + e2);
+        }
+    }
+
+    private static List<EnvoyProtoData.Route> findRoutesInRouteConfig(RouteConfiguration routeConfiguration, String str) throws InvalidProtoDataException {
+        VirtualHost virtualHostFindVirtualHostForHostName = findVirtualHostForHostName(routeConfiguration, str);
+        if (virtualHostFindVirtualHostForHostName == null) {
+            throw new InvalidProtoDataException("Unable to find virtual host for " + str, null);
+        }
+        return populateRoutesInVirtualHost(virtualHostFindVirtualHostForHostName);
+    }
+
+    static List<EnvoyProtoData.Route> populateRoutesInVirtualHost(VirtualHost virtualHost) throws InvalidProtoDataException {
+        ArrayList arrayList = new ArrayList();
+        Iterator<Route> it2 = virtualHost.getRoutesList().iterator();
+        while (true) {
+            AnonymousClass1 anonymousClass1 = null;
+            if (it2.hasNext()) {
+                EnvoyProtoData.StructOrError<EnvoyProtoData.Route> structOrErrorFromEnvoyProtoRoute = EnvoyProtoData.Route.fromEnvoyProtoRoute(it2.next());
+                if (structOrErrorFromEnvoyProtoRoute != null) {
+                    if (structOrErrorFromEnvoyProtoRoute.getErrorDetail() != null) {
+                        throw new InvalidProtoDataException("Virtual host [" + virtualHost.getName() + "] contains invalid route : " + structOrErrorFromEnvoyProtoRoute.getErrorDetail(), anonymousClass1);
+                    }
+                    arrayList.add(structOrErrorFromEnvoyProtoRoute.getStruct());
+                }
+            } else {
+                if (arrayList.isEmpty()) {
+                    throw new InvalidProtoDataException("Virtual host [" + virtualHost.getName() + "] contains no usable route", anonymousClass1);
+                }
+                return Collections.unmodifiableList(arrayList);
+            }
+        }
+    }
+
+    @Nullable
+    static VirtualHost findVirtualHostForHostName(RouteConfiguration routeConfiguration, String str) {
+        int length = -1;
+        boolean z = false;
+        VirtualHost virtualHost = null;
+        for (VirtualHost virtualHost2 : routeConfiguration.getVirtualHostsList()) {
+            Iterator it2 = virtualHost2.mo29927getDomainsList().iterator();
+            while (true) {
+                if (!it2.hasNext()) {
+                    break;
+                }
+                String str2 = (String) it2.next();
+                if (matchHostName(str, str2)) {
+                    if (!str2.contains("*")) {
+                        z = true;
+                        virtualHost = virtualHost2;
+                        break;
+                    }
+                    if (str2.length() > length || (str2.length() == length && str2.startsWith("*"))) {
+                        length = str2.length();
+                        virtualHost = virtualHost2;
+                    }
+                }
+            }
+            if (z) {
+                break;
+            }
+        }
+        return virtualHost;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void handleCdsResponse(DiscoveryResponseData discoveryResponseData) {
+        String str;
+        this.adsStream.cdsRespNonce = discoveryResponseData.getNonce();
+        ArrayList arrayList = new ArrayList(discoveryResponseData.getResourcesList().size());
+        ArrayList arrayList2 = new ArrayList(discoveryResponseData.getResourcesList().size());
+        try {
+            for (Any anyBuild : discoveryResponseData.getResourcesList()) {
+                if (anyBuild.getTypeUrl().equals(ADS_TYPE_URL_CDS_V2)) {
+                    anyBuild = anyBuild.toBuilder().setTypeUrl(ADS_TYPE_URL_CDS).build();
+                }
+                Cluster clusterUnpack = anyBuild.unpack(Cluster.class);
+                arrayList.add(clusterUnpack);
+                arrayList2.add(clusterUnpack.getName());
+            }
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Received CDS response for resources: {0}", arrayList2);
+            HashMap map = new HashMap();
+            HashSet hashSet = new HashSet();
+            Iterator it2 = arrayList.iterator();
+            while (true) {
+                if (!it2.hasNext()) {
+                    str = null;
+                    break;
+                }
+                Cluster cluster = (Cluster) it2.next();
+                String name = cluster.getName();
+                if (this.clusterWatchers.containsKey(name)) {
+                    XdsClient.ClusterUpdate.Builder builderNewBuilder = XdsClient.ClusterUpdate.newBuilder();
+                    builderNewBuilder.setClusterName(name);
+                    if (!cluster.getType().equals(Cluster.DiscoveryType.EDS)) {
+                        str = "Cluster " + name + " : only EDS discovery type is supported in gRPC.";
+                        break;
+                    }
+                    Cluster.EdsClusterConfig edsClusterConfig = cluster.getEdsClusterConfig();
+                    if (!edsClusterConfig.getEdsConfig().hasAds()) {
+                        str = "Cluster " + name + " : field eds_cluster_config must be set to indicate to use EDS over ADS.";
+                        break;
+                    }
+                    if (!edsClusterConfig.getServiceName().isEmpty()) {
+                        builderNewBuilder.setEdsServiceName(edsClusterConfig.getServiceName());
+                        hashSet.add(edsClusterConfig.getServiceName());
+                    } else {
+                        hashSet.add(name);
+                    }
+                    if (!cluster.getLbPolicy().equals(Cluster.LbPolicy.ROUND_ROBIN)) {
+                        str = "Cluster " + name + " : only round robin load balancing policy is supported in gRPC.";
+                        break;
+                    }
+                    builderNewBuilder.setLbPolicy("round_robin");
+                    if (cluster.hasLrsServer()) {
+                        if (!cluster.getLrsServer().hasSelf()) {
+                            str = "Cluster " + name + " : only support enabling LRS for the same management server.";
+                            break;
+                        }
+                        builderNewBuilder.setLrsServerName("");
+                    }
+                    try {
+                        EnvoyServerProtoData.UpstreamTlsContext tlsContextFromCluster = getTlsContextFromCluster(cluster);
+                        if (tlsContextFromCluster != null && tlsContextFromCluster.getCommonTlsContext() != null) {
+                            builderNewBuilder.setUpstreamTlsContext(tlsContextFromCluster);
+                        }
+                        map.put(name, builderNewBuilder.build());
+                    } catch (InvalidProtocolBufferException e) {
+                        str = "Cluster " + name + " : " + e.getMessage();
+                    }
+                }
+            }
+            if (str != null) {
+                this.adsStream.sendNackRequest(ResourceType.CDS, this.clusterWatchers.keySet(), discoveryResponseData.getVersionInfo(), str);
+                return;
+            }
+            this.adsStream.sendAckRequest(ResourceType.CDS, this.clusterWatchers.keySet(), discoveryResponseData.getVersionInfo());
+            this.absentCdsResources.removeAll(map.keySet());
+            for (Map.Entry<String, XdsClient.ClusterUpdate> entry : this.clusterNamesToClusterUpdates.entrySet()) {
+                if (!map.containsKey(entry.getKey())) {
+                    this.absentCdsResources.add(entry.getKey());
+                } else if (((XdsClient.ClusterUpdate) map.get(entry.getKey())).equals(entry.getValue())) {
+                    map.remove(entry.getKey());
+                }
+            }
+            this.clusterNamesToClusterUpdates.keySet().removeAll(this.absentCdsResources);
+            this.clusterNamesToClusterUpdates.putAll(map);
+            for (String str2 : this.clusterNamesToEndpointUpdates.keySet()) {
+                if (!hashSet.contains(str2)) {
+                    this.absentEdsResources.add(str2);
+                    if (this.endpointWatchers.containsKey(str2)) {
+                        Iterator<XdsClient.EndpointWatcher> it3 = this.endpointWatchers.get(str2).iterator();
+                        while (it3.hasNext()) {
+                            it3.next().onResourceDoesNotExist(str2);
+                        }
+                    }
+                }
+            }
+            this.clusterNamesToEndpointUpdates.keySet().retainAll(hashSet);
+            for (String str3 : map.keySet()) {
+                if (this.cdsRespTimers.containsKey(str3)) {
+                    this.cdsRespTimers.get(str3).cancel();
+                    this.cdsRespTimers.remove(str3);
+                }
+            }
+            for (Map.Entry<String, Set<XdsClient.ClusterWatcher>> entry2 : this.clusterWatchers.entrySet()) {
+                String key = entry2.getKey();
+                if (map.containsKey(entry2.getKey())) {
+                    XdsClient.ClusterUpdate clusterUpdate = (XdsClient.ClusterUpdate) map.get(key);
+                    Iterator<XdsClient.ClusterWatcher> it4 = entry2.getValue().iterator();
+                    while (it4.hasNext()) {
+                        it4.next().onClusterChanged(clusterUpdate);
+                    }
+                } else if (!this.clusterNamesToClusterUpdates.containsKey(entry2.getKey()) && !this.cdsRespTimers.containsKey(key)) {
+                    Iterator<XdsClient.ClusterWatcher> it5 = entry2.getValue().iterator();
+                    while (it5.hasNext()) {
+                        it5.next().onResourceDoesNotExist(entry2.getKey());
+                    }
+                }
+            }
+        } catch (InvalidProtocolBufferException e2) {
+            this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Failed to unpack Clusters in CDS response {0}", e2);
+            this.adsStream.sendNackRequest(ResourceType.CDS, this.clusterWatchers.keySet(), discoveryResponseData.getVersionInfo(), "Malformed CDS response: " + e2);
+        }
+    }
+
+    @Nullable
+    private static EnvoyServerProtoData.UpstreamTlsContext getTlsContextFromCluster(Cluster cluster) throws InvalidProtocolBufferException {
+        if (cluster.hasTransportSocket() && "tls".equals(cluster.getTransportSocket().getName())) {
+            return EnvoyServerProtoData.UpstreamTlsContext.fromEnvoyProtoUpstreamTlsContext(UpstreamTlsContext.parseFrom(cluster.getTransportSocket().getTypedConfig().getValue()));
+        }
+        return null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void handleEdsResponse(DiscoveryResponseData discoveryResponseData) {
+        ArrayList arrayList = new ArrayList(discoveryResponseData.getResourcesList().size());
+        ArrayList arrayList2 = new ArrayList(discoveryResponseData.getResourcesList().size());
+        try {
+            for (Any anyBuild : discoveryResponseData.getResourcesList()) {
+                if (anyBuild.getTypeUrl().equals(ADS_TYPE_URL_EDS_V2)) {
+                    anyBuild = anyBuild.toBuilder().setTypeUrl(ADS_TYPE_URL_EDS).build();
+                }
+                ClusterLoadAssignment clusterLoadAssignmentUnpack = anyBuild.unpack(ClusterLoadAssignment.class);
+                arrayList.add(clusterLoadAssignmentUnpack);
+                arrayList2.add(clusterLoadAssignmentUnpack.getClusterName());
+            }
+            this.logger.log(XdsLogger.XdsLogLevel.INFO, "Received EDS response for resources: {0}", arrayList2);
+            HashMap map = new HashMap();
+            Iterator it2 = arrayList.iterator();
+            String str = null;
+            while (true) {
+                if (!it2.hasNext()) {
+                    break;
+                }
+                ClusterLoadAssignment clusterLoadAssignment = (ClusterLoadAssignment) it2.next();
+                String clusterName = clusterLoadAssignment.getClusterName();
+                if (this.endpointWatchers.containsKey(clusterName)) {
+                    XdsClient.EndpointUpdate.Builder builderNewBuilder = XdsClient.EndpointUpdate.newBuilder();
+                    builderNewBuilder.setClusterName(clusterName);
+                    HashSet hashSet = new HashSet();
+                    Iterator<LocalityLbEndpoints> it3 = clusterLoadAssignment.getEndpointsList().iterator();
+                    int iMax = -1;
+                    while (true) {
+                        if (!it3.hasNext()) {
+                            break;
+                        }
+                        LocalityLbEndpoints next = it3.next();
+                        if (next.hasLoadBalancingWeight() && next.getLoadBalancingWeight().getValue() >= 1) {
+                            int priority = next.getPriority();
+                            if (priority < 0) {
+                                str = "ClusterLoadAssignment " + clusterName + " : locality with negative priority.";
+                                break;
+                            }
+                            iMax = Math.max(iMax, priority);
+                            hashSet.add(Integer.valueOf(priority));
+                            Iterator<LbEndpoint> it4 = next.getLbEndpointsList().iterator();
+                            while (true) {
+                                if (!it4.hasNext()) {
+                                    break;
+                                }
+                                if (!it4.next().getEndpoint().hasAddress()) {
+                                    str = "ClusterLoadAssignment " + clusterName + " : endpoint with no address.";
+                                    break;
+                                }
+                            }
+                            if (str != null) {
+                                break;
+                            } else {
+                                builderNewBuilder.addLocalityLbEndpoints(EnvoyProtoData.Locality.fromEnvoyProtoLocality(next.getLocality()), EnvoyProtoData.LocalityLbEndpoints.fromEnvoyProtoLocalityLbEndpoints(next));
+                            }
+                        }
+                    }
+                    if (str != null) {
+                        break;
+                    }
+                    if (hashSet.size() != iMax + 1) {
+                        str = "ClusterLoadAssignment " + clusterName + " : sparse priorities.";
+                        break;
+                    }
+                    Iterator<ClusterLoadAssignment.Policy.DropOverload> it5 = clusterLoadAssignment.getPolicy().getDropOverloadsList().iterator();
+                    while (it5.hasNext()) {
+                        builderNewBuilder.addDropPolicy(EnvoyProtoData.DropOverload.fromEnvoyProtoDropOverload(it5.next()));
+                    }
+                    map.put(clusterName, builderNewBuilder.build());
+                }
+            }
+            if (str != null) {
+                this.adsStream.sendNackRequest(ResourceType.EDS, this.endpointWatchers.keySet(), discoveryResponseData.getVersionInfo(), str);
+                return;
+            }
+            this.adsStream.sendAckRequest(ResourceType.EDS, this.endpointWatchers.keySet(), discoveryResponseData.getVersionInfo());
+            this.clusterNamesToEndpointUpdates.putAll(map);
+            this.absentEdsResources.removeAll(map.keySet());
+            for (Map.Entry entry : map.entrySet()) {
+                String str2 = (String) entry.getKey();
+                if (this.edsRespTimers.containsKey(str2)) {
+                    this.edsRespTimers.get(str2).cancel();
+                    this.edsRespTimers.remove(str2);
+                }
+                if (this.endpointWatchers.containsKey(str2)) {
+                    Iterator<XdsClient.EndpointWatcher> it6 = this.endpointWatchers.get(str2).iterator();
+                    while (it6.hasNext()) {
+                        it6.next().onEndpointChanged((XdsClient.EndpointUpdate) entry.getValue());
+                    }
+                }
+            }
+        } catch (InvalidProtocolBufferException e) {
+            this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Failed to unpack ClusterLoadAssignments in EDS response {0}", e);
+            this.adsStream.sendNackRequest(ResourceType.EDS, this.endpointWatchers.keySet(), discoveryResponseData.getVersionInfo(), "Malformed EDS response: " + e);
+        }
+    }
+
+    final class RpcRetryTask implements Runnable {
+        RpcRetryTask() {
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            XdsClientImpl.this.startRpcStream();
+            if (XdsClientImpl.this.configWatcher != null) {
+                XdsClientImpl.this.adsStream.sendXdsRequest(ResourceType.LDS, ImmutableList.of(XdsClientImpl.this.ldsResourceName));
+                XdsClientImpl xdsClientImpl = XdsClientImpl.this;
+                SynchronizationContext synchronizationContext = xdsClientImpl.syncContext;
+                XdsClientImpl xdsClientImpl2 = XdsClientImpl.this;
+                xdsClientImpl.ldsRespTimer = synchronizationContext.schedule(xdsClientImpl2.new LdsResourceFetchTimeoutTask(xdsClientImpl2.ldsResourceName), 15L, TimeUnit.SECONDS, XdsClientImpl.this.timeService);
+            }
+            if (XdsClientImpl.this.listenerWatcher != null) {
+                XdsClientImpl.this.adsStream.sendXdsRequest(ResourceType.LDS, ImmutableList.of());
+                XdsClientImpl xdsClientImpl3 = XdsClientImpl.this;
+                xdsClientImpl3.ldsRespTimer = xdsClientImpl3.syncContext.schedule(XdsClientImpl.this.new ListenerResourceFetchTimeoutTask(":" + XdsClientImpl.this.listenerPort), 15L, TimeUnit.SECONDS, XdsClientImpl.this.timeService);
+            }
+            if (!XdsClientImpl.this.clusterWatchers.isEmpty()) {
+                XdsClientImpl.this.adsStream.sendXdsRequest(ResourceType.CDS, XdsClientImpl.this.clusterWatchers.keySet());
+                for (String str : XdsClientImpl.this.clusterWatchers.keySet()) {
+                    XdsClientImpl.this.cdsRespTimers.put(str, XdsClientImpl.this.syncContext.schedule(XdsClientImpl.this.new CdsResourceFetchTimeoutTask(str), 15L, TimeUnit.SECONDS, XdsClientImpl.this.timeService));
+                }
+            }
+            if (XdsClientImpl.this.endpointWatchers.isEmpty()) {
+                return;
+            }
+            XdsClientImpl.this.adsStream.sendXdsRequest(ResourceType.EDS, XdsClientImpl.this.endpointWatchers.keySet());
+            for (String str2 : XdsClientImpl.this.endpointWatchers.keySet()) {
+                XdsClientImpl.this.edsRespTimers.put(str2, XdsClientImpl.this.syncContext.schedule(XdsClientImpl.this.new EdsResourceFetchTimeoutTask(str2), 15L, TimeUnit.SECONDS, XdsClientImpl.this.timeService));
+            }
+        }
+    }
+
+    /* renamed from: io.grpc.xds.XdsClientImpl$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType;
+
+        static {
+            int[] iArr = new int[ResourceType.values().length];
+            $SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType = iArr;
+            try {
+                iArr[ResourceType.LDS.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[ResourceType.RDS.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[ResourceType.CDS.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[ResourceType.EDS.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[ResourceType.UNKNOWN.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+        }
+    }
+
+    private enum ResourceType {
+        UNKNOWN,
+        LDS,
+        RDS,
+        CDS,
+        EDS;
+
+        String typeUrl() {
+            int i = AnonymousClass1.$SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[ordinal()];
+            if (i == 1) {
+                return XdsClientImpl.ADS_TYPE_URL_LDS;
+            }
+            if (i == 2) {
+                return XdsClientImpl.ADS_TYPE_URL_RDS;
+            }
+            if (i == 3) {
+                return XdsClientImpl.ADS_TYPE_URL_CDS;
+            }
+            if (i == 4) {
+                return XdsClientImpl.ADS_TYPE_URL_EDS;
+            }
+            throw new AssertionError("Unknown or missing case in enum switch: " + this);
+        }
+
+        String typeUrlV2() {
+            int i = AnonymousClass1.$SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[ordinal()];
+            if (i == 1) {
+                return XdsClientImpl.ADS_TYPE_URL_LDS_V2;
+            }
+            if (i == 2) {
+                return XdsClientImpl.ADS_TYPE_URL_RDS_V2;
+            }
+            if (i == 3) {
+                return XdsClientImpl.ADS_TYPE_URL_CDS_V2;
+            }
+            if (i == 4) {
+                return XdsClientImpl.ADS_TYPE_URL_EDS_V2;
+            }
+            throw new AssertionError("Unknown or missing case in enum switch: " + this);
+        }
+
+        static ResourceType fromTypeUrl(String str) {
+            str.hashCode();
+            switch (str) {
+                case "type.googleapis.com/envoy.api.v2.RouteConfiguration":
+                case "type.googleapis.com/envoy.config.route.v3.RouteConfiguration":
+                    return RDS;
+                case "type.googleapis.com/envoy.config.endpoint.v3.ClusterLoadAssignment":
+                case "type.googleapis.com/envoy.api.v2.ClusterLoadAssignment":
+                    return EDS;
+                case "type.googleapis.com/envoy.api.v2.Cluster":
+                case "type.googleapis.com/envoy.config.cluster.v3.Cluster":
+                    return CDS;
+                case "type.googleapis.com/envoy.config.listener.v3.Listener":
+                case "type.googleapis.com/envoy.api.v2.Listener":
+                    return LDS;
+                default:
+                    return UNKNOWN;
+            }
+        }
+    }
+
+    private static final class DiscoveryRequestData {
+
+        @Nullable
+        private final com.google.rpc.Status errorDetail;
+        private final EnvoyProtoData.Node node;
+        private final Collection<String> resourceNames;
+        private final ResourceType resourceType;
+        private final String responseNonce;
+        private final String versionInfo;
+
+        DiscoveryRequestData(ResourceType resourceType, Collection<String> collection, String str, String str2, EnvoyProtoData.Node node, @Nullable com.google.rpc.Status status) {
+            this.resourceType = resourceType;
+            this.resourceNames = collection;
+            this.versionInfo = str;
+            this.responseNonce = str2;
+            this.node = node;
+            this.errorDetail = status;
+        }
+
+        DiscoveryRequest toEnvoyProto() {
+            DiscoveryRequest.Builder responseNonce = DiscoveryRequest.newBuilder().setVersionInfo(this.versionInfo).setNode(this.node.toEnvoyProtoNode()).addAllResourceNames(this.resourceNames).setTypeUrl(this.resourceType.typeUrl()).setResponseNonce(this.responseNonce);
+            com.google.rpc.Status status = this.errorDetail;
+            if (status != null) {
+                responseNonce.setErrorDetail(status);
+            }
+            return responseNonce.m32492build();
+        }
+
+        io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DiscoveryRequest toEnvoyProtoV2() {
+            DiscoveryRequest.Builder responseNonce = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DiscoveryRequest.newBuilder().setVersionInfo(this.versionInfo).setNode(this.node.toEnvoyProtoNodeV2()).addAllResourceNames(this.resourceNames).setTypeUrl(this.resourceType.typeUrlV2()).setResponseNonce(this.responseNonce);
+            com.google.rpc.Status status = this.errorDetail;
+            if (status != null) {
+                responseNonce.setErrorDetail(status);
+            }
+            return responseNonce.m12547build();
+        }
+    }
+
+    private static final class DiscoveryResponseData {
+        private final String nonce;
+        private final ResourceType resourceType;
+        private final List<Any> resources;
+        private final String versionInfo;
+
+        String getNonce() {
+            return this.nonce;
+        }
+
+        ResourceType getResourceType() {
+            return this.resourceType;
+        }
+
+        List<Any> getResourcesList() {
+            return this.resources;
+        }
+
+        String getVersionInfo() {
+            return this.versionInfo;
+        }
+
+        DiscoveryResponseData(ResourceType resourceType, List<Any> list, String str, String str2) {
+            this.resourceType = resourceType;
+            this.resources = list;
+            this.versionInfo = str;
+            this.nonce = str2;
+        }
+
+        static DiscoveryResponseData fromEnvoyProto(DiscoveryResponse discoveryResponse) {
+            return new DiscoveryResponseData(ResourceType.fromTypeUrl(discoveryResponse.getTypeUrl()), discoveryResponse.getResourcesList(), discoveryResponse.getVersionInfo(), discoveryResponse.getNonce());
+        }
+
+        static DiscoveryResponseData fromEnvoyProtoV2(io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DiscoveryResponse discoveryResponse) {
+            return new DiscoveryResponseData(ResourceType.fromTypeUrl(discoveryResponse.getTypeUrl()), discoveryResponse.getResourcesList(), discoveryResponse.getVersionInfo(), discoveryResponse.getNonce());
+        }
+    }
+
+    private abstract class AbstractAdsStream {
+        private String cdsRespNonce;
+        private String cdsVersion;
+        private boolean closed;
+        private String edsRespNonce;
+        private String edsVersion;
+        private String ldsRespNonce;
+        private String ldsVersion;
+
+        @Nullable
+        private String rdsResourceName;
+        private String rdsRespNonce;
+        private String rdsVersion;
+        private boolean responseReceived;
+
+        abstract void sendDiscoveryRequest(DiscoveryRequestData discoveryRequestData);
+
+        abstract void sendError(Exception exc);
+
+        abstract void start();
+
+        private AbstractAdsStream() {
+            this.ldsVersion = "";
+            this.rdsVersion = "";
+            this.cdsVersion = "";
+            this.edsVersion = "";
+            this.ldsRespNonce = "";
+            this.rdsRespNonce = "";
+            this.cdsRespNonce = "";
+            this.edsRespNonce = "";
+        }
+
+        /* synthetic */ AbstractAdsStream(XdsClientImpl xdsClientImpl, AnonymousClass1 anonymousClass1) {
+            this();
+        }
+
+        final void onDiscoveryResponse(final DiscoveryResponseData discoveryResponseData) {
+            XdsClientImpl.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.XdsClientImpl.AbstractAdsStream.1
+                @Override // java.lang.Runnable
+                public void run() throws InvalidProtoDataException {
+                    if (AbstractAdsStream.this.closed) {
+                        return;
+                    }
+                    AbstractAdsStream.this.responseReceived = true;
+                    String nonce = discoveryResponseData.getNonce();
+                    ResourceType resourceType = discoveryResponseData.getResourceType();
+                    int i = AnonymousClass1.$SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[resourceType.ordinal()];
+                    if (i == 1) {
+                        AbstractAdsStream.this.ldsRespNonce = nonce;
+                        XdsClientImpl.this.handleLdsResponse(discoveryResponseData);
+                        return;
+                    }
+                    if (i == 2) {
+                        AbstractAdsStream.this.rdsRespNonce = nonce;
+                        XdsClientImpl.this.handleRdsResponse(discoveryResponseData);
+                        return;
+                    }
+                    if (i == 3) {
+                        AbstractAdsStream.this.cdsRespNonce = nonce;
+                        XdsClientImpl.this.handleCdsResponse(discoveryResponseData);
+                    } else if (i == 4) {
+                        AbstractAdsStream.this.edsRespNonce = nonce;
+                        XdsClientImpl.this.handleEdsResponse(discoveryResponseData);
+                    } else if (i == 5) {
+                        XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Received an unknown type of DiscoveryResponse\n{0}", nonce);
+                    } else {
+                        throw new AssertionError("Missing case in enum switch: " + resourceType);
+                    }
+                }
+            });
+        }
+
+        final void onError(final Throwable th) {
+            XdsClientImpl.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.XdsClientImpl.AbstractAdsStream.2
+                @Override // java.lang.Runnable
+                public void run() {
+                    AbstractAdsStream.this.handleStreamClosed(Status.fromThrowable(th));
+                }
+            });
+        }
+
+        final void onCompleted() {
+            XdsClientImpl.this.syncContext.execute(new Runnable() { // from class: io.grpc.xds.XdsClientImpl.AbstractAdsStream.3
+                @Override // java.lang.Runnable
+                public void run() {
+                    AbstractAdsStream.this.handleStreamClosed(Status.UNAVAILABLE.withDescription("Closed by server"));
+                }
+            });
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void handleStreamClosed(Status status) {
+            Preconditions.checkArgument(!status.isOk(), "unexpected OK status");
+            if (this.closed) {
+                return;
+            }
+            XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.ERROR, "ADS stream closed with status {0}: {1}. Cause: {2}", status.getCode(), status.getDescription(), status.getCause());
+            this.closed = true;
+            if (XdsClientImpl.this.configWatcher != null) {
+                XdsClientImpl.this.configWatcher.onError(status);
+            }
+            if (XdsClientImpl.this.listenerWatcher != null) {
+                XdsClientImpl.this.listenerWatcher.onError(status);
+            }
+            Iterator it2 = XdsClientImpl.this.clusterWatchers.values().iterator();
+            while (it2.hasNext()) {
+                Iterator it3 = ((Set) it2.next()).iterator();
+                while (it3.hasNext()) {
+                    ((XdsClient.ClusterWatcher) it3.next()).onError(status);
+                }
+            }
+            Iterator it4 = XdsClientImpl.this.endpointWatchers.values().iterator();
+            while (it4.hasNext()) {
+                Iterator it5 = ((Set) it4.next()).iterator();
+                while (it5.hasNext()) {
+                    ((XdsClient.EndpointWatcher) it5.next()).onError(status);
+                }
+            }
+            cleanUp();
+            XdsClientImpl.this.cleanUpResources();
+            if (this.responseReceived || XdsClientImpl.this.retryBackoffPolicy == null) {
+                XdsClientImpl xdsClientImpl = XdsClientImpl.this;
+                xdsClientImpl.retryBackoffPolicy = xdsClientImpl.backoffPolicyProvider.get();
+            }
+            long jMax = this.responseReceived ? 0L : Math.max(0L, XdsClientImpl.this.retryBackoffPolicy.nextBackoffNanos() - XdsClientImpl.this.adsStreamRetryStopwatch.elapsed(TimeUnit.NANOSECONDS));
+            XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Retry ADS stream in {0} ns", Long.valueOf(jMax));
+            XdsClientImpl xdsClientImpl2 = XdsClientImpl.this;
+            xdsClientImpl2.rpcRetryTimer = xdsClientImpl2.syncContext.schedule(XdsClientImpl.this.new RpcRetryTask(), jMax, TimeUnit.NANOSECONDS, XdsClientImpl.this.timeService);
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void close(Exception exc) {
+            if (this.closed) {
+                return;
+            }
+            this.closed = true;
+            cleanUp();
+            sendError(exc);
+        }
+
+        private void cleanUp() {
+            if (XdsClientImpl.this.adsStream == this) {
+                XdsClientImpl.this.adsStream = null;
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void sendXdsRequest(ResourceType resourceType, Collection<String> collection) {
+            String str;
+            String str2;
+            int i = AnonymousClass1.$SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[resourceType.ordinal()];
+            if (i == 1) {
+                str = this.ldsVersion;
+                str2 = this.ldsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Sending LDS request for resources: {0}", collection);
+            } else if (i == 2) {
+                Preconditions.checkArgument(collection.size() == 1, "RDS request requesting for more than one resource");
+                str = this.rdsVersion;
+                str2 = this.rdsRespNonce;
+                this.rdsResourceName = collection.iterator().next();
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Sending RDS request for resources: {0}", collection);
+            } else if (i == 3) {
+                str = this.cdsVersion;
+                str2 = this.cdsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Sending CDS request for resources: {0}", collection);
+            } else if (i == 4) {
+                str = this.edsVersion;
+                str2 = this.edsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Sending EDS request for resources: {0}", collection);
+            } else {
+                throw new AssertionError("Unknown or missing case in enum switch: " + resourceType);
+            }
+            sendDiscoveryRequest(new DiscoveryRequestData(resourceType, collection, str, str2, XdsClientImpl.this.node, null));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void sendAckRequest(ResourceType resourceType, Collection<String> collection, String str) {
+            String str2;
+            int i = AnonymousClass1.$SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[resourceType.ordinal()];
+            if (i == 1) {
+                this.ldsVersion = str;
+                str2 = this.ldsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Sending ACK for LDS update, version: {0}", str);
+            } else if (i == 2) {
+                this.rdsVersion = str;
+                str2 = this.rdsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Sending ACK for RDS update, version: {0}", str);
+            } else if (i == 3) {
+                this.cdsVersion = str;
+                str2 = this.cdsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Sending ACK for CDS update, version: {0}", str);
+            } else if (i == 4) {
+                this.edsVersion = str;
+                str2 = this.edsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Sending ACK for EDS update, version: {0}", str);
+            } else {
+                throw new AssertionError("Unknown or missing case in enum switch: " + resourceType);
+            }
+            sendDiscoveryRequest(new DiscoveryRequestData(resourceType, collection, str, str2, XdsClientImpl.this.node, null));
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void sendNackRequest(ResourceType resourceType, Collection<String> collection, String str, String str2) {
+            String str3;
+            String str4;
+            int i = AnonymousClass1.$SwitchMap$io$grpc$xds$XdsClientImpl$ResourceType[resourceType.ordinal()];
+            if (i == 1) {
+                str3 = this.ldsVersion;
+                str4 = this.ldsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Sending NACK for LDS update, version: {0}, reason: {1}", str, str2);
+            } else if (i == 2) {
+                str3 = this.rdsVersion;
+                str4 = this.rdsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Sending NACK for RDS update, version: {0}, reason: {1}", str, str2);
+            } else if (i == 3) {
+                str3 = this.cdsVersion;
+                str4 = this.cdsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Sending NACK for CDS update, version: {0}, reason: {1}", str, str2);
+            } else if (i == 4) {
+                str3 = this.edsVersion;
+                String str5 = this.edsRespNonce;
+                XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Sending NACK for EDS update, version: {0}, reason: {1}", str, str2);
+                str4 = str5;
+            } else {
+                throw new AssertionError("Unknown or missing case in enum switch: " + resourceType);
+            }
+            sendDiscoveryRequest(new DiscoveryRequestData(resourceType, collection, str3, str4, XdsClientImpl.this.node, com.google.rpc.Status.newBuilder().setCode(3).setMessage(str2).m4002build()));
+        }
+    }
+
+    private final class AdsStreamV2 extends AbstractAdsStream {
+        private StreamObserver<io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DiscoveryRequest> requestWriterV2;
+        private final AggregatedDiscoveryServiceGrpc.AggregatedDiscoveryServiceStub stubV2;
+
+        AdsStreamV2() {
+            super(XdsClientImpl.this, null);
+            this.stubV2 = AggregatedDiscoveryServiceGrpc.newStub(XdsClientImpl.this.xdsChannel.getManagedChannel());
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override // io.grpc.xds.XdsClientImpl.AbstractAdsStream
+        void start() {
+            this.requestWriterV2 = ((AggregatedDiscoveryServiceGrpc.AggregatedDiscoveryServiceStub) this.stubV2.withWaitForReady()).streamAggregatedResources(new StreamObserver<io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DiscoveryResponse>() { // from class: io.grpc.xds.XdsClientImpl.AdsStreamV2.1
+                @Override // io.grpc.stub.StreamObserver
+                public void onNext(io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DiscoveryResponse discoveryResponse) {
+                    DiscoveryResponseData discoveryResponseDataFromEnvoyProtoV2 = DiscoveryResponseData.fromEnvoyProtoV2(discoveryResponse);
+                    if (XdsClientImpl.this.logger.isLoggable(XdsLogger.XdsLogLevel.DEBUG)) {
+                        XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Received {0} response:\n{1}", discoveryResponseDataFromEnvoyProtoV2.getResourceType(), XdsClientImpl.this.respPrinter.print(discoveryResponse));
+                    }
+                    AdsStreamV2.this.onDiscoveryResponse(discoveryResponseDataFromEnvoyProtoV2);
+                }
+
+                @Override // io.grpc.stub.StreamObserver
+                public void onError(Throwable th) {
+                    AdsStreamV2.this.onError(th);
+                }
+
+                @Override // io.grpc.stub.StreamObserver
+                public void onCompleted() {
+                    AdsStreamV2.this.onCompleted();
+                }
+            });
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.AbstractAdsStream
+        void sendDiscoveryRequest(DiscoveryRequestData discoveryRequestData) {
+            Preconditions.checkState(this.requestWriterV2 != null, "ADS stream has not been started");
+            io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.DiscoveryRequest envoyProtoV2 = discoveryRequestData.toEnvoyProtoV2();
+            this.requestWriterV2.onNext(envoyProtoV2);
+            XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Sent DiscoveryRequest\n{0}", envoyProtoV2);
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.AbstractAdsStream
+        void sendError(Exception exc) {
+            this.requestWriterV2.onError(exc);
+        }
+    }
+
+    private final class AdsStream extends AbstractAdsStream {
+        private StreamObserver<io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3.DiscoveryRequest> requestWriter;
+        private final AggregatedDiscoveryServiceGrpc.AggregatedDiscoveryServiceStub stub;
+
+        AdsStream() {
+            super(XdsClientImpl.this, null);
+            this.stub = io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3.AggregatedDiscoveryServiceGrpc.newStub(XdsClientImpl.this.xdsChannel.getManagedChannel());
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override // io.grpc.xds.XdsClientImpl.AbstractAdsStream
+        void start() {
+            this.requestWriter = ((AggregatedDiscoveryServiceGrpc.AggregatedDiscoveryServiceStub) this.stub.withWaitForReady()).streamAggregatedResources(new StreamObserver<DiscoveryResponse>() { // from class: io.grpc.xds.XdsClientImpl.AdsStream.1
+                @Override // io.grpc.stub.StreamObserver
+                public void onNext(DiscoveryResponse discoveryResponse) {
+                    DiscoveryResponseData discoveryResponseDataFromEnvoyProto = DiscoveryResponseData.fromEnvoyProto(discoveryResponse);
+                    if (XdsClientImpl.this.logger.isLoggable(XdsLogger.XdsLogLevel.DEBUG)) {
+                        XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Received {0} response:\n{1}", discoveryResponseDataFromEnvoyProto.getResourceType(), XdsClientImpl.this.respPrinter.print(discoveryResponse));
+                    }
+                    AdsStream.this.onDiscoveryResponse(discoveryResponseDataFromEnvoyProto);
+                }
+
+                @Override // io.grpc.stub.StreamObserver
+                public void onError(Throwable th) {
+                    AdsStream.this.onError(th);
+                }
+
+                @Override // io.grpc.stub.StreamObserver
+                public void onCompleted() {
+                    AdsStream.this.onCompleted();
+                }
+            });
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.AbstractAdsStream
+        void sendDiscoveryRequest(DiscoveryRequestData discoveryRequestData) {
+            Preconditions.checkState(this.requestWriter != null, "ADS stream has not been started");
+            io.grpc.xds.shaded.io.envoyproxy.envoy.service.discovery.v3.DiscoveryRequest envoyProto = discoveryRequestData.toEnvoyProto();
+            this.requestWriter.onNext(envoyProto);
+            XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Sent DiscoveryRequest\n{0}", envoyProto);
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.AbstractAdsStream
+        void sendError(Exception exc) {
+            this.requestWriter.onError(exc);
+        }
+    }
+
+    private abstract class ResourceFetchTimeoutTask implements Runnable {
+        final String resourceName;
+
+        ResourceFetchTimeoutTask(String str) {
+            this.resourceName = str;
+        }
+
+        @Override // java.lang.Runnable
+        public void run() {
+            XdsClientImpl.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Did not receive resource info {0} after {1} seconds, conclude it absent", this.resourceName, 15);
+        }
+    }
+
+    final class LdsResourceFetchTimeoutTask extends ResourceFetchTimeoutTask {
+        LdsResourceFetchTimeoutTask(String str) {
+            super(str);
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.ResourceFetchTimeoutTask, java.lang.Runnable
+        public void run() {
+            super.run();
+            XdsClientImpl.this.ldsRespTimer = null;
+            XdsClientImpl.this.configWatcher.onResourceDoesNotExist(this.resourceName);
+        }
+    }
+
+    final class ListenerResourceFetchTimeoutTask extends ResourceFetchTimeoutTask {
+        ListenerResourceFetchTimeoutTask(String str) {
+            super(str);
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.ResourceFetchTimeoutTask, java.lang.Runnable
+        public void run() {
+            super.run();
+            XdsClientImpl.this.ldsRespTimer = null;
+            XdsClientImpl.this.listenerWatcher.onResourceDoesNotExist(this.resourceName);
+        }
+    }
+
+    final class RdsResourceFetchTimeoutTask extends ResourceFetchTimeoutTask {
+        RdsResourceFetchTimeoutTask(String str) {
+            super(str);
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.ResourceFetchTimeoutTask, java.lang.Runnable
+        public void run() {
+            super.run();
+            XdsClientImpl.this.rdsRespTimer = null;
+            XdsClientImpl.this.configWatcher.onResourceDoesNotExist(this.resourceName);
+        }
+    }
+
+    final class CdsResourceFetchTimeoutTask extends ResourceFetchTimeoutTask {
+        CdsResourceFetchTimeoutTask(String str) {
+            super(str);
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.ResourceFetchTimeoutTask, java.lang.Runnable
+        public void run() {
+            super.run();
+            XdsClientImpl.this.cdsRespTimers.remove(this.resourceName);
+            XdsClientImpl.this.absentCdsResources.add(this.resourceName);
+            Iterator it2 = ((Set) XdsClientImpl.this.clusterWatchers.get(this.resourceName)).iterator();
+            while (it2.hasNext()) {
+                ((XdsClient.ClusterWatcher) it2.next()).onResourceDoesNotExist(this.resourceName);
+            }
+        }
+    }
+
+    final class EdsResourceFetchTimeoutTask extends ResourceFetchTimeoutTask {
+        EdsResourceFetchTimeoutTask(String str) {
+            super(str);
+        }
+
+        @Override // io.grpc.xds.XdsClientImpl.ResourceFetchTimeoutTask, java.lang.Runnable
+        public void run() {
+            super.run();
+            XdsClientImpl.this.edsRespTimers.remove(this.resourceName);
+            XdsClientImpl.this.absentEdsResources.add(this.resourceName);
+            Iterator it2 = ((Set) XdsClientImpl.this.endpointWatchers.get(this.resourceName)).iterator();
+            while (it2.hasNext()) {
+                ((XdsClient.EndpointWatcher) it2.next()).onResourceDoesNotExist(this.resourceName);
+            }
+        }
+    }
+
+    static boolean matchHostName(String str, String str2) {
+        Preconditions.checkArgument((str.length() == 0 || str.startsWith(".") || str.endsWith(".")) ? false : true, "Invalid host name");
+        Preconditions.checkArgument((str2.length() == 0 || str2.startsWith(".") || str2.endsWith(".")) ? false : true, "Invalid pattern/domain name");
+        String lowerCase = str.toLowerCase(Locale.US);
+        String lowerCase2 = str2.toLowerCase(Locale.US);
+        if (!lowerCase2.contains("*")) {
+            return lowerCase.equals(lowerCase2);
+        }
+        if (lowerCase2.length() == 1) {
+            return true;
+        }
+        int iIndexOf = lowerCase2.indexOf(42);
+        if (lowerCase2.indexOf(42, iIndexOf + 1) != -1) {
+            return false;
+        }
+        if ((iIndexOf != 0 && iIndexOf != lowerCase2.length() - 1) || lowerCase.length() < lowerCase2.length()) {
+            return false;
+        }
+        if (iIndexOf == 0 && lowerCase.endsWith(lowerCase2.substring(1))) {
+            return true;
+        }
+        return iIndexOf == lowerCase2.length() - 1 && lowerCase.startsWith(lowerCase2.substring(0, lowerCase2.length() - 1));
+    }
+
+    static final class MessagePrinter {
+        private final JsonFormat.Printer printer = JsonFormat.printer().usingTypeRegistry(TypeRegistry.newBuilder().add(Listener.getDescriptor()).add(io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Listener.getDescriptor()).add(HttpConnectionManager.getDescriptor()).add(io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.network.http_connection_manager.v2.HttpConnectionManager.getDescriptor()).add(RouteConfiguration.getDescriptor()).add(io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteConfiguration.getDescriptor()).add(Cluster.getDescriptor()).add(io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Cluster.getDescriptor()).add(ClusterLoadAssignment.getDescriptor()).add(io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ClusterLoadAssignment.getDescriptor()).build());
+
+        MessagePrinter() {
+        }
+
+        String print(MessageOrBuilder messageOrBuilder) {
+            try {
+                return this.printer.print(messageOrBuilder);
+            } catch (InvalidProtocolBufferException e) {
+                return messageOrBuilder + " (failed to pretty-print: " + e + ")";
+            }
+        }
+    }
+
+    static final class InvalidProtoDataException extends RuntimeException {
+        private static final long serialVersionUID = 1;
+
+        /* synthetic */ InvalidProtoDataException(String str, AnonymousClass1 anonymousClass1) {
+            this(str);
+        }
+
+        private InvalidProtoDataException(String str) {
+            super(str, null, false, false);
+        }
+    }
+}

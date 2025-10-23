@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/fasterxml/jackson/core/io/OutputDecorator.java
+// Size: 463 bytes
+// Modified: 2025-10-21 16:32:03.085364300 +0100
+
+package com.fasterxml.jackson.core.io;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.Serializable;
+import java.io.Writer;
+
+/* loaded from: classes.dex */
+public abstract class OutputDecorator implements Serializable {
+    public abstract OutputStream decorate(IOContext iOContext, OutputStream outputStream) throws IOException;
+
+    public abstract Writer decorate(IOContext iOContext, Writer writer) throws IOException;
+}

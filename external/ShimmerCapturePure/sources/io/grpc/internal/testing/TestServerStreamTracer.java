@@ -1,0 +1,121 @@
+package io.grpc.internal.testing;
+
+import androidx.lifecycle.LifecycleKt$$ExternalSyntheticBackportWithForwarding0;
+import io.grpc.ServerStreamTracer;
+import io.grpc.Status;
+import io.grpc.internal.testing.TestStreamTracer;
+
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
+
+/* loaded from: classes2.dex */
+public class TestServerStreamTracer extends ServerStreamTracer implements TestStreamTracer {
+    protected final AtomicReference<ServerStreamTracer.ServerCallInfo<?, ?>> serverCallInfo = new AtomicReference<>();
+    private final TestStreamTracer.TestBaseStreamTracer delegate = new TestStreamTracer.TestBaseStreamTracer();
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public void await() throws InterruptedException {
+        this.delegate.await();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public boolean await(long j, TimeUnit timeUnit) throws InterruptedException {
+        return this.delegate.await(j, timeUnit);
+    }
+
+    public ServerStreamTracer.ServerCallInfo<?, ?> getServerCallInfo() {
+        return this.serverCallInfo.get();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public Status getStatus() {
+        return this.delegate.getStatus();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public long getInboundWireSize() {
+        return this.delegate.getInboundWireSize();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public long getInboundUncompressedSize() {
+        return this.delegate.getInboundUncompressedSize();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public long getOutboundWireSize() {
+        return this.delegate.getOutboundWireSize();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public long getOutboundUncompressedSize() {
+        return this.delegate.getOutboundUncompressedSize();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public void setFailDuplicateCallbacks(boolean z) {
+        this.delegate.setFailDuplicateCallbacks(z);
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public String nextOutboundEvent() {
+        return this.delegate.nextOutboundEvent();
+    }
+
+    @Override // io.grpc.internal.testing.TestStreamTracer
+    public String nextInboundEvent() {
+        return this.delegate.nextInboundEvent();
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void outboundWireSize(long j) {
+        this.delegate.outboundWireSize(j);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void inboundWireSize(long j) {
+        this.delegate.inboundWireSize(j);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void outboundUncompressedSize(long j) {
+        this.delegate.outboundUncompressedSize(j);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void inboundUncompressedSize(long j) {
+        this.delegate.inboundUncompressedSize(j);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void streamClosed(Status status) {
+        this.delegate.streamClosed(status);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void inboundMessage(int i) {
+        this.delegate.inboundMessage(i);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void outboundMessage(int i) {
+        this.delegate.outboundMessage(i);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void outboundMessageSent(int i, long j, long j2) {
+        this.delegate.outboundMessageSent(i, j, j2);
+    }
+
+    @Override // io.grpc.StreamTracer
+    public void inboundMessageRead(int i, long j, long j2) {
+        this.delegate.inboundMessageRead(i, j, j2);
+    }
+
+    @Override // io.grpc.ServerStreamTracer
+    public void serverCallStarted(ServerStreamTracer.ServerCallInfo<?, ?> serverCallInfo) {
+        if (!LifecycleKt$$ExternalSyntheticBackportWithForwarding0.m(this.serverCallInfo, null, serverCallInfo) && this.delegate.failDuplicateCallbacks.get()) {
+            throw new AssertionError("serverCallStarted called more than once");
+        }
+    }
+}

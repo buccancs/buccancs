@@ -1,0 +1,30 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/est/ESTServiceBuilder.java
+// Size: 699 bytes
+// Modified: 2025-10-21 16:32:09.412575000 +0100
+
+package org.bouncycastle.est;
+
+/* loaded from: classes5.dex */
+public class ESTServiceBuilder {
+    protected ESTClientProvider clientProvider;
+    protected String label;
+    protected final String server;
+
+    public ESTServiceBuilder(String str) {
+        this.server = str;
+    }
+
+    public ESTService build() {
+        return new ESTService(this.server, this.label, this.clientProvider);
+    }
+
+    public ESTServiceBuilder withClientProvider(ESTClientProvider eSTClientProvider) {
+        this.clientProvider = eSTClientProvider;
+        return this;
+    }
+
+    public ESTServiceBuilder withLabel(String str) {
+        this.label = str;
+        return this;
+    }
+}

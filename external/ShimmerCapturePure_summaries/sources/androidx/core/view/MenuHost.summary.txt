@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/view/MenuHost.java
+// Size: 518 bytes
+// Modified: 2025-10-21 16:32:04.822952400 +0100
+
+package androidx.core.view;
+
+import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.LifecycleOwner;
+
+/* loaded from: classes.dex */
+public interface MenuHost {
+    void addMenuProvider(MenuProvider menuProvider);
+
+    void addMenuProvider(MenuProvider menuProvider, LifecycleOwner lifecycleOwner);
+
+    void addMenuProvider(MenuProvider menuProvider, LifecycleOwner lifecycleOwner, Lifecycle.State state);
+
+    void invalidateMenu();
+
+    void removeMenuProvider(MenuProvider menuProvider);
+}

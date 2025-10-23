@@ -1,0 +1,79 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/optimization/LeastSquaresConverter.java
+// Size: 3598 bytes
+// Modified: 2025-10-21 16:32:07.397648700 +0100
+
+package org.apache.commons.math.optimization;
+
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.MultivariateRealFunction;
+import org.apache.commons.math.analysis.MultivariateVectorialFunction;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.linear.RealMatrix;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/optimization/LeastSquaresConverter.class */
+public class LeastSquaresConverter implements MultivariateRealFunction {
+    private final MultivariateVectorialFunction function;
+    private final double[] observations;
+    private final double[] weights;
+    private final RealMatrix scale;
+
+    public LeastSquaresConverter(MultivariateVectorialFunction function, double[] observations) {
+        this.function = function;
+        this.observations = (double[]) observations.clone();
+        this.weights = null;
+        this.scale = null;
+    }
+
+    public LeastSquaresConverter(MultivariateVectorialFunction function, double[] observations, double[] weights) throws IllegalArgumentException {
+        if (observations.length != weights.length) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, Integer.valueOf(observations.length), Integer.valueOf(weights.length));
+        }
+        this.function = function;
+        this.observations = (double[]) observations.clone();
+        this.weights = (double[]) weights.clone();
+        this.scale = null;
+    }
+
+    public LeastSquaresConverter(MultivariateVectorialFunction function, double[] observations, RealMatrix scale) throws IllegalArgumentException {
+        if (observations.length != scale.getColumnDimension()) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, Integer.valueOf(observations.length), Integer.valueOf(scale.getColumnDimension()));
+        }
+        this.function = function;
+        this.observations = (double[]) observations.clone();
+        this.weights = null;
+        this.scale = scale.copy();
+    }
+
+    @Override // org.apache.commons.math.analysis.MultivariateRealFunction
+    public double value(double[] point) throws FunctionEvaluationException, IllegalArgumentException {
+        double[] residuals = this.function.value(point);
+        if (residuals.length != this.observations.length) {
+            throw new FunctionEvaluationException(point, LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, Integer.valueOf(residuals.length), Integer.valueOf(this.observations.length));
+        }
+        for (int i = 0; i < residuals.length; i++) {
+            int i2 = i;
+            residuals[i2] = residuals[i2] - this.observations[i];
+        }
+        double sumSquares = 0.0d;
+        if (this.weights != null) {
+            for (int i3 = 0; i3 < residuals.length; i3++) {
+                double ri = residuals[i3];
+                sumSquares += this.weights[i3] * ri * ri;
+            }
+        } else if (this.scale != null) {
+            double[] arr$ = this.scale.operate(residuals);
+            for (double yi : arr$) {
+                sumSquares += yi * yi;
+            }
+        } else {
+            for (double ri2 : residuals) {
+                sumSquares += ri2 * ri2;
+            }
+        }
+        return sumSquares;
+    }
+}

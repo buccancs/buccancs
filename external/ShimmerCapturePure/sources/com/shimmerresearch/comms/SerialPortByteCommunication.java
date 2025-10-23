@@ -1,0 +1,78 @@
+package com.shimmerresearch.comms;
+
+import com.shimmerresearch.comms.serialPortInterface.AbstractSerialPortHal;
+import com.shimmerresearch.comms.serialPortInterface.ByteLevelDataCommListener;
+import com.shimmerresearch.comms.serialPortInterface.SerialPortListener;
+import com.shimmerresearch.exceptions.ShimmerException;
+import com.shimmerresearch.verisense.communication.AbstractByteCommunication;
+
+/* loaded from: classes2.dex */
+public class SerialPortByteCommunication extends AbstractByteCommunication {
+    AbstractSerialPortHal abstractSerialPortHal;
+
+    public SerialPortByteCommunication(final AbstractSerialPortHal abstractSerialPortHal) {
+        this.abstractSerialPortHal = abstractSerialPortHal;
+        abstractSerialPortHal.addByteLevelDataCommListener(new ByteLevelDataCommListener() { // from class: com.shimmerresearch.comms.SerialPortByteCommunication.1
+            @Override // com.shimmerresearch.comms.serialPortInterface.ByteLevelDataCommListener
+            public void eventDisconnected() {
+                if (SerialPortByteCommunication.this.mByteCommunicationListener != null) {
+                    SerialPortByteCommunication.this.mByteCommunicationListener.eventDisconnected();
+                }
+            }
+
+            @Override // com.shimmerresearch.comms.serialPortInterface.ByteLevelDataCommListener
+            public void eventConnected() {
+                if (SerialPortByteCommunication.this.mByteCommunicationListener != null) {
+                    SerialPortByteCommunication.this.mByteCommunicationListener.eventConnected();
+                }
+            }
+        });
+        abstractSerialPortHal.registerSerialPortRxEventCallback(new SerialPortListener() { // from class: com.shimmerresearch.comms.SerialPortByteCommunication.2
+            @Override // com.shimmerresearch.comms.serialPortInterface.SerialPortListener
+            public void serialPortRxEvent(int i) {
+                try {
+                    SerialPortByteCommunication.this.mByteCommunicationListener.eventNewBytesReceived(abstractSerialPortHal.rxBytes(i));
+                } catch (ShimmerException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public String getUuid() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public void connect() {
+        try {
+            this.abstractSerialPortHal.connect();
+        } catch (ShimmerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public void disconnect() {
+        try {
+            this.abstractSerialPortHal.closeSafely();
+        } catch (ShimmerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public void writeBytes(byte[] bArr) {
+        try {
+            this.abstractSerialPortHal.txBytes(bArr);
+        } catch (ShimmerException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.communication.AbstractByteCommunication
+    public void stop() {
+        disconnect();
+    }
+}

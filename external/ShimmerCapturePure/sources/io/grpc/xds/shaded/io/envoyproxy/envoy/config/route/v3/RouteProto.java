@@ -1,0 +1,56 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.WrappersProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.BaseProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ConfigSourceProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+import udpa.annotations.Versioning;
+
+/* loaded from: classes4.dex */
+public final class RouteProto {
+    static final Descriptors.Descriptor internal_static_envoy_config_route_v3_RouteConfiguration_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_route_v3_RouteConfiguration_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_config_route_v3_Vhds_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_config_route_v3_Vhds_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n!envoy/config/route/v3/route.proto\u0012\u0015envoy.config.route.v3\u001a\u001fenvoy/config/core/v3/base.proto\u001a(envoy/config/core/v3/config_source.proto\u001a,envoy/config/route/v3/route_components.proto\u001a\u001egoogle/protobuf/wrappers.proto\u001a\u001dudpa/annotations/status.proto\u001a!udpa/annotations/versioning.proto\u001a\u0017validate/validate.proto\"Ù\u0004\n\u0012RouteConfiguration\u0012\f\n\u0004name\u0018\u0001 \u0001(\t\u00129\n\rvirtual_hosts\u0018\u0002 \u0003(\u000b2\".envoy.config.route.v3.VirtualHost\u0012)\n\u0004vhds\u0018\t \u0001(\u000b2\u001b.envoy.config.route.v3.Vhds\u0012/\n\u0015internal_only_headers\u0018\u0003 \u0003(\tB\u0010úB\r\u0092\u0001\n\"\br\u0006À\u0001\u0001È\u0001\u0000\u0012S\n\u0017response_headers_to_add\u0018\u0004 \u0003(\u000b2'.envoy.config.core.v3.HeaderValueOptionB\túB\u0006\u0092\u0001\u0003\u0010è\u0007\u00124\n\u001aresponse_headers_to_remove\u0018\u0005 \u0003(\tB\u0010úB\r\u0092\u0001\n\"\br\u0006À\u0001\u0001È\u0001\u0000\u0012R\n\u0016request_headers_to_add\u0018\u0006 \u0003(\u000b2'.envoy.config.core.v3.HeaderValueOptionB\túB\u0006\u0092\u0001\u0003\u0010è\u0007\u00123\n\u0019request_headers_to_remove\u0018\b \u0003(\tB\u0010úB\r\u0092\u0001\n\"\br\u0006À\u0001\u0001È\u0001\u0000\u0012+\n#most_specific_header_mutations_wins\u0018\n \u0001(\b\u00125\n\u0011validate_clusters\u0018\u0007 \u0001(\u000b2\u001a.google.protobuf.BoolValue:&\u009aÅ\u0088\u001e!\n\u001fenvoy.api.v2.RouteConfiguration\"e\n\u0004Vhds\u0012C\n\rconfig_source\u0018\u0001 \u0001(\u000b2\".envoy.config.core.v3.ConfigSourceB\búB\u0005\u008a\u0001\u0002\u0010\u0001:\u0018\u009aÅ\u0088\u001e\u0013\n\u0011envoy.api.v2.VhdsB;\n#io.envoyproxy.envoy.config.route.v3B\nRouteProtoP\u0001º\u0080ÈÑ\u0006\u0002\u0010\u0002b\u0006proto3"}, new Descriptors.FileDescriptor[]{BaseProto.getDescriptor(), ConfigSourceProto.getDescriptor(), RouteComponentsProto.getDescriptor(), WrappersProto.getDescriptor(), Status.getDescriptor(), Versioning.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_config_route_v3_RouteConfiguration_descriptor = descriptor2;
+        internal_static_envoy_config_route_v3_RouteConfiguration_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Name", "VirtualHosts", "Vhds", "InternalOnlyHeaders", "ResponseHeadersToAdd", "ResponseHeadersToRemove", "RequestHeadersToAdd", "RequestHeadersToRemove", "MostSpecificHeaderMutationsWins", "ValidateClusters"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_config_route_v3_Vhds_descriptor = descriptor3;
+        internal_static_envoy_config_route_v3_Vhds_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"ConfigSource"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Versioning.versioning);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        BaseProto.getDescriptor();
+        ConfigSourceProto.getDescriptor();
+        RouteComponentsProto.getDescriptor();
+        WrappersProto.getDescriptor();
+        Status.getDescriptor();
+        Versioning.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private RouteProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

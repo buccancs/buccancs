@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/lifecycle/viewmodel/savedstate/R.java
+// Size: 137 bytes
+// Modified: 2025-10-21 16:32:00.006123100 +0100
+
+package androidx.lifecycle.viewmodel.savedstate;
+
+/* loaded from: classes.dex */
+public final class R {
+    private R() {
+    }
+}

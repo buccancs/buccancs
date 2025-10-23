@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/type/ColorOrBuilder.java
+// Size: 436 bytes
+// Modified: 2025-10-21 16:32:00.181007800 +0100
+
+package com.google.type;
+
+import com.google.protobuf.FloatValue;
+import com.google.protobuf.FloatValueOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+
+/* loaded from: classes2.dex */
+public interface ColorOrBuilder extends MessageOrBuilder {
+    FloatValue getAlpha();
+
+    FloatValueOrBuilder getAlphaOrBuilder();
+
+    float getBlue();
+
+    float getGreen();
+
+    float getRed();
+
+    boolean hasAlpha();
+}

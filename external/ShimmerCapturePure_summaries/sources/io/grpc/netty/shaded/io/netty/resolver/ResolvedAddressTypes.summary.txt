@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/resolver/ResolvedAddressTypes.java
+// Size: 196 bytes
+// Modified: 2025-10-21 16:32:00.247764300 +0100
+
+package io.grpc.netty.shaded.io.netty.resolver;
+
+/* loaded from: classes3.dex */
+public enum ResolvedAddressTypes {
+    IPV4_ONLY,
+    IPV6_ONLY,
+    IPV4_PREFERRED,
+    IPV6_PREFERRED
+}

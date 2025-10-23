@@ -1,0 +1,182 @@
+package com.google.re2j;
+
+import org.apache.http.message.TokenParser;
+
+/* loaded from: classes2.dex */
+abstract class Utils {
+    static final int EMPTY_ALL = -1;
+    static final int EMPTY_BEGIN_LINE = 1;
+    static final int EMPTY_BEGIN_TEXT = 4;
+    static final int EMPTY_END_LINE = 2;
+    static final int EMPTY_END_TEXT = 8;
+    static final int[] EMPTY_INTS = new int[0];
+    static final int EMPTY_NO_WORD_BOUNDARY = 32;
+    static final int EMPTY_WORD_BOUNDARY = 16;
+    private static final String METACHARACTERS = "\\.+*?()|[]{}^$";
+
+    private Utils() {
+    }
+
+    static boolean isWordRune(int i) {
+        return (65 <= i && i <= 90) || (97 <= i && i <= 122) || ((48 <= i && i <= 57) || i == 95);
+    }
+
+    static boolean isalnum(int i) {
+        return (48 <= i && i <= 57) || (65 <= i && i <= 90) || (97 <= i && i <= 122);
+    }
+
+    static int unhex(int i) {
+        if (48 <= i && i <= 57) {
+            return i - 48;
+        }
+        if (97 <= i && i <= 102) {
+            return i - 87;
+        }
+        if (65 > i || i > 70) {
+            return -1;
+        }
+        return i - 55;
+    }
+
+    static void escapeRune(StringBuilder sb, int i) {
+        if (Unicode.isPrint(i)) {
+            if (METACHARACTERS.indexOf((char) i) >= 0) {
+                sb.append(TokenParser.ESCAPE);
+            }
+            sb.appendCodePoint(i);
+        }
+        if (i == 12) {
+            sb.append("\\f");
+            return;
+        }
+        if (i == 13) {
+            sb.append("\\r");
+            return;
+        }
+        if (i == 34) {
+            sb.append("\\\"");
+            return;
+        }
+        if (i == 92) {
+            sb.append("\\\\");
+            return;
+        }
+        switch (i) {
+            case 8:
+                sb.append("\\b");
+                break;
+            case 9:
+                sb.append("\\t");
+                break;
+            case 10:
+                sb.append("\\n");
+                break;
+            default:
+                String hexString = Integer.toHexString(i);
+                if (i < 256) {
+                    sb.append("\\x");
+                    if (hexString.length() == 1) {
+                        sb.append('0');
+                    }
+                    sb.append(hexString);
+                    break;
+                } else {
+                    sb.append("\\x{");
+                    sb.append(hexString);
+                    sb.append('}');
+                    break;
+                }
+        }
+    }
+
+    static int[] stringToRunes(String str) {
+        int length = str.length();
+        int iCharCount = 0;
+        int[] iArr = new int[str.codePointCount(0, length)];
+        int i = 0;
+        while (iCharCount < length) {
+            int iCodePointAt = str.codePointAt(iCharCount);
+            iArr[i] = iCodePointAt;
+            iCharCount += Character.charCount(iCodePointAt);
+            i++;
+        }
+        return iArr;
+    }
+
+    static String runeToString(int i) {
+        char c = (char) i;
+        if (i == c) {
+            return String.valueOf(c);
+        }
+        return new String(Character.toChars(c));
+    }
+
+    static int[] subarray(int[] iArr, int i, int i2) {
+        int[] iArr2 = new int[i2 - i];
+        for (int i3 = i; i3 < i2; i3++) {
+            iArr2[i3 - i] = iArr[i3];
+        }
+        return iArr2;
+    }
+
+    static byte[] subarray(byte[] bArr, int i, int i2) {
+        byte[] bArr2 = new byte[i2 - i];
+        for (int i3 = i; i3 < i2; i3++) {
+            bArr2[i3 - i] = bArr[i3];
+        }
+        return bArr2;
+    }
+
+    static int indexOf(byte[] bArr, byte[] bArr2, int i) {
+        if (i >= bArr.length) {
+            if (bArr2.length == 0) {
+                return bArr.length;
+            }
+            return -1;
+        }
+        if (i < 0) {
+            i = 0;
+        }
+        if (bArr2.length == 0) {
+            return i;
+        }
+        byte b = bArr2[0];
+        int length = bArr.length - bArr2.length;
+        while (i <= length) {
+            if (bArr[i] != b) {
+                do {
+                    i++;
+                    if (i > length) {
+                        break;
+                    }
+                } while (bArr[i] != b);
+            }
+            if (i <= length) {
+                int i2 = i + 1;
+                int length2 = (bArr2.length + i2) - 1;
+                for (int i3 = 1; i2 < length2 && bArr[i2] == bArr2[i3]; i3++) {
+                    i2++;
+                }
+                if (i2 == length2) {
+                    return i;
+                }
+            }
+            i++;
+        }
+        return -1;
+    }
+
+    static int emptyOpContext(int i, int i2) {
+        int i3 = i < 0 ? 5 : 0;
+        if (i == 10) {
+            i3 |= 1;
+        }
+        if (i2 < 0) {
+            i3 |= 10;
+        }
+        if (i2 == 10) {
+            i3 |= 2;
+        }
+        return isWordRune(i) != isWordRune(i2) ? i3 | 16 : i3 | 32;
+    }
+}

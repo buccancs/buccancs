@@ -1,0 +1,81 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.Http2ProtocolOptions;
+
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface Http2ProtocolOptionsOrBuilder extends MessageOrBuilder {
+    boolean getAllowConnect();
+
+    boolean getAllowMetadata();
+
+    Http2ProtocolOptions.SettingsParameter getCustomSettingsParameters(int i);
+
+    int getCustomSettingsParametersCount();
+
+    List<Http2ProtocolOptions.SettingsParameter> getCustomSettingsParametersList();
+
+    Http2ProtocolOptions.SettingsParameterOrBuilder getCustomSettingsParametersOrBuilder(int i);
+
+    List<? extends Http2ProtocolOptions.SettingsParameterOrBuilder> getCustomSettingsParametersOrBuilderList();
+
+    UInt32Value getHpackTableSize();
+
+    UInt32ValueOrBuilder getHpackTableSizeOrBuilder();
+
+    UInt32Value getInitialConnectionWindowSize();
+
+    UInt32ValueOrBuilder getInitialConnectionWindowSizeOrBuilder();
+
+    UInt32Value getInitialStreamWindowSize();
+
+    UInt32ValueOrBuilder getInitialStreamWindowSizeOrBuilder();
+
+    UInt32Value getMaxConcurrentStreams();
+
+    UInt32ValueOrBuilder getMaxConcurrentStreamsOrBuilder();
+
+    UInt32Value getMaxConsecutiveInboundFramesWithEmptyPayload();
+
+    UInt32ValueOrBuilder getMaxConsecutiveInboundFramesWithEmptyPayloadOrBuilder();
+
+    UInt32Value getMaxInboundPriorityFramesPerStream();
+
+    UInt32ValueOrBuilder getMaxInboundPriorityFramesPerStreamOrBuilder();
+
+    UInt32Value getMaxInboundWindowUpdateFramesPerDataFrameSent();
+
+    UInt32ValueOrBuilder getMaxInboundWindowUpdateFramesPerDataFrameSentOrBuilder();
+
+    UInt32Value getMaxOutboundControlFrames();
+
+    UInt32ValueOrBuilder getMaxOutboundControlFramesOrBuilder();
+
+    UInt32Value getMaxOutboundFrames();
+
+    UInt32ValueOrBuilder getMaxOutboundFramesOrBuilder();
+
+    boolean getStreamErrorOnInvalidHttpMessaging();
+
+    boolean hasHpackTableSize();
+
+    boolean hasInitialConnectionWindowSize();
+
+    boolean hasInitialStreamWindowSize();
+
+    boolean hasMaxConcurrentStreams();
+
+    boolean hasMaxConsecutiveInboundFramesWithEmptyPayload();
+
+    boolean hasMaxInboundPriorityFramesPerStream();
+
+    boolean hasMaxInboundWindowUpdateFramesPerDataFrameSent();
+
+    boolean hasMaxOutboundControlFrames();
+
+    boolean hasMaxOutboundFrames();
+}

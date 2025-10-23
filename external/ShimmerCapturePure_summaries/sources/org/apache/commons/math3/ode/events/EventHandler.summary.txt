@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/ode/events/EventHandler.java
+// Size: 445 bytes
+// Modified: 2025-10-21 16:32:00.486723400 +0100
+
+package org.apache.commons.math3.ode.events;
+
+/* loaded from: classes5.dex */
+public interface EventHandler {
+
+    public enum Action {
+        STOP,
+        RESET_STATE,
+        RESET_DERIVATIVES,
+        CONTINUE
+    }
+
+    Action eventOccurred(double d, double[] dArr, boolean z);
+
+    double g(double d, double[] dArr);
+
+    void init(double d, double[] dArr, double d2);
+
+    void resetState(double d, double[] dArr);
+}

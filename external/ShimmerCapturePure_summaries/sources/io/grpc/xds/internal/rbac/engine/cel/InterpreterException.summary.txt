@@ -1,0 +1,42 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/internal/rbac/engine/cel/InterpreterException.java
+// Size: 1042 bytes
+// Modified: 2025-10-21 16:32:02.295411500 +0100
+
+package io.grpc.xds.internal.rbac.engine.cel;
+
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+public class InterpreterException extends Exception {
+
+    public static class Builder {
+        private Throwable cause;
+
+        @Nullable
+        private String location;
+
+        @Nullable
+        private String message;
+        private int position;
+
+        public Builder(String str, Object... objArr) {
+        }
+
+        public InterpreterException build() {
+            String str;
+            Object[] objArr = new Object[2];
+            if (this.location != null) {
+                str = " at " + this.location + ":" + this.position;
+            } else {
+                str = "";
+            }
+            objArr[0] = str;
+            objArr[1] = this.message;
+            return new InterpreterException(String.format("evaluation error%s: %s", objArr), this.cause);
+        }
+    }
+
+    private InterpreterException(String str, Throwable th) {
+        super(str, th);
+    }
+}

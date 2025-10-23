@@ -1,0 +1,61 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/core/v3/ConfigSourceOrBuilder.java
+// Size: 1579 bytes
+// Modified: 2025-10-21 16:32:07.384718900 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.Authority;
+import io.grpc.xds.shaded.com.github.udpa.udpa.core.v1.AuthorityOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.ConfigSource;
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public interface ConfigSourceOrBuilder extends MessageOrBuilder {
+    AggregatedConfigSource getAds();
+
+    AggregatedConfigSourceOrBuilder getAdsOrBuilder();
+
+    ApiConfigSource getApiConfigSource();
+
+    ApiConfigSourceOrBuilder getApiConfigSourceOrBuilder();
+
+    Authority getAuthorities(int i);
+
+    int getAuthoritiesCount();
+
+    List<Authority> getAuthoritiesList();
+
+    AuthorityOrBuilder getAuthoritiesOrBuilder(int i);
+
+    List<? extends AuthorityOrBuilder> getAuthoritiesOrBuilderList();
+
+    ConfigSource.ConfigSourceSpecifierCase getConfigSourceSpecifierCase();
+
+    Duration getInitialFetchTimeout();
+
+    DurationOrBuilder getInitialFetchTimeoutOrBuilder();
+
+    String getPath();
+
+    ByteString getPathBytes();
+
+    ApiVersion getResourceApiVersion();
+
+    int getResourceApiVersionValue();
+
+    SelfConfigSource getSelf();
+
+    SelfConfigSourceOrBuilder getSelfOrBuilder();
+
+    boolean hasAds();
+
+    boolean hasApiConfigSource();
+
+    boolean hasInitialFetchTimeout();
+
+    boolean hasSelf();
+}

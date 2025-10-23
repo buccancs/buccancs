@@ -1,0 +1,437 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/RouteMatch.java
+// Size: 15383 bytes
+// Modified: 2025-10-21 16:32:05.414751000 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Joiner;
+import com.google.common.base.MoreObjects;
+import com.google.re2j.Pattern;
+import com.shimmerresearch.verisense.UtilVerisenseDriver;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.xds.ThreadSafeRandom;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class RouteMatch {
+
+    @Nullable
+    private final FractionMatcher fractionMatch;
+    private final List<HeaderMatcher> headerMatchers;
+    private final PathMatcher pathMatch;
+
+    @Nullable
+    FractionMatcher getFractionMatch() {
+        return this.fractionMatch;
+    }
+
+    PathMatcher getPathMatch() {
+        return this.pathMatch;
+    }
+
+    RouteMatch(PathMatcher pathMatcher, List<HeaderMatcher> list, @Nullable FractionMatcher fractionMatcher) {
+        this.pathMatch = pathMatcher;
+        this.fractionMatch = fractionMatcher;
+        this.headerMatchers = list;
+    }
+
+    RouteMatch(@Nullable String str, @Nullable String str2) {
+        this(new PathMatcher(str2, str, null), Collections.emptyList(), null);
+    }
+
+    boolean matches(String str, Map<String, Iterable<String>> map) {
+        if (!this.pathMatch.matches(str)) {
+            return false;
+        }
+        for (HeaderMatcher headerMatcher : this.headerMatchers) {
+            Iterable<String> iterableSingletonList = map.get(headerMatcher.getName());
+            if (headerMatcher.getName().equals("grpc-previous-rpc-attempts")) {
+                iterableSingletonList = null;
+            }
+            if (headerMatcher.getName().equals("content-type")) {
+                iterableSingletonList = Collections.singletonList(GrpcUtil.CONTENT_TYPE_GRPC);
+            }
+            if (!headerMatcher.matchesValue(iterableSingletonList)) {
+                return false;
+            }
+        }
+        FractionMatcher fractionMatcher = this.fractionMatch;
+        return fractionMatcher == null || fractionMatcher.matches();
+    }
+
+    List<HeaderMatcher> getHeaderMatchers() {
+        return Collections.unmodifiableList(this.headerMatchers);
+    }
+
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || getClass() != obj.getClass()) {
+            return false;
+        }
+        RouteMatch routeMatch = (RouteMatch) obj;
+        return Objects.equals(this.pathMatch, routeMatch.pathMatch) && Objects.equals(this.fractionMatch, routeMatch.fractionMatch) && Objects.equals(this.headerMatchers, routeMatch.headerMatchers);
+    }
+
+    public int hashCode() {
+        return Objects.hash(this.pathMatch, this.fractionMatch, this.headerMatchers);
+    }
+
+    public String toString() {
+        MoreObjects.ToStringHelper toStringHelperAdd = MoreObjects.toStringHelper(this).add("pathMatch", this.pathMatch);
+        FractionMatcher fractionMatcher = this.fractionMatch;
+        if (fractionMatcher != null) {
+            toStringHelperAdd.add("fractionMatch", fractionMatcher);
+        }
+        return toStringHelperAdd.add("headerMatchers", this.headerMatchers).toString();
+    }
+
+    static final class PathMatcher {
+
+        @Nullable
+        private final String path;
+
+        @Nullable
+        private final String prefix;
+
+        @Nullable
+        private final Pattern regEx;
+
+        @Nullable
+        String getPath() {
+            return this.path;
+        }
+
+        @Nullable
+        String getPrefix() {
+            return this.prefix;
+        }
+
+        @Nullable
+        Pattern getRegEx() {
+            return this.regEx;
+        }
+
+        PathMatcher(@Nullable String str, @Nullable String str2, @Nullable Pattern pattern) {
+            this.path = str;
+            this.prefix = str2;
+            this.regEx = pattern;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public boolean matches(String str) {
+            String str2 = this.path;
+            if (str2 != null) {
+                return str2.equals(str);
+            }
+            String str3 = this.prefix;
+            if (str3 != null) {
+                return str.startsWith(str3);
+            }
+            return this.regEx.matches(str);
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            PathMatcher pathMatcher = (PathMatcher) obj;
+            if (Objects.equals(this.path, pathMatcher.path) && Objects.equals(this.prefix, pathMatcher.prefix)) {
+                Pattern pattern = this.regEx;
+                String strPattern = pattern == null ? null : pattern.pattern();
+                Pattern pattern2 = pathMatcher.regEx;
+                if (Objects.equals(strPattern, pattern2 != null ? pattern2.pattern() : null)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            Object[] objArr = new Object[3];
+            objArr[0] = this.path;
+            objArr[1] = this.prefix;
+            Pattern pattern = this.regEx;
+            objArr[2] = pattern == null ? null : pattern.pattern();
+            return Objects.hash(objArr);
+        }
+
+        public String toString() {
+            MoreObjects.ToStringHelper stringHelper = MoreObjects.toStringHelper(this);
+            String str = this.path;
+            if (str != null) {
+                stringHelper.add("path", str);
+            }
+            String str2 = this.prefix;
+            if (str2 != null) {
+                stringHelper.add("prefix", str2);
+            }
+            Pattern pattern = this.regEx;
+            if (pattern != null) {
+                stringHelper.add("regEx", pattern.pattern());
+            }
+            return stringHelper.toString();
+        }
+    }
+
+    static final class HeaderMatcher {
+
+        @Nullable
+        private final String exactMatch;
+        private final boolean isInvertedMatch;
+        private final String name;
+
+        @Nullable
+        private final String prefixMatch;
+
+        @Nullable
+        private final Boolean presentMatch;
+
+        @Nullable
+        private final Range rangeMatch;
+
+        @Nullable
+        private final Pattern safeRegExMatch;
+
+        @Nullable
+        private final String suffixMatch;
+
+        String getExactMatch() {
+            return this.exactMatch;
+        }
+
+        String getName() {
+            return this.name;
+        }
+
+        String getPrefixMatch() {
+            return this.prefixMatch;
+        }
+
+        Boolean getPresentMatch() {
+            return this.presentMatch;
+        }
+
+        Range getRangeMatch() {
+            return this.rangeMatch;
+        }
+
+        Pattern getRegExMatch() {
+            return this.safeRegExMatch;
+        }
+
+        String getSuffixMatch() {
+            return this.suffixMatch;
+        }
+
+        boolean isInvertedMatch() {
+            return this.isInvertedMatch;
+        }
+
+        HeaderMatcher(String str, @Nullable String str2, @Nullable Pattern pattern, @Nullable Range range, @Nullable Boolean bool, @Nullable String str3, @Nullable String str4, boolean z) {
+            this.name = str;
+            this.exactMatch = str2;
+            this.safeRegExMatch = pattern;
+            this.rangeMatch = range;
+            this.presentMatch = bool;
+            this.prefixMatch = str3;
+            this.suffixMatch = str4;
+            this.isInvertedMatch = z;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public boolean matchesValue(@Nullable Iterable<String> iterable) {
+            boolean zContains;
+            Boolean bool = this.presentMatch;
+            if (bool != null) {
+                return (iterable == null) == bool.equals(Boolean.valueOf(this.isInvertedMatch));
+            }
+            if (iterable == null) {
+                return false;
+            }
+            String strJoin = Joiner.on(UtilVerisenseDriver.CSV_DELIMITER).join(iterable);
+            String str = this.exactMatch;
+            if (str != null) {
+                zContains = str.equals(strJoin);
+            } else {
+                Pattern pattern = this.safeRegExMatch;
+                if (pattern != null) {
+                    zContains = pattern.matches(strJoin);
+                } else if (this.rangeMatch != null) {
+                    try {
+                        zContains = this.rangeMatch.contains(Long.parseLong(strJoin));
+                    } catch (NumberFormatException unused) {
+                        zContains = false;
+                    }
+                } else {
+                    String str2 = this.prefixMatch;
+                    if (str2 != null) {
+                        zContains = strJoin.startsWith(str2);
+                    } else {
+                        zContains = strJoin.endsWith(this.suffixMatch);
+                    }
+                }
+            }
+            return zContains != this.isInvertedMatch;
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            HeaderMatcher headerMatcher = (HeaderMatcher) obj;
+            if (Objects.equals(this.name, headerMatcher.name) && Objects.equals(this.exactMatch, headerMatcher.exactMatch)) {
+                Pattern pattern = this.safeRegExMatch;
+                String strPattern = pattern == null ? null : pattern.pattern();
+                Pattern pattern2 = headerMatcher.safeRegExMatch;
+                if (Objects.equals(strPattern, pattern2 != null ? pattern2.pattern() : null) && Objects.equals(this.rangeMatch, headerMatcher.rangeMatch) && Objects.equals(this.presentMatch, headerMatcher.presentMatch) && Objects.equals(this.prefixMatch, headerMatcher.prefixMatch) && Objects.equals(this.suffixMatch, headerMatcher.suffixMatch) && Objects.equals(Boolean.valueOf(this.isInvertedMatch), Boolean.valueOf(headerMatcher.isInvertedMatch))) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            Object[] objArr = new Object[8];
+            objArr[0] = this.name;
+            objArr[1] = this.exactMatch;
+            Pattern pattern = this.safeRegExMatch;
+            objArr[2] = pattern == null ? null : pattern.pattern();
+            objArr[3] = this.rangeMatch;
+            objArr[4] = this.presentMatch;
+            objArr[5] = this.prefixMatch;
+            objArr[6] = this.suffixMatch;
+            objArr[7] = Boolean.valueOf(this.isInvertedMatch);
+            return Objects.hash(objArr);
+        }
+
+        public String toString() {
+            MoreObjects.ToStringHelper toStringHelperAdd = MoreObjects.toStringHelper(this).add("name", this.name);
+            String str = this.exactMatch;
+            if (str != null) {
+                toStringHelperAdd.add("exactMatch", str);
+            }
+            Pattern pattern = this.safeRegExMatch;
+            if (pattern != null) {
+                toStringHelperAdd.add("safeRegExMatch", pattern.pattern());
+            }
+            Range range = this.rangeMatch;
+            if (range != null) {
+                toStringHelperAdd.add("rangeMatch", range);
+            }
+            Boolean bool = this.presentMatch;
+            if (bool != null) {
+                toStringHelperAdd.add("presentMatch", bool);
+            }
+            String str2 = this.prefixMatch;
+            if (str2 != null) {
+                toStringHelperAdd.add("prefixMatch", str2);
+            }
+            String str3 = this.suffixMatch;
+            if (str3 != null) {
+                toStringHelperAdd.add("suffixMatch", str3);
+            }
+            return toStringHelperAdd.add("isInvertedMatch", this.isInvertedMatch).toString();
+        }
+
+        static final class Range {
+            private final long end;
+            private final long start;
+
+            boolean contains(long j) {
+                return j >= this.start && j < this.end;
+            }
+
+            long getEnd() {
+                return this.end;
+            }
+
+            long getStart() {
+                return this.start;
+            }
+
+            Range(long j, long j2) {
+                this.start = j;
+                this.end = j2;
+            }
+
+            public int hashCode() {
+                return Objects.hash(Long.valueOf(this.start), Long.valueOf(this.end));
+            }
+
+            public boolean equals(Object obj) {
+                if (this == obj) {
+                    return true;
+                }
+                if (obj == null || getClass() != obj.getClass()) {
+                    return false;
+                }
+                Range range = (Range) obj;
+                return Objects.equals(Long.valueOf(this.start), Long.valueOf(range.start)) && Objects.equals(Long.valueOf(this.end), Long.valueOf(range.end));
+            }
+
+            public String toString() {
+                return MoreObjects.toStringHelper(this).add("start", this.start).add("end", this.end).toString();
+            }
+        }
+    }
+
+    static final class FractionMatcher {
+        private final int denominator;
+        private final int numerator;
+        private final ThreadSafeRandom rand;
+
+        int getDenominator() {
+            return this.denominator;
+        }
+
+        int getNumerator() {
+            return this.numerator;
+        }
+
+        FractionMatcher(int i, int i2) {
+            this(i, i2, ThreadSafeRandom.ThreadSafeRandomImpl.instance);
+        }
+
+        FractionMatcher(int i, int i2, ThreadSafeRandom threadSafeRandom) {
+            this.numerator = i;
+            this.denominator = i2;
+            this.rand = threadSafeRandom;
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public boolean matches() {
+            return this.rand.nextInt(this.denominator) < this.numerator;
+        }
+
+        public int hashCode() {
+            return Objects.hash(Integer.valueOf(this.numerator), Integer.valueOf(this.denominator));
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj == null || getClass() != obj.getClass()) {
+                return false;
+            }
+            FractionMatcher fractionMatcher = (FractionMatcher) obj;
+            return Objects.equals(Integer.valueOf(this.numerator), Integer.valueOf(fractionMatcher.numerator)) && Objects.equals(Integer.valueOf(this.denominator), Integer.valueOf(fractionMatcher.denominator));
+        }
+
+        public String toString() {
+            return MoreObjects.toStringHelper(this).add("numerator", this.numerator).add("denominator", this.denominator).toString();
+        }
+    }
+}

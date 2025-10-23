@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/profileinstaller/WritableFileSection.java
+// Size: 488 bytes
+// Modified: 2025-10-21 16:32:00.777813700 +0100
+
+package androidx.profileinstaller;
+
+/* loaded from: classes.dex */
+class WritableFileSection {
+    final byte[] mContents;
+    final int mExpectedInflateSize;
+    final boolean mNeedsCompression;
+    final FileSectionType mType;
+
+    WritableFileSection(FileSectionType fileSectionType, int i, byte[] bArr, boolean z) {
+        this.mType = fileSectionType;
+        this.mExpectedInflateSize = i;
+        this.mContents = bArr;
+        this.mNeedsCompression = z;
+    }
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/params/CCMParameters.java
+// Size: 274 bytes
+// Modified: 2025-10-21 16:32:03.831622400 +0100
+
+package org.bouncycastle.crypto.params;
+
+/* loaded from: classes5.dex */
+public class CCMParameters extends AEADParameters {
+    public CCMParameters(KeyParameter keyParameter, int i, byte[] bArr, byte[] bArr2) {
+        super(keyParameter, i, bArr, bArr2);
+    }
+}

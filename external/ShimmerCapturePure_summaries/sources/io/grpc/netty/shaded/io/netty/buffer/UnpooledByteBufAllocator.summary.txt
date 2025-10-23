@@ -1,0 +1,219 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/buffer/UnpooledByteBufAllocator.java
+// Size: 10176 bytes
+// Modified: 2025-10-21 16:32:13.017901200 +0100
+
+package io.grpc.netty.shaded.io.netty.buffer;
+
+import io.grpc.netty.shaded.io.netty.util.internal.LongCounter;
+import io.grpc.netty.shaded.io.netty.util.internal.PlatformDependent;
+import io.grpc.netty.shaded.io.netty.util.internal.StringUtil;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class UnpooledByteBufAllocator extends AbstractByteBufAllocator implements ByteBufAllocatorMetricProvider {
+    public static final UnpooledByteBufAllocator DEFAULT = new UnpooledByteBufAllocator(PlatformDependent.directBufferPreferred());
+    private final boolean disableLeakDetector;
+    private final UnpooledByteBufAllocatorMetric metric;
+    private final boolean noCleaner;
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator
+    public boolean isDirectBufferPooled() {
+        return false;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocatorMetricProvider
+    public ByteBufAllocatorMetric metric() {
+        return this.metric;
+    }
+
+    public UnpooledByteBufAllocator(boolean z) {
+        this(z, false);
+    }
+
+    public UnpooledByteBufAllocator(boolean z, boolean z2) {
+        this(z, z2, PlatformDependent.useDirectBufferNoCleaner());
+    }
+
+    public UnpooledByteBufAllocator(boolean z, boolean z2, boolean z3) {
+        super(z);
+        this.metric = new UnpooledByteBufAllocatorMetric();
+        this.disableLeakDetector = z2;
+        this.noCleaner = z3 && PlatformDependent.hasUnsafe() && PlatformDependent.hasDirectBufferNoCleanerConstructor();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.AbstractByteBufAllocator
+    protected ByteBuf newHeapBuffer(int i, int i2) {
+        return PlatformDependent.hasUnsafe() ? new InstrumentedUnpooledUnsafeHeapByteBuf(this, i, i2) : new InstrumentedUnpooledHeapByteBuf(this, i, i2);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.AbstractByteBufAllocator
+    protected ByteBuf newDirectBuffer(int i, int i2) {
+        ByteBuf instrumentedUnpooledDirectByteBuf;
+        if (PlatformDependent.hasUnsafe()) {
+            instrumentedUnpooledDirectByteBuf = this.noCleaner ? new InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf(this, i, i2) : new InstrumentedUnpooledUnsafeDirectByteBuf(this, i, i2);
+        } else {
+            instrumentedUnpooledDirectByteBuf = new InstrumentedUnpooledDirectByteBuf(this, i, i2);
+        }
+        return this.disableLeakDetector ? instrumentedUnpooledDirectByteBuf : toLeakAwareBuffer(instrumentedUnpooledDirectByteBuf);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.AbstractByteBufAllocator, io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator
+    public CompositeByteBuf compositeHeapBuffer(int i) {
+        CompositeByteBuf compositeByteBuf = new CompositeByteBuf(this, false, i);
+        return this.disableLeakDetector ? compositeByteBuf : toLeakAwareBuffer(compositeByteBuf);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.buffer.AbstractByteBufAllocator, io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator
+    public CompositeByteBuf compositeDirectBuffer(int i) {
+        CompositeByteBuf compositeByteBuf = new CompositeByteBuf(this, true, i);
+        return this.disableLeakDetector ? compositeByteBuf : toLeakAwareBuffer(compositeByteBuf);
+    }
+
+    void incrementDirect(int i) {
+        this.metric.directCounter.add(i);
+    }
+
+    void decrementDirect(int i) {
+        this.metric.directCounter.add(-i);
+    }
+
+    void incrementHeap(int i) {
+        this.metric.heapCounter.add(i);
+    }
+
+    void decrementHeap(int i) {
+        this.metric.heapCounter.add(-i);
+    }
+
+    private static final class InstrumentedUnpooledUnsafeHeapByteBuf extends UnpooledUnsafeHeapByteBuf {
+        InstrumentedUnpooledUnsafeHeapByteBuf(UnpooledByteBufAllocator unpooledByteBufAllocator, int i, int i2) {
+            super(unpooledByteBufAllocator, i, i2);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledUnsafeHeapByteBuf, io.grpc.netty.shaded.io.netty.buffer.UnpooledHeapByteBuf
+        protected byte[] allocateArray(int i) {
+            byte[] bArrAllocateArray = super.allocateArray(i);
+            ((UnpooledByteBufAllocator) alloc()).incrementHeap(bArrAllocateArray.length);
+            return bArrAllocateArray;
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledHeapByteBuf
+        protected void freeArray(byte[] bArr) {
+            int length = bArr.length;
+            super.freeArray(bArr);
+            ((UnpooledByteBufAllocator) alloc()).decrementHeap(length);
+        }
+    }
+
+    private static final class InstrumentedUnpooledHeapByteBuf extends UnpooledHeapByteBuf {
+        InstrumentedUnpooledHeapByteBuf(UnpooledByteBufAllocator unpooledByteBufAllocator, int i, int i2) {
+            super(unpooledByteBufAllocator, i, i2);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledHeapByteBuf
+        protected byte[] allocateArray(int i) {
+            byte[] bArrAllocateArray = super.allocateArray(i);
+            ((UnpooledByteBufAllocator) alloc()).incrementHeap(bArrAllocateArray.length);
+            return bArrAllocateArray;
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledHeapByteBuf
+        protected void freeArray(byte[] bArr) {
+            int length = bArr.length;
+            super.freeArray(bArr);
+            ((UnpooledByteBufAllocator) alloc()).decrementHeap(length);
+        }
+    }
+
+    private static final class InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf extends UnpooledUnsafeNoCleanerDirectByteBuf {
+        InstrumentedUnpooledUnsafeNoCleanerDirectByteBuf(UnpooledByteBufAllocator unpooledByteBufAllocator, int i, int i2) {
+            super(unpooledByteBufAllocator, i, i2);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledUnsafeNoCleanerDirectByteBuf, io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf
+        protected ByteBuffer allocateDirect(int i) {
+            ByteBuffer byteBufferAllocateDirect = super.allocateDirect(i);
+            ((UnpooledByteBufAllocator) alloc()).incrementDirect(byteBufferAllocateDirect.capacity());
+            return byteBufferAllocateDirect;
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledUnsafeNoCleanerDirectByteBuf
+        ByteBuffer reallocateDirect(ByteBuffer byteBuffer, int i) {
+            int iCapacity = byteBuffer.capacity();
+            ByteBuffer byteBufferReallocateDirect = super.reallocateDirect(byteBuffer, i);
+            ((UnpooledByteBufAllocator) alloc()).incrementDirect(byteBufferReallocateDirect.capacity() - iCapacity);
+            return byteBufferReallocateDirect;
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledUnsafeNoCleanerDirectByteBuf, io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf
+        protected void freeDirect(ByteBuffer byteBuffer) {
+            int iCapacity = byteBuffer.capacity();
+            super.freeDirect(byteBuffer);
+            ((UnpooledByteBufAllocator) alloc()).decrementDirect(iCapacity);
+        }
+    }
+
+    private static final class InstrumentedUnpooledUnsafeDirectByteBuf extends UnpooledUnsafeDirectByteBuf {
+        InstrumentedUnpooledUnsafeDirectByteBuf(UnpooledByteBufAllocator unpooledByteBufAllocator, int i, int i2) {
+            super(unpooledByteBufAllocator, i, i2);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf
+        protected ByteBuffer allocateDirect(int i) {
+            ByteBuffer byteBufferAllocateDirect = super.allocateDirect(i);
+            ((UnpooledByteBufAllocator) alloc()).incrementDirect(byteBufferAllocateDirect.capacity());
+            return byteBufferAllocateDirect;
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf
+        protected void freeDirect(ByteBuffer byteBuffer) {
+            int iCapacity = byteBuffer.capacity();
+            super.freeDirect(byteBuffer);
+            ((UnpooledByteBufAllocator) alloc()).decrementDirect(iCapacity);
+        }
+    }
+
+    private static final class InstrumentedUnpooledDirectByteBuf extends UnpooledDirectByteBuf {
+        InstrumentedUnpooledDirectByteBuf(UnpooledByteBufAllocator unpooledByteBufAllocator, int i, int i2) {
+            super(unpooledByteBufAllocator, i, i2);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf
+        protected ByteBuffer allocateDirect(int i) {
+            ByteBuffer byteBufferAllocateDirect = super.allocateDirect(i);
+            ((UnpooledByteBufAllocator) alloc()).incrementDirect(byteBufferAllocateDirect.capacity());
+            return byteBufferAllocateDirect;
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.UnpooledDirectByteBuf
+        protected void freeDirect(ByteBuffer byteBuffer) {
+            int iCapacity = byteBuffer.capacity();
+            super.freeDirect(byteBuffer);
+            ((UnpooledByteBufAllocator) alloc()).decrementDirect(iCapacity);
+        }
+    }
+
+    private static final class UnpooledByteBufAllocatorMetric implements ByteBufAllocatorMetric {
+        final LongCounter directCounter;
+        final LongCounter heapCounter;
+
+        private UnpooledByteBufAllocatorMetric() {
+            this.directCounter = PlatformDependent.newLongCounter();
+            this.heapCounter = PlatformDependent.newLongCounter();
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocatorMetric
+        public long usedHeapMemory() {
+            return this.heapCounter.value();
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocatorMetric
+        public long usedDirectMemory() {
+            return this.directCounter.value();
+        }
+
+        public String toString() {
+            return StringUtil.simpleClassName(this) + "(usedHeapMemory: " + usedHeapMemory() + "; usedDirectMemory: " + usedDirectMemory() + ')';
+        }
+    }
+}

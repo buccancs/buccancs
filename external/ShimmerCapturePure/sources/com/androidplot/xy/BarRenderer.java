@@ -1,0 +1,116 @@
+package com.androidplot.xy;
+
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.RectF;
+import androidx.core.internal.view.SupportMenu;
+import com.androidplot.exception.PlotRenderException;
+import com.androidplot.series.Series;
+import com.androidplot.series.XYSeries;
+import com.androidplot.util.ValPixConverter;
+
+import java.util.Iterator;
+import java.util.Map;
+import java.util.TreeMap;
+
+/* loaded from: classes.dex */
+public class BarRenderer extends XYSeriesRenderer<BarFormatter> {
+    private BarWidthStyle a;
+    private float b;
+
+    public BarRenderer(XYPlot xYPlot) {
+        super(xYPlot);
+        this.a = BarWidthStyle.FIXED_WIDTH;
+        this.b = 5.0f;
+    }
+
+    public void setBarWidth(float f) {
+        this.b = f;
+    }
+
+    @Override // com.androidplot.ui.DataRenderer
+    public void onRender(Canvas canvas, RectF rectF) throws PlotRenderException {
+        Iterator<XYSeries> it2 = getPlot().getSeriesListForRenderer(getClass()).iterator();
+        int i = 0;
+        while (it2.hasNext()) {
+            int size = it2.next().size();
+            if (size > i) {
+                i = size;
+            }
+        }
+        if (i == 0) {
+            return;
+        }
+        TreeMap<Number, XYSeries> treeMap = new TreeMap<>();
+        for (int i2 = 0; i2 < i; i2++) {
+            treeMap.clear();
+            for (XYSeries xYSeries : getPlot().getSeriesListForRenderer(getClass())) {
+                if (i2 < xYSeries.size()) {
+                    treeMap.put(xYSeries.getY(i2), xYSeries);
+                }
+            }
+            a(canvas, rectF, treeMap, i2);
+        }
+    }
+
+    @Override // com.androidplot.ui.DataRenderer
+    public void doDrawLegendIcon(Canvas canvas, RectF rectF, BarFormatter barFormatter) {
+        canvas.drawRect(rectF, barFormatter.getFillPaint());
+        canvas.drawRect(rectF, barFormatter.getBorderPaint());
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    private void a(Canvas canvas, RectF rectF, TreeMap<Number, XYSeries> treeMap, int i) {
+        Number y;
+        Number x;
+        new Paint().setColor(SupportMenu.CATEGORY_MASK);
+        Object[] array = treeMap.entrySet().toArray();
+        for (int length = array.length - 1; length >= 0; length--) {
+            Map.Entry entry = (Map.Entry) array[length];
+            BarFormatter barFormatter = (BarFormatter) getFormatter((Series) entry.getValue());
+            if (entry.getValue() != null) {
+                y = ((XYSeries) entry.getValue()).getY(i);
+                x = ((XYSeries) entry.getValue()).getX(i);
+            } else {
+                y = null;
+                x = null;
+            }
+            if (y != null && x != null) {
+                if (a.a[this.a.ordinal()] == 1) {
+                    float f = this.b / 2.0f;
+                    float fValToPix = ValPixConverter.valToPix(x.doubleValue(), getPlot().getCalculatedMinX().doubleValue(), getPlot().getCalculatedMaxX().doubleValue(), rectF.width(), false) + rectF.left;
+                    float fValToPix2 = ValPixConverter.valToPix(y.doubleValue(), getPlot().getCalculatedMinY().doubleValue(), getPlot().getCalculatedMaxY().doubleValue(), rectF.height(), true) + rectF.top;
+                    float f2 = fValToPix - f;
+                    float f3 = fValToPix + f;
+                    canvas.drawRect(f2, fValToPix2, f3, rectF.bottom, barFormatter.getFillPaint());
+                    canvas.drawRect(f2, fValToPix2, f3, rectF.bottom, barFormatter.getBorderPaint());
+                } else {
+                    throw new UnsupportedOperationException("Not yet implemented.");
+                }
+            }
+        }
+    }
+
+    public enum BarRenderStyle {
+        STACKED,
+        SIDE_BY_SIDE
+    }
+
+    public enum BarWidthStyle {
+        FIXED_WIDTH,
+        FIXED_SPACING
+    }
+
+    static /* synthetic */ class a {
+        static final /* synthetic */ int[] a;
+
+        static {
+            int[] iArr = new int[BarWidthStyle.values().length];
+            a = iArr;
+            try {
+                iArr[BarWidthStyle.FIXED_WIDTH.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+        }
+    }
+}

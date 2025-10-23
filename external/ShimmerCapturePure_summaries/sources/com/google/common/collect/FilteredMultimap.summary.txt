@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/FilteredMultimap.java
+// Size: 293 bytes
+// Modified: 2025-10-21 16:32:03.668729400 +0100
+
+package com.google.common.collect;
+
+import com.google.common.base.Predicate;
+import java.util.Map;
+
+/* loaded from: classes.dex */
+interface FilteredMultimap<K, V> extends Multimap<K, V> {
+    Predicate<? super Map.Entry<K, V>> entryPredicate();
+
+    Multimap<K, V> unfiltered();
+}

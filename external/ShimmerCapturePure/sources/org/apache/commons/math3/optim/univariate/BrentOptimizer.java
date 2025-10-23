@@ -1,0 +1,58 @@
+package org.apache.commons.math3.optim.univariate;
+
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.optim.ConvergenceChecker;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class BrentOptimizer extends UnivariateOptimizer {
+    private static final double GOLDEN_SECTION = (3.0d - FastMath.sqrt(5.0d)) * 0.5d;
+    private static final double MIN_RELATIVE_TOLERANCE = FastMath.ulp(1.0d) * 2.0d;
+    private final double absoluteThreshold;
+    private final double relativeThreshold;
+
+    public BrentOptimizer(double d, double d2, ConvergenceChecker<UnivariatePointValuePair> convergenceChecker) {
+        super(convergenceChecker);
+        double d3 = MIN_RELATIVE_TOLERANCE;
+        if (d < d3) {
+            throw new NumberIsTooSmallException(Double.valueOf(d), Double.valueOf(d3), true);
+        }
+        if (d2 <= 0.0d) {
+            throw new NotStrictlyPositiveException(Double.valueOf(d2));
+        }
+        this.relativeThreshold = d;
+        this.absoluteThreshold = d2;
+    }
+
+    public BrentOptimizer(double d, double d2) {
+        this(d, d2, null);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    /* JADX WARN: Removed duplicated region for block: B:56:0x010f  */
+    /* JADX WARN: Removed duplicated region for block: B:60:0x011a  */
+    /* JADX WARN: Removed duplicated region for block: B:63:0x0124  */
+    /* JADX WARN: Removed duplicated region for block: B:66:0x012b  */
+    /* JADX WARN: Removed duplicated region for block: B:67:0x012d  */
+    /* JADX WARN: Removed duplicated region for block: B:70:0x013b  */
+    /* JADX WARN: Removed duplicated region for block: B:73:0x0148  */
+    /* JADX WARN: Removed duplicated region for block: B:76:0x014e  */
+    /* JADX WARN: Removed duplicated region for block: B:81:0x0167  */
+    @Override // org.apache.commons.math3.optim.BaseOptimizer
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    public org.apache.commons.math3.optim.univariate.UnivariatePointValuePair doOptimize() {
+        /*
+            Method dump skipped, instructions count: 449
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.optim.univariate.BrentOptimizer.doOptimize():org.apache.commons.math3.optim.univariate.UnivariatePointValuePair");
+    }
+
+    private UnivariatePointValuePair best(UnivariatePointValuePair univariatePointValuePair, UnivariatePointValuePair univariatePointValuePair2, boolean z) {
+        return univariatePointValuePair == null ? univariatePointValuePair2 : univariatePointValuePair2 == null ? univariatePointValuePair : z ? univariatePointValuePair.getValue() <= univariatePointValuePair2.getValue() ? univariatePointValuePair : univariatePointValuePair2 : univariatePointValuePair.getValue() >= univariatePointValuePair2.getValue() ? univariatePointValuePair : univariatePointValuePair2;
+    }
+}

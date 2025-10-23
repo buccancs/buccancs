@@ -1,0 +1,301 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/DelegatingDecompressorFrameListener.java
+// Size: 16455 bytes
+// Modified: 2025-10-21 16:32:13.917013700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.embedded.EmbeddedChannel;
+import io.grpc.netty.shaded.io.netty.handler.codec.compression.ZlibCodecFactory;
+import io.grpc.netty.shaded.io.netty.handler.codec.compression.ZlibWrapper;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpHeaderNames;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpHeaderValues;
+import io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2Connection;
+import io.grpc.netty.shaded.io.netty.util.AsciiString;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public class DelegatingDecompressorFrameListener extends Http2FrameListenerDecorator {
+    private final Http2Connection connection;
+    private boolean flowControllerInitialized;
+    private final Http2Connection.PropertyKey propertyKey;
+    private final boolean strict;
+
+    public DelegatingDecompressorFrameListener(Http2Connection http2Connection, Http2FrameListener http2FrameListener) {
+        this(http2Connection, http2FrameListener, true);
+    }
+
+    public DelegatingDecompressorFrameListener(Http2Connection http2Connection, Http2FrameListener http2FrameListener, boolean z) {
+        super(http2FrameListener);
+        this.connection = http2Connection;
+        this.strict = z;
+        this.propertyKey = http2Connection.newKey();
+        http2Connection.addListener(new Http2ConnectionAdapter() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.http2.DelegatingDecompressorFrameListener.1
+            @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2ConnectionAdapter, io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2Connection.Listener
+            public void onStreamRemoved(Http2Stream http2Stream) {
+                Http2Decompressor http2DecompressorDecompressor = DelegatingDecompressorFrameListener.this.decompressor(http2Stream);
+                if (http2DecompressorDecompressor != null) {
+                    DelegatingDecompressorFrameListener.cleanup(http2DecompressorDecompressor);
+                }
+            }
+        });
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FrameListenerDecorator, io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FrameListener
+    public int onDataRead(ChannelHandlerContext channelHandlerContext, int i, ByteBuf byteBuf, int i2, boolean z) throws Http2Exception {
+        Http2Stream http2StreamStream = this.connection.stream(i);
+        Http2Decompressor http2DecompressorDecompressor = decompressor(http2StreamStream);
+        if (http2DecompressorDecompressor == null) {
+            return this.listener.onDataRead(channelHandlerContext, i, byteBuf, i2, z);
+        }
+        EmbeddedChannel embeddedChannelDecompressor = http2DecompressorDecompressor.decompressor();
+        int i3 = byteBuf.readableBytes() + i2;
+        http2DecompressorDecompressor.incrementCompressedBytes(i3);
+        try {
+            embeddedChannelDecompressor.writeInbound(byteBuf.retain());
+            ByteBuf byteBufNextReadableBuf = nextReadableBuf(embeddedChannelDecompressor);
+            if (byteBufNextReadableBuf == null && z && embeddedChannelDecompressor.finish()) {
+                byteBufNextReadableBuf = nextReadableBuf(embeddedChannelDecompressor);
+            }
+            if (byteBufNextReadableBuf == null) {
+                if (z) {
+                    this.listener.onDataRead(channelHandlerContext, i, Unpooled.EMPTY_BUFFER, i2, true);
+                }
+                http2DecompressorDecompressor.incrementDecompressedBytes(i3);
+                return i3;
+            }
+            try {
+                Http2LocalFlowController http2LocalFlowController = (Http2LocalFlowController) this.connection.local().flowController();
+                http2DecompressorDecompressor.incrementDecompressedBytes(i2);
+                int i4 = i2;
+                ByteBuf byteBuf2 = byteBufNextReadableBuf;
+                while (true) {
+                    try {
+                        ByteBuf byteBufNextReadableBuf2 = nextReadableBuf(embeddedChannelDecompressor);
+                        boolean z2 = byteBufNextReadableBuf2 == null && z;
+                        if (z2 && embeddedChannelDecompressor.finish()) {
+                            byteBufNextReadableBuf2 = nextReadableBuf(embeddedChannelDecompressor);
+                            z2 = byteBufNextReadableBuf2 == null;
+                        }
+                        http2DecompressorDecompressor.incrementDecompressedBytes(byteBuf2.readableBytes());
+                        http2LocalFlowController.consumeBytes(http2StreamStream, this.listener.onDataRead(channelHandlerContext, i, byteBuf2, i4, z2));
+                        if (byteBufNextReadableBuf2 != null) {
+                            byteBuf2.release();
+                            byteBuf2 = byteBufNextReadableBuf2;
+                            i4 = 0;
+                        } else {
+                            byteBuf2.release();
+                            return 0;
+                        }
+                    } catch (Throwable th) {
+                        th = th;
+                        byteBufNextReadableBuf = byteBuf2;
+                        byteBufNextReadableBuf.release();
+                        throw th;
+                    }
+                }
+            } catch (Throwable th2) {
+                th = th2;
+            }
+        } catch (Http2Exception e) {
+            throw e;
+        } catch (Throwable th3) {
+            throw Http2Exception.streamError(http2StreamStream.id(), Http2Error.INTERNAL_ERROR, th3, "Decompressor error detected while delegating data read on streamId %d", Integer.valueOf(http2StreamStream.id()));
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FrameListenerDecorator, io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FrameListener
+    public void onHeadersRead(ChannelHandlerContext channelHandlerContext, int i, Http2Headers http2Headers, int i2, boolean z) throws Http2Exception {
+        initDecompressor(channelHandlerContext, i, http2Headers, z);
+        this.listener.onHeadersRead(channelHandlerContext, i, http2Headers, i2, z);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FrameListenerDecorator, io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FrameListener
+    public void onHeadersRead(ChannelHandlerContext channelHandlerContext, int i, Http2Headers http2Headers, int i2, short s, boolean z, int i3, boolean z2) throws Http2Exception {
+        initDecompressor(channelHandlerContext, i, http2Headers, z2);
+        this.listener.onHeadersRead(channelHandlerContext, i, http2Headers, i2, s, z, i3, z2);
+    }
+
+    protected EmbeddedChannel newContentDecompressor(ChannelHandlerContext channelHandlerContext, CharSequence charSequence) throws Http2Exception {
+        if (HttpHeaderValues.GZIP.contentEqualsIgnoreCase(charSequence) || HttpHeaderValues.X_GZIP.contentEqualsIgnoreCase(charSequence)) {
+            return new EmbeddedChannel(channelHandlerContext.channel().id(), channelHandlerContext.channel().metadata().hasDisconnect(), channelHandlerContext.channel().config(), ZlibCodecFactory.newZlibDecoder(ZlibWrapper.GZIP));
+        }
+        if (HttpHeaderValues.DEFLATE.contentEqualsIgnoreCase(charSequence) || HttpHeaderValues.X_DEFLATE.contentEqualsIgnoreCase(charSequence)) {
+            return new EmbeddedChannel(channelHandlerContext.channel().id(), channelHandlerContext.channel().metadata().hasDisconnect(), channelHandlerContext.channel().config(), ZlibCodecFactory.newZlibDecoder(this.strict ? ZlibWrapper.ZLIB : ZlibWrapper.ZLIB_OR_NONE));
+        }
+        return null;
+    }
+
+    protected CharSequence getTargetContentEncoding(CharSequence charSequence) throws Http2Exception {
+        return HttpHeaderValues.IDENTITY;
+    }
+
+    private void initDecompressor(ChannelHandlerContext channelHandlerContext, int i, Http2Headers http2Headers, boolean z) throws Http2Exception {
+        Http2Stream http2StreamStream = this.connection.stream(i);
+        if (http2StreamStream == null) {
+            return;
+        }
+        Http2Decompressor http2DecompressorDecompressor = decompressor(http2StreamStream);
+        if (http2DecompressorDecompressor == null && !z) {
+            CharSequence charSequence = http2Headers.get(HttpHeaderNames.CONTENT_ENCODING);
+            if (charSequence == null) {
+                charSequence = HttpHeaderValues.IDENTITY;
+            }
+            EmbeddedChannel embeddedChannelNewContentDecompressor = newContentDecompressor(channelHandlerContext, charSequence);
+            if (embeddedChannelNewContentDecompressor != null) {
+                http2DecompressorDecompressor = new Http2Decompressor(embeddedChannelNewContentDecompressor);
+                http2StreamStream.setProperty(this.propertyKey, http2DecompressorDecompressor);
+                CharSequence targetContentEncoding = getTargetContentEncoding(charSequence);
+                if (HttpHeaderValues.IDENTITY.contentEqualsIgnoreCase(targetContentEncoding)) {
+                    http2Headers.remove(HttpHeaderNames.CONTENT_ENCODING);
+                } else {
+                    http2Headers.set((Http2Headers) HttpHeaderNames.CONTENT_ENCODING, (AsciiString) targetContentEncoding);
+                }
+            }
+        }
+        if (http2DecompressorDecompressor != null) {
+            http2Headers.remove(HttpHeaderNames.CONTENT_LENGTH);
+            if (this.flowControllerInitialized) {
+                return;
+            }
+            this.flowControllerInitialized = true;
+            this.connection.local().flowController(new ConsumedBytesConverter((Http2LocalFlowController) this.connection.local().flowController()));
+        }
+    }
+
+    Http2Decompressor decompressor(Http2Stream http2Stream) {
+        if (http2Stream == null) {
+            return null;
+        }
+        return (Http2Decompressor) http2Stream.getProperty(this.propertyKey);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static void cleanup(Http2Decompressor http2Decompressor) {
+        http2Decompressor.decompressor().finishAndReleaseAll();
+    }
+
+    private static ByteBuf nextReadableBuf(EmbeddedChannel embeddedChannel) {
+        while (true) {
+            ByteBuf byteBuf = (ByteBuf) embeddedChannel.readInbound();
+            if (byteBuf == null) {
+                return null;
+            }
+            if (byteBuf.isReadable()) {
+                return byteBuf;
+            }
+            byteBuf.release();
+        }
+    }
+
+    private final class ConsumedBytesConverter implements Http2LocalFlowController {
+        private final Http2LocalFlowController flowController;
+
+        ConsumedBytesConverter(Http2LocalFlowController http2LocalFlowController) {
+            this.flowController = (Http2LocalFlowController) ObjectUtil.checkNotNull(http2LocalFlowController, "flowController");
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2LocalFlowController
+        public Http2LocalFlowController frameWriter(Http2FrameWriter http2FrameWriter) {
+            return this.flowController.frameWriter(http2FrameWriter);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FlowController
+        public void channelHandlerContext(ChannelHandlerContext channelHandlerContext) throws Http2Exception {
+            this.flowController.channelHandlerContext(channelHandlerContext);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FlowController
+        public void initialWindowSize(int i) throws Http2Exception {
+            this.flowController.initialWindowSize(i);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FlowController
+        public int initialWindowSize() {
+            return this.flowController.initialWindowSize();
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FlowController
+        public int windowSize(Http2Stream http2Stream) {
+            return this.flowController.windowSize(http2Stream);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2FlowController
+        public void incrementWindowSize(Http2Stream http2Stream, int i) throws Http2Exception {
+            this.flowController.incrementWindowSize(http2Stream, i);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2LocalFlowController
+        public void receiveFlowControlledFrame(Http2Stream http2Stream, ByteBuf byteBuf, int i, boolean z) throws Http2Exception {
+            this.flowController.receiveFlowControlledFrame(http2Stream, byteBuf, i, z);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2LocalFlowController
+        public boolean consumeBytes(Http2Stream http2Stream, int i) throws Http2Exception {
+            Http2Decompressor http2DecompressorDecompressor = DelegatingDecompressorFrameListener.this.decompressor(http2Stream);
+            if (http2DecompressorDecompressor != null) {
+                i = http2DecompressorDecompressor.consumeBytes(http2Stream.id(), i);
+            }
+            try {
+                return this.flowController.consumeBytes(http2Stream, i);
+            } catch (Http2Exception e) {
+                throw e;
+            } catch (Throwable th) {
+                throw Http2Exception.streamError(http2Stream.id(), Http2Error.INTERNAL_ERROR, th, "Error while returning bytes to flow control window", new Object[0]);
+            }
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2LocalFlowController
+        public int unconsumedBytes(Http2Stream http2Stream) {
+            return this.flowController.unconsumedBytes(http2Stream);
+        }
+
+        @Override // io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2LocalFlowController
+        public int initialWindowSize(Http2Stream http2Stream) {
+            return this.flowController.initialWindowSize(http2Stream);
+        }
+    }
+
+    private static final class Http2Decompressor {
+        static final /* synthetic */ boolean $assertionsDisabled = false;
+        private int compressed;
+        private int decompressed;
+        private final EmbeddedChannel decompressor;
+
+        EmbeddedChannel decompressor() {
+            return this.decompressor;
+        }
+
+        void incrementCompressedBytes(int i) {
+            this.compressed += i;
+        }
+
+        void incrementDecompressedBytes(int i) {
+            this.decompressed += i;
+        }
+
+        Http2Decompressor(EmbeddedChannel embeddedChannel) {
+            this.decompressor = embeddedChannel;
+        }
+
+        int consumeBytes(int i, int i2) throws Http2Exception {
+            ObjectUtil.checkPositiveOrZero(i2, "decompressedBytes");
+            int i3 = this.decompressed;
+            if (i3 - i2 < 0) {
+                throw Http2Exception.streamError(i, Http2Error.INTERNAL_ERROR, "Attempting to return too many bytes for stream %d. decompressed: %d decompressedBytes: %d", Integer.valueOf(i), Integer.valueOf(this.decompressed), Integer.valueOf(i2));
+            }
+            double d = i2 / i3;
+            int i4 = this.compressed;
+            int iMin = Math.min(i4, (int) Math.ceil(i4 * d));
+            int i5 = this.compressed;
+            if (i5 - iMin < 0) {
+                throw Http2Exception.streamError(i, Http2Error.INTERNAL_ERROR, "overflow when converting decompressed bytes to compressed bytes for stream %d.decompressedBytes: %d decompressed: %d compressed: %d consumedCompressed: %d", Integer.valueOf(i), Integer.valueOf(i2), Integer.valueOf(this.decompressed), Integer.valueOf(this.compressed), Integer.valueOf(iMin));
+            }
+            this.decompressed -= i2;
+            this.compressed = i5 - iMin;
+            return iMin;
+        }
+    }
+}

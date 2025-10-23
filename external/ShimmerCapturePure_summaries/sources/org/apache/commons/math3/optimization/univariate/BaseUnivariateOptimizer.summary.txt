@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/optimization/univariate/BaseUnivariateOptimizer.java
+// Size: 625 bytes
+// Modified: 2025-10-21 16:32:03.557715400 +0100
+
+package org.apache.commons.math3.optimization.univariate;
+
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.optimization.BaseOptimizer;
+import org.apache.commons.math3.optimization.GoalType;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public interface BaseUnivariateOptimizer<FUNC extends UnivariateFunction> extends BaseOptimizer<UnivariatePointValuePair> {
+    UnivariatePointValuePair optimize(int i, FUNC func, GoalType goalType, double d, double d2);
+
+    UnivariatePointValuePair optimize(int i, FUNC func, GoalType goalType, double d, double d2, double d3);
+}

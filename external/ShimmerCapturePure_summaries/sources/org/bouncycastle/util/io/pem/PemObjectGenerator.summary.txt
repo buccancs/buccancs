@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/io/pem/PemObjectGenerator.java
+// Size: 173 bytes
+// Modified: 2025-10-21 16:32:01.909867100 +0100
+
+package org.bouncycastle.util.io.pem;
+
+/* loaded from: classes5.dex */
+public interface PemObjectGenerator {
+    PemObject generate() throws PemGenerationException;
+}

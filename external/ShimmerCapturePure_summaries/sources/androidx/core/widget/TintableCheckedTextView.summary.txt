@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/widget/TintableCheckedTextView.java
+// Size: 435 bytes
+// Modified: 2025-10-21 16:32:00.027984700 +0100
+
+package androidx.core.widget;
+
+import android.content.res.ColorStateList;
+import android.graphics.PorterDuff;
+
+/* loaded from: classes.dex */
+public interface TintableCheckedTextView {
+    ColorStateList getSupportCheckMarkTintList();
+
+    PorterDuff.Mode getSupportCheckMarkTintMode();
+
+    void setSupportCheckMarkTintList(ColorStateList colorStateList);
+
+    void setSupportCheckMarkTintMode(PorterDuff.Mode mode);
+}

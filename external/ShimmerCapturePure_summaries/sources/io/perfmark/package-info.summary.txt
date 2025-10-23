@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/perfmark/package-info.java
+// Size: 176 bytes
+// Modified: 2025-10-21 16:32:03.486993500 +0100
+
+@CheckReturnValue
+@ParametersAreNonnullByDefault
+package io.perfmark;
+
+import javax.annotation.CheckReturnValue;
+import javax.annotation.ParametersAreNonnullByDefault;
+

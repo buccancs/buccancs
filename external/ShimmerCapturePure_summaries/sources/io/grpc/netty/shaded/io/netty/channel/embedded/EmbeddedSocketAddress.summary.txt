@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/embedded/EmbeddedSocketAddress.java
+// Size: 369 bytes
+// Modified: 2025-10-21 16:32:00.197588700 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.embedded;
+
+import java.net.SocketAddress;
+
+/* loaded from: classes3.dex */
+final class EmbeddedSocketAddress extends SocketAddress {
+    private static final long serialVersionUID = 1400788804624980619L;
+
+    public String toString() {
+        return "embedded";
+    }
+
+    EmbeddedSocketAddress() {
+    }
+}

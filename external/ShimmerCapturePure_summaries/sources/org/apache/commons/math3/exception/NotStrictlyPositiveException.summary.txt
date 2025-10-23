@@ -1,0 +1,20 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/exception/NotStrictlyPositiveException.java
+// Size: 560 bytes
+// Modified: 2025-10-21 16:32:03.554675300 +0100
+
+package org.apache.commons.math3.exception;
+
+import org.apache.commons.math3.exception.util.Localizable;
+
+/* loaded from: classes5.dex */
+public class NotStrictlyPositiveException extends NumberIsTooSmallException {
+    private static final long serialVersionUID = -7824848630829852237L;
+
+    public NotStrictlyPositiveException(Number number) {
+        super(number, INTEGER_ZERO, false);
+    }
+
+    public NotStrictlyPositiveException(Localizable localizable, Number number) {
+        super(localizable, number, INTEGER_ZERO, false);
+    }
+}

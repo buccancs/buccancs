@@ -1,0 +1,48 @@
+package io.grpc.xds.shaded.com.github.udpa.udpa.core.v1;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Status;
+
+/* loaded from: classes3.dex */
+public final class ResourceLocatorProto {
+    static final Descriptors.Descriptor internal_static_udpa_core_v1_ResourceLocator_Directive_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_udpa_core_v1_ResourceLocator_Directive_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_udpa_core_v1_ResourceLocator_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_udpa_core_v1_ResourceLocator_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n#udpa/core/v1/resource_locator.proto\u0012\fudpa.core.v1\u001a\u001dudpa/annotations/status.proto\u001a!udpa/core/v1/context_params.proto\u001a\u0017validate/validate.proto\"Ï\u0003\n\u000fResourceLocator\u0012>\n\u0006scheme\u0018\u0001 \u0001(\u000e2$.udpa.core.v1.ResourceLocator.SchemeB\búB\u0005\u0082\u0001\u0002\u0010\u0001\u0012\u0014\n\u0002id\u0018\u0002 \u0003(\tB\búB\u0005\u0092\u0001\u0002\b\u0001\u0012\u0011\n\tauthority\u0018\u0003 \u0001(\t\u0012\u001e\n\rresource_type\u0018\u0004 \u0001(\tB\u0007úB\u0004r\u0002\u0010\u0001\u00124\n\rexact_context\u0018\u0005 \u0001(\u000b2\u001b.udpa.core.v1.ContextParamsH\u0000\u0012;\n\ndirectives\u0018\u0006 \u0003(\u000b2'.udpa.core.v1.ResourceLocator.Directive\u001a}\n\tDirective\u0012,\n\u0003alt\u0018\u0001 \u0001(\u000b2\u001d.udpa.core.v1.ResourceLocatorH\u0000\u00120\n\u0005entry\u0018\u0002 \u0001(\tB\u001fúB\u001cr\u001a\u0010\u00012\u0016^[0-9a-zA-Z_\\-\\./~:]+$H\u0000B\u0010\n\tdirective\u0012\u0003øB\u0001\"&\n\u0006Scheme\u0012\b\n\u0004UDPA\u0010\u0000\u0012\b\n\u0004HTTP\u0010\u0001\u0012\b\n\u0004FILE\u0010\u0002B\u0019\n\u0017context_param_specifierB>\n\u001ccom.github.udpa.udpa.core.v1B\u0014ResourceLocatorProtoP\u0001º\u0080ÈÑ\u0006\u0002\b\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{Status.getDescriptor(), ContextParamsProto.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_udpa_core_v1_ResourceLocator_descriptor = descriptor2;
+        internal_static_udpa_core_v1_ResourceLocator_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Scheme", "Id", "Authority", "ResourceType", "ExactContext", "Directives", "ContextParamSpecifier"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_udpa_core_v1_ResourceLocator_Directive_descriptor = descriptor3;
+        internal_static_udpa_core_v1_ResourceLocator_Directive_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Alt", "Entry", "Directive"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        Status.getDescriptor();
+        ContextParamsProto.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private ResourceLocatorProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

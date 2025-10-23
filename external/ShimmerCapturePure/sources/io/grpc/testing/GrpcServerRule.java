@@ -1,0 +1,84 @@
+package io.grpc.testing;
+
+import com.google.common.base.Preconditions;
+import io.grpc.HandlerRegistry;
+import io.grpc.ManagedChannel;
+import io.grpc.Server;
+import io.grpc.inprocess.InProcessChannelBuilder;
+import io.grpc.inprocess.InProcessServerBuilder;
+import io.grpc.util.MutableHandlerRegistry;
+
+import java.util.UUID;
+import java.util.concurrent.TimeUnit;
+
+import org.junit.rules.ExternalResource;
+
+/* loaded from: classes3.dex */
+public final class GrpcServerRule extends ExternalResource {
+    private ManagedChannel channel;
+    private Server server;
+    private String serverName;
+    private MutableHandlerRegistry serviceRegistry;
+    private boolean useDirectExecutor;
+
+    public final ManagedChannel getChannel() {
+        return this.channel;
+    }
+
+    public final Server getServer() {
+        return this.server;
+    }
+
+    public final String getServerName() {
+        return this.serverName;
+    }
+
+    public final MutableHandlerRegistry getServiceRegistry() {
+        return this.serviceRegistry;
+    }
+
+    public final GrpcServerRule directExecutor() {
+        Preconditions.checkState(this.serverName == null, "directExecutor() can only be called at the rule instantiation");
+        this.useDirectExecutor = true;
+        return this;
+    }
+
+    /* JADX WARN: Multi-variable type inference failed */
+    @Override // org.junit.rules.ExternalResource
+    protected void after() {
+        this.serverName = null;
+        this.serviceRegistry = null;
+        this.channel.shutdown();
+        this.server.shutdown();
+        try {
+            try {
+                this.channel.awaitTermination(1L, TimeUnit.MINUTES);
+                this.server.awaitTermination(1L, TimeUnit.MINUTES);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                throw new RuntimeException(e);
+            }
+        } finally {
+            this.channel.shutdownNow();
+            this.channel = null;
+            this.server.shutdownNow();
+            this.server = null;
+        }
+    }
+
+    @Override // org.junit.rules.ExternalResource
+    protected void before() throws Throwable {
+        this.serverName = UUID.randomUUID().toString();
+        this.serviceRegistry = new MutableHandlerRegistry();
+        InProcessServerBuilder inProcessServerBuilder = (InProcessServerBuilder) InProcessServerBuilder.forName(this.serverName).fallbackHandlerRegistry((HandlerRegistry) this.serviceRegistry);
+        if (this.useDirectExecutor) {
+            inProcessServerBuilder.directExecutor();
+        }
+        this.server = inProcessServerBuilder.build().start();
+        InProcessChannelBuilder inProcessChannelBuilderForName = InProcessChannelBuilder.forName(this.serverName);
+        if (this.useDirectExecutor) {
+            inProcessChannelBuilderForName.directExecutor();
+        }
+        this.channel = inProcessChannelBuilderForName.build();
+    }
+}

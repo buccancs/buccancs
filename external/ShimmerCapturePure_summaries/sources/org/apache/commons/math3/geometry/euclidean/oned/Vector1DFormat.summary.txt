@@ -1,0 +1,65 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/geometry/euclidean/oned/Vector1DFormat.java
+// Size: 2520 bytes
+// Modified: 2025-10-21 16:32:08.466836200 +0100
+
+package org.apache.commons.math3.geometry.euclidean.oned;
+
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
+import java.util.Locale;
+import org.apache.commons.math3.exception.MathParseException;
+import org.apache.commons.math3.geometry.Vector;
+import org.apache.commons.math3.geometry.VectorFormat;
+import org.apache.commons.math3.util.CompositeFormat;
+
+/* loaded from: classes5.dex */
+public class Vector1DFormat extends VectorFormat<Euclidean1D> {
+    public Vector1DFormat() {
+        super(VectorFormat.DEFAULT_PREFIX, VectorFormat.DEFAULT_SUFFIX, VectorFormat.DEFAULT_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
+    }
+
+    public Vector1DFormat(NumberFormat numberFormat) {
+        super(VectorFormat.DEFAULT_PREFIX, VectorFormat.DEFAULT_SUFFIX, VectorFormat.DEFAULT_SEPARATOR, numberFormat);
+    }
+
+    public Vector1DFormat(String str, String str2) {
+        super(str, str2, VectorFormat.DEFAULT_SEPARATOR, CompositeFormat.getDefaultNumberFormat());
+    }
+
+    public Vector1DFormat(String str, String str2, NumberFormat numberFormat) {
+        super(str, str2, VectorFormat.DEFAULT_SEPARATOR, numberFormat);
+    }
+
+    public static Vector1DFormat getInstance() {
+        return getInstance(Locale.getDefault());
+    }
+
+    public static Vector1DFormat getInstance(Locale locale) {
+        return new Vector1DFormat(CompositeFormat.getDefaultNumberFormat(locale));
+    }
+
+    @Override // org.apache.commons.math3.geometry.VectorFormat
+    public StringBuffer format(Vector<Euclidean1D> vector, StringBuffer stringBuffer, FieldPosition fieldPosition) {
+        return format(stringBuffer, fieldPosition, ((Vector1D) vector).getX());
+    }
+
+    @Override // org.apache.commons.math3.geometry.VectorFormat
+    public Vector1D parse(String str) throws MathParseException {
+        ParsePosition parsePosition = new ParsePosition(0);
+        Vector1D vector1D = parse(str, parsePosition);
+        if (parsePosition.getIndex() != 0) {
+            return vector1D;
+        }
+        throw new MathParseException(str, parsePosition.getErrorIndex(), Vector1D.class);
+    }
+
+    @Override // org.apache.commons.math3.geometry.VectorFormat
+    public Vector1D parse(String str, ParsePosition parsePosition) {
+        double[] coordinates = parseCoordinates(1, str, parsePosition);
+        if (coordinates == null) {
+            return null;
+        }
+        return new Vector1D(coordinates[0]);
+    }
+}

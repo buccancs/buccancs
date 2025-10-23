@@ -1,0 +1,645 @@
+package com.shimmerresearch.sensors.lsm303;
+
+import com.shimmerresearch.driver.ConfigByteLayout;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driver.calibration.CalibDetailsKinematic;
+import com.shimmerresearch.driver.calibration.UtilCalibration;
+import com.shimmerresearch.driver.shimmer2r3.ConfigByteLayoutShimmer3;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.kionix.SensorKionixAccel;
+
+import java.util.Arrays;
+import java.util.TreeMap;
+
+/* loaded from: classes2.dex */
+public abstract class SensorLSM303 extends AbstractSensor {
+    public static final String[] ListofLSM303AccelRange = {SensorKionixAccel.LN_ACCEL_RANGE_STRING, "± 4g", "± 8g", "± 16g"};
+    private static final long serialVersionUID = -4885535001690922548L;
+    public CalibDetailsKinematic mCurrentCalibDetailsAccelWr;
+    public CalibDetailsKinematic mCurrentCalibDetailsMag;
+    public boolean mIsUsingDefaultMagParam;
+    public boolean mIsUsingDefaultWRAccelParam;
+    protected int mAccelRange;
+    protected boolean mHighResAccelWR;
+    protected int mLSM303DigitalAccelRate;
+    protected int mLSM303MagRate;
+    protected boolean mLowPowerAccelWR;
+    protected boolean mLowPowerMag;
+    protected int mMagRange;
+    protected int mSensorIdAccel;
+    protected int mSensorIdMag;
+
+    public SensorLSM303() {
+        super(AbstractSensor.SENSORS.LSM303);
+        this.mSensorIdAccel = -1;
+        this.mSensorIdMag = -1;
+        this.mAccelRange = 0;
+        this.mLowPowerAccelWR = false;
+        this.mHighResAccelWR = true;
+        this.mIsUsingDefaultWRAccelParam = true;
+        this.mLSM303DigitalAccelRate = 0;
+        this.mCurrentCalibDetailsAccelWr = null;
+        this.mLSM303MagRate = 4;
+        this.mLowPowerMag = false;
+        this.mIsUsingDefaultMagParam = true;
+        this.mMagRange = 0;
+        this.mCurrentCalibDetailsMag = null;
+    }
+
+    public SensorLSM303(ShimmerVerObject shimmerVerObject) {
+        super(AbstractSensor.SENSORS.LSM303, shimmerVerObject);
+        this.mSensorIdAccel = -1;
+        this.mSensorIdMag = -1;
+        this.mAccelRange = 0;
+        this.mLowPowerAccelWR = false;
+        this.mHighResAccelWR = true;
+        this.mIsUsingDefaultWRAccelParam = true;
+        this.mLSM303DigitalAccelRate = 0;
+        this.mCurrentCalibDetailsAccelWr = null;
+        this.mLSM303MagRate = 4;
+        this.mLowPowerMag = false;
+        this.mIsUsingDefaultMagParam = true;
+        this.mMagRange = 0;
+        this.mCurrentCalibDetailsMag = null;
+    }
+
+    public SensorLSM303(ShimmerDevice shimmerDevice) {
+        super(AbstractSensor.SENSORS.LSM303, shimmerDevice);
+        this.mSensorIdAccel = -1;
+        this.mSensorIdMag = -1;
+        this.mAccelRange = 0;
+        this.mLowPowerAccelWR = false;
+        this.mHighResAccelWR = true;
+        this.mIsUsingDefaultWRAccelParam = true;
+        this.mLSM303DigitalAccelRate = 0;
+        this.mCurrentCalibDetailsAccelWr = null;
+        this.mLSM303MagRate = 4;
+        this.mLowPowerMag = false;
+        this.mIsUsingDefaultMagParam = true;
+        this.mMagRange = 0;
+        this.mCurrentCalibDetailsMag = null;
+    }
+
+    public abstract boolean checkLowPowerMag();
+
+    public int getAccelRange() {
+        return this.mAccelRange;
+    }
+
+    public abstract int getAccelRateFromFreqForSensor(boolean z, double d, boolean z2);
+
+    public CalibDetailsKinematic getCurrentCalibDetailsAccelWr() {
+        return this.mCurrentCalibDetailsAccelWr;
+    }
+
+    public int getHighResAccelWREnabled() {
+        return this.mHighResAccelWR ? 1 : 0;
+    }
+
+    public int getLSM303DigitalAccelRate() {
+        return this.mLSM303DigitalAccelRate;
+    }
+
+    public abstract void setLSM303DigitalAccelRate(int i);
+
+    public int getLSM303MagRate() {
+        return this.mLSM303MagRate;
+    }
+
+    public void setLSM303MagRate(int i) {
+        this.mLSM303MagRate = i;
+    }
+
+    public int getMagRange() {
+        return this.mMagRange;
+    }
+
+    public abstract int getMagRateFromFreqForSensor(boolean z, double d, boolean z2);
+
+    public boolean isLSM303DigitalAccelHRM() {
+        return this.mHighResAccelWR;
+    }
+
+    public boolean isLSM303DigitalAccelLPM() {
+        return this.mLowPowerAccelWR;
+    }
+
+    public boolean isLowPowerMagEnabled() {
+        return this.mLowPowerMag;
+    }
+
+    public abstract void setLSM303AccelRange(int i);
+
+    public void setLSM303DigitalAccelRateInternal(int i) {
+        this.mLSM303DigitalAccelRate = i;
+    }
+
+    public abstract void setLSM303MagRange(int i);
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+        if (!isSensorEnabled(this.mSensorIdAccel)) {
+            setDefaultLsm303AccelSensorConfig(false);
+        }
+        if (!isSensorEnabled(this.mSensorIdMag)) {
+            setDefaultLsm303MagSensorConfig(false);
+        }
+        setLowPowerAccelWR(false);
+        setLowPowerMag(false);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+        setLowPowerAccelWR(false);
+        setLowPowerMag(false);
+        setLSM303AccelRateFromFreq(d);
+        setLSM303MagRateFromFreq(d);
+        checkLowPowerMag();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        ObjectCluster objectClusterProcessDataCommon = sensorDetails.processDataCommon(bArr, communication_type, objectCluster, z, d);
+        boolean z2 = this instanceof SensorLSM303DLHC;
+        if (mEnableCalibration) {
+            if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("Wide-Range Accelerometer") && this.mCurrentCalibDetailsAccelWr != null) {
+                double[] dArr = new double[3];
+                for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
+                    if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_X)) {
+                        dArr[0] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_Y)) {
+                        dArr[1] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_Z)) {
+                        dArr[2] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails.mObjectClusterName), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    }
+                }
+                double[] dArrCalibrateInertialSensorData = UtilCalibration.calibrateInertialSensorData(dArr, this.mCurrentCalibDetailsAccelWr);
+                if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("Wide-Range Accelerometer")) {
+                    for (ChannelDetails channelDetails2 : sensorDetails.mListOfChannels) {
+                        if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_X)) {
+                            objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[0], objectClusterProcessDataCommon.getIndexKeeper() - 3, isUsingDefaultWRAccelParam());
+                        } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_Y)) {
+                            objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[1], objectClusterProcessDataCommon.getIndexKeeper() - 2, isUsingDefaultWRAccelParam());
+                        } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.ACCEL_WR_Z)) {
+                            objectClusterProcessDataCommon.addCalData(channelDetails2, dArrCalibrateInertialSensorData[2], objectClusterProcessDataCommon.getIndexKeeper() - 1, isUsingDefaultWRAccelParam());
+                        }
+                    }
+                }
+                if (this.mIsDebugOutput) {
+                    super.consolePrintChannelsCal(objectClusterProcessDataCommon, Arrays.asList(new String[]{ObjectClusterSensorName.ACCEL_WR_X, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_WR_Y, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_WR_Z, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_WR_X, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_WR_Y, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.ACCEL_WR_Z, ChannelDetails.CHANNEL_TYPE.CAL.toString()}));
+                }
+            } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("Magnetometer") && this.mCurrentCalibDetailsMag != null) {
+                double[] dArr2 = new double[3];
+                for (ChannelDetails channelDetails3 : sensorDetails.mListOfChannels) {
+                    if (channelDetails3.mObjectClusterName.equals(ObjectClusterSensorName.MAG_X)) {
+                        dArr2[0] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails3.mObjectClusterName), channelDetails3.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails3.mObjectClusterName.equals(ObjectClusterSensorName.MAG_Y)) {
+                        dArr2[1] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails3.mObjectClusterName), channelDetails3.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    } else if (channelDetails3.mObjectClusterName.equals(ObjectClusterSensorName.MAG_Z)) {
+                        dArr2[2] = ObjectCluster.returnFormatCluster(objectClusterProcessDataCommon.getCollectionOfFormatClusters(channelDetails3.mObjectClusterName), channelDetails3.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+                    }
+                }
+                double[] dArrCalibrateInertialSensorData2 = UtilCalibration.calibrateInertialSensorData(dArr2, this.mCurrentCalibDetailsMag);
+                if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals("Magnetometer")) {
+                    for (ChannelDetails channelDetails4 : sensorDetails.mListOfChannels) {
+                        if (channelDetails4.mObjectClusterName.equals(ObjectClusterSensorName.MAG_X)) {
+                            objectClusterProcessDataCommon.addCalData(channelDetails4, dArrCalibrateInertialSensorData2[0], objectClusterProcessDataCommon.getIndexKeeper() - 3, isUsingDefaultMagParam());
+                        } else if (channelDetails4.mObjectClusterName.equals(ObjectClusterSensorName.MAG_Y)) {
+                            objectClusterProcessDataCommon.addCalData(channelDetails4, dArrCalibrateInertialSensorData2[1], objectClusterProcessDataCommon.getIndexKeeper() - 2, isUsingDefaultMagParam());
+                        } else if (channelDetails4.mObjectClusterName.equals(ObjectClusterSensorName.MAG_Z)) {
+                            objectClusterProcessDataCommon.addCalData(channelDetails4, dArrCalibrateInertialSensorData2[2], objectClusterProcessDataCommon.getIndexKeeper() - 1, isUsingDefaultMagParam());
+                        }
+                    }
+                }
+                if (this.mIsDebugOutput) {
+                    super.consolePrintChannelsCal(objectClusterProcessDataCommon, Arrays.asList(new String[]{ObjectClusterSensorName.MAG_X, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.MAG_Y, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.MAG_Z, ChannelDetails.CHANNEL_TYPE.UNCAL.toString()}, new String[]{ObjectClusterSensorName.MAG_X, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.MAG_Y, ChannelDetails.CHANNEL_TYPE.CAL.toString()}, new String[]{ObjectClusterSensorName.MAG_Z, ChannelDetails.CHANNEL_TYPE.CAL.toString()}));
+                }
+            }
+        }
+        return objectClusterProcessDataCommon;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) configByteLayout;
+            int i = configByteLayoutShimmer3.idxConfigSetupByte0;
+            bArr[i] = (byte) (bArr[i] | ((byte) ((getLSM303DigitalAccelRate() & configByteLayoutShimmer3.maskLSM303DLHCAccelSamplingRate) << configByteLayoutShimmer3.bitShiftLSM303DLHCAccelSamplingRate)));
+            int i2 = configByteLayoutShimmer3.idxConfigSetupByte0;
+            bArr[i2] = (byte) (bArr[i2] | ((byte) ((getAccelRange() & configByteLayoutShimmer3.maskLSM303DLHCAccelRange) << configByteLayoutShimmer3.bitShiftLSM303DLHCAccelRange)));
+            if (isLowPowerAccelWR()) {
+                int i3 = configByteLayoutShimmer3.idxConfigSetupByte0;
+                bArr[i3] = (byte) (bArr[i3] | (configByteLayoutShimmer3.maskLSM303DLHCAccelLPM << configByteLayoutShimmer3.bitShiftLSM303DLHCAccelLPM));
+            }
+            if (isHighResAccelWR()) {
+                int i4 = configByteLayoutShimmer3.idxConfigSetupByte0;
+                bArr[i4] = (byte) (bArr[i4] | (configByteLayoutShimmer3.maskLSM303DLHCAccelHRM << configByteLayoutShimmer3.bitShiftLSM303DLHCAccelHRM));
+            }
+            int i5 = configByteLayoutShimmer3.idxConfigSetupByte2;
+            bArr[i5] = (byte) (bArr[i5] | ((byte) ((getMagRange() & configByteLayoutShimmer3.maskLSM303DLHCMagRange) << configByteLayoutShimmer3.bitShiftLSM303DLHCMagRange)));
+            int i6 = configByteLayoutShimmer3.idxConfigSetupByte2;
+            bArr[i6] = (byte) (bArr[i6] | ((byte) ((getLSM303MagRate() & configByteLayoutShimmer3.maskLSM303DLHCMagSamplingRate) << configByteLayoutShimmer3.bitShiftLSM303DLHCMagSamplingRate)));
+            System.arraycopy(generateCalParamLSM303DLHCMag(), 0, bArr, configByteLayoutShimmer3.idxLSM303DLHCMagCalibration, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+            System.arraycopy(generateCalParamLSM303DLHCAccel(), 0, bArr, configByteLayoutShimmer3.idxLSM303DLHCAccelCalibration, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        ConfigByteLayout configByteLayout = shimmerDevice.getConfigByteLayout();
+        if (configByteLayout instanceof ConfigByteLayoutShimmer3) {
+            ConfigByteLayoutShimmer3 configByteLayoutShimmer3 = (ConfigByteLayoutShimmer3) configByteLayout;
+            setLSM303DigitalAccelRate((bArr[configByteLayoutShimmer3.idxConfigSetupByte0] >> configByteLayoutShimmer3.bitShiftLSM303DLHCAccelSamplingRate) & configByteLayoutShimmer3.maskLSM303DLHCAccelSamplingRate);
+            setLSM303AccelRange((bArr[configByteLayoutShimmer3.idxConfigSetupByte0] >> configByteLayoutShimmer3.bitShiftLSM303DLHCAccelRange) & configByteLayoutShimmer3.maskLSM303DLHCAccelRange);
+            if (((bArr[configByteLayoutShimmer3.idxConfigSetupByte0] >> configByteLayoutShimmer3.bitShiftLSM303DLHCAccelLPM) & configByteLayoutShimmer3.maskLSM303DLHCAccelLPM) == configByteLayoutShimmer3.maskLSM303DLHCAccelLPM) {
+                setLowPowerAccelWR(true);
+            } else {
+                setLowPowerAccelWR(false);
+            }
+            if (((bArr[configByteLayoutShimmer3.idxConfigSetupByte0] >> configByteLayoutShimmer3.bitShiftLSM303DLHCAccelHRM) & configByteLayoutShimmer3.maskLSM303DLHCAccelHRM) == configByteLayoutShimmer3.maskLSM303DLHCAccelHRM) {
+                setHighResAccelWR(true);
+            } else {
+                setHighResAccelWR(false);
+            }
+            setLSM303MagRange((bArr[configByteLayoutShimmer3.idxConfigSetupByte2] >> configByteLayoutShimmer3.bitShiftLSM303DLHCMagRange) & configByteLayoutShimmer3.maskLSM303DLHCMagRange);
+            setLSM303MagRate((bArr[configByteLayoutShimmer3.idxConfigSetupByte2] >> configByteLayoutShimmer3.bitShiftLSM303DLHCMagSamplingRate) & configByteLayoutShimmer3.maskLSM303DLHCMagSamplingRate);
+            checkLowPowerMag();
+            if (shimmerDevice.isConnected()) {
+                getCurrentCalibDetailsMag().mCalibReadSource = CalibDetails.CALIB_READ_SOURCE.INFOMEM;
+                getCurrentCalibDetailsAccelWr().mCalibReadSource = CalibDetails.CALIB_READ_SOURCE.INFOMEM;
+            }
+            byte[] bArr2 = new byte[configByteLayoutShimmer3.lengthGeneralCalibrationBytes];
+            System.arraycopy(bArr, configByteLayoutShimmer3.idxLSM303DLHCMagCalibration, bArr2, 0, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+            parseCalibParamFromPacketMag(bArr2, CalibDetails.CALIB_READ_SOURCE.INFOMEM);
+            byte[] bArr3 = new byte[configByteLayoutShimmer3.lengthGeneralCalibrationBytes];
+            System.arraycopy(bArr, configByteLayoutShimmer3.idxLSM303DLHCAccelCalibration, bArr3, 0, configByteLayoutShimmer3.lengthGeneralCalibrationBytes);
+            parseCalibParamFromPacketAccelLsm(bArr3, CalibDetails.CALIB_READ_SOURCE.INFOMEM);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        Object configValueUsingConfigLabelCommon;
+        str.hashCode();
+        switch (str) {
+            case "Wide Range Accel Low-Power Mode":
+                setLowPowerAccelWR(((Boolean) obj).booleanValue());
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Mag Rate":
+                setLSM303MagRate(((Integer) obj).intValue());
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Rate":
+                if (num.intValue() == this.mSensorIdAccel) {
+                    setConfigValueUsingConfigLabel("Wide Range Accel Rate", obj);
+                } else if (num.intValue() == this.mSensorIdMag) {
+                    setConfigValueUsingConfigLabel("Mag Range", obj);
+                }
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Range":
+                if (num.intValue() == this.mSensorIdAccel) {
+                    setConfigValueUsingConfigLabel("Wide Range Accel Range", obj);
+                } else if (num.intValue() == this.mSensorIdMag) {
+                    setConfigValueUsingConfigLabel("Mag Range", obj);
+                }
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Wide Range Accel Range":
+                setLSM303AccelRange(((Integer) obj).intValue());
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Wide Range Accel Rate":
+                setLSM303DigitalAccelRate(((Integer) obj).intValue());
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Mag Low-Power Mode":
+                setLowPowerMag(((Boolean) obj).booleanValue());
+                configValueUsingConfigLabelCommon = null;
+                break;
+            case "Mag Range":
+                setLSM303MagRange(((Integer) obj).intValue());
+                configValueUsingConfigLabelCommon = null;
+                break;
+            default:
+                configValueUsingConfigLabelCommon = super.setConfigValueUsingConfigLabelCommon(num, str, obj);
+                break;
+        }
+        if (str.equals("Wide Range Accel Rate")) {
+            checkConfigOptionValues(str);
+        }
+        return configValueUsingConfigLabelCommon;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        if (str.equals("Wide Range Accel Rate")) {
+            checkConfigOptionValues(str);
+        }
+        str.hashCode();
+        switch (str) {
+            case "Wide Range Accel Low-Power Mode":
+                return Boolean.valueOf(isLSM303DigitalAccelLPM());
+            case "Mag Rate":
+                return Integer.valueOf(getLSM303MagRate());
+            case "Rate":
+                if (num.intValue() == this.mSensorIdAccel) {
+                    return getConfigValueUsingConfigLabel("Wide Range Accel Rate");
+                }
+                if (num.intValue() == this.mSensorIdMag) {
+                    return getConfigValueUsingConfigLabel("Mag Rate");
+                }
+                return null;
+            case "Range":
+                if (num.intValue() == this.mSensorIdAccel) {
+                    return getConfigValueUsingConfigLabel("Wide Range Accel Range");
+                }
+                if (num.intValue() == this.mSensorIdMag) {
+                    return getConfigValueUsingConfigLabel("Mag Range");
+                }
+                return null;
+            case "Wide Range Accel Range":
+                return Integer.valueOf(getAccelRange());
+            case "Wide Range Accel Rate":
+                return Integer.valueOf(getLSM303DigitalAccelRate());
+            case "Mag Low-Power Mode":
+                return Boolean.valueOf(checkLowPowerMag());
+            case "Mag Range":
+                return Integer.valueOf(getMagRange());
+            default:
+                return super.getConfigValueUsingConfigLabelCommon(num, str);
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        if (!this.mSensorMap.containsKey(Integer.valueOf(i))) {
+            return false;
+        }
+        if (i == this.mSensorIdAccel) {
+            setDefaultLsm303AccelSensorConfig(z);
+            return true;
+        }
+        if (i != this.mSensorIdMag) {
+            return true;
+        }
+        setDefaultLsm303MagSensorConfig(z);
+        return true;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        if (!this.mConfigOptionsMap.containsKey(str)) {
+            return false;
+        }
+        if (str == "Wide Range Accel Rate") {
+            if (isLSM303DigitalAccelLPM()) {
+                this.mConfigOptionsMap.get(str).setIndexOfValuesToUse(1);
+            } else {
+                this.mConfigOptionsMap.get(str).setIndexOfValuesToUse(0);
+            }
+        }
+        return true;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean isSensorUsingDefaultCal(int i) {
+        if (i == this.mSensorIdAccel) {
+            return isUsingDefaultWRAccelParam();
+        }
+        if (i == this.mSensorIdMag) {
+            return isUsingDefaultMagParam();
+        }
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setCalibrationMapPerSensor(int i, TreeMap<Integer, CalibDetails> treeMap) {
+        super.setCalibrationMapPerSensor(i, treeMap);
+        updateCurrentAccelWrCalibInUse();
+        updateCurrentMagCalibInUse();
+    }
+
+    public void setLowPowerMag(boolean z) {
+        this.mLowPowerMag = z;
+        if (this.mShimmerDevice != null) {
+            setLSM303MagRateFromFreq(getSamplingRateShimmer());
+        }
+    }
+
+    public int getLowPowerMagEnabled() {
+        return isLowPowerMagEnabled() ? 1 : 0;
+    }
+
+    public void setDefaultLsm303MagSensorConfig(boolean z) {
+        if (z) {
+            setLowPowerMag(false);
+        } else {
+            setLSM303MagRange(1);
+            setLowPowerMag(true);
+        }
+    }
+
+    public void setDefaultLsm303AccelSensorConfig(boolean z) {
+        if (z) {
+            setLowPowerAccelWR(false);
+        } else {
+            setLSM303AccelRange(0);
+            setLowPowerAccelWR(true);
+        }
+    }
+
+    public int setLSM303AccelRateFromFreq(double d) {
+        setLSM303DigitalAccelRateInternal(getAccelRateFromFreqForSensor(isSensorEnabled(this.mSensorIdAccel), d, this.mLowPowerAccelWR));
+        return this.mLSM303DigitalAccelRate;
+    }
+
+    public int setLSM303MagRateFromFreq(double d) {
+        int magRateFromFreqForSensor = getMagRateFromFreqForSensor(isSensorEnabled(this.mSensorIdMag), d, isLowPowerMagEnabled());
+        this.mLSM303MagRate = magRateFromFreqForSensor;
+        return magRateFromFreqForSensor;
+    }
+
+    public CalibDetailsKinematic getCurrentCalibDetailsMag() {
+        if (this.mCurrentCalibDetailsMag == null) {
+            updateCurrentMagCalibInUse();
+        }
+        return this.mCurrentCalibDetailsMag;
+    }
+
+    public byte[] generateCalParamLSM303DLHCAccel() {
+        return this.mCurrentCalibDetailsAccelWr.generateCalParamByteArray();
+    }
+
+    public byte[] generateCalParamLSM303DLHCMag() {
+        return getCurrentCalibDetailsMag().generateCalParamByteArray();
+    }
+
+    public void parseCalibParamFromPacketAccelLsm(byte[] bArr, CalibDetails.CALIB_READ_SOURCE calib_read_source) {
+        this.mCurrentCalibDetailsAccelWr.parseCalParamByteArray(bArr, calib_read_source);
+    }
+
+    public void parseCalibParamFromPacketMag(byte[] bArr, CalibDetails.CALIB_READ_SOURCE calib_read_source) {
+        getCurrentCalibDetailsMag().parseCalParamByteArray(bArr, calib_read_source);
+    }
+
+    public void setDefaultCalibrationShimmer3WideRangeAccel() {
+        this.mCurrentCalibDetailsAccelWr.resetToDefaultParameters();
+    }
+
+    public void setDefaultCalibrationShimmer3Mag() {
+        getCurrentCalibDetailsMag().resetToDefaultParameters();
+    }
+
+    public boolean isUsingDefaultWRAccelParam() {
+        return this.mCurrentCalibDetailsAccelWr.isUsingDefaultParameters();
+    }
+
+    public boolean isUsingDefaultMagParam() {
+        return getCurrentCalibDetailsMag().isUsingDefaultParameters();
+    }
+
+    public double[][] getAlignmentMatrixWRAccel() {
+        return this.mCurrentCalibDetailsAccelWr.getValidAlignmentMatrix();
+    }
+
+    public double[][] getSensitivityMatrixWRAccel() {
+        return this.mCurrentCalibDetailsAccelWr.getValidSensitivityMatrix();
+    }
+
+    public double[][] getOffsetVectorMatrixWRAccel() {
+        return this.mCurrentCalibDetailsAccelWr.getValidOffsetVector();
+    }
+
+    public double[][] getAlignmentMatrixMag() {
+        return getCurrentCalibDetailsMag().getValidAlignmentMatrix();
+    }
+
+    public double[][] getSensitivityMatrixMag() {
+        return getCurrentCalibDetailsMag().getValidSensitivityMatrix();
+    }
+
+    public double[][] getOffsetVectorMatrixMag() {
+        return getCurrentCalibDetailsMag().getValidOffsetVector();
+    }
+
+    public void updateCurrentMagCalibInUse() {
+        this.mCurrentCalibDetailsMag = getCurrentCalibDetailsIfKinematic(this.mSensorIdMag, getMagRange());
+    }
+
+    public void updateCurrentAccelWrCalibInUse() {
+        this.mCurrentCalibDetailsAccelWr = getCurrentCalibDetailsIfKinematic(this.mSensorIdAccel, getAccelRange());
+    }
+
+    public boolean isHighResAccelWR() {
+        return isLSM303DigitalAccelHRM();
+    }
+
+    public void setHighResAccelWR(int i) {
+        this.mHighResAccelWR = i > 0;
+    }
+
+    public void setHighResAccelWR(boolean z) {
+        this.mHighResAccelWR = z;
+    }
+
+    public int getLowPowerAccelEnabled() {
+        return isLSM303DigitalAccelLPM() ? 1 : 0;
+    }
+
+    public boolean isLowPowerAccelWR() {
+        return isLSM303DigitalAccelLPM();
+    }
+
+    public void setLowPowerAccelWR(boolean z) {
+        this.mLowPowerAccelWR = z;
+        this.mHighResAccelWR = !z;
+        if (this.mShimmerDevice != null) {
+            setLSM303AccelRateFromFreq(getSamplingRateShimmer());
+        }
+    }
+
+    public boolean isLowPowerAccelEnabled() {
+        return isLSM303DigitalAccelLPM();
+    }
+
+    public void setLowPowerAccelEnabled(int i) {
+        this.mLowPowerAccelWR = i > 0;
+    }
+
+    public double getCalibTimeWRAccel() {
+        return this.mCurrentCalibDetailsAccelWr.getCalibTimeMs();
+    }
+
+    public double getCalibTimeMag() {
+        return this.mCurrentCalibDetailsMag.getCalibTimeMs();
+    }
+
+    public boolean isUsingValidMagParam() {
+        return (UtilShimmer.isAllZeros(getAlignmentMatrixMag()) || UtilShimmer.isAllZeros(getSensitivityMatrixMag())) ? false : true;
+    }
+
+    public boolean isUsingValidWRAccelParam() {
+        return (UtilShimmer.isAllZeros(getAlignmentMatrixWRAccel()) || UtilShimmer.isAllZeros(getSensitivityMatrixWRAccel())) ? false : true;
+    }
+
+    public void updateIsUsingDefaultWRAccelParam() {
+        this.mIsUsingDefaultWRAccelParam = getCurrentCalibDetailsAccelWr().isUsingDefaultParameters();
+    }
+
+    public void updateIsUsingDefaultMagParam() {
+        this.mIsUsingDefaultMagParam = getCurrentCalibDetailsMag().isUsingDefaultParameters();
+    }
+
+    public static class ObjectClusterSensorName {
+        public static String ACCEL_WR_X = "Accel_WR_X";
+        public static String ACCEL_WR_Y = "Accel_WR_Y";
+        public static String ACCEL_WR_Z = "Accel_WR_Z";
+        public static String MAG_X = "Mag_X";
+        public static String MAG_Y = "Mag_Y";
+        public static String MAG_Z = "Mag_Z";
+    }
+
+    public class GuiLabelSensors {
+        public static final String ACCEL_WR = "Wide-Range Accelerometer";
+        public static final String MAG = "Magnetometer";
+
+        public GuiLabelSensors() {
+        }
+    }
+
+    public class LABEL_SENSOR_TILE {
+        public static final String MAG = "Magnetometer";
+        public static final String WIDE_RANGE_ACCEL = "Wide-Range Accelerometer";
+
+        public LABEL_SENSOR_TILE() {
+        }
+    }
+
+    public class GuiLabelConfig {
+        public static final String LSM303_ACCEL_CALIB_PARAM = "Wide Range Accel Calibration Details";
+        public static final String LSM303_ACCEL_DEFAULT_CALIB = "Wide Range Accel Default Calibration";
+        public static final String LSM303_ACCEL_LPM = "Wide Range Accel Low-Power Mode";
+        public static final String LSM303_ACCEL_RANGE = "Wide Range Accel Range";
+        public static final String LSM303_ACCEL_RATE = "Wide Range Accel Rate";
+        public static final String LSM303_ACCEL_VALID_CALIB = "Wide Range Accel Valid Calibration";
+        public static final String LSM303_MAG_CALIB_PARAM = "Mag Calibration Details";
+        public static final String LSM303_MAG_DEFAULT_CALIB = "Mag Default Calibration";
+        public static final String LSM303_MAG_LPM = "Mag Low-Power Mode";
+        public static final String LSM303_MAG_RANGE = "Mag Range";
+        public static final String LSM303_MAG_RATE = "Mag Rate";
+        public static final String LSM303_MAG_VALID_CALIB = "Mag Valid Calibration";
+
+        public GuiLabelConfig() {
+        }
+    }
+}

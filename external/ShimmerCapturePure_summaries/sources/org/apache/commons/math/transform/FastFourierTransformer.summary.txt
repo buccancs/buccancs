@@ -1,0 +1,452 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/transform/FastFourierTransformer.java
+// Size: 20153 bytes
+// Modified: 2025-10-21 16:32:06.614750300 +0100
+
+package org.apache.commons.math.transform;
+
+import java.io.Serializable;
+import java.lang.reflect.Array;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.complex.Complex;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/transform/FastFourierTransformer.class */
+public class FastFourierTransformer implements Serializable {
+    static final long serialVersionUID = 5138259215438106000L;
+    private RootsOfUnity roots = new RootsOfUnity();
+
+    public Complex[] transform(double[] f) throws IllegalArgumentException {
+        return fft(f, false);
+    }
+
+    public Complex[] transform(UnivariateRealFunction f, double min, double max, int n) throws FunctionEvaluationException, IllegalArgumentException {
+        double[] data = sample(f, min, max, n);
+        return fft(data, false);
+    }
+
+    public Complex[] transform(Complex[] f) throws IllegalArgumentException {
+        this.roots.computeOmega(f.length);
+        return fft(f);
+    }
+
+    public Complex[] transform2(double[] f) throws IllegalArgumentException {
+        double scaling_coefficient = 1.0d / FastMath.sqrt(f.length);
+        return scaleArray(fft(f, false), scaling_coefficient);
+    }
+
+    public Complex[] transform2(UnivariateRealFunction f, double min, double max, int n) throws FunctionEvaluationException, IllegalArgumentException {
+        double[] data = sample(f, min, max, n);
+        double scaling_coefficient = 1.0d / FastMath.sqrt(n);
+        return scaleArray(fft(data, false), scaling_coefficient);
+    }
+
+    public Complex[] transform2(Complex[] f) throws IllegalArgumentException {
+        this.roots.computeOmega(f.length);
+        double scaling_coefficient = 1.0d / FastMath.sqrt(f.length);
+        return scaleArray(fft(f), scaling_coefficient);
+    }
+
+    public Complex[] inversetransform(double[] f) throws IllegalArgumentException {
+        double scaling_coefficient = 1.0d / f.length;
+        return scaleArray(fft(f, true), scaling_coefficient);
+    }
+
+    public Complex[] inversetransform(UnivariateRealFunction f, double min, double max, int n) throws FunctionEvaluationException, IllegalArgumentException {
+        double[] data = sample(f, min, max, n);
+        double scaling_coefficient = 1.0d / n;
+        return scaleArray(fft(data, true), scaling_coefficient);
+    }
+
+    public Complex[] inversetransform(Complex[] f) throws IllegalArgumentException {
+        this.roots.computeOmega(-f.length);
+        double scaling_coefficient = 1.0d / f.length;
+        return scaleArray(fft(f), scaling_coefficient);
+    }
+
+    public Complex[] inversetransform2(double[] f) throws IllegalArgumentException {
+        double scaling_coefficient = 1.0d / FastMath.sqrt(f.length);
+        return scaleArray(fft(f, true), scaling_coefficient);
+    }
+
+    public Complex[] inversetransform2(UnivariateRealFunction f, double min, double max, int n) throws FunctionEvaluationException, IllegalArgumentException {
+        double[] data = sample(f, min, max, n);
+        double scaling_coefficient = 1.0d / FastMath.sqrt(n);
+        return scaleArray(fft(data, true), scaling_coefficient);
+    }
+
+    public Complex[] inversetransform2(Complex[] f) throws IllegalArgumentException {
+        this.roots.computeOmega(-f.length);
+        double scaling_coefficient = 1.0d / FastMath.sqrt(f.length);
+        return scaleArray(fft(f), scaling_coefficient);
+    }
+
+    protected Complex[] fft(double[] f, boolean isInverse) throws IllegalStateException, IllegalArgumentException {
+        verifyDataSet(f);
+        Complex[] F = new Complex[f.length];
+        if (f.length == 1) {
+            F[0] = new Complex(f[0], 0.0d);
+            return F;
+        }
+        int N = f.length >> 1;
+        Complex[] c = new Complex[N];
+        for (int i = 0; i < N; i++) {
+            c[i] = new Complex(f[2 * i], f[(2 * i) + 1]);
+        }
+        this.roots.computeOmega(isInverse ? -N : N);
+        Complex[] z = fft(c);
+        this.roots.computeOmega(isInverse ? (-2) * N : 2 * N);
+        F[0] = new Complex(2.0d * (z[0].getReal() + z[0].getImaginary()), 0.0d);
+        F[N] = new Complex(2.0d * (z[0].getReal() - z[0].getImaginary()), 0.0d);
+        for (int i2 = 1; i2 < N; i2++) {
+            Complex A = z[N - i2].conjugate();
+            Complex B = z[i2].add(A);
+            Complex C = z[i2].subtract(A);
+            Complex D = new Complex(-this.roots.getOmegaImaginary(i2), this.roots.getOmegaReal(i2));
+            F[i2] = B.subtract(C.multiply(D));
+            F[(2 * N) - i2] = F[i2].conjugate();
+        }
+        return scaleArray(F, 0.5d);
+    }
+
+    protected Complex[] fft(Complex[] data) throws IllegalStateException, IllegalArgumentException {
+        int k;
+        int n = data.length;
+        Complex[] f = new Complex[n];
+        verifyDataSet(data);
+        if (n == 1) {
+            f[0] = data[0];
+            return f;
+        }
+        if (n == 2) {
+            f[0] = data[0].add(data[1]);
+            f[1] = data[0].subtract(data[1]);
+            return f;
+        }
+        int ii = 0;
+        for (int i = 0; i < n; i++) {
+            f[i] = data[ii];
+            int i2 = n;
+            while (true) {
+                k = i2 >> 1;
+                if (ii < k || k <= 0) {
+                    break;
+                }
+                ii -= k;
+                i2 = k;
+            }
+            ii += k;
+        }
+        for (int i3 = 0; i3 < n; i3 += 4) {
+            Complex a = f[i3].add(f[i3 + 1]);
+            Complex b = f[i3 + 2].add(f[i3 + 3]);
+            Complex c = f[i3].subtract(f[i3 + 1]);
+            Complex d = f[i3 + 2].subtract(f[i3 + 3]);
+            Complex e1 = c.add(d.multiply(Complex.I));
+            Complex e2 = c.subtract(d.multiply(Complex.I));
+            f[i3] = a.add(b);
+            f[i3 + 2] = a.subtract(b);
+            f[i3 + 1] = this.roots.isForward() ? e2 : e1;
+            f[i3 + 3] = this.roots.isForward() ? e1 : e2;
+        }
+        int i4 = 4;
+        while (true) {
+            int i5 = i4;
+            if (i5 < n) {
+                int m = n / (i5 << 1);
+                int i6 = 0;
+                while (true) {
+                    int j = i6;
+                    if (j < n) {
+                        for (int k2 = 0; k2 < i5; k2++) {
+                            int k_times_m = k2 * m;
+                            double omega_k_times_m_real = this.roots.getOmegaReal(k_times_m);
+                            double omega_k_times_m_imaginary = this.roots.getOmegaImaginary(k_times_m);
+                            Complex z = new Complex((f[(i5 + j) + k2].getReal() * omega_k_times_m_real) - (f[(i5 + j) + k2].getImaginary() * omega_k_times_m_imaginary), (f[i5 + j + k2].getReal() * omega_k_times_m_imaginary) + (f[i5 + j + k2].getImaginary() * omega_k_times_m_real));
+                            f[i5 + j + k2] = f[j + k2].subtract(z);
+                            f[j + k2] = f[j + k2].add(z);
+                        }
+                        i6 = j + (i5 << 1);
+                    }
+                }
+                i4 = i5 << 1;
+            } else {
+                return f;
+            }
+        }
+    }
+
+    public static double[] sample(UnivariateRealFunction f, double min, double max, int n) throws FunctionEvaluationException, IllegalArgumentException {
+        if (n <= 0) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POSITIVE_NUMBER_OF_SAMPLES, Integer.valueOf(n));
+        }
+        verifyInterval(min, max);
+        double[] s = new double[n];
+        double h = (max - min) / n;
+        for (int i = 0; i < n; i++) {
+            s[i] = f.value(min + (i * h));
+        }
+        return s;
+    }
+
+    public static double[] scaleArray(double[] f, double d) {
+        for (int i = 0; i < f.length; i++) {
+            int i2 = i;
+            f[i2] = f[i2] * d;
+        }
+        return f;
+    }
+
+    public static Complex[] scaleArray(Complex[] f, double d) {
+        for (int i = 0; i < f.length; i++) {
+            f[i] = new Complex(d * f[i].getReal(), d * f[i].getImaginary());
+        }
+        return f;
+    }
+
+    public static boolean isPowerOf2(long n) {
+        return n > 0 && (n & (n - 1)) == 0;
+    }
+
+    public static void verifyDataSet(double[] d) throws IllegalArgumentException {
+        if (!isPowerOf2(d.length)) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING, Integer.valueOf(d.length));
+        }
+    }
+
+    public static void verifyDataSet(Object[] o) throws IllegalArgumentException {
+        if (!isPowerOf2(o.length)) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.NOT_POWER_OF_TWO_CONSIDER_PADDING, Integer.valueOf(o.length));
+        }
+    }
+
+    public static void verifyInterval(double lower, double upper) throws IllegalArgumentException {
+        if (lower >= upper) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.ENDPOINTS_NOT_AN_INTERVAL, Double.valueOf(lower), Double.valueOf(upper));
+        }
+    }
+
+    public Object mdfft(Object mdca, boolean forward) throws IllegalArgumentException {
+        MultiDimensionalComplexMatrix mdcm = (MultiDimensionalComplexMatrix) new MultiDimensionalComplexMatrix(mdca).clone();
+        int[] dimensionSize = mdcm.getDimensionSizes();
+        for (int i = 0; i < dimensionSize.length; i++) {
+            mdfft(mdcm, forward, i, new int[0]);
+        }
+        return mdcm.getArray();
+    }
+
+    private void mdfft(MultiDimensionalComplexMatrix mdcm, boolean forward, int d, int[] subVector) throws IllegalArgumentException {
+        Complex[] temp;
+        int[] dimensionSize = mdcm.getDimensionSizes();
+        if (subVector.length == dimensionSize.length) {
+            Complex[] temp2 = new Complex[dimensionSize[d]];
+            for (int i = 0; i < dimensionSize[d]; i++) {
+                subVector[d] = i;
+                temp2[i] = mdcm.get(subVector);
+            }
+            if (forward) {
+                temp = transform2(temp2);
+            } else {
+                temp = inversetransform2(temp2);
+            }
+            for (int i2 = 0; i2 < dimensionSize[d]; i2++) {
+                subVector[d] = i2;
+                mdcm.set(temp[i2], subVector);
+            }
+            return;
+        }
+        int[] vector = new int[subVector.length + 1];
+        System.arraycopy(subVector, 0, vector, 0, subVector.length);
+        if (subVector.length == d) {
+            vector[d] = 0;
+            mdfft(mdcm, forward, d, vector);
+            return;
+        }
+        for (int i3 = 0; i3 < dimensionSize[subVector.length]; i3++) {
+            vector[subVector.length] = i3;
+            mdfft(mdcm, forward, d, vector);
+        }
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/transform/FastFourierTransformer$MultiDimensionalComplexMatrix.class */
+    private static class MultiDimensionalComplexMatrix implements Cloneable {
+        protected int[] dimensionSize;
+        protected Object multiDimensionalComplexArray;
+
+        public MultiDimensionalComplexMatrix(Object multiDimensionalComplexArray) {
+            this.multiDimensionalComplexArray = multiDimensionalComplexArray;
+            int numOfDimensions = 0;
+            Object obj = multiDimensionalComplexArray;
+            while (true) {
+                Object lastDimension = obj;
+                if (!(lastDimension instanceof Object[])) {
+                    break;
+                }
+                numOfDimensions++;
+                obj = ((Object[]) lastDimension)[0];
+            }
+            this.dimensionSize = new int[numOfDimensions];
+            int numOfDimensions2 = 0;
+            Object obj2 = multiDimensionalComplexArray;
+            while (true) {
+                Object lastDimension2 = obj2;
+                if (lastDimension2 instanceof Object[]) {
+                    Object[] array = (Object[]) lastDimension2;
+                    int i = numOfDimensions2;
+                    numOfDimensions2++;
+                    this.dimensionSize[i] = array.length;
+                    obj2 = array[0];
+                } else {
+                    return;
+                }
+            }
+        }
+
+        public Complex get(int... vector) throws IllegalArgumentException {
+            if (vector == null) {
+                if (this.dimensionSize.length > 0) {
+                    throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, 0, Integer.valueOf(this.dimensionSize.length));
+                }
+                return null;
+            }
+            if (vector.length != this.dimensionSize.length) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, Integer.valueOf(vector.length), Integer.valueOf(this.dimensionSize.length));
+            }
+            Object lastDimension = this.multiDimensionalComplexArray;
+            for (int i = 0; i < this.dimensionSize.length; i++) {
+                lastDimension = ((Object[]) lastDimension)[vector[i]];
+            }
+            return (Complex) lastDimension;
+        }
+
+        public Complex set(Complex magnitude, int... vector) throws IllegalArgumentException {
+            if (vector == null) {
+                if (this.dimensionSize.length > 0) {
+                    throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, 0, Integer.valueOf(this.dimensionSize.length));
+                }
+                return null;
+            }
+            if (vector.length != this.dimensionSize.length) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, Integer.valueOf(vector.length), Integer.valueOf(this.dimensionSize.length));
+            }
+            Object[] lastDimension = (Object[]) this.multiDimensionalComplexArray;
+            for (int i = 0; i < this.dimensionSize.length - 1; i++) {
+                lastDimension = (Object[]) lastDimension[vector[i]];
+            }
+            Complex lastValue = (Complex) lastDimension[vector[this.dimensionSize.length - 1]];
+            lastDimension[vector[this.dimensionSize.length - 1]] = magnitude;
+            return lastValue;
+        }
+
+        public int[] getDimensionSizes() {
+            return (int[]) this.dimensionSize.clone();
+        }
+
+        public Object getArray() {
+            return this.multiDimensionalComplexArray;
+        }
+
+        public Object clone() throws IllegalArgumentException {
+            MultiDimensionalComplexMatrix mdcm = new MultiDimensionalComplexMatrix(Array.newInstance((Class<?>) Complex.class, this.dimensionSize));
+            clone(mdcm);
+            return mdcm;
+        }
+
+        private void clone(MultiDimensionalComplexMatrix mdcm) throws IllegalArgumentException {
+            int[] vector = new int[this.dimensionSize.length];
+            int size = 1;
+            for (int i = 0; i < this.dimensionSize.length; i++) {
+                size *= this.dimensionSize[i];
+            }
+            int[][] vectorList = new int[size][this.dimensionSize.length];
+            for (int[] iArr : vectorList) {
+                System.arraycopy(vector, 0, iArr, 0, this.dimensionSize.length);
+                for (int i2 = 0; i2 < this.dimensionSize.length; i2++) {
+                    int i3 = i2;
+                    vector[i3] = vector[i3] + 1;
+                    if (vector[i2] < this.dimensionSize[i2]) {
+                        break;
+                    }
+                    vector[i2] = 0;
+                }
+            }
+            for (int[] nextVector : vectorList) {
+                mdcm.set(get(nextVector), nextVector);
+            }
+        }
+    }
+
+    /* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+    /* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/transform/FastFourierTransformer$RootsOfUnity.class */
+    private static class RootsOfUnity implements Serializable {
+        private static final long serialVersionUID = 6404784357747329667L;
+        private int omegaCount = 0;
+        private double[] omegaReal = null;
+        private double[] omegaImaginaryForward = null;
+        private double[] omegaImaginaryInverse = null;
+        private boolean isForward = true;
+
+        public synchronized boolean isForward() throws IllegalStateException {
+            if (this.omegaCount == 0) {
+                throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET, new Object[0]);
+            }
+            return this.isForward;
+        }
+
+        public synchronized void computeOmega(int n) throws IllegalArgumentException {
+            if (n == 0) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.CANNOT_COMPUTE_0TH_ROOT_OF_UNITY, new Object[0]);
+            }
+            this.isForward = n > 0;
+            int absN = FastMath.abs(n);
+            if (absN == this.omegaCount) {
+                return;
+            }
+            double t = 6.283185307179586d / absN;
+            double cosT = FastMath.cos(t);
+            double sinT = FastMath.sin(t);
+            this.omegaReal = new double[absN];
+            this.omegaImaginaryForward = new double[absN];
+            this.omegaImaginaryInverse = new double[absN];
+            this.omegaReal[0] = 1.0d;
+            this.omegaImaginaryForward[0] = 0.0d;
+            this.omegaImaginaryInverse[0] = 0.0d;
+            for (int i = 1; i < absN; i++) {
+                this.omegaReal[i] = (this.omegaReal[i - 1] * cosT) + (this.omegaImaginaryForward[i - 1] * sinT);
+                this.omegaImaginaryForward[i] = (this.omegaImaginaryForward[i - 1] * cosT) - (this.omegaReal[i - 1] * sinT);
+                this.omegaImaginaryInverse[i] = -this.omegaImaginaryForward[i];
+            }
+            this.omegaCount = absN;
+        }
+
+        public synchronized double getOmegaReal(int k) throws IllegalStateException, IllegalArgumentException {
+            if (this.omegaCount == 0) {
+                throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET, new Object[0]);
+            }
+            if (k < 0 || k >= this.omegaCount) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, Integer.valueOf(k), 0, Integer.valueOf(this.omegaCount - 1));
+            }
+            return this.omegaReal[k];
+        }
+
+        public synchronized double getOmegaImaginary(int k) throws IllegalStateException, IllegalArgumentException {
+            if (this.omegaCount == 0) {
+                throw MathRuntimeException.createIllegalStateException(LocalizedFormats.ROOTS_OF_UNITY_NOT_COMPUTED_YET, new Object[0]);
+            }
+            if (k < 0 || k >= this.omegaCount) {
+                throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.OUT_OF_RANGE_ROOT_OF_UNITY_INDEX, Integer.valueOf(k), 0, Integer.valueOf(this.omegaCount - 1));
+            }
+            return this.isForward ? this.omegaImaginaryForward[k] : this.omegaImaginaryInverse[k];
+        }
+    }
+}

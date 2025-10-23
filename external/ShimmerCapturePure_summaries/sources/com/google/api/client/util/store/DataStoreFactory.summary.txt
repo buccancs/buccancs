@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/util/store/DataStoreFactory.java
+// Size: 266 bytes
+// Modified: 2025-10-21 16:32:01.287830100 +0100
+
+package com.google.api.client.util.store;
+
+import java.io.IOException;
+import java.io.Serializable;
+
+/* loaded from: classes.dex */
+public interface DataStoreFactory {
+    <V extends Serializable> DataStore<V> getDataStore(String str) throws IOException;
+}

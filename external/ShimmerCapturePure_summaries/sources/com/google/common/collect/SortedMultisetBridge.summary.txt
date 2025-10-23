@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/collect/SortedMultisetBridge.java
+// Size: 246 bytes
+// Modified: 2025-10-21 16:32:01.294343900 +0100
+
+package com.google.common.collect;
+
+import java.util.SortedSet;
+
+/* loaded from: classes.dex */
+interface SortedMultisetBridge<E> extends Multiset<E> {
+    @Override // com.google.common.collect.Multiset
+    SortedSet<E> elementSet();
+}

@@ -1,0 +1,616 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/sensors/SensorMAX86916.java
+// Size: 33205 bytes
+// Modified: 2025-10-21 16:32:14.135687400 +0100
+
+package com.shimmerresearch.verisense.sensors;
+
+import com.google.common.base.Ascii;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.SensorGroupingDetails;
+import com.shimmerresearch.driverUtilities.UtilShimmer;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.verisense.VerisenseDevice;
+import com.shimmerresearch.verisense.sensors.SensorMAX86XXX;
+import io.grpc.netty.shaded.io.netty.handler.codec.http.multipart.DefaultHttpDataFactory;
+import io.grpc.netty.shaded.io.netty.handler.codec.http2.Http2CodecUtil;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import kotlin.UByte$$ExternalSyntheticBackport0;
+
+/* loaded from: classes2.dex */
+public class SensorMAX86916 extends SensorMAX86XXX {
+    public static final Map<String, ChannelDetails> CHANNEL_MAP_REF;
+    public static final ChannelDetails CHANNEL_MAX86916_PPG_BLUE;
+    public static final ChannelDetails CHANNEL_MAX86916_PPG_GREEN;
+    public static final ChannelDetails CHANNEL_MAX86916_PPG_IR;
+    public static final ChannelDetails CHANNEL_MAX86916_PPG_RED;
+    public static final ConfigOptionDetailsSensor CONFIG_OPTION_PPG_RATE;
+    public static final int MAX_DAC_VALUE = (int) (Math.pow(2.0d, 5.0d) - 1.0d);
+    public static final int MAX_LED_CURRENT_MILLIAMPS = 204;
+    public static final Map<Integer, SensorDetailsRef> SENSOR_MAP_REF;
+    public static final SensorDetailsRef SENSOR_MAX86916_PPG_BLUE;
+    public static final SensorDetailsRef SENSOR_MAX86916_PPG_GREEN;
+    public static final SensorDetailsRef SENSOR_MAX86916_PPG_IR;
+    public static final SensorDetailsRef SENSOR_MAX86916_PPG_RED;
+    private static final long serialVersionUID = 519272511737130670L;
+    protected int ppgAutoGainControlTargetPercentOfRange;
+    protected int ppgDac1CrossTalk;
+    protected int ppgDac2CrossTalk;
+    protected int ppgDac3CrossTalk;
+    protected int ppgDac4CrossTalk;
+    protected int ppgDefaultCurrentAllLedsMilliamps;
+    protected int ppgLedAmplitudeBlueConfigValue;
+    protected int ppgLedAmplitudeGreenConfigValue;
+    protected int ppgLedAmplitudeRangeBlue;
+    protected int ppgLedAmplitudeRangeGreen;
+    protected int ppgMaxCurrentGreenBlueLedsMilliamps;
+    protected int ppgMaxCurrentRedIrLedsMilliamps;
+    protected int ppgProximityDetectionCurrentIrLedMilliamps;
+    protected PROX_DETECTION_MODE proximityDetectionMode;
+    private MAX86916_SAMPLE_RATE sampleRate;
+
+    public static class DatabaseChannelHandles {
+        public static final String MAX86916_PPG_BLUE = "MAX86916_PPG_Blue";
+        public static final String MAX86916_PPG_GREEN = "MAX86916_PPG_Green";
+        public static final String MAX86916_PPG_IR = "MAX86916_PPG_IR";
+        public static final String MAX86916_PPG_RED = "MAX86916_PPG_Red";
+    }
+
+    public static class LABEL_SENSOR_TILE {
+        public static final String PPG = "PPG";
+    }
+
+    public static class ObjectClusterSensorName {
+        public static final String MAX86916_PPG_BLUE = "PPG_Blue";
+        public static final String MAX86916_PPG_GREEN = "PPG_Green";
+    }
+
+    public int getPpgAutoGainControlTargetPercentOfRange() {
+        return this.ppgAutoGainControlTargetPercentOfRange;
+    }
+
+    public int getPpgDac1CrossTalk() {
+        return this.ppgDac1CrossTalk;
+    }
+
+    public int getPpgDac2CrossTalk() {
+        return this.ppgDac2CrossTalk;
+    }
+
+    public int getPpgDac3CrossTalk() {
+        return this.ppgDac3CrossTalk;
+    }
+
+    public int getPpgDac4CrossTalk() {
+        return this.ppgDac4CrossTalk;
+    }
+
+    public int getPpgDefaultCurrentAllLedsMilliamps() {
+        return this.ppgDefaultCurrentAllLedsMilliamps;
+    }
+
+    public int getPpgLedAmplitudeBlueConfigValue() {
+        return this.ppgLedAmplitudeBlueConfigValue;
+    }
+
+    public int getPpgLedAmplitudeGreenConfigValue() {
+        return this.ppgLedAmplitudeGreenConfigValue;
+    }
+
+    public int getPpgLedAmplitudeRangeBlue() {
+        return this.ppgLedAmplitudeRangeBlue;
+    }
+
+    public int getPpgLedAmplitudeRangeGreen() {
+        return this.ppgLedAmplitudeRangeGreen;
+    }
+
+    public int getPpgMaxCurrentGreenBlueLedsMilliamps() {
+        return this.ppgMaxCurrentGreenBlueLedsMilliamps;
+    }
+
+    public int getPpgMaxCurrentRedIrLedsMilliamps() {
+        return this.ppgMaxCurrentRedIrLedsMilliamps;
+    }
+
+    public int getPpgProximityDetectionCurrentIrLedMilliamps() {
+        return this.ppgProximityDetectionCurrentIrLedMilliamps;
+    }
+
+    public PROX_DETECTION_MODE getProximityDetectionMode() {
+        return this.proximityDetectionMode;
+    }
+
+    public MAX86916_SAMPLE_RATE getSampleRate() {
+        return this.sampleRate;
+    }
+
+    public void setPpgLedAmplitudeBlueConfigValue(int i) {
+        if (i < 0 || i >= 256) {
+            return;
+        }
+        this.ppgLedAmplitudeBlueConfigValue = i;
+    }
+
+    public void setPpgLedAmplitudeGreenConfigValue(int i) {
+        if (i < 0 || i >= 256) {
+            return;
+        }
+        this.ppgLedAmplitudeGreenConfigValue = i;
+    }
+
+    public void setProximityDetectionMode(PROX_DETECTION_MODE prox_detection_mode) {
+        this.proximityDetectionMode = prox_detection_mode;
+    }
+
+    public void setSampleRate(MAX86916_SAMPLE_RATE max86916_sample_rate) {
+        this.sampleRate = max86916_sample_rate;
+    }
+
+    static {
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(Http2CodecUtil.DEFAULT_HEADER_LIST_SIZE, Http2CodecUtil.DEFAULT_HEADER_LIST_SIZE, SensorMAX86XXX.GuiLabelSensorsCommon.PPG_RED, Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86916, Arrays.asList(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE, SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_LED_RED_AMPLITUDE), Arrays.asList(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED));
+        SENSOR_MAX86916_PPG_RED = sensorDetailsRef;
+        SensorDetailsRef sensorDetailsRef2 = new SensorDetailsRef(4096L, 4096L, SensorMAX86XXX.GuiLabelSensorsCommon.PPG_IR, Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86916, Arrays.asList(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE, SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_LED_IR_AMPLITUDE), Arrays.asList(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_IR));
+        SENSOR_MAX86916_PPG_IR = sensorDetailsRef2;
+        SensorDetailsRef sensorDetailsRef3 = new SensorDetailsRef(DefaultHttpDataFactory.MINSIZE, DefaultHttpDataFactory.MINSIZE, GuiLabelSensors.PPG_GREEN, Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86916, Arrays.asList(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE, GuiLabelConfig.MAX86916_PPG_LED_GREEN_AMPLITUDE), Arrays.asList(ObjectClusterSensorName.MAX86916_PPG_GREEN));
+        SENSOR_MAX86916_PPG_GREEN = sensorDetailsRef3;
+        SensorDetailsRef sensorDetailsRef4 = new SensorDetailsRef(1024L, 1024L, GuiLabelSensors.PPG_BLUE, Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86916, Arrays.asList(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE, GuiLabelConfig.MAX86916_PPG_LED_BLUE_AMPLITUDE), Arrays.asList(ObjectClusterSensorName.MAX86916_PPG_BLUE));
+        SENSOR_MAX86916_PPG_BLUE = sensorDetailsRef4;
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put(2008, sensorDetailsRef);
+        linkedHashMap.put(2009, sensorDetailsRef2);
+        linkedHashMap.put(Integer.valueOf(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_GREEN), sensorDetailsRef3);
+        linkedHashMap.put(Integer.valueOf(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_BLUE), sensorDetailsRef4);
+        SENSOR_MAP_REF = Collections.unmodifiableMap(linkedHashMap);
+        ChannelDetails channelDetails = new ChannelDetails(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED, SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED, DatabaseChannelHandles.MAX86916_PPG_RED, ChannelDetails.CHANNEL_DATA_TYPE.UINT24, 3, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.NANOAMPS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL));
+        CHANNEL_MAX86916_PPG_RED = channelDetails;
+        ChannelDetails channelDetails2 = new ChannelDetails(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_IR, SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_IR, DatabaseChannelHandles.MAX86916_PPG_IR, ChannelDetails.CHANNEL_DATA_TYPE.UINT24, 3, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.NANOAMPS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL));
+        CHANNEL_MAX86916_PPG_IR = channelDetails2;
+        ChannelDetails channelDetails3 = new ChannelDetails(ObjectClusterSensorName.MAX86916_PPG_GREEN, ObjectClusterSensorName.MAX86916_PPG_GREEN, DatabaseChannelHandles.MAX86916_PPG_GREEN, ChannelDetails.CHANNEL_DATA_TYPE.UINT24, 3, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.NANOAMPS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL));
+        CHANNEL_MAX86916_PPG_GREEN = channelDetails3;
+        ChannelDetails channelDetails4 = new ChannelDetails(ObjectClusterSensorName.MAX86916_PPG_BLUE, ObjectClusterSensorName.MAX86916_PPG_BLUE, DatabaseChannelHandles.MAX86916_PPG_BLUE, ChannelDetails.CHANNEL_DATA_TYPE.UINT24, 3, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.NANOAMPS, Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL));
+        CHANNEL_MAX86916_PPG_BLUE = channelDetails4;
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_RED, channelDetails);
+        linkedHashMap2.put(SensorMAX86XXX.ObjectClusterSensorNameCommon.MAX86XXX_PPG_IR, channelDetails2);
+        linkedHashMap2.put(ObjectClusterSensorName.MAX86916_PPG_GREEN, channelDetails3);
+        linkedHashMap2.put(ObjectClusterSensorName.MAX86916_PPG_BLUE, channelDetails4);
+        CHANNEL_MAP_REF = Collections.unmodifiableMap(linkedHashMap2);
+        CONFIG_OPTION_PPG_RATE = new ConfigOptionDetailsSensor(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE, SensorMAX86XXX.DatabaseConfigHandle.MAX86XXX_RATE, MAX86916_SAMPLE_RATE.getLabels(), MAX86916_SAMPLE_RATE.getConfigValues(), ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX, Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86916);
+    }
+
+    public enum MAX86916_SAMPLE_RATE implements ISensorConfig {
+        SR_50_0_HZ("50.0Hz", 0, 50.0d),
+        SR_100_0_HZ("100.0Hz", 1, 100.0d),
+        SR_200_0_HZ("200.0Hz", 2, 200.0d),
+        SR_400_0_HZ("400.0Hz", 3, 400.0d),
+        SR_800_0_HZ("800.0Hz", 4, 800.0d),
+        SR_1000_0_HZ("1000.0Hz", 5, 1000.0d),
+        SR_1600_0_HZ("1600.0Hz", 6, 1600.0d),
+        SR_3200_0_HZ("3200.0Hz", 7, 3200.0d);
+
+        static Map<Integer, MAX86916_SAMPLE_RATE> BY_CONFIG_VALUE;
+        static Map<String, Integer> REF_MAP = new HashMap();
+        Integer configValue;
+        double freqHz;
+        String label;
+
+        static {
+            for (MAX86916_SAMPLE_RATE max86916_sample_rate : values()) {
+                REF_MAP.put(max86916_sample_rate.label, max86916_sample_rate.configValue);
+            }
+            BY_CONFIG_VALUE = new HashMap();
+            for (MAX86916_SAMPLE_RATE max86916_sample_rate2 : values()) {
+                BY_CONFIG_VALUE.put(max86916_sample_rate2.configValue, max86916_sample_rate2);
+            }
+        }
+
+        MAX86916_SAMPLE_RATE(String str, int i, double d) {
+            this.label = str;
+            this.configValue = Integer.valueOf(i);
+            this.freqHz = d;
+        }
+
+        public static String[] getLabels() {
+            return (String[]) REF_MAP.keySet().toArray(new String[REF_MAP.keySet().size()]);
+        }
+
+        public static Integer[] getConfigValues() {
+            return (Integer[]) REF_MAP.values().toArray(new Integer[REF_MAP.values().size()]);
+        }
+
+        public static MAX86916_SAMPLE_RATE getForConfigValue(int i) {
+            return BY_CONFIG_VALUE.get(Integer.valueOf(UtilShimmer.nudgeInteger(i, SR_50_0_HZ.configValue.intValue(), SR_3200_0_HZ.configValue.intValue())));
+        }
+    }
+
+    public enum PROX_DETECTION_MODE implements ISensorConfig {
+        AUTO_GAIN_OFF_PROX_DETECTION_OFF("Auto-gain Off, Proximity Detection Off", 0),
+        AUTO_GAIN_ON_PROX_DETECTION_ON_DRIVER("Auto-gain Off, Proximity Detection - Driver Mode", 1),
+        AUTO_GAIN_ON_PROX_DETECTION_ON_HYBRID("Auto-gain Off, Proximity detection - Hybrid Mode", 2);
+
+        static Map<Integer, PROX_DETECTION_MODE> BY_CONFIG_VALUE;
+        static Map<String, Integer> REF_MAP = new HashMap();
+        Integer configValue;
+        String label;
+
+        static {
+            for (PROX_DETECTION_MODE prox_detection_mode : values()) {
+                REF_MAP.put(prox_detection_mode.label, prox_detection_mode.configValue);
+            }
+            BY_CONFIG_VALUE = new HashMap();
+            for (PROX_DETECTION_MODE prox_detection_mode2 : values()) {
+                BY_CONFIG_VALUE.put(prox_detection_mode2.configValue, prox_detection_mode2);
+            }
+        }
+
+        PROX_DETECTION_MODE(String str, int i) {
+            this.label = str;
+            this.configValue = Integer.valueOf(i);
+        }
+
+        public static String[] getLabels() {
+            return (String[]) REF_MAP.keySet().toArray(new String[REF_MAP.keySet().size()]);
+        }
+
+        public static Integer[] getConfigValues() {
+            return (Integer[]) REF_MAP.values().toArray(new Integer[REF_MAP.values().size()]);
+        }
+
+        public static PROX_DETECTION_MODE getForConfigValue(int i) {
+            return BY_CONFIG_VALUE.get(Integer.valueOf(UtilShimmer.nudgeInteger(i, AUTO_GAIN_OFF_PROX_DETECTION_OFF.configValue.intValue(), AUTO_GAIN_ON_PROX_DETECTION_ON_HYBRID.configValue.intValue())));
+        }
+    }
+
+    public class GuiLabelSensors {
+        public static final String PPG_BLUE = "PPG Blue";
+        public static final String PPG_GREEN = "PPG Green";
+
+        public GuiLabelSensors() {
+        }
+    }
+
+    public class GuiLabelConfig {
+        public static final String MAX86916_PPG_LED_BLUE_AMPLITUDE = "Blue LED Amplitude";
+        public static final String MAX86916_PPG_LED_GREEN_AMPLITUDE = "Green LED Amplitude";
+
+        public GuiLabelConfig() {
+        }
+    }
+
+    public SensorMAX86916(VerisenseDevice verisenseDevice) {
+        super(AbstractSensor.SENSORS.MAX86916, verisenseDevice);
+        this.sampleRate = MAX86916_SAMPLE_RATE.SR_50_0_HZ;
+        this.ppgLedAmplitudeGreenConfigValue = 0;
+        this.ppgLedAmplitudeBlueConfigValue = 0;
+        this.ppgLedAmplitudeRangeGreen = 0;
+        this.ppgLedAmplitudeRangeBlue = 0;
+        this.ppgDefaultCurrentAllLedsMilliamps = 40;
+        this.ppgMaxCurrentRedIrLedsMilliamps = 204;
+        this.ppgMaxCurrentGreenBlueLedsMilliamps = 204;
+        this.ppgAutoGainControlTargetPercentOfRange = 30;
+        this.ppgProximityDetectionCurrentIrLedMilliamps = 10;
+        this.ppgDac1CrossTalk = 0;
+        this.ppgDac2CrossTalk = 0;
+        this.ppgDac3CrossTalk = 0;
+        this.ppgDac4CrossTalk = 0;
+        this.proximityDetectionMode = PROX_DETECTION_MODE.AUTO_GAIN_ON_PROX_DETECTION_ON_DRIVER;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+        super.createLocalSensorMapWithCustomParser(SENSOR_MAP_REF, CHANNEL_MAP_REF);
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX, com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+        this.mConfigOptionsMap.clear();
+        addConfigOption(CONFIG_OPTION_PPG_RATE);
+        super.generateConfigOptionsMap();
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX, com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+        int iOrdinal = Configuration.Shimmer3.LABEL_SENSOR_TILE.MPU_OTHER.ordinal();
+        if (this.mShimmerVerObject.isShimmerGenVerisense()) {
+            this.mSensorGroupingMap.put(Integer.valueOf(iOrdinal), new SensorGroupingDetails("PPG", Arrays.asList(Integer.valueOf(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_GREEN), Integer.valueOf(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_BLUE)), Configuration.Verisense.CompatibilityInfoForMaps.listOfCompatibleVersionInfoMAX86916));
+        }
+        super.updateSensorGroupingMap();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(SensorMAX86XXX.GuiLabelSensorsCommon.PPG_RED) || sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(SensorMAX86XXX.GuiLabelSensorsCommon.PPG_IR) || sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.PPG_GREEN) || sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.PPG_BLUE)) {
+            bArr[0] = (byte) (bArr[0] & 7);
+        }
+        ObjectCluster objectClusterProcessDataCommon = sensorDetails.processDataCommon(bArr, communication_type, objectCluster, z, d);
+        if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(SensorMAX86XXX.GuiLabelSensorsCommon.PPG_RED)) {
+            ChannelDetails channelDetails = CHANNEL_MAX86916_PPG_RED;
+            double formatClusterValue = objectClusterProcessDataCommon.getFormatClusterValue(channelDetails, ChannelDetails.CHANNEL_TYPE.UNCAL);
+            if (UByte$$ExternalSyntheticBackport0.m38878m(formatClusterValue)) {
+                objectClusterProcessDataCommon.addCalData(channelDetails, calibratePpg(formatClusterValue));
+            }
+        } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(SensorMAX86XXX.GuiLabelSensorsCommon.PPG_IR)) {
+            ChannelDetails channelDetails2 = CHANNEL_MAX86916_PPG_IR;
+            double formatClusterValue2 = objectClusterProcessDataCommon.getFormatClusterValue(channelDetails2, ChannelDetails.CHANNEL_TYPE.UNCAL);
+            if (UByte$$ExternalSyntheticBackport0.m38878m(formatClusterValue2)) {
+                objectClusterProcessDataCommon.addCalData(channelDetails2, calibratePpg(formatClusterValue2));
+            }
+        } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.PPG_GREEN)) {
+            ChannelDetails channelDetails3 = CHANNEL_MAX86916_PPG_GREEN;
+            double formatClusterValue3 = objectClusterProcessDataCommon.getFormatClusterValue(channelDetails3, ChannelDetails.CHANNEL_TYPE.UNCAL);
+            if (UByte$$ExternalSyntheticBackport0.m38878m(formatClusterValue3)) {
+                objectClusterProcessDataCommon.addCalData(channelDetails3, calibratePpg(formatClusterValue3));
+            }
+        } else if (sensorDetails.mSensorDetailsRef.mGuiFriendlyLabel.equals(GuiLabelSensors.PPG_BLUE)) {
+            ChannelDetails channelDetails4 = CHANNEL_MAX86916_PPG_BLUE;
+            double formatClusterValue4 = objectClusterProcessDataCommon.getFormatClusterValue(channelDetails4, ChannelDetails.CHANNEL_TYPE.UNCAL);
+            if (UByte$$ExternalSyntheticBackport0.m38878m(formatClusterValue4)) {
+                objectClusterProcessDataCommon.addCalData(channelDetails4, calibratePpg(formatClusterValue4));
+            }
+        }
+        return objectClusterProcessDataCommon;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        if (isSensorEnabled(2008) || isSensorEnabled(2009) || isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_GREEN) || isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_BLUE)) {
+            ConfigByteLayoutMax86916 configByteLayoutMax86916 = new ConfigByteLayoutMax86916(shimmerDevice, communication_type);
+            if (shimmerDevice instanceof VerisenseDevice) {
+                VerisenseDevice verisenseDevice = (VerisenseDevice) shimmerDevice;
+                int i = configByteLayoutMax86916.idxPpgConfig1;
+                bArr[i] = (byte) (bArr[i] & (-128));
+                int i2 = configByteLayoutMax86916.idxPpgConfig1;
+                bArr[i2] = (byte) (bArr[i2] | (getPpgPulseWidthConfigValue() & 3));
+                int i3 = configByteLayoutMax86916.idxPpgConfig1;
+                bArr[i3] = (byte) (bArr[i3] | ((getSampleRate().configValue.intValue() & 7) << 2));
+                int i4 = configByteLayoutMax86916.idxPpgConfig1;
+                bArr[i4] = (byte) (bArr[i4] | ((getPpgAdcResolutionConfigValue() & 3) << 5));
+                int i5 = configByteLayoutMax86916.idxPpgConfig2;
+                bArr[i5] = (byte) (bArr[i5] & Ascii.US);
+                int i6 = configByteLayoutMax86916.idxPpgConfig2;
+                bArr[i6] = (byte) (bArr[i6] | ((getPpgSampleAverageConfigValue() & 7) << 5));
+                if (communication_type == Configuration.COMMUNICATION_TYPE.SD) {
+                    bArr[configByteLayoutMax86916.idxLed1Pa] = (byte) (getPpgLedAmplitudeRedConfigValue() & 255);
+                    bArr[configByteLayoutMax86916.idxLed2Pa] = (byte) (getPpgLedAmplitudeIrConfigValue() & 255);
+                    bArr[configByteLayoutMax86916.idxLed3Pa] = (byte) (getPpgLedAmplitudeGreenConfigValue() & 255);
+                    bArr[configByteLayoutMax86916.idxLed4Pa] = (byte) (getPpgLedAmplitudeBlueConfigValue() & 255);
+                    if (verisenseDevice.isPayloadDesignV7orAbove()) {
+                        bArr[configByteLayoutMax86916.idxLedRge] = (byte) (getPpgLedAmplitudeRangeConfigValue() & 255);
+                    }
+                }
+                if (configByteLayoutMax86916.idxProxAgcMode >= 0) {
+                    int i7 = configByteLayoutMax86916.idxProxAgcMode;
+                    bArr[i7] = (byte) (bArr[i7] & (-4));
+                    int i8 = configByteLayoutMax86916.idxProxAgcMode;
+                    bArr[i8] = (byte) (bArr[i8] | ((byte) (this.proximityDetectionMode.configValue.intValue() & 3)));
+                }
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+        if (isSensorEnabled(2008) || isSensorEnabled(2009) || isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_GREEN) || isSensorEnabled(Configuration.Verisense.SENSOR_ID.MAX86916_PPG_BLUE)) {
+            ConfigByteLayoutMax86916 configByteLayoutMax86916 = new ConfigByteLayoutMax86916(shimmerDevice, communication_type);
+            if (shimmerDevice instanceof VerisenseDevice) {
+                VerisenseDevice verisenseDevice = (VerisenseDevice) shimmerDevice;
+                setPpgPulseWidthConfigValue(bArr[configByteLayoutMax86916.idxPpgConfig1] & 3);
+                setRateConfigValue((bArr[configByteLayoutMax86916.idxPpgConfig1] >> 2) & 7);
+                setPpgAdcResolutionConfigValue((bArr[configByteLayoutMax86916.idxPpgConfig1] >> 5) & 3);
+                setPpgSampleAverageConfigValue((bArr[configByteLayoutMax86916.idxPpgConfig2] >> 5) & 7);
+                if (communication_type == Configuration.COMMUNICATION_TYPE.SD) {
+                    setPpgLedAmplitudeIrConfigValue(bArr[configByteLayoutMax86916.idxLed1Pa] & 255);
+                    setPpgLedAmplitudeRedConfigValue(bArr[configByteLayoutMax86916.idxLed2Pa] & 255);
+                    setPpgLedAmplitudeGreenConfigValue(bArr[configByteLayoutMax86916.idxLed3Pa] & 255);
+                    setPpgLedAmplitudeBlueConfigValue(bArr[configByteLayoutMax86916.idxLed4Pa] & 255);
+                    if (verisenseDevice.isPayloadDesignV7orAbove()) {
+                        setPpgLedAmplitudeRangeConfigValue((byte) (bArr[configByteLayoutMax86916.idxLedRge] & 255));
+                    }
+                }
+                if (configByteLayoutMax86916.idxProxAgcMode >= 0) {
+                    this.proximityDetectionMode = PROX_DETECTION_MODE.getForConfigValue(bArr[configByteLayoutMax86916.idxProxAgcMode] & 3);
+                }
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX, com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        if (!this.mSensorMap.containsKey(Integer.valueOf(i))) {
+            return false;
+        }
+        super.setDefaultConfigForSensor(i, z);
+        setSampleRate(MAX86916_SAMPLE_RATE.SR_50_0_HZ);
+        setPpgDefaultCurrentAllLedsMilliamps(40);
+        setPpgMaxCurrentGreenBlueLedsMilliamps(204);
+        setPpgMaxCurrentRedIrLedsMilliamps(204);
+        setPpgAutoGainControlTargetPercentOfRange(30);
+        setPpgProximityDetectionCurrentIrLedMilliamps(10);
+        setPpgDac1CrossTalk(0);
+        setPpgDac2CrossTalk(0);
+        setPpgDac3CrossTalk(0);
+        setPpgDac4CrossTalk(0);
+        setProximityDetectionMode(PROX_DETECTION_MODE.AUTO_GAIN_ON_PROX_DETECTION_ON_DRIVER);
+        return true;
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX, com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        str.hashCode();
+        if (str.equals(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE)) {
+            setRateConfigValue(((Integer) obj).intValue());
+            return null;
+        }
+        return super.setConfigValueUsingConfigLabel(num, str, obj);
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX, com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        str.hashCode();
+        if (str.equals(SensorMAX86XXX.GuiLabelConfigCommonMax86.MAX86XXX_PPG_RATE)) {
+            return getSampleRate().configValue;
+        }
+        return super.getConfigValueUsingConfigLabel(num, str);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+        for (MAX86916_SAMPLE_RATE max86916_sample_rate : MAX86916_SAMPLE_RATE.values()) {
+            if (d <= max86916_sample_rate.freqHz) {
+                setSampleRate(max86916_sample_rate);
+            }
+        }
+    }
+
+    public void setRateConfigValue(int i) {
+        setSampleRate(MAX86916_SAMPLE_RATE.getForConfigValue(i));
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX
+    public double getSamplingRateFreq() {
+        return getSampleRate().freqHz;
+    }
+
+    public String getPpgLedAmplitudeGreenString() {
+        return calculatePpgLedAmplitude(this.ppgLedAmplitudeGreenConfigValue, this.ppgLedAmplitudeRangeGreen);
+    }
+
+    public String getPpgLedAmplitudeBlueString() {
+        return calculatePpgLedAmplitude(this.ppgLedAmplitudeBlueConfigValue, this.ppgLedAmplitudeRangeBlue);
+    }
+
+    public void setPpgLedAmplitudeRangeGreen(int i) {
+        this.ppgLedAmplitudeRangeGreen = UtilShimmer.nudgeInteger(i, 0, 204);
+    }
+
+    public void setPpgLedAmplitudeRangeBlue(int i) {
+        this.ppgLedAmplitudeRangeBlue = UtilShimmer.nudgeInteger(i, 0, 204);
+    }
+
+    public void setPpgDefaultCurrentAllLedsMilliamps(int i) {
+        this.ppgDefaultCurrentAllLedsMilliamps = UtilShimmer.nudgeInteger(i, 0, 204);
+    }
+
+    public void setPpgMaxCurrentRedIrLedsMilliamps(int i) {
+        this.ppgMaxCurrentRedIrLedsMilliamps = UtilShimmer.nudgeInteger(i, 0, 204);
+    }
+
+    public void setPpgMaxCurrentGreenBlueLedsMilliamps(int i) {
+        this.ppgMaxCurrentGreenBlueLedsMilliamps = UtilShimmer.nudgeInteger(i, 0, 204);
+    }
+
+    public void setPpgAutoGainControlTargetPercentOfRange(int i) {
+        this.ppgAutoGainControlTargetPercentOfRange = UtilShimmer.nudgeInteger(i, 0, 100);
+    }
+
+    public void setPpgProximityDetectionCurrentIrLedMilliamps(int i) {
+        this.ppgProximityDetectionCurrentIrLedMilliamps = UtilShimmer.nudgeInteger(i, 0, 204);
+    }
+
+    public void setPpgDac1CrossTalk(int i) {
+        this.ppgDac1CrossTalk = UtilShimmer.nudgeInteger(i, 0, MAX_DAC_VALUE);
+    }
+
+    public void setPpgDac2CrossTalk(int i) {
+        this.ppgDac2CrossTalk = UtilShimmer.nudgeInteger(i, 0, MAX_DAC_VALUE);
+    }
+
+    public void setPpgDac3CrossTalk(int i) {
+        this.ppgDac3CrossTalk = UtilShimmer.nudgeInteger(i, 0, MAX_DAC_VALUE);
+    }
+
+    public void setPpgDac4CrossTalk(int i) {
+        this.ppgDac4CrossTalk = UtilShimmer.nudgeInteger(i, 0, MAX_DAC_VALUE);
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX
+    public byte getPpgLedAmplitudeRangeConfigValue() {
+        return (byte) (((byte) (super.getPpgLedAmplitudeRangeConfigValue() | ((this.ppgLedAmplitudeRangeGreen & 3) << 4))) | ((this.ppgLedAmplitudeRangeBlue & 3) << 6));
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX
+    public void setPpgLedAmplitudeRangeConfigValue(byte b) {
+        this.ppgLedAmplitudeRangeGreen = (b >> 4) & 3;
+        this.ppgLedAmplitudeRangeBlue = (b >> 6) & 3;
+        super.setPpgLedAmplitudeRangeConfigValue(b);
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX, com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorConfig(ISensorConfig iSensorConfig) {
+        if (iSensorConfig instanceof MAX86916_SAMPLE_RATE) {
+            setSampleRate((MAX86916_SAMPLE_RATE) iSensorConfig);
+        } else if (iSensorConfig instanceof PROX_DETECTION_MODE) {
+            setProximityDetectionMode((PROX_DETECTION_MODE) iSensorConfig);
+        } else {
+            super.setSensorConfig(iSensorConfig);
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.sensors.SensorMAX86XXX, com.shimmerresearch.sensors.AbstractSensor
+    public List<ISensorConfig> getSensorConfig() {
+        List<ISensorConfig> sensorConfig = super.getSensorConfig();
+        sensorConfig.add(getSampleRate());
+        sensorConfig.add(getProximityDetectionMode());
+        return sensorConfig;
+    }
+
+    private class ConfigByteLayoutMax86916 {
+        public int idxLed1Pa;
+        public int idxLed2Pa;
+        public int idxLed3Pa;
+        public int idxLed4Pa;
+        public int idxLedRge;
+        public int idxPpgConfig1;
+        public int idxPpgConfig2;
+        public int idxProxAgcMode;
+
+        public ConfigByteLayoutMax86916(ShimmerDevice shimmerDevice, Configuration.COMMUNICATION_TYPE communication_type) {
+            this.idxPpgConfig1 = -1;
+            this.idxPpgConfig2 = -1;
+            this.idxLed1Pa = -1;
+            this.idxLed2Pa = -1;
+            this.idxLed3Pa = -1;
+            this.idxLed4Pa = -1;
+            this.idxLedRge = -1;
+            this.idxProxAgcMode = -1;
+            if (shimmerDevice instanceof VerisenseDevice) {
+                VerisenseDevice verisenseDevice = (VerisenseDevice) shimmerDevice;
+                if (communication_type != Configuration.COMMUNICATION_TYPE.SD) {
+                    this.idxPpgConfig1 = 60;
+                    this.idxPpgConfig2 = 59;
+                    this.idxProxAgcMode = 71;
+                    return;
+                }
+                if (verisenseDevice.isPayloadDesignV8orAbove()) {
+                    this.idxPpgConfig1 = 17;
+                    this.idxPpgConfig2 = 18;
+                    this.idxLed1Pa = 19;
+                    this.idxLed2Pa = 20;
+                    this.idxLed3Pa = 21;
+                    this.idxLed4Pa = 22;
+                    this.idxLedRge = 23;
+                    return;
+                }
+                this.idxPpgConfig1 = 1;
+                this.idxPpgConfig2 = 14;
+                this.idxLed1Pa = 15;
+                this.idxLed2Pa = 16;
+                this.idxLed3Pa = 17;
+                this.idxLed4Pa = 18;
+                this.idxLedRge = 19;
+            }
+        }
+    }
+}

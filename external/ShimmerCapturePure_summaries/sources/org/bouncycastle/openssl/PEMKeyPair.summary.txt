@@ -1,0 +1,27 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/openssl/PEMKeyPair.java
+// Size: 716 bytes
+// Modified: 2025-10-21 16:32:03.019216000 +0100
+
+package org.bouncycastle.openssl;
+
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
+
+/* loaded from: classes5.dex */
+public class PEMKeyPair {
+    private final PrivateKeyInfo privateKeyInfo;
+    private final SubjectPublicKeyInfo publicKeyInfo;
+
+    public PEMKeyPair(SubjectPublicKeyInfo subjectPublicKeyInfo, PrivateKeyInfo privateKeyInfo) {
+        this.publicKeyInfo = subjectPublicKeyInfo;
+        this.privateKeyInfo = privateKeyInfo;
+    }
+
+    public PrivateKeyInfo getPrivateKeyInfo() {
+        return this.privateKeyInfo;
+    }
+
+    public SubjectPublicKeyInfo getPublicKeyInfo() {
+        return this.publicKeyInfo;
+    }
+}

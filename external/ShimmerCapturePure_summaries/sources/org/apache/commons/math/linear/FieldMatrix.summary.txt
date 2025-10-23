@@ -1,0 +1,112 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/linear/FieldMatrix.java
+// Size: 4948 bytes
+// Modified: 2025-10-21 16:32:04.982377100 +0100
+
+package org.apache.commons.math.linear;
+
+import org.apache.commons.math.Field;
+import org.apache.commons.math.FieldElement;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/linear/FieldMatrix.class */
+public interface FieldMatrix<T extends FieldElement<T>> extends AnyMatrix {
+    Field<T> getField();
+
+    FieldMatrix<T> createMatrix(int i, int i2);
+
+    FieldMatrix<T> copy();
+
+    FieldMatrix<T> add(FieldMatrix<T> fieldMatrix) throws IllegalArgumentException;
+
+    FieldMatrix<T> subtract(FieldMatrix<T> fieldMatrix) throws IllegalArgumentException;
+
+    FieldMatrix<T> scalarAdd(T t);
+
+    FieldMatrix<T> scalarMultiply(T t);
+
+    FieldMatrix<T> multiply(FieldMatrix<T> fieldMatrix) throws IllegalArgumentException;
+
+    FieldMatrix<T> preMultiply(FieldMatrix<T> fieldMatrix) throws IllegalArgumentException;
+
+    T[][] getData();
+
+    FieldMatrix<T> getSubMatrix(int i, int i2, int i3, int i4) throws MatrixIndexException;
+
+    FieldMatrix<T> getSubMatrix(int[] iArr, int[] iArr2) throws MatrixIndexException;
+
+    void copySubMatrix(int i, int i2, int i3, int i4, T[][] tArr) throws MatrixIndexException, IllegalArgumentException;
+
+    void copySubMatrix(int[] iArr, int[] iArr2, T[][] tArr) throws MatrixIndexException, IllegalArgumentException;
+
+    void setSubMatrix(T[][] tArr, int i, int i2) throws MatrixIndexException;
+
+    FieldMatrix<T> getRowMatrix(int i) throws MatrixIndexException;
+
+    void setRowMatrix(int i, FieldMatrix<T> fieldMatrix) throws MatrixIndexException, InvalidMatrixException;
+
+    FieldMatrix<T> getColumnMatrix(int i) throws MatrixIndexException;
+
+    void setColumnMatrix(int i, FieldMatrix<T> fieldMatrix) throws MatrixIndexException, InvalidMatrixException;
+
+    FieldVector<T> getRowVector(int i) throws MatrixIndexException;
+
+    void setRowVector(int i, FieldVector<T> fieldVector) throws MatrixIndexException, InvalidMatrixException;
+
+    FieldVector<T> getColumnVector(int i) throws MatrixIndexException;
+
+    void setColumnVector(int i, FieldVector<T> fieldVector) throws MatrixIndexException, InvalidMatrixException;
+
+    T[] getRow(int i) throws MatrixIndexException;
+
+    void setRow(int i, T[] tArr) throws MatrixIndexException, InvalidMatrixException;
+
+    T[] getColumn(int i) throws MatrixIndexException;
+
+    void setColumn(int i, T[] tArr) throws MatrixIndexException, InvalidMatrixException;
+
+    T getEntry(int i, int i2) throws MatrixIndexException;
+
+    void setEntry(int i, int i2, T t) throws MatrixIndexException;
+
+    void addToEntry(int i, int i2, T t) throws MatrixIndexException;
+
+    void multiplyEntry(int i, int i2, T t) throws MatrixIndexException;
+
+    FieldMatrix<T> transpose();
+
+    T getTrace() throws NonSquareMatrixException;
+
+    T[] operate(T[] tArr) throws IllegalArgumentException;
+
+    FieldVector<T> operate(FieldVector<T> fieldVector) throws IllegalArgumentException;
+
+    T[] preMultiply(T[] tArr) throws IllegalArgumentException;
+
+    FieldVector<T> preMultiply(FieldVector<T> fieldVector) throws IllegalArgumentException;
+
+    T walkInRowOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor) throws MatrixVisitorException;
+
+    T walkInRowOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor) throws MatrixVisitorException;
+
+    T walkInRowOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor, int i, int i2, int i3, int i4) throws MatrixVisitorException, MatrixIndexException;
+
+    T walkInRowOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor, int i, int i2, int i3, int i4) throws MatrixVisitorException, MatrixIndexException;
+
+    T walkInColumnOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor) throws MatrixVisitorException;
+
+    T walkInColumnOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor) throws MatrixVisitorException;
+
+    T walkInColumnOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor, int i, int i2, int i3, int i4) throws MatrixVisitorException, MatrixIndexException;
+
+    T walkInColumnOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor, int i, int i2, int i3, int i4) throws MatrixVisitorException, MatrixIndexException;
+
+    T walkInOptimizedOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor) throws MatrixVisitorException;
+
+    T walkInOptimizedOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor) throws MatrixVisitorException;
+
+    T walkInOptimizedOrder(FieldMatrixChangingVisitor<T> fieldMatrixChangingVisitor, int i, int i2, int i3, int i4) throws MatrixVisitorException, MatrixIndexException;
+
+    T walkInOptimizedOrder(FieldMatrixPreservingVisitor<T> fieldMatrixPreservingVisitor, int i, int i2, int i3, int i4) throws MatrixVisitorException, MatrixIndexException;
+}

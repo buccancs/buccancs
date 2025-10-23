@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/mime/ConstantMimeContext.java
+// Size: 557 bytes
+// Modified: 2025-10-21 16:32:04.532740300 +0100
+
+package org.bouncycastle.mime;
+
+import java.io.IOException;
+import java.io.InputStream;
+
+/* loaded from: classes5.dex */
+public class ConstantMimeContext implements MimeContext, MimeMultipartContext {
+    @Override // org.bouncycastle.mime.MimeContext
+    public InputStream applyContext(Headers headers, InputStream inputStream) throws IOException {
+        return inputStream;
+    }
+
+    @Override // org.bouncycastle.mime.MimeMultipartContext
+    public MimeContext createContext(int i) throws IOException {
+        return this;
+    }
+}

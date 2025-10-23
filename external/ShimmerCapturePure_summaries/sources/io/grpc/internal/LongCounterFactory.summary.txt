@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/internal/LongCounterFactory.java
+// Size: 348 bytes
+// Modified: 2025-10-21 16:32:03.384956900 +0100
+
+package io.grpc.internal;
+
+/* loaded from: classes2.dex */
+final class LongCounterFactory {
+    LongCounterFactory() {
+    }
+
+    public static LongCounter create() {
+        if (ReflectionLongAdderCounter.isAvailable()) {
+            return new ReflectionLongAdderCounter();
+        }
+        return new AtomicLongCounter();
+    }
+}

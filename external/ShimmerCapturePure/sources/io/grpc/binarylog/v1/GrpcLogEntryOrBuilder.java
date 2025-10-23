@@ -1,0 +1,60 @@
+package io.grpc.binarylog.v1;
+
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import io.grpc.binarylog.v1.GrpcLogEntry;
+
+/* loaded from: classes2.dex */
+public interface GrpcLogEntryOrBuilder extends com.google.protobuf.MessageOrBuilder {
+    long getCallId();
+
+    ClientHeader getClientHeader();
+
+    ClientHeaderOrBuilder getClientHeaderOrBuilder();
+
+    GrpcLogEntry.Logger getLogger();
+
+    int getLoggerValue();
+
+    Message getMessage();
+
+    MessageOrBuilder getMessageOrBuilder();
+
+    GrpcLogEntry.PayloadCase getPayloadCase();
+
+    boolean getPayloadTruncated();
+
+    Address getPeer();
+
+    AddressOrBuilder getPeerOrBuilder();
+
+    long getSequenceIdWithinCall();
+
+    ServerHeader getServerHeader();
+
+    ServerHeaderOrBuilder getServerHeaderOrBuilder();
+
+    Timestamp getTimestamp();
+
+    TimestampOrBuilder getTimestampOrBuilder();
+
+    Trailer getTrailer();
+
+    TrailerOrBuilder getTrailerOrBuilder();
+
+    GrpcLogEntry.EventType getType();
+
+    int getTypeValue();
+
+    boolean hasClientHeader();
+
+    boolean hasMessage();
+
+    boolean hasPeer();
+
+    boolean hasServerHeader();
+
+    boolean hasTimestamp();
+
+    boolean hasTrailer();
+}

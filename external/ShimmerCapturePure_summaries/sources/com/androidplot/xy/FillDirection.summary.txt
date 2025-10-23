@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/xy/FillDirection.java
+// Size: 179 bytes
+// Modified: 2025-10-21 16:32:00.084887400 +0100
+
+package com.androidplot.xy;
+
+/* loaded from: classes.dex */
+public enum FillDirection {
+    TOP,
+    BOTTOM,
+    LEFT,
+    RIGHT,
+    DOMAIN_ORIGIN,
+    RANGE_ORIGIN
+}

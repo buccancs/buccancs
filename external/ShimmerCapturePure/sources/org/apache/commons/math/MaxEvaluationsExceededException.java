@@ -1,0 +1,33 @@
+package org.apache.commons.math;
+
+import org.apache.commons.math.exception.util.DummyLocalizable;
+import org.apache.commons.math.exception.util.Localizable;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/MaxEvaluationsExceededException.class */
+public class MaxEvaluationsExceededException extends ConvergenceException {
+    private static final long serialVersionUID = -5921271447220129118L;
+    private final int maxEvaluations;
+
+    public MaxEvaluationsExceededException(int maxEvaluations) {
+        super(LocalizedFormats.MAX_EVALUATIONS_EXCEEDED, Integer.valueOf(maxEvaluations));
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    @Deprecated
+    public MaxEvaluationsExceededException(int maxEvaluations, String pattern, Object... arguments) {
+        this(maxEvaluations, new DummyLocalizable(pattern), arguments);
+    }
+
+    public MaxEvaluationsExceededException(int maxEvaluations, Localizable pattern, Object... arguments) {
+        super(pattern, arguments);
+        this.maxEvaluations = maxEvaluations;
+    }
+
+    public int getMaxEvaluations() {
+        return this.maxEvaluations;
+    }
+}

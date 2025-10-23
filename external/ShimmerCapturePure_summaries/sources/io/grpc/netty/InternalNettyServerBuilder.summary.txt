@@ -1,0 +1,40 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/InternalNettyServerBuilder.java
+// Size: 1471 bytes
+// Modified: 2025-10-21 16:32:09.962569700 +0100
+
+package io.grpc.netty;
+
+import io.grpc.internal.SharedResourcePool;
+import io.netty.channel.socket.nio.NioServerSocketChannel;
+
+/* loaded from: classes2.dex */
+public final class InternalNettyServerBuilder {
+    public static void setStatsEnabled(NettyServerBuilder nettyServerBuilder, boolean z) {
+        nettyServerBuilder.setStatsEnabled(z);
+    }
+
+    public static void setStatsRecordStartedRpcs(NettyServerBuilder nettyServerBuilder, boolean z) {
+        nettyServerBuilder.setStatsRecordStartedRpcs(z);
+    }
+
+    public static void setStatsRecordRealTimeMetrics(NettyServerBuilder nettyServerBuilder, boolean z) {
+        nettyServerBuilder.setStatsRecordRealTimeMetrics(z);
+    }
+
+    public static void setTracingEnabled(NettyServerBuilder nettyServerBuilder, boolean z) {
+        nettyServerBuilder.setTracingEnabled(z);
+    }
+
+    public static void setForceHeapBuffer(NettyServerBuilder nettyServerBuilder, boolean z) {
+        nettyServerBuilder.setForceHeapBuffer(z);
+    }
+
+    public static void useNioTransport(NettyServerBuilder nettyServerBuilder) {
+        nettyServerBuilder.channelType(NioServerSocketChannel.class);
+        nettyServerBuilder.bossEventLoopGroupPool(SharedResourcePool.forResource(Utils.NIO_BOSS_EVENT_LOOP_GROUP));
+        nettyServerBuilder.workerEventLoopGroupPool(SharedResourcePool.forResource(Utils.NIO_WORKER_EVENT_LOOP_GROUP));
+    }
+
+    private InternalNettyServerBuilder() {
+    }
+}

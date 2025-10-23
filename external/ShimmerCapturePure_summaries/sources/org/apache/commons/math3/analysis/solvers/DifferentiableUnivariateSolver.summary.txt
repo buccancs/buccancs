@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/solvers/DifferentiableUnivariateSolver.java
+// Size: 295 bytes
+// Modified: 2025-10-21 16:32:03.283972500 +0100
+
+package org.apache.commons.math3.analysis.solvers;
+
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public interface DifferentiableUnivariateSolver extends BaseUnivariateSolver<DifferentiableUnivariateFunction> {
+}

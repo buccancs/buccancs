@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/modes/gcm/GCMExponentiator.java
+// Size: 196 bytes
+// Modified: 2025-10-21 16:32:00.595785500 +0100
+
+package org.bouncycastle.crypto.modes.gcm;
+
+/* loaded from: classes5.dex */
+public interface GCMExponentiator {
+    void exponentiateX(long j, byte[] bArr);
+
+    void init(byte[] bArr);
+}

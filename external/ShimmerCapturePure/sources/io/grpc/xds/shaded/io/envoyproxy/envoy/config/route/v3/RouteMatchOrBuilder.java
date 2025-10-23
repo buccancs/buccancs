@@ -1,0 +1,82 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFractionalPercent;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.core.v3.RuntimeFractionalPercentOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.route.v3.RouteMatch;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.v3.RegexMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.type.matcher.v3.RegexMatcherOrBuilder;
+
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public interface RouteMatchOrBuilder extends MessageOrBuilder {
+    BoolValue getCaseSensitive();
+
+    BoolValueOrBuilder getCaseSensitiveOrBuilder();
+
+    RouteMatch.ConnectMatcher getConnectMatcher();
+
+    RouteMatch.ConnectMatcherOrBuilder getConnectMatcherOrBuilder();
+
+    RouteMatch.GrpcRouteMatchOptions getGrpc();
+
+    RouteMatch.GrpcRouteMatchOptionsOrBuilder getGrpcOrBuilder();
+
+    HeaderMatcher getHeaders(int i);
+
+    int getHeadersCount();
+
+    List<HeaderMatcher> getHeadersList();
+
+    HeaderMatcherOrBuilder getHeadersOrBuilder(int i);
+
+    List<? extends HeaderMatcherOrBuilder> getHeadersOrBuilderList();
+
+    String getPath();
+
+    ByteString getPathBytes();
+
+    RouteMatch.PathSpecifierCase getPathSpecifierCase();
+
+    String getPrefix();
+
+    ByteString getPrefixBytes();
+
+    QueryParameterMatcher getQueryParameters(int i);
+
+    int getQueryParametersCount();
+
+    List<QueryParameterMatcher> getQueryParametersList();
+
+    QueryParameterMatcherOrBuilder getQueryParametersOrBuilder(int i);
+
+    List<? extends QueryParameterMatcherOrBuilder> getQueryParametersOrBuilderList();
+
+    RuntimeFractionalPercent getRuntimeFraction();
+
+    RuntimeFractionalPercentOrBuilder getRuntimeFractionOrBuilder();
+
+    RegexMatcher getSafeRegex();
+
+    RegexMatcherOrBuilder getSafeRegexOrBuilder();
+
+    RouteMatch.TlsContextMatchOptions getTlsContext();
+
+    RouteMatch.TlsContextMatchOptionsOrBuilder getTlsContextOrBuilder();
+
+    boolean hasCaseSensitive();
+
+    boolean hasConnectMatcher();
+
+    boolean hasGrpc();
+
+    boolean hasRuntimeFraction();
+
+    boolean hasSafeRegex();
+
+    boolean hasTlsContext();
+}

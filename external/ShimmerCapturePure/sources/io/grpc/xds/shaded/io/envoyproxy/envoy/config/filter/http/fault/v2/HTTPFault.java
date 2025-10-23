@@ -1,0 +1,1977 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.RepeatedFieldBuilderV3;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcher;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.route.HeaderMatcherOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultDelay;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultDelayOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimit;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.fault.v2.FaultRateLimitOrBuilder;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.FaultAbort;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public final class HTTPFault extends GeneratedMessageV3 implements HTTPFaultOrBuilder {
+    public static final int ABORT_FIELD_NUMBER = 2;
+    public static final int ABORT_HTTP_STATUS_RUNTIME_FIELD_NUMBER = 11;
+    public static final int ABORT_PERCENT_RUNTIME_FIELD_NUMBER = 9;
+    public static final int DELAY_DURATION_RUNTIME_FIELD_NUMBER = 10;
+    public static final int DELAY_FIELD_NUMBER = 1;
+    public static final int DELAY_PERCENT_RUNTIME_FIELD_NUMBER = 8;
+    public static final int DOWNSTREAM_NODES_FIELD_NUMBER = 5;
+    public static final int HEADERS_FIELD_NUMBER = 4;
+    public static final int MAX_ACTIVE_FAULTS_FIELD_NUMBER = 6;
+    public static final int MAX_ACTIVE_FAULTS_RUNTIME_FIELD_NUMBER = 12;
+    public static final int RESPONSE_RATE_LIMIT_FIELD_NUMBER = 7;
+    public static final int RESPONSE_RATE_LIMIT_PERCENT_RUNTIME_FIELD_NUMBER = 13;
+    public static final int UPSTREAM_CLUSTER_FIELD_NUMBER = 3;
+    private static final long serialVersionUID = 0;
+    private static final HTTPFault DEFAULT_INSTANCE = new HTTPFault();
+    private static final Parser<HTTPFault> PARSER = new AbstractParser<HTTPFault>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public HTTPFault m26050parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new HTTPFault(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object abortHttpStatusRuntime_;
+    private volatile Object abortPercentRuntime_;
+    private FaultAbort abort_;
+    private volatile Object delayDurationRuntime_;
+    private volatile Object delayPercentRuntime_;
+    private FaultDelay delay_;
+    private LazyStringList downstreamNodes_;
+    private List<HeaderMatcher> headers_;
+    private volatile Object maxActiveFaultsRuntime_;
+    private UInt32Value maxActiveFaults_;
+    private byte memoizedIsInitialized;
+    private volatile Object responseRateLimitPercentRuntime_;
+    private FaultRateLimit responseRateLimit_;
+    private volatile Object upstreamCluster_;
+
+    private HTTPFault(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private HTTPFault() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.upstreamCluster_ = "";
+        this.headers_ = Collections.emptyList();
+        this.downstreamNodes_ = LazyStringArrayList.EMPTY;
+        this.delayPercentRuntime_ = "";
+        this.abortPercentRuntime_ = "";
+        this.delayDurationRuntime_ = "";
+        this.abortHttpStatusRuntime_ = "";
+        this.maxActiveFaultsRuntime_ = "";
+        this.responseRateLimitPercentRuntime_ = "";
+    }
+
+    private HTTPFault(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        UInt32Value.Builder builderM25724toBuilder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            FaultDelay faultDelay = this.delay_;
+                            builderM25724toBuilder = faultDelay != null ? faultDelay.m25724toBuilder() : null;
+                            FaultDelay message = codedInputStream.readMessage(FaultDelay.parser(), extensionRegistryLite);
+                            this.delay_ = message;
+                            if (builderM25724toBuilder != null) {
+                                builderM25724toBuilder.mergeFrom(message);
+                                this.delay_ = builderM25724toBuilder.m25731buildPartial();
+                            }
+                        case 18:
+                            FaultAbort faultAbort = this.abort_;
+                            builderM25724toBuilder = faultAbort != null ? faultAbort.m25955toBuilder() : null;
+                            FaultAbort message2 = codedInputStream.readMessage(FaultAbort.parser(), extensionRegistryLite);
+                            this.abort_ = message2;
+                            if (builderM25724toBuilder != null) {
+                                builderM25724toBuilder.mergeFrom(message2);
+                                this.abort_ = builderM25724toBuilder.m25962buildPartial();
+                            }
+                        case 26:
+                            this.upstreamCluster_ = codedInputStream.readStringRequireUtf8();
+                        case 34:
+                            if ((i & 1) == 0) {
+                                this.headers_ = new ArrayList();
+                                i |= 1;
+                            }
+                            this.headers_.add(codedInputStream.readMessage(HeaderMatcher.parser(), extensionRegistryLite));
+                        case 42:
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if ((i & 2) == 0) {
+                                this.downstreamNodes_ = new LazyStringArrayList();
+                                i |= 2;
+                            }
+                            this.downstreamNodes_.add(stringRequireUtf8);
+                        case 50:
+                            UInt32Value uInt32Value = this.maxActiveFaults_;
+                            builderM25724toBuilder = uInt32Value != null ? uInt32Value.toBuilder() : null;
+                            UInt32Value message3 = codedInputStream.readMessage(UInt32Value.parser(), extensionRegistryLite);
+                            this.maxActiveFaults_ = message3;
+                            if (builderM25724toBuilder != null) {
+                                builderM25724toBuilder.mergeFrom(message3);
+                                this.maxActiveFaults_ = builderM25724toBuilder.buildPartial();
+                            }
+                        case 58:
+                            FaultRateLimit faultRateLimit = this.responseRateLimit_;
+                            builderM25724toBuilder = faultRateLimit != null ? faultRateLimit.m25817toBuilder() : null;
+                            FaultRateLimit faultRateLimit2 = (FaultRateLimit) codedInputStream.readMessage(FaultRateLimit.parser(), extensionRegistryLite);
+                            this.responseRateLimit_ = faultRateLimit2;
+                            if (builderM25724toBuilder != null) {
+                                builderM25724toBuilder.mergeFrom(faultRateLimit2);
+                                this.responseRateLimit_ = builderM25724toBuilder.m25824buildPartial();
+                            }
+                        case 66:
+                            this.delayPercentRuntime_ = codedInputStream.readStringRequireUtf8();
+                        case 74:
+                            this.abortPercentRuntime_ = codedInputStream.readStringRequireUtf8();
+                        case 82:
+                            this.delayDurationRuntime_ = codedInputStream.readStringRequireUtf8();
+                        case RESET_TO_DEFAULT_CONFIGURATION_COMMAND_VALUE:
+                            this.abortHttpStatusRuntime_ = codedInputStream.readStringRequireUtf8();
+                        case 98:
+                            this.maxActiveFaultsRuntime_ = codedInputStream.readStringRequireUtf8();
+                        case 106:
+                            this.responseRateLimitPercentRuntime_ = codedInputStream.readStringRequireUtf8();
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (InvalidProtocolBufferException e) {
+                    throw e.setUnfinishedMessage(this);
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.headers_ = Collections.unmodifiableList(this.headers_);
+                }
+                if ((i & 2) != 0) {
+                    this.downstreamNodes_ = this.downstreamNodes_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static HTTPFault getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<HTTPFault> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return FaultProto.internal_static_envoy_config_filter_http_fault_v2_HTTPFault_descriptor;
+    }
+
+    public static HTTPFault parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (HTTPFault) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static HTTPFault parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HTTPFault) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static HTTPFault parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (HTTPFault) PARSER.parseFrom(byteString);
+    }
+
+    public static HTTPFault parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HTTPFault) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static HTTPFault parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (HTTPFault) PARSER.parseFrom(bArr);
+    }
+
+    public static HTTPFault parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (HTTPFault) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static HTTPFault parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static HTTPFault parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static HTTPFault parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static HTTPFault parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static HTTPFault parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static HTTPFault parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m26048toBuilder();
+    }
+
+    public static Builder newBuilder(HTTPFault hTTPFault) {
+        return DEFAULT_INSTANCE.m26048toBuilder().mergeFrom(hTTPFault);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public HTTPFault m26042getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    /* renamed from: getDownstreamNodesList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo26044getDownstreamNodesList() {
+        return this.downstreamNodes_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public List<HeaderMatcher> getHeadersList() {
+        return this.headers_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public List<? extends HeaderMatcherOrBuilder> getHeadersOrBuilderList() {
+        return this.headers_;
+    }
+
+    public Parser<HTTPFault> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public boolean hasAbort() {
+        return this.abort_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public boolean hasDelay() {
+        return this.delay_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public boolean hasMaxActiveFaults() {
+        return this.maxActiveFaults_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public boolean hasResponseRateLimit() {
+        return this.responseRateLimit_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new HTTPFault();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return FaultProto.internal_static_envoy_config_filter_http_fault_v2_HTTPFault_fieldAccessorTable.ensureFieldAccessorsInitialized(HTTPFault.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public FaultDelay getDelay() {
+        FaultDelay faultDelay = this.delay_;
+        return faultDelay == null ? FaultDelay.getDefaultInstance() : faultDelay;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public FaultDelayOrBuilder getDelayOrBuilder() {
+        return getDelay();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public FaultAbort getAbort() {
+        FaultAbort faultAbort = this.abort_;
+        return faultAbort == null ? FaultAbort.getDefaultInstance() : faultAbort;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public FaultAbortOrBuilder getAbortOrBuilder() {
+        return getAbort();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public String getUpstreamCluster() {
+        Object obj = this.upstreamCluster_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.upstreamCluster_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public ByteString getUpstreamClusterBytes() {
+        Object obj = this.upstreamCluster_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.upstreamCluster_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public int getHeadersCount() {
+        return this.headers_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public HeaderMatcher getHeaders(int i) {
+        return this.headers_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public HeaderMatcherOrBuilder getHeadersOrBuilder(int i) {
+        return this.headers_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public int getDownstreamNodesCount() {
+        return this.downstreamNodes_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public String getDownstreamNodes(int i) {
+        return (String) this.downstreamNodes_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public ByteString getDownstreamNodesBytes(int i) {
+        return this.downstreamNodes_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public UInt32Value getMaxActiveFaults() {
+        UInt32Value uInt32Value = this.maxActiveFaults_;
+        return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public UInt32ValueOrBuilder getMaxActiveFaultsOrBuilder() {
+        return getMaxActiveFaults();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public FaultRateLimit getResponseRateLimit() {
+        FaultRateLimit faultRateLimit = this.responseRateLimit_;
+        return faultRateLimit == null ? FaultRateLimit.getDefaultInstance() : faultRateLimit;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public FaultRateLimitOrBuilder getResponseRateLimitOrBuilder() {
+        return getResponseRateLimit();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public String getDelayPercentRuntime() {
+        Object obj = this.delayPercentRuntime_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.delayPercentRuntime_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public ByteString getDelayPercentRuntimeBytes() {
+        Object obj = this.delayPercentRuntime_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.delayPercentRuntime_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public String getAbortPercentRuntime() {
+        Object obj = this.abortPercentRuntime_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.abortPercentRuntime_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public ByteString getAbortPercentRuntimeBytes() {
+        Object obj = this.abortPercentRuntime_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.abortPercentRuntime_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public String getDelayDurationRuntime() {
+        Object obj = this.delayDurationRuntime_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.delayDurationRuntime_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public ByteString getDelayDurationRuntimeBytes() {
+        Object obj = this.delayDurationRuntime_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.delayDurationRuntime_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public String getAbortHttpStatusRuntime() {
+        Object obj = this.abortHttpStatusRuntime_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.abortHttpStatusRuntime_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public ByteString getAbortHttpStatusRuntimeBytes() {
+        Object obj = this.abortHttpStatusRuntime_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.abortHttpStatusRuntime_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public String getMaxActiveFaultsRuntime() {
+        Object obj = this.maxActiveFaultsRuntime_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.maxActiveFaultsRuntime_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public ByteString getMaxActiveFaultsRuntimeBytes() {
+        Object obj = this.maxActiveFaultsRuntime_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.maxActiveFaultsRuntime_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public String getResponseRateLimitPercentRuntime() {
+        Object obj = this.responseRateLimitPercentRuntime_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.responseRateLimitPercentRuntime_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+    public ByteString getResponseRateLimitPercentRuntimeBytes() {
+        Object obj = this.responseRateLimitPercentRuntime_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.responseRateLimitPercentRuntime_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.delay_ != null) {
+            codedOutputStream.writeMessage(1, getDelay());
+        }
+        if (this.abort_ != null) {
+            codedOutputStream.writeMessage(2, getAbort());
+        }
+        if (!getUpstreamClusterBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.upstreamCluster_);
+        }
+        for (int i = 0; i < this.headers_.size(); i++) {
+            codedOutputStream.writeMessage(4, this.headers_.get(i));
+        }
+        for (int i2 = 0; i2 < this.downstreamNodes_.size(); i2++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 5, this.downstreamNodes_.getRaw(i2));
+        }
+        if (this.maxActiveFaults_ != null) {
+            codedOutputStream.writeMessage(6, getMaxActiveFaults());
+        }
+        if (this.responseRateLimit_ != null) {
+            codedOutputStream.writeMessage(7, getResponseRateLimit());
+        }
+        if (!getDelayPercentRuntimeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 8, this.delayPercentRuntime_);
+        }
+        if (!getAbortPercentRuntimeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 9, this.abortPercentRuntime_);
+        }
+        if (!getDelayDurationRuntimeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 10, this.delayDurationRuntime_);
+        }
+        if (!getAbortHttpStatusRuntimeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 11, this.abortHttpStatusRuntime_);
+        }
+        if (!getMaxActiveFaultsRuntimeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 12, this.maxActiveFaultsRuntime_);
+        }
+        if (!getResponseRateLimitPercentRuntimeBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 13, this.responseRateLimitPercentRuntime_);
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.delay_ != null ? CodedOutputStream.computeMessageSize(1, getDelay()) : 0;
+        if (this.abort_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(2, getAbort());
+        }
+        if (!getUpstreamClusterBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(3, this.upstreamCluster_);
+        }
+        for (int i2 = 0; i2 < this.headers_.size(); i2++) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, this.headers_.get(i2));
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i3 = 0; i3 < this.downstreamNodes_.size(); i3++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.downstreamNodes_.getRaw(i3));
+        }
+        int size = iComputeMessageSize + iComputeStringSizeNoTag + mo26044getDownstreamNodesList().size();
+        if (this.maxActiveFaults_ != null) {
+            size += CodedOutputStream.computeMessageSize(6, getMaxActiveFaults());
+        }
+        if (this.responseRateLimit_ != null) {
+            size += CodedOutputStream.computeMessageSize(7, getResponseRateLimit());
+        }
+        if (!getDelayPercentRuntimeBytes().isEmpty()) {
+            size += GeneratedMessageV3.computeStringSize(8, this.delayPercentRuntime_);
+        }
+        if (!getAbortPercentRuntimeBytes().isEmpty()) {
+            size += GeneratedMessageV3.computeStringSize(9, this.abortPercentRuntime_);
+        }
+        if (!getDelayDurationRuntimeBytes().isEmpty()) {
+            size += GeneratedMessageV3.computeStringSize(10, this.delayDurationRuntime_);
+        }
+        if (!getAbortHttpStatusRuntimeBytes().isEmpty()) {
+            size += GeneratedMessageV3.computeStringSize(11, this.abortHttpStatusRuntime_);
+        }
+        if (!getMaxActiveFaultsRuntimeBytes().isEmpty()) {
+            size += GeneratedMessageV3.computeStringSize(12, this.maxActiveFaultsRuntime_);
+        }
+        if (!getResponseRateLimitPercentRuntimeBytes().isEmpty()) {
+            size += GeneratedMessageV3.computeStringSize(13, this.responseRateLimitPercentRuntime_);
+        }
+        int serializedSize = size + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof HTTPFault)) {
+            return super.equals(obj);
+        }
+        HTTPFault hTTPFault = (HTTPFault) obj;
+        if (hasDelay() != hTTPFault.hasDelay()) {
+            return false;
+        }
+        if ((hasDelay() && !getDelay().equals(hTTPFault.getDelay())) || hasAbort() != hTTPFault.hasAbort()) {
+            return false;
+        }
+        if ((hasAbort() && !getAbort().equals(hTTPFault.getAbort())) || !getUpstreamCluster().equals(hTTPFault.getUpstreamCluster()) || !getHeadersList().equals(hTTPFault.getHeadersList()) || !mo26044getDownstreamNodesList().equals(hTTPFault.mo26044getDownstreamNodesList()) || hasMaxActiveFaults() != hTTPFault.hasMaxActiveFaults()) {
+            return false;
+        }
+        if ((!hasMaxActiveFaults() || getMaxActiveFaults().equals(hTTPFault.getMaxActiveFaults())) && hasResponseRateLimit() == hTTPFault.hasResponseRateLimit()) {
+            return (!hasResponseRateLimit() || getResponseRateLimit().equals(hTTPFault.getResponseRateLimit())) && getDelayPercentRuntime().equals(hTTPFault.getDelayPercentRuntime()) && getAbortPercentRuntime().equals(hTTPFault.getAbortPercentRuntime()) && getDelayDurationRuntime().equals(hTTPFault.getDelayDurationRuntime()) && getAbortHttpStatusRuntime().equals(hTTPFault.getAbortHttpStatusRuntime()) && getMaxActiveFaultsRuntime().equals(hTTPFault.getMaxActiveFaultsRuntime()) && getResponseRateLimitPercentRuntime().equals(hTTPFault.getResponseRateLimitPercentRuntime()) && this.unknownFields.equals(hTTPFault.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasDelay()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getDelay().hashCode();
+        }
+        if (hasAbort()) {
+            iHashCode = (((iHashCode * 37) + 2) * 53) + getAbort().hashCode();
+        }
+        int iHashCode2 = (((iHashCode * 37) + 3) * 53) + getUpstreamCluster().hashCode();
+        if (getHeadersCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getHeadersList().hashCode();
+        }
+        if (getDownstreamNodesCount() > 0) {
+            iHashCode2 = (((iHashCode2 * 37) + 5) * 53) + mo26044getDownstreamNodesList().hashCode();
+        }
+        if (hasMaxActiveFaults()) {
+            iHashCode2 = (((iHashCode2 * 37) + 6) * 53) + getMaxActiveFaults().hashCode();
+        }
+        if (hasResponseRateLimit()) {
+            iHashCode2 = (((iHashCode2 * 37) + 7) * 53) + getResponseRateLimit().hashCode();
+        }
+        int iHashCode3 = (((((((((((((((((((((((((iHashCode2 * 37) + 8) * 53) + getDelayPercentRuntime().hashCode()) * 37) + 9) * 53) + getAbortPercentRuntime().hashCode()) * 37) + 10) * 53) + getDelayDurationRuntime().hashCode()) * 37) + 11) * 53) + getAbortHttpStatusRuntime().hashCode()) * 37) + 12) * 53) + getMaxActiveFaultsRuntime().hashCode()) * 37) + 13) * 53) + getResponseRateLimitPercentRuntime().hashCode()) * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode3;
+        return iHashCode3;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m26045newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m26048toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements HTTPFaultOrBuilder {
+        private SingleFieldBuilderV3<FaultAbort, FaultAbort.Builder, FaultAbortOrBuilder> abortBuilder_;
+        private Object abortHttpStatusRuntime_;
+        private Object abortPercentRuntime_;
+        private FaultAbort abort_;
+        private int bitField0_;
+        private SingleFieldBuilderV3<FaultDelay, FaultDelay.Builder, FaultDelayOrBuilder> delayBuilder_;
+        private Object delayDurationRuntime_;
+        private Object delayPercentRuntime_;
+        private FaultDelay delay_;
+        private LazyStringList downstreamNodes_;
+        private RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> headersBuilder_;
+        private List<HeaderMatcher> headers_;
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> maxActiveFaultsBuilder_;
+        private Object maxActiveFaultsRuntime_;
+        private UInt32Value maxActiveFaults_;
+        private SingleFieldBuilderV3<FaultRateLimit, FaultRateLimit.Builder, FaultRateLimitOrBuilder> responseRateLimitBuilder_;
+        private Object responseRateLimitPercentRuntime_;
+        private FaultRateLimit responseRateLimit_;
+        private Object upstreamCluster_;
+
+        private Builder() {
+            this.upstreamCluster_ = "";
+            this.headers_ = Collections.emptyList();
+            this.downstreamNodes_ = LazyStringArrayList.EMPTY;
+            this.delayPercentRuntime_ = "";
+            this.abortPercentRuntime_ = "";
+            this.delayDurationRuntime_ = "";
+            this.abortHttpStatusRuntime_ = "";
+            this.maxActiveFaultsRuntime_ = "";
+            this.responseRateLimitPercentRuntime_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.upstreamCluster_ = "";
+            this.headers_ = Collections.emptyList();
+            this.downstreamNodes_ = LazyStringArrayList.EMPTY;
+            this.delayPercentRuntime_ = "";
+            this.abortPercentRuntime_ = "";
+            this.delayDurationRuntime_ = "";
+            this.abortHttpStatusRuntime_ = "";
+            this.maxActiveFaultsRuntime_ = "";
+            this.responseRateLimitPercentRuntime_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return FaultProto.internal_static_envoy_config_filter_http_fault_v2_HTTPFault_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public boolean hasAbort() {
+            return (this.abortBuilder_ == null && this.abort_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public boolean hasDelay() {
+            return (this.delayBuilder_ == null && this.delay_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public boolean hasMaxActiveFaults() {
+            return (this.maxActiveFaultsBuilder_ == null && this.maxActiveFaults_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public boolean hasResponseRateLimit() {
+            return (this.responseRateLimitBuilder_ == null && this.responseRateLimit_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return FaultProto.internal_static_envoy_config_filter_http_fault_v2_HTTPFault_fieldAccessorTable.ensureFieldAccessorsInitialized(HTTPFault.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            if (HTTPFault.alwaysUseFieldBuilders) {
+                getHeadersFieldBuilder();
+            }
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m26059clear() {
+            super.clear();
+            if (this.delayBuilder_ == null) {
+                this.delay_ = null;
+            } else {
+                this.delay_ = null;
+                this.delayBuilder_ = null;
+            }
+            if (this.abortBuilder_ == null) {
+                this.abort_ = null;
+            } else {
+                this.abort_ = null;
+                this.abortBuilder_ = null;
+            }
+            this.upstreamCluster_ = "";
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.headers_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            this.downstreamNodes_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            if (this.maxActiveFaultsBuilder_ == null) {
+                this.maxActiveFaults_ = null;
+            } else {
+                this.maxActiveFaults_ = null;
+                this.maxActiveFaultsBuilder_ = null;
+            }
+            if (this.responseRateLimitBuilder_ == null) {
+                this.responseRateLimit_ = null;
+            } else {
+                this.responseRateLimit_ = null;
+                this.responseRateLimitBuilder_ = null;
+            }
+            this.delayPercentRuntime_ = "";
+            this.abortPercentRuntime_ = "";
+            this.delayDurationRuntime_ = "";
+            this.abortHttpStatusRuntime_ = "";
+            this.maxActiveFaultsRuntime_ = "";
+            this.responseRateLimitPercentRuntime_ = "";
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return FaultProto.internal_static_envoy_config_filter_http_fault_v2_HTTPFault_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HTTPFault m26072getDefaultInstanceForType() {
+            return HTTPFault.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HTTPFault m26053build() throws UninitializedMessageException {
+            HTTPFault hTTPFaultM26055buildPartial = m26055buildPartial();
+            if (hTTPFaultM26055buildPartial.isInitialized()) {
+                return hTTPFaultM26055buildPartial;
+            }
+            throw newUninitializedMessageException(hTTPFaultM26055buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public HTTPFault m26055buildPartial() {
+            HTTPFault hTTPFault = new HTTPFault(this);
+            SingleFieldBuilderV3<FaultDelay, FaultDelay.Builder, FaultDelayOrBuilder> singleFieldBuilderV3 = this.delayBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                hTTPFault.delay_ = this.delay_;
+            } else {
+                hTTPFault.delay_ = singleFieldBuilderV3.build();
+            }
+            SingleFieldBuilderV3<FaultAbort, FaultAbort.Builder, FaultAbortOrBuilder> singleFieldBuilderV32 = this.abortBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                hTTPFault.abort_ = this.abort_;
+            } else {
+                hTTPFault.abort_ = singleFieldBuilderV32.build();
+            }
+            hTTPFault.upstreamCluster_ = this.upstreamCluster_;
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                if ((this.bitField0_ & 1) != 0) {
+                    this.headers_ = Collections.unmodifiableList(this.headers_);
+                    this.bitField0_ &= -2;
+                }
+                hTTPFault.headers_ = this.headers_;
+            } else {
+                hTTPFault.headers_ = repeatedFieldBuilderV3.build();
+            }
+            if ((this.bitField0_ & 2) != 0) {
+                this.downstreamNodes_ = this.downstreamNodes_.getUnmodifiableView();
+                this.bitField0_ &= -3;
+            }
+            hTTPFault.downstreamNodes_ = this.downstreamNodes_;
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV33 = this.maxActiveFaultsBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                hTTPFault.maxActiveFaults_ = this.maxActiveFaults_;
+            } else {
+                hTTPFault.maxActiveFaults_ = singleFieldBuilderV33.build();
+            }
+            SingleFieldBuilderV3<FaultRateLimit, FaultRateLimit.Builder, FaultRateLimitOrBuilder> singleFieldBuilderV34 = this.responseRateLimitBuilder_;
+            if (singleFieldBuilderV34 == null) {
+                hTTPFault.responseRateLimit_ = this.responseRateLimit_;
+            } else {
+                hTTPFault.responseRateLimit_ = singleFieldBuilderV34.build();
+            }
+            hTTPFault.delayPercentRuntime_ = this.delayPercentRuntime_;
+            hTTPFault.abortPercentRuntime_ = this.abortPercentRuntime_;
+            hTTPFault.delayDurationRuntime_ = this.delayDurationRuntime_;
+            hTTPFault.abortHttpStatusRuntime_ = this.abortHttpStatusRuntime_;
+            hTTPFault.maxActiveFaultsRuntime_ = this.maxActiveFaultsRuntime_;
+            hTTPFault.responseRateLimitPercentRuntime_ = this.responseRateLimitPercentRuntime_;
+            onBuilt();
+            return hTTPFault;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m26071clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m26083setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m26061clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m26064clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m26085setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m26051addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m26076mergeFrom(Message message) {
+            if (message instanceof HTTPFault) {
+                return mergeFrom((HTTPFault) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(HTTPFault hTTPFault) {
+            if (hTTPFault == HTTPFault.getDefaultInstance()) {
+                return this;
+            }
+            if (hTTPFault.hasDelay()) {
+                mergeDelay(hTTPFault.getDelay());
+            }
+            if (hTTPFault.hasAbort()) {
+                mergeAbort(hTTPFault.getAbort());
+            }
+            if (!hTTPFault.getUpstreamCluster().isEmpty()) {
+                this.upstreamCluster_ = hTTPFault.upstreamCluster_;
+                onChanged();
+            }
+            if (this.headersBuilder_ == null) {
+                if (!hTTPFault.headers_.isEmpty()) {
+                    if (this.headers_.isEmpty()) {
+                        this.headers_ = hTTPFault.headers_;
+                        this.bitField0_ &= -2;
+                    } else {
+                        ensureHeadersIsMutable();
+                        this.headers_.addAll(hTTPFault.headers_);
+                    }
+                    onChanged();
+                }
+            } else if (!hTTPFault.headers_.isEmpty()) {
+                if (!this.headersBuilder_.isEmpty()) {
+                    this.headersBuilder_.addAllMessages(hTTPFault.headers_);
+                } else {
+                    this.headersBuilder_.dispose();
+                    this.headersBuilder_ = null;
+                    this.headers_ = hTTPFault.headers_;
+                    this.bitField0_ &= -2;
+                    this.headersBuilder_ = HTTPFault.alwaysUseFieldBuilders ? getHeadersFieldBuilder() : null;
+                }
+            }
+            if (!hTTPFault.downstreamNodes_.isEmpty()) {
+                if (this.downstreamNodes_.isEmpty()) {
+                    this.downstreamNodes_ = hTTPFault.downstreamNodes_;
+                    this.bitField0_ &= -3;
+                } else {
+                    ensureDownstreamNodesIsMutable();
+                    this.downstreamNodes_.addAll(hTTPFault.downstreamNodes_);
+                }
+                onChanged();
+            }
+            if (hTTPFault.hasMaxActiveFaults()) {
+                mergeMaxActiveFaults(hTTPFault.getMaxActiveFaults());
+            }
+            if (hTTPFault.hasResponseRateLimit()) {
+                mergeResponseRateLimit(hTTPFault.getResponseRateLimit());
+            }
+            if (!hTTPFault.getDelayPercentRuntime().isEmpty()) {
+                this.delayPercentRuntime_ = hTTPFault.delayPercentRuntime_;
+                onChanged();
+            }
+            if (!hTTPFault.getAbortPercentRuntime().isEmpty()) {
+                this.abortPercentRuntime_ = hTTPFault.abortPercentRuntime_;
+                onChanged();
+            }
+            if (!hTTPFault.getDelayDurationRuntime().isEmpty()) {
+                this.delayDurationRuntime_ = hTTPFault.delayDurationRuntime_;
+                onChanged();
+            }
+            if (!hTTPFault.getAbortHttpStatusRuntime().isEmpty()) {
+                this.abortHttpStatusRuntime_ = hTTPFault.abortHttpStatusRuntime_;
+                onChanged();
+            }
+            if (!hTTPFault.getMaxActiveFaultsRuntime().isEmpty()) {
+                this.maxActiveFaultsRuntime_ = hTTPFault.maxActiveFaultsRuntime_;
+                onChanged();
+            }
+            if (!hTTPFault.getResponseRateLimitPercentRuntime().isEmpty()) {
+                this.responseRateLimitPercentRuntime_ = hTTPFault.responseRateLimitPercentRuntime_;
+                onChanged();
+            }
+            m26081mergeUnknownFields(hTTPFault.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault.Builder m26077mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault.access$1900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault.Builder.m26077mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFault$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public FaultDelay getDelay() {
+            SingleFieldBuilderV3<FaultDelay, FaultDelay.Builder, FaultDelayOrBuilder> singleFieldBuilderV3 = this.delayBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            FaultDelay faultDelay = this.delay_;
+            return faultDelay == null ? FaultDelay.getDefaultInstance() : faultDelay;
+        }
+
+        public Builder setDelay(FaultDelay faultDelay) {
+            SingleFieldBuilderV3<FaultDelay, FaultDelay.Builder, FaultDelayOrBuilder> singleFieldBuilderV3 = this.delayBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                faultDelay.getClass();
+                this.delay_ = faultDelay;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(faultDelay);
+            }
+            return this;
+        }
+
+        public Builder setDelay(FaultDelay.Builder builder) {
+            SingleFieldBuilderV3<FaultDelay, FaultDelay.Builder, FaultDelayOrBuilder> singleFieldBuilderV3 = this.delayBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.delay_ = builder.m25729build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m25729build());
+            }
+            return this;
+        }
+
+        public Builder mergeDelay(FaultDelay faultDelay) {
+            SingleFieldBuilderV3<FaultDelay, FaultDelay.Builder, FaultDelayOrBuilder> singleFieldBuilderV3 = this.delayBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                FaultDelay faultDelay2 = this.delay_;
+                if (faultDelay2 != null) {
+                    this.delay_ = FaultDelay.newBuilder(faultDelay2).mergeFrom(faultDelay).m25731buildPartial();
+                } else {
+                    this.delay_ = faultDelay;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(faultDelay);
+            }
+            return this;
+        }
+
+        public Builder clearDelay() {
+            if (this.delayBuilder_ == null) {
+                this.delay_ = null;
+                onChanged();
+            } else {
+                this.delay_ = null;
+                this.delayBuilder_ = null;
+            }
+            return this;
+        }
+
+        public FaultDelay.Builder getDelayBuilder() {
+            onChanged();
+            return getDelayFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public FaultDelayOrBuilder getDelayOrBuilder() {
+            SingleFieldBuilderV3<FaultDelay, FaultDelay.Builder, FaultDelayOrBuilder> singleFieldBuilderV3 = this.delayBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (FaultDelayOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            FaultDelay faultDelay = this.delay_;
+            return faultDelay == null ? FaultDelay.getDefaultInstance() : faultDelay;
+        }
+
+        private SingleFieldBuilderV3<FaultDelay, FaultDelay.Builder, FaultDelayOrBuilder> getDelayFieldBuilder() {
+            if (this.delayBuilder_ == null) {
+                this.delayBuilder_ = new SingleFieldBuilderV3<>(getDelay(), getParentForChildren(), isClean());
+                this.delay_ = null;
+            }
+            return this.delayBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public FaultAbort getAbort() {
+            SingleFieldBuilderV3<FaultAbort, FaultAbort.Builder, FaultAbortOrBuilder> singleFieldBuilderV3 = this.abortBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            FaultAbort faultAbort = this.abort_;
+            return faultAbort == null ? FaultAbort.getDefaultInstance() : faultAbort;
+        }
+
+        public Builder setAbort(FaultAbort faultAbort) {
+            SingleFieldBuilderV3<FaultAbort, FaultAbort.Builder, FaultAbortOrBuilder> singleFieldBuilderV3 = this.abortBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                faultAbort.getClass();
+                this.abort_ = faultAbort;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(faultAbort);
+            }
+            return this;
+        }
+
+        public Builder setAbort(FaultAbort.Builder builder) {
+            SingleFieldBuilderV3<FaultAbort, FaultAbort.Builder, FaultAbortOrBuilder> singleFieldBuilderV3 = this.abortBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.abort_ = builder.m25960build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m25960build());
+            }
+            return this;
+        }
+
+        public Builder mergeAbort(FaultAbort faultAbort) {
+            SingleFieldBuilderV3<FaultAbort, FaultAbort.Builder, FaultAbortOrBuilder> singleFieldBuilderV3 = this.abortBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                FaultAbort faultAbort2 = this.abort_;
+                if (faultAbort2 != null) {
+                    this.abort_ = FaultAbort.newBuilder(faultAbort2).mergeFrom(faultAbort).m25962buildPartial();
+                } else {
+                    this.abort_ = faultAbort;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(faultAbort);
+            }
+            return this;
+        }
+
+        public Builder clearAbort() {
+            if (this.abortBuilder_ == null) {
+                this.abort_ = null;
+                onChanged();
+            } else {
+                this.abort_ = null;
+                this.abortBuilder_ = null;
+            }
+            return this;
+        }
+
+        public FaultAbort.Builder getAbortBuilder() {
+            onChanged();
+            return getAbortFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public FaultAbortOrBuilder getAbortOrBuilder() {
+            SingleFieldBuilderV3<FaultAbort, FaultAbort.Builder, FaultAbortOrBuilder> singleFieldBuilderV3 = this.abortBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (FaultAbortOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            FaultAbort faultAbort = this.abort_;
+            return faultAbort == null ? FaultAbort.getDefaultInstance() : faultAbort;
+        }
+
+        private SingleFieldBuilderV3<FaultAbort, FaultAbort.Builder, FaultAbortOrBuilder> getAbortFieldBuilder() {
+            if (this.abortBuilder_ == null) {
+                this.abortBuilder_ = new SingleFieldBuilderV3<>(getAbort(), getParentForChildren(), isClean());
+                this.abort_ = null;
+            }
+            return this.abortBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public String getUpstreamCluster() {
+            Object obj = this.upstreamCluster_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.upstreamCluster_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setUpstreamCluster(String str) {
+            str.getClass();
+            this.upstreamCluster_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public ByteString getUpstreamClusterBytes() {
+            Object obj = this.upstreamCluster_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.upstreamCluster_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setUpstreamClusterBytes(ByteString byteString) {
+            byteString.getClass();
+            HTTPFault.checkByteStringIsUtf8(byteString);
+            this.upstreamCluster_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearUpstreamCluster() {
+            this.upstreamCluster_ = HTTPFault.getDefaultInstance().getUpstreamCluster();
+            onChanged();
+            return this;
+        }
+
+        private void ensureHeadersIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.headers_ = new ArrayList(this.headers_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public List<HeaderMatcher> getHeadersList() {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return Collections.unmodifiableList(this.headers_);
+            }
+            return repeatedFieldBuilderV3.getMessageList();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public int getHeadersCount() {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.headers_.size();
+            }
+            return repeatedFieldBuilderV3.getCount();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public HeaderMatcher getHeaders(int i) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.headers_.get(i);
+            }
+            return repeatedFieldBuilderV3.getMessage(i);
+        }
+
+        public Builder setHeaders(int i, HeaderMatcher headerMatcher) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerMatcher.getClass();
+                ensureHeadersIsMutable();
+                this.headers_.set(i, headerMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, headerMatcher);
+            }
+            return this;
+        }
+
+        public Builder setHeaders(int i, HeaderMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                this.headers_.set(i, builder.m18052build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.setMessage(i, builder.m18052build());
+            }
+            return this;
+        }
+
+        public Builder addHeaders(HeaderMatcher headerMatcher) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerMatcher.getClass();
+                ensureHeadersIsMutable();
+                this.headers_.add(headerMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(headerMatcher);
+            }
+            return this;
+        }
+
+        public Builder addHeaders(int i, HeaderMatcher headerMatcher) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                headerMatcher.getClass();
+                ensureHeadersIsMutable();
+                this.headers_.add(i, headerMatcher);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, headerMatcher);
+            }
+            return this;
+        }
+
+        public Builder addHeaders(HeaderMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                this.headers_.add(builder.m18052build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(builder.m18052build());
+            }
+            return this;
+        }
+
+        public Builder addHeaders(int i, HeaderMatcher.Builder builder) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                this.headers_.add(i, builder.m18052build());
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addMessage(i, builder.m18052build());
+            }
+            return this;
+        }
+
+        public Builder addAllHeaders(Iterable<? extends HeaderMatcher> iterable) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                AbstractMessageLite.Builder.addAll(iterable, this.headers_);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.addAllMessages(iterable);
+            }
+            return this;
+        }
+
+        public Builder clearHeaders() {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                this.headers_ = Collections.emptyList();
+                this.bitField0_ &= -2;
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.clear();
+            }
+            return this;
+        }
+
+        public Builder removeHeaders(int i) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                ensureHeadersIsMutable();
+                this.headers_.remove(i);
+                onChanged();
+            } else {
+                repeatedFieldBuilderV3.remove(i);
+            }
+            return this;
+        }
+
+        public HeaderMatcher.Builder getHeadersBuilder(int i) {
+            return getHeadersFieldBuilder().getBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public HeaderMatcherOrBuilder getHeadersOrBuilder(int i) {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 == null) {
+                return this.headers_.get(i);
+            }
+            return (HeaderMatcherOrBuilder) repeatedFieldBuilderV3.getMessageOrBuilder(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public List<? extends HeaderMatcherOrBuilder> getHeadersOrBuilderList() {
+            RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> repeatedFieldBuilderV3 = this.headersBuilder_;
+            if (repeatedFieldBuilderV3 != null) {
+                return repeatedFieldBuilderV3.getMessageOrBuilderList();
+            }
+            return Collections.unmodifiableList(this.headers_);
+        }
+
+        public HeaderMatcher.Builder addHeadersBuilder() {
+            return getHeadersFieldBuilder().addBuilder(HeaderMatcher.getDefaultInstance());
+        }
+
+        public HeaderMatcher.Builder addHeadersBuilder(int i) {
+            return getHeadersFieldBuilder().addBuilder(i, HeaderMatcher.getDefaultInstance());
+        }
+
+        public List<HeaderMatcher.Builder> getHeadersBuilderList() {
+            return getHeadersFieldBuilder().getBuilderList();
+        }
+
+        private RepeatedFieldBuilderV3<HeaderMatcher, HeaderMatcher.Builder, HeaderMatcherOrBuilder> getHeadersFieldBuilder() {
+            if (this.headersBuilder_ == null) {
+                this.headersBuilder_ = new RepeatedFieldBuilderV3<>(this.headers_, (this.bitField0_ & 1) != 0, getParentForChildren(), isClean());
+                this.headers_ = null;
+            }
+            return this.headersBuilder_;
+        }
+
+        private void ensureDownstreamNodesIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.downstreamNodes_ = new LazyStringArrayList(this.downstreamNodes_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        /* renamed from: getDownstreamNodesList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo26044getDownstreamNodesList() {
+            return this.downstreamNodes_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public int getDownstreamNodesCount() {
+            return this.downstreamNodes_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public String getDownstreamNodes(int i) {
+            return (String) this.downstreamNodes_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public ByteString getDownstreamNodesBytes(int i) {
+            return this.downstreamNodes_.getByteString(i);
+        }
+
+        public Builder setDownstreamNodes(int i, String str) {
+            str.getClass();
+            ensureDownstreamNodesIsMutable();
+            this.downstreamNodes_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addDownstreamNodes(String str) {
+            str.getClass();
+            ensureDownstreamNodesIsMutable();
+            this.downstreamNodes_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllDownstreamNodes(Iterable<String> iterable) {
+            ensureDownstreamNodesIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.downstreamNodes_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearDownstreamNodes() {
+            this.downstreamNodes_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -3;
+            onChanged();
+            return this;
+        }
+
+        public Builder addDownstreamNodesBytes(ByteString byteString) {
+            byteString.getClass();
+            HTTPFault.checkByteStringIsUtf8(byteString);
+            ensureDownstreamNodesIsMutable();
+            this.downstreamNodes_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public UInt32Value getMaxActiveFaults() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxActiveFaultsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            UInt32Value uInt32Value = this.maxActiveFaults_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        public Builder setMaxActiveFaults(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxActiveFaultsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                uInt32Value.getClass();
+                this.maxActiveFaults_ = uInt32Value;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder setMaxActiveFaults(UInt32Value.Builder builder) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxActiveFaultsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.maxActiveFaults_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeMaxActiveFaults(UInt32Value uInt32Value) {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxActiveFaultsBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                UInt32Value uInt32Value2 = this.maxActiveFaults_;
+                if (uInt32Value2 != null) {
+                    this.maxActiveFaults_ = UInt32Value.newBuilder(uInt32Value2).mergeFrom(uInt32Value).buildPartial();
+                } else {
+                    this.maxActiveFaults_ = uInt32Value;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(uInt32Value);
+            }
+            return this;
+        }
+
+        public Builder clearMaxActiveFaults() {
+            if (this.maxActiveFaultsBuilder_ == null) {
+                this.maxActiveFaults_ = null;
+                onChanged();
+            } else {
+                this.maxActiveFaults_ = null;
+                this.maxActiveFaultsBuilder_ = null;
+            }
+            return this;
+        }
+
+        public UInt32Value.Builder getMaxActiveFaultsBuilder() {
+            onChanged();
+            return getMaxActiveFaultsFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public UInt32ValueOrBuilder getMaxActiveFaultsOrBuilder() {
+            SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> singleFieldBuilderV3 = this.maxActiveFaultsBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            UInt32Value uInt32Value = this.maxActiveFaults_;
+            return uInt32Value == null ? UInt32Value.getDefaultInstance() : uInt32Value;
+        }
+
+        private SingleFieldBuilderV3<UInt32Value, UInt32Value.Builder, UInt32ValueOrBuilder> getMaxActiveFaultsFieldBuilder() {
+            if (this.maxActiveFaultsBuilder_ == null) {
+                this.maxActiveFaultsBuilder_ = new SingleFieldBuilderV3<>(getMaxActiveFaults(), getParentForChildren(), isClean());
+                this.maxActiveFaults_ = null;
+            }
+            return this.maxActiveFaultsBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public FaultRateLimit getResponseRateLimit() {
+            SingleFieldBuilderV3<FaultRateLimit, FaultRateLimit.Builder, FaultRateLimitOrBuilder> singleFieldBuilderV3 = this.responseRateLimitBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            FaultRateLimit faultRateLimit = this.responseRateLimit_;
+            return faultRateLimit == null ? FaultRateLimit.getDefaultInstance() : faultRateLimit;
+        }
+
+        public Builder setResponseRateLimit(FaultRateLimit faultRateLimit) {
+            SingleFieldBuilderV3<FaultRateLimit, FaultRateLimit.Builder, FaultRateLimitOrBuilder> singleFieldBuilderV3 = this.responseRateLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                faultRateLimit.getClass();
+                this.responseRateLimit_ = faultRateLimit;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(faultRateLimit);
+            }
+            return this;
+        }
+
+        public Builder setResponseRateLimit(FaultRateLimit.Builder builder) {
+            SingleFieldBuilderV3<FaultRateLimit, FaultRateLimit.Builder, FaultRateLimitOrBuilder> singleFieldBuilderV3 = this.responseRateLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.responseRateLimit_ = builder.m25822build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m25822build());
+            }
+            return this;
+        }
+
+        public Builder mergeResponseRateLimit(FaultRateLimit faultRateLimit) {
+            SingleFieldBuilderV3<FaultRateLimit, FaultRateLimit.Builder, FaultRateLimitOrBuilder> singleFieldBuilderV3 = this.responseRateLimitBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                FaultRateLimit faultRateLimit2 = this.responseRateLimit_;
+                if (faultRateLimit2 != null) {
+                    this.responseRateLimit_ = FaultRateLimit.newBuilder(faultRateLimit2).mergeFrom(faultRateLimit).m25824buildPartial();
+                } else {
+                    this.responseRateLimit_ = faultRateLimit;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(faultRateLimit);
+            }
+            return this;
+        }
+
+        public Builder clearResponseRateLimit() {
+            if (this.responseRateLimitBuilder_ == null) {
+                this.responseRateLimit_ = null;
+                onChanged();
+            } else {
+                this.responseRateLimit_ = null;
+                this.responseRateLimitBuilder_ = null;
+            }
+            return this;
+        }
+
+        public FaultRateLimit.Builder getResponseRateLimitBuilder() {
+            onChanged();
+            return getResponseRateLimitFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public FaultRateLimitOrBuilder getResponseRateLimitOrBuilder() {
+            SingleFieldBuilderV3<FaultRateLimit, FaultRateLimit.Builder, FaultRateLimitOrBuilder> singleFieldBuilderV3 = this.responseRateLimitBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (FaultRateLimitOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            FaultRateLimit faultRateLimit = this.responseRateLimit_;
+            return faultRateLimit == null ? FaultRateLimit.getDefaultInstance() : faultRateLimit;
+        }
+
+        private SingleFieldBuilderV3<FaultRateLimit, FaultRateLimit.Builder, FaultRateLimitOrBuilder> getResponseRateLimitFieldBuilder() {
+            if (this.responseRateLimitBuilder_ == null) {
+                this.responseRateLimitBuilder_ = new SingleFieldBuilderV3<>(getResponseRateLimit(), getParentForChildren(), isClean());
+                this.responseRateLimit_ = null;
+            }
+            return this.responseRateLimitBuilder_;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public String getDelayPercentRuntime() {
+            Object obj = this.delayPercentRuntime_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.delayPercentRuntime_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setDelayPercentRuntime(String str) {
+            str.getClass();
+            this.delayPercentRuntime_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public ByteString getDelayPercentRuntimeBytes() {
+            Object obj = this.delayPercentRuntime_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.delayPercentRuntime_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setDelayPercentRuntimeBytes(ByteString byteString) {
+            byteString.getClass();
+            HTTPFault.checkByteStringIsUtf8(byteString);
+            this.delayPercentRuntime_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearDelayPercentRuntime() {
+            this.delayPercentRuntime_ = HTTPFault.getDefaultInstance().getDelayPercentRuntime();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public String getAbortPercentRuntime() {
+            Object obj = this.abortPercentRuntime_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.abortPercentRuntime_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setAbortPercentRuntime(String str) {
+            str.getClass();
+            this.abortPercentRuntime_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public ByteString getAbortPercentRuntimeBytes() {
+            Object obj = this.abortPercentRuntime_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.abortPercentRuntime_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setAbortPercentRuntimeBytes(ByteString byteString) {
+            byteString.getClass();
+            HTTPFault.checkByteStringIsUtf8(byteString);
+            this.abortPercentRuntime_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAbortPercentRuntime() {
+            this.abortPercentRuntime_ = HTTPFault.getDefaultInstance().getAbortPercentRuntime();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public String getDelayDurationRuntime() {
+            Object obj = this.delayDurationRuntime_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.delayDurationRuntime_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setDelayDurationRuntime(String str) {
+            str.getClass();
+            this.delayDurationRuntime_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public ByteString getDelayDurationRuntimeBytes() {
+            Object obj = this.delayDurationRuntime_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.delayDurationRuntime_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setDelayDurationRuntimeBytes(ByteString byteString) {
+            byteString.getClass();
+            HTTPFault.checkByteStringIsUtf8(byteString);
+            this.delayDurationRuntime_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearDelayDurationRuntime() {
+            this.delayDurationRuntime_ = HTTPFault.getDefaultInstance().getDelayDurationRuntime();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public String getAbortHttpStatusRuntime() {
+            Object obj = this.abortHttpStatusRuntime_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.abortHttpStatusRuntime_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setAbortHttpStatusRuntime(String str) {
+            str.getClass();
+            this.abortHttpStatusRuntime_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public ByteString getAbortHttpStatusRuntimeBytes() {
+            Object obj = this.abortHttpStatusRuntime_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.abortHttpStatusRuntime_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setAbortHttpStatusRuntimeBytes(ByteString byteString) {
+            byteString.getClass();
+            HTTPFault.checkByteStringIsUtf8(byteString);
+            this.abortHttpStatusRuntime_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAbortHttpStatusRuntime() {
+            this.abortHttpStatusRuntime_ = HTTPFault.getDefaultInstance().getAbortHttpStatusRuntime();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public String getMaxActiveFaultsRuntime() {
+            Object obj = this.maxActiveFaultsRuntime_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.maxActiveFaultsRuntime_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setMaxActiveFaultsRuntime(String str) {
+            str.getClass();
+            this.maxActiveFaultsRuntime_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public ByteString getMaxActiveFaultsRuntimeBytes() {
+            Object obj = this.maxActiveFaultsRuntime_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.maxActiveFaultsRuntime_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setMaxActiveFaultsRuntimeBytes(ByteString byteString) {
+            byteString.getClass();
+            HTTPFault.checkByteStringIsUtf8(byteString);
+            this.maxActiveFaultsRuntime_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearMaxActiveFaultsRuntime() {
+            this.maxActiveFaultsRuntime_ = HTTPFault.getDefaultInstance().getMaxActiveFaultsRuntime();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public String getResponseRateLimitPercentRuntime() {
+            Object obj = this.responseRateLimitPercentRuntime_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.responseRateLimitPercentRuntime_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setResponseRateLimitPercentRuntime(String str) {
+            str.getClass();
+            this.responseRateLimitPercentRuntime_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.http.fault.v2.HTTPFaultOrBuilder
+        public ByteString getResponseRateLimitPercentRuntimeBytes() {
+            Object obj = this.responseRateLimitPercentRuntime_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.responseRateLimitPercentRuntime_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setResponseRateLimitPercentRuntimeBytes(ByteString byteString) {
+            byteString.getClass();
+            HTTPFault.checkByteStringIsUtf8(byteString);
+            this.responseRateLimitPercentRuntime_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearResponseRateLimitPercentRuntime() {
+            this.responseRateLimitPercentRuntime_ = HTTPFault.getDefaultInstance().getResponseRateLimitPercentRuntime();
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m26087setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m26081mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

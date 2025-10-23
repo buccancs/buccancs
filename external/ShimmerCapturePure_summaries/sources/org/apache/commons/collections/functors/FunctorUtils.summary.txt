@@ -1,0 +1,89 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/functors/FunctorUtils.java
+// Size: 3217 bytes
+// Modified: 2025-10-21 16:32:02.860768800 +0100
+
+package org.apache.commons.collections.functors;
+
+import java.util.Collection;
+import java.util.Iterator;
+import org.apache.commons.collections.Closure;
+import org.apache.commons.collections.Predicate;
+import org.apache.commons.collections.Transformer;
+
+/* loaded from: classes5.dex */
+class FunctorUtils {
+    private FunctorUtils() {
+    }
+
+    static Predicate[] copy(Predicate[] predicateArr) {
+        if (predicateArr == null) {
+            return null;
+        }
+        return (Predicate[]) predicateArr.clone();
+    }
+
+    static void validate(Predicate[] predicateArr) {
+        if (predicateArr == null) {
+            throw new IllegalArgumentException("The predicate array must not be null");
+        }
+        for (int i = 0; i < predicateArr.length; i++) {
+            if (predicateArr[i] == null) {
+                throw new IllegalArgumentException(new StringBuffer("The predicate array must not contain a null predicate, index ").append(i).append(" was null").toString());
+            }
+        }
+    }
+
+    static Predicate[] validate(Collection collection) {
+        if (collection == null) {
+            throw new IllegalArgumentException("The predicate collection must not be null");
+        }
+        Predicate[] predicateArr = new Predicate[collection.size()];
+        Iterator it2 = collection.iterator();
+        int i = 0;
+        while (it2.hasNext()) {
+            Predicate predicate = (Predicate) it2.next();
+            predicateArr[i] = predicate;
+            if (predicate == null) {
+                throw new IllegalArgumentException(new StringBuffer("The predicate collection must not contain a null predicate, index ").append(i).append(" was null").toString());
+            }
+            i++;
+        }
+        return predicateArr;
+    }
+
+    static Closure[] copy(Closure[] closureArr) {
+        if (closureArr == null) {
+            return null;
+        }
+        return (Closure[]) closureArr.clone();
+    }
+
+    static void validate(Closure[] closureArr) {
+        if (closureArr == null) {
+            throw new IllegalArgumentException("The closure array must not be null");
+        }
+        for (int i = 0; i < closureArr.length; i++) {
+            if (closureArr[i] == null) {
+                throw new IllegalArgumentException(new StringBuffer("The closure array must not contain a null closure, index ").append(i).append(" was null").toString());
+            }
+        }
+    }
+
+    static Transformer[] copy(Transformer[] transformerArr) {
+        if (transformerArr == null) {
+            return null;
+        }
+        return (Transformer[]) transformerArr.clone();
+    }
+
+    static void validate(Transformer[] transformerArr) {
+        if (transformerArr == null) {
+            throw new IllegalArgumentException("The transformer array must not be null");
+        }
+        for (int i = 0; i < transformerArr.length; i++) {
+            if (transformerArr[i] == null) {
+                throw new IllegalArgumentException(new StringBuffer("The transformer array must not contain a null transformer, index ").append(i).append(" was null").toString());
+            }
+        }
+    }
+}

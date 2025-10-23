@@ -1,0 +1,47 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/lang/p000enum/ValuedEnum.java
+// Size: 1387 bytes
+// Modified: 2025-10-21 16:32:03.807966200 +0100
+
+package org.apache.commons.lang.p000enum;
+
+import org.apache.commons.lang.ClassUtils;
+
+/* loaded from: classes5.dex */
+public abstract class ValuedEnum extends Enum {
+    private static final long serialVersionUID = -7129650521543789085L;
+    private final int iValue;
+
+    public final int getValue() {
+        return this.iValue;
+    }
+
+    protected ValuedEnum(String str, int i) {
+        super(str);
+        this.iValue = i;
+    }
+
+    protected static Enum getEnum(Class cls, int i) {
+        if (cls == null) {
+            throw new IllegalArgumentException("The Enum Class must not be null");
+        }
+        for (ValuedEnum valuedEnum : Enum.getEnumList(cls)) {
+            if (valuedEnum.getValue() == i) {
+                return valuedEnum;
+            }
+        }
+        return null;
+    }
+
+    @Override // org.apache.commons.lang.p000enum.Enum, java.lang.Comparable
+    public int compareTo(Object obj) {
+        return this.iValue - ((ValuedEnum) obj).iValue;
+    }
+
+    @Override // org.apache.commons.lang.p000enum.Enum
+    public String toString() {
+        if (this.iToString == null) {
+            this.iToString = new StringBuffer().append(ClassUtils.getShortClassName(getEnumClass())).append("[").append(getName()).append("=").append(getValue()).append("]").toString();
+        }
+        return this.iToString;
+    }
+}

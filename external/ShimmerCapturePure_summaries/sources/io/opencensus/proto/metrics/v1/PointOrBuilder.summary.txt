@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/opencensus/proto/metrics/v1/PointOrBuilder.java
+// Size: 818 bytes
+// Modified: 2025-10-21 16:32:06.400558300 +0100
+
+package io.opencensus.proto.metrics.v1;
+
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import io.opencensus.proto.metrics.v1.Point;
+
+/* loaded from: classes4.dex */
+public interface PointOrBuilder extends MessageOrBuilder {
+    DistributionValue getDistributionValue();
+
+    DistributionValueOrBuilder getDistributionValueOrBuilder();
+
+    double getDoubleValue();
+
+    long getInt64Value();
+
+    SummaryValue getSummaryValue();
+
+    SummaryValueOrBuilder getSummaryValueOrBuilder();
+
+    Timestamp getTimestamp();
+
+    TimestampOrBuilder getTimestampOrBuilder();
+
+    Point.ValueCase getValueCase();
+
+    boolean hasDistributionValue();
+
+    boolean hasSummaryValue();
+
+    boolean hasTimestamp();
+}

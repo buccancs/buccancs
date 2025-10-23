@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/graph/PredecessorsFunction.java
+// Size: 316 bytes
+// Modified: 2025-10-21 16:32:00.800492700 +0100
+
+package com.google.common.graph;
+
+import com.google.errorprone.annotations.DoNotMock;
+
+@DoNotMock("Implement with a lambda, or use GraphBuilder to build a Graph with the desired edges")
+/* loaded from: classes.dex */
+public interface PredecessorsFunction<N> {
+    Iterable<? extends N> predecessors(N n);
+}

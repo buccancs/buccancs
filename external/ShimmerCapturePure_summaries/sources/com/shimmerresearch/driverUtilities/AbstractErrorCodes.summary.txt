@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/driverUtilities/AbstractErrorCodes.java
+// Size: 119 bytes
+// Modified: 2025-10-21 16:32:00.298141100 +0100
+
+package com.shimmerresearch.driverUtilities;
+
+/* loaded from: classes2.dex */
+public class AbstractErrorCodes {
+}

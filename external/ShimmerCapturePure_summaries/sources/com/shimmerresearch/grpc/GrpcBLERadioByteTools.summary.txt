@@ -1,0 +1,169 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/grpc/GrpcBLERadioByteTools.java
+// Size: 6766 bytes
+// Modified: 2025-10-21 16:32:00.171967200 +0100
+
+package com.shimmerresearch.grpc;
+
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.ServerSocket;
+import java.util.ArrayList;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+
+/* loaded from: classes2.dex */
+public class GrpcBLERadioByteTools {
+    String mExeName;
+    String mExePath;
+    private Process runningProcess;
+
+    public GrpcBLERadioByteTools() {
+        this.mExeName = "ShimmerBLEGrpc.exe";
+        this.mExePath = "C:\\Github\\Shimmer-C-API\\ShimmerAPI\\ShimmerBLEGrpc\\bin\\Debug\\ShimmerBLEGrpc.exe";
+    }
+
+    public GrpcBLERadioByteTools(String str, String str2) {
+        this.mExeName = "ShimmerBLEGrpc.exe";
+        new StringBuilder("C:\\Github\\Shimmer-C-API\\ShimmerAPI\\ShimmerBLEGrpc\\bin\\Debug\\").append("ShimmerBLEGrpc.exe");
+        this.mExeName = str;
+        this.mExePath = str2;
+    }
+
+    public int getFreePort() throws Exception {
+        for (int i = 50000; i < 60000; i++) {
+            try {
+                new ServerSocket(i).close();
+                return i;
+            } catch (IOException unused) {
+                System.out.println("Port in use: " + i);
+            }
+        }
+        throw new Exception("No Port Found");
+    }
+
+    public boolean isExeRunning(String str) throws IOException {
+        String line;
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(Runtime.getRuntime().exec("tasklist /FI \"IMAGENAME eq " + str + "\"").getInputStream()));
+            do {
+                line = bufferedReader.readLine();
+                if (line == null) {
+                    return false;
+                }
+            } while (!line.toLowerCase().contains(str.toLowerCase()));
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int startServer() throws Exception {
+        int freePort = getFreePort();
+        System.out.println(freePort + " is free");
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(this.mExePath);
+        arrayList.add(Integer.toString(freePort));
+        ProcessBuilder processBuilder = new ProcessBuilder(arrayList);
+        processBuilder.redirectErrorStream(true);
+        this.runningProcess = processBuilder.start();
+        new Thread(new Runnable() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteTools$$ExternalSyntheticLambda0
+            @Override // java.lang.Runnable
+            public final void run() throws IOException {
+                this.f$0.m4584xc9762af3();
+            }
+        }).start();
+        return freePort;
+    }
+
+    /* renamed from: lambda$startServer$0$com-shimmerresearch-grpc-GrpcBLERadioByteTools, reason: not valid java name */
+    /* synthetic */ void m4584xc9762af3() throws IOException {
+        try {
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(this.runningProcess.getInputStream()));
+            while (true) {
+                try {
+                    String line = bufferedReader.readLine();
+                    if (line != null) {
+                        System.out.println(line);
+                    } else {
+                        bufferedReader.close();
+                        return;
+                    }
+                } finally {
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void stopServer() {
+        Process process = this.runningProcess;
+        if (process != null) {
+            process.destroy();
+            System.out.println("Server Stopped");
+        } else {
+            System.err.println("No external process is currently running.");
+        }
+    }
+
+    public static void main(String[] strArr) {
+        GrpcBLERadioByteTools grpcBLERadioByteTools = new GrpcBLERadioByteTools();
+        JFrame jFrame = new JFrame();
+        jFrame.getContentPane().setLayout((LayoutManager) null);
+        JButton jButton = new JButton("start");
+        jButton.addActionListener(new ActionListener() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteTools.1
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    int iStartServer = GrpcBLERadioByteTools.this.startServer();
+                    System.out.println("Server Started : " + iStartServer);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        jButton.setBounds(10, 44, 224, 23);
+        jFrame.getContentPane().add(jButton);
+        JButton jButton2 = new JButton("stop");
+        jButton2.addActionListener(new ActionListener() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteTools.2
+            public void actionPerformed(ActionEvent actionEvent) {
+                GrpcBLERadioByteTools.this.stopServer();
+            }
+        });
+        jButton2.setBounds(10, 91, 224, 23);
+        jFrame.getContentPane().add(jButton2);
+        JButton jButton3 = new JButton("checkServerApp");
+        jButton3.addActionListener(new ActionListener() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteTools.3
+            public void actionPerformed(ActionEvent actionEvent) {
+                GrpcBLERadioByteTools grpcBLERadioByteTools2 = GrpcBLERadioByteTools.this;
+                if (grpcBLERadioByteTools2.isExeRunning(grpcBLERadioByteTools2.mExeName)) {
+                    System.out.println("EXE RUNNING");
+                } else {
+                    System.out.println("EXE NOT RUNNING");
+                }
+            }
+        });
+        jButton3.setBounds(10, 139, 224, 23);
+        jFrame.getContentPane().add(jButton3);
+        JButton jButton4 = new JButton("find free port");
+        jButton4.addActionListener(new ActionListener() { // from class: com.shimmerresearch.grpc.GrpcBLERadioByteTools.4
+            public void actionPerformed(ActionEvent actionEvent) {
+                try {
+                    int freePort = GrpcBLERadioByteTools.this.getFreePort();
+                    System.out.println(freePort + " is free");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        jButton4.setBounds(10, 185, 224, 23);
+        jFrame.getContentPane().add(jButton4);
+        jFrame.setSize(500, 500);
+        jFrame.setVisible(true);
+        jFrame.setDefaultCloseOperation(3);
+    }
+}

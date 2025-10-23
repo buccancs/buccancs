@@ -1,0 +1,267 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/compression/Lz4FrameEncoder.java
+// Size: 12747 bytes
+// Modified: 2025-10-21 16:32:12.917237700 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.compression;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.Unpooled;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFutureListener;
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromise;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPromiseNotifier;
+import io.grpc.netty.shaded.io.netty.handler.codec.EncoderException;
+import io.grpc.netty.shaded.io.netty.handler.codec.MessageToByteEncoder;
+import io.grpc.netty.shaded.io.netty.util.concurrent.EventExecutor;
+import io.grpc.netty.shaded.io.netty.util.concurrent.Future;
+import io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.nio.ByteBuffer;
+import java.util.concurrent.TimeUnit;
+import java.util.zip.Checksum;
+import net.jpountz.lz4.LZ4Compressor;
+import net.jpountz.lz4.LZ4Exception;
+import net.jpountz.lz4.LZ4Factory;
+
+/* loaded from: classes3.dex */
+public class Lz4FrameEncoder extends MessageToByteEncoder<ByteBuf> {
+    static final int DEFAULT_MAX_ENCODE_SIZE = Integer.MAX_VALUE;
+    private final int blockSize;
+    private ByteBuf buffer;
+    private final ByteBufChecksum checksum;
+    private final int compressionLevel;
+    private final LZ4Compressor compressor;
+    private volatile ChannelHandlerContext ctx;
+    private volatile boolean finished;
+    private final int maxEncodeSize;
+
+    final ByteBuf getBackingBuffer() {
+        return this.buffer;
+    }
+
+    public boolean isClosed() {
+        return this.finished;
+    }
+
+    public Lz4FrameEncoder() {
+        this(false);
+    }
+
+    public Lz4FrameEncoder(boolean z) {
+        this(LZ4Factory.fastestInstance(), z, 65536, new Lz4XXHash32(-1756908916));
+    }
+
+    public Lz4FrameEncoder(LZ4Factory lZ4Factory, boolean z, int i, Checksum checksum) {
+        this(lZ4Factory, z, i, checksum, Integer.MAX_VALUE);
+    }
+
+    public Lz4FrameEncoder(LZ4Factory lZ4Factory, boolean z, int i, Checksum checksum, int i2) {
+        ObjectUtil.checkNotNull(lZ4Factory, "factory");
+        ObjectUtil.checkNotNull(checksum, "checksum");
+        this.compressor = z ? lZ4Factory.highCompressor() : lZ4Factory.fastCompressor();
+        this.checksum = ByteBufChecksum.wrapChecksum(checksum);
+        this.compressionLevel = compressionLevel(i);
+        this.blockSize = i;
+        this.maxEncodeSize = ObjectUtil.checkPositive(i2, "maxEncodeSize");
+        this.finished = false;
+    }
+
+    private static int compressionLevel(int i) {
+        if (i < 64 || i > 33554432) {
+            throw new IllegalArgumentException(String.format("blockSize: %d (expected: %d-%d)", Integer.valueOf(i), 64, 33554432));
+        }
+        return Math.max(0, 22 - Integer.numberOfLeadingZeros(i - 1));
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.MessageToByteEncoder
+    public ByteBuf allocateBuffer(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, boolean z) {
+        return allocateBuffer(channelHandlerContext, byteBuf, z, true);
+    }
+
+    private ByteBuf allocateBuffer(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, boolean z, boolean z2) {
+        int i = byteBuf.readableBytes() + this.buffer.readableBytes();
+        if (i < 0) {
+            throw new EncoderException("too much data to allocate a buffer for compression");
+        }
+        int iMaxCompressedLength = 0;
+        while (i > 0) {
+            int iMin = Math.min(this.blockSize, i);
+            i -= iMin;
+            iMaxCompressedLength += this.compressor.maxCompressedLength(iMin) + 21;
+        }
+        if (iMaxCompressedLength > this.maxEncodeSize || iMaxCompressedLength < 0) {
+            throw new EncoderException(String.format("requested encode buffer size (%d bytes) exceeds the maximum allowable size (%d bytes)", Integer.valueOf(iMaxCompressedLength), Integer.valueOf(this.maxEncodeSize)));
+        }
+        if (z2 && iMaxCompressedLength < this.blockSize) {
+            return Unpooled.EMPTY_BUFFER;
+        }
+        if (z) {
+            return channelHandlerContext.alloc().ioBuffer(iMaxCompressedLength, iMaxCompressedLength);
+        }
+        return channelHandlerContext.alloc().heapBuffer(iMaxCompressedLength, iMaxCompressedLength);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.MessageToByteEncoder
+    public void encode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, ByteBuf byteBuf2) throws Exception {
+        if (this.finished) {
+            if (!byteBuf2.isWritable(byteBuf.readableBytes())) {
+                throw new IllegalStateException("encode finished and not enough space to write remaining data");
+            }
+            byteBuf2.writeBytes(byteBuf);
+        } else {
+            ByteBuf byteBuf3 = this.buffer;
+            while (true) {
+                int i = byteBuf.readableBytes();
+                if (i <= 0) {
+                    return;
+                }
+                byteBuf.readBytes(byteBuf3, Math.min(i, byteBuf3.writableBytes()));
+                if (!byteBuf3.isWritable()) {
+                    flushBufferedData(byteBuf2);
+                }
+            }
+        }
+    }
+
+    private void flushBufferedData(ByteBuf byteBuf) {
+        int i;
+        int i2;
+        int i3 = this.buffer.readableBytes();
+        if (i3 == 0) {
+            return;
+        }
+        this.checksum.reset();
+        ByteBufChecksum byteBufChecksum = this.checksum;
+        ByteBuf byteBuf2 = this.buffer;
+        byteBufChecksum.update(byteBuf2, byteBuf2.readerIndex(), i3);
+        int value = (int) this.checksum.getValue();
+        byteBuf.ensureWritable(this.compressor.maxCompressedLength(i3) + 21);
+        int iWriterIndex = byteBuf.writerIndex();
+        int i4 = iWriterIndex + 21;
+        try {
+            ByteBuffer byteBufferInternalNioBuffer = byteBuf.internalNioBuffer(i4, byteBuf.writableBytes() - 21);
+            int iPosition = byteBufferInternalNioBuffer.position();
+            LZ4Compressor lZ4Compressor = this.compressor;
+            ByteBuf byteBuf3 = this.buffer;
+            lZ4Compressor.compress(byteBuf3.internalNioBuffer(byteBuf3.readerIndex(), i3), byteBufferInternalNioBuffer);
+            int iPosition2 = byteBufferInternalNioBuffer.position() - iPosition;
+            if (iPosition2 >= i3) {
+                byteBuf.setBytes(i4, this.buffer, 0, i3);
+                i2 = 16;
+                i = i3;
+            } else {
+                i = iPosition2;
+                i2 = 32;
+            }
+            byteBuf.setLong(iWriterIndex, 5501767354678207339L);
+            byteBuf.setByte(iWriterIndex + 8, (byte) (i2 | this.compressionLevel));
+            byteBuf.setIntLE(iWriterIndex + 9, i);
+            byteBuf.setIntLE(iWriterIndex + 13, i3);
+            byteBuf.setIntLE(iWriterIndex + 17, value);
+            byteBuf.writerIndex(i4 + i);
+            this.buffer.clear();
+        } catch (LZ4Exception e) {
+            throw new CompressionException((Throwable) e);
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandler
+    public void flush(ChannelHandlerContext channelHandlerContext) throws Exception {
+        ByteBuf byteBuf = this.buffer;
+        if (byteBuf != null && byteBuf.isReadable()) {
+            ByteBuf byteBufAllocateBuffer = allocateBuffer(channelHandlerContext, Unpooled.EMPTY_BUFFER, isPreferDirect(), false);
+            flushBufferedData(byteBufAllocateBuffer);
+            channelHandlerContext.write(byteBufAllocateBuffer);
+        }
+        channelHandlerContext.flush();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public ChannelFuture finishEncode(ChannelHandlerContext channelHandlerContext, ChannelPromise channelPromise) {
+        if (this.finished) {
+            channelPromise.setSuccess();
+            return channelPromise;
+        }
+        this.finished = true;
+        ByteBuf byteBufHeapBuffer = channelHandlerContext.alloc().heapBuffer(this.compressor.maxCompressedLength(this.buffer.readableBytes()) + 21);
+        flushBufferedData(byteBufHeapBuffer);
+        int iWriterIndex = byteBufHeapBuffer.writerIndex();
+        byteBufHeapBuffer.setLong(iWriterIndex, 5501767354678207339L);
+        byteBufHeapBuffer.setByte(iWriterIndex + 8, (byte) (this.compressionLevel | 16));
+        byteBufHeapBuffer.setInt(iWriterIndex + 9, 0);
+        byteBufHeapBuffer.setInt(iWriterIndex + 13, 0);
+        byteBufHeapBuffer.setInt(iWriterIndex + 17, 0);
+        byteBufHeapBuffer.writerIndex(iWriterIndex + 21);
+        return channelHandlerContext.writeAndFlush(byteBufHeapBuffer, channelPromise);
+    }
+
+    public ChannelFuture close() {
+        return close(ctx().newPromise());
+    }
+
+    public ChannelFuture close(final ChannelPromise channelPromise) {
+        ChannelHandlerContext channelHandlerContextCtx = ctx();
+        EventExecutor eventExecutorExecutor = channelHandlerContextCtx.executor();
+        if (eventExecutorExecutor.inEventLoop()) {
+            return finishEncode(channelHandlerContextCtx, channelPromise);
+        }
+        eventExecutorExecutor.execute(new Runnable() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.compression.Lz4FrameEncoder.1
+            @Override // java.lang.Runnable
+            public void run() {
+                Lz4FrameEncoder lz4FrameEncoder = Lz4FrameEncoder.this;
+                lz4FrameEncoder.finishEncode(lz4FrameEncoder.ctx(), channelPromise).addListener((GenericFutureListener<? extends Future<? super Void>>) new ChannelPromiseNotifier(channelPromise));
+            }
+        });
+        return channelPromise;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelOutboundHandler
+    public void close(final ChannelHandlerContext channelHandlerContext, final ChannelPromise channelPromise) throws Exception {
+        ChannelFuture channelFutureFinishEncode = finishEncode(channelHandlerContext, channelHandlerContext.newPromise());
+        channelFutureFinishEncode.addListener((GenericFutureListener<? extends Future<? super Void>>) new ChannelFutureListener() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.compression.Lz4FrameEncoder.2
+            @Override // io.grpc.netty.shaded.io.netty.util.concurrent.GenericFutureListener
+            public void operationComplete(ChannelFuture channelFuture) throws Exception {
+                channelHandlerContext.close(channelPromise);
+            }
+        });
+        if (channelFutureFinishEncode.isDone()) {
+            return;
+        }
+        channelHandlerContext.executor().schedule(new Runnable() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.compression.Lz4FrameEncoder.3
+            @Override // java.lang.Runnable
+            public void run() {
+                channelHandlerContext.close(channelPromise);
+            }
+        }, 10L, TimeUnit.SECONDS);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public ChannelHandlerContext ctx() {
+        ChannelHandlerContext channelHandlerContext = this.ctx;
+        if (channelHandlerContext != null) {
+            return channelHandlerContext;
+        }
+        throw new IllegalStateException("not added to a pipeline");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelHandler
+    public void handlerAdded(ChannelHandlerContext channelHandlerContext) {
+        this.ctx = channelHandlerContext;
+        ByteBuf byteBufWrappedBuffer = Unpooled.wrappedBuffer(new byte[this.blockSize]);
+        this.buffer = byteBufWrappedBuffer;
+        byteBufWrappedBuffer.clear();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.ChannelHandlerAdapter, io.grpc.netty.shaded.io.netty.channel.ChannelHandler
+    public void handlerRemoved(ChannelHandlerContext channelHandlerContext) throws Exception {
+        super.handlerRemoved(channelHandlerContext);
+        ByteBuf byteBuf = this.buffer;
+        if (byteBuf != null) {
+            byteBuf.release();
+            this.buffer = null;
+        }
+    }
+}

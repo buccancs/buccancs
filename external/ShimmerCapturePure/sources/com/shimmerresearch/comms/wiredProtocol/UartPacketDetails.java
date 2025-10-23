@@ -1,0 +1,209 @@
+package com.shimmerresearch.comms.wiredProtocol;
+
+import com.shimmerresearch.comms.wiredProtocol.UartComponentPropertyDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+/* loaded from: classes2.dex */
+public class UartPacketDetails {
+    public static final int PACKET_OVERHEAD_RESPONSE_DATA = 5;
+    public static final int PACKET_OVERHEAD_RESPONSE_OTHER = 4;
+    public static final List<UartComponentPropertyDetails> mListOfUartCommandsConfig;
+    public static final Map<String, UartComponentPropertyDetails> mMapOfUartDeviceTest;
+    public static String PACKET_HEADER = "$";
+    public static ShimmerVerObject svoGqBle = new ShimmerVerObject(5, 5, 0, 0, 5, -1);
+    public static ShimmerVerObject svoGq802154NR = new ShimmerVerObject(57, -1, -1, -1, -1, -1);
+    public static ShimmerVerObject svoGq802154LR = new ShimmerVerObject(56, -1, -1, -1, -1, -1);
+    public static ShimmerVerObject svoGq802154Shimmer2r = new ShimmerVerObject(9, -1, -1, -1, -1, -1);
+    public static ShimmerVerObject svoS3Test = new ShimmerVerObject(3, 3, 0, 16, 7, -1);
+    public static ShimmerVerObject svoS3RTest = new ShimmerVerObject(10, 3, 0, 1, 0, -1);
+    public static ShimmerVerObject svoS3RUsbComms = new ShimmerVerObject(10, 3, 1, 0, 27, -1);
+    public static List<ShimmerVerObject> listOfCompatibleVersionInfoGqBle = Arrays.asList(svoGqBle);
+    public static List<ShimmerVerObject> listOfCompatibleVersionInfoGq802154 = Arrays.asList(svoGq802154NR, svoGq802154LR, svoGq802154Shimmer2r);
+    public static List<ShimmerVerObject> listOfCompatibleVersionInfoGq = Arrays.asList(svoGqBle, svoGq802154NR, svoGq802154LR, svoGq802154Shimmer2r);
+    public static List<ShimmerVerObject> listOfCompatibleVersionInfoTest = Arrays.asList(svoS3Test, svoS3RTest);
+    public static List<ShimmerVerObject> listOfCompatibleVersionInfoUsbDfu = Arrays.asList(svoS3RUsbComms);
+
+    static {
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put(UART_COMPONENT_AND_PROPERTY.DEVICE_TEST.MAIN_TEST.mPropertyName, UART_COMPONENT_AND_PROPERTY.DEVICE_TEST.MAIN_TEST);
+        linkedHashMap.put(UART_COMPONENT_AND_PROPERTY.DEVICE_TEST.LED_TEST.mPropertyName, UART_COMPONENT_AND_PROPERTY.DEVICE_TEST.LED_TEST);
+        linkedHashMap.put(UART_COMPONENT_AND_PROPERTY.DEVICE_TEST.IC_TEST.mPropertyName, UART_COMPONENT_AND_PROPERTY.DEVICE_TEST.IC_TEST);
+        mMapOfUartDeviceTest = Collections.unmodifiableMap(linkedHashMap);
+        ArrayList arrayList = new ArrayList();
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.BAT.ENABLE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.BAT.FREQ_DIVIDER);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.LSM303DLHC_ACCEL.ENABLE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.LSM303DLHC_ACCEL.DATA_RATE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.LSM303DLHC_ACCEL.RANGE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.LSM303DLHC_ACCEL.LP_MODE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.LSM303DLHC_ACCEL.HR_MODE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.LSM303DLHC_ACCEL.FREQ_DIVIDER);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.LSM303DLHC_ACCEL.CALIBRATION);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.GSR.ENABLE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.GSR.RANGE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.GSR.FREQ_DIVIDER);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.BEACON.ENABLE);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.BEACON.FREQ_DIVIDER);
+        arrayList.add(UART_COMPONENT_AND_PROPERTY.RADIO_802154.SETTINGS);
+        mListOfUartCommandsConfig = Collections.unmodifiableList(arrayList);
+    }
+
+    public static UART_PACKET_CMD getUartCommandParsed(byte b) {
+        for (UART_PACKET_CMD uart_packet_cmd : UART_PACKET_CMD.values()) {
+            if (uart_packet_cmd.toCmdByte() == b) {
+                return uart_packet_cmd;
+            }
+        }
+        return null;
+    }
+
+    public static UART_COMPONENT getUartComponentParsed(byte b) {
+        for (UART_COMPONENT uart_component : UART_COMPONENT.values()) {
+            if (uart_component.toCmdByte() == b) {
+                return uart_component;
+            }
+        }
+        return null;
+    }
+
+    public static UartComponentPropertyDetails getUartPropertyParsed(byte b, byte b2) {
+        for (Class<?> cls : UART_COMPONENT_AND_PROPERTY.class.getDeclaredClasses()) {
+            for (Field field : cls.getDeclaredFields()) {
+                if (Modifier.isStatic(field.getModifiers())) {
+                    try {
+                        UartComponentPropertyDetails uartComponentPropertyDetails = (UartComponentPropertyDetails) field.get(null);
+                        if (uartComponentPropertyDetails.mComponentByte == b && uartComponentPropertyDetails.mPropertyByte == b2) {
+                            return uartComponentPropertyDetails;
+                        }
+                    } catch (IllegalAccessException | IllegalArgumentException unused) {
+                        continue;
+                    }
+                }
+            }
+        }
+        return null;
+    }
+
+    public enum UART_PACKET_CMD {
+        WRITE((byte) 1),
+        DATA_RESPONSE((byte) 2),
+        READ((byte) 3),
+        BAD_CMD_RESPONSE((byte) -4),
+        BAD_ARG_RESPONSE((byte) -3),
+        BAD_CRC_RESPONSE((byte) -2),
+        ACK_RESPONSE((byte) -1);
+
+        private final byte command;
+
+        UART_PACKET_CMD(byte b) {
+            this.command = b;
+        }
+
+        public byte toCmdByte() {
+            return this.command;
+        }
+    }
+
+    public enum UART_COMPONENT {
+        MAIN_PROCESSOR((byte) 1),
+        BAT((byte) 2),
+        DAUGHTER_CARD((byte) 3),
+        PPG((byte) 4),
+        GSR((byte) 5),
+        LSM303DLHC_ACCEL((byte) 6),
+        MPU9X50_ACCEL((byte) 7),
+        BEACON((byte) 8),
+        RADIO_802154((byte) 9),
+        RADIO_BLUETOOTH((byte) 10),
+        TEST((byte) 11);
+
+        private final byte command;
+
+        UART_COMPONENT(byte b) {
+            this.command = b;
+        }
+
+        public byte toCmdByte() {
+            return this.command;
+        }
+    }
+
+    public static class UART_COMPONENT_AND_PROPERTY {
+
+        public static class BAT {
+            public static final UartComponentPropertyDetails ENABLE = new UartComponentPropertyDetails(UART_COMPONENT.BAT, 0, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "ENABLE");
+            public static final UartComponentPropertyDetails VALUE = new UartComponentPropertyDetails(UART_COMPONENT.BAT, 2, UartComponentPropertyDetails.PERMISSION.READ_ONLY, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "VALUE");
+            public static final UartComponentPropertyDetails FREQ_DIVIDER = new UartComponentPropertyDetails(UART_COMPONENT.BAT, 6, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "DIVIDER");
+        }
+
+        public static class BEACON {
+            public static final UartComponentPropertyDetails ENABLE = new UartComponentPropertyDetails(UART_COMPONENT.BEACON, 0, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "ENABLE");
+            public static final UartComponentPropertyDetails FREQ_DIVIDER = new UartComponentPropertyDetails(UART_COMPONENT.BEACON, 6, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "DIVIDER");
+        }
+
+        public static class BLUETOOTH {
+            public static final UartComponentPropertyDetails VER = new UartComponentPropertyDetails(UART_COMPONENT.RADIO_BLUETOOTH, 3, UartComponentPropertyDetails.PERMISSION.READ_ONLY, null, "BT_FW_VER");
+        }
+
+        public static class DAUGHTER_CARD {
+            public static final UartComponentPropertyDetails CARD_ID = new UartComponentPropertyDetails(UART_COMPONENT.DAUGHTER_CARD, 2, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGq, "CARD_ID");
+            public static final UartComponentPropertyDetails CARD_MEM = new UartComponentPropertyDetails(UART_COMPONENT.DAUGHTER_CARD, 3, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGq, "CARD_MEM");
+        }
+
+        public static class DEVICE_TEST {
+            public static final UartComponentPropertyDetails MAIN_TEST = new UartComponentPropertyDetails(UART_COMPONENT.TEST, 0, UartComponentPropertyDetails.PERMISSION.WRITE_ONLY, UartPacketDetails.listOfCompatibleVersionInfoTest, "Main Test");
+            public static final UartComponentPropertyDetails LED_TEST = new UartComponentPropertyDetails(UART_COMPONENT.TEST, 1, UartComponentPropertyDetails.PERMISSION.WRITE_ONLY, UartPacketDetails.listOfCompatibleVersionInfoTest, "LED Test");
+            public static final UartComponentPropertyDetails IC_TEST = new UartComponentPropertyDetails(UART_COMPONENT.TEST, 2, UartComponentPropertyDetails.PERMISSION.WRITE_ONLY, UartPacketDetails.listOfCompatibleVersionInfoTest, "IC Test");
+        }
+
+        public static class GSR {
+            public static final UartComponentPropertyDetails ENABLE = new UartComponentPropertyDetails(UART_COMPONENT.GSR, 0, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "ENABLE");
+            public static final UartComponentPropertyDetails RANGE = new UartComponentPropertyDetails(UART_COMPONENT.GSR, 3, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "RANGE");
+            public static final UartComponentPropertyDetails FREQ_DIVIDER = new UartComponentPropertyDetails(UART_COMPONENT.GSR, 6, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "DIVIDER");
+        }
+
+        public static class LSM303DLHC_ACCEL {
+            public static final UartComponentPropertyDetails ENABLE = new UartComponentPropertyDetails(UART_COMPONENT.LSM303DLHC_ACCEL, 0, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "ENABLE");
+            public static final UartComponentPropertyDetails DATA_RATE = new UartComponentPropertyDetails(UART_COMPONENT.LSM303DLHC_ACCEL, 2, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "DATA_RATE");
+            public static final UartComponentPropertyDetails RANGE = new UartComponentPropertyDetails(UART_COMPONENT.LSM303DLHC_ACCEL, 3, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "RANGE");
+            public static final UartComponentPropertyDetails LP_MODE = new UartComponentPropertyDetails(UART_COMPONENT.LSM303DLHC_ACCEL, 4, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "LP_MODE");
+            public static final UartComponentPropertyDetails HR_MODE = new UartComponentPropertyDetails(UART_COMPONENT.LSM303DLHC_ACCEL, 5, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "HR_MODE");
+            public static final UartComponentPropertyDetails FREQ_DIVIDER = new UartComponentPropertyDetails(UART_COMPONENT.LSM303DLHC_ACCEL, 6, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "FREQ_DIVIDER");
+            public static final UartComponentPropertyDetails CALIBRATION = new UartComponentPropertyDetails(UART_COMPONENT.LSM303DLHC_ACCEL, 7, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "CALIBRATION");
+        }
+
+        public static class MAIN_PROCESSOR {
+            public static final UartComponentPropertyDetails ENABLE = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 0, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "ENABLE");
+            public static final UartComponentPropertyDetails SAMPLE_RATE = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 1, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "SAMPLE_RATE");
+            public static final UartComponentPropertyDetails MAC = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 2, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "MAC");
+            public static final UartComponentPropertyDetails VER = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 3, UartComponentPropertyDetails.PERMISSION.READ_ONLY, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "VER");
+            public static final UartComponentPropertyDetails RTC_CFG_TIME = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 4, UartComponentPropertyDetails.PERMISSION.READ_ONLY, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "RTC_CFG_TIME");
+            public static final UartComponentPropertyDetails CURR_LOCAL_TIME = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 5, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "CURR_LOCAL_TIME");
+            public static final UartComponentPropertyDetails INFOMEM = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 6, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "INFOMEM");
+            public static final UartComponentPropertyDetails LED0_STATE = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 7, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGq802154, "LED_TOGGLE");
+            public static final UartComponentPropertyDetails DEVICE_BOOT = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 8, UartComponentPropertyDetails.PERMISSION.READ_ONLY, UartPacketDetails.listOfCompatibleVersionInfoGq802154, "DEVICE_BOOT");
+            public static final UartComponentPropertyDetails ENTER_BOOTLOADER = new UartComponentPropertyDetails(UART_COMPONENT.MAIN_PROCESSOR, 9, UartComponentPropertyDetails.PERMISSION.WRITE_ONLY, UartPacketDetails.listOfCompatibleVersionInfoUsbDfu, "ENTER_BOOTLOADER");
+        }
+
+        public static class PPG {
+            public static final UartComponentPropertyDetails ENABLE = new UartComponentPropertyDetails(UART_COMPONENT.PPG, 0, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "ENABLE");
+            public static final UartComponentPropertyDetails FREQ_DIVIDER = new UartComponentPropertyDetails(UART_COMPONENT.PPG, 6, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGqBle, "DIVIDER");
+        }
+
+        public static class RADIO_802154 {
+            public static final UartComponentPropertyDetails SETTINGS = new UartComponentPropertyDetails(UART_COMPONENT.RADIO_802154, 0, UartComponentPropertyDetails.PERMISSION.READ_WRITE, UartPacketDetails.listOfCompatibleVersionInfoGq802154, "SETTINGS", true);
+            public static final UartComponentPropertyDetails TX_TO_SHIMMER = new UartComponentPropertyDetails(UART_COMPONENT.RADIO_802154, 5, UartComponentPropertyDetails.PERMISSION.READ_ONLY, UartPacketDetails.listOfCompatibleVersionInfoGq802154, "TX_TO_SHIMMER");
+            public static final UartComponentPropertyDetails RX_FROM_SHIMMER = new UartComponentPropertyDetails(UART_COMPONENT.RADIO_802154, 6, UartComponentPropertyDetails.PERMISSION.READ_ONLY, UartPacketDetails.listOfCompatibleVersionInfoGq802154, "RX_FROM_SHIMMER");
+            public static final UartComponentPropertyDetails SPECTRUM_SCAN = new UartComponentPropertyDetails(UART_COMPONENT.RADIO_802154, 7, UartComponentPropertyDetails.PERMISSION.READ_ONLY, UartPacketDetails.listOfCompatibleVersionInfoGq802154, "SPECTRUM_SCAN");
+        }
+    }
+}

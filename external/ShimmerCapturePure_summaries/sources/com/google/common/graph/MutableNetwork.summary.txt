@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/graph/MutableNetwork.java
+// Size: 324 bytes
+// Modified: 2025-10-21 16:32:06.214013500 +0100
+
+package com.google.common.graph;
+
+/* loaded from: classes.dex */
+public interface MutableNetwork<N, E> extends Network<N, E> {
+    boolean addEdge(EndpointPair<N> endpointPair, E e);
+
+    boolean addEdge(N n, N n2, E e);
+
+    boolean addNode(N n);
+
+    boolean removeEdge(E e);
+
+    boolean removeNode(N n);
+}

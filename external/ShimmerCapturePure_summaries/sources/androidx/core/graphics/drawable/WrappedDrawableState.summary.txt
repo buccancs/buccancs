@@ -1,0 +1,50 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/graphics/drawable/WrappedDrawableState.java
+// Size: 1715 bytes
+// Modified: 2025-10-21 16:32:04.355088200 +0100
+
+package androidx.core.graphics.drawable;
+
+import android.content.res.ColorStateList;
+import android.content.res.Resources;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
+
+/* loaded from: classes.dex */
+final class WrappedDrawableState extends Drawable.ConstantState {
+    int mChangingConfigurations;
+    Drawable.ConstantState mDrawableState;
+    ColorStateList mTint;
+    PorterDuff.Mode mTintMode;
+
+    boolean canConstantState() {
+        return this.mDrawableState != null;
+    }
+
+    WrappedDrawableState(WrappedDrawableState wrappedDrawableState) {
+        this.mTint = null;
+        this.mTintMode = WrappedDrawableApi14.DEFAULT_TINT_MODE;
+        if (wrappedDrawableState != null) {
+            this.mChangingConfigurations = wrappedDrawableState.mChangingConfigurations;
+            this.mDrawableState = wrappedDrawableState.mDrawableState;
+            this.mTint = wrappedDrawableState.mTint;
+            this.mTintMode = wrappedDrawableState.mTintMode;
+        }
+    }
+
+    @Override // android.graphics.drawable.Drawable.ConstantState
+    public Drawable newDrawable() {
+        return newDrawable(null);
+    }
+
+    @Override // android.graphics.drawable.Drawable.ConstantState
+    public Drawable newDrawable(Resources resources) {
+        return new WrappedDrawableApi21(this, resources);
+    }
+
+    @Override // android.graphics.drawable.Drawable.ConstantState
+    public int getChangingConfigurations() {
+        int i = this.mChangingConfigurations;
+        Drawable.ConstantState constantState = this.mDrawableState;
+        return i | (constantState != null ? constantState.getChangingConfigurations() : 0);
+    }
+}

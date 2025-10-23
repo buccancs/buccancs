@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/FinalizableWeakReference.java
+// Size: 424 bytes
+// Modified: 2025-10-21 16:32:03.358879000 +0100
+
+package com.google.common.base;
+
+import java.lang.ref.WeakReference;
+
+/* loaded from: classes.dex */
+public abstract class FinalizableWeakReference<T> extends WeakReference<T> implements FinalizableReference {
+    protected FinalizableWeakReference(T t, FinalizableReferenceQueue finalizableReferenceQueue) {
+        super(t, finalizableReferenceQueue.queue);
+        finalizableReferenceQueue.cleanUp();
+    }
+}

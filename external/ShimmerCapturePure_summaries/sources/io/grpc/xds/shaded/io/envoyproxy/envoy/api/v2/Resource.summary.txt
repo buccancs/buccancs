@@ -1,0 +1,829 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/Resource.java
+// Size: 36646 bytes
+// Modified: 2025-10-21 16:32:03.184961200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.AbstractMessageLite;
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.Any;
+import com.google.protobuf.AnyOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.LazyStringArrayList;
+import com.google.protobuf.LazyStringList;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolStringList;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes3.dex */
+public final class Resource extends GeneratedMessageV3 implements ResourceOrBuilder {
+    public static final int ALIASES_FIELD_NUMBER = 4;
+    public static final int NAME_FIELD_NUMBER = 3;
+    public static final int RESOURCE_FIELD_NUMBER = 2;
+    public static final int VERSION_FIELD_NUMBER = 1;
+    private static final long serialVersionUID = 0;
+    private LazyStringList aliases_;
+    private byte memoizedIsInitialized;
+    private volatile Object name_;
+    private Any resource_;
+    private volatile Object version_;
+    private static final Resource DEFAULT_INSTANCE = new Resource();
+    private static final Parser<Resource> PARSER = new AbstractParser<Resource>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public Resource m13052parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new Resource(codedInputStream, extensionRegistryLite);
+        }
+    };
+
+    public static Resource getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<Resource> parser() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    /* renamed from: getAliasesList, reason: merged with bridge method [inline-methods] */
+    public ProtocolStringList mo13044getAliasesList() {
+        return this.aliases_;
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Resource m13045getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<Resource> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public boolean hasResource() {
+        return this.resource_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    private Resource(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private Resource() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.name_ = "";
+        this.aliases_ = LazyStringArrayList.EMPTY;
+        this.version_ = "";
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new Resource();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    private Resource(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        boolean z2 = false;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    if (tag != 0) {
+                        if (tag == 10) {
+                            this.version_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 18) {
+                            Any any = this.resource_;
+                            Any.Builder builder = any != null ? any.toBuilder() : null;
+                            Any message = codedInputStream.readMessage(Any.parser(), extensionRegistryLite);
+                            this.resource_ = message;
+                            if (builder != null) {
+                                builder.mergeFrom(message);
+                                this.resource_ = builder.buildPartial();
+                            }
+                        } else if (tag == 26) {
+                            this.name_ = codedInputStream.readStringRequireUtf8();
+                        } else if (tag == 34) {
+                            String stringRequireUtf8 = codedInputStream.readStringRequireUtf8();
+                            if (!(z2 & true)) {
+                                this.aliases_ = new LazyStringArrayList();
+                                z2 |= true;
+                            }
+                            this.aliases_.add(stringRequireUtf8);
+                        } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                        }
+                    }
+                    z = true;
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if (z2 & true) {
+                    this.aliases_ = this.aliases_.getUnmodifiableView();
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return DiscoveryProto.internal_static_envoy_api_v2_Resource_descriptor;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return DiscoveryProto.internal_static_envoy_api_v2_Resource_fieldAccessorTable.ensureFieldAccessorsInitialized(Resource.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public String getName() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.name_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public ByteString getNameBytes() {
+        Object obj = this.name_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.name_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public int getAliasesCount() {
+        return this.aliases_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public String getAliases(int i) {
+        return (String) this.aliases_.get(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public ByteString getAliasesBytes(int i) {
+        return this.aliases_.getByteString(i);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public String getVersion() {
+        Object obj = this.version_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.version_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public ByteString getVersionBytes() {
+        Object obj = this.version_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.version_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public Any getResource() {
+        Any any = this.resource_;
+        return any == null ? Any.getDefaultInstance() : any;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+    public AnyOrBuilder getResourceOrBuilder() {
+        return getResource();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (!getVersionBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 1, this.version_);
+        }
+        if (this.resource_ != null) {
+            codedOutputStream.writeMessage(2, getResource());
+        }
+        if (!getNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.name_);
+        }
+        for (int i = 0; i < this.aliases_.size(); i++) {
+            GeneratedMessageV3.writeString(codedOutputStream, 4, this.aliases_.getRaw(i));
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeStringSize = !getVersionBytes().isEmpty() ? GeneratedMessageV3.computeStringSize(1, this.version_) : 0;
+        if (this.resource_ != null) {
+            iComputeStringSize += CodedOutputStream.computeMessageSize(2, getResource());
+        }
+        if (!getNameBytes().isEmpty()) {
+            iComputeStringSize += GeneratedMessageV3.computeStringSize(3, this.name_);
+        }
+        int iComputeStringSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.aliases_.size(); i2++) {
+            iComputeStringSizeNoTag += computeStringSizeNoTag(this.aliases_.getRaw(i2));
+        }
+        int size = iComputeStringSize + iComputeStringSizeNoTag + mo13044getAliasesList().size() + this.unknownFields.getSerializedSize();
+        this.memoizedSize = size;
+        return size;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof Resource)) {
+            return super.equals(obj);
+        }
+        Resource resource = (Resource) obj;
+        if (getName().equals(resource.getName()) && mo13044getAliasesList().equals(resource.mo13044getAliasesList()) && getVersion().equals(resource.getVersion()) && hasResource() == resource.hasResource()) {
+            return (!hasResource() || getResource().equals(resource.getResource())) && this.unknownFields.equals(resource.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = ((((779 + getDescriptor().hashCode()) * 37) + 3) * 53) + getName().hashCode();
+        if (getAliasesCount() > 0) {
+            iHashCode = (((iHashCode * 37) + 4) * 53) + mo13044getAliasesList().hashCode();
+        }
+        int iHashCode2 = (((iHashCode * 37) + 1) * 53) + getVersion().hashCode();
+        if (hasResource()) {
+            iHashCode2 = (((iHashCode2 * 37) + 2) * 53) + getResource().hashCode();
+        }
+        int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode3;
+        return iHashCode3;
+    }
+
+    public static Resource parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (Resource) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static Resource parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Resource) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static Resource parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (Resource) PARSER.parseFrom(byteString);
+    }
+
+    public static Resource parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Resource) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static Resource parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (Resource) PARSER.parseFrom(bArr);
+    }
+
+    public static Resource parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (Resource) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static Resource parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static Resource parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Resource parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static Resource parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static Resource parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static Resource parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m13047newBuilderForType() {
+        return newBuilder();
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m13050toBuilder();
+    }
+
+    public static Builder newBuilder(Resource resource) {
+        return DEFAULT_INSTANCE.m13050toBuilder().mergeFrom(resource);
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m13050toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ResourceOrBuilder {
+        private LazyStringList aliases_;
+        private int bitField0_;
+        private Object name_;
+        private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> resourceBuilder_;
+        private Any resource_;
+        private Object version_;
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public boolean hasResource() {
+            return (this.resourceBuilder_ == null && this.resource_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return DiscoveryProto.internal_static_envoy_api_v2_Resource_descriptor;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return DiscoveryProto.internal_static_envoy_api_v2_Resource_fieldAccessorTable.ensureFieldAccessorsInitialized(Resource.class, Builder.class);
+        }
+
+        private Builder() {
+            this.name_ = "";
+            this.aliases_ = LazyStringArrayList.EMPTY;
+            this.version_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.name_ = "";
+            this.aliases_ = LazyStringArrayList.EMPTY;
+            this.version_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = Resource.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13061clear() {
+            super.clear();
+            this.name_ = "";
+            this.aliases_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            this.version_ = "";
+            if (this.resourceBuilder_ == null) {
+                this.resource_ = null;
+            } else {
+                this.resource_ = null;
+                this.resourceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return DiscoveryProto.internal_static_envoy_api_v2_Resource_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Resource m13074getDefaultInstanceForType() {
+            return Resource.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Resource m13055build() throws UninitializedMessageException {
+            Resource resourceM13057buildPartial = m13057buildPartial();
+            if (resourceM13057buildPartial.isInitialized()) {
+                return resourceM13057buildPartial;
+            }
+            throw newUninitializedMessageException(resourceM13057buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Resource m13057buildPartial() {
+            Resource resource = new Resource(this);
+            resource.name_ = this.name_;
+            if ((this.bitField0_ & 1) != 0) {
+                this.aliases_ = this.aliases_.getUnmodifiableView();
+                this.bitField0_ &= -2;
+            }
+            resource.aliases_ = this.aliases_;
+            resource.version_ = this.version_;
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                resource.resource_ = this.resource_;
+            } else {
+                resource.resource_ = singleFieldBuilderV3.build();
+            }
+            onBuilt();
+            return resource;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13073clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13085setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13063clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13066clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13087setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13053addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m13078mergeFrom(Message message) {
+            if (message instanceof Resource) {
+                return mergeFrom((Resource) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(Resource resource) {
+            if (resource == Resource.getDefaultInstance()) {
+                return this;
+            }
+            if (!resource.getName().isEmpty()) {
+                this.name_ = resource.name_;
+                onChanged();
+            }
+            if (!resource.aliases_.isEmpty()) {
+                if (this.aliases_.isEmpty()) {
+                    this.aliases_ = resource.aliases_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureAliasesIsMutable();
+                    this.aliases_.addAll(resource.aliases_);
+                }
+                onChanged();
+            }
+            if (!resource.getVersion().isEmpty()) {
+                this.version_ = resource.version_;
+                onChanged();
+            }
+            if (resource.hasResource()) {
+                mergeResource(resource.getResource());
+            }
+            m13083mergeUnknownFields(resource.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource.Builder m13079mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource.Builder.m13079mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.Resource$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public String getName() {
+            Object obj = this.name_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.name_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public ByteString getNameBytes() {
+            Object obj = this.name_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.name_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setName(String str) {
+            str.getClass();
+            this.name_ = str;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearName() {
+            this.name_ = Resource.getDefaultInstance().getName();
+            onChanged();
+            return this;
+        }
+
+        public Builder setNameBytes(ByteString byteString) {
+            byteString.getClass();
+            Resource.checkByteStringIsUtf8(byteString);
+            this.name_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        private void ensureAliasesIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.aliases_ = new LazyStringArrayList(this.aliases_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        /* renamed from: getAliasesList, reason: merged with bridge method [inline-methods] */
+        public ProtocolStringList mo13044getAliasesList() {
+            return this.aliases_.getUnmodifiableView();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public int getAliasesCount() {
+            return this.aliases_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public String getAliases(int i) {
+            return (String) this.aliases_.get(i);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public ByteString getAliasesBytes(int i) {
+            return this.aliases_.getByteString(i);
+        }
+
+        public Builder setAliases(int i, String str) {
+            str.getClass();
+            ensureAliasesIsMutable();
+            this.aliases_.set(i, str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAliases(String str) {
+            str.getClass();
+            ensureAliasesIsMutable();
+            this.aliases_.add(str);
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllAliases(Iterable<String> iterable) {
+            ensureAliasesIsMutable();
+            AbstractMessageLite.Builder.addAll(iterable, this.aliases_);
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAliases() {
+            this.aliases_ = LazyStringArrayList.EMPTY;
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        public Builder addAliasesBytes(ByteString byteString) {
+            byteString.getClass();
+            Resource.checkByteStringIsUtf8(byteString);
+            ensureAliasesIsMutable();
+            this.aliases_.add(byteString);
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public String getVersion() {
+            Object obj = this.version_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.version_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public ByteString getVersionBytes() {
+            Object obj = this.version_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.version_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setVersion(String str) {
+            str.getClass();
+            this.version_ = str;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearVersion() {
+            this.version_ = Resource.getDefaultInstance().getVersion();
+            onChanged();
+            return this;
+        }
+
+        public Builder setVersionBytes(ByteString byteString) {
+            byteString.getClass();
+            Resource.checkByteStringIsUtf8(byteString);
+            this.version_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public Any getResource() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Any any = this.resource_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        public Builder setResource(Any any) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                any.getClass();
+                this.resource_ = any;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(any);
+            }
+            return this;
+        }
+
+        public Builder setResource(Any.Builder builder) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.resource_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeResource(Any any) {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Any any2 = this.resource_;
+                if (any2 != null) {
+                    this.resource_ = Any.newBuilder(any2).mergeFrom(any).buildPartial();
+                } else {
+                    this.resource_ = any;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(any);
+            }
+            return this;
+        }
+
+        public Builder clearResource() {
+            if (this.resourceBuilder_ == null) {
+                this.resource_ = null;
+                onChanged();
+            } else {
+                this.resource_ = null;
+                this.resourceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Any.Builder getResourceBuilder() {
+            onChanged();
+            return getResourceFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.ResourceOrBuilder
+        public AnyOrBuilder getResourceOrBuilder() {
+            SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> singleFieldBuilderV3 = this.resourceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Any any = this.resource_;
+            return any == null ? Any.getDefaultInstance() : any;
+        }
+
+        private SingleFieldBuilderV3<Any, Any.Builder, AnyOrBuilder> getResourceFieldBuilder() {
+            if (this.resourceBuilder_ == null) {
+                this.resourceBuilder_ = new SingleFieldBuilderV3<>(getResource(), getParentForChildren(), isClean());
+                this.resource_ = null;
+            }
+            return this.resourceBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m13089setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m13083mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

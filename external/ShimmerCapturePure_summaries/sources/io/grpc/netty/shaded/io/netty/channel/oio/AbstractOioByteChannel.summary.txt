@@ -1,0 +1,173 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/oio/AbstractOioByteChannel.java
+// Size: 7053 bytes
+// Modified: 2025-10-21 16:32:11.764681700 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.oio;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.channel.ChannelFuture;
+import io.grpc.netty.shaded.io.netty.channel.ChannelMetadata;
+import io.grpc.netty.shaded.io.netty.channel.ChannelOption;
+import io.grpc.netty.shaded.io.netty.channel.ChannelOutboundBuffer;
+import io.grpc.netty.shaded.io.netty.channel.ChannelPipeline;
+import io.grpc.netty.shaded.io.netty.channel.FileRegion;
+import io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.channel.socket.ChannelInputShutdownEvent;
+import io.grpc.netty.shaded.io.netty.channel.socket.ChannelInputShutdownReadComplete;
+import io.grpc.netty.shaded.io.netty.util.internal.StringUtil;
+import java.io.IOException;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractOioByteChannel extends AbstractOioChannel {
+    private static final ChannelMetadata METADATA = new ChannelMetadata(false);
+    private static final String EXPECTED_TYPES = " (expected: " + StringUtil.simpleClassName((Class<?>) ByteBuf.class) + ", " + StringUtil.simpleClassName((Class<?>) FileRegion.class) + ')';
+
+    protected abstract int available();
+
+    protected abstract int doReadBytes(ByteBuf byteBuf) throws Exception;
+
+    protected abstract void doWriteBytes(ByteBuf byteBuf) throws Exception;
+
+    protected abstract void doWriteFileRegion(FileRegion fileRegion) throws Exception;
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract boolean isInputShutdown();
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.Channel
+    public ChannelMetadata metadata() {
+        return METADATA;
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public abstract ChannelFuture shutdownInput();
+
+    protected AbstractOioByteChannel(Channel channel) {
+        super(channel);
+    }
+
+    private void closeOnRead(ChannelPipeline channelPipeline) {
+        if (isOpen()) {
+            if (Boolean.TRUE.equals(config().getOption(ChannelOption.ALLOW_HALF_CLOSURE))) {
+                shutdownInput();
+                channelPipeline.fireUserEventTriggered((Object) ChannelInputShutdownEvent.INSTANCE);
+            } else {
+                unsafe().close(unsafe().voidPromise());
+            }
+            channelPipeline.fireUserEventTriggered((Object) ChannelInputShutdownReadComplete.INSTANCE);
+        }
+    }
+
+    private void handleReadException(ChannelPipeline channelPipeline, ByteBuf byteBuf, Throwable th, boolean z, RecvByteBufAllocator.Handle handle) {
+        if (byteBuf != null) {
+            if (byteBuf.isReadable()) {
+                this.readPending = false;
+                channelPipeline.fireChannelRead((Object) byteBuf);
+            } else {
+                byteBuf.release();
+            }
+        }
+        handle.readComplete();
+        channelPipeline.fireChannelReadComplete();
+        channelPipeline.fireExceptionCaught(th);
+        if (z || (th instanceof IOException)) {
+            closeOnRead(channelPipeline);
+        }
+    }
+
+    /* JADX WARN: Code restructure failed: missing block: B:13:0x003e, code lost:
+    
+        if (r5.isReadable() != false) goto L24;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:14:0x0040, code lost:
+    
+        r5.release();
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:16:0x0047, code lost:
+    
+        if (r7.lastBytesRead() >= 0) goto L18;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:18:0x004a, code lost:
+    
+        r9 = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:19:0x004b, code lost:
+    
+        if (r9 == false) goto L21;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:20:0x004d, code lost:
+    
+        r11.readPending = false;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:21:0x004f, code lost:
+    
+        r5 = null;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:22:0x0051, code lost:
+    
+        r2 = move-exception;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:23:0x0052, code lost:
+    
+        r5 = r2;
+        r1 = r6;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:52:0x00b4, code lost:
+    
+        r1 = th;
+     */
+    /* JADX WARN: Code restructure failed: missing block: B:72:0x00dd, code lost:
+    
+        r6 = false;
+     */
+    /* JADX WARN: Removed duplicated region for block: B:77:0x00e6 A[DONT_GENERATE] */
+    @Override // io.grpc.netty.shaded.io.netty.channel.oio.AbstractOioChannel
+    /*
+        Code decompiled incorrectly, please refer to instructions dump.
+        To view partially-correct add '--show-bad-code' argument
+    */
+    protected void doRead() {
+        /*
+            Method dump skipped, instructions count: 272
+            To view this dump add '--comments-level debug' option
+        */
+        throw new UnsupportedOperationException("Method not decompiled: io.grpc.netty.shaded.io.netty.channel.oio.AbstractOioByteChannel.doRead():void");
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected void doWrite(ChannelOutboundBuffer channelOutboundBuffer) throws Exception {
+        while (true) {
+            Object objCurrent = channelOutboundBuffer.current();
+            if (objCurrent == null) {
+                return;
+            }
+            if (objCurrent instanceof ByteBuf) {
+                ByteBuf byteBuf = (ByteBuf) objCurrent;
+                int i = byteBuf.readableBytes();
+                while (i > 0) {
+                    doWriteBytes(byteBuf);
+                    int i2 = byteBuf.readableBytes();
+                    channelOutboundBuffer.progress(i - i2);
+                    i = i2;
+                }
+                channelOutboundBuffer.remove();
+            } else if (objCurrent instanceof FileRegion) {
+                FileRegion fileRegion = (FileRegion) objCurrent;
+                long jTransferred = fileRegion.transferred();
+                doWriteFileRegion(fileRegion);
+                channelOutboundBuffer.progress(fileRegion.transferred() - jTransferred);
+                channelOutboundBuffer.remove();
+            } else {
+                channelOutboundBuffer.remove(new UnsupportedOperationException("unsupported message type: " + StringUtil.simpleClassName(objCurrent)));
+            }
+        }
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.AbstractChannel
+    protected final Object filterOutboundMessage(Object obj) throws Exception {
+        if ((obj instanceof ByteBuf) || (obj instanceof FileRegion)) {
+            return obj;
+        }
+        throw new UnsupportedOperationException("unsupported message type: " + StringUtil.simpleClassName(obj) + EXPECTED_TYPES);
+    }
+}

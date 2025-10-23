@@ -1,0 +1,37 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/multipart/InterfaceHttpPostRequestDecoder.java
+// Size: 827 bytes
+// Modified: 2025-10-21 16:32:03.721646800 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.multipart;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContent;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface InterfaceHttpPostRequestDecoder {
+    void cleanFiles();
+
+    InterfaceHttpData currentPartialHttpData();
+
+    void destroy();
+
+    InterfaceHttpData getBodyHttpData(String str);
+
+    List<InterfaceHttpData> getBodyHttpDatas();
+
+    List<InterfaceHttpData> getBodyHttpDatas(String str);
+
+    int getDiscardThreshold();
+
+    boolean hasNext();
+
+    boolean isMultipart();
+
+    InterfaceHttpData next();
+
+    InterfaceHttpPostRequestDecoder offer(HttpContent httpContent);
+
+    void removeHttpDataFromClean(InterfaceHttpData interfaceHttpData);
+
+    void setDiscardThreshold(int i);
+}

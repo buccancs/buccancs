@@ -1,0 +1,9 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/versionedparcelable/VersionedParcelable.java
+// Size: 116 bytes
+// Modified: 2025-10-21 16:32:00.024554300 +0100
+
+package androidx.versionedparcelable;
+
+/* loaded from: classes.dex */
+public interface VersionedParcelable {
+}

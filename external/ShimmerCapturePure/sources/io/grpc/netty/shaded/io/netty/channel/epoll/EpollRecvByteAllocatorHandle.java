@@ -1,0 +1,65 @@
+package io.grpc.netty.shaded.io.netty.channel.epoll;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import io.grpc.netty.shaded.io.netty.buffer.ByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.channel.unix.PreferredDirectByteBufAllocator;
+import io.grpc.netty.shaded.io.netty.util.UncheckedBooleanSupplier;
+
+/* loaded from: classes3.dex */
+class EpollRecvByteAllocatorHandle extends RecvByteBufAllocator.DelegatingHandle implements RecvByteBufAllocator.ExtendedHandle {
+    private final UncheckedBooleanSupplier defaultMaybeMoreDataSupplier;
+    private final PreferredDirectByteBufAllocator preferredDirectByteBufAllocator;
+    private boolean isEdgeTriggered;
+    private boolean receivedRdHup;
+
+    EpollRecvByteAllocatorHandle(RecvByteBufAllocator.ExtendedHandle extendedHandle) {
+        super(extendedHandle);
+        this.preferredDirectByteBufAllocator = new PreferredDirectByteBufAllocator();
+        this.defaultMaybeMoreDataSupplier = new UncheckedBooleanSupplier() { // from class: io.grpc.netty.shaded.io.netty.channel.epoll.EpollRecvByteAllocatorHandle.1
+            @Override
+            // io.grpc.netty.shaded.io.netty.util.UncheckedBooleanSupplier, io.grpc.netty.shaded.io.netty.util.BooleanSupplier
+            public boolean get() {
+                return EpollRecvByteAllocatorHandle.this.maybeMoreDataToRead();
+            }
+        };
+    }
+
+    final void edgeTriggered(boolean z) {
+        this.isEdgeTriggered = z;
+    }
+
+    final boolean isEdgeTriggered() {
+        return this.isEdgeTriggered;
+    }
+
+    final boolean isReceivedRdHup() {
+        return this.receivedRdHup;
+    }
+
+    final void receivedRdHup() {
+        this.receivedRdHup = true;
+    }
+
+    boolean maybeMoreDataToRead() {
+        return (this.isEdgeTriggered && lastBytesRead() > 0) || (!this.isEdgeTriggered && lastBytesRead() == attemptedBytesRead());
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator.DelegatingHandle, io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator.Handle
+    public final ByteBuf allocate(ByteBufAllocator byteBufAllocator) {
+        this.preferredDirectByteBufAllocator.updateAllocator(byteBufAllocator);
+        return delegate().allocate(this.preferredDirectByteBufAllocator);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator.ExtendedHandle
+    public final boolean continueReading(UncheckedBooleanSupplier uncheckedBooleanSupplier) {
+        return ((RecvByteBufAllocator.ExtendedHandle) delegate()).continueReading(uncheckedBooleanSupplier);
+    }
+
+    @Override
+    // io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator.DelegatingHandle, io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator.Handle
+    public final boolean continueReading() {
+        return continueReading(this.defaultMaybeMoreDataSupplier);
+    }
+}

@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/runners/FailedBefore.java
+// Size: 212 bytes
+// Modified: 2025-10-21 16:32:00.697136800 +0100
+
+package org.junit.internal.runners;
+
+@Deprecated
+/* loaded from: classes2.dex */
+class FailedBefore extends Exception {
+    private static final long serialVersionUID = 1;
+
+    FailedBefore() {
+    }
+}

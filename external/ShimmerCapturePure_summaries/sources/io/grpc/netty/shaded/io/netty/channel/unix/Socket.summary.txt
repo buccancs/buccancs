@@ -1,0 +1,476 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/unix/Socket.java
+// Size: 17619 bytes
+// Modified: 2025-10-21 16:32:07.820061700 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.unix;
+
+import io.grpc.netty.shaded.io.netty.channel.ChannelException;
+import io.grpc.netty.shaded.io.netty.util.CharsetUtil;
+import io.grpc.netty.shaded.io.netty.util.NetUtil;
+import java.io.IOException;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.PortUnreachableException;
+import java.net.SocketAddress;
+import java.nio.ByteBuffer;
+import java.nio.channels.ClosedChannelException;
+import java.util.concurrent.atomic.AtomicBoolean;
+
+/* loaded from: classes3.dex */
+public class Socket extends FileDescriptor {
+    protected final boolean ipv6;
+    public static final int UDS_SUN_PATH_SIZE = LimitsStaticallyReferencedJniMethods.udsSunPathSize();
+    private static final AtomicBoolean INITIALIZED = new AtomicBoolean();
+
+    private static native int accept(int i, byte[] bArr);
+
+    private static native int bind(int i, boolean z, byte[] bArr, int i2, int i3);
+
+    private static native int bindDomainSocket(int i, byte[] bArr);
+
+    private static native int connect(int i, boolean z, byte[] bArr, int i2, int i3);
+
+    private static native int connectDomainSocket(int i, byte[] bArr);
+
+    private static native int disconnect(int i, boolean z);
+
+    private static native int finishConnect(int i);
+
+    private static native int getReceiveBufferSize(int i) throws IOException;
+
+    private static native int getSendBufferSize(int i) throws IOException;
+
+    private static native int getSoError(int i) throws IOException;
+
+    private static native int getSoLinger(int i) throws IOException;
+
+    private static native int getTrafficClass(int i, boolean z) throws IOException;
+
+    private static native void initialize(boolean z);
+
+    private static native int isBroadcast(int i) throws IOException;
+
+    private static native boolean isIPv6(int i);
+
+    public static native boolean isIPv6Preferred();
+
+    private static native int isKeepAlive(int i) throws IOException;
+
+    private static native int isReuseAddress(int i) throws IOException;
+
+    private static native int isReusePort(int i) throws IOException;
+
+    private static native int isTcpNoDelay(int i) throws IOException;
+
+    private static native int listen(int i, int i2);
+
+    private static native byte[] localAddress(int i);
+
+    private static native int newSocketDgramFd(boolean z);
+
+    private static native int newSocketDomainFd();
+
+    private static native int newSocketStreamFd(boolean z);
+
+    private static native int recvFd(int i);
+
+    private static native DatagramSocketAddress recvFrom(int i, ByteBuffer byteBuffer, int i2, int i3) throws IOException;
+
+    private static native DatagramSocketAddress recvFromAddress(int i, long j, int i2, int i3) throws IOException;
+
+    private static native byte[] remoteAddress(int i);
+
+    private static native int sendFd(int i, int i2);
+
+    private static native int sendTo(int i, boolean z, ByteBuffer byteBuffer, int i2, int i3, byte[] bArr, int i4, int i5);
+
+    private static native int sendToAddress(int i, boolean z, long j, int i2, int i3, byte[] bArr, int i4, int i5);
+
+    private static native int sendToAddresses(int i, boolean z, long j, int i2, byte[] bArr, int i3, int i4);
+
+    private static native void setBroadcast(int i, int i2) throws IOException;
+
+    private static native void setKeepAlive(int i, int i2) throws IOException;
+
+    private static native void setReceiveBufferSize(int i, int i2) throws IOException;
+
+    private static native void setReuseAddress(int i, int i2) throws IOException;
+
+    private static native void setReusePort(int i, int i2) throws IOException;
+
+    private static native void setSendBufferSize(int i, int i2) throws IOException;
+
+    private static native void setSoLinger(int i, int i2) throws IOException;
+
+    private static native void setTcpNoDelay(int i, int i2) throws IOException;
+
+    private static native void setTrafficClass(int i, boolean z, int i2) throws IOException;
+
+    private static native int shutdown(int i, boolean z, boolean z2);
+
+    public Socket(int i) {
+        super(i);
+        this.ipv6 = isIPv6(i);
+    }
+
+    public final void shutdown() throws IOException {
+        shutdown(true, true);
+    }
+
+    public final void shutdown(boolean z, boolean z2) throws IOException {
+        int i;
+        int iInputShutdown;
+        do {
+            i = this.state;
+            if (isClosed(i)) {
+                throw new ClosedChannelException();
+            }
+            iInputShutdown = (!z || isInputShutdown(i)) ? i : inputShutdown(i);
+            if (z2 && !isOutputShutdown(iInputShutdown)) {
+                iInputShutdown = outputShutdown(iInputShutdown);
+            }
+            if (iInputShutdown == i) {
+                return;
+            }
+        } while (!casState(i, iInputShutdown));
+        int iShutdown = shutdown(this.fd, z, z2);
+        if (iShutdown < 0) {
+            Errors.ioResult("shutdown", iShutdown);
+        }
+    }
+
+    public final boolean isShutdown() {
+        int i = this.state;
+        return isInputShutdown(i) && isOutputShutdown(i);
+    }
+
+    public final boolean isInputShutdown() {
+        return isInputShutdown(this.state);
+    }
+
+    public final boolean isOutputShutdown() {
+        return isOutputShutdown(this.state);
+    }
+
+    public final int sendTo(ByteBuffer byteBuffer, int i, int i2, InetAddress inetAddress, int i3) throws IOException {
+        byte[] bArrIpv4MappedIpv6Address;
+        int scopeId;
+        if (inetAddress instanceof Inet6Address) {
+            byte[] address = inetAddress.getAddress();
+            scopeId = ((Inet6Address) inetAddress).getScopeId();
+            bArrIpv4MappedIpv6Address = address;
+        } else {
+            bArrIpv4MappedIpv6Address = NativeInetAddress.ipv4MappedIpv6Address(inetAddress.getAddress());
+            scopeId = 0;
+        }
+        int iSendTo = sendTo(this.fd, this.ipv6, byteBuffer, i, i2, bArrIpv4MappedIpv6Address, scopeId, i3);
+        if (iSendTo >= 0) {
+            return iSendTo;
+        }
+        if (iSendTo == Errors.ERROR_ECONNREFUSED_NEGATIVE) {
+            throw new PortUnreachableException("sendTo failed");
+        }
+        return Errors.ioResult("sendTo", iSendTo);
+    }
+
+    public final int sendToAddress(long j, int i, int i2, InetAddress inetAddress, int i3) throws IOException {
+        byte[] bArrIpv4MappedIpv6Address;
+        int scopeId;
+        if (inetAddress instanceof Inet6Address) {
+            byte[] address = inetAddress.getAddress();
+            scopeId = ((Inet6Address) inetAddress).getScopeId();
+            bArrIpv4MappedIpv6Address = address;
+        } else {
+            bArrIpv4MappedIpv6Address = NativeInetAddress.ipv4MappedIpv6Address(inetAddress.getAddress());
+            scopeId = 0;
+        }
+        int iSendToAddress = sendToAddress(this.fd, this.ipv6, j, i, i2, bArrIpv4MappedIpv6Address, scopeId, i3);
+        if (iSendToAddress >= 0) {
+            return iSendToAddress;
+        }
+        if (iSendToAddress == Errors.ERROR_ECONNREFUSED_NEGATIVE) {
+            throw new PortUnreachableException("sendToAddress failed");
+        }
+        return Errors.ioResult("sendToAddress", iSendToAddress);
+    }
+
+    public final int sendToAddresses(long j, int i, InetAddress inetAddress, int i2) throws IOException {
+        byte[] bArrIpv4MappedIpv6Address;
+        int scopeId;
+        if (inetAddress instanceof Inet6Address) {
+            byte[] address = inetAddress.getAddress();
+            scopeId = ((Inet6Address) inetAddress).getScopeId();
+            bArrIpv4MappedIpv6Address = address;
+        } else {
+            bArrIpv4MappedIpv6Address = NativeInetAddress.ipv4MappedIpv6Address(inetAddress.getAddress());
+            scopeId = 0;
+        }
+        int iSendToAddresses = sendToAddresses(this.fd, this.ipv6, j, i, bArrIpv4MappedIpv6Address, scopeId, i2);
+        if (iSendToAddresses >= 0) {
+            return iSendToAddresses;
+        }
+        if (iSendToAddresses == Errors.ERROR_ECONNREFUSED_NEGATIVE) {
+            throw new PortUnreachableException("sendToAddresses failed");
+        }
+        return Errors.ioResult("sendToAddresses", iSendToAddresses);
+    }
+
+    public final DatagramSocketAddress recvFrom(ByteBuffer byteBuffer, int i, int i2) throws IOException {
+        return recvFrom(this.fd, byteBuffer, i, i2);
+    }
+
+    public final DatagramSocketAddress recvFromAddress(long j, int i, int i2) throws IOException {
+        return recvFromAddress(this.fd, j, i, i2);
+    }
+
+    public final int recvFd() throws IOException {
+        int iRecvFd = recvFd(this.fd);
+        if (iRecvFd > 0) {
+            return iRecvFd;
+        }
+        if (iRecvFd == 0) {
+            return -1;
+        }
+        if (iRecvFd == Errors.ERRNO_EAGAIN_NEGATIVE || iRecvFd == Errors.ERRNO_EWOULDBLOCK_NEGATIVE) {
+            return 0;
+        }
+        throw Errors.newIOException("recvFd", iRecvFd);
+    }
+
+    public final int sendFd(int i) throws IOException {
+        int iSendFd = sendFd(this.fd, i);
+        if (iSendFd >= 0) {
+            return iSendFd;
+        }
+        if (iSendFd == Errors.ERRNO_EAGAIN_NEGATIVE || iSendFd == Errors.ERRNO_EWOULDBLOCK_NEGATIVE) {
+            return -1;
+        }
+        throw Errors.newIOException("sendFd", iSendFd);
+    }
+
+    public final boolean connect(SocketAddress socketAddress) throws IOException {
+        int iConnectDomainSocket;
+        if (socketAddress instanceof InetSocketAddress) {
+            InetSocketAddress inetSocketAddress = (InetSocketAddress) socketAddress;
+            NativeInetAddress nativeInetAddressNewInstance = NativeInetAddress.newInstance(inetSocketAddress.getAddress());
+            iConnectDomainSocket = connect(this.fd, this.ipv6, nativeInetAddressNewInstance.address, nativeInetAddressNewInstance.scopeId, inetSocketAddress.getPort());
+        } else if (socketAddress instanceof DomainSocketAddress) {
+            iConnectDomainSocket = connectDomainSocket(this.fd, ((DomainSocketAddress) socketAddress).path().getBytes(CharsetUtil.UTF_8));
+        } else {
+            throw new Error("Unexpected SocketAddress implementation " + socketAddress);
+        }
+        if (iConnectDomainSocket >= 0) {
+            return true;
+        }
+        if (iConnectDomainSocket == Errors.ERRNO_EINPROGRESS_NEGATIVE) {
+            return false;
+        }
+        Errors.throwConnectException("connect", iConnectDomainSocket);
+        return true;
+    }
+
+    public final boolean finishConnect() throws IOException {
+        int iFinishConnect = finishConnect(this.fd);
+        if (iFinishConnect >= 0) {
+            return true;
+        }
+        if (iFinishConnect == Errors.ERRNO_EINPROGRESS_NEGATIVE) {
+            return false;
+        }
+        Errors.throwConnectException("finishConnect", iFinishConnect);
+        return true;
+    }
+
+    public final void disconnect() throws IOException {
+        int iDisconnect = disconnect(this.fd, this.ipv6);
+        if (iDisconnect < 0) {
+            Errors.throwConnectException("disconnect", iDisconnect);
+        }
+    }
+
+    public final void bind(SocketAddress socketAddress) throws IOException {
+        if (socketAddress instanceof InetSocketAddress) {
+            InetSocketAddress inetSocketAddress = (InetSocketAddress) socketAddress;
+            NativeInetAddress nativeInetAddressNewInstance = NativeInetAddress.newInstance(inetSocketAddress.getAddress());
+            int iBind = bind(this.fd, this.ipv6, nativeInetAddressNewInstance.address, nativeInetAddressNewInstance.scopeId, inetSocketAddress.getPort());
+            if (iBind < 0) {
+                throw Errors.newIOException("bind", iBind);
+            }
+            return;
+        }
+        if (socketAddress instanceof DomainSocketAddress) {
+            int iBindDomainSocket = bindDomainSocket(this.fd, ((DomainSocketAddress) socketAddress).path().getBytes(CharsetUtil.UTF_8));
+            if (iBindDomainSocket < 0) {
+                throw Errors.newIOException("bind", iBindDomainSocket);
+            }
+        } else {
+            throw new Error("Unexpected SocketAddress implementation " + socketAddress);
+        }
+    }
+
+    public final void listen(int i) throws IOException {
+        int iListen = listen(this.fd, i);
+        if (iListen < 0) {
+            throw Errors.newIOException("listen", iListen);
+        }
+    }
+
+    public final int accept(byte[] bArr) throws IOException {
+        int iAccept = accept(this.fd, bArr);
+        if (iAccept >= 0) {
+            return iAccept;
+        }
+        if (iAccept == Errors.ERRNO_EAGAIN_NEGATIVE || iAccept == Errors.ERRNO_EWOULDBLOCK_NEGATIVE) {
+            return -1;
+        }
+        throw Errors.newIOException("accept", iAccept);
+    }
+
+    public final InetSocketAddress remoteAddress() {
+        byte[] bArrRemoteAddress = remoteAddress(this.fd);
+        if (bArrRemoteAddress == null) {
+            return null;
+        }
+        return NativeInetAddress.address(bArrRemoteAddress, 0, bArrRemoteAddress.length);
+    }
+
+    public final InetSocketAddress localAddress() {
+        byte[] bArrLocalAddress = localAddress(this.fd);
+        if (bArrLocalAddress == null) {
+            return null;
+        }
+        return NativeInetAddress.address(bArrLocalAddress, 0, bArrLocalAddress.length);
+    }
+
+    public final int getReceiveBufferSize() throws IOException {
+        return getReceiveBufferSize(this.fd);
+    }
+
+    public final int getSendBufferSize() throws IOException {
+        return getSendBufferSize(this.fd);
+    }
+
+    public final boolean isKeepAlive() throws IOException {
+        return isKeepAlive(this.fd) != 0;
+    }
+
+    public final boolean isTcpNoDelay() throws IOException {
+        return isTcpNoDelay(this.fd) != 0;
+    }
+
+    public final boolean isReuseAddress() throws IOException {
+        return isReuseAddress(this.fd) != 0;
+    }
+
+    public final boolean isReusePort() throws IOException {
+        return isReusePort(this.fd) != 0;
+    }
+
+    public final boolean isBroadcast() throws IOException {
+        return isBroadcast(this.fd) != 0;
+    }
+
+    public final int getSoLinger() throws IOException {
+        return getSoLinger(this.fd);
+    }
+
+    public final int getSoError() throws IOException {
+        return getSoError(this.fd);
+    }
+
+    public final int getTrafficClass() throws IOException {
+        return getTrafficClass(this.fd, this.ipv6);
+    }
+
+    public final void setKeepAlive(boolean z) throws IOException {
+        setKeepAlive(this.fd, z ? 1 : 0);
+    }
+
+    public final void setReceiveBufferSize(int i) throws IOException {
+        setReceiveBufferSize(this.fd, i);
+    }
+
+    public final void setSendBufferSize(int i) throws IOException {
+        setSendBufferSize(this.fd, i);
+    }
+
+    public final void setTcpNoDelay(boolean z) throws IOException {
+        setTcpNoDelay(this.fd, z ? 1 : 0);
+    }
+
+    public final void setSoLinger(int i) throws IOException {
+        setSoLinger(this.fd, i);
+    }
+
+    public final void setReuseAddress(boolean z) throws IOException {
+        setReuseAddress(this.fd, z ? 1 : 0);
+    }
+
+    public final void setReusePort(boolean z) throws IOException {
+        setReusePort(this.fd, z ? 1 : 0);
+    }
+
+    public final void setBroadcast(boolean z) throws IOException {
+        setBroadcast(this.fd, z ? 1 : 0);
+    }
+
+    public final void setTrafficClass(int i) throws IOException {
+        setTrafficClass(this.fd, this.ipv6, i);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.unix.FileDescriptor
+    public String toString() {
+        return "Socket{fd=" + this.fd + '}';
+    }
+
+    public static Socket newSocketStream() {
+        return new Socket(newSocketStream0());
+    }
+
+    public static Socket newSocketDgram() {
+        return new Socket(newSocketDgram0());
+    }
+
+    public static Socket newSocketDomain() {
+        return new Socket(newSocketDomain0());
+    }
+
+    public static void initialize() {
+        if (INITIALIZED.compareAndSet(false, true)) {
+            initialize(NetUtil.isIpV4StackPreferred());
+        }
+    }
+
+    protected static int newSocketStream0() {
+        return newSocketStream0(isIPv6Preferred());
+    }
+
+    protected static int newSocketStream0(boolean z) {
+        int iNewSocketStreamFd = newSocketStreamFd(z);
+        if (iNewSocketStreamFd >= 0) {
+            return iNewSocketStreamFd;
+        }
+        throw new ChannelException(Errors.newIOException("newSocketStream", iNewSocketStreamFd));
+    }
+
+    protected static int newSocketDgram0() {
+        return newSocketDgram0(isIPv6Preferred());
+    }
+
+    protected static int newSocketDgram0(boolean z) {
+        int iNewSocketDgramFd = newSocketDgramFd(z);
+        if (iNewSocketDgramFd >= 0) {
+            return iNewSocketDgramFd;
+        }
+        throw new ChannelException(Errors.newIOException("newSocketDgram", iNewSocketDgramFd));
+    }
+
+    protected static int newSocketDomain0() {
+        int iNewSocketDomainFd = newSocketDomainFd();
+        if (iNewSocketDomainFd >= 0) {
+            return iNewSocketDomainFd;
+        }
+        throw new ChannelException(Errors.newIOException("newSocketDomain", iNewSocketDomainFd));
+    }
+}

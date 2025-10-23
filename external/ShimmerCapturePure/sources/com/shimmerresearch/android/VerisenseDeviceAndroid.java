@@ -1,0 +1,51 @@
+package com.shimmerresearch.android;
+
+import android.os.Handler;
+import com.shimmerresearch.driver.CallbackObject;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.verisense.VerisenseDevice;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public class VerisenseDeviceAndroid extends VerisenseDevice {
+    transient List<Handler> mHandlerList;
+
+    public VerisenseDeviceAndroid(Handler handler) {
+        ArrayList arrayList = new ArrayList();
+        this.mHandlerList = arrayList;
+        arrayList.add(0, handler);
+    }
+
+    private void sendMsgToHandlerListTarget(int i, int i2, int i3, Object obj) {
+        for (Handler handler : this.mHandlerList) {
+            if (handler != null) {
+                handler.obtainMessage(i, i2, i3, obj).sendToTarget();
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.verisense.VerisenseDevice, com.shimmerresearch.driver.ShimmerDevice
+    protected void dataHandler(ObjectCluster objectCluster) {
+        sendMsgToHandlerListTarget(2, objectCluster);
+    }
+
+    private void sendMsgToHandlerListTarget(int i, Object obj) {
+        for (Handler handler : this.mHandlerList) {
+            if (handler != null) {
+                handler.obtainMessage(i, obj).sendToTarget();
+            }
+        }
+    }
+
+    @Override // com.shimmerresearch.driver.BasicProcessWithCallBack
+    public void sendCallBackMsg(int i, Object obj) {
+        super.sendCallBackMsg(i, obj);
+        if (i == 0) {
+            sendMsgToHandlerListTarget(i, -1, -1, new ObjectCluster(this.mShimmerUserAssignedName, getMacId(), ((CallbackObject) obj).mState));
+        } else {
+            sendMsgToHandlerListTarget(i, -1, -1, obj);
+        }
+    }
+}

@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/internal/LongAdderCounter$$ExternalSyntheticApiModelOutline0.java
+// Size: 223 bytes
+// Modified: 2025-10-21 16:32:00.249779800 +0100
+
+package io.grpc.netty.shaded.io.netty.util.internal;
+
+/* compiled from: D8$$SyntheticClass */
+/* loaded from: classes3.dex */
+public final /* synthetic */ class LongAdderCounter$$ExternalSyntheticApiModelOutline0 {
+}

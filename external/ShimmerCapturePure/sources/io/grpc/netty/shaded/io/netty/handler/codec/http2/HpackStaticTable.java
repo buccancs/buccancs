@@ -1,0 +1,75 @@
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+import androidx.constraintlayout.core.motion.utils.TypedValues;
+import com.google.api.client.http.HttpMethods;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.netty.shaded.io.netty.handler.codec.UnsupportedValueConverter;
+import io.grpc.netty.shaded.io.netty.util.AsciiString;
+import io.grpc.xds.internal.sds.FileBasedPluginCredential;
+
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.http.HttpHost;
+
+/* loaded from: classes3.dex */
+final class HpackStaticTable {
+    static final int length;
+    private static final CharSequenceMap<Integer> STATIC_INDEX_BY_NAME;
+    private static final List<HpackHeaderField> STATIC_TABLE;
+
+    static {
+        List<HpackHeaderField> listAsList = Arrays.asList(newEmptyHeaderField(":authority"), newHeaderField(":method", HttpMethods.GET), newHeaderField(":method", "POST"), newHeaderField(":path", "/"), newHeaderField(":path", "/index.html"), newHeaderField(":scheme", HttpHost.DEFAULT_SCHEME_NAME), newHeaderField(":scheme", "https"), newHeaderField(":status", "200"), newHeaderField(":status", "204"), newHeaderField(":status", "206"), newHeaderField(":status", "304"), newHeaderField(":status", "400"), newHeaderField(":status", "404"), newHeaderField(":status", "500"), newEmptyHeaderField("accept-charset"), newHeaderField(GrpcUtil.CONTENT_ACCEPT_ENCODING, "gzip, deflate"), newEmptyHeaderField("accept-language"), newEmptyHeaderField("accept-ranges"), newEmptyHeaderField("accept"), newEmptyHeaderField("access-control-allow-origin"), newEmptyHeaderField("age"), newEmptyHeaderField("allow"), newEmptyHeaderField(FileBasedPluginCredential.DEFAULT_HEADER_KEY), newEmptyHeaderField("cache-control"), newEmptyHeaderField("content-disposition"), newEmptyHeaderField(GrpcUtil.CONTENT_ENCODING), newEmptyHeaderField("content-language"), newEmptyHeaderField("content-length"), newEmptyHeaderField("content-location"), newEmptyHeaderField("content-range"), newEmptyHeaderField("content-type"), newEmptyHeaderField("cookie"), newEmptyHeaderField("date"), newEmptyHeaderField("etag"), newEmptyHeaderField("expect"), newEmptyHeaderField("expires"), newEmptyHeaderField(TypedValues.TransitionType.S_FROM), newEmptyHeaderField("host"), newEmptyHeaderField("if-match"), newEmptyHeaderField("if-modified-since"), newEmptyHeaderField("if-none-match"), newEmptyHeaderField("if-range"), newEmptyHeaderField("if-unmodified-since"), newEmptyHeaderField("last-modified"), newEmptyHeaderField("link"), newEmptyHeaderField("location"), newEmptyHeaderField("max-forwards"), newEmptyHeaderField("proxy-authenticate"), newEmptyHeaderField("proxy-authorization"), newEmptyHeaderField("range"), newEmptyHeaderField("referer"), newEmptyHeaderField("refresh"), newEmptyHeaderField("retry-after"), newEmptyHeaderField("server"), newEmptyHeaderField("set-cookie"), newEmptyHeaderField("strict-transport-security"), newEmptyHeaderField("transfer-encoding"), newEmptyHeaderField("user-agent"), newEmptyHeaderField("vary"), newEmptyHeaderField("via"), newEmptyHeaderField("www-authenticate"));
+        STATIC_TABLE = listAsList;
+        STATIC_INDEX_BY_NAME = createMap();
+        length = listAsList.size();
+    }
+
+    private HpackStaticTable() {
+    }
+
+    private static HpackHeaderField newEmptyHeaderField(String str) {
+        return new HpackHeaderField(AsciiString.cached(str), AsciiString.EMPTY_STRING);
+    }
+
+    private static HpackHeaderField newHeaderField(String str, String str2) {
+        return new HpackHeaderField(AsciiString.cached(str), AsciiString.cached(str2));
+    }
+
+    static HpackHeaderField getEntry(int i) {
+        return STATIC_TABLE.get(i - 1);
+    }
+
+    static int getIndex(CharSequence charSequence) {
+        Integer num = STATIC_INDEX_BY_NAME.get(charSequence);
+        if (num == null) {
+            return -1;
+        }
+        return num.intValue();
+    }
+
+    static int getIndexInsensitive(CharSequence charSequence, CharSequence charSequence2) {
+        int index = getIndex(charSequence);
+        if (index == -1) {
+            return -1;
+        }
+        while (index <= length) {
+            HpackHeaderField entry = getEntry(index);
+            if (HpackUtil.equalsVariableTime(charSequence, entry.name) && HpackUtil.equalsVariableTime(charSequence2, entry.value)) {
+                return index;
+            }
+            index++;
+        }
+        return -1;
+    }
+
+    private static CharSequenceMap<Integer> createMap() {
+        int size = STATIC_TABLE.size();
+        CharSequenceMap<Integer> charSequenceMap = new CharSequenceMap<>(true, UnsupportedValueConverter.instance(), size);
+        while (size > 0) {
+            charSequenceMap.set((CharSequenceMap<Integer>) getEntry(size).name, (CharSequence) Integer.valueOf(size));
+            size--;
+        }
+        return charSequenceMap;
+    }
+}

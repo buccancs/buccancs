@@ -1,0 +1,94 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/function/Logistic.java
+// Size: 4374 bytes
+// Modified: 2025-10-21 16:32:10.613782900 +0100
+
+package org.apache.commons.math3.analysis.function;
+
+import org.apache.commons.math3.analysis.DifferentiableUnivariateFunction;
+import org.apache.commons.math3.analysis.FunctionUtils;
+import org.apache.commons.math3.analysis.ParametricUnivariateFunction;
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.analysis.differentiation.DerivativeStructure;
+import org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class Logistic implements UnivariateDifferentiableFunction, DifferentiableUnivariateFunction {
+    private final double a;
+    private final double b;
+    private final double k;
+    private final double m;
+    private final double oneOverN;
+    private final double q;
+
+    public Logistic(double d, double d2, double d3, double d4, double d5, double d6) throws NotStrictlyPositiveException {
+        if (d6 <= 0.0d) {
+            throw new NotStrictlyPositiveException(Double.valueOf(d6));
+        }
+        this.k = d;
+        this.m = d2;
+        this.b = d3;
+        this.q = d4;
+        this.a = d5;
+        this.oneOverN = 1.0d / d6;
+    }
+
+    @Override // org.apache.commons.math3.analysis.UnivariateFunction
+    public double value(double d) {
+        return value(this.m - d, this.k, this.b, this.q, this.a, this.oneOverN);
+    }
+
+    @Override // org.apache.commons.math3.analysis.DifferentiableUnivariateFunction
+    @Deprecated
+    public UnivariateFunction derivative() {
+        return FunctionUtils.toDifferentiableUnivariateFunction(this).derivative();
+    }
+
+    public static class Parametric implements ParametricUnivariateFunction {
+        @Override // org.apache.commons.math3.analysis.ParametricUnivariateFunction
+        public double value(double d, double... dArr) throws NotStrictlyPositiveException, NullArgumentException, DimensionMismatchException {
+            validateParameters(dArr);
+            return Logistic.value(dArr[1] - d, dArr[0], dArr[2], dArr[3], dArr[4], 1.0d / dArr[5]);
+        }
+
+        @Override // org.apache.commons.math3.analysis.ParametricUnivariateFunction
+        public double[] gradient(double d, double... dArr) throws NotStrictlyPositiveException, NullArgumentException, DimensionMismatchException {
+            validateParameters(dArr);
+            double d2 = dArr[2];
+            double d3 = dArr[3];
+            double d4 = dArr[1] - d;
+            double d5 = 1.0d / dArr[5];
+            double dExp = FastMath.exp(d2 * d4);
+            double d6 = d3 * dExp;
+            double d7 = d6 + 1.0d;
+            double dPow = ((dArr[0] - dArr[4]) * d5) / FastMath.pow(d7, d5);
+            double d8 = (-dPow) / d7;
+            return new double[]{Logistic.value(d4, 1.0d, d2, d3, 0.0d, d5), d8 * d2 * d6, d6 * d8 * d4, d8 * dExp, Logistic.value(d4, 0.0d, d2, d3, 1.0d, d5), dPow * FastMath.log(d7) * d5};
+        }
+
+        private void validateParameters(double[] dArr) throws NotStrictlyPositiveException, NullArgumentException, DimensionMismatchException {
+            if (dArr == null) {
+                throw new NullArgumentException();
+            }
+            if (dArr.length != 6) {
+                throw new DimensionMismatchException(dArr.length, 6);
+            }
+            if (dArr[5] <= 0.0d) {
+                throw new NotStrictlyPositiveException(Double.valueOf(dArr[5]));
+            }
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public static double value(double d, double d2, double d3, double d4, double d5, double d6) {
+        return d5 + ((d2 - d5) / FastMath.pow((d4 * FastMath.exp(d3 * d)) + 1.0d, d6));
+    }
+
+    @Override // org.apache.commons.math3.analysis.differentiation.UnivariateDifferentiableFunction
+    public DerivativeStructure value(DerivativeStructure derivativeStructure) {
+        return derivativeStructure.negate().add(this.m).multiply(this.b).exp().multiply(this.q).add(1.0d).pow(this.oneOverN).reciprocal().multiply(this.k - this.a).add(this.a);
+    }
+}

@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/protocol/HttpRequestInterceptorList.java
+// Size: 650 bytes
+// Modified: 2025-10-21 16:32:02.909900600 +0100
+
+package org.apache.http.protocol;
+
+import java.util.List;
+import org.apache.http.HttpRequestInterceptor;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public interface HttpRequestInterceptorList {
+    void addRequestInterceptor(HttpRequestInterceptor httpRequestInterceptor);
+
+    void addRequestInterceptor(HttpRequestInterceptor httpRequestInterceptor, int i);
+
+    void clearRequestInterceptors();
+
+    HttpRequestInterceptor getRequestInterceptor(int i);
+
+    int getRequestInterceptorCount();
+
+    void removeRequestInterceptorByClass(Class<? extends HttpRequestInterceptor> cls);
+
+    void setInterceptors(List<?> list);
+}

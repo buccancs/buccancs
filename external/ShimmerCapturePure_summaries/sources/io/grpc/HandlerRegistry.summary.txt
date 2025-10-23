@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/HandlerRegistry.java
+// Size: 550 bytes
+// Modified: 2025-10-21 16:32:05.202517000 +0100
+
+package io.grpc;
+
+import java.util.Collections;
+import java.util.List;
+import javax.annotation.Nullable;
+
+/* loaded from: classes2.dex */
+public abstract class HandlerRegistry {
+    @Nullable
+    public abstract ServerMethodDefinition<?, ?> lookupMethod(String str, @Nullable String str2);
+
+    public List<ServerServiceDefinition> getServices() {
+        return Collections.emptyList();
+    }
+
+    @Nullable
+    public final ServerMethodDefinition<?, ?> lookupMethod(String str) {
+        return lookupMethod(str, null);
+    }
+}

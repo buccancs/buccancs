@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/runners/model/MultipleFailureException.java
+// Size: 363 bytes
+// Modified: 2025-10-21 16:32:03.035741500 +0100
+
+package org.junit.internal.runners.model;
+
+import java.util.List;
+
+@Deprecated
+/* loaded from: classes2.dex */
+public class MultipleFailureException extends org.junit.runners.model.MultipleFailureException {
+    private static final long serialVersionUID = 1;
+
+    public MultipleFailureException(List<Throwable> list) {
+        super(list);
+    }
+}

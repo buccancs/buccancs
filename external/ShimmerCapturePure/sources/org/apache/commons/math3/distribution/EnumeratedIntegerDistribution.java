@@ -1,0 +1,140 @@
+package org.apache.commons.math3.distribution;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MathArithmeticException;
+import org.apache.commons.math3.exception.NotANumberException;
+import org.apache.commons.math3.exception.NotFiniteNumberException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.random.Well19937c;
+import org.apache.commons.math3.util.Pair;
+
+/* loaded from: classes5.dex */
+public class EnumeratedIntegerDistribution extends AbstractIntegerDistribution {
+    private static final long serialVersionUID = 20130308;
+    protected final EnumeratedDistribution<Integer> innerDistribution;
+
+    public EnumeratedIntegerDistribution(int[] iArr, double[] dArr) throws NotPositiveException, NotANumberException, NotFiniteNumberException, DimensionMismatchException, MathArithmeticException {
+        this(new Well19937c(), iArr, dArr);
+    }
+
+    public EnumeratedIntegerDistribution(RandomGenerator randomGenerator, int[] iArr, double[] dArr) throws NotPositiveException, NotANumberException, NotFiniteNumberException, DimensionMismatchException, MathArithmeticException {
+        super(randomGenerator);
+        this.innerDistribution = new EnumeratedDistribution<>(randomGenerator, createDistribution(iArr, dArr));
+    }
+
+    public EnumeratedIntegerDistribution(RandomGenerator randomGenerator, int[] iArr) {
+        super(randomGenerator);
+        HashMap map = new HashMap();
+        int i = 0;
+        for (int i2 : iArr) {
+            Integer num = (Integer) map.get(Integer.valueOf(i2));
+            if (num == null) {
+                num = 0;
+            }
+            map.put(Integer.valueOf(i2), Integer.valueOf(num.intValue() + 1));
+        }
+        int size = map.size();
+        double length = iArr.length;
+        int[] iArr2 = new int[size];
+        double[] dArr = new double[size];
+        Iterator it2 = map.entrySet().iterator();
+        while (it2.hasNext()) {
+            iArr2[i] = ((Integer) ((Map.Entry) it2.next()).getKey()).intValue();
+            dArr[i] = ((Integer) r5.getValue()).intValue() / length;
+            i++;
+        }
+        this.innerDistribution = new EnumeratedDistribution<>(randomGenerator, createDistribution(iArr2, dArr));
+    }
+
+    public EnumeratedIntegerDistribution(int[] iArr) {
+        this(new Well19937c(), iArr);
+    }
+
+    private static List<Pair<Integer, Double>> createDistribution(int[] iArr, double[] dArr) {
+        if (iArr.length != dArr.length) {
+            throw new DimensionMismatchException(dArr.length, iArr.length);
+        }
+        ArrayList arrayList = new ArrayList(iArr.length);
+        for (int i = 0; i < iArr.length; i++) {
+            arrayList.add(new Pair(Integer.valueOf(iArr[i]), Double.valueOf(dArr[i])));
+        }
+        return arrayList;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public boolean isSupportConnected() {
+        return true;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double probability(int i) {
+        return this.innerDistribution.probability(Integer.valueOf(i));
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double cumulativeProbability(int i) {
+        double dDoubleValue = 0.0d;
+        for (Pair<Integer, Double> pair : this.innerDistribution.getPmf()) {
+            if (pair.getKey().intValue() <= i) {
+                dDoubleValue += pair.getValue().doubleValue();
+            }
+        }
+        return dDoubleValue;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalMean() {
+        Iterator<Pair<Integer, Double>> it2 = this.innerDistribution.getPmf().iterator();
+        double dDoubleValue = 0.0d;
+        while (it2.hasNext()) {
+            dDoubleValue += it2.next().getValue().doubleValue() * r3.getKey().intValue();
+        }
+        return dDoubleValue;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public double getNumericalVariance() {
+        double dDoubleValue = 0.0d;
+        double dDoubleValue2 = 0.0d;
+        for (Pair<Integer, Double> pair : this.innerDistribution.getPmf()) {
+            dDoubleValue2 += pair.getValue().doubleValue() * pair.getKey().intValue();
+            dDoubleValue += pair.getValue().doubleValue() * pair.getKey().intValue() * pair.getKey().intValue();
+        }
+        return dDoubleValue - (dDoubleValue2 * dDoubleValue2);
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportLowerBound() {
+        int iIntValue = Integer.MAX_VALUE;
+        for (Pair<Integer, Double> pair : this.innerDistribution.getPmf()) {
+            if (pair.getKey().intValue() < iIntValue && pair.getValue().doubleValue() > 0.0d) {
+                iIntValue = pair.getKey().intValue();
+            }
+        }
+        return iIntValue;
+    }
+
+    @Override // org.apache.commons.math3.distribution.IntegerDistribution
+    public int getSupportUpperBound() {
+        int iIntValue = Integer.MIN_VALUE;
+        for (Pair<Integer, Double> pair : this.innerDistribution.getPmf()) {
+            if (pair.getKey().intValue() > iIntValue && pair.getValue().doubleValue() > 0.0d) {
+                iIntValue = pair.getKey().intValue();
+            }
+        }
+        return iIntValue;
+    }
+
+    @Override
+    // org.apache.commons.math3.distribution.AbstractIntegerDistribution, org.apache.commons.math3.distribution.IntegerDistribution
+    public int sample() {
+        return this.innerDistribution.sample().intValue();
+    }
+}

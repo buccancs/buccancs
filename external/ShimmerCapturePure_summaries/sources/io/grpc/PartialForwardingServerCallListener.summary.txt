@@ -1,0 +1,40 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/PartialForwardingServerCallListener.java
+// Size: 943 bytes
+// Modified: 2025-10-21 16:32:04.583195200 +0100
+
+package io.grpc;
+
+import com.google.common.base.MoreObjects;
+import io.grpc.ServerCall;
+
+/* loaded from: classes2.dex */
+abstract class PartialForwardingServerCallListener<ReqT> extends ServerCall.Listener<ReqT> {
+    protected abstract ServerCall.Listener<?> delegate();
+
+    PartialForwardingServerCallListener() {
+    }
+
+    @Override // io.grpc.ServerCall.Listener
+    public void onHalfClose() {
+        delegate().onHalfClose();
+    }
+
+    @Override // io.grpc.ServerCall.Listener
+    public void onCancel() {
+        delegate().onCancel();
+    }
+
+    @Override // io.grpc.ServerCall.Listener
+    public void onComplete() {
+        delegate().onComplete();
+    }
+
+    @Override // io.grpc.ServerCall.Listener
+    public void onReady() {
+        delegate().onReady();
+    }
+
+    public String toString() {
+        return MoreObjects.toStringHelper(this).add("delegate", delegate()).toString();
+    }
+}

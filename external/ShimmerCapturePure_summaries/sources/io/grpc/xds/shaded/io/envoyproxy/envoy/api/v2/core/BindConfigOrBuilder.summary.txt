@@ -1,0 +1,35 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/api/v2/core/BindConfigOrBuilder.java
+// Size: 840 bytes
+// Modified: 2025-10-21 16:32:04.935652200 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes3.dex */
+public interface BindConfigOrBuilder extends MessageOrBuilder {
+    BoolValue getFreebind();
+
+    BoolValueOrBuilder getFreebindOrBuilder();
+
+    SocketOption getSocketOptions(int i);
+
+    int getSocketOptionsCount();
+
+    List<SocketOption> getSocketOptionsList();
+
+    SocketOptionOrBuilder getSocketOptionsOrBuilder(int i);
+
+    List<? extends SocketOptionOrBuilder> getSocketOptionsOrBuilderList();
+
+    SocketAddress getSourceAddress();
+
+    SocketAddressOrBuilder getSourceAddressOrBuilder();
+
+    boolean hasFreebind();
+
+    boolean hasSourceAddress();
+}

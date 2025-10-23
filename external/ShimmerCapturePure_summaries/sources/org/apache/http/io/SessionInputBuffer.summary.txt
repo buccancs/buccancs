@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/io/SessionInputBuffer.java
+// Size: 567 bytes
+// Modified: 2025-10-21 16:32:03.575771600 +0100
+
+package org.apache.http.io;
+
+import java.io.IOException;
+import org.apache.http.util.CharArrayBuffer;
+
+/* loaded from: classes5.dex */
+public interface SessionInputBuffer {
+    HttpTransportMetrics getMetrics();
+
+    @Deprecated
+    boolean isDataAvailable(int i) throws IOException;
+
+    int read() throws IOException;
+
+    int read(byte[] bArr) throws IOException;
+
+    int read(byte[] bArr, int i, int i2) throws IOException;
+
+    int readLine(CharArrayBuffer charArrayBuffer) throws IOException;
+
+    String readLine() throws IOException;
+}

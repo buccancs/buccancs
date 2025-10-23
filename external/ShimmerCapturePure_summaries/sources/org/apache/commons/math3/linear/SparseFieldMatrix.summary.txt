@@ -1,0 +1,117 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/linear/SparseFieldMatrix.java
+// Size: 4543 bytes
+// Modified: 2025-10-21 16:32:09.629867900 +0100
+
+package org.apache.commons.math3.linear;
+
+import org.apache.commons.math3.Field;
+import org.apache.commons.math3.FieldElement;
+import org.apache.commons.math3.util.OpenIntToFieldHashMap;
+
+/* loaded from: classes5.dex */
+public class SparseFieldMatrix<T extends FieldElement<T>> extends AbstractFieldMatrix<T> {
+    private final int columns;
+    private final OpenIntToFieldHashMap<T> entries;
+    private final int rows;
+
+    private int computeKey(int i, int i2) {
+        return (i * this.columns) + i2;
+    }
+
+    @Override // org.apache.commons.math3.linear.AbstractFieldMatrix, org.apache.commons.math3.linear.AnyMatrix
+    public int getColumnDimension() {
+        return this.columns;
+    }
+
+    @Override // org.apache.commons.math3.linear.AbstractFieldMatrix, org.apache.commons.math3.linear.AnyMatrix
+    public int getRowDimension() {
+        return this.rows;
+    }
+
+    public SparseFieldMatrix(Field<T> field) {
+        super(field);
+        this.rows = 0;
+        this.columns = 0;
+        this.entries = new OpenIntToFieldHashMap<>(field);
+    }
+
+    public SparseFieldMatrix(Field<T> field, int i, int i2) {
+        super(field, i, i2);
+        this.rows = i;
+        this.columns = i2;
+        this.entries = new OpenIntToFieldHashMap<>(field);
+    }
+
+    public SparseFieldMatrix(SparseFieldMatrix<T> sparseFieldMatrix) {
+        super(sparseFieldMatrix.getField(), sparseFieldMatrix.getRowDimension(), sparseFieldMatrix.getColumnDimension());
+        this.rows = sparseFieldMatrix.getRowDimension();
+        this.columns = sparseFieldMatrix.getColumnDimension();
+        this.entries = new OpenIntToFieldHashMap<>(sparseFieldMatrix.entries);
+    }
+
+    public SparseFieldMatrix(FieldMatrix<T> fieldMatrix) {
+        super(fieldMatrix.getField(), fieldMatrix.getRowDimension(), fieldMatrix.getColumnDimension());
+        this.rows = fieldMatrix.getRowDimension();
+        this.columns = fieldMatrix.getColumnDimension();
+        this.entries = new OpenIntToFieldHashMap<>(getField());
+        for (int i = 0; i < this.rows; i++) {
+            for (int i2 = 0; i2 < this.columns; i2++) {
+                setEntry(i, i2, fieldMatrix.getEntry(i, i2));
+            }
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.AbstractFieldMatrix, org.apache.commons.math3.linear.FieldMatrix
+    public void addToEntry(int i, int i2, T t) {
+        checkRowIndex(i);
+        checkColumnIndex(i2);
+        int iComputeKey = computeKey(i, i2);
+        FieldElement fieldElement = (FieldElement) this.entries.get(iComputeKey).add(t);
+        if (getField().getZero().equals(fieldElement)) {
+            this.entries.remove(iComputeKey);
+        } else {
+            this.entries.put(iComputeKey, fieldElement);
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.AbstractFieldMatrix, org.apache.commons.math3.linear.FieldMatrix
+    public FieldMatrix<T> copy() {
+        return new SparseFieldMatrix((SparseFieldMatrix) this);
+    }
+
+    @Override // org.apache.commons.math3.linear.AbstractFieldMatrix, org.apache.commons.math3.linear.FieldMatrix
+    public FieldMatrix<T> createMatrix(int i, int i2) {
+        return new SparseFieldMatrix(getField(), i, i2);
+    }
+
+    @Override // org.apache.commons.math3.linear.AbstractFieldMatrix, org.apache.commons.math3.linear.FieldMatrix
+    public T getEntry(int i, int i2) {
+        checkRowIndex(i);
+        checkColumnIndex(i2);
+        return (T) this.entries.get(computeKey(i, i2));
+    }
+
+    @Override // org.apache.commons.math3.linear.AbstractFieldMatrix, org.apache.commons.math3.linear.FieldMatrix
+    public void multiplyEntry(int i, int i2, T t) {
+        checkRowIndex(i);
+        checkColumnIndex(i2);
+        int iComputeKey = computeKey(i, i2);
+        FieldElement fieldElement = (FieldElement) this.entries.get(iComputeKey).multiply(t);
+        if (getField().getZero().equals(fieldElement)) {
+            this.entries.remove(iComputeKey);
+        } else {
+            this.entries.put(iComputeKey, fieldElement);
+        }
+    }
+
+    @Override // org.apache.commons.math3.linear.AbstractFieldMatrix, org.apache.commons.math3.linear.FieldMatrix
+    public void setEntry(int i, int i2, T t) {
+        checkRowIndex(i);
+        checkColumnIndex(i2);
+        if (getField().getZero().equals(t)) {
+            this.entries.remove(computeKey(i, i2));
+        } else {
+            this.entries.put(computeKey(i, i2), t);
+        }
+    }
+}

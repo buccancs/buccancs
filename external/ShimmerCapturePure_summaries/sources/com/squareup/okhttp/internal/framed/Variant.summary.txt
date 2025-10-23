@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/squareup/okhttp/internal/framed/Variant.java
+// Size: 377 bytes
+// Modified: 2025-10-21 16:32:07.813473900 +0100
+
+package com.squareup.okhttp.internal.framed;
+
+import com.squareup.okhttp.Protocol;
+import okio.BufferedSink;
+import okio.BufferedSource;
+
+/* loaded from: classes2.dex */
+public interface Variant {
+    Protocol getProtocol();
+
+    FrameReader newReader(BufferedSource bufferedSource, boolean z);
+
+    FrameWriter newWriter(BufferedSink bufferedSink, boolean z);
+}

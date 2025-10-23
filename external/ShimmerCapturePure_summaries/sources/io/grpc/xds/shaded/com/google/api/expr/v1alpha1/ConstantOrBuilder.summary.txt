@@ -1,0 +1,55 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/com/google/api/expr/v1alpha1/ConstantOrBuilder.java
+// Size: 1230 bytes
+// Modified: 2025-10-21 16:32:02.316841500 +0100
+
+package io.grpc.xds.shaded.com.google.api.expr.v1alpha1;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.NullValue;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import io.grpc.xds.shaded.com.google.api.expr.v1alpha1.Constant;
+
+/* loaded from: classes3.dex */
+public interface ConstantOrBuilder extends MessageOrBuilder {
+    boolean getBoolValue();
+
+    ByteString getBytesValue();
+
+    Constant.ConstantKindCase getConstantKindCase();
+
+    double getDoubleValue();
+
+    @Deprecated
+    Duration getDurationValue();
+
+    @Deprecated
+    DurationOrBuilder getDurationValueOrBuilder();
+
+    long getInt64Value();
+
+    NullValue getNullValue();
+
+    int getNullValueValue();
+
+    String getStringValue();
+
+    ByteString getStringValueBytes();
+
+    @Deprecated
+    Timestamp getTimestampValue();
+
+    @Deprecated
+    TimestampOrBuilder getTimestampValueOrBuilder();
+
+    long getUint64Value();
+
+    @Deprecated
+    boolean hasDurationValue();
+
+    @Deprecated
+    boolean hasTimestampValue();
+}

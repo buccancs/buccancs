@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/androidplot/PlotEvent.java
+// Size: 314 bytes
+// Modified: 2025-10-21 16:32:01.192276400 +0100
+
+package com.androidplot;
+
+/* loaded from: classes.dex */
+public class PlotEvent {
+    private final Plot a;
+
+    public enum Type {
+        PLOT_REDRAWN
+    }
+
+    public Plot getSource() {
+        return this.a;
+    }
+
+    public PlotEvent(Plot plot, Type type) {
+        this.a = plot;
+    }
+}

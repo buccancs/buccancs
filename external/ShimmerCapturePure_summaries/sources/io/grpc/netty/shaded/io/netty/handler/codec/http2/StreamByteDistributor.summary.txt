@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/StreamByteDistributor.java
+// Size: 601 bytes
+// Modified: 2025-10-21 16:32:01.464013200 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+/* loaded from: classes3.dex */
+public interface StreamByteDistributor {
+
+    public interface StreamState {
+        boolean hasFrame();
+
+        long pendingBytes();
+
+        Http2Stream stream();
+
+        int windowSize();
+    }
+
+    public interface Writer {
+        void write(Http2Stream http2Stream, int i);
+    }
+
+    boolean distribute(int i, Writer writer) throws Http2Exception;
+
+    void updateDependencyTree(int i, int i2, short s, boolean z);
+
+    void updateStreamableBytes(StreamState streamState);
+}

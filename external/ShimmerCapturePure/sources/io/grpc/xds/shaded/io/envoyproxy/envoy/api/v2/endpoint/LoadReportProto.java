@@ -1,0 +1,72 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.endpoint;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.DurationProto;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.StructProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.AddressProto;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.BaseProto;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Migrate;
+import udpa.annotations.Status;
+
+/* loaded from: classes3.dex */
+public final class LoadReportProto {
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_endpoint_ClusterStats_DroppedRequests_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_endpoint_ClusterStats_DroppedRequests_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_endpoint_ClusterStats_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_endpoint_ClusterStats_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_endpoint_EndpointLoadMetricStats_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_endpoint_EndpointLoadMetricStats_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_endpoint_UpstreamEndpointStats_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_endpoint_UpstreamEndpointStats_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n'envoy/api/v2/endpoint/load_report.proto\u0012\u0015envoy.api.v2.endpoint\u001a\u001fenvoy/api/v2/core/address.proto\u001a\u001cenvoy/api/v2/core/base.proto\u001a\u001egoogle/protobuf/duration.proto\u001a\u001cgoogle/protobuf/struct.proto\u001a\u001eudpa/annotations/migrate.proto\u001a\u001dudpa/annotations/status.proto\u001a\u0017validate/validate.proto\"ö\u0002\n\u0015UpstreamLocalityStats\u0012-\n\blocality\u0018\u0001 \u0001(\u000b2\u001b.envoy.api.v2.core.Locality\u0012!\n\u0019total_successful_requests\u0018\u0002 \u0001(\u0004\u0012\"\n\u001atotal_requests_in_progress\u0018\u0003 \u0001(\u0004\u0012\u001c\n\u0014total_error_requests\u0018\u0004 \u0001(\u0004\u0012\u001d\n\u0015total_issued_requests\u0018\b \u0001(\u0004\u0012I\n\u0011load_metric_stats\u0018\u0005 \u0003(\u000b2..envoy.api.v2.endpoint.EndpointLoadMetricStats\u0012M\n\u0017upstream_endpoint_stats\u0018\u0007 \u0003(\u000b2,.envoy.api.v2.endpoint.UpstreamEndpointStats\u0012\u0010\n\bpriority\u0018\u0006 \u0001(\r\"¾\u0002\n\u0015UpstreamEndpointStats\u0012+\n\u0007address\u0018\u0001 \u0001(\u000b2\u001a.envoy.api.v2.core.Address\u0012)\n\bmetadata\u0018\u0006 \u0001(\u000b2\u0017.google.protobuf.Struct\u0012!\n\u0019total_successful_requests\u0018\u0002 \u0001(\u0004\u0012\"\n\u001atotal_requests_in_progress\u0018\u0003 \u0001(\u0004\u0012\u001c\n\u0014total_error_requests\u0018\u0004 \u0001(\u0004\u0012\u001d\n\u0015total_issued_requests\u0018\u0007 \u0001(\u0004\u0012I\n\u0011load_metric_stats\u0018\u0005 \u0003(\u000b2..envoy.api.v2.endpoint.EndpointLoadMetricStats\"u\n\u0017EndpointLoadMetricStats\u0012\u0013\n\u000bmetric_name\u0018\u0001 \u0001(\t\u0012)\n!num_requests_finished_with_metric\u0018\u0002 \u0001(\u0004\u0012\u001a\n\u0012total_metric_value\u0018\u0003 \u0001(\u0001\"\u0091\u0003\n\fClusterStats\u0012\u001d\n\fcluster_name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012\u001c\n\u0014cluster_service_name\u0018\u0006 \u0001(\t\u0012W\n\u0017upstream_locality_stats\u0018\u0002 \u0003(\u000b2,.envoy.api.v2.endpoint.UpstreamLocalityStatsB\búB\u0005\u0092\u0001\u0002\b\u0001\u0012\u001e\n\u0016total_dropped_requests\u0018\u0003 \u0001(\u0004\u0012M\n\u0010dropped_requests\u0018\u0005 \u0003(\u000b23.envoy.api.v2.endpoint.ClusterStats.DroppedRequests\u00127\n\u0014load_report_interval\u0018\u0004 \u0001(\u000b2\u0019.google.protobuf.Duration\u001aC\n\u000fDroppedRequests\u0012\u0019\n\bcategory\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012\u0015\n\rdropped_count\u0018\u0002 \u0001(\u0004B`\n#io.envoyproxy.envoy.api.v2.endpointB\u000fLoadReportProtoP\u0001ò\u0098þ\u008f\u0005\u001a\u0012\u0018envoy.config.endpoint.v3º\u0080ÈÑ\u0006\u0002\u0010\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{AddressProto.getDescriptor(), BaseProto.getDescriptor(), DurationProto.getDescriptor(), StructProto.getDescriptor(), Migrate.getDescriptor(), Status.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_descriptor = descriptor2;
+        internal_static_envoy_api_v2_endpoint_UpstreamLocalityStats_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Locality", "TotalSuccessfulRequests", "TotalRequestsInProgress", "TotalErrorRequests", "TotalIssuedRequests", "LoadMetricStats", "UpstreamEndpointStats", "Priority"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(1);
+        internal_static_envoy_api_v2_endpoint_UpstreamEndpointStats_descriptor = descriptor3;
+        internal_static_envoy_api_v2_endpoint_UpstreamEndpointStats_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Address", "Metadata", "TotalSuccessfulRequests", "TotalRequestsInProgress", "TotalErrorRequests", "TotalIssuedRequests", "LoadMetricStats"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(2);
+        internal_static_envoy_api_v2_endpoint_EndpointLoadMetricStats_descriptor = descriptor4;
+        internal_static_envoy_api_v2_endpoint_EndpointLoadMetricStats_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"MetricName", "NumRequestsFinishedWithMetric", "TotalMetricValue"});
+        Descriptors.Descriptor descriptor5 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(3);
+        internal_static_envoy_api_v2_endpoint_ClusterStats_descriptor = descriptor5;
+        internal_static_envoy_api_v2_endpoint_ClusterStats_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor5, new String[]{"ClusterName", "ClusterServiceName", "UpstreamLocalityStats", "TotalDroppedRequests", "DroppedRequests", "LoadReportInterval"});
+        Descriptors.Descriptor descriptor6 = (Descriptors.Descriptor) descriptor5.getNestedTypes().get(0);
+        internal_static_envoy_api_v2_endpoint_ClusterStats_DroppedRequests_descriptor = descriptor6;
+        internal_static_envoy_api_v2_endpoint_ClusterStats_DroppedRequests_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor6, new String[]{"Category", "DroppedCount"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Migrate.fileMigrate);
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        AddressProto.getDescriptor();
+        BaseProto.getDescriptor();
+        DurationProto.getDescriptor();
+        StructProto.getDescriptor();
+        Migrate.getDescriptor();
+        Status.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private LoadReportProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

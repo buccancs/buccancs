@@ -1,0 +1,261 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.protobuf.Descriptors;
+import io.grpc.BindableService;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.MethodDescriptor;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServiceDescriptor;
+import io.grpc.protobuf.ProtoFileDescriptorSupplier;
+import io.grpc.protobuf.ProtoMethodDescriptorSupplier;
+import io.grpc.protobuf.ProtoServiceDescriptorSupplier;
+import io.grpc.protobuf.ProtoUtils;
+import io.grpc.stub.AbstractAsyncStub;
+import io.grpc.stub.AbstractBlockingStub;
+import io.grpc.stub.AbstractFutureStub;
+import io.grpc.stub.AbstractStub;
+import io.grpc.stub.ClientCalls;
+import io.grpc.stub.ServerCalls;
+import io.grpc.stub.StreamObserver;
+
+/* loaded from: classes3.dex */
+public final class RouteDiscoveryServiceGrpc {
+    public static final String SERVICE_NAME = "envoy.api.v2.RouteDiscoveryService";
+    private static final int METHODID_DELTA_ROUTES = 2;
+    private static final int METHODID_FETCH_ROUTES = 0;
+    private static final int METHODID_STREAM_ROUTES = 1;
+    private static volatile MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> getDeltaRoutesMethod;
+    private static volatile MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getFetchRoutesMethod;
+    private static volatile MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getStreamRoutesMethod;
+    private static volatile ServiceDescriptor serviceDescriptor;
+
+    private RouteDiscoveryServiceGrpc() {
+    }
+
+    public static MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getStreamRoutesMethod() {
+        MethodDescriptor<DiscoveryRequest, DiscoveryResponse> methodDescriptorBuild = getStreamRoutesMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (RouteDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getStreamRoutesMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.BIDI_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "StreamRoutes")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new RouteDiscoveryServiceMethodDescriptorSupplier("StreamRoutes")).build();
+                    getStreamRoutesMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> getDeltaRoutesMethod() {
+        MethodDescriptor<DeltaDiscoveryRequest, DeltaDiscoveryResponse> methodDescriptorBuild = getDeltaRoutesMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (RouteDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getDeltaRoutesMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.BIDI_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "DeltaRoutes")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DeltaDiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DeltaDiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new RouteDiscoveryServiceMethodDescriptorSupplier("DeltaRoutes")).build();
+                    getDeltaRoutesMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<DiscoveryRequest, DiscoveryResponse> getFetchRoutesMethod() {
+        MethodDescriptor<DiscoveryRequest, DiscoveryResponse> methodDescriptorBuild = getFetchRoutesMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (RouteDiscoveryServiceGrpc.class) {
+                methodDescriptorBuild = getFetchRoutesMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "FetchRoutes")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(DiscoveryRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(DiscoveryResponse.getDefaultInstance())).setSchemaDescriptor(new RouteDiscoveryServiceMethodDescriptorSupplier("FetchRoutes")).build();
+                    getFetchRoutesMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static RouteDiscoveryServiceStub newStub(Channel channel) {
+        return (RouteDiscoveryServiceStub) RouteDiscoveryServiceStub.newStub(new AbstractStub.StubFactory<RouteDiscoveryServiceStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteDiscoveryServiceGrpc.1
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public RouteDiscoveryServiceStub newStub(Channel channel2, CallOptions callOptions) {
+                return new RouteDiscoveryServiceStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static RouteDiscoveryServiceBlockingStub newBlockingStub(Channel channel) {
+        return (RouteDiscoveryServiceBlockingStub) RouteDiscoveryServiceBlockingStub.newStub(new AbstractStub.StubFactory<RouteDiscoveryServiceBlockingStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteDiscoveryServiceGrpc.2
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public RouteDiscoveryServiceBlockingStub newStub(Channel channel2, CallOptions callOptions) {
+                return new RouteDiscoveryServiceBlockingStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static RouteDiscoveryServiceFutureStub newFutureStub(Channel channel) {
+        return (RouteDiscoveryServiceFutureStub) RouteDiscoveryServiceFutureStub.newStub(new AbstractStub.StubFactory<RouteDiscoveryServiceFutureStub>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.RouteDiscoveryServiceGrpc.3
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public RouteDiscoveryServiceFutureStub newStub(Channel channel2, CallOptions callOptions) {
+                return new RouteDiscoveryServiceFutureStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ServiceDescriptor getServiceDescriptor() {
+        ServiceDescriptor serviceDescriptorBuild = serviceDescriptor;
+        if (serviceDescriptorBuild == null) {
+            synchronized (RouteDiscoveryServiceGrpc.class) {
+                serviceDescriptorBuild = serviceDescriptor;
+                if (serviceDescriptorBuild == null) {
+                    serviceDescriptorBuild = ServiceDescriptor.newBuilder(SERVICE_NAME).setSchemaDescriptor(new RouteDiscoveryServiceFileDescriptorSupplier()).addMethod(getStreamRoutesMethod()).addMethod(getDeltaRoutesMethod()).addMethod(getFetchRoutesMethod()).build();
+                    serviceDescriptor = serviceDescriptorBuild;
+                }
+            }
+        }
+        return serviceDescriptorBuild;
+    }
+
+    public static abstract class RouteDiscoveryServiceImplBase implements BindableService {
+        public StreamObserver<DiscoveryRequest> streamRoutes(StreamObserver<DiscoveryResponse> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(RouteDiscoveryServiceGrpc.getStreamRoutesMethod(), streamObserver);
+        }
+
+        public StreamObserver<DeltaDiscoveryRequest> deltaRoutes(StreamObserver<DeltaDiscoveryResponse> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(RouteDiscoveryServiceGrpc.getDeltaRoutesMethod(), streamObserver);
+        }
+
+        public void fetchRoutes(DiscoveryRequest discoveryRequest, StreamObserver<DiscoveryResponse> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(RouteDiscoveryServiceGrpc.getFetchRoutesMethod(), streamObserver);
+        }
+
+        @Override // io.grpc.BindableService
+        public final ServerServiceDefinition bindService() {
+            return ServerServiceDefinition.builder(RouteDiscoveryServiceGrpc.getServiceDescriptor()).addMethod(RouteDiscoveryServiceGrpc.getStreamRoutesMethod(), ServerCalls.asyncBidiStreamingCall(new MethodHandlers(this, 1))).addMethod(RouteDiscoveryServiceGrpc.getDeltaRoutesMethod(), ServerCalls.asyncBidiStreamingCall(new MethodHandlers(this, 2))).addMethod(RouteDiscoveryServiceGrpc.getFetchRoutesMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 0))).build();
+        }
+    }
+
+    public static final class RouteDiscoveryServiceStub extends AbstractAsyncStub<RouteDiscoveryServiceStub> {
+        private RouteDiscoveryServiceStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public RouteDiscoveryServiceStub build(Channel channel, CallOptions callOptions) {
+            return new RouteDiscoveryServiceStub(channel, callOptions);
+        }
+
+        public StreamObserver<DiscoveryRequest> streamRoutes(StreamObserver<DiscoveryResponse> streamObserver) {
+            return ClientCalls.asyncBidiStreamingCall(getChannel().newCall(RouteDiscoveryServiceGrpc.getStreamRoutesMethod(), getCallOptions()), streamObserver);
+        }
+
+        public StreamObserver<DeltaDiscoveryRequest> deltaRoutes(StreamObserver<DeltaDiscoveryResponse> streamObserver) {
+            return ClientCalls.asyncBidiStreamingCall(getChannel().newCall(RouteDiscoveryServiceGrpc.getDeltaRoutesMethod(), getCallOptions()), streamObserver);
+        }
+
+        public void fetchRoutes(DiscoveryRequest discoveryRequest, StreamObserver<DiscoveryResponse> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(RouteDiscoveryServiceGrpc.getFetchRoutesMethod(), getCallOptions()), discoveryRequest, streamObserver);
+        }
+    }
+
+    public static final class RouteDiscoveryServiceBlockingStub extends AbstractBlockingStub<RouteDiscoveryServiceBlockingStub> {
+        private RouteDiscoveryServiceBlockingStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public RouteDiscoveryServiceBlockingStub build(Channel channel, CallOptions callOptions) {
+            return new RouteDiscoveryServiceBlockingStub(channel, callOptions);
+        }
+
+        public DiscoveryResponse fetchRoutes(DiscoveryRequest discoveryRequest) {
+            return (DiscoveryResponse) ClientCalls.blockingUnaryCall(getChannel(), RouteDiscoveryServiceGrpc.getFetchRoutesMethod(), getCallOptions(), discoveryRequest);
+        }
+    }
+
+    public static final class RouteDiscoveryServiceFutureStub extends AbstractFutureStub<RouteDiscoveryServiceFutureStub> {
+        private RouteDiscoveryServiceFutureStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public RouteDiscoveryServiceFutureStub build(Channel channel, CallOptions callOptions) {
+            return new RouteDiscoveryServiceFutureStub(channel, callOptions);
+        }
+
+        public ListenableFuture<DiscoveryResponse> fetchRoutes(DiscoveryRequest discoveryRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(RouteDiscoveryServiceGrpc.getFetchRoutesMethod(), getCallOptions()), discoveryRequest);
+        }
+    }
+
+    private static final class MethodHandlers<Req, Resp> implements ServerCalls.UnaryMethod<Req, Resp>, ServerCalls.ServerStreamingMethod<Req, Resp>, ServerCalls.ClientStreamingMethod<Req, Resp>, ServerCalls.BidiStreamingMethod<Req, Resp> {
+        private final int methodId;
+        private final RouteDiscoveryServiceImplBase serviceImpl;
+
+        MethodHandlers(RouteDiscoveryServiceImplBase routeDiscoveryServiceImplBase, int i) {
+            this.serviceImpl = routeDiscoveryServiceImplBase;
+            this.methodId = i;
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override
+        // io.grpc.stub.ServerCalls.UnaryMethod, io.grpc.stub.ServerCalls.UnaryRequestMethod, io.grpc.stub.ServerCalls.ServerStreamingMethod
+        public void invoke(Req req, StreamObserver<Resp> streamObserver) {
+            if (this.methodId == 0) {
+                this.serviceImpl.fetchRoutes((DiscoveryRequest) req, streamObserver);
+                return;
+            }
+            throw new AssertionError();
+        }
+
+        @Override
+        // io.grpc.stub.ServerCalls.ClientStreamingMethod, io.grpc.stub.ServerCalls.StreamingRequestMethod, io.grpc.stub.ServerCalls.BidiStreamingMethod
+        public StreamObserver<Req> invoke(StreamObserver<Resp> streamObserver) {
+            int i = this.methodId;
+            if (i == 1) {
+                return (StreamObserver<Req>) this.serviceImpl.streamRoutes(streamObserver);
+            }
+            if (i == 2) {
+                return (StreamObserver<Req>) this.serviceImpl.deltaRoutes(streamObserver);
+            }
+            throw new AssertionError();
+        }
+    }
+
+    private static abstract class RouteDiscoveryServiceBaseDescriptorSupplier implements ProtoFileDescriptorSupplier, ProtoServiceDescriptorSupplier {
+        RouteDiscoveryServiceBaseDescriptorSupplier() {
+        }
+
+        @Override // io.grpc.protobuf.ProtoFileDescriptorSupplier
+        public Descriptors.FileDescriptor getFileDescriptor() {
+            return RdsProto.getDescriptor();
+        }
+
+        @Override // io.grpc.protobuf.ProtoServiceDescriptorSupplier
+        public Descriptors.ServiceDescriptor getServiceDescriptor() {
+            return getFileDescriptor().findServiceByName("RouteDiscoveryService");
+        }
+    }
+
+    private static final class RouteDiscoveryServiceFileDescriptorSupplier extends RouteDiscoveryServiceBaseDescriptorSupplier {
+        RouteDiscoveryServiceFileDescriptorSupplier() {
+        }
+    }
+
+    private static final class RouteDiscoveryServiceMethodDescriptorSupplier extends RouteDiscoveryServiceBaseDescriptorSupplier implements ProtoMethodDescriptorSupplier {
+        private final String methodName;
+
+        RouteDiscoveryServiceMethodDescriptorSupplier(String str) {
+            this.methodName = str;
+        }
+
+        @Override // io.grpc.protobuf.ProtoMethodDescriptorSupplier
+        public Descriptors.MethodDescriptor getMethodDescriptor() {
+            return getServiceDescriptor().findMethodByName(this.methodName);
+        }
+    }
+}

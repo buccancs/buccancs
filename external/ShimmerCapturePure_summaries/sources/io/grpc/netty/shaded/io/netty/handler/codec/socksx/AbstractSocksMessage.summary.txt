@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/socksx/AbstractSocksMessage.java
+// Size: 802 bytes
+// Modified: 2025-10-21 16:32:03.957001600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.socksx;
+
+import io.grpc.netty.shaded.io.netty.handler.codec.DecoderResult;
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+
+/* loaded from: classes3.dex */
+public abstract class AbstractSocksMessage implements SocksMessage {
+    private DecoderResult decoderResult = DecoderResult.SUCCESS;
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.DecoderResultProvider
+    public DecoderResult decoderResult() {
+        return this.decoderResult;
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.handler.codec.DecoderResultProvider
+    public void setDecoderResult(DecoderResult decoderResult) {
+        this.decoderResult = (DecoderResult) ObjectUtil.checkNotNull(decoderResult, "decoderResult");
+    }
+}

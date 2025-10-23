@@ -1,0 +1,56 @@
+package com.codeminders.hidapi;
+
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public class HIDManager {
+    private static HIDManager instance;
+    protected long peer;
+
+    private HIDManager() throws IOException {
+        init();
+    }
+
+    public static HIDManager getInstance() throws IOException {
+        if (instance == null) {
+            synchronized (HIDManager.class) {
+                if (instance == null) {
+                    instance = new HIDManager();
+                }
+            }
+        }
+        return instance;
+    }
+
+    private native void init() throws IOException;
+
+    public native HIDDeviceInfo[] listDevices() throws IOException;
+
+    public native void release();
+
+    protected void finalize() throws Throwable {
+        try {
+            release();
+        } finally {
+            super.finalize();
+        }
+    }
+
+    public HIDDevice openByPath(String str) throws IOException {
+        for (HIDDeviceInfo hIDDeviceInfo : listDevices()) {
+            if (hIDDeviceInfo.getPath().equals(str)) {
+                return hIDDeviceInfo.open();
+            }
+        }
+        throw new HIDDeviceNotFoundException();
+    }
+
+    public HIDDevice openById(int i, int i2, String str) throws IOException {
+        for (HIDDeviceInfo hIDDeviceInfo : listDevices()) {
+            if (hIDDeviceInfo.getVendor_id() == i && hIDDeviceInfo.getProduct_id() == i2 && (str == null || hIDDeviceInfo.getSerial_number().equals(str))) {
+                return hIDDeviceInfo.open();
+            }
+        }
+        throw new HIDDeviceNotFoundException();
+    }
+}

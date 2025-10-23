@@ -1,0 +1,39 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/bootstrap/BootstrapConfig.java
+// Size: 1224 bytes
+// Modified: 2025-10-21 16:32:12.293603800 +0100
+
+package io.grpc.netty.shaded.io.netty.bootstrap;
+
+import io.grpc.netty.shaded.io.netty.channel.Channel;
+import io.grpc.netty.shaded.io.netty.resolver.AddressResolverGroup;
+import java.net.SocketAddress;
+
+/* loaded from: classes3.dex */
+public final class BootstrapConfig extends AbstractBootstrapConfig<Bootstrap, Channel> {
+    BootstrapConfig(Bootstrap bootstrap) {
+        super(bootstrap);
+    }
+
+    public SocketAddress remoteAddress() {
+        return ((Bootstrap) this.bootstrap).remoteAddress();
+    }
+
+    public AddressResolverGroup<?> resolver() {
+        return ((Bootstrap) this.bootstrap).resolver();
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.bootstrap.AbstractBootstrapConfig
+    public String toString() {
+        StringBuilder sb = new StringBuilder(super.toString());
+        sb.setLength(sb.length() - 1);
+        sb.append(", resolver: ");
+        sb.append(resolver());
+        SocketAddress socketAddressRemoteAddress = remoteAddress();
+        if (socketAddressRemoteAddress != null) {
+            sb.append(", remoteAddress: ");
+            sb.append(socketAddressRemoteAddress);
+        }
+        sb.append(')');
+        return sb.toString();
+    }
+}

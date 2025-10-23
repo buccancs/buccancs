@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/os/UserManagerCompat.java
+// Size: 685 bytes
+// Modified: 2025-10-21 16:31:59.998029900 +0100
+
+package androidx.core.os;
+
+import android.content.Context;
+import android.os.Build;
+import android.os.UserManager;
+
+/* loaded from: classes.dex */
+public class UserManagerCompat {
+    private UserManagerCompat() {
+    }
+
+    public static boolean isUserUnlocked(Context context) {
+        if (Build.VERSION.SDK_INT >= 24) {
+            return Api24Impl.isUserUnlocked(context);
+        }
+        return true;
+    }
+
+    static class Api24Impl {
+        private Api24Impl() {
+        }
+
+        static boolean isUserUnlocked(Context context) {
+            return ((UserManager) context.getSystemService(UserManager.class)).isUserUnlocked();
+        }
+    }
+}

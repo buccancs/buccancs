@@ -1,0 +1,365 @@
+package com.shimmerresearch.sensors.bmpX80;
+
+import com.shimmerresearch.bluetooth.BtCommandDetails;
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driverUtilities.ChannelDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.driverUtilities.SensorDetailsRef;
+import com.shimmerresearch.driverUtilities.SensorGroupingDetails;
+import com.shimmerresearch.driverUtilities.ShimmerVerObject;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.ActionSetting;
+import com.shimmerresearch.sensors.bmpX80.SensorBMPX80;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+/* loaded from: classes2.dex */
+public class SensorBMP180 extends SensorBMPX80 {
+    public static final byte BMP180_CALIBRATION_COEFFICIENTS_RESPONSE = 88;
+    public static final byte BMP180_PRES_CALIBRATION_RESPONSE = 86;
+    public static final byte BMP180_PRES_RESOLUTION_RESPONSE = 83;
+    public static final byte GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND = 89;
+    public static final byte GET_BMP180_PRES_CALIBRATION_COMMAND = 87;
+    public static final byte GET_BMP180_PRES_RESOLUTION_COMMAND = 84;
+    public static final String[] ListofPressureResolution;
+    public static final Integer[] ListofPressureResolutionConfigValues;
+    public static final byte SET_BMP180_PRES_CALIBRATION_COMMAND = 85;
+    public static final byte SET_BMP180_PRES_RESOLUTION_COMMAND = 82;
+    public static final ChannelDetails channelBmp180Press;
+    public static final ChannelDetails channelBmp180Temp;
+    public static final ConfigOptionDetailsSensor configOptionPressureResolution;
+    public static final Map<Byte, BtCommandDetails> mBtGetCommandMap;
+    public static final Map<Byte, BtCommandDetails> mBtSetCommandMap;
+    public static final Map<String, ChannelDetails> mChannelMapRef;
+    public static final Map<Integer, SensorDetailsRef> mSensorMapRef;
+    public static final SensorDetailsRef sensorBmp180;
+    public static final SensorGroupingDetails sensorGroupBmp180;
+    private static final long serialVersionUID = 4559709230029277863L;
+
+    static {
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        linkedHashMap.put((byte) 84, new BtCommandDetails((byte) 84, "GET_BMP180_PRES_RESOLUTION_COMMAND", (byte) 83));
+        linkedHashMap.put((byte) 87, new BtCommandDetails((byte) 87, "GET_BMP180_PRES_CALIBRATION_COMMAND", (byte) 86));
+        linkedHashMap.put((byte) 89, new BtCommandDetails((byte) 89, "GET_BMP180_CALIBRATION_COEFFICIENTS_COMMAND", (byte) 88));
+        mBtGetCommandMap = Collections.unmodifiableMap(linkedHashMap);
+        LinkedHashMap linkedHashMap2 = new LinkedHashMap();
+        linkedHashMap2.put((byte) 82, new BtCommandDetails((byte) 82, "SET_BMP180_PRES_RESOLUTION_COMMAND"));
+        linkedHashMap2.put((byte) 85, new BtCommandDetails((byte) 85, "SET_BMP180_PRES_CALIBRATION_COMMAND"));
+        mBtSetCommandMap = Collections.unmodifiableMap(linkedHashMap2);
+        String[] strArr = {"Low", "Standard", "High", "Very High"};
+        ListofPressureResolution = strArr;
+        Integer[] numArr = {0, 1, 2, 3};
+        ListofPressureResolutionConfigValues = numArr;
+        configOptionPressureResolution = new ConfigOptionDetailsSensor(SensorBMPX80.GuiLabelConfig.PRESSURE_RESOLUTION, DatabaseConfigHandle.PRESSURE_PRECISION_BMP180, strArr, numArr, ConfigOptionDetails.GUI_COMPONENT_TYPE.COMBOBOX, Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoBMP180);
+        SensorDetailsRef sensorDetailsRef = new SensorDetailsRef(262144L, 262144L, "Pressure & Temperature", Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoBMP180, Arrays.asList(SensorBMPX80.GuiLabelConfig.PRESSURE_RESOLUTION), Arrays.asList(ObjectClusterSensorName.TEMPERATURE_BMP180, ObjectClusterSensorName.PRESSURE_BMP180));
+        sensorBmp180 = sensorDetailsRef;
+        LinkedHashMap linkedHashMap3 = new LinkedHashMap();
+        linkedHashMap3.put(36, sensorDetailsRef);
+        mSensorMapRef = Collections.unmodifiableMap(linkedHashMap3);
+        sensorGroupBmp180 = new SensorGroupingDetails("Pressure & Temperature", Arrays.asList(36), Configuration.Shimmer3.CompatibilityInfoForMaps.listOfCompatibleVersionInfoBMP180);
+        ChannelDetails channelDetails = new ChannelDetails(ObjectClusterSensorName.PRESSURE_BMP180, ObjectClusterSensorName.PRESSURE_BMP180, DatabaseChannelHandles.PRESSURE_BMP180, ChannelDetails.CHANNEL_DATA_TYPE.UINT24, 3, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.KPASCAL, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 27);
+        channelBmp180Press = channelDetails;
+        ChannelDetails channelDetails2 = new ChannelDetails(ObjectClusterSensorName.TEMPERATURE_BMP180, ObjectClusterSensorName.TEMPERATURE_BMP180, DatabaseChannelHandles.TEMPERATURE_BMP180, ChannelDetails.CHANNEL_DATA_TYPE.UINT16, 2, ChannelDetails.CHANNEL_DATA_ENDIAN.MSB, Configuration.CHANNEL_UNITS.DEGREES_CELSIUS, (List<ChannelDetails.CHANNEL_TYPE>) Arrays.asList(ChannelDetails.CHANNEL_TYPE.CAL, ChannelDetails.CHANNEL_TYPE.UNCAL), 26);
+        channelBmp180Temp = channelDetails2;
+        LinkedHashMap linkedHashMap4 = new LinkedHashMap();
+        linkedHashMap4.put(ObjectClusterSensorName.PRESSURE_BMP180, channelDetails);
+        linkedHashMap4.put(ObjectClusterSensorName.TEMPERATURE_BMP180, channelDetails2);
+        mChannelMapRef = Collections.unmodifiableMap(linkedHashMap4);
+    }
+
+    public SensorBMP180(ShimmerVerObject shimmerVerObject) {
+        super(AbstractSensor.SENSORS.BMP180, shimmerVerObject);
+        initialise();
+    }
+
+    public SensorBMP180(ShimmerDevice shimmerDevice) {
+        super(AbstractSensor.SENSORS.BMP180, shimmerDevice);
+        initialise();
+    }
+
+    public static String parseFromDBColumnToGUIChannel(String str) {
+        return AbstractSensor.parseFromDBColumnToGUIChannel(mChannelMapRef, str);
+    }
+
+    public static String parseFromGUIChannelsToDBColumn(String str) {
+        return AbstractSensor.parseFromGUIChannelsToDBColumn(mChannelMapRef, str);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+        super.createLocalSensorMapWithCustomParser(mSensorMapRef, mChannelMapRef);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+        addConfigOption(configOptionPressureResolution);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+        this.mSensorGroupingMap = new LinkedHashMap<>();
+        if (this.mShimmerVerObject.isShimmerGen3() || this.mShimmerVerObject.isShimmerGen4()) {
+            this.mSensorGroupingMap.put(Integer.valueOf(Configuration.Shimmer3.LABEL_SENSOR_TILE.PRESSURE_TEMPERATURE_BMP180.ordinal()), sensorGroupBmp180);
+        }
+        super.updateSensorGroupingMap();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateCalibMap() {
+        this.mCalibDetailsBmpX80 = new CalibDetailsBmp180();
+        super.generateCalibMap();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        double d2 = 0.0d;
+        double d3 = 0.0d;
+        int i = 0;
+        for (ChannelDetails channelDetails : sensorDetails.mListOfChannels) {
+            byte[] bArr2 = new byte[channelDetails.mDefaultNumBytes];
+            System.arraycopy(bArr, i, bArr2, 0, channelDetails.mDefaultNumBytes);
+            objectCluster = SensorDetails.processShimmerChannelData(bArr2, channelDetails, objectCluster);
+            objectCluster.incrementIndexKeeper();
+            i += channelDetails.mDefaultNumBytes;
+            if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.PRESSURE_BMP180)) {
+                d2 = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(ObjectClusterSensorName.PRESSURE_BMP180), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+            }
+            if (channelDetails.mObjectClusterName.equals(ObjectClusterSensorName.TEMPERATURE_BMP180)) {
+                d3 = ObjectCluster.returnFormatCluster(objectCluster.getCollectionOfFormatClusters(ObjectClusterSensorName.TEMPERATURE_BMP180), channelDetails.mChannelFormatDerivedFromShimmerDataPacket.toString()).mData;
+            }
+        }
+        double[] dArrCalibratePressureSensorData = calibratePressureSensorData(d2, d3);
+        dArrCalibratePressureSensorData[0] = dArrCalibratePressureSensorData[0] / 1000.0d;
+        for (ChannelDetails channelDetails2 : sensorDetails.mListOfChannels) {
+            if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.PRESSURE_BMP180)) {
+                objectCluster.addCalData(channelDetails2, dArrCalibratePressureSensorData[0], objectCluster.getIndexKeeper() - 2);
+                objectCluster.incrementIndexKeeper();
+            } else if (channelDetails2.mObjectClusterName.equals(ObjectClusterSensorName.TEMPERATURE_BMP180)) {
+                objectCluster.addCalData(channelDetails2, dArrCalibratePressureSensorData[1], objectCluster.getIndexKeeper() - 1);
+                objectCluster.incrementIndexKeeper();
+            }
+        }
+        return objectCluster;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        str.hashCode();
+        if (!str.equals(SensorBMPX80.GuiLabelConfig.PRESSURE_RESOLUTION)) {
+            return null;
+        }
+        setPressureResolution(((Integer) obj).intValue());
+        return obj;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        str.hashCode();
+        if (str.equals(SensorBMPX80.GuiLabelConfig.PRESSURE_RESOLUTION)) {
+            return Integer.valueOf(getPressureResolution());
+        }
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        if (!this.mSensorMap.containsKey(Integer.valueOf(i)) || i != 36) {
+            return false;
+        }
+        setDefaultBmp180PressureSensorConfig(z);
+        return true;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return this.mConfigOptionsMap.containsKey(str);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        ActionSetting actionSetting = new ActionSetting(communication_type);
+        str.hashCode();
+        if (str.equals(SensorBMPX80.GuiLabelConfig.PRESSURE_RESOLUTION)) {
+            setPressureResolution(((Integer) obj).intValue());
+        }
+        return actionSetting;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        LinkedHashMap<String, Object> linkedHashMap = new LinkedHashMap<>();
+        linkedHashMap.put(DatabaseConfigHandle.PRESSURE_PRECISION_BMP180, Integer.valueOf(getPressureResolution()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_AC1, Double.valueOf(getPressTempAC1()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_AC2, Double.valueOf(getPressTempAC2()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_AC3, Double.valueOf(getPressTempAC3()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_AC4, Double.valueOf(getPressTempAC4()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_AC5, Double.valueOf(getPressTempAC5()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_AC6, Double.valueOf(getPressTempAC6()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_B1, Double.valueOf(getPressTempB1()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_B2, Double.valueOf(getPressTempB2()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_MB, Double.valueOf(getPressTempMB()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_MC, Double.valueOf(getPressTempMC()));
+        linkedHashMap.put(DatabaseConfigHandle.TEMP_PRES_MD, Double.valueOf(getPressTempMD()));
+        return linkedHashMap;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void parseConfigMap(LinkedHashMap<String, Object> linkedHashMap) {
+        if (linkedHashMap.containsKey(DatabaseConfigHandle.PRESSURE_PRECISION_BMP180)) {
+            setPressureResolution(((Double) linkedHashMap.get(DatabaseConfigHandle.PRESSURE_PRECISION_BMP180)).intValue());
+        }
+        if (linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_AC1) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_AC2) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_AC3) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_AC4) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_AC5) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_AC6) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_B1) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_B2) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_MB) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_MC) && linkedHashMap.containsKey(DatabaseConfigHandle.TEMP_PRES_MD)) {
+            setPressureCalib(((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_AC1)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_AC2)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_AC3)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_AC4)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_AC5)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_AC6)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_B1)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_B2)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_MB)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_MC)).doubleValue(), ((Double) linkedHashMap.get(DatabaseConfigHandle.TEMP_PRES_MD)).doubleValue());
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        if (communication_type != Configuration.COMMUNICATION_TYPE.BLUETOOTH || i != 88) {
+            return false;
+        }
+        retrievePressureCalibrationParametersFromPacket((byte[]) obj, CalibDetails.CALIB_READ_SOURCE.LEGACY_BT_COMMAND);
+        return true;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+        if (isSensorEnabled(36)) {
+            return;
+        }
+        setDefaultBmp180PressureSensorConfig(false);
+    }
+
+    public void setPressureCalib(double d, double d2, double d3, double d4, double d5, double d6, double d7, double d8, double d9, double d10, double d11) {
+        ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).setPressureCalib(d, d2, d3, d4, d5, d6, d7, d8, d9, d10, d11);
+    }
+
+    public double getPressTempAC1() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).AC1;
+    }
+
+    public double getPressTempAC2() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).AC2;
+    }
+
+    public double getPressTempAC3() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).AC3;
+    }
+
+    public double getPressTempAC4() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).AC4;
+    }
+
+    public double getPressTempAC5() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).AC5;
+    }
+
+    public double getPressTempAC6() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).AC6;
+    }
+
+    public double getPressTempB1() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).B1;
+    }
+
+    public double getPressTempB2() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).B2;
+    }
+
+    public double getPressTempMB() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).MB;
+    }
+
+    public double getPressTempMC() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).MC;
+    }
+
+    public double getPressTempMD() {
+        return ((CalibDetailsBmp180) this.mCalibDetailsBmpX80).MD;
+    }
+
+    @Override // com.shimmerresearch.sensors.bmpX80.SensorBMPX80
+    public void setPressureResolution(int i) {
+        if (ArrayUtils.contains(ListofPressureResolutionConfigValues, Integer.valueOf(i))) {
+            this.mPressureResolution = i;
+        }
+        updateCurrentPressureCalibInUse();
+    }
+
+    @Override // com.shimmerresearch.sensors.bmpX80.SensorBMPX80
+    public double[] calibratePressureSensorData(double d, double d2) {
+        return super.calibratePressureSensorData(d / Math.pow(2.0d, 8 - getPressureResolution()), d2);
+    }
+
+    @Override // com.shimmerresearch.sensors.bmpX80.SensorBMPX80
+    public List<Double> getPressTempConfigValuesLegacy() {
+        ArrayList arrayList = new ArrayList();
+        CalibDetailsBmp180 calibDetailsBmp180 = (CalibDetailsBmp180) this.mCalibDetailsBmpX80;
+        arrayList.add(Double.valueOf(calibDetailsBmp180.AC1));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.AC2));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.AC3));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.AC4));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.AC5));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.AC6));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.B1));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.B2));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.MB));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.MC));
+        arrayList.add(Double.valueOf(calibDetailsBmp180.MD));
+        return arrayList;
+    }
+
+    public void setDefaultBmp180PressureSensorConfig(boolean z) {
+        if (z) {
+            return;
+        }
+        this.mPressureResolution = 0;
+    }
+
+    public static class DatabaseChannelHandles {
+        public static final String PRESSURE_BMP180 = "BMP180_Pressure";
+        public static final String TEMPERATURE_BMP180 = "BMP180_Temperature";
+    }
+
+    public static final class DatabaseConfigHandle {
+        public static final String PRESSURE_PRECISION_BMP180 = "BMP180_Pressure_Precision";
+        public static final String TEMP_PRES_AC1 = "BMP180_AC1";
+        public static final String TEMP_PRES_AC2 = "BMP180_AC2";
+        public static final String TEMP_PRES_AC3 = "BMP180_AC3";
+        public static final String TEMP_PRES_AC4 = "BMP180_AC4";
+        public static final String TEMP_PRES_AC5 = "BMP180_AC5";
+        public static final String TEMP_PRES_AC6 = "BMP180_AC6";
+        public static final String TEMP_PRES_B1 = "BMP180_B1";
+        public static final String TEMP_PRES_B2 = "BMP180_B2";
+        public static final String TEMP_PRES_MB = "BMP180_MB";
+        public static final String TEMP_PRES_MC = "BMP180_MC";
+        public static final String TEMP_PRES_MD = "BMP180_MD";
+        public static final List<String> LIST_OF_CALIB_HANDLES = Arrays.asList(TEMP_PRES_AC1, TEMP_PRES_AC2, TEMP_PRES_AC3, TEMP_PRES_AC4, TEMP_PRES_AC5, TEMP_PRES_AC6, TEMP_PRES_B1, TEMP_PRES_B2, TEMP_PRES_MB, TEMP_PRES_MC, TEMP_PRES_MD);
+    }
+
+    public static final class ObjectClusterSensorName {
+        public static final String PRESSURE_BMP180 = "Pressure_BMP180";
+        public static final String TEMPERATURE_BMP180 = "Temperature_BMP180";
+    }
+}

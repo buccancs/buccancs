@@ -1,0 +1,84 @@
+package com.androidplot.xy;
+
+import com.androidplot.ui.PositionMetric;
+
+/* loaded from: classes.dex */
+public class XPositionMetric extends PositionMetric<XLayoutStyle> {
+    public XPositionMetric(float f, XLayoutStyle xLayoutStyle) {
+        super(f, xLayoutStyle);
+        a(f, xLayoutStyle);
+    }
+
+    private static void a(float f, XLayoutStyle xLayoutStyle) {
+        switch (a.a[xLayoutStyle.ordinal()]) {
+            case 1:
+            case 2:
+            case 3:
+                a(f, PositionMetric.LayoutMode.ABSOLUTE);
+                break;
+            case 4:
+            case 5:
+            case 6:
+                a(f, PositionMetric.LayoutMode.RELATIVE);
+                break;
+        }
+    }
+
+    @Override // com.androidplot.ui.a
+    protected final /* bridge */ /* synthetic */ void a(float f, Enum r2) {
+        a(f, (XLayoutStyle) r2);
+    }
+
+    @Override // com.androidplot.ui.a
+    public float getPixelValue(float f) {
+        switch (a.a[((XLayoutStyle) getLayoutType()).ordinal()]) {
+            case 1:
+                return a(f, PositionMetric.Origin.FROM_BEGINING);
+            case 2:
+                return a(f, PositionMetric.Origin.FROM_END);
+            case 3:
+                return a(f, PositionMetric.Origin.FROM_CENTER);
+            case 4:
+                return b(f, PositionMetric.Origin.FROM_BEGINING);
+            case 5:
+                return b(f, PositionMetric.Origin.FROM_END);
+            case 6:
+                return b(f, PositionMetric.Origin.FROM_CENTER);
+            default:
+                throw new IllegalArgumentException("Unsupported LayoutType: " + getLayoutType());
+        }
+    }
+
+    static /* synthetic */ class a {
+        static final /* synthetic */ int[] a;
+
+        static {
+            int[] iArr = new int[XLayoutStyle.values().length];
+            a = iArr;
+            try {
+                iArr[XLayoutStyle.ABSOLUTE_FROM_LEFT.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                a[XLayoutStyle.ABSOLUTE_FROM_RIGHT.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                a[XLayoutStyle.ABSOLUTE_FROM_CENTER.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                a[XLayoutStyle.RELATIVE_TO_LEFT.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                a[XLayoutStyle.RELATIVE_TO_RIGHT.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                a[XLayoutStyle.RELATIVE_TO_CENTER.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+        }
+    }
+}

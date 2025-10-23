@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/AsyncMapping.java
+// Size: 303 bytes
+// Modified: 2025-10-21 16:32:03.394019100 +0100
+
+package io.grpc.netty.shaded.io.netty.util;
+
+import io.grpc.netty.shaded.io.netty.util.concurrent.Future;
+import io.grpc.netty.shaded.io.netty.util.concurrent.Promise;
+
+/* loaded from: classes3.dex */
+public interface AsyncMapping<IN, OUT> {
+    Future<OUT> map(IN in, Promise<OUT> promise);
+}

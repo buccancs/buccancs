@@ -1,0 +1,1063 @@
+package com.shimmerresearch.grpc;
+
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.protobuf.Descriptors;
+import com.shimmerresearch.grpc.ShimmerGRPC;
+import io.grpc.BindableService;
+import io.grpc.CallOptions;
+import io.grpc.Channel;
+import io.grpc.MethodDescriptor;
+import io.grpc.ServerServiceDefinition;
+import io.grpc.ServiceDescriptor;
+import io.grpc.protobuf.ProtoFileDescriptorSupplier;
+import io.grpc.protobuf.ProtoMethodDescriptorSupplier;
+import io.grpc.protobuf.ProtoServiceDescriptorSupplier;
+import io.grpc.protobuf.ProtoUtils;
+import io.grpc.stub.AbstractAsyncStub;
+import io.grpc.stub.AbstractBlockingStub;
+import io.grpc.stub.AbstractFutureStub;
+import io.grpc.stub.AbstractStub;
+import io.grpc.stub.ClientCalls;
+import io.grpc.stub.ServerCalls;
+import io.grpc.stub.StreamObserver;
+
+import java.util.Iterator;
+
+/* loaded from: classes2.dex */
+public final class ShimmerServerGrpc {
+    public static final String SERVICE_NAME = "shimmerGRPC.ShimmerServer";
+    private static final int METHODID_CLEAR_SD_CARD_DATA = 16;
+    private static final int METHODID_CLOSE_APPLICATION = 6;
+    private static final int METHODID_CONNECT_SHIMMER = 2;
+    private static final int METHODID_DISCONNECT_SHIMMER = 3;
+    private static final int METHODID_DOCK_ACCESS_SLOT_WITH_SD_CARD = 17;
+    private static final int METHODID_DOCK_RESTORE_AUTO_TASKS = 18;
+    private static final int METHODID_GET_DATA_STREAM = 1;
+    private static final int METHODID_GET_DEVICE_STATE_STREAM = 23;
+    private static final int METHODID_GET_DOCKED_SHIMMER_INFO = 9;
+    private static final int METHODID_GET_EMULATED_DEVICES = 21;
+    private static final int METHODID_GET_INFO_ALL_SHIMMERS = 20;
+    private static final int METHODID_GET_INFO_SPANS = 19;
+    private static final int METHODID_GET_MADGEWICK_BETA_VALUE = 10;
+    private static final int METHODID_GET_OPERATION_PROGRESS = 12;
+    private static final int METHODID_GET_PAIRED_BT_SHIMMERS = 22;
+    private static final int METHODID_GET_WORKSPACE_DIRECTORY = 8;
+    private static final int METHODID_IMPORT_SD_DATA_FROM_SHIMMERS = 13;
+    private static final int METHODID_PAIR_SHIMMERS = 11;
+    private static final int METHODID_PARSE_SD_DATA_FROM_PATH = 14;
+    private static final int METHODID_SAY_HELLO = 0;
+    private static final int METHODID_SCAN_SD_DATA_AND_COPY = 15;
+    private static final int METHODID_SEND_DATA_STREAM = 24;
+    private static final int METHODID_SEND_FILE_STREAM = 25;
+    private static final int METHODID_SET_WORKSPACE_DIRECTORY = 7;
+    private static final int METHODID_START_STREAMING = 4;
+    private static final int METHODID_STOP_STREAMING = 5;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getClearSdCardDataMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getCloseApplicationMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getConnectShimmerMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getDisconnectShimmerMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getDockAccessSlotWithSdCardMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getDockRestoreAutoTasksMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StreamRequest, ShimmerGRPC.ObjectCluster2> getGetDataStreamMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StreamRequest, ShimmerGRPC.DeviceState> getGetDeviceStateStreamMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.ShimmersInfo> getGetDockedShimmerInfoMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.EmulatedDevices> getGetEmulatedDevicesMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.ShimmersInfo> getGetInfoAllShimmersMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.InfoSpans> getGetInfoSpansMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.DoubleMsg> getGetMadgewickBetaValueMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> getGetOperationProgressMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.BluetoothDevicesDetails> getGetPairedBtShimmersMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.StringMsg> getGetWorkspaceDirectoryMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getImportSdDataFromShimmersMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getPairShimmersMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> getParseSdDataFromPathMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.HelloRequest, ShimmerGRPC.HelloReply> getSayHelloMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getScanSdDataAndCopyMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.ObjectCluster2, ShimmerGRPC.HelloReply> getSendDataStreamMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.FileByteTransfer, ShimmerGRPC.HelloReply> getSendFileStreamMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> getSetWorkspaceDirectoryMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getStartStreamingMethod;
+    private static volatile MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getStopStreamingMethod;
+    private static volatile ServiceDescriptor serviceDescriptor;
+
+    private ShimmerServerGrpc() {
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.HelloRequest, ShimmerGRPC.HelloReply> getSayHelloMethod() {
+        MethodDescriptor<ShimmerGRPC.HelloRequest, ShimmerGRPC.HelloReply> methodDescriptorBuild = getSayHelloMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getSayHelloMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "SayHello")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.HelloRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.HelloReply.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("SayHello")).build();
+                    getSayHelloMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StreamRequest, ShimmerGRPC.ObjectCluster2> getGetDataStreamMethod() {
+        MethodDescriptor<ShimmerGRPC.StreamRequest, ShimmerGRPC.ObjectCluster2> methodDescriptorBuild = getGetDataStreamMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetDataStreamMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.SERVER_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetDataStream")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StreamRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ObjectCluster2.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetDataStream")).build();
+                    getGetDataStreamMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.ObjectCluster2, ShimmerGRPC.HelloReply> getSendDataStreamMethod() {
+        MethodDescriptor<ShimmerGRPC.ObjectCluster2, ShimmerGRPC.HelloReply> methodDescriptorBuild = getSendDataStreamMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getSendDataStreamMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.CLIENT_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "SendDataStream")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ObjectCluster2.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.HelloReply.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("SendDataStream")).build();
+                    getSendDataStreamMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.FileByteTransfer, ShimmerGRPC.HelloReply> getSendFileStreamMethod() {
+        MethodDescriptor<ShimmerGRPC.FileByteTransfer, ShimmerGRPC.HelloReply> methodDescriptorBuild = getSendFileStreamMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getSendFileStreamMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.CLIENT_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "SendFileStream")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.FileByteTransfer.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.HelloReply.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("SendFileStream")).build();
+                    getSendFileStreamMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getConnectShimmerMethod() {
+        MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> methodDescriptorBuild = getConnectShimmerMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getConnectShimmerMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "ConnectShimmer")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ShimmerRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.CommandStatus.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("ConnectShimmer")).build();
+                    getConnectShimmerMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getDisconnectShimmerMethod() {
+        MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> methodDescriptorBuild = getDisconnectShimmerMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getDisconnectShimmerMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "DisconnectShimmer")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ShimmerRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.CommandStatus.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("DisconnectShimmer")).build();
+                    getDisconnectShimmerMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getStartStreamingMethod() {
+        MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> methodDescriptorBuild = getStartStreamingMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getStartStreamingMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "StartStreaming")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ShimmerRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.CommandStatus.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("StartStreaming")).build();
+                    getStartStreamingMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getStopStreamingMethod() {
+        MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> methodDescriptorBuild = getStopStreamingMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getStopStreamingMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "StopStreaming")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ShimmerRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.CommandStatus.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("StopStreaming")).build();
+                    getStopStreamingMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> getCloseApplicationMethod() {
+        MethodDescriptor<ShimmerGRPC.ShimmerRequest, ShimmerGRPC.CommandStatus> methodDescriptorBuild = getCloseApplicationMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getCloseApplicationMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "CloseApplication")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ShimmerRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.CommandStatus.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("CloseApplication")).build();
+                    getCloseApplicationMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> getSetWorkspaceDirectoryMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getSetWorkspaceDirectoryMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getSetWorkspaceDirectoryMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "SetWorkspaceDirectory")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("SetWorkspaceDirectory")).build();
+                    getSetWorkspaceDirectoryMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.StringMsg> getGetWorkspaceDirectoryMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.StringMsg> methodDescriptorBuild = getGetWorkspaceDirectoryMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetWorkspaceDirectoryMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetWorkspaceDirectory")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetWorkspaceDirectory")).build();
+                    getGetWorkspaceDirectoryMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.ShimmersInfo> getGetDockedShimmerInfoMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.ShimmersInfo> methodDescriptorBuild = getGetDockedShimmerInfoMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetDockedShimmerInfoMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetDockedShimmerInfo")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ShimmersInfo.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetDockedShimmerInfo")).build();
+                    getGetDockedShimmerInfoMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.DoubleMsg> getGetMadgewickBetaValueMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.DoubleMsg> methodDescriptorBuild = getGetMadgewickBetaValueMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetMadgewickBetaValueMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetMadgewickBetaValue")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.DoubleMsg.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetMadgewickBetaValue")).build();
+                    getGetMadgewickBetaValueMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getPairShimmersMethod() {
+        MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getPairShimmersMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getPairShimmersMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "PairShimmers")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringArrayMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("PairShimmers")).build();
+                    getPairShimmersMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> getGetOperationProgressMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getGetOperationProgressMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetOperationProgressMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetOperationProgress")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetOperationProgress")).build();
+                    getGetOperationProgressMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getImportSdDataFromShimmersMethod() {
+        MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getImportSdDataFromShimmersMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getImportSdDataFromShimmersMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "ImportSdDataFromShimmers")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringArrayMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("ImportSdDataFromShimmers")).build();
+                    getImportSdDataFromShimmersMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> getParseSdDataFromPathMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getParseSdDataFromPathMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getParseSdDataFromPathMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "ParseSdDataFromPath")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("ParseSdDataFromPath")).build();
+                    getParseSdDataFromPathMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getScanSdDataAndCopyMethod() {
+        MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getScanSdDataAndCopyMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getScanSdDataAndCopyMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "ScanSdDataAndCopy")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringArrayMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("ScanSdDataAndCopy")).build();
+                    getScanSdDataAndCopyMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getClearSdCardDataMethod() {
+        MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getClearSdCardDataMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getClearSdCardDataMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "ClearSdCardData")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringArrayMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("ClearSdCardData")).build();
+                    getClearSdCardDataMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getDockAccessSlotWithSdCardMethod() {
+        MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getDockAccessSlotWithSdCardMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getDockAccessSlotWithSdCardMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "DockAccessSlotWithSdCard")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringArrayMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("DockAccessSlotWithSdCard")).build();
+                    getDockAccessSlotWithSdCardMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> getDockRestoreAutoTasksMethod() {
+        MethodDescriptor<ShimmerGRPC.StringArrayMsg, ShimmerGRPC.OperationRequest> methodDescriptorBuild = getDockRestoreAutoTasksMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getDockRestoreAutoTasksMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "DockRestoreAutoTasks")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringArrayMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.OperationRequest.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("DockRestoreAutoTasks")).build();
+                    getDockRestoreAutoTasksMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.InfoSpans> getGetInfoSpansMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.InfoSpans> methodDescriptorBuild = getGetInfoSpansMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetInfoSpansMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetInfoSpans")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.InfoSpans.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetInfoSpans")).build();
+                    getGetInfoSpansMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.ShimmersInfo> getGetInfoAllShimmersMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.ShimmersInfo> methodDescriptorBuild = getGetInfoAllShimmersMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetInfoAllShimmersMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetInfoAllShimmers")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.ShimmersInfo.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetInfoAllShimmers")).build();
+                    getGetInfoAllShimmersMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.EmulatedDevices> getGetEmulatedDevicesMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.EmulatedDevices> methodDescriptorBuild = getGetEmulatedDevicesMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetEmulatedDevicesMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetEmulatedDevices")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.EmulatedDevices.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetEmulatedDevices")).build();
+                    getGetEmulatedDevicesMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.BluetoothDevicesDetails> getGetPairedBtShimmersMethod() {
+        MethodDescriptor<ShimmerGRPC.StringMsg, ShimmerGRPC.BluetoothDevicesDetails> methodDescriptorBuild = getGetPairedBtShimmersMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetPairedBtShimmersMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.UNARY).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetPairedBtShimmers")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StringMsg.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.BluetoothDevicesDetails.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetPairedBtShimmers")).build();
+                    getGetPairedBtShimmersMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static MethodDescriptor<ShimmerGRPC.StreamRequest, ShimmerGRPC.DeviceState> getGetDeviceStateStreamMethod() {
+        MethodDescriptor<ShimmerGRPC.StreamRequest, ShimmerGRPC.DeviceState> methodDescriptorBuild = getGetDeviceStateStreamMethod;
+        if (methodDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                methodDescriptorBuild = getGetDeviceStateStreamMethod;
+                if (methodDescriptorBuild == null) {
+                    methodDescriptorBuild = MethodDescriptor.newBuilder().setType(MethodDescriptor.MethodType.SERVER_STREAMING).setFullMethodName(MethodDescriptor.generateFullMethodName(SERVICE_NAME, "GetDeviceStateStream")).setSampledToLocalTracing(true).setRequestMarshaller(ProtoUtils.marshaller(ShimmerGRPC.StreamRequest.getDefaultInstance())).setResponseMarshaller(ProtoUtils.marshaller(ShimmerGRPC.DeviceState.getDefaultInstance())).setSchemaDescriptor(new ShimmerServerMethodDescriptorSupplier("GetDeviceStateStream")).build();
+                    getGetDeviceStateStreamMethod = methodDescriptorBuild;
+                }
+            }
+        }
+        return methodDescriptorBuild;
+    }
+
+    public static ShimmerServerStub newStub(Channel channel) {
+        return (ShimmerServerStub) ShimmerServerStub.newStub(new AbstractStub.StubFactory<ShimmerServerStub>() { // from class: com.shimmerresearch.grpc.ShimmerServerGrpc.1
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ShimmerServerStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ShimmerServerStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ShimmerServerBlockingStub newBlockingStub(Channel channel) {
+        return (ShimmerServerBlockingStub) ShimmerServerBlockingStub.newStub(new AbstractStub.StubFactory<ShimmerServerBlockingStub>() { // from class: com.shimmerresearch.grpc.ShimmerServerGrpc.2
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ShimmerServerBlockingStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ShimmerServerBlockingStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ShimmerServerFutureStub newFutureStub(Channel channel) {
+        return (ShimmerServerFutureStub) ShimmerServerFutureStub.newStub(new AbstractStub.StubFactory<ShimmerServerFutureStub>() { // from class: com.shimmerresearch.grpc.ShimmerServerGrpc.3
+            @Override // io.grpc.stub.AbstractStub.StubFactory
+            public ShimmerServerFutureStub newStub(Channel channel2, CallOptions callOptions) {
+                return new ShimmerServerFutureStub(channel2, callOptions);
+            }
+        }, channel);
+    }
+
+    public static ServiceDescriptor getServiceDescriptor() {
+        ServiceDescriptor serviceDescriptorBuild = serviceDescriptor;
+        if (serviceDescriptorBuild == null) {
+            synchronized (ShimmerServerGrpc.class) {
+                serviceDescriptorBuild = serviceDescriptor;
+                if (serviceDescriptorBuild == null) {
+                    serviceDescriptorBuild = ServiceDescriptor.newBuilder(SERVICE_NAME).setSchemaDescriptor(new ShimmerServerFileDescriptorSupplier()).addMethod(getSayHelloMethod()).addMethod(getGetDataStreamMethod()).addMethod(getSendDataStreamMethod()).addMethod(getSendFileStreamMethod()).addMethod(getConnectShimmerMethod()).addMethod(getDisconnectShimmerMethod()).addMethod(getStartStreamingMethod()).addMethod(getStopStreamingMethod()).addMethod(getCloseApplicationMethod()).addMethod(getSetWorkspaceDirectoryMethod()).addMethod(getGetWorkspaceDirectoryMethod()).addMethod(getGetDockedShimmerInfoMethod()).addMethod(getGetMadgewickBetaValueMethod()).addMethod(getPairShimmersMethod()).addMethod(getGetOperationProgressMethod()).addMethod(getImportSdDataFromShimmersMethod()).addMethod(getParseSdDataFromPathMethod()).addMethod(getScanSdDataAndCopyMethod()).addMethod(getClearSdCardDataMethod()).addMethod(getDockAccessSlotWithSdCardMethod()).addMethod(getDockRestoreAutoTasksMethod()).addMethod(getGetInfoSpansMethod()).addMethod(getGetInfoAllShimmersMethod()).addMethod(getGetEmulatedDevicesMethod()).addMethod(getGetPairedBtShimmersMethod()).addMethod(getGetDeviceStateStreamMethod()).build();
+                    serviceDescriptor = serviceDescriptorBuild;
+                }
+            }
+        }
+        return serviceDescriptorBuild;
+    }
+
+    public static abstract class ShimmerServerImplBase implements BindableService {
+        public void sayHello(ShimmerGRPC.HelloRequest helloRequest, StreamObserver<ShimmerGRPC.HelloReply> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getSayHelloMethod(), streamObserver);
+        }
+
+        public void getDataStream(ShimmerGRPC.StreamRequest streamRequest, StreamObserver<ShimmerGRPC.ObjectCluster2> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetDataStreamMethod(), streamObserver);
+        }
+
+        public StreamObserver<ShimmerGRPC.ObjectCluster2> sendDataStream(StreamObserver<ShimmerGRPC.HelloReply> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(ShimmerServerGrpc.getSendDataStreamMethod(), streamObserver);
+        }
+
+        public StreamObserver<ShimmerGRPC.FileByteTransfer> sendFileStream(StreamObserver<ShimmerGRPC.HelloReply> streamObserver) {
+            return ServerCalls.asyncUnimplementedStreamingCall(ShimmerServerGrpc.getSendFileStreamMethod(), streamObserver);
+        }
+
+        public void connectShimmer(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getConnectShimmerMethod(), streamObserver);
+        }
+
+        public void disconnectShimmer(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getDisconnectShimmerMethod(), streamObserver);
+        }
+
+        public void startStreaming(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getStartStreamingMethod(), streamObserver);
+        }
+
+        public void stopStreaming(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getStopStreamingMethod(), streamObserver);
+        }
+
+        public void closeApplication(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getCloseApplicationMethod(), streamObserver);
+        }
+
+        public void setWorkspaceDirectory(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getSetWorkspaceDirectoryMethod(), streamObserver);
+        }
+
+        public void getWorkspaceDirectory(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.StringMsg> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetWorkspaceDirectoryMethod(), streamObserver);
+        }
+
+        public void getDockedShimmerInfo(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.ShimmersInfo> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetDockedShimmerInfoMethod(), streamObserver);
+        }
+
+        public void getMadgewickBetaValue(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.DoubleMsg> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetMadgewickBetaValueMethod(), streamObserver);
+        }
+
+        public void pairShimmers(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getPairShimmersMethod(), streamObserver);
+        }
+
+        public void getOperationProgress(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetOperationProgressMethod(), streamObserver);
+        }
+
+        public void importSdDataFromShimmers(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getImportSdDataFromShimmersMethod(), streamObserver);
+        }
+
+        public void parseSdDataFromPath(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getParseSdDataFromPathMethod(), streamObserver);
+        }
+
+        public void scanSdDataAndCopy(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getScanSdDataAndCopyMethod(), streamObserver);
+        }
+
+        public void clearSdCardData(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getClearSdCardDataMethod(), streamObserver);
+        }
+
+        public void dockAccessSlotWithSdCard(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getDockAccessSlotWithSdCardMethod(), streamObserver);
+        }
+
+        public void dockRestoreAutoTasks(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getDockRestoreAutoTasksMethod(), streamObserver);
+        }
+
+        public void getInfoSpans(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.InfoSpans> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetInfoSpansMethod(), streamObserver);
+        }
+
+        public void getInfoAllShimmers(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.ShimmersInfo> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetInfoAllShimmersMethod(), streamObserver);
+        }
+
+        public void getEmulatedDevices(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.EmulatedDevices> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetEmulatedDevicesMethod(), streamObserver);
+        }
+
+        public void getPairedBtShimmers(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.BluetoothDevicesDetails> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetPairedBtShimmersMethod(), streamObserver);
+        }
+
+        public void getDeviceStateStream(ShimmerGRPC.StreamRequest streamRequest, StreamObserver<ShimmerGRPC.DeviceState> streamObserver) {
+            ServerCalls.asyncUnimplementedUnaryCall(ShimmerServerGrpc.getGetDeviceStateStreamMethod(), streamObserver);
+        }
+
+        @Override // io.grpc.BindableService
+        public final ServerServiceDefinition bindService() {
+            return ServerServiceDefinition.builder(ShimmerServerGrpc.getServiceDescriptor()).addMethod(ShimmerServerGrpc.getSayHelloMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 0))).addMethod(ShimmerServerGrpc.getGetDataStreamMethod(), ServerCalls.asyncServerStreamingCall(new MethodHandlers(this, 1))).addMethod(ShimmerServerGrpc.getSendDataStreamMethod(), ServerCalls.asyncClientStreamingCall(new MethodHandlers(this, 24))).addMethod(ShimmerServerGrpc.getSendFileStreamMethod(), ServerCalls.asyncClientStreamingCall(new MethodHandlers(this, 25))).addMethod(ShimmerServerGrpc.getConnectShimmerMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 2))).addMethod(ShimmerServerGrpc.getDisconnectShimmerMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 3))).addMethod(ShimmerServerGrpc.getStartStreamingMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 4))).addMethod(ShimmerServerGrpc.getStopStreamingMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 5))).addMethod(ShimmerServerGrpc.getCloseApplicationMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 6))).addMethod(ShimmerServerGrpc.getSetWorkspaceDirectoryMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 7))).addMethod(ShimmerServerGrpc.getGetWorkspaceDirectoryMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 8))).addMethod(ShimmerServerGrpc.getGetDockedShimmerInfoMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 9))).addMethod(ShimmerServerGrpc.getGetMadgewickBetaValueMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 10))).addMethod(ShimmerServerGrpc.getPairShimmersMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 11))).addMethod(ShimmerServerGrpc.getGetOperationProgressMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 12))).addMethod(ShimmerServerGrpc.getImportSdDataFromShimmersMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 13))).addMethod(ShimmerServerGrpc.getParseSdDataFromPathMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 14))).addMethod(ShimmerServerGrpc.getScanSdDataAndCopyMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 15))).addMethod(ShimmerServerGrpc.getClearSdCardDataMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 16))).addMethod(ShimmerServerGrpc.getDockAccessSlotWithSdCardMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 17))).addMethod(ShimmerServerGrpc.getDockRestoreAutoTasksMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 18))).addMethod(ShimmerServerGrpc.getGetInfoSpansMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 19))).addMethod(ShimmerServerGrpc.getGetInfoAllShimmersMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 20))).addMethod(ShimmerServerGrpc.getGetEmulatedDevicesMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 21))).addMethod(ShimmerServerGrpc.getGetPairedBtShimmersMethod(), ServerCalls.asyncUnaryCall(new MethodHandlers(this, 22))).addMethod(ShimmerServerGrpc.getGetDeviceStateStreamMethod(), ServerCalls.asyncServerStreamingCall(new MethodHandlers(this, 23))).build();
+        }
+    }
+
+    public static final class ShimmerServerStub extends AbstractAsyncStub<ShimmerServerStub> {
+        private ShimmerServerStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ShimmerServerStub build(Channel channel, CallOptions callOptions) {
+            return new ShimmerServerStub(channel, callOptions);
+        }
+
+        public void sayHello(ShimmerGRPC.HelloRequest helloRequest, StreamObserver<ShimmerGRPC.HelloReply> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getSayHelloMethod(), getCallOptions()), helloRequest, streamObserver);
+        }
+
+        public void getDataStream(ShimmerGRPC.StreamRequest streamRequest, StreamObserver<ShimmerGRPC.ObjectCluster2> streamObserver) {
+            ClientCalls.asyncServerStreamingCall(getChannel().newCall(ShimmerServerGrpc.getGetDataStreamMethod(), getCallOptions()), streamRequest, streamObserver);
+        }
+
+        public StreamObserver<ShimmerGRPC.ObjectCluster2> sendDataStream(StreamObserver<ShimmerGRPC.HelloReply> streamObserver) {
+            return ClientCalls.asyncClientStreamingCall(getChannel().newCall(ShimmerServerGrpc.getSendDataStreamMethod(), getCallOptions()), streamObserver);
+        }
+
+        public StreamObserver<ShimmerGRPC.FileByteTransfer> sendFileStream(StreamObserver<ShimmerGRPC.HelloReply> streamObserver) {
+            return ClientCalls.asyncClientStreamingCall(getChannel().newCall(ShimmerServerGrpc.getSendFileStreamMethod(), getCallOptions()), streamObserver);
+        }
+
+        public void connectShimmer(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getConnectShimmerMethod(), getCallOptions()), shimmerRequest, streamObserver);
+        }
+
+        public void disconnectShimmer(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getDisconnectShimmerMethod(), getCallOptions()), shimmerRequest, streamObserver);
+        }
+
+        public void startStreaming(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getStartStreamingMethod(), getCallOptions()), shimmerRequest, streamObserver);
+        }
+
+        public void stopStreaming(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getStopStreamingMethod(), getCallOptions()), shimmerRequest, streamObserver);
+        }
+
+        public void closeApplication(ShimmerGRPC.ShimmerRequest shimmerRequest, StreamObserver<ShimmerGRPC.CommandStatus> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getCloseApplicationMethod(), getCallOptions()), shimmerRequest, streamObserver);
+        }
+
+        public void setWorkspaceDirectory(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getSetWorkspaceDirectoryMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void getWorkspaceDirectory(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.StringMsg> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetWorkspaceDirectoryMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void getDockedShimmerInfo(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.ShimmersInfo> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetDockedShimmerInfoMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void getMadgewickBetaValue(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.DoubleMsg> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetMadgewickBetaValueMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void pairShimmers(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getPairShimmersMethod(), getCallOptions()), stringArrayMsg, streamObserver);
+        }
+
+        public void getOperationProgress(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetOperationProgressMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void importSdDataFromShimmers(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getImportSdDataFromShimmersMethod(), getCallOptions()), stringArrayMsg, streamObserver);
+        }
+
+        public void parseSdDataFromPath(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getParseSdDataFromPathMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void scanSdDataAndCopy(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getScanSdDataAndCopyMethod(), getCallOptions()), stringArrayMsg, streamObserver);
+        }
+
+        public void clearSdCardData(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getClearSdCardDataMethod(), getCallOptions()), stringArrayMsg, streamObserver);
+        }
+
+        public void dockAccessSlotWithSdCard(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getDockAccessSlotWithSdCardMethod(), getCallOptions()), stringArrayMsg, streamObserver);
+        }
+
+        public void dockRestoreAutoTasks(ShimmerGRPC.StringArrayMsg stringArrayMsg, StreamObserver<ShimmerGRPC.OperationRequest> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getDockRestoreAutoTasksMethod(), getCallOptions()), stringArrayMsg, streamObserver);
+        }
+
+        public void getInfoSpans(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.InfoSpans> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetInfoSpansMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void getInfoAllShimmers(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.ShimmersInfo> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetInfoAllShimmersMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void getEmulatedDevices(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.EmulatedDevices> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetEmulatedDevicesMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void getPairedBtShimmers(ShimmerGRPC.StringMsg stringMsg, StreamObserver<ShimmerGRPC.BluetoothDevicesDetails> streamObserver) {
+            ClientCalls.asyncUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetPairedBtShimmersMethod(), getCallOptions()), stringMsg, streamObserver);
+        }
+
+        public void getDeviceStateStream(ShimmerGRPC.StreamRequest streamRequest, StreamObserver<ShimmerGRPC.DeviceState> streamObserver) {
+            ClientCalls.asyncServerStreamingCall(getChannel().newCall(ShimmerServerGrpc.getGetDeviceStateStreamMethod(), getCallOptions()), streamRequest, streamObserver);
+        }
+    }
+
+    public static final class ShimmerServerBlockingStub extends AbstractBlockingStub<ShimmerServerBlockingStub> {
+        private ShimmerServerBlockingStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ShimmerServerBlockingStub build(Channel channel, CallOptions callOptions) {
+            return new ShimmerServerBlockingStub(channel, callOptions);
+        }
+
+        public ShimmerGRPC.HelloReply sayHello(ShimmerGRPC.HelloRequest helloRequest) {
+            return (ShimmerGRPC.HelloReply) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getSayHelloMethod(), getCallOptions(), helloRequest);
+        }
+
+        public Iterator<ShimmerGRPC.ObjectCluster2> getDataStream(ShimmerGRPC.StreamRequest streamRequest) {
+            return ClientCalls.blockingServerStreamingCall(getChannel(), ShimmerServerGrpc.getGetDataStreamMethod(), getCallOptions(), streamRequest);
+        }
+
+        public ShimmerGRPC.CommandStatus connectShimmer(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return (ShimmerGRPC.CommandStatus) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getConnectShimmerMethod(), getCallOptions(), shimmerRequest);
+        }
+
+        public ShimmerGRPC.CommandStatus disconnectShimmer(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return (ShimmerGRPC.CommandStatus) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getDisconnectShimmerMethod(), getCallOptions(), shimmerRequest);
+        }
+
+        public ShimmerGRPC.CommandStatus startStreaming(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return (ShimmerGRPC.CommandStatus) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getStartStreamingMethod(), getCallOptions(), shimmerRequest);
+        }
+
+        public ShimmerGRPC.CommandStatus stopStreaming(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return (ShimmerGRPC.CommandStatus) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getStopStreamingMethod(), getCallOptions(), shimmerRequest);
+        }
+
+        public ShimmerGRPC.CommandStatus closeApplication(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return (ShimmerGRPC.CommandStatus) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getCloseApplicationMethod(), getCallOptions(), shimmerRequest);
+        }
+
+        public ShimmerGRPC.OperationRequest setWorkspaceDirectory(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getSetWorkspaceDirectoryMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.StringMsg getWorkspaceDirectory(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.StringMsg) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getGetWorkspaceDirectoryMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.ShimmersInfo getDockedShimmerInfo(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.ShimmersInfo) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getGetDockedShimmerInfoMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.DoubleMsg getMadgewickBetaValue(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.DoubleMsg) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getGetMadgewickBetaValueMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.OperationRequest pairShimmers(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getPairShimmersMethod(), getCallOptions(), stringArrayMsg);
+        }
+
+        public ShimmerGRPC.OperationRequest getOperationProgress(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getGetOperationProgressMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.OperationRequest importSdDataFromShimmers(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getImportSdDataFromShimmersMethod(), getCallOptions(), stringArrayMsg);
+        }
+
+        public ShimmerGRPC.OperationRequest parseSdDataFromPath(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getParseSdDataFromPathMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.OperationRequest scanSdDataAndCopy(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getScanSdDataAndCopyMethod(), getCallOptions(), stringArrayMsg);
+        }
+
+        public ShimmerGRPC.OperationRequest clearSdCardData(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getClearSdCardDataMethod(), getCallOptions(), stringArrayMsg);
+        }
+
+        public ShimmerGRPC.OperationRequest dockAccessSlotWithSdCard(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getDockAccessSlotWithSdCardMethod(), getCallOptions(), stringArrayMsg);
+        }
+
+        public ShimmerGRPC.OperationRequest dockRestoreAutoTasks(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return (ShimmerGRPC.OperationRequest) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getDockRestoreAutoTasksMethod(), getCallOptions(), stringArrayMsg);
+        }
+
+        public ShimmerGRPC.InfoSpans getInfoSpans(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.InfoSpans) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getGetInfoSpansMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.ShimmersInfo getInfoAllShimmers(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.ShimmersInfo) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getGetInfoAllShimmersMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.EmulatedDevices getEmulatedDevices(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.EmulatedDevices) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getGetEmulatedDevicesMethod(), getCallOptions(), stringMsg);
+        }
+
+        public ShimmerGRPC.BluetoothDevicesDetails getPairedBtShimmers(ShimmerGRPC.StringMsg stringMsg) {
+            return (ShimmerGRPC.BluetoothDevicesDetails) ClientCalls.blockingUnaryCall(getChannel(), ShimmerServerGrpc.getGetPairedBtShimmersMethod(), getCallOptions(), stringMsg);
+        }
+
+        public Iterator<ShimmerGRPC.DeviceState> getDeviceStateStream(ShimmerGRPC.StreamRequest streamRequest) {
+            return ClientCalls.blockingServerStreamingCall(getChannel(), ShimmerServerGrpc.getGetDeviceStateStreamMethod(), getCallOptions(), streamRequest);
+        }
+    }
+
+    public static final class ShimmerServerFutureStub extends AbstractFutureStub<ShimmerServerFutureStub> {
+        private ShimmerServerFutureStub(Channel channel, CallOptions callOptions) {
+            super(channel, callOptions);
+        }
+
+        /* JADX INFO: Access modifiers changed from: protected */
+        @Override // io.grpc.stub.AbstractStub
+        public ShimmerServerFutureStub build(Channel channel, CallOptions callOptions) {
+            return new ShimmerServerFutureStub(channel, callOptions);
+        }
+
+        public ListenableFuture<ShimmerGRPC.HelloReply> sayHello(ShimmerGRPC.HelloRequest helloRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getSayHelloMethod(), getCallOptions()), helloRequest);
+        }
+
+        public ListenableFuture<ShimmerGRPC.CommandStatus> connectShimmer(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getConnectShimmerMethod(), getCallOptions()), shimmerRequest);
+        }
+
+        public ListenableFuture<ShimmerGRPC.CommandStatus> disconnectShimmer(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getDisconnectShimmerMethod(), getCallOptions()), shimmerRequest);
+        }
+
+        public ListenableFuture<ShimmerGRPC.CommandStatus> startStreaming(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getStartStreamingMethod(), getCallOptions()), shimmerRequest);
+        }
+
+        public ListenableFuture<ShimmerGRPC.CommandStatus> stopStreaming(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getStopStreamingMethod(), getCallOptions()), shimmerRequest);
+        }
+
+        public ListenableFuture<ShimmerGRPC.CommandStatus> closeApplication(ShimmerGRPC.ShimmerRequest shimmerRequest) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getCloseApplicationMethod(), getCallOptions()), shimmerRequest);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> setWorkspaceDirectory(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getSetWorkspaceDirectoryMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.StringMsg> getWorkspaceDirectory(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetWorkspaceDirectoryMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.ShimmersInfo> getDockedShimmerInfo(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetDockedShimmerInfoMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.DoubleMsg> getMadgewickBetaValue(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetMadgewickBetaValueMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> pairShimmers(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getPairShimmersMethod(), getCallOptions()), stringArrayMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> getOperationProgress(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetOperationProgressMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> importSdDataFromShimmers(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getImportSdDataFromShimmersMethod(), getCallOptions()), stringArrayMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> parseSdDataFromPath(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getParseSdDataFromPathMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> scanSdDataAndCopy(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getScanSdDataAndCopyMethod(), getCallOptions()), stringArrayMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> clearSdCardData(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getClearSdCardDataMethod(), getCallOptions()), stringArrayMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> dockAccessSlotWithSdCard(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getDockAccessSlotWithSdCardMethod(), getCallOptions()), stringArrayMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.OperationRequest> dockRestoreAutoTasks(ShimmerGRPC.StringArrayMsg stringArrayMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getDockRestoreAutoTasksMethod(), getCallOptions()), stringArrayMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.InfoSpans> getInfoSpans(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetInfoSpansMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.ShimmersInfo> getInfoAllShimmers(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetInfoAllShimmersMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.EmulatedDevices> getEmulatedDevices(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetEmulatedDevicesMethod(), getCallOptions()), stringMsg);
+        }
+
+        public ListenableFuture<ShimmerGRPC.BluetoothDevicesDetails> getPairedBtShimmers(ShimmerGRPC.StringMsg stringMsg) {
+            return ClientCalls.futureUnaryCall(getChannel().newCall(ShimmerServerGrpc.getGetPairedBtShimmersMethod(), getCallOptions()), stringMsg);
+        }
+    }
+
+    private static final class MethodHandlers<Req, Resp> implements ServerCalls.UnaryMethod<Req, Resp>, ServerCalls.ServerStreamingMethod<Req, Resp>, ServerCalls.ClientStreamingMethod<Req, Resp>, ServerCalls.BidiStreamingMethod<Req, Resp> {
+        private final int methodId;
+        private final ShimmerServerImplBase serviceImpl;
+
+        MethodHandlers(ShimmerServerImplBase shimmerServerImplBase, int i) {
+            this.serviceImpl = shimmerServerImplBase;
+            this.methodId = i;
+        }
+
+        /* JADX WARN: Multi-variable type inference failed */
+        @Override
+        // io.grpc.stub.ServerCalls.UnaryMethod, io.grpc.stub.ServerCalls.UnaryRequestMethod, io.grpc.stub.ServerCalls.ServerStreamingMethod
+        public void invoke(Req req, StreamObserver<Resp> streamObserver) {
+            switch (this.methodId) {
+                case 0:
+                    this.serviceImpl.sayHello((ShimmerGRPC.HelloRequest) req, streamObserver);
+                    return;
+                case 1:
+                    this.serviceImpl.getDataStream((ShimmerGRPC.StreamRequest) req, streamObserver);
+                    return;
+                case 2:
+                    this.serviceImpl.connectShimmer((ShimmerGRPC.ShimmerRequest) req, streamObserver);
+                    return;
+                case 3:
+                    this.serviceImpl.disconnectShimmer((ShimmerGRPC.ShimmerRequest) req, streamObserver);
+                    return;
+                case 4:
+                    this.serviceImpl.startStreaming((ShimmerGRPC.ShimmerRequest) req, streamObserver);
+                    return;
+                case 5:
+                    this.serviceImpl.stopStreaming((ShimmerGRPC.ShimmerRequest) req, streamObserver);
+                    return;
+                case 6:
+                    this.serviceImpl.closeApplication((ShimmerGRPC.ShimmerRequest) req, streamObserver);
+                    return;
+                case 7:
+                    this.serviceImpl.setWorkspaceDirectory((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 8:
+                    this.serviceImpl.getWorkspaceDirectory((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 9:
+                    this.serviceImpl.getDockedShimmerInfo((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 10:
+                    this.serviceImpl.getMadgewickBetaValue((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 11:
+                    this.serviceImpl.pairShimmers((ShimmerGRPC.StringArrayMsg) req, streamObserver);
+                    return;
+                case 12:
+                    this.serviceImpl.getOperationProgress((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 13:
+                    this.serviceImpl.importSdDataFromShimmers((ShimmerGRPC.StringArrayMsg) req, streamObserver);
+                    return;
+                case 14:
+                    this.serviceImpl.parseSdDataFromPath((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 15:
+                    this.serviceImpl.scanSdDataAndCopy((ShimmerGRPC.StringArrayMsg) req, streamObserver);
+                    return;
+                case 16:
+                    this.serviceImpl.clearSdCardData((ShimmerGRPC.StringArrayMsg) req, streamObserver);
+                    return;
+                case 17:
+                    this.serviceImpl.dockAccessSlotWithSdCard((ShimmerGRPC.StringArrayMsg) req, streamObserver);
+                    return;
+                case 18:
+                    this.serviceImpl.dockRestoreAutoTasks((ShimmerGRPC.StringArrayMsg) req, streamObserver);
+                    return;
+                case 19:
+                    this.serviceImpl.getInfoSpans((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 20:
+                    this.serviceImpl.getInfoAllShimmers((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 21:
+                    this.serviceImpl.getEmulatedDevices((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 22:
+                    this.serviceImpl.getPairedBtShimmers((ShimmerGRPC.StringMsg) req, streamObserver);
+                    return;
+                case 23:
+                    this.serviceImpl.getDeviceStateStream((ShimmerGRPC.StreamRequest) req, streamObserver);
+                    return;
+                default:
+                    throw new AssertionError();
+            }
+        }
+
+        @Override
+        // io.grpc.stub.ServerCalls.ClientStreamingMethod, io.grpc.stub.ServerCalls.StreamingRequestMethod, io.grpc.stub.ServerCalls.BidiStreamingMethod
+        public StreamObserver<Req> invoke(StreamObserver<Resp> streamObserver) {
+            int i = this.methodId;
+            if (i == 24) {
+                return (StreamObserver<Req>) this.serviceImpl.sendDataStream(streamObserver);
+            }
+            if (i == 25) {
+                return (StreamObserver<Req>) this.serviceImpl.sendFileStream(streamObserver);
+            }
+            throw new AssertionError();
+        }
+    }
+
+    private static abstract class ShimmerServerBaseDescriptorSupplier implements ProtoFileDescriptorSupplier, ProtoServiceDescriptorSupplier {
+        ShimmerServerBaseDescriptorSupplier() {
+        }
+
+        @Override // io.grpc.protobuf.ProtoFileDescriptorSupplier
+        public Descriptors.FileDescriptor getFileDescriptor() {
+            return ShimmerGRPC.getDescriptor();
+        }
+
+        @Override // io.grpc.protobuf.ProtoServiceDescriptorSupplier
+        public Descriptors.ServiceDescriptor getServiceDescriptor() {
+            return getFileDescriptor().findServiceByName("ShimmerServer");
+        }
+    }
+
+    private static final class ShimmerServerFileDescriptorSupplier extends ShimmerServerBaseDescriptorSupplier {
+        ShimmerServerFileDescriptorSupplier() {
+        }
+    }
+
+    private static final class ShimmerServerMethodDescriptorSupplier extends ShimmerServerBaseDescriptorSupplier implements ProtoMethodDescriptorSupplier {
+        private final String methodName;
+
+        ShimmerServerMethodDescriptorSupplier(String str) {
+            this.methodName = str;
+        }
+
+        @Override // io.grpc.protobuf.ProtoMethodDescriptorSupplier
+        public Descriptors.MethodDescriptor getMethodDescriptor() {
+            return getServiceDescriptor().findMethodByName(this.methodName);
+        }
+    }
+}

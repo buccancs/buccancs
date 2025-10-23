@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/j2objc/annotations/LoopTranslation.java
+// Size: 470 bytes
+// Modified: 2025-10-21 16:32:00.229728600 +0100
+
+package com.google.j2objc.annotations;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
+@Target({ElementType.LOCAL_VARIABLE})
+@Retention(RetentionPolicy.SOURCE)
+/* loaded from: classes.dex */
+public @interface LoopTranslation {
+
+    public enum LoopStyle {
+        JAVA_ITERATOR,
+        FAST_ENUMERATION
+    }
+
+    LoopStyle value();
+}

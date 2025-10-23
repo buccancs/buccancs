@@ -1,0 +1,575 @@
+package org.conscrypt;
+
+import io.grpc.alts.CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0;
+
+import java.io.File;
+import java.io.FileDescriptor;
+import java.io.IOException;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.SocketImpl;
+import java.nio.channels.SocketChannel;
+import java.security.AccessController;
+import java.security.AlgorithmParameters;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.PrivilegedAction;
+import java.security.Provider;
+import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.security.spec.AlgorithmParameterSpec;
+import java.security.spec.ECParameterSpec;
+import java.security.spec.InvalidParameterSpecException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Locale;
+import javax.crypto.spec.GCMParameterSpec;
+import javax.net.ssl.SSLEngine;
+import javax.net.ssl.SSLParameters;
+import javax.net.ssl.SSLSession;
+import javax.net.ssl.SSLSocketFactory;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
+
+import org.conscrypt.ct.CTLogStore;
+import org.conscrypt.ct.CTPolicy;
+import sun.security.x509.AlgorithmId;
+
+/* loaded from: classes5.dex */
+final class Platform {
+    static final /* synthetic */ boolean $assertionsDisabled = false;
+    private static final Method GET_CURVE_NAME_METHOD;
+    private static final int JAVA_VERSION = javaVersion0();
+
+    static {
+        Method declaredMethod = null;
+        try {
+            declaredMethod = ECParameterSpec.class.getDeclaredMethod("getCurveName", new Class[0]);
+            declaredMethod.setAccessible(true);
+        } catch (Exception unused) {
+        }
+        GET_CURVE_NAME_METHOD = declaredMethod;
+    }
+
+    private Platform() {
+    }
+
+    static void blockGuardOnNetwork() {
+    }
+
+    static void closeGuardClose(Object obj) {
+    }
+
+    static Object closeGuardGet() {
+        return null;
+    }
+
+    static void closeGuardOpen(Object obj, String str) {
+    }
+
+    static void closeGuardWarnIfOpen(Object obj) {
+    }
+
+    static String getDefaultProviderName() {
+        return "Conscrypt";
+    }
+
+    static boolean isSniEnabledByDefault() {
+        return true;
+    }
+
+    static int javaVersion() {
+        return JAVA_VERSION;
+    }
+
+    static void logEvent(String str) {
+    }
+
+    static CertBlacklist newDefaultBlacklist() {
+        return null;
+    }
+
+    static ConscryptCertStore newDefaultCertStore() {
+        return null;
+    }
+
+    static CTLogStore newDefaultLogStore() {
+        return null;
+    }
+
+    static CTPolicy newDefaultPolicy(CTLogStore cTLogStore) {
+        return null;
+    }
+
+    static boolean provideTrustManagerByDefault() {
+        return true;
+    }
+
+    static void setCurveName(ECParameterSpec eCParameterSpec, String str) {
+    }
+
+    static void setSocketWriteTimeout(Socket socket, long j) throws SocketException {
+    }
+
+    static void setup() {
+    }
+
+    static boolean supportsConscryptCertStore() {
+        return false;
+    }
+
+    static boolean supportsX509ExtendedTrustManager() {
+        return true;
+    }
+
+    static OpenSSLKey wrapRsaKey(PrivateKey privateKey) {
+        return null;
+    }
+
+    static SSLSocketFactory wrapSocketFactoryIfNeeded(OpenSSLSocketFactoryImpl openSSLSocketFactoryImpl) {
+        return openSSLSocketFactoryImpl;
+    }
+
+    static File createTempFile(String str, String str2, File file) throws IOException {
+        file.getClass();
+        long jCurrentTimeMillis = System.currentTimeMillis();
+        String name = new File(str).getName();
+        IOException e = null;
+        for (int i = 0; i < 10000; i++) {
+            String str3 = String.format(Locale.US, "%s%d%04d%s", name, Long.valueOf(jCurrentTimeMillis), Integer.valueOf(i), str2);
+            File file2 = new File(file, str3);
+            if (!str3.equals(file2.getName())) {
+                throw new IOException("Unable to create temporary file: " + file2);
+            }
+            try {
+            } catch (IOException e2) {
+                e = e2;
+            }
+            if (file2.createNewFile()) {
+                return file2.getCanonicalFile();
+            }
+            continue;
+        }
+        if (e != null) {
+            throw e;
+        }
+        throw new IOException("Unable to create temporary file");
+    }
+
+    /*  JADX ERROR: IllegalArgumentException in pass: ConstructorVisitor
+        java.lang.IllegalArgumentException: Illegal Capacity: -1
+        	at java.base/java.util.ArrayList.<init>(ArrayList.java:160)
+        	at jadx.core.dex.nodes.InsnNode.<init>(InsnNode.java:36)
+        	at jadx.core.dex.instructions.BaseInvokeNode.<init>(BaseInvokeNode.java:11)
+        	at jadx.core.dex.instructions.mods.ConstructorInsn.<init>(ConstructorInsn.java:32)
+        	at jadx.core.dex.visitors.ConstructorVisitor.processInvoke(ConstructorVisitor.java:76)
+        	at jadx.core.dex.visitors.ConstructorVisitor.replaceInvoke(ConstructorVisitor.java:56)
+        	at jadx.core.dex.visitors.ConstructorVisitor.visit(ConstructorVisitor.java:42)
+        */
+    static boolean canExecuteExecutable(
+    /*  JADX ERROR: IllegalArgumentException in pass: ConstructorVisitor
+        java.lang.IllegalArgumentException: Illegal Capacity: -1
+        	at java.base/java.util.ArrayList.<init>(ArrayList.java:160)
+        	at jadx.core.dex.nodes.InsnNode.<init>(InsnNode.java:36)
+        	at jadx.core.dex.instructions.BaseInvokeNode.<init>(BaseInvokeNode.java:11)
+        	at jadx.core.dex.instructions.mods.ConstructorInsn.<init>(ConstructorInsn.java:32)
+        	at jadx.core.dex.visitors.ConstructorVisitor.processInvoke(ConstructorVisitor.java:76)
+        	at jadx.core.dex.visitors.ConstructorVisitor.replaceInvoke(ConstructorVisitor.java:56)
+        */
+    /*  JADX ERROR: Method generation error
+        jadx.core.utils.exceptions.JadxRuntimeException: Code variable not set in r5v0 ??
+        	at jadx.core.dex.instructions.args.SSAVar.getCodeVar(SSAVar.java:236)
+        	at jadx.core.codegen.MethodGen.addMethodArguments(MethodGen.java:224)
+        	at jadx.core.codegen.MethodGen.addDefinition(MethodGen.java:169)
+        	at jadx.core.codegen.ClassGen.addMethodCode(ClassGen.java:405)
+        	at jadx.core.codegen.ClassGen.addMethod(ClassGen.java:335)
+        	at jadx.core.codegen.ClassGen.lambda$addInnerClsAndMethods$3(ClassGen.java:301)
+        	at java.base/java.util.stream.ForEachOps$ForEachOp$OfRef.accept(ForEachOps.java:184)
+        	at java.base/java.util.ArrayList.forEach(ArrayList.java:1596)
+        	at java.base/java.util.stream.SortedOps$RefSortingSink.end(SortedOps.java:395)
+        	at java.base/java.util.stream.Sink$ChainedReference.end(Sink.java:261)
+        */
+
+            static FileDescriptor getFileDescriptor(Socket socket) throws IllegalAccessException, NoSuchFieldException, IllegalArgumentException {
+        try {
+            SocketChannel channel = socket.getChannel();
+            if (channel != null) {
+                Field declaredField = channel.getClass().getDeclaredField("fd");
+                declaredField.setAccessible(true);
+                return (FileDescriptor) declaredField.get(channel);
+            }
+        } catch (Exception unused) {
+        }
+        try {
+            Field declaredField2 = Socket.class.getDeclaredField("impl");
+            declaredField2.setAccessible(true);
+            Object obj = declaredField2.get(socket);
+            Field declaredField3 = SocketImpl.class.getDeclaredField("fd");
+            declaredField3.setAccessible(true);
+            return (FileDescriptor) declaredField3.get(obj);
+        } catch (Exception e) {
+            throw new RuntimeException("Can't get FileDescriptor from socket", e);
+        }
+    }
+
+    static FileDescriptor getFileDescriptorFromSSLSocket(AbstractConscryptSocket abstractConscryptSocket) {
+        return getFileDescriptor(abstractConscryptSocket);
+    }
+
+    static String getCurveName(ECParameterSpec eCParameterSpec) {
+        Method method = GET_CURVE_NAME_METHOD;
+        if (method == null) {
+            return null;
+        }
+        try {
+            return (String) method.invoke(eCParameterSpec, new Object[0]);
+        } catch (Exception unused) {
+            return null;
+        }
+    }
+
+    static void setSSLParameters(SSLParameters sSLParameters, SSLParametersImpl sSLParametersImpl, AbstractConscryptSocket abstractConscryptSocket) {
+        int i = JAVA_VERSION;
+        if (i >= 9) {
+            Java9PlatformUtil.setSSLParameters(sSLParameters, sSLParametersImpl, abstractConscryptSocket);
+        } else if (i >= 8) {
+            Java8PlatformUtil.setSSLParameters(sSLParameters, sSLParametersImpl, abstractConscryptSocket);
+        } else {
+            sSLParametersImpl.setEndpointIdentificationAlgorithm(sSLParameters.getEndpointIdentificationAlgorithm());
+        }
+    }
+
+    static void getSSLParameters(SSLParameters sSLParameters, SSLParametersImpl sSLParametersImpl, AbstractConscryptSocket abstractConscryptSocket) {
+        int i = JAVA_VERSION;
+        if (i >= 9) {
+            Java9PlatformUtil.getSSLParameters(sSLParameters, sSLParametersImpl, abstractConscryptSocket);
+        } else if (i >= 8) {
+            Java8PlatformUtil.getSSLParameters(sSLParameters, sSLParametersImpl, abstractConscryptSocket);
+        } else {
+            sSLParameters.setEndpointIdentificationAlgorithm(sSLParametersImpl.getEndpointIdentificationAlgorithm());
+        }
+    }
+
+    static void setSSLParameters(SSLParameters sSLParameters, SSLParametersImpl sSLParametersImpl, ConscryptEngine conscryptEngine) {
+        int i = JAVA_VERSION;
+        if (i >= 9) {
+            Java9PlatformUtil.setSSLParameters(sSLParameters, sSLParametersImpl, conscryptEngine);
+        } else if (i >= 8) {
+            Java8PlatformUtil.setSSLParameters(sSLParameters, sSLParametersImpl, conscryptEngine);
+        } else {
+            sSLParametersImpl.setEndpointIdentificationAlgorithm(sSLParameters.getEndpointIdentificationAlgorithm());
+        }
+    }
+
+    static void getSSLParameters(SSLParameters sSLParameters, SSLParametersImpl sSLParametersImpl, ConscryptEngine conscryptEngine) {
+        int i = JAVA_VERSION;
+        if (i >= 9) {
+            Java9PlatformUtil.getSSLParameters(sSLParameters, sSLParametersImpl, conscryptEngine);
+        } else if (i >= 8) {
+            Java8PlatformUtil.getSSLParameters(sSLParameters, sSLParametersImpl, conscryptEngine);
+        } else {
+            sSLParameters.setEndpointIdentificationAlgorithm(sSLParametersImpl.getEndpointIdentificationAlgorithm());
+        }
+    }
+
+    static void setEndpointIdentificationAlgorithm(SSLParameters sSLParameters, String str) {
+        sSLParameters.setEndpointIdentificationAlgorithm(str);
+    }
+
+    static String getEndpointIdentificationAlgorithm(SSLParameters sSLParameters) {
+        return sSLParameters.getEndpointIdentificationAlgorithm();
+    }
+
+    static void checkClientTrusted(X509TrustManager x509TrustManager, X509Certificate[] x509CertificateArr, String str, AbstractConscryptSocket abstractConscryptSocket) throws CertificateException {
+        if (CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m$1(x509TrustManager)) {
+            CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m6314m((Object) x509TrustManager).checkClientTrusted(x509CertificateArr, str, abstractConscryptSocket);
+        } else {
+            x509TrustManager.checkClientTrusted(x509CertificateArr, str);
+        }
+    }
+
+    static void checkServerTrusted(X509TrustManager x509TrustManager, X509Certificate[] x509CertificateArr, String str, AbstractConscryptSocket abstractConscryptSocket) throws CertificateException {
+        if (CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m$1(x509TrustManager)) {
+            CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m6314m((Object) x509TrustManager).checkServerTrusted(x509CertificateArr, str, abstractConscryptSocket);
+        } else {
+            x509TrustManager.checkServerTrusted(x509CertificateArr, str);
+        }
+    }
+
+    static void checkClientTrusted(X509TrustManager x509TrustManager, X509Certificate[] x509CertificateArr, String str, ConscryptEngine conscryptEngine) throws CertificateException {
+        if (CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m$1(x509TrustManager)) {
+            CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m6314m((Object) x509TrustManager).checkClientTrusted(x509CertificateArr, str, conscryptEngine);
+        } else {
+            x509TrustManager.checkClientTrusted(x509CertificateArr, str);
+        }
+    }
+
+    static void checkServerTrusted(X509TrustManager x509TrustManager, X509Certificate[] x509CertificateArr, String str, ConscryptEngine conscryptEngine) throws CertificateException {
+        if (CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m$1(x509TrustManager)) {
+            CheckGcpEnvironment$$ExternalSyntheticApiModelOutline0.m6314m((Object) x509TrustManager).checkServerTrusted(x509CertificateArr, str, conscryptEngine);
+        } else {
+            x509TrustManager.checkServerTrusted(x509CertificateArr, str);
+        }
+    }
+
+    static SSLEngine wrapEngine(ConscryptEngine conscryptEngine) {
+        return JAVA_VERSION >= 8 ? Java8PlatformUtil.wrapEngine(conscryptEngine) : conscryptEngine;
+    }
+
+    static SSLEngine unwrapEngine(SSLEngine sSLEngine) {
+        return JAVA_VERSION >= 8 ? Java8PlatformUtil.unwrapEngine(sSLEngine) : sSLEngine;
+    }
+
+    static ConscryptEngineSocket createEngineSocket(SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8EngineSocket(sSLParametersImpl);
+        }
+        return new ConscryptEngineSocket(sSLParametersImpl);
+    }
+
+    static ConscryptEngineSocket createEngineSocket(String str, int i, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8EngineSocket(str, i, sSLParametersImpl);
+        }
+        return new ConscryptEngineSocket(str, i, sSLParametersImpl);
+    }
+
+    static ConscryptEngineSocket createEngineSocket(InetAddress inetAddress, int i, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8EngineSocket(inetAddress, i, sSLParametersImpl);
+        }
+        return new ConscryptEngineSocket(inetAddress, i, sSLParametersImpl);
+    }
+
+    static ConscryptEngineSocket createEngineSocket(String str, int i, InetAddress inetAddress, int i2, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8EngineSocket(str, i, inetAddress, i2, sSLParametersImpl);
+        }
+        return new ConscryptEngineSocket(str, i, inetAddress, i2, sSLParametersImpl);
+    }
+
+    static ConscryptEngineSocket createEngineSocket(InetAddress inetAddress, int i, InetAddress inetAddress2, int i2, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8EngineSocket(inetAddress, i, inetAddress2, i2, sSLParametersImpl);
+        }
+        return new ConscryptEngineSocket(inetAddress, i, inetAddress2, i2, sSLParametersImpl);
+    }
+
+    static ConscryptEngineSocket createEngineSocket(Socket socket, String str, int i, boolean z, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8EngineSocket(socket, str, i, z, sSLParametersImpl);
+        }
+        return new ConscryptEngineSocket(socket, str, i, z, sSLParametersImpl);
+    }
+
+    static ConscryptFileDescriptorSocket createFileDescriptorSocket(SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8FileDescriptorSocket(sSLParametersImpl);
+        }
+        return new ConscryptFileDescriptorSocket(sSLParametersImpl);
+    }
+
+    static ConscryptFileDescriptorSocket createFileDescriptorSocket(String str, int i, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8FileDescriptorSocket(str, i, sSLParametersImpl);
+        }
+        return new ConscryptFileDescriptorSocket(str, i, sSLParametersImpl);
+    }
+
+    static ConscryptFileDescriptorSocket createFileDescriptorSocket(InetAddress inetAddress, int i, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8FileDescriptorSocket(inetAddress, i, sSLParametersImpl);
+        }
+        return new ConscryptFileDescriptorSocket(inetAddress, i, sSLParametersImpl);
+    }
+
+    static ConscryptFileDescriptorSocket createFileDescriptorSocket(String str, int i, InetAddress inetAddress, int i2, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8FileDescriptorSocket(str, i, inetAddress, i2, sSLParametersImpl);
+        }
+        return new ConscryptFileDescriptorSocket(str, i, inetAddress, i2, sSLParametersImpl);
+    }
+
+    static ConscryptFileDescriptorSocket createFileDescriptorSocket(InetAddress inetAddress, int i, InetAddress inetAddress2, int i2, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8FileDescriptorSocket(inetAddress, i, inetAddress2, i2, sSLParametersImpl);
+        }
+        return new ConscryptFileDescriptorSocket(inetAddress, i, inetAddress2, i2, sSLParametersImpl);
+    }
+
+    static ConscryptFileDescriptorSocket createFileDescriptorSocket(Socket socket, String str, int i, boolean z, SSLParametersImpl sSLParametersImpl) throws IOException {
+        if (JAVA_VERSION >= 8) {
+            return new Java8FileDescriptorSocket(socket, str, i, z, sSLParametersImpl);
+        }
+        return new ConscryptFileDescriptorSocket(socket, str, i, z, sSLParametersImpl);
+    }
+
+    static GCMParameters fromGCMParameterSpec(AlgorithmParameterSpec algorithmParameterSpec) {
+        if (!(algorithmParameterSpec instanceof GCMParameterSpec)) {
+            return null;
+        }
+        GCMParameterSpec gCMParameterSpec = (GCMParameterSpec) algorithmParameterSpec;
+        return new GCMParameters(gCMParameterSpec.getTLen(), gCMParameterSpec.getIV());
+    }
+
+    static AlgorithmParameterSpec fromGCMParameters(AlgorithmParameters algorithmParameters) {
+        try {
+            return algorithmParameters.getParameterSpec(GCMParameterSpec.class);
+        } catch (InvalidParameterSpecException unused) {
+            return null;
+        }
+    }
+
+    static AlgorithmParameterSpec toGCMParameterSpec(int i, byte[] bArr) {
+        return new GCMParameterSpec(i, bArr);
+    }
+
+    static String oidToAlgorithmName(String str) {
+        try {
+            return AlgorithmId.get(str).getName();
+        } catch (Exception | IllegalAccessError unused) {
+            return str;
+        }
+    }
+
+    static SSLSession wrapSSLSession(ExternalSession externalSession) {
+        if (JAVA_VERSION >= 8) {
+            return Java8PlatformUtil.wrapSSLSession(externalSession);
+        }
+        return new Java7ExtendedSSLSession(externalSession);
+    }
+
+    public static String getOriginalHostNameFromInetAddress(InetAddress inetAddress) throws NoSuchMethodException, SecurityException {
+        try {
+            Method declaredMethod = InetAddress.class.getDeclaredMethod("holder", new Class[0]);
+            declaredMethod.setAccessible(true);
+            Method declaredMethod2 = Class.forName("java.net.InetAddress$InetAddressHolder").getDeclaredMethod("getOriginalHostName", new Class[0]);
+            declaredMethod2.setAccessible(true);
+            String str = (String) declaredMethod2.invoke(declaredMethod.invoke(inetAddress, new Object[0]), new Object[0]);
+            return str == null ? inetAddress.getHostAddress() : str;
+        } catch (ClassNotFoundException | IllegalAccessException | NoSuchMethodException unused) {
+            return inetAddress.getHostAddress();
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException("Failed to get originalHostName", e);
+        }
+    }
+
+    static String getHostStringFromInetSocketAddress(InetSocketAddress inetSocketAddress) {
+        return inetSocketAddress.getHostString();
+    }
+
+    static boolean isCTVerificationRequired(String str) {
+        String property;
+        boolean zBooleanValue = false;
+        if (str == null || (property = Security.getProperty("conscrypt.ct.enable")) == null || !Boolean.valueOf(property.toLowerCase()).booleanValue()) {
+            return false;
+        }
+        List<String> listAsList = Arrays.asList(str.split("\\."));
+        Collections.reverse(listAsList);
+        StringBuilder sb = new StringBuilder("conscrypt.ct.enforce");
+        for (String str2 : listAsList) {
+            String property2 = Security.getProperty(((Object) sb) + ".*");
+            if (property2 != null) {
+                zBooleanValue = Boolean.valueOf(property2.toLowerCase()).booleanValue();
+            }
+            sb.append(".");
+            sb.append(str2);
+        }
+        String property3 = Security.getProperty(sb.toString());
+        return property3 != null ? Boolean.valueOf(property3.toLowerCase()).booleanValue() : zBooleanValue;
+    }
+
+    static KeyStore getDefaultCertKeyStore() throws NoSuchAlgorithmException, IOException, KeyStoreException, CertificateException {
+        KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+        try {
+            keyStore.load(null, null);
+        } catch (IOException | NoSuchAlgorithmException | CertificateException unused) {
+        }
+        for (Provider provider : Security.getProviders("TrustManagerFactory.PKIX")) {
+            if (!Conscrypt.isConscrypt(provider)) {
+                try {
+                    TrustManagerFactory trustManagerFactory = TrustManagerFactory.getInstance("PKIX", provider);
+                    trustManagerFactory.init((KeyStore) null);
+                    TrustManager[] trustManagers = trustManagerFactory.getTrustManagers();
+                    if (trustManagers.length > 0) {
+                        int i = 1;
+                        for (TrustManager trustManager : trustManagers) {
+                            if (trustManager instanceof X509TrustManager) {
+                                X509Certificate[] acceptedIssuers = ((X509TrustManager) trustManager).getAcceptedIssuers();
+                                int length = acceptedIssuers.length;
+                                int i2 = 0;
+                                while (i2 < length) {
+                                    int i3 = i + 1;
+                                    keyStore.setCertificateEntry(Integer.toString(i), acceptedIssuers[i2]);
+                                    i2++;
+                                    i = i3;
+                                }
+                            }
+                        }
+                        if (i > 1) {
+                            break;
+                        }
+                    } else {
+                        continue;
+                    }
+                } catch (NoSuchAlgorithmException unused2) {
+                    continue;
+                }
+            }
+        }
+        return keyStore;
+    }
+
+    private static boolean isAndroid() {
+        try {
+            Class.forName("android.app.Application", false, getSystemClassLoader());
+            return true;
+        } catch (Throwable unused) {
+            return false;
+        }
+    }
+
+    private static int javaVersion0() {
+        if (isAndroid()) {
+            return 6;
+        }
+        return majorVersionFromJavaSpecificationVersion();
+    }
+
+    private static int majorVersionFromJavaSpecificationVersion() {
+        return majorVersion(System.getProperty("java.specification.version", "1.6"));
+    }
+
+    private static int majorVersion(String str) {
+        String[] strArrSplit = str.split("\\.", -1);
+        int[] iArr = new int[strArrSplit.length];
+        for (int i = 0; i < strArrSplit.length; i++) {
+            iArr[i] = Integer.parseInt(strArrSplit[i]);
+        }
+        int i2 = iArr[0];
+        return i2 == 1 ? iArr[1] : i2;
+    }
+
+    private static ClassLoader getSystemClassLoader() {
+        if (System.getSecurityManager() == null) {
+            return ClassLoader.getSystemClassLoader();
+        }
+        return (ClassLoader) AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() { // from class: org.conscrypt.Platform.1
+            /* JADX WARN: Can't rename method to resolve collision */
+            @Override // java.security.PrivilegedAction
+            public ClassLoader run() {
+                return ClassLoader.getSystemClassLoader();
+            }
+        });
+    }
+}

@@ -1,0 +1,73 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/conscrypt/Java9PlatformUtil.java
+// Size: 3214 bytes
+// Modified: 2025-10-21 16:32:10.631861600 +0100
+
+package org.conscrypt;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import javax.net.ssl.SSLParameters;
+
+/* loaded from: classes5.dex */
+final class Java9PlatformUtil {
+    private static final Method SSL_PARAMETERS_GET_APPLICATION_PROTOCOLS_METHOD;
+    private static final Method SSL_PARAMETERS_SET_APPLICATION_PROTOCOLS_METHOD;
+
+    static {
+        Method method;
+        Method method2;
+        try {
+            method = SSLParameters.class.getMethod("getApplicationProtocols", new Class[0]);
+            method2 = SSLParameters.class.getMethod("setApplicationProtocols", String[].class);
+        } catch (NoSuchMethodException unused) {
+            method = null;
+            method2 = null;
+        }
+        SSL_PARAMETERS_GET_APPLICATION_PROTOCOLS_METHOD = method;
+        SSL_PARAMETERS_SET_APPLICATION_PROTOCOLS_METHOD = method2;
+    }
+
+    static void setSSLParameters(SSLParameters sSLParameters, SSLParametersImpl sSLParametersImpl, AbstractConscryptSocket abstractConscryptSocket) {
+        Java8PlatformUtil.setSSLParameters(sSLParameters, sSLParametersImpl, abstractConscryptSocket);
+        sSLParametersImpl.setApplicationProtocols(getApplicationProtocols(sSLParameters));
+    }
+
+    static void getSSLParameters(SSLParameters sSLParameters, SSLParametersImpl sSLParametersImpl, AbstractConscryptSocket abstractConscryptSocket) {
+        Java8PlatformUtil.getSSLParameters(sSLParameters, sSLParametersImpl, abstractConscryptSocket);
+        setApplicationProtocols(sSLParameters, sSLParametersImpl.getApplicationProtocols());
+    }
+
+    static void setSSLParameters(SSLParameters sSLParameters, SSLParametersImpl sSLParametersImpl, ConscryptEngine conscryptEngine) {
+        Java8PlatformUtil.setSSLParameters(sSLParameters, sSLParametersImpl, conscryptEngine);
+        sSLParametersImpl.setApplicationProtocols(getApplicationProtocols(sSLParameters));
+    }
+
+    static void getSSLParameters(SSLParameters sSLParameters, SSLParametersImpl sSLParametersImpl, ConscryptEngine conscryptEngine) {
+        Java8PlatformUtil.getSSLParameters(sSLParameters, sSLParametersImpl, conscryptEngine);
+        setApplicationProtocols(sSLParameters, sSLParametersImpl.getApplicationProtocols());
+    }
+
+    private static String[] getApplicationProtocols(SSLParameters sSLParameters) {
+        Method method = SSL_PARAMETERS_GET_APPLICATION_PROTOCOLS_METHOD;
+        if (method != null) {
+            try {
+                return (String[]) method.invoke(sSLParameters, new Object[0]);
+            } catch (ReflectiveOperationException unused) {
+            }
+        }
+        return EmptyArray.STRING;
+    }
+
+    private static void setApplicationProtocols(SSLParameters sSLParameters, String[] strArr) throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+        Method method = SSL_PARAMETERS_SET_APPLICATION_PROTOCOLS_METHOD;
+        if (method != null) {
+            try {
+                method.invoke(sSLParameters, strArr);
+            } catch (ReflectiveOperationException unused) {
+            }
+        }
+    }
+
+    private Java9PlatformUtil() {
+    }
+}

@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/ExtendedClosedChannelException.java
+// Size: 452 bytes
+// Modified: 2025-10-21 16:32:00.188074000 +0100
+
+package io.grpc.netty.shaded.io.netty.channel;
+
+import java.nio.channels.ClosedChannelException;
+
+/* loaded from: classes3.dex */
+final class ExtendedClosedChannelException extends ClosedChannelException {
+    @Override // java.lang.Throwable
+    public Throwable fillInStackTrace() {
+        return this;
+    }
+
+    ExtendedClosedChannelException(Throwable th) {
+        if (th != null) {
+            initCause(th);
+        }
+    }
+}

@@ -1,0 +1,15 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/errorprone/annotations/MustBeClosed.java
+// Size: 306 bytes
+// Modified: 2025-10-21 16:32:00.139746800 +0100
+
+package com.google.errorprone.annotations;
+
+import java.lang.annotation.Documented;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Target;
+
+@Target({ElementType.CONSTRUCTOR, ElementType.METHOD})
+@Documented
+/* loaded from: classes.dex */
+public @interface MustBeClosed {
+}

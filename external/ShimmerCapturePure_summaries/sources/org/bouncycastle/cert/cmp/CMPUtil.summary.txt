@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/cert/cmp/CMPUtil.java
+// Size: 701 bytes
+// Modified: 2025-10-21 16:32:05.278791000 +0100
+
+package org.bouncycastle.cert.cmp;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import org.bouncycastle.asn1.ASN1Encodable;
+import org.bouncycastle.asn1.DEROutputStream;
+
+/* loaded from: classes5.dex */
+class CMPUtil {
+    CMPUtil() {
+    }
+
+    static void derEncodeToStream(ASN1Encodable aSN1Encodable, OutputStream outputStream) {
+        DEROutputStream dEROutputStream = new DEROutputStream(outputStream);
+        try {
+            dEROutputStream.writeObject(aSN1Encodable);
+            dEROutputStream.close();
+        } catch (IOException e) {
+            throw new CMPRuntimeException("unable to DER encode object: " + e.getMessage(), e);
+        }
+    }
+}

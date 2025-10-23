@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/ReadableInstant.java
+// Size: 625 bytes
+// Modified: 2025-10-21 16:32:08.770764600 +0100
+
+package org.joda.time;
+
+/* loaded from: classes2.dex */
+public interface ReadableInstant extends Comparable<ReadableInstant> {
+    boolean equals(Object obj);
+
+    int get(DateTimeFieldType dateTimeFieldType);
+
+    Chronology getChronology();
+
+    long getMillis();
+
+    DateTimeZone getZone();
+
+    int hashCode();
+
+    boolean isAfter(ReadableInstant readableInstant);
+
+    boolean isBefore(ReadableInstant readableInstant);
+
+    boolean isEqual(ReadableInstant readableInstant);
+
+    boolean isSupported(DateTimeFieldType dateTimeFieldType);
+
+    Instant toInstant();
+
+    String toString();
+}

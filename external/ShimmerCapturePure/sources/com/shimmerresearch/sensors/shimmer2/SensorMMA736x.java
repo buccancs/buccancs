@@ -1,0 +1,221 @@
+package com.shimmerresearch.sensors.shimmer2;
+
+import com.shimmerresearch.driver.Configuration;
+import com.shimmerresearch.driver.ObjectCluster;
+import com.shimmerresearch.driver.ShimmerDevice;
+import com.shimmerresearch.driver.calibration.CalibDetails;
+import com.shimmerresearch.driver.calibration.CalibDetailsKinematic;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
+import com.shimmerresearch.driverUtilities.ConfigOptionDetailsSensor;
+import com.shimmerresearch.driverUtilities.SensorDetails;
+import com.shimmerresearch.sensors.AbstractSensor;
+import com.shimmerresearch.sensors.ActionSetting;
+
+import java.util.LinkedHashMap;
+import java.util.TreeMap;
+
+import org.apache.commons.lang3.ArrayUtils;
+
+/* loaded from: classes2.dex */
+public class SensorMMA736x extends AbstractSensor {
+    public static final String[] ListofMMA7361AccelRange = {"+/- 1.5g", "+/- 2g", "+/- 4g", "+/- 6g"};
+    public static final Integer[] ListofMMA7361AccelRangeConfigValues = {0, 1, 2, 3};
+    public static final String[] ListofMMA7360AccelRange = {"+/- 1.5g", "+/- 6g"};
+    public static final Integer[] ListofMMA7360AccelRangeConfigValues = {0, 1};
+    public static final ConfigOptionDetailsSensor configOptionAccelLpm = new ConfigOptionDetailsSensor(GuiLabelConfig.ACCEL_LOW_POWER_MODE, DatabaseConfigHandle.ACCEL_LOW_POWER_MODE, ConfigOptionDetails.GUI_COMPONENT_TYPE.CHECKBOX);
+    protected static final double[][] AlignmentMatrixAccelShimmer2 = {new double[]{-1.0d, 0.0d, 0.0d}, new double[]{0.0d, -1.0d, 0.0d}, new double[]{0.0d, 0.0d, 1.0d}};
+    protected static final double[][] OffsetVectorAccelShimmer2 = {new double[]{2048.0d}, new double[]{2048.0d}, new double[]{2048.0d}};
+    protected static final double[][] SensitivityMatrixAccel1p5gShimmer2 = {new double[]{101.0d, 0.0d, 0.0d}, new double[]{0.0d, 101.0d, 0.0d}, new double[]{0.0d, 0.0d, 101.0d}};
+    protected static final double[][] SensitivityMatrixAccel2gShimmer2 = {new double[]{76.0d, 0.0d, 0.0d}, new double[]{0.0d, 76.0d, 0.0d}, new double[]{0.0d, 0.0d, 76.0d}};
+    protected static final double[][] SensitivityMatrixAccel4gShimmer2 = {new double[]{38.0d, 0.0d, 0.0d}, new double[]{0.0d, 38.0d, 0.0d}, new double[]{0.0d, 0.0d, 38.0d}};
+    protected static final double[][] SensitivityMatrixAccel6gShimmer2 = {new double[]{25.0d, 0.0d, 0.0d}, new double[]{0.0d, 25.0d, 0.0d}, new double[]{0.0d, 0.0d, 25.0d}};
+    private static final long serialVersionUID = 30169412053282585L;
+    public CalibDetailsKinematic mCurrentCalibDetailsAccel;
+    public boolean mIsUsingDefaultLNAccelParam;
+    protected TreeMap<Integer, CalibDetails> mCalibMapAccelShimmer2;
+    protected TreeMap<Integer, CalibDetails> mCalibMapAccelShimmer2r;
+    private CalibDetailsKinematic calibDetailsShimmer2r1p5g;
+    private CalibDetailsKinematic calibDetailsShimmer2r2g;
+    private CalibDetailsKinematic calibDetailsShimmer2r4g;
+    private CalibDetailsKinematic calibDetailsShimmer2r6g;
+    private int mAccelRange;
+
+    public SensorMMA736x(ShimmerDevice shimmerDevice) {
+        super(AbstractSensor.SENSORS.MMA776X, shimmerDevice);
+        this.mAccelRange = 0;
+        this.mIsUsingDefaultLNAccelParam = true;
+        String str = Configuration.Shimmer2.ListofAccelRange[0];
+        double[][] dArr = AlignmentMatrixAccelShimmer2;
+        double[][] dArr2 = SensitivityMatrixAccel1p5gShimmer2;
+        double[][] dArr3 = OffsetVectorAccelShimmer2;
+        this.calibDetailsShimmer2r1p5g = new CalibDetailsKinematic(0, str, dArr, dArr2, dArr3);
+        this.calibDetailsShimmer2r2g = new CalibDetailsKinematic(1, "+/- 2g", dArr, SensitivityMatrixAccel2gShimmer2, dArr3);
+        this.calibDetailsShimmer2r4g = new CalibDetailsKinematic(2, "+/- 4g", dArr, SensitivityMatrixAccel4gShimmer2, dArr3);
+        this.calibDetailsShimmer2r6g = new CalibDetailsKinematic(3, Configuration.Shimmer2.ListofAccelRange[1], dArr, SensitivityMatrixAccel6gShimmer2, dArr3);
+        TreeMap<Integer, CalibDetails> treeMap = new TreeMap<>();
+        this.mCalibMapAccelShimmer2 = treeMap;
+        treeMap.put(Integer.valueOf(this.calibDetailsShimmer2r1p5g.mRangeValue), this.calibDetailsShimmer2r1p5g);
+        this.mCalibMapAccelShimmer2.put(Integer.valueOf(this.calibDetailsShimmer2r2g.mRangeValue), this.calibDetailsShimmer2r2g);
+        this.mCalibMapAccelShimmer2.put(Integer.valueOf(this.calibDetailsShimmer2r4g.mRangeValue), this.calibDetailsShimmer2r4g);
+        this.mCalibMapAccelShimmer2.put(Integer.valueOf(this.calibDetailsShimmer2r6g.mRangeValue), this.calibDetailsShimmer2r6g);
+        TreeMap<Integer, CalibDetails> treeMap2 = new TreeMap<>();
+        this.mCalibMapAccelShimmer2r = treeMap2;
+        treeMap2.put(Integer.valueOf(this.calibDetailsShimmer2r1p5g.mRangeValue), this.calibDetailsShimmer2r1p5g);
+        this.mCalibMapAccelShimmer2r.put(Integer.valueOf(this.calibDetailsShimmer2r6g.mRangeValue), this.calibDetailsShimmer2r6g);
+        this.mCurrentCalibDetailsAccel = this.calibDetailsShimmer2r2g;
+        initialise();
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean checkConfigOptionValues(String str) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void checkShimmerConfigBeforeConfiguring() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesGenerate(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void configBytesParse(ShimmerDevice shimmerDevice, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public LinkedHashMap<String, Object> generateConfigMap() {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorGroupMapping() {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateSensorMap() {
+    }
+
+    public int getAccelRange() {
+        return this.mAccelRange;
+    }
+
+    public void setAccelRange(int i) {
+        Integer[] numArr = ListofMMA7361AccelRangeConfigValues;
+        if (getHardwareVersion() == 1) {
+            numArr = ListofMMA7360AccelRangeConfigValues;
+        }
+        if (ArrayUtils.contains(numArr, Integer.valueOf(i))) {
+            this.mAccelRange = i;
+            updateCurrentAccelCalibInUse();
+        }
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getSettings(String str, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void parseConfigMap(LinkedHashMap<String, Object> linkedHashMap) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ObjectCluster processDataCustom(SensorDetails sensorDetails, byte[] bArr, Configuration.COMMUNICATION_TYPE communication_type, ObjectCluster objectCluster, boolean z, double d) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean processResponse(int i, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public boolean setDefaultConfigForSensor(int i, boolean z) {
+        return false;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setSensorSamplingRate(double d) {
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public ActionSetting setSettings(String str, Object obj, Configuration.COMMUNICATION_TYPE communication_type) {
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateConfigOptionsMap() {
+        addConfigOption(configOptionAccelLpm);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object setConfigValueUsingConfigLabel(Integer num, String str, Object obj) {
+        str.hashCode();
+        if (str.equals(GuiLabelConfig.ACCEL_RANGE)) {
+            setAccelRange(((Integer) obj).intValue());
+            return null;
+        }
+        return super.setConfigValueUsingConfigLabelCommon(num, str, obj);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public Object getConfigValueUsingConfigLabel(Integer num, String str) {
+        str.hashCode();
+        if (str.equals("Range")) {
+            return num.intValue() == 2 ? 0 : null;
+        }
+        return super.getConfigValueUsingConfigLabelCommon(num, str);
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void generateCalibMap() {
+        super.generateCalibMap();
+        setCalibrationMapPerSensor(0, this.mShimmerDevice.getHardwareVersion() == 1 ? this.mCalibMapAccelShimmer2 : this.mCalibMapAccelShimmer2r);
+        updateCurrentAccelCalibInUse();
+    }
+
+    public void updateCurrentAccelCalibInUse() {
+        this.mCurrentCalibDetailsAccel = getCurrentCalibDetailsIfKinematic(0, getAccelRange());
+    }
+
+    public CalibDetailsKinematic getCurrentCalibDetailsAccelLn() {
+        CalibDetails calibForSensor = getCalibForSensor(0, getAccelRange());
+        if (calibForSensor != null) {
+            return (CalibDetailsKinematic) calibForSensor;
+        }
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public CalibDetailsKinematic getCurrentCalibDetailsIfKinematic(int i, int i2) {
+        CalibDetails calibForSensor = getCalibForSensor(i, i2);
+        if (calibForSensor != null) {
+            return (CalibDetailsKinematic) calibForSensor;
+        }
+        return null;
+    }
+
+    @Override // com.shimmerresearch.sensors.AbstractSensor
+    public void setCalibrationMapPerSensor(int i, TreeMap<Integer, CalibDetails> treeMap) {
+        super.setCalibrationMapPerSensor(i, treeMap);
+        updateCurrentAccelCalibInUse();
+    }
+
+    public void updateIsUsingDefaultLNAccelParam() {
+        this.mIsUsingDefaultLNAccelParam = getCurrentCalibDetailsAccelLn().isUsingDefaultParameters();
+    }
+
+    public static final class DatabaseConfigHandle {
+        public static final String ACCEL_LOW_POWER_MODE = "MMA736x_Low_Power_Mode";
+        public static final String ACCEL_RANGE = "MMA736x_Range";
+    }
+
+    public class GuiLabelConfig {
+        public static final String ACCEL_LOW_POWER_MODE = "Accel Low Power Mode";
+        public static final String ACCEL_RANGE = "Accel Range";
+
+        public GuiLabelConfig() {
+        }
+    }
+}

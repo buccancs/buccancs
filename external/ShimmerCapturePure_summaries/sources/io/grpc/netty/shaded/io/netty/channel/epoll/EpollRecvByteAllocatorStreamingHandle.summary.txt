@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/channel/epoll/EpollRecvByteAllocatorStreamingHandle.java
+// Size: 603 bytes
+// Modified: 2025-10-21 16:32:05.213165800 +0100
+
+package io.grpc.netty.shaded.io.netty.channel.epoll;
+
+import io.grpc.netty.shaded.io.netty.channel.RecvByteBufAllocator;
+
+/* loaded from: classes3.dex */
+final class EpollRecvByteAllocatorStreamingHandle extends EpollRecvByteAllocatorHandle {
+    EpollRecvByteAllocatorStreamingHandle(RecvByteBufAllocator.ExtendedHandle extendedHandle) {
+        super(extendedHandle);
+    }
+
+    @Override // io.grpc.netty.shaded.io.netty.channel.epoll.EpollRecvByteAllocatorHandle
+    boolean maybeMoreDataToRead() {
+        return lastBytesRead() == attemptedBytesRead() || isReceivedRdHup();
+    }
+}

@@ -1,0 +1,22 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/alts/internal/ChannelCrypterNetty.java
+// Size: 575 bytes
+// Modified: 2025-10-21 16:32:03.139729500 +0100
+
+package io.grpc.alts.internal;
+
+import io.grpc.netty.shaded.io.netty.buffer.ByteBuf;
+import java.security.GeneralSecurityException;
+import java.util.List;
+
+/* loaded from: classes2.dex */
+public interface ChannelCrypterNetty {
+    void decrypt(ByteBuf byteBuf, ByteBuf byteBuf2) throws GeneralSecurityException;
+
+    void decrypt(ByteBuf byteBuf, ByteBuf byteBuf2, List<ByteBuf> list) throws GeneralSecurityException;
+
+    void destroy();
+
+    void encrypt(ByteBuf byteBuf, List<ByteBuf> list) throws GeneralSecurityException;
+
+    int getSuffixLength();
+}

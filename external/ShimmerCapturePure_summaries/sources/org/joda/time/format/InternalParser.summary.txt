@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/joda/time/format/InternalParser.java
+// Size: 229 bytes
+// Modified: 2025-10-21 16:32:05.800822200 +0100
+
+package org.joda.time.format;
+
+/* loaded from: classes2.dex */
+interface InternalParser {
+    int estimateParsedLength();
+
+    int parseInto(DateTimeParserBucket dateTimeParserBucket, CharSequence charSequence, int i);
+}

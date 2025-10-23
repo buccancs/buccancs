@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/base/FinalizableReference.java
+// Size: 271 bytes
+// Modified: 2025-10-21 16:32:00.792958300 +0100
+
+package com.google.common.base;
+
+import com.google.errorprone.annotations.DoNotMock;
+
+@DoNotMock("Use an instance of one of the Finalizable*Reference classes")
+/* loaded from: classes.dex */
+public interface FinalizableReference {
+    void finalizeReferent();
+}

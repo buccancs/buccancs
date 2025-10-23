@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http2/Http2ConnectionPrefaceAndSettingsFrameWrittenEvent.java
+// Size: 386 bytes
+// Modified: 2025-10-21 16:32:00.233728300 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http2;
+
+/* loaded from: classes3.dex */
+public final class Http2ConnectionPrefaceAndSettingsFrameWrittenEvent {
+    static final Http2ConnectionPrefaceAndSettingsFrameWrittenEvent INSTANCE = new Http2ConnectionPrefaceAndSettingsFrameWrittenEvent();
+
+    private Http2ConnectionPrefaceAndSettingsFrameWrittenEvent() {
+    }
+}

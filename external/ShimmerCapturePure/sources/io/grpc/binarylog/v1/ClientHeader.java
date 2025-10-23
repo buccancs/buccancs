@@ -1,0 +1,836 @@
+package io.grpc.binarylog.v1;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.Duration;
+import com.google.protobuf.DurationOrBuilder;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Parser;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.binarylog.v1.Metadata;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+
+/* loaded from: classes2.dex */
+public final class ClientHeader extends GeneratedMessageV3 implements ClientHeaderOrBuilder {
+    public static final int AUTHORITY_FIELD_NUMBER = 3;
+    public static final int METADATA_FIELD_NUMBER = 1;
+    public static final int METHOD_NAME_FIELD_NUMBER = 2;
+    public static final int TIMEOUT_FIELD_NUMBER = 4;
+    private static final long serialVersionUID = 0;
+    private static final ClientHeader DEFAULT_INSTANCE = new ClientHeader();
+    private static final Parser<ClientHeader> PARSER = new AbstractParser<ClientHeader>() { // from class: io.grpc.binarylog.v1.ClientHeader.1
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public ClientHeader m6984parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new ClientHeader(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private volatile Object authority_;
+    private byte memoizedIsInitialized;
+    private Metadata metadata_;
+    private volatile Object methodName_;
+    private Duration timeout_;
+
+    private ClientHeader(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private ClientHeader() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.methodName_ = "";
+        this.authority_ = "";
+    }
+
+    private ClientHeader(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        Metadata.Builder builder;
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        while (!z) {
+            try {
+                try {
+                    try {
+                        int tag = codedInputStream.readTag();
+                        if (tag != 0) {
+                            if (tag == 10) {
+                                Metadata metadata = this.metadata_;
+                                builder = metadata != null ? metadata.m7122toBuilder() : null;
+                                Metadata metadata2 = (Metadata) codedInputStream.readMessage(Metadata.parser(), extensionRegistryLite);
+                                this.metadata_ = metadata2;
+                                if (builder != null) {
+                                    builder.mergeFrom(metadata2);
+                                    this.metadata_ = builder.m7129buildPartial();
+                                }
+                            } else if (tag == 18) {
+                                this.methodName_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 26) {
+                                this.authority_ = codedInputStream.readStringRequireUtf8();
+                            } else if (tag == 34) {
+                                Duration duration = this.timeout_;
+                                builder = duration != null ? duration.toBuilder() : null;
+                                Duration message = codedInputStream.readMessage(Duration.parser(), extensionRegistryLite);
+                                this.timeout_ = message;
+                                if (builder != null) {
+                                    builder.mergeFrom(message);
+                                    this.timeout_ = builder.buildPartial();
+                                }
+                            } else if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                            }
+                        }
+                        z = true;
+                    } catch (InvalidProtocolBufferException e) {
+                        throw e.setUnfinishedMessage(this);
+                    }
+                } catch (IOException e2) {
+                    throw new InvalidProtocolBufferException(e2).setUnfinishedMessage(this);
+                }
+            } finally {
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static ClientHeader getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<ClientHeader> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return BinaryLogProto.internal_static_grpc_binarylog_v1_ClientHeader_descriptor;
+    }
+
+    public static ClientHeader parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (ClientHeader) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static ClientHeader parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ClientHeader) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static ClientHeader parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (ClientHeader) PARSER.parseFrom(byteString);
+    }
+
+    public static ClientHeader parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ClientHeader) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static ClientHeader parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (ClientHeader) PARSER.parseFrom(bArr);
+    }
+
+    public static ClientHeader parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (ClientHeader) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static ClientHeader parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static ClientHeader parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ClientHeader parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static ClientHeader parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static ClientHeader parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static ClientHeader parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m6982toBuilder();
+    }
+
+    public static Builder newBuilder(ClientHeader clientHeader) {
+        return DEFAULT_INSTANCE.m6982toBuilder().mergeFrom(clientHeader);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public ClientHeader m6977getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public Parser<ClientHeader> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public boolean hasMetadata() {
+        return this.metadata_ != null;
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public boolean hasTimeout() {
+        return this.timeout_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new ClientHeader();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return BinaryLogProto.internal_static_grpc_binarylog_v1_ClientHeader_fieldAccessorTable.ensureFieldAccessorsInitialized(ClientHeader.class, Builder.class);
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public Metadata getMetadata() {
+        Metadata metadata = this.metadata_;
+        return metadata == null ? Metadata.getDefaultInstance() : metadata;
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public MetadataOrBuilder getMetadataOrBuilder() {
+        return getMetadata();
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public String getMethodName() {
+        Object obj = this.methodName_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.methodName_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public ByteString getMethodNameBytes() {
+        Object obj = this.methodName_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.methodName_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public String getAuthority() {
+        Object obj = this.authority_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.authority_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public ByteString getAuthorityBytes() {
+        Object obj = this.authority_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.authority_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public Duration getTimeout() {
+        Duration duration = this.timeout_;
+        return duration == null ? Duration.getDefaultInstance() : duration;
+    }
+
+    @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+    public DurationOrBuilder getTimeoutOrBuilder() {
+        return getTimeout();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        if (this.metadata_ != null) {
+            codedOutputStream.writeMessage(1, getMetadata());
+        }
+        if (!getMethodNameBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 2, this.methodName_);
+        }
+        if (!getAuthorityBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 3, this.authority_);
+        }
+        if (this.timeout_ != null) {
+            codedOutputStream.writeMessage(4, getTimeout());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.metadata_ != null ? CodedOutputStream.computeMessageSize(1, getMetadata()) : 0;
+        if (!getMethodNameBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(2, this.methodName_);
+        }
+        if (!getAuthorityBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(3, this.authority_);
+        }
+        if (this.timeout_ != null) {
+            iComputeMessageSize += CodedOutputStream.computeMessageSize(4, getTimeout());
+        }
+        int serializedSize = iComputeMessageSize + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof ClientHeader)) {
+            return super.equals(obj);
+        }
+        ClientHeader clientHeader = (ClientHeader) obj;
+        if (hasMetadata() != clientHeader.hasMetadata()) {
+            return false;
+        }
+        if ((!hasMetadata() || getMetadata().equals(clientHeader.getMetadata())) && getMethodName().equals(clientHeader.getMethodName()) && getAuthority().equals(clientHeader.getAuthority()) && hasTimeout() == clientHeader.hasTimeout()) {
+            return (!hasTimeout() || getTimeout().equals(clientHeader.getTimeout())) && this.unknownFields.equals(clientHeader.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasMetadata()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getMetadata().hashCode();
+        }
+        int iHashCode2 = (((((((iHashCode * 37) + 2) * 53) + getMethodName().hashCode()) * 37) + 3) * 53) + getAuthority().hashCode();
+        if (hasTimeout()) {
+            iHashCode2 = (((iHashCode2 * 37) + 4) * 53) + getTimeout().hashCode();
+        }
+        int iHashCode3 = (iHashCode2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode3;
+        return iHashCode3;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m6979newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m6982toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements ClientHeaderOrBuilder {
+        private Object authority_;
+        private SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> metadataBuilder_;
+        private Metadata metadata_;
+        private Object methodName_;
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> timeoutBuilder_;
+        private Duration timeout_;
+
+        private Builder() {
+            this.methodName_ = "";
+            this.authority_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.methodName_ = "";
+            this.authority_ = "";
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return BinaryLogProto.internal_static_grpc_binarylog_v1_ClientHeader_descriptor;
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public boolean hasMetadata() {
+            return (this.metadataBuilder_ == null && this.metadata_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public boolean hasTimeout() {
+            return (this.timeoutBuilder_ == null && this.timeout_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return BinaryLogProto.internal_static_grpc_binarylog_v1_ClientHeader_fieldAccessorTable.ensureFieldAccessorsInitialized(ClientHeader.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = ClientHeader.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6993clear() {
+            super.clear();
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            this.methodName_ = "";
+            this.authority_ = "";
+            if (this.timeoutBuilder_ == null) {
+                this.timeout_ = null;
+            } else {
+                this.timeout_ = null;
+                this.timeoutBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return BinaryLogProto.internal_static_grpc_binarylog_v1_ClientHeader_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ClientHeader m7006getDefaultInstanceForType() {
+            return ClientHeader.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ClientHeader m6987build() throws UninitializedMessageException {
+            ClientHeader clientHeaderM6989buildPartial = m6989buildPartial();
+            if (clientHeaderM6989buildPartial.isInitialized()) {
+                return clientHeaderM6989buildPartial;
+            }
+            throw newUninitializedMessageException(clientHeaderM6989buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public ClientHeader m6989buildPartial() {
+            ClientHeader clientHeader = new ClientHeader(this);
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                clientHeader.metadata_ = this.metadata_;
+            } else {
+                clientHeader.metadata_ = singleFieldBuilderV3.build();
+            }
+            clientHeader.methodName_ = this.methodName_;
+            clientHeader.authority_ = this.authority_;
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV32 = this.timeoutBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                clientHeader.timeout_ = this.timeout_;
+            } else {
+                clientHeader.timeout_ = singleFieldBuilderV32.build();
+            }
+            onBuilt();
+            return clientHeader;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7005clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7017setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6995clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6998clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7019setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m6985addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m7010mergeFrom(com.google.protobuf.Message message) {
+            if (message instanceof ClientHeader) {
+                return mergeFrom((ClientHeader) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(ClientHeader clientHeader) {
+            if (clientHeader == ClientHeader.getDefaultInstance()) {
+                return this;
+            }
+            if (clientHeader.hasMetadata()) {
+                mergeMetadata(clientHeader.getMetadata());
+            }
+            if (!clientHeader.getMethodName().isEmpty()) {
+                this.methodName_ = clientHeader.methodName_;
+                onChanged();
+            }
+            if (!clientHeader.getAuthority().isEmpty()) {
+                this.authority_ = clientHeader.authority_;
+                onChanged();
+            }
+            if (clientHeader.hasTimeout()) {
+                mergeTimeout(clientHeader.getTimeout());
+            }
+            m7015mergeUnknownFields(clientHeader.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.binarylog.v1.ClientHeader.Builder m7011mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.binarylog.v1.ClientHeader.access$900()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.binarylog.v1.ClientHeader r3 = (io.grpc.binarylog.v1.ClientHeader) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.binarylog.v1.ClientHeader r4 = (io.grpc.binarylog.v1.ClientHeader) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.binarylog.v1.ClientHeader.Builder.m7011mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.binarylog.v1.ClientHeader$Builder");
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public Metadata getMetadata() {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Metadata metadata = this.metadata_;
+            return metadata == null ? Metadata.getDefaultInstance() : metadata;
+        }
+
+        public Builder setMetadata(Metadata metadata) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                metadata.getClass();
+                this.metadata_ = metadata;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(metadata);
+            }
+            return this;
+        }
+
+        public Builder setMetadata(Metadata.Builder builder) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.metadata_ = builder.m7127build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m7127build());
+            }
+            return this;
+        }
+
+        public Builder mergeMetadata(Metadata metadata) {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Metadata metadata2 = this.metadata_;
+                if (metadata2 != null) {
+                    this.metadata_ = Metadata.newBuilder(metadata2).mergeFrom(metadata).m7129buildPartial();
+                } else {
+                    this.metadata_ = metadata;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(metadata);
+            }
+            return this;
+        }
+
+        public Builder clearMetadata() {
+            if (this.metadataBuilder_ == null) {
+                this.metadata_ = null;
+                onChanged();
+            } else {
+                this.metadata_ = null;
+                this.metadataBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Metadata.Builder getMetadataBuilder() {
+            onChanged();
+            return getMetadataFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public MetadataOrBuilder getMetadataOrBuilder() {
+            SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> singleFieldBuilderV3 = this.metadataBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (MetadataOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Metadata metadata = this.metadata_;
+            return metadata == null ? Metadata.getDefaultInstance() : metadata;
+        }
+
+        private SingleFieldBuilderV3<Metadata, Metadata.Builder, MetadataOrBuilder> getMetadataFieldBuilder() {
+            if (this.metadataBuilder_ == null) {
+                this.metadataBuilder_ = new SingleFieldBuilderV3<>(getMetadata(), getParentForChildren(), isClean());
+                this.metadata_ = null;
+            }
+            return this.metadataBuilder_;
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public String getMethodName() {
+            Object obj = this.methodName_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.methodName_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setMethodName(String str) {
+            str.getClass();
+            this.methodName_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public ByteString getMethodNameBytes() {
+            Object obj = this.methodName_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.methodName_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setMethodNameBytes(ByteString byteString) {
+            byteString.getClass();
+            ClientHeader.checkByteStringIsUtf8(byteString);
+            this.methodName_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearMethodName() {
+            this.methodName_ = ClientHeader.getDefaultInstance().getMethodName();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public String getAuthority() {
+            Object obj = this.authority_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.authority_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setAuthority(String str) {
+            str.getClass();
+            this.authority_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public ByteString getAuthorityBytes() {
+            Object obj = this.authority_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.authority_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setAuthorityBytes(ByteString byteString) {
+            byteString.getClass();
+            ClientHeader.checkByteStringIsUtf8(byteString);
+            this.authority_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearAuthority() {
+            this.authority_ = ClientHeader.getDefaultInstance().getAuthority();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public Duration getTimeout() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.timeoutBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            Duration duration = this.timeout_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        public Builder setTimeout(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.timeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                duration.getClass();
+                this.timeout_ = duration;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(duration);
+            }
+            return this;
+        }
+
+        public Builder setTimeout(Duration.Builder builder) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.timeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.timeout_ = builder.build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.build());
+            }
+            return this;
+        }
+
+        public Builder mergeTimeout(Duration duration) {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.timeoutBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                Duration duration2 = this.timeout_;
+                if (duration2 != null) {
+                    this.timeout_ = Duration.newBuilder(duration2).mergeFrom(duration).buildPartial();
+                } else {
+                    this.timeout_ = duration;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(duration);
+            }
+            return this;
+        }
+
+        public Builder clearTimeout() {
+            if (this.timeoutBuilder_ == null) {
+                this.timeout_ = null;
+                onChanged();
+            } else {
+                this.timeout_ = null;
+                this.timeoutBuilder_ = null;
+            }
+            return this;
+        }
+
+        public Duration.Builder getTimeoutBuilder() {
+            onChanged();
+            return getTimeoutFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.binarylog.v1.ClientHeaderOrBuilder
+        public DurationOrBuilder getTimeoutOrBuilder() {
+            SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> singleFieldBuilderV3 = this.timeoutBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            Duration duration = this.timeout_;
+            return duration == null ? Duration.getDefaultInstance() : duration;
+        }
+
+        private SingleFieldBuilderV3<Duration, Duration.Builder, DurationOrBuilder> getTimeoutFieldBuilder() {
+            if (this.timeoutBuilder_ == null) {
+                this.timeoutBuilder_ = new SingleFieldBuilderV3<>(getTimeout(), getParentForChildren(), isClean());
+                this.timeout_ = null;
+            }
+            return this.timeoutBuilder_;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7021setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m7015mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

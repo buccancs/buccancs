@@ -1,0 +1,47 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/common/cache/ReferenceEntry.java
+// Size: 1107 bytes
+// Modified: 2025-10-21 16:32:09.439766400 +0100
+
+package com.google.common.cache;
+
+import com.google.common.cache.LocalCache;
+import org.checkerframework.checker.nullness.compatqual.NullableDecl;
+
+/* loaded from: classes.dex */
+interface ReferenceEntry<K, V> {
+    long getAccessTime();
+
+    int getHash();
+
+    @NullableDecl
+    K getKey();
+
+    @NullableDecl
+    ReferenceEntry<K, V> getNext();
+
+    ReferenceEntry<K, V> getNextInAccessQueue();
+
+    ReferenceEntry<K, V> getNextInWriteQueue();
+
+    ReferenceEntry<K, V> getPreviousInAccessQueue();
+
+    ReferenceEntry<K, V> getPreviousInWriteQueue();
+
+    LocalCache.ValueReference<K, V> getValueReference();
+
+    long getWriteTime();
+
+    void setAccessTime(long j);
+
+    void setNextInAccessQueue(ReferenceEntry<K, V> referenceEntry);
+
+    void setNextInWriteQueue(ReferenceEntry<K, V> referenceEntry);
+
+    void setPreviousInAccessQueue(ReferenceEntry<K, V> referenceEntry);
+
+    void setPreviousInWriteQueue(ReferenceEntry<K, V> referenceEntry);
+
+    void setValueReference(LocalCache.ValueReference<K, V> valueReference);
+
+    void setWriteTime(long j);
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/genetics/SelectionPolicy.java
+// Size: 280 bytes
+// Modified: 2025-10-21 16:32:03.283972500 +0100
+
+package org.apache.commons.math3.genetics;
+
+import org.apache.commons.math3.exception.MathIllegalArgumentException;
+
+/* loaded from: classes5.dex */
+public interface SelectionPolicy {
+    ChromosomePair select(Population population) throws MathIllegalArgumentException;
+}

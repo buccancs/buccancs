@@ -1,0 +1,65 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/services/BinaryLogProviderImpl.java
+// Size: 2244 bytes
+// Modified: 2025-10-21 16:32:05.732659900 +0100
+
+package io.grpc.services;
+
+import com.google.common.base.Preconditions;
+import io.grpc.CallOptions;
+import io.grpc.ClientInterceptor;
+import io.grpc.ServerInterceptor;
+import io.grpc.services.BinlogHelper;
+import java.io.IOException;
+import java.util.concurrent.atomic.AtomicLong;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+class BinaryLogProviderImpl extends BinaryLogProvider {
+    private static final AtomicLong counter = new AtomicLong(1);
+    private final BinlogHelper.Factory factory;
+    private final BinaryLogSink sink;
+
+    public BinaryLogProviderImpl() throws IOException {
+        this(new TempFileSink(), System.getenv("GRPC_BINARY_LOG_CONFIG"));
+    }
+
+    @Deprecated
+    public BinaryLogProviderImpl(BinaryLogSink binaryLogSink) throws IOException {
+        this(binaryLogSink, System.getenv("GRPC_BINARY_LOG_CONFIG"));
+    }
+
+    public BinaryLogProviderImpl(BinaryLogSink binaryLogSink, String str) throws IOException {
+        this.sink = (BinaryLogSink) Preconditions.checkNotNull(binaryLogSink);
+        try {
+            this.factory = new BinlogHelper.FactoryImpl(binaryLogSink, str);
+        } catch (RuntimeException e) {
+            binaryLogSink.close();
+            throw new IOException("Can not initialize. The env variable GRPC_BINARY_LOG_CONFIG must be valid.", e);
+        }
+    }
+
+    @Override // io.grpc.services.BinaryLogProvider
+    @Nullable
+    public ServerInterceptor getServerInterceptor(String str) {
+        BinlogHelper log = this.factory.getLog(str);
+        if (log == null) {
+            return null;
+        }
+        return log.getServerInterceptor(counter.getAndIncrement());
+    }
+
+    @Override // io.grpc.services.BinaryLogProvider
+    @Nullable
+    public ClientInterceptor getClientInterceptor(String str, CallOptions callOptions) {
+        BinlogHelper log = this.factory.getLog(str);
+        if (log == null) {
+            return null;
+        }
+        return log.getClientInterceptor(counter.getAndIncrement());
+    }
+
+    @Override // io.grpc.services.BinaryLogProvider, java.io.Closeable, java.lang.AutoCloseable
+    public void close() throws IOException {
+        this.sink.close();
+    }
+}

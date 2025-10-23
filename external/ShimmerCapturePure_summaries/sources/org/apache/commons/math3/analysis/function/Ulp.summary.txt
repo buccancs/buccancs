@@ -1,0 +1,16 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/function/Ulp.java
+// Size: 401 bytes
+// Modified: 2025-10-21 16:32:04.506116600 +0100
+
+package org.apache.commons.math3.analysis.function;
+
+import org.apache.commons.math3.analysis.UnivariateFunction;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class Ulp implements UnivariateFunction {
+    @Override // org.apache.commons.math3.analysis.UnivariateFunction
+    public double value(double d) {
+        return FastMath.ulp(d);
+    }
+}

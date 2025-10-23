@@ -1,0 +1,140 @@
+package org.apache.commons.math3.fitting;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.commons.math3.analysis.function.HarmonicOscillator;
+import org.apache.commons.math3.exception.NumberIsTooSmallException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.fitting.AbstractCurveFitter;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresBuilder;
+import org.apache.commons.math3.fitting.leastsquares.LeastSquaresProblem;
+import org.apache.commons.math3.linear.DiagonalMatrix;
+import org.apache.commons.math3.util.FastMath;
+
+/* loaded from: classes5.dex */
+public class HarmonicCurveFitter extends AbstractCurveFitter {
+    private static final HarmonicOscillator.Parametric FUNCTION = new HarmonicOscillator.Parametric();
+    private final double[] initialGuess;
+    private final int maxIter;
+
+    private HarmonicCurveFitter(double[] dArr, int i) {
+        this.initialGuess = dArr;
+        this.maxIter = i;
+    }
+
+    public static HarmonicCurveFitter create() {
+        return new HarmonicCurveFitter(null, Integer.MAX_VALUE);
+    }
+
+    public HarmonicCurveFitter withStartPoint(double[] dArr) {
+        return new HarmonicCurveFitter((double[]) dArr.clone(), this.maxIter);
+    }
+
+    public HarmonicCurveFitter withMaxIterations(int i) {
+        return new HarmonicCurveFitter(this.initialGuess, i);
+    }
+
+    @Override // org.apache.commons.math3.fitting.AbstractCurveFitter
+    protected LeastSquaresProblem getProblem(Collection<WeightedObservedPoint> collection) {
+        int size = collection.size();
+        double[] dArr = new double[size];
+        double[] dArr2 = new double[size];
+        int i = 0;
+        for (WeightedObservedPoint weightedObservedPoint : collection) {
+            dArr[i] = weightedObservedPoint.getY();
+            dArr2[i] = weightedObservedPoint.getWeight();
+            i++;
+        }
+        AbstractCurveFitter.TheoreticalValuesFunction theoreticalValuesFunction = new AbstractCurveFitter.TheoreticalValuesFunction(FUNCTION, collection);
+        double[] dArrGuess = this.initialGuess;
+        if (dArrGuess == null) {
+            dArrGuess = new ParameterGuesser(collection).guess();
+        }
+        return new LeastSquaresBuilder().maxEvaluations(Integer.MAX_VALUE).maxIterations(this.maxIter).start(dArrGuess).target(dArr).weight(new DiagonalMatrix(dArr2)).model(theoreticalValuesFunction.getModelFunction(), theoreticalValuesFunction.getModelFunctionJacobian()).build();
+    }
+
+    public static class ParameterGuesser {
+        private final double a;
+        private final double omega;
+        private final double phi;
+
+        public ParameterGuesser(Collection<WeightedObservedPoint> collection) {
+            if (collection.size() < 4) {
+                throw new NumberIsTooSmallException(LocalizedFormats.INSUFFICIENT_OBSERVED_POINTS_IN_SAMPLE, Integer.valueOf(collection.size()), 4, true);
+            }
+            WeightedObservedPoint[] weightedObservedPointArr = (WeightedObservedPoint[]) sortObservations(collection).toArray(new WeightedObservedPoint[0]);
+            double[] dArrGuessAOmega = guessAOmega(weightedObservedPointArr);
+            this.a = dArrGuessAOmega[0];
+            this.omega = dArrGuessAOmega[1];
+            this.phi = guessPhi(weightedObservedPointArr);
+        }
+
+        public double[] guess() {
+            return new double[]{this.a, this.omega, this.phi};
+        }
+
+        private List<WeightedObservedPoint> sortObservations(Collection<WeightedObservedPoint> collection) {
+            ArrayList arrayList = new ArrayList(collection);
+            WeightedObservedPoint weightedObservedPoint = (WeightedObservedPoint) arrayList.get(0);
+            int size = arrayList.size();
+            for (int i = 1; i < size; i++) {
+                WeightedObservedPoint weightedObservedPoint2 = (WeightedObservedPoint) arrayList.get(i);
+                if (weightedObservedPoint2.getX() < weightedObservedPoint.getX()) {
+                    int i2 = i - 1;
+                    WeightedObservedPoint weightedObservedPoint3 = (WeightedObservedPoint) arrayList.get(i2);
+                    while (i2 >= 0 && weightedObservedPoint2.getX() < weightedObservedPoint3.getX()) {
+                        arrayList.set(i2 + 1, weightedObservedPoint3);
+                        int i3 = i2 - 1;
+                        if (i2 != 0) {
+                            weightedObservedPoint3 = (WeightedObservedPoint) arrayList.get(i3);
+                        }
+                        i2 = i3;
+                    }
+                    arrayList.set(i2 + 1, weightedObservedPoint2);
+                    weightedObservedPoint = (WeightedObservedPoint) arrayList.get(i);
+                } else {
+                    weightedObservedPoint = weightedObservedPoint2;
+                }
+            }
+            return arrayList;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x00a2  */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        private double[] guessAOmega(org.apache.commons.math3.fitting.WeightedObservedPoint[] r36) {
+            /*
+                Method dump skipped, instructions count: 231
+                To view this dump add '--comments-level debug' option
+            */
+            throw new UnsupportedOperationException("Method not decompiled: org.apache.commons.math3.fitting.HarmonicCurveFitter.ParameterGuesser.guessAOmega(org.apache.commons.math3.fitting.WeightedObservedPoint[]):double[]");
+        }
+
+        private double guessPhi(WeightedObservedPoint[] weightedObservedPointArr) {
+            double x = weightedObservedPointArr[0].getX();
+            double y = weightedObservedPointArr[0].getY();
+            double d = 0.0d;
+            int i = 1;
+            double d2 = 0.0d;
+            while (i < weightedObservedPointArr.length) {
+                double x2 = weightedObservedPointArr[i].getX();
+                double y2 = weightedObservedPointArr[i].getY();
+                double d3 = (y2 - y) / (x2 - x);
+                double d4 = this.omega * x2;
+                double dCos = FastMath.cos(d4);
+                double dSin = FastMath.sin(d4);
+                double d5 = this.omega;
+                d2 += ((d5 * y2) * dCos) - (d3 * dSin);
+                d += (d5 * y2 * dSin) + (d3 * dCos);
+                i++;
+                y = y2;
+                x = x2;
+            }
+            return FastMath.atan2(-d, d2);
+        }
+    }
+}

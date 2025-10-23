@@ -1,0 +1,24 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/shimmerresearch/verisense/communication/SyncProgressDetails.java
+// Size: 568 bytes
+// Modified: 2025-10-21 16:32:01.499810200 +0100
+
+package com.shimmerresearch.verisense.communication;
+
+/* loaded from: classes2.dex */
+public class SyncProgressDetails {
+    public String mBinFilePath;
+    public boolean mCRCError;
+    public int mPayloadIndex;
+    public double mTransferRateBytes;
+
+    public SyncProgressDetails(int i, boolean z, double d, String str) {
+        this.mPayloadIndex = i;
+        this.mCRCError = z;
+        this.mTransferRateBytes = d;
+        this.mBinFilePath = str;
+    }
+
+    public SyncProgressDetails(String str) {
+        this.mBinFilePath = str;
+    }
+}

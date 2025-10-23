@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/FixMethodOrder.java
+// Size: 426 bytes
+// Modified: 2025-10-21 16:32:01.919856600 +0100
+
+package org.junit;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import org.junit.runners.MethodSorters;
+
+@Target({ElementType.TYPE})
+@Retention(RetentionPolicy.RUNTIME)
+/* loaded from: classes2.dex */
+public @interface FixMethodOrder {
+    MethodSorters value() default MethodSorters.DEFAULT;
+}

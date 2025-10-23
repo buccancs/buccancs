@@ -1,0 +1,79 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/services/InetAddressUtil.java
+// Size: 2283 bytes
+// Modified: 2025-10-21 16:32:04.954761300 +0100
+
+package io.grpc.services;
+
+import com.google.common.base.Preconditions;
+import com.google.common.primitives.Ints;
+import java.net.Inet4Address;
+import java.net.Inet6Address;
+import java.net.InetAddress;
+import java.util.Arrays;
+
+/* loaded from: classes3.dex */
+final class InetAddressUtil {
+    private static final int IPV6_PART_COUNT = 8;
+
+    InetAddressUtil() {
+    }
+
+    public static String toAddrString(InetAddress inetAddress) {
+        Preconditions.checkNotNull(inetAddress);
+        if (inetAddress instanceof Inet4Address) {
+            return inetAddress.getHostAddress();
+        }
+        Preconditions.checkArgument(inetAddress instanceof Inet6Address);
+        byte[] address = inetAddress.getAddress();
+        int[] iArr = new int[8];
+        for (int i = 0; i < 8; i++) {
+            int i2 = i * 2;
+            iArr[i] = Ints.fromBytes((byte) 0, (byte) 0, address[i2], address[i2 + 1]);
+        }
+        compressLongestRunOfZeroes(iArr);
+        return hextetsToIPv6String(iArr);
+    }
+
+    private static void compressLongestRunOfZeroes(int[] iArr) {
+        int i = -1;
+        int i2 = -1;
+        int i3 = -1;
+        for (int i4 = 0; i4 < iArr.length + 1; i4++) {
+            if (i4 >= iArr.length || iArr[i4] != 0) {
+                if (i3 >= 0) {
+                    int i5 = i4 - i3;
+                    if (i5 > i) {
+                        i2 = i3;
+                        i = i5;
+                    }
+                    i3 = -1;
+                }
+            } else if (i3 < 0) {
+                i3 = i4;
+            }
+        }
+        if (i >= 2) {
+            Arrays.fill(iArr, i2, i + i2, -1);
+        }
+    }
+
+    private static String hextetsToIPv6String(int[] iArr) {
+        StringBuilder sb = new StringBuilder(39);
+        int i = 0;
+        boolean z = false;
+        while (i < iArr.length) {
+            boolean z2 = iArr[i] >= 0;
+            if (z2) {
+                if (z) {
+                    sb.append(':');
+                }
+                sb.append(Integer.toHexString(iArr[i]));
+            } else if (i == 0 || z) {
+                sb.append("::");
+            }
+            i++;
+            z = z2;
+        }
+        return sb.toString();
+    }
+}

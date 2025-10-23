@@ -1,0 +1,55 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2;
+
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistry;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import io.grpc.xds.shaded.io.envoyproxy.pgv.validate.Validate;
+import udpa.annotations.Migrate;
+import udpa.annotations.Status;
+
+/* loaded from: classes3.dex */
+public final class ScopedRouteProto {
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_ScopedRouteConfiguration_Key_Fragment_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_ScopedRouteConfiguration_Key_Fragment_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_ScopedRouteConfiguration_Key_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_ScopedRouteConfiguration_Key_fieldAccessorTable;
+    static final Descriptors.Descriptor internal_static_envoy_api_v2_ScopedRouteConfiguration_descriptor;
+    static final GeneratedMessageV3.FieldAccessorTable internal_static_envoy_api_v2_ScopedRouteConfiguration_fieldAccessorTable;
+    private static Descriptors.FileDescriptor descriptor = Descriptors.FileDescriptor.internalBuildGeneratedFileFrom(new String[]{"\n\u001fenvoy/api/v2/scoped_route.proto\u0012\fenvoy.api.v2\u001a\u001eudpa/annotations/migrate.proto\u001a\u001dudpa/annotations/status.proto\u001a\u0017validate/validate.proto\"¨\u0002\n\u0018ScopedRouteConfiguration\u0012\u0015\n\u0004name\u0018\u0001 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012)\n\u0018route_configuration_name\u0018\u0002 \u0001(\tB\u0007úB\u0004r\u0002 \u0001\u0012A\n\u0003key\u0018\u0003 \u0001(\u000b2*.envoy.api.v2.ScopedRouteConfiguration.KeyB\búB\u0005\u008a\u0001\u0002\u0010\u0001\u001a\u0086\u0001\n\u0003Key\u0012P\n\tfragments\u0018\u0001 \u0003(\u000b23.envoy.api.v2.ScopedRouteConfiguration.Key.FragmentB\búB\u0005\u0092\u0001\u0002\b\u0001\u001a-\n\bFragment\u0012\u0014\n\nstring_key\u0018\u0001 \u0001(\tH\u0000B\u000b\n\u0004type\u0012\u0003øB\u0001BU\n\u001aio.envoyproxy.envoy.api.v2B\u0010ScopedRouteProtoP\u0001ò\u0098þ\u008f\u0005\u0017\u0012\u0015envoy.config.route.v3º\u0080ÈÑ\u0006\u0002\u0010\u0001b\u0006proto3"}, new Descriptors.FileDescriptor[]{Migrate.getDescriptor(), Status.getDescriptor(), Validate.getDescriptor()});
+
+    static {
+        Descriptors.Descriptor descriptor2 = (Descriptors.Descriptor) getDescriptor().getMessageTypes().get(0);
+        internal_static_envoy_api_v2_ScopedRouteConfiguration_descriptor = descriptor2;
+        internal_static_envoy_api_v2_ScopedRouteConfiguration_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor2, new String[]{"Name", "RouteConfigurationName", "Key"});
+        Descriptors.Descriptor descriptor3 = (Descriptors.Descriptor) descriptor2.getNestedTypes().get(0);
+        internal_static_envoy_api_v2_ScopedRouteConfiguration_Key_descriptor = descriptor3;
+        internal_static_envoy_api_v2_ScopedRouteConfiguration_Key_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor3, new String[]{"Fragments"});
+        Descriptors.Descriptor descriptor4 = (Descriptors.Descriptor) descriptor3.getNestedTypes().get(0);
+        internal_static_envoy_api_v2_ScopedRouteConfiguration_Key_Fragment_descriptor = descriptor4;
+        internal_static_envoy_api_v2_ScopedRouteConfiguration_Key_Fragment_fieldAccessorTable = new GeneratedMessageV3.FieldAccessorTable(descriptor4, new String[]{"StringKey", "Type"});
+        ExtensionRegistry extensionRegistryNewInstance = ExtensionRegistry.newInstance();
+        extensionRegistryNewInstance.add(Migrate.fileMigrate);
+        extensionRegistryNewInstance.add(Status.fileStatus);
+        extensionRegistryNewInstance.add(Validate.required);
+        extensionRegistryNewInstance.add(Validate.rules);
+        Descriptors.FileDescriptor.internalUpdateFileDescriptor(descriptor, extensionRegistryNewInstance);
+        Migrate.getDescriptor();
+        Status.getDescriptor();
+        Validate.getDescriptor();
+    }
+
+    private ScopedRouteProto() {
+    }
+
+    public static Descriptors.FileDescriptor getDescriptor() {
+        return descriptor;
+    }
+
+    public static void registerAllExtensions(ExtensionRegistryLite extensionRegistryLite) {
+    }
+
+    public static void registerAllExtensions(ExtensionRegistry extensionRegistry) {
+        registerAllExtensions((ExtensionRegistryLite) extensionRegistry);
+    }
+}

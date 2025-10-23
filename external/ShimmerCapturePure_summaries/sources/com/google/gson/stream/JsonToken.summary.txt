@@ -1,0 +1,19 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/gson/stream/JsonToken.java
+// Size: 245 bytes
+// Modified: 2025-10-21 16:32:00.194081200 +0100
+
+package com.google.gson.stream;
+
+/* loaded from: classes.dex */
+public enum JsonToken {
+    BEGIN_ARRAY,
+    END_ARRAY,
+    BEGIN_OBJECT,
+    END_OBJECT,
+    NAME,
+    STRING,
+    NUMBER,
+    BOOLEAN,
+    NULL,
+    END_DOCUMENT
+}

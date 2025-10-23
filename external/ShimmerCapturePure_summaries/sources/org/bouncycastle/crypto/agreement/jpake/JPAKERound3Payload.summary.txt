@@ -1,0 +1,26 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/agreement/jpake/JPAKERound3Payload.java
+// Size: 541 bytes
+// Modified: 2025-10-21 16:32:00.587767800 +0100
+
+package org.bouncycastle.crypto.agreement.jpake;
+
+import java.math.BigInteger;
+
+/* loaded from: classes5.dex */
+public class JPAKERound3Payload {
+    private final BigInteger macTag;
+    private final String participantId;
+
+    public JPAKERound3Payload(String str, BigInteger bigInteger) {
+        this.participantId = str;
+        this.macTag = bigInteger;
+    }
+
+    public BigInteger getMacTag() {
+        return this.macTag;
+    }
+
+    public String getParticipantId() {
+        return this.participantId;
+    }
+}

@@ -1,0 +1,62 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/stat/descriptive/moment/FourthMoment.java
+// Size: 3169 bytes
+// Modified: 2025-10-21 16:32:06.373049200 +0100
+
+package org.apache.commons.math.stat.descriptive.moment;
+
+import java.io.Serializable;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/stat/descriptive/moment/FourthMoment.class */
+public class FourthMoment extends ThirdMoment implements Serializable {
+    private static final long serialVersionUID = 4763990447117157611L;
+    protected double m4;
+
+    public FourthMoment() {
+        this.m4 = Double.NaN;
+    }
+
+    public FourthMoment(FourthMoment original) {
+        copy(original, this);
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.moment.ThirdMoment, org.apache.commons.math.stat.descriptive.moment.SecondMoment, org.apache.commons.math.stat.descriptive.moment.FirstMoment, org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public void increment(double d) {
+        if (this.n < 1) {
+            this.m4 = 0.0d;
+            this.m3 = 0.0d;
+            this.m2 = 0.0d;
+            this.m1 = 0.0d;
+        }
+        double prevM3 = this.m3;
+        double prevM2 = this.m2;
+        super.increment(d);
+        double n0 = this.n;
+        this.m4 = (this.m4 - ((4.0d * this.nDev) * prevM3)) + (6.0d * this.nDevSq * prevM2) + (((n0 * n0) - (3.0d * (n0 - 1.0d))) * this.nDevSq * this.nDevSq * (n0 - 1.0d) * n0);
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.moment.ThirdMoment, org.apache.commons.math.stat.descriptive.moment.SecondMoment, org.apache.commons.math.stat.descriptive.moment.FirstMoment, org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public double getResult() {
+        return this.m4;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.moment.ThirdMoment, org.apache.commons.math.stat.descriptive.moment.SecondMoment, org.apache.commons.math.stat.descriptive.moment.FirstMoment, org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public void clear() {
+        super.clear();
+        this.m4 = Double.NaN;
+    }
+
+    @Override // org.apache.commons.math.stat.descriptive.moment.ThirdMoment, org.apache.commons.math.stat.descriptive.moment.SecondMoment, org.apache.commons.math.stat.descriptive.moment.FirstMoment, org.apache.commons.math.stat.descriptive.AbstractStorelessUnivariateStatistic, org.apache.commons.math.stat.descriptive.AbstractUnivariateStatistic, org.apache.commons.math.stat.descriptive.UnivariateStatistic, org.apache.commons.math.stat.descriptive.StorelessUnivariateStatistic
+    public FourthMoment copy() {
+        FourthMoment result = new FourthMoment();
+        copy(this, result);
+        return result;
+    }
+
+    public static void copy(FourthMoment source, FourthMoment dest) {
+        ThirdMoment.copy((ThirdMoment) source, (ThirdMoment) dest);
+        dest.m4 = source.m4;
+    }
+}

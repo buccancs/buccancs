@@ -1,0 +1,18 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/constraintlayout/core/GoalRow.java
+// Size: 443 bytes
+// Modified: 2025-10-21 16:32:05.171924000 +0100
+
+package androidx.constraintlayout.core;
+
+/* loaded from: classes.dex */
+public class GoalRow extends ArrayRow {
+    public GoalRow(Cache cache) {
+        super(cache);
+    }
+
+    @Override // androidx.constraintlayout.core.ArrayRow, androidx.constraintlayout.core.LinearSystem.Row
+    public void addError(SolverVariable solverVariable) {
+        super.addError(solverVariable);
+        solverVariable.usageInRowCount--;
+    }
+}

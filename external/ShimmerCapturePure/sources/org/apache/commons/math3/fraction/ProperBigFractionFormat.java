@@ -1,0 +1,114 @@
+package org.apache.commons.math3.fraction;
+
+import java.math.BigInteger;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParsePosition;
+
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+
+/* loaded from: classes5.dex */
+public class ProperBigFractionFormat extends BigFractionFormat {
+    private static final long serialVersionUID = -6337346779577272307L;
+    private NumberFormat wholeFormat;
+
+    public ProperBigFractionFormat() {
+        this(getDefaultNumberFormat());
+    }
+
+    public ProperBigFractionFormat(NumberFormat numberFormat) {
+        this(numberFormat, (NumberFormat) numberFormat.clone(), (NumberFormat) numberFormat.clone());
+    }
+
+    public ProperBigFractionFormat(NumberFormat numberFormat, NumberFormat numberFormat2, NumberFormat numberFormat3) {
+        super(numberFormat2, numberFormat3);
+        setWholeFormat(numberFormat);
+    }
+
+    public NumberFormat getWholeFormat() {
+        return this.wholeFormat;
+    }
+
+    public void setWholeFormat(NumberFormat numberFormat) {
+        if (numberFormat == null) {
+            throw new NullArgumentException(LocalizedFormats.WHOLE_FORMAT, new Object[0]);
+        }
+        this.wholeFormat = numberFormat;
+    }
+
+    @Override // org.apache.commons.math3.fraction.BigFractionFormat
+    public StringBuffer format(BigFraction bigFraction, StringBuffer stringBuffer, FieldPosition fieldPosition) {
+        fieldPosition.setBeginIndex(0);
+        fieldPosition.setEndIndex(0);
+        BigInteger numerator = bigFraction.getNumerator();
+        BigInteger denominator = bigFraction.getDenominator();
+        BigInteger bigIntegerDivide = numerator.divide(denominator);
+        BigInteger bigIntegerRemainder = numerator.remainder(denominator);
+        if (!BigInteger.ZERO.equals(bigIntegerDivide)) {
+            getWholeFormat().format(bigIntegerDivide, stringBuffer, fieldPosition);
+            stringBuffer.append(' ');
+            if (bigIntegerRemainder.compareTo(BigInteger.ZERO) < 0) {
+                bigIntegerRemainder = bigIntegerRemainder.negate();
+            }
+        }
+        getNumeratorFormat().format(bigIntegerRemainder, stringBuffer, fieldPosition);
+        stringBuffer.append(" / ");
+        getDenominatorFormat().format(denominator, stringBuffer, fieldPosition);
+        return stringBuffer;
+    }
+
+    @Override // org.apache.commons.math3.fraction.BigFractionFormat, java.text.NumberFormat
+    public BigFraction parse(String str, ParsePosition parsePosition) {
+        BigFraction bigFraction = super.parse(str, parsePosition);
+        if (bigFraction != null) {
+            return bigFraction;
+        }
+        int index = parsePosition.getIndex();
+        parseAndIgnoreWhitespace(str, parsePosition);
+        BigInteger nextBigInteger = parseNextBigInteger(str, parsePosition);
+        if (nextBigInteger == null) {
+            parsePosition.setIndex(index);
+            return null;
+        }
+        parseAndIgnoreWhitespace(str, parsePosition);
+        BigInteger nextBigInteger2 = parseNextBigInteger(str, parsePosition);
+        if (nextBigInteger2 == null) {
+            parsePosition.setIndex(index);
+            return null;
+        }
+        if (nextBigInteger2.compareTo(BigInteger.ZERO) < 0) {
+            parsePosition.setIndex(index);
+            return null;
+        }
+        int index2 = parsePosition.getIndex();
+        char nextCharacter = parseNextCharacter(str, parsePosition);
+        if (nextCharacter == 0) {
+            return new BigFraction(nextBigInteger2);
+        }
+        if (nextCharacter != '/') {
+            parsePosition.setIndex(index);
+            parsePosition.setErrorIndex(index2);
+            return null;
+        }
+        parseAndIgnoreWhitespace(str, parsePosition);
+        BigInteger nextBigInteger3 = parseNextBigInteger(str, parsePosition);
+        if (nextBigInteger3 == null) {
+            parsePosition.setIndex(index);
+            return null;
+        }
+        if (nextBigInteger3.compareTo(BigInteger.ZERO) < 0) {
+            parsePosition.setIndex(index);
+            return null;
+        }
+        boolean z = nextBigInteger.compareTo(BigInteger.ZERO) < 0;
+        if (z) {
+            nextBigInteger = nextBigInteger.negate();
+        }
+        BigInteger bigIntegerAdd = nextBigInteger.multiply(nextBigInteger3).add(nextBigInteger2);
+        if (z) {
+            bigIntegerAdd = bigIntegerAdd.negate();
+        }
+        return new BigFraction(bigIntegerAdd, nextBigInteger3);
+    }
+}

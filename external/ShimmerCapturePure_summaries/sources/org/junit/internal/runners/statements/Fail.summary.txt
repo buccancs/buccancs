@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/junit/internal/runners/statements/Fail.java
+// Size: 409 bytes
+// Modified: 2025-10-21 16:32:01.066863800 +0100
+
+package org.junit.internal.runners.statements;
+
+import org.junit.runners.model.Statement;
+
+/* loaded from: classes2.dex */
+public class Fail extends Statement {
+    private final Throwable error;
+
+    public Fail(Throwable th) {
+        this.error = th;
+    }
+
+    @Override // org.junit.runners.model.Statement
+    public void evaluate() throws Throwable {
+        throw this.error;
+    }
+}

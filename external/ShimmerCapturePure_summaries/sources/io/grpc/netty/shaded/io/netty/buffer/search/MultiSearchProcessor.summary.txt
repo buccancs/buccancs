@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/buffer/search/MultiSearchProcessor.java
+// Size: 186 bytes
+// Modified: 2025-10-21 16:32:01.445968100 +0100
+
+package io.grpc.netty.shaded.io.netty.buffer.search;
+
+/* loaded from: classes3.dex */
+public interface MultiSearchProcessor extends SearchProcessor {
+    int getFoundNeedleId();
+}

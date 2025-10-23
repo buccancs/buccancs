@@ -1,0 +1,314 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/re2j/Compiler.java
+// Size: 10936 bytes
+// Modified: 2025-10-21 16:32:04.600784400 +0100
+
+package com.google.re2j;
+
+import com.google.re2j.Inst;
+import com.google.re2j.Regexp;
+
+/* loaded from: classes2.dex */
+class Compiler {
+    private final Prog prog = new Prog();
+    private static final int[] ANY_RUNE_NOT_NL = {0, 9, 11, 1114111};
+    private static final int[] ANY_RUNE = {0, 1114111};
+
+    private static class Frag {
+        final int i;
+        int out;
+
+        Frag() {
+            this(0, 0);
+        }
+
+        Frag(int i) {
+            this(i, 0);
+        }
+
+        Frag(int i, int i2) {
+            this.i = i;
+            this.out = i2;
+        }
+    }
+
+    private Compiler() {
+        newInst(Inst.Op.FAIL);
+    }
+
+    static Prog compileRegexp(Regexp regexp) {
+        Compiler compiler = new Compiler();
+        Frag fragCompile = compiler.compile(regexp);
+        compiler.prog.patch(fragCompile.out, compiler.newInst(Inst.Op.MATCH).i);
+        compiler.prog.start = fragCompile.i;
+        return compiler.prog;
+    }
+
+    private Frag newInst(Inst.Op op) {
+        this.prog.addInst(op);
+        return new Frag(this.prog.numInst() - 1);
+    }
+
+    private Frag nop() {
+        Frag fragNewInst = newInst(Inst.Op.NOP);
+        fragNewInst.out = fragNewInst.i << 1;
+        return fragNewInst;
+    }
+
+    private Frag fail() {
+        return new Frag();
+    }
+
+    private Frag cap(int i) {
+        Frag fragNewInst = newInst(Inst.Op.CAPTURE);
+        fragNewInst.out = fragNewInst.i << 1;
+        this.prog.getInst(fragNewInst.i).arg = i;
+        int i2 = i + 1;
+        if (this.prog.numCap < i2) {
+            this.prog.numCap = i2;
+        }
+        return fragNewInst;
+    }
+
+    private Frag cat(Frag frag, Frag frag2) {
+        if (frag.i == 0 || frag2.i == 0) {
+            return fail();
+        }
+        this.prog.patch(frag.out, frag2.i);
+        return new Frag(frag.i, frag2.out);
+    }
+
+    private Frag alt(Frag frag, Frag frag2) {
+        if (frag.i == 0) {
+            return frag2;
+        }
+        if (frag2.i == 0) {
+            return frag;
+        }
+        Frag fragNewInst = newInst(Inst.Op.ALT);
+        Inst inst = this.prog.getInst(fragNewInst.i);
+        inst.out = frag.i;
+        inst.arg = frag2.i;
+        fragNewInst.out = this.prog.append(frag.out, frag2.out);
+        return fragNewInst;
+    }
+
+    private Frag quest(Frag frag, boolean z) {
+        Frag fragNewInst = newInst(Inst.Op.ALT);
+        Inst inst = this.prog.getInst(fragNewInst.i);
+        if (z) {
+            inst.arg = frag.i;
+            fragNewInst.out = fragNewInst.i << 1;
+        } else {
+            inst.out = frag.i;
+            fragNewInst.out = (fragNewInst.i << 1) | 1;
+        }
+        fragNewInst.out = this.prog.append(fragNewInst.out, frag.out);
+        return fragNewInst;
+    }
+
+    private Frag star(Frag frag, boolean z) {
+        Frag fragNewInst = newInst(Inst.Op.ALT);
+        Inst inst = this.prog.getInst(fragNewInst.i);
+        if (z) {
+            inst.arg = frag.i;
+            fragNewInst.out = fragNewInst.i << 1;
+        } else {
+            inst.out = frag.i;
+            fragNewInst.out = (fragNewInst.i << 1) | 1;
+        }
+        this.prog.patch(frag.out, fragNewInst.i);
+        return fragNewInst;
+    }
+
+    private Frag plus(Frag frag, boolean z) {
+        return new Frag(frag.i, star(frag, z).out);
+    }
+
+    private Frag empty(int i) {
+        Frag fragNewInst = newInst(Inst.Op.EMPTY_WIDTH);
+        this.prog.getInst(fragNewInst.i).arg = i;
+        fragNewInst.out = fragNewInst.i << 1;
+        return fragNewInst;
+    }
+
+    private Frag rune(int i, int i2) {
+        return rune(new int[]{i}, i2);
+    }
+
+    private Frag rune(int[] iArr, int i) {
+        Frag fragNewInst = newInst(Inst.Op.RUNE);
+        Inst inst = this.prog.getInst(fragNewInst.i);
+        inst.runes = iArr;
+        int i2 = i & 1;
+        if (iArr.length != 1 || Unicode.simpleFold(iArr[0]) == iArr[0]) {
+            i2 = 0;
+        }
+        inst.arg = i2;
+        fragNewInst.out = fragNewInst.i << 1;
+        if (((i2 & 1) == 0 && iArr.length == 1) || (iArr.length == 2 && iArr[0] == iArr[1])) {
+            inst.op = Inst.Op.RUNE1;
+        } else if (iArr.length == 2 && iArr[0] == 0 && iArr[1] == 1114111) {
+            inst.op = Inst.Op.RUNE_ANY;
+        } else if (iArr.length == 4 && iArr[0] == 0 && iArr[1] == 9 && iArr[2] == 11 && iArr[3] == 1114111) {
+            inst.op = Inst.Op.RUNE_ANY_NOT_NL;
+        }
+        return fragNewInst;
+    }
+
+    /* renamed from: com.google.re2j.Compiler$1, reason: invalid class name */
+    static /* synthetic */ class AnonymousClass1 {
+        static final /* synthetic */ int[] $SwitchMap$com$google$re2j$Regexp$Op;
+
+        static {
+            int[] iArr = new int[Regexp.Op.values().length];
+            $SwitchMap$com$google$re2j$Regexp$Op = iArr;
+            try {
+                iArr[Regexp.Op.NO_MATCH.ordinal()] = 1;
+            } catch (NoSuchFieldError unused) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.EMPTY_MATCH.ordinal()] = 2;
+            } catch (NoSuchFieldError unused2) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.LITERAL.ordinal()] = 3;
+            } catch (NoSuchFieldError unused3) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.CHAR_CLASS.ordinal()] = 4;
+            } catch (NoSuchFieldError unused4) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.ANY_CHAR_NOT_NL.ordinal()] = 5;
+            } catch (NoSuchFieldError unused5) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.ANY_CHAR.ordinal()] = 6;
+            } catch (NoSuchFieldError unused6) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.BEGIN_LINE.ordinal()] = 7;
+            } catch (NoSuchFieldError unused7) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.END_LINE.ordinal()] = 8;
+            } catch (NoSuchFieldError unused8) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.BEGIN_TEXT.ordinal()] = 9;
+            } catch (NoSuchFieldError unused9) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.END_TEXT.ordinal()] = 10;
+            } catch (NoSuchFieldError unused10) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.WORD_BOUNDARY.ordinal()] = 11;
+            } catch (NoSuchFieldError unused11) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.NO_WORD_BOUNDARY.ordinal()] = 12;
+            } catch (NoSuchFieldError unused12) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.CAPTURE.ordinal()] = 13;
+            } catch (NoSuchFieldError unused13) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.STAR.ordinal()] = 14;
+            } catch (NoSuchFieldError unused14) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.PLUS.ordinal()] = 15;
+            } catch (NoSuchFieldError unused15) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.QUEST.ordinal()] = 16;
+            } catch (NoSuchFieldError unused16) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.CONCAT.ordinal()] = 17;
+            } catch (NoSuchFieldError unused17) {
+            }
+            try {
+                $SwitchMap$com$google$re2j$Regexp$Op[Regexp.Op.ALTERNATE.ordinal()] = 18;
+            } catch (NoSuchFieldError unused18) {
+            }
+        }
+    }
+
+    private Frag compile(Regexp regexp) {
+        Frag fragCat = null;
+        int i = 0;
+        switch (AnonymousClass1.$SwitchMap$com$google$re2j$Regexp$Op[regexp.op.ordinal()]) {
+            case 1:
+                return fail();
+            case 2:
+                return nop();
+            case 3:
+                if (regexp.runes.length == 0) {
+                    return nop();
+                }
+                int[] iArr = regexp.runes;
+                int length = iArr.length;
+                while (i < length) {
+                    Frag fragRune = rune(iArr[i], regexp.flags);
+                    fragCat = fragCat == null ? fragRune : cat(fragCat, fragRune);
+                    i++;
+                }
+                return fragCat;
+            case 4:
+                return rune(regexp.runes, regexp.flags);
+            case 5:
+                return rune(ANY_RUNE_NOT_NL, 0);
+            case 6:
+                return rune(ANY_RUNE, 0);
+            case 7:
+                return empty(1);
+            case 8:
+                return empty(2);
+            case 9:
+                return empty(4);
+            case 10:
+                return empty(8);
+            case 11:
+                return empty(16);
+            case 12:
+                return empty(32);
+            case 13:
+                return cat(cat(cap(regexp.cap << 1), compile(regexp.subs[0])), cap((regexp.cap << 1) | 1));
+            case 14:
+                return star(compile(regexp.subs[0]), (regexp.flags & 32) != 0);
+            case 15:
+                return plus(compile(regexp.subs[0]), (regexp.flags & 32) != 0);
+            case 16:
+                return quest(compile(regexp.subs[0]), (regexp.flags & 32) != 0);
+            case 17:
+                if (regexp.subs.length == 0) {
+                    return nop();
+                }
+                Regexp[] regexpArr = regexp.subs;
+                int length2 = regexpArr.length;
+                while (i < length2) {
+                    Frag fragCompile = compile(regexpArr[i]);
+                    fragCat = fragCat == null ? fragCompile : cat(fragCat, fragCompile);
+                    i++;
+                }
+                return fragCat;
+            case 18:
+                if (regexp.subs.length == 0) {
+                    return nop();
+                }
+                Regexp[] regexpArr2 = regexp.subs;
+                int length3 = regexpArr2.length;
+                while (i < length3) {
+                    Frag fragCompile2 = compile(regexpArr2[i]);
+                    fragCat = fragCat == null ? fragCompile2 : alt(fragCat, fragCompile2);
+                    i++;
+                }
+                return fragCat;
+            default:
+                throw new IllegalStateException("regexp: unhandled case in compile");
+        }
+    }
+}

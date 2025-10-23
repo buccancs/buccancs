@@ -1,0 +1,32 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/collections/functors/ConstantFactory.java
+// Size: 839 bytes
+// Modified: 2025-10-21 16:32:00.904673900 +0100
+
+package org.apache.commons.collections.functors;
+
+import java.io.Serializable;
+import org.apache.commons.collections.Factory;
+
+/* loaded from: classes5.dex */
+public class ConstantFactory implements Factory, Serializable {
+    public static final Factory NULL_INSTANCE = new ConstantFactory(null);
+    private static final long serialVersionUID = -3520677225766901240L;
+    private final Object iConstant;
+
+    @Override // org.apache.commons.collections.Factory
+    public Object create() {
+        return this.iConstant;
+    }
+
+    public Object getConstant() {
+        return this.iConstant;
+    }
+
+    public static Factory getInstance(Object obj) {
+        return obj == null ? NULL_INSTANCE : new ConstantFactory(obj);
+    }
+
+    public ConstantFactory(Object obj) {
+        this.iConstant = obj;
+    }
+}

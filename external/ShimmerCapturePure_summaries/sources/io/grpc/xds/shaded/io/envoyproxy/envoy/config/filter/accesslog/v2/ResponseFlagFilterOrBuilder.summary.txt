@@ -1,0 +1,21 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/shaded/io/envoyproxy/envoy/config/filter/accesslog/v2/ResponseFlagFilterOrBuilder.java
+// Size: 477 bytes
+// Modified: 2025-10-21 16:32:00.331733100 +0100
+
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.filter.accesslog.v2;
+
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import java.util.List;
+
+/* loaded from: classes6.dex */
+public interface ResponseFlagFilterOrBuilder extends MessageOrBuilder {
+    String getFlags(int i);
+
+    ByteString getFlagsBytes(int i);
+
+    int getFlagsCount();
+
+    /* renamed from: getFlagsList */
+    List<String> mo25536getFlagsList();
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/tls/ECPointFormat.java
+// Size: 279 bytes
+// Modified: 2025-10-21 16:32:00.606805000 +0100
+
+package org.bouncycastle.crypto.tls;
+
+/* loaded from: classes5.dex */
+public class ECPointFormat {
+    public static final short ansiX962_compressed_char2 = 2;
+    public static final short ansiX962_compressed_prime = 1;
+    public static final short uncompressed = 0;
+}

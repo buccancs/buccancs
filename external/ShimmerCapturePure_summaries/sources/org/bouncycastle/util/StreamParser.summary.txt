@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/util/StreamParser.java
+// Size: 244 bytes
+// Modified: 2025-10-21 16:32:00.653504100 +0100
+
+package org.bouncycastle.util;
+
+import java.util.Collection;
+
+/* loaded from: classes5.dex */
+public interface StreamParser {
+    Object read() throws StreamParsingException;
+
+    Collection readAll() throws StreamParsingException;
+}

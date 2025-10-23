@@ -1,0 +1,31 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/bouncycastle/crypto/generators/DHParametersGenerator.java
+// Size: 1154 bytes
+// Modified: 2025-10-21 16:32:04.523687000 +0100
+
+package org.bouncycastle.crypto.generators;
+
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import org.bouncycastle.crypto.params.DHParameters;
+import org.bouncycastle.crypto.params.DHValidationParameters;
+
+/* loaded from: classes5.dex */
+public class DHParametersGenerator {
+    private static final BigInteger TWO = BigInteger.valueOf(2);
+    private int certainty;
+    private SecureRandom random;
+    private int size;
+
+    public DHParameters generateParameters() throws IllegalArgumentException {
+        BigInteger[] bigIntegerArrGenerateSafePrimes = DHParametersHelper.generateSafePrimes(this.size, this.certainty, this.random);
+        BigInteger bigInteger = bigIntegerArrGenerateSafePrimes[0];
+        BigInteger bigInteger2 = bigIntegerArrGenerateSafePrimes[1];
+        return new DHParameters(bigInteger, DHParametersHelper.selectGenerator(bigInteger, bigInteger2, this.random), bigInteger2, TWO, (DHValidationParameters) null);
+    }
+
+    public void init(int i, int i2, SecureRandom secureRandom) {
+        this.size = i;
+        this.certainty = i2;
+        this.random = secureRandom;
+    }
+}

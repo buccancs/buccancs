@@ -1,0 +1,31 @@
+package org.bouncycastle.pqc.jcajce.provider;
+
+import org.bouncycastle.jcajce.provider.config.ConfigurableProvider;
+import org.bouncycastle.jcajce.provider.util.AsymmetricAlgorithmProvider;
+import org.bouncycastle.pqc.asn1.PQCObjectIdentifiers;
+import org.bouncycastle.pqc.jcajce.provider.qtesla.QTESLAKeyFactorySpi;
+
+/* loaded from: classes5.dex */
+public class QTESLA {
+    private static final String PREFIX = "org.bouncycastle.pqc.jcajce.provider.qtesla.";
+
+    public static class Mappings extends AsymmetricAlgorithmProvider {
+        @Override // org.bouncycastle.jcajce.provider.util.AlgorithmProvider
+        public void configure(ConfigurableProvider configurableProvider) {
+            configurableProvider.addAlgorithm("KeyFactory.QTESLA", "org.bouncycastle.pqc.jcajce.provider.qtesla.QTESLAKeyFactorySpi");
+            configurableProvider.addAlgorithm("KeyPairGenerator.QTESLA", "org.bouncycastle.pqc.jcajce.provider.qtesla.KeyPairGeneratorSpi");
+            configurableProvider.addAlgorithm("Signature.QTESLA", "org.bouncycastle.pqc.jcajce.provider.qtesla.SignatureSpi$qTESLA");
+            addSignatureAlgorithm(configurableProvider, "QTESLA-I", "org.bouncycastle.pqc.jcajce.provider.qtesla.SignatureSpi$HeuristicI", PQCObjectIdentifiers.qTESLA_I);
+            addSignatureAlgorithm(configurableProvider, "QTESLA-III-SIZE", "org.bouncycastle.pqc.jcajce.provider.qtesla.SignatureSpi$HeuristicIIISize", PQCObjectIdentifiers.qTESLA_III_size);
+            addSignatureAlgorithm(configurableProvider, "QTESLA-III-SPEED", "org.bouncycastle.pqc.jcajce.provider.qtesla.SignatureSpi$HeuristicIIISpeed", PQCObjectIdentifiers.qTESLA_III_speed);
+            addSignatureAlgorithm(configurableProvider, "QTESLA-P-I", "org.bouncycastle.pqc.jcajce.provider.qtesla.SignatureSpi$ProvablySecureI", PQCObjectIdentifiers.qTESLA_p_I);
+            addSignatureAlgorithm(configurableProvider, "QTESLA-P-III", "org.bouncycastle.pqc.jcajce.provider.qtesla.SignatureSpi$ProvablySecureIII", PQCObjectIdentifiers.qTESLA_p_III);
+            QTESLAKeyFactorySpi qTESLAKeyFactorySpi = new QTESLAKeyFactorySpi();
+            registerOid(configurableProvider, PQCObjectIdentifiers.qTESLA_I, "QTESLA-I", qTESLAKeyFactorySpi);
+            registerOid(configurableProvider, PQCObjectIdentifiers.qTESLA_III_size, "QTESLA-III-SIZE", qTESLAKeyFactorySpi);
+            registerOid(configurableProvider, PQCObjectIdentifiers.qTESLA_III_speed, "QTESLA-III-SPEED", qTESLAKeyFactorySpi);
+            registerOid(configurableProvider, PQCObjectIdentifiers.qTESLA_p_I, "QTESLA-P-I", qTESLAKeyFactorySpi);
+            registerOid(configurableProvider, PQCObjectIdentifiers.qTESLA_p_III, "QTESLA-P-III", qTESLAKeyFactorySpi);
+        }
+    }
+}

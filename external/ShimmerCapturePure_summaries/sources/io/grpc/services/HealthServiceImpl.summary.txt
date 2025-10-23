@@ -1,0 +1,149 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/services/HealthServiceImpl.java
+// Size: 6476 bytes
+// Modified: 2025-10-21 16:32:06.555939800 +0100
+
+package io.grpc.services;
+
+import com.google.common.util.concurrent.MoreExecutors;
+import io.grpc.Context;
+import io.grpc.Status;
+import io.grpc.StatusException;
+import io.grpc.health.v1.HealthCheckRequest;
+import io.grpc.health.v1.HealthCheckResponse;
+import io.grpc.health.v1.HealthGrpc;
+import io.grpc.stub.StreamObserver;
+import java.util.HashMap;
+import java.util.IdentityHashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class HealthServiceImpl extends HealthGrpc.HealthImplBase {
+    private static final Logger logger = Logger.getLogger(HealthServiceImpl.class.getName());
+    private final Map<String, HealthCheckResponse.ServingStatus> statusMap;
+    private boolean terminal;
+    private final Object watchLock;
+    private final HashMap<String, IdentityHashMap<StreamObserver<HealthCheckResponse>, Boolean>> watchers;
+
+    HealthServiceImpl() {
+        ConcurrentHashMap concurrentHashMap = new ConcurrentHashMap();
+        this.statusMap = concurrentHashMap;
+        this.watchLock = new Object();
+        this.watchers = new HashMap<>();
+        concurrentHashMap.put("", HealthCheckResponse.ServingStatus.SERVING);
+    }
+
+    @Override // io.grpc.health.v1.HealthGrpc.HealthImplBase
+    public void check(HealthCheckRequest healthCheckRequest, StreamObserver<HealthCheckResponse> streamObserver) {
+        HealthCheckResponse.ServingStatus servingStatus = this.statusMap.get(healthCheckRequest.getService());
+        if (servingStatus == null) {
+            streamObserver.onError(new StatusException(Status.NOT_FOUND.withDescription("unknown service " + healthCheckRequest.getService())));
+            return;
+        }
+        streamObserver.onNext(HealthCheckResponse.newBuilder().setStatus(servingStatus).m9153build());
+        streamObserver.onCompleted();
+    }
+
+    @Override // io.grpc.health.v1.HealthGrpc.HealthImplBase
+    public void watch(HealthCheckRequest healthCheckRequest, final StreamObserver<HealthCheckResponse> streamObserver) {
+        final String service = healthCheckRequest.getService();
+        synchronized (this.watchLock) {
+            streamObserver.onNext(getResponseForWatch(this.statusMap.get(service)));
+            IdentityHashMap<StreamObserver<HealthCheckResponse>, Boolean> identityHashMap = this.watchers.get(service);
+            if (identityHashMap == null) {
+                identityHashMap = new IdentityHashMap<>();
+                this.watchers.put(service, identityHashMap);
+            }
+            identityHashMap.put(streamObserver, Boolean.TRUE);
+        }
+        Context.current().addListener(new Context.CancellationListener() { // from class: io.grpc.services.HealthServiceImpl.1
+            @Override // io.grpc.Context.CancellationListener
+            public void cancelled(Context context) {
+                synchronized (HealthServiceImpl.this.watchLock) {
+                    IdentityHashMap identityHashMap2 = (IdentityHashMap) HealthServiceImpl.this.watchers.get(service);
+                    if (identityHashMap2 != null) {
+                        identityHashMap2.remove(streamObserver);
+                        if (identityHashMap2.isEmpty()) {
+                            HealthServiceImpl.this.watchers.remove(service);
+                        }
+                    }
+                }
+            }
+        }, MoreExecutors.directExecutor());
+    }
+
+    void setStatus(String str, HealthCheckResponse.ServingStatus servingStatus) {
+        synchronized (this.watchLock) {
+            if (this.terminal) {
+                logger.log(Level.FINE, "Ignoring status {} for {}", new Object[]{servingStatus, str});
+            } else {
+                setStatusInternal(str, servingStatus);
+            }
+        }
+    }
+
+    private void setStatusInternal(String str, HealthCheckResponse.ServingStatus servingStatus) {
+        if (this.statusMap.put(str, servingStatus) != servingStatus) {
+            notifyWatchers(str, servingStatus);
+        }
+    }
+
+    void clearStatus(String str) {
+        synchronized (this.watchLock) {
+            if (this.terminal) {
+                logger.log(Level.FINE, "Ignoring status clearing for {}", new Object[]{str});
+            } else {
+                if (this.statusMap.remove(str) != null) {
+                    notifyWatchers(str, null);
+                }
+            }
+        }
+    }
+
+    void enterTerminalState() {
+        synchronized (this.watchLock) {
+            if (this.terminal) {
+                logger.log(Level.WARNING, "Already terminating", (Throwable) new RuntimeException());
+                return;
+            }
+            this.terminal = true;
+            Iterator<String> it2 = this.statusMap.keySet().iterator();
+            while (it2.hasNext()) {
+                setStatusInternal(it2.next(), HealthCheckResponse.ServingStatus.NOT_SERVING);
+            }
+        }
+    }
+
+    int numWatchersForTest(String str) {
+        synchronized (this.watchLock) {
+            IdentityHashMap<StreamObserver<HealthCheckResponse>, Boolean> identityHashMap = this.watchers.get(str);
+            if (identityHashMap == null) {
+                return 0;
+            }
+            return identityHashMap.size();
+        }
+    }
+
+    private void notifyWatchers(String str, @Nullable HealthCheckResponse.ServingStatus servingStatus) {
+        HealthCheckResponse responseForWatch = getResponseForWatch(servingStatus);
+        IdentityHashMap<StreamObserver<HealthCheckResponse>, Boolean> identityHashMap = this.watchers.get(str);
+        if (identityHashMap != null) {
+            Iterator<StreamObserver<HealthCheckResponse>> it2 = identityHashMap.keySet().iterator();
+            while (it2.hasNext()) {
+                it2.next().onNext(responseForWatch);
+            }
+        }
+    }
+
+    private static HealthCheckResponse getResponseForWatch(@Nullable HealthCheckResponse.ServingStatus servingStatus) {
+        HealthCheckResponse.Builder builderNewBuilder = HealthCheckResponse.newBuilder();
+        if (servingStatus == null) {
+            servingStatus = HealthCheckResponse.ServingStatus.SERVICE_UNKNOWN;
+        }
+        return builderNewBuilder.setStatus(servingStatus).m9153build();
+    }
+}

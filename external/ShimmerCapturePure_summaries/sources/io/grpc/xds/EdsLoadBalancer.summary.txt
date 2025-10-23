@@ -1,0 +1,290 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/EdsLoadBalancer.java
+// Size: 16038 bytes
+// Modified: 2025-10-21 16:32:13.383735100 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.Preconditions;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import io.grpc.ConnectivityState;
+import io.grpc.InternalLogId;
+import io.grpc.LoadBalancer;
+import io.grpc.LoadBalancerRegistry;
+import io.grpc.Status;
+import io.grpc.internal.ExponentialBackoffPolicy;
+import io.grpc.internal.GrpcUtil;
+import io.grpc.internal.ObjectPool;
+import io.grpc.util.GracefulSwitchLoadBalancer;
+import io.grpc.xds.Bootstrapper;
+import io.grpc.xds.EdsLoadBalancerProvider;
+import io.grpc.xds.EnvoyProtoData;
+import io.grpc.xds.LocalityStore;
+import io.grpc.xds.XdsClient;
+import io.grpc.xds.XdsLogger;
+import io.grpc.xds.XdsSubchannelPickers;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+final class EdsLoadBalancer extends LoadBalancer {
+    private final Bootstrapper bootstrapper;
+    private final XdsClient.XdsChannelFactory channelFactory;
+
+    @Nullable
+    private String clusterName;
+
+    @Nullable
+    private String edsServiceName;
+    private final LoadBalancer.Helper helper;
+    private final LoadBalancerRegistry lbRegistry;
+    private final LocalityStore.LocalityStoreFactory localityStoreFactory;
+    private final InternalLogId logId;
+    private final XdsLogger logger;
+    private final GracefulSwitchLoadBalancer switchingLoadBalancer;
+
+    @Nullable
+    private XdsClient xdsClient;
+
+    @Nullable
+    private ObjectPool<XdsClient> xdsClientPool;
+
+    @Override // io.grpc.LoadBalancer
+    public boolean canHandleEmptyAddressListFromNameResolution() {
+        return true;
+    }
+
+    EdsLoadBalancer(LoadBalancer.Helper helper) {
+        this(helper, LoadBalancerRegistry.getDefaultRegistry(), LocalityStore.LocalityStoreFactory.getInstance(), Bootstrapper.getInstance(), XdsClient.XdsChannelFactory.getInstance());
+    }
+
+    EdsLoadBalancer(LoadBalancer.Helper helper, LoadBalancerRegistry loadBalancerRegistry, LocalityStore.LocalityStoreFactory localityStoreFactory, Bootstrapper bootstrapper, XdsClient.XdsChannelFactory xdsChannelFactory) {
+        this.helper = (LoadBalancer.Helper) Preconditions.checkNotNull(helper, "helper");
+        this.lbRegistry = (LoadBalancerRegistry) Preconditions.checkNotNull(loadBalancerRegistry, "lbRegistry");
+        this.localityStoreFactory = (LocalityStore.LocalityStoreFactory) Preconditions.checkNotNull(localityStoreFactory, "localityStoreFactory");
+        this.bootstrapper = (Bootstrapper) Preconditions.checkNotNull(bootstrapper, "bootstrapper");
+        this.channelFactory = (XdsClient.XdsChannelFactory) Preconditions.checkNotNull(xdsChannelFactory, "channelFactory");
+        this.switchingLoadBalancer = new GracefulSwitchLoadBalancer(helper);
+        InternalLogId internalLogIdAllocate = InternalLogId.allocate("eds-lb", helper.getAuthority());
+        this.logId = internalLogIdAllocate;
+        XdsLogger xdsLoggerWithLogId = XdsLogger.withLogId(internalLogIdAllocate);
+        this.logger = xdsLoggerWithLogId;
+        xdsLoggerWithLogId.log(XdsLogger.XdsLogLevel.INFO, "Created");
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void handleResolvedAddresses(LoadBalancer.ResolvedAddresses resolvedAddresses) {
+        this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Received resolution result: {0}", resolvedAddresses);
+        Object loadBalancingPolicyConfig = resolvedAddresses.getLoadBalancingPolicyConfig();
+        if (loadBalancingPolicyConfig == null) {
+            handleNameResolutionError(Status.UNAVAILABLE.withDescription("Missing EDS lb config"));
+            return;
+        }
+        EdsLoadBalancerProvider.EdsConfig edsConfig = (EdsLoadBalancerProvider.EdsConfig) loadBalancingPolicyConfig;
+        if (this.logger.isLoggable(XdsLogger.XdsLogLevel.INFO)) {
+            XdsLogger xdsLogger = this.logger;
+            XdsLogger.XdsLogLevel xdsLogLevel = XdsLogger.XdsLogLevel.INFO;
+            Object[] objArr = new Object[4];
+            objArr[0] = edsConfig.clusterName;
+            objArr[1] = edsConfig.endpointPickingPolicy.getProvider().getPolicyName();
+            objArr[2] = edsConfig.edsServiceName;
+            objArr[3] = Boolean.valueOf(edsConfig.lrsServerName != null);
+            xdsLogger.log(xdsLogLevel, "Received EDS lb config: cluster={0}, child_policy={1}, eds_service_name={2}, report_load={3}", objArr);
+        }
+        boolean z = this.clusterName == null;
+        this.clusterName = edsConfig.clusterName;
+        if (this.xdsClientPool == null) {
+            ObjectPool<XdsClient> objectPool = (ObjectPool) resolvedAddresses.getAttributes().get(XdsAttributes.XDS_CLIENT_POOL);
+            this.xdsClientPool = objectPool;
+            if (objectPool == null) {
+                try {
+                    Bootstrapper.BootstrapInfo bootstrap = this.bootstrapper.readBootstrap();
+                    final List<Bootstrapper.ServerInfo> servers = bootstrap.getServers();
+                    final EnvoyProtoData.Node node = bootstrap.getNode();
+                    if (servers.isEmpty()) {
+                        this.helper.updateBalancingState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(Status.UNAVAILABLE.withDescription("No management server provided by bootstrap")));
+                        return;
+                    }
+                    this.xdsClientPool = new XdsClient.RefCountedXdsClientObjectPool(new XdsClient.XdsClientFactory() { // from class: io.grpc.xds.EdsLoadBalancer.1
+                        @Override // io.grpc.xds.XdsClient.XdsClientFactory
+                        XdsClient createXdsClient() {
+                            return new XdsClientImpl(EdsLoadBalancer.this.helper.getAuthority(), servers, EdsLoadBalancer.this.channelFactory, node, EdsLoadBalancer.this.helper.getSynchronizationContext(), EdsLoadBalancer.this.helper.getScheduledExecutorService(), new ExponentialBackoffPolicy.Provider(), GrpcUtil.STOPWATCH_SUPPLIER);
+                        }
+                    });
+                } catch (Exception e) {
+                    this.helper.updateBalancingState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(Status.UNAVAILABLE.withDescription("Failed to bootstrap").withCause(e)));
+                    return;
+                }
+            } else {
+                this.logger.log(XdsLogger.XdsLogLevel.INFO, "Use xDS client from channel");
+            }
+            this.xdsClient = this.xdsClientPool.getObject();
+        }
+        if (z || !Objects.equals(edsConfig.edsServiceName, this.edsServiceName)) {
+            this.switchingLoadBalancer.switchTo(new ClusterEndpointsBalancerFactory(edsConfig.edsServiceName));
+        }
+        this.switchingLoadBalancer.handleResolvedAddresses(resolvedAddresses);
+        this.edsServiceName = edsConfig.edsServiceName;
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void handleNameResolutionError(Status status) {
+        this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Received name resolution error: {0}", status);
+        this.switchingLoadBalancer.handleNameResolutionError(status);
+    }
+
+    @Override // io.grpc.LoadBalancer
+    public void shutdown() {
+        this.logger.log(XdsLogger.XdsLogLevel.INFO, "Shutdown");
+        this.switchingLoadBalancer.shutdown();
+        XdsClient xdsClient = this.xdsClient;
+        if (xdsClient != null) {
+            this.xdsClient = this.xdsClientPool.returnObject(xdsClient);
+        }
+    }
+
+    private final class ClusterEndpointsBalancerFactory extends LoadBalancer.Factory {
+
+        @Nullable
+        final String clusterServiceName;
+
+        ClusterEndpointsBalancerFactory(@Nullable String str) {
+            this.clusterServiceName = str;
+        }
+
+        @Override // io.grpc.LoadBalancer.Factory
+        public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
+            return new ClusterEndpointsBalancer(helper);
+        }
+
+        public boolean equals(Object obj) {
+            if (obj instanceof ClusterEndpointsBalancerFactory) {
+                return Objects.equals(this.clusterServiceName, ((ClusterEndpointsBalancerFactory) obj).clusterServiceName);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            return Objects.hash(Integer.valueOf(super.hashCode()), this.clusterServiceName);
+        }
+
+        final class ClusterEndpointsBalancer extends LoadBalancer {
+            final EndpointWatcherImpl endpointWatcher;
+            final LoadBalancer.Helper helper;
+            boolean isReportingLoad;
+            final LocalityStore localityStore;
+            final String resourceName;
+
+            @Override // io.grpc.LoadBalancer
+            public boolean canHandleEmptyAddressListFromNameResolution() {
+                return true;
+            }
+
+            ClusterEndpointsBalancer(LoadBalancer.Helper helper) {
+                this.helper = helper;
+                String str = ClusterEndpointsBalancerFactory.this.clusterServiceName != null ? ClusterEndpointsBalancerFactory.this.clusterServiceName : EdsLoadBalancer.this.clusterName;
+                this.resourceName = str;
+                this.localityStore = EdsLoadBalancer.this.localityStoreFactory.newLocalityStore(EdsLoadBalancer.this.logId, helper, EdsLoadBalancer.this.lbRegistry, EdsLoadBalancer.this.xdsClient.addClientStats(EdsLoadBalancer.this.clusterName, ClusterEndpointsBalancerFactory.this.clusterServiceName));
+                EndpointWatcherImpl endpointWatcherImpl = new EndpointWatcherImpl();
+                this.endpointWatcher = endpointWatcherImpl;
+                EdsLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Start endpoint watcher on {0} with xDS client {1}", str, EdsLoadBalancer.this.xdsClient);
+                EdsLoadBalancer.this.xdsClient.watchEndpointData(str, endpointWatcherImpl);
+            }
+
+            @Override // io.grpc.LoadBalancer
+            public void handleResolvedAddresses(LoadBalancer.ResolvedAddresses resolvedAddresses) {
+                EdsLoadBalancerProvider.EdsConfig edsConfig = (EdsLoadBalancerProvider.EdsConfig) resolvedAddresses.getLoadBalancingPolicyConfig();
+                if (edsConfig.lrsServerName == null) {
+                    if (this.isReportingLoad) {
+                        EdsLoadBalancer.this.xdsClient.cancelClientStatsReport();
+                        this.isReportingLoad = false;
+                        return;
+                    }
+                    return;
+                }
+                if (!edsConfig.lrsServerName.equals("")) {
+                    throw new AssertionError("Can only report load to the same management server");
+                }
+                if (this.isReportingLoad) {
+                    return;
+                }
+                EdsLoadBalancer.this.xdsClient.reportClientStats();
+                this.isReportingLoad = true;
+            }
+
+            @Override // io.grpc.LoadBalancer
+            public void handleNameResolutionError(Status status) {
+                if (this.endpointWatcher.endpointsReceived) {
+                    return;
+                }
+                this.helper.updateBalancingState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(status));
+            }
+
+            @Override // io.grpc.LoadBalancer
+            public void shutdown() {
+                if (this.isReportingLoad) {
+                    EdsLoadBalancer.this.xdsClient.cancelClientStatsReport();
+                    this.isReportingLoad = false;
+                }
+                this.localityStore.reset();
+                EdsLoadBalancer.this.xdsClient.removeClientStats(EdsLoadBalancer.this.clusterName, ClusterEndpointsBalancerFactory.this.clusterServiceName);
+                EdsLoadBalancer.this.xdsClient.cancelEndpointDataWatch(this.resourceName, this.endpointWatcher);
+                EdsLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Cancelled endpoint watcher on {0} with xDS client {1}", this.resourceName, EdsLoadBalancer.this.xdsClient);
+            }
+
+            private final class EndpointWatcherImpl implements XdsClient.EndpointWatcher {
+                boolean endpointsReceived;
+
+                private EndpointWatcherImpl() {
+                }
+
+                @Override // io.grpc.xds.XdsClient.EndpointWatcher
+                public void onEndpointChanged(XdsClient.EndpointUpdate endpointUpdate) {
+                    EdsLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.DEBUG, "Received endpoint update: {0}", endpointUpdate);
+                    if (EdsLoadBalancer.this.logger.isLoggable(XdsLogger.XdsLogLevel.INFO)) {
+                        EdsLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Received endpoint update from xDS client {0}: cluster_name={1}, {2} localities, {3} drop categories", EdsLoadBalancer.this.xdsClient, endpointUpdate.getClusterName(), Integer.valueOf(endpointUpdate.getLocalityLbEndpointsMap().size()), Integer.valueOf(endpointUpdate.getDropPolicies().size()));
+                    }
+                    this.endpointsReceived = true;
+                    List<EnvoyProtoData.DropOverload> dropPolicies = endpointUpdate.getDropPolicies();
+                    ImmutableList.Builder builder = ImmutableList.builder();
+                    for (EnvoyProtoData.DropOverload dropOverload : dropPolicies) {
+                        builder.add((ImmutableList.Builder) dropOverload);
+                        if (dropOverload.getDropsPerMillion() == 1000000) {
+                            break;
+                        }
+                    }
+                    ClusterEndpointsBalancer.this.localityStore.updateDropPercentage(builder.build());
+                    ImmutableMap.Builder builder2 = new ImmutableMap.Builder();
+                    for (Map.Entry<EnvoyProtoData.Locality, EnvoyProtoData.LocalityLbEndpoints> entry : endpointUpdate.getLocalityLbEndpointsMap().entrySet()) {
+                        if (entry.getValue().getLocalityWeight() != 0) {
+                            builder2.put(entry.getKey(), entry.getValue());
+                        }
+                    }
+                    ClusterEndpointsBalancer.this.localityStore.updateLocalityStore(builder2.build());
+                }
+
+                @Override // io.grpc.xds.XdsClient.ResourceWatcher
+                public void onResourceDoesNotExist(String str) {
+                    EdsLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.INFO, "Resource {0} is unavailable", str);
+                    if (ClusterEndpointsBalancer.this.isReportingLoad) {
+                        EdsLoadBalancer.this.xdsClient.cancelClientStatsReport();
+                        ClusterEndpointsBalancer.this.isReportingLoad = false;
+                    }
+                    ClusterEndpointsBalancer.this.localityStore.reset();
+                    ClusterEndpointsBalancer.this.helper.updateBalancingState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(Status.UNAVAILABLE.withDescription("Resource " + str + " is unavailable")));
+                }
+
+                @Override // io.grpc.xds.XdsClient.ResourceWatcher
+                public void onError(Status status) {
+                    EdsLoadBalancer.this.logger.log(XdsLogger.XdsLogLevel.WARNING, "Received error from xDS client {0}: {1}: {2}", EdsLoadBalancer.this.xdsClient, status.getCode(), status.getDescription());
+                    if (this.endpointsReceived) {
+                        return;
+                    }
+                    ClusterEndpointsBalancer.this.helper.updateBalancingState(ConnectivityState.TRANSIENT_FAILURE, new XdsSubchannelPickers.ErrorPicker(status));
+                }
+            }
+        }
+    }
+}

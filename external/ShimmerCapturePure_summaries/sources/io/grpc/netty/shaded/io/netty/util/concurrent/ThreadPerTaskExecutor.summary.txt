@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/concurrent/ThreadPerTaskExecutor.java
+// Size: 692 bytes
+// Modified: 2025-10-21 16:32:00.868157000 +0100
+
+package io.grpc.netty.shaded.io.netty.util.concurrent;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ThreadFactory;
+
+/* loaded from: classes3.dex */
+public final class ThreadPerTaskExecutor implements Executor {
+    private final ThreadFactory threadFactory;
+
+    public ThreadPerTaskExecutor(ThreadFactory threadFactory) {
+        this.threadFactory = (ThreadFactory) ObjectUtil.checkNotNull(threadFactory, "threadFactory");
+    }
+
+    @Override // java.util.concurrent.Executor
+    public void execute(Runnable runnable) {
+        this.threadFactory.newThread(runnable).start();
+    }
+}

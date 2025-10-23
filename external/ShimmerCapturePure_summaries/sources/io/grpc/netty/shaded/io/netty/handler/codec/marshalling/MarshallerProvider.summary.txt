@@ -1,0 +1,13 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/marshalling/MarshallerProvider.java
+// Size: 349 bytes
+// Modified: 2025-10-21 16:32:05.072808600 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.marshalling;
+
+import io.grpc.netty.shaded.io.netty.channel.ChannelHandlerContext;
+import org.jboss.marshalling.Marshaller;
+
+/* loaded from: classes3.dex */
+public interface MarshallerProvider {
+    Marshaller getMarshaller(ChannelHandlerContext channelHandlerContext) throws Exception;
+}

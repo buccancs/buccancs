@@ -1,0 +1,1773 @@
+package io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2;
+
+import com.google.protobuf.AbstractParser;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.CodedInputStream;
+import com.google.protobuf.CodedOutputStream;
+import com.google.protobuf.Descriptors;
+import com.google.protobuf.ExtensionRegistryLite;
+import com.google.protobuf.GeneratedMessageV3;
+import com.google.protobuf.Internal;
+import com.google.protobuf.InvalidProtocolBufferException;
+import com.google.protobuf.Message;
+import com.google.protobuf.Parser;
+import com.google.protobuf.ProtocolMessageEnum;
+import com.google.protobuf.SingleFieldBuilderV3;
+import com.google.protobuf.UninitializedMessageException;
+import com.google.protobuf.UnknownFieldSet;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.GrpcService;
+import io.grpc.xds.shaded.io.envoyproxy.envoy.api.v2.core.GrpcServiceOrBuilder;
+import io.opencensus.proto.trace.v1.TraceConfig;
+import io.opencensus.proto.trace.v1.TraceConfigOrBuilder;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+
+/* loaded from: classes4.dex */
+public final class OpenCensusConfig extends GeneratedMessageV3 implements OpenCensusConfigOrBuilder {
+    public static final int INCOMING_TRACE_CONTEXT_FIELD_NUMBER = 8;
+    public static final int OCAGENT_ADDRESS_FIELD_NUMBER = 12;
+    public static final int OCAGENT_EXPORTER_ENABLED_FIELD_NUMBER = 11;
+    public static final int OCAGENT_GRPC_SERVICE_FIELD_NUMBER = 14;
+    public static final int OUTGOING_TRACE_CONTEXT_FIELD_NUMBER = 9;
+    public static final int STACKDRIVER_ADDRESS_FIELD_NUMBER = 10;
+    public static final int STACKDRIVER_EXPORTER_ENABLED_FIELD_NUMBER = 3;
+    public static final int STACKDRIVER_GRPC_SERVICE_FIELD_NUMBER = 13;
+    public static final int STACKDRIVER_PROJECT_ID_FIELD_NUMBER = 4;
+    public static final int STDOUT_EXPORTER_ENABLED_FIELD_NUMBER = 2;
+    public static final int TRACE_CONFIG_FIELD_NUMBER = 1;
+    public static final int ZIPKIN_EXPORTER_ENABLED_FIELD_NUMBER = 5;
+    public static final int ZIPKIN_URL_FIELD_NUMBER = 6;
+    private static final long serialVersionUID = 0;
+    private static final Internal.ListAdapter.Converter<Integer, TraceContext> incomingTraceContext_converter_ = new Internal.ListAdapter.Converter<Integer, TraceContext>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig.1
+        public TraceContext convert(Integer num) {
+            TraceContext traceContextValueOf = TraceContext.valueOf(num.intValue());
+            return traceContextValueOf == null ? TraceContext.UNRECOGNIZED : traceContextValueOf;
+        }
+    };
+    private static final Internal.ListAdapter.Converter<Integer, TraceContext> outgoingTraceContext_converter_ = new Internal.ListAdapter.Converter<Integer, TraceContext>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig.2
+        public TraceContext convert(Integer num) {
+            TraceContext traceContextValueOf = TraceContext.valueOf(num.intValue());
+            return traceContextValueOf == null ? TraceContext.UNRECOGNIZED : traceContextValueOf;
+        }
+    };
+    private static final OpenCensusConfig DEFAULT_INSTANCE = new OpenCensusConfig();
+    private static final Parser<OpenCensusConfig> PARSER = new AbstractParser<OpenCensusConfig>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig.3
+        /* renamed from: parsePartialFrom, reason: merged with bridge method [inline-methods] */
+        public OpenCensusConfig m30215parsePartialFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+            return new OpenCensusConfig(codedInputStream, extensionRegistryLite);
+        }
+    };
+    private int incomingTraceContextMemoizedSerializedSize;
+    private List<Integer> incomingTraceContext_;
+    private byte memoizedIsInitialized;
+    private volatile Object ocagentAddress_;
+    private boolean ocagentExporterEnabled_;
+    private GrpcService ocagentGrpcService_;
+    private int outgoingTraceContextMemoizedSerializedSize;
+    private List<Integer> outgoingTraceContext_;
+    private volatile Object stackdriverAddress_;
+    private boolean stackdriverExporterEnabled_;
+    private GrpcService stackdriverGrpcService_;
+    private volatile Object stackdriverProjectId_;
+    private boolean stdoutExporterEnabled_;
+    private TraceConfig traceConfig_;
+    private boolean zipkinExporterEnabled_;
+    private volatile Object zipkinUrl_;
+
+    private OpenCensusConfig(GeneratedMessageV3.Builder<?> builder) {
+        super(builder);
+        this.memoizedIsInitialized = (byte) -1;
+    }
+
+    private OpenCensusConfig() {
+        this.memoizedIsInitialized = (byte) -1;
+        this.stackdriverProjectId_ = "";
+        this.stackdriverAddress_ = "";
+        this.zipkinUrl_ = "";
+        this.ocagentAddress_ = "";
+        this.incomingTraceContext_ = Collections.emptyList();
+        this.outgoingTraceContext_ = Collections.emptyList();
+    }
+
+    private OpenCensusConfig(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        this();
+        extensionRegistryLite.getClass();
+        UnknownFieldSet.Builder builderNewBuilder = UnknownFieldSet.newBuilder();
+        boolean z = false;
+        int i = 0;
+        while (!z) {
+            try {
+                try {
+                    int tag = codedInputStream.readTag();
+                    switch (tag) {
+                        case 0:
+                            z = true;
+                        case 10:
+                            TraceConfig traceConfig = this.traceConfig_;
+                            TraceConfig.Builder builderM38717toBuilder = traceConfig != null ? traceConfig.m38717toBuilder() : null;
+                            TraceConfig traceConfig2 = (TraceConfig) codedInputStream.readMessage(TraceConfig.parser(), extensionRegistryLite);
+                            this.traceConfig_ = traceConfig2;
+                            if (builderM38717toBuilder != null) {
+                                builderM38717toBuilder.mergeFrom(traceConfig2);
+                                this.traceConfig_ = builderM38717toBuilder.m38724buildPartial();
+                            }
+                        case 16:
+                            this.stdoutExporterEnabled_ = codedInputStream.readBool();
+                        case 24:
+                            this.stackdriverExporterEnabled_ = codedInputStream.readBool();
+                        case 34:
+                            this.stackdriverProjectId_ = codedInputStream.readStringRequireUtf8();
+                        case 40:
+                            this.zipkinExporterEnabled_ = codedInputStream.readBool();
+                        case 50:
+                            this.zipkinUrl_ = codedInputStream.readStringRequireUtf8();
+                        case 64:
+                            int i2 = codedInputStream.readEnum();
+                            if ((i & 1) == 0) {
+                                this.incomingTraceContext_ = new ArrayList();
+                                i |= 1;
+                            }
+                            this.incomingTraceContext_.add(Integer.valueOf(i2));
+                        case 66:
+                            int iPushLimit = codedInputStream.pushLimit(codedInputStream.readRawVarint32());
+                            while (codedInputStream.getBytesUntilLimit() > 0) {
+                                int i3 = codedInputStream.readEnum();
+                                if ((i & 1) == 0) {
+                                    this.incomingTraceContext_ = new ArrayList();
+                                    i |= 1;
+                                }
+                                this.incomingTraceContext_.add(Integer.valueOf(i3));
+                            }
+                            codedInputStream.popLimit(iPushLimit);
+                        case 72:
+                            int i4 = codedInputStream.readEnum();
+                            if ((i & 2) == 0) {
+                                this.outgoingTraceContext_ = new ArrayList();
+                                i |= 2;
+                            }
+                            this.outgoingTraceContext_.add(Integer.valueOf(i4));
+                        case 74:
+                            int iPushLimit2 = codedInputStream.pushLimit(codedInputStream.readRawVarint32());
+                            while (codedInputStream.getBytesUntilLimit() > 0) {
+                                int i5 = codedInputStream.readEnum();
+                                if ((i & 2) == 0) {
+                                    this.outgoingTraceContext_ = new ArrayList();
+                                    i |= 2;
+                                }
+                                this.outgoingTraceContext_.add(Integer.valueOf(i5));
+                            }
+                            codedInputStream.popLimit(iPushLimit2);
+                        case 82:
+                            this.stackdriverAddress_ = codedInputStream.readStringRequireUtf8();
+                        case BMP180_CALIBRATION_COEFFICIENTS_RESPONSE_VALUE:
+                            this.ocagentExporterEnabled_ = codedInputStream.readBool();
+                        case 98:
+                            this.ocagentAddress_ = codedInputStream.readStringRequireUtf8();
+                        case 106:
+                            GrpcService grpcService = this.stackdriverGrpcService_;
+                            GrpcService.Builder builderM14904toBuilder = grpcService != null ? grpcService.m14904toBuilder() : null;
+                            GrpcService grpcService2 = (GrpcService) codedInputStream.readMessage(GrpcService.parser(), extensionRegistryLite);
+                            this.stackdriverGrpcService_ = grpcService2;
+                            if (builderM14904toBuilder != null) {
+                                builderM14904toBuilder.mergeFrom(grpcService2);
+                                this.stackdriverGrpcService_ = builderM14904toBuilder.m14911buildPartial();
+                            }
+                        case 114:
+                            GrpcService grpcService3 = this.ocagentGrpcService_;
+                            GrpcService.Builder builderM14904toBuilder2 = grpcService3 != null ? grpcService3.m14904toBuilder() : null;
+                            GrpcService grpcService4 = (GrpcService) codedInputStream.readMessage(GrpcService.parser(), extensionRegistryLite);
+                            this.ocagentGrpcService_ = grpcService4;
+                            if (builderM14904toBuilder2 != null) {
+                                builderM14904toBuilder2.mergeFrom(grpcService4);
+                                this.ocagentGrpcService_ = builderM14904toBuilder2.m14911buildPartial();
+                            }
+                        default:
+                            if (!parseUnknownField(codedInputStream, builderNewBuilder, extensionRegistryLite, tag)) {
+                                z = true;
+                            }
+                    }
+                } catch (IOException e) {
+                    throw new InvalidProtocolBufferException(e).setUnfinishedMessage(this);
+                } catch (InvalidProtocolBufferException e2) {
+                    throw e2.setUnfinishedMessage(this);
+                }
+            } finally {
+                if ((i & 1) != 0) {
+                    this.incomingTraceContext_ = Collections.unmodifiableList(this.incomingTraceContext_);
+                }
+                if ((i & 2) != 0) {
+                    this.outgoingTraceContext_ = Collections.unmodifiableList(this.outgoingTraceContext_);
+                }
+                this.unknownFields = builderNewBuilder.build();
+                makeExtensionsImmutable();
+            }
+        }
+    }
+
+    public static OpenCensusConfig getDefaultInstance() {
+        return DEFAULT_INSTANCE;
+    }
+
+    public static Parser<OpenCensusConfig> parser() {
+        return PARSER;
+    }
+
+    public static final Descriptors.Descriptor getDescriptor() {
+        return OpencensusProto.internal_static_envoy_config_trace_v2_OpenCensusConfig_descriptor;
+    }
+
+    public static OpenCensusConfig parseFrom(ByteBuffer byteBuffer) throws InvalidProtocolBufferException {
+        return (OpenCensusConfig) PARSER.parseFrom(byteBuffer);
+    }
+
+    public static OpenCensusConfig parseFrom(ByteBuffer byteBuffer, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (OpenCensusConfig) PARSER.parseFrom(byteBuffer, extensionRegistryLite);
+    }
+
+    public static OpenCensusConfig parseFrom(ByteString byteString) throws InvalidProtocolBufferException {
+        return (OpenCensusConfig) PARSER.parseFrom(byteString);
+    }
+
+    public static OpenCensusConfig parseFrom(ByteString byteString, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (OpenCensusConfig) PARSER.parseFrom(byteString, extensionRegistryLite);
+    }
+
+    public static OpenCensusConfig parseFrom(byte[] bArr) throws InvalidProtocolBufferException {
+        return (OpenCensusConfig) PARSER.parseFrom(bArr);
+    }
+
+    public static OpenCensusConfig parseFrom(byte[] bArr, ExtensionRegistryLite extensionRegistryLite) throws InvalidProtocolBufferException {
+        return (OpenCensusConfig) PARSER.parseFrom(bArr, extensionRegistryLite);
+    }
+
+    public static OpenCensusConfig parseFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream);
+    }
+
+    public static OpenCensusConfig parseFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static OpenCensusConfig parseDelimitedFrom(InputStream inputStream) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream);
+    }
+
+    public static OpenCensusConfig parseDelimitedFrom(InputStream inputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseDelimitedWithIOException(PARSER, inputStream, extensionRegistryLite);
+    }
+
+    public static OpenCensusConfig parseFrom(CodedInputStream codedInputStream) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream);
+    }
+
+    public static OpenCensusConfig parseFrom(CodedInputStream codedInputStream, ExtensionRegistryLite extensionRegistryLite) throws IOException {
+        return GeneratedMessageV3.parseWithIOException(PARSER, codedInputStream, extensionRegistryLite);
+    }
+
+    public static Builder newBuilder() {
+        return DEFAULT_INSTANCE.m30213toBuilder();
+    }
+
+    public static Builder newBuilder(OpenCensusConfig openCensusConfig) {
+        return DEFAULT_INSTANCE.m30213toBuilder().mergeFrom(openCensusConfig);
+    }
+
+    /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public OpenCensusConfig m30208getDefaultInstanceForType() {
+        return DEFAULT_INSTANCE;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public List<Integer> getIncomingTraceContextValueList() {
+        return this.incomingTraceContext_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public boolean getOcagentExporterEnabled() {
+        return this.ocagentExporterEnabled_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public List<Integer> getOutgoingTraceContextValueList() {
+        return this.outgoingTraceContext_;
+    }
+
+    public Parser<OpenCensusConfig> getParserForType() {
+        return PARSER;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public boolean getStackdriverExporterEnabled() {
+        return this.stackdriverExporterEnabled_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public boolean getStdoutExporterEnabled() {
+        return this.stdoutExporterEnabled_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public boolean getZipkinExporterEnabled() {
+        return this.zipkinExporterEnabled_;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public boolean hasOcagentGrpcService() {
+        return this.ocagentGrpcService_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public boolean hasStackdriverGrpcService() {
+        return this.stackdriverGrpcService_ != null;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public boolean hasTraceConfig() {
+        return this.traceConfig_ != null;
+    }
+
+    public final boolean isInitialized() {
+        byte b = this.memoizedIsInitialized;
+        if (b == 1) {
+            return true;
+        }
+        if (b == 0) {
+            return false;
+        }
+        this.memoizedIsInitialized = (byte) 1;
+        return true;
+    }
+
+    protected Object newInstance(GeneratedMessageV3.UnusedPrivateParameter unusedPrivateParameter) {
+        return new OpenCensusConfig();
+    }
+
+    public final UnknownFieldSet getUnknownFields() {
+        return this.unknownFields;
+    }
+
+    protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+        return OpencensusProto.internal_static_envoy_config_trace_v2_OpenCensusConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(OpenCensusConfig.class, Builder.class);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public TraceConfig getTraceConfig() {
+        TraceConfig traceConfig = this.traceConfig_;
+        return traceConfig == null ? TraceConfig.getDefaultInstance() : traceConfig;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public TraceConfigOrBuilder getTraceConfigOrBuilder() {
+        return getTraceConfig();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public String getStackdriverProjectId() {
+        Object obj = this.stackdriverProjectId_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.stackdriverProjectId_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public ByteString getStackdriverProjectIdBytes() {
+        Object obj = this.stackdriverProjectId_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.stackdriverProjectId_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public String getStackdriverAddress() {
+        Object obj = this.stackdriverAddress_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.stackdriverAddress_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public ByteString getStackdriverAddressBytes() {
+        Object obj = this.stackdriverAddress_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.stackdriverAddress_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public GrpcService getStackdriverGrpcService() {
+        GrpcService grpcService = this.stackdriverGrpcService_;
+        return grpcService == null ? GrpcService.getDefaultInstance() : grpcService;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public GrpcServiceOrBuilder getStackdriverGrpcServiceOrBuilder() {
+        return getStackdriverGrpcService();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public String getZipkinUrl() {
+        Object obj = this.zipkinUrl_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.zipkinUrl_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public ByteString getZipkinUrlBytes() {
+        Object obj = this.zipkinUrl_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.zipkinUrl_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public String getOcagentAddress() {
+        Object obj = this.ocagentAddress_;
+        if (obj instanceof String) {
+            return (String) obj;
+        }
+        String stringUtf8 = ((ByteString) obj).toStringUtf8();
+        this.ocagentAddress_ = stringUtf8;
+        return stringUtf8;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public ByteString getOcagentAddressBytes() {
+        Object obj = this.ocagentAddress_;
+        if (obj instanceof String) {
+            ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+            this.ocagentAddress_ = byteStringCopyFromUtf8;
+            return byteStringCopyFromUtf8;
+        }
+        return (ByteString) obj;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public GrpcService getOcagentGrpcService() {
+        GrpcService grpcService = this.ocagentGrpcService_;
+        return grpcService == null ? GrpcService.getDefaultInstance() : grpcService;
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public GrpcServiceOrBuilder getOcagentGrpcServiceOrBuilder() {
+        return getOcagentGrpcService();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public List<TraceContext> getIncomingTraceContextList() {
+        return new Internal.ListAdapter(this.incomingTraceContext_, incomingTraceContext_converter_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public int getIncomingTraceContextCount() {
+        return this.incomingTraceContext_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public TraceContext getIncomingTraceContext(int i) {
+        return (TraceContext) incomingTraceContext_converter_.convert(this.incomingTraceContext_.get(i));
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public int getIncomingTraceContextValue(int i) {
+        return this.incomingTraceContext_.get(i).intValue();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public List<TraceContext> getOutgoingTraceContextList() {
+        return new Internal.ListAdapter(this.outgoingTraceContext_, outgoingTraceContext_converter_);
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public int getOutgoingTraceContextCount() {
+        return this.outgoingTraceContext_.size();
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public TraceContext getOutgoingTraceContext(int i) {
+        return (TraceContext) outgoingTraceContext_converter_.convert(this.outgoingTraceContext_.get(i));
+    }
+
+    @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+    public int getOutgoingTraceContextValue(int i) {
+        return this.outgoingTraceContext_.get(i).intValue();
+    }
+
+    public void writeTo(CodedOutputStream codedOutputStream) throws IOException {
+        getSerializedSize();
+        if (this.traceConfig_ != null) {
+            codedOutputStream.writeMessage(1, getTraceConfig());
+        }
+        boolean z = this.stdoutExporterEnabled_;
+        if (z) {
+            codedOutputStream.writeBool(2, z);
+        }
+        boolean z2 = this.stackdriverExporterEnabled_;
+        if (z2) {
+            codedOutputStream.writeBool(3, z2);
+        }
+        if (!getStackdriverProjectIdBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 4, this.stackdriverProjectId_);
+        }
+        boolean z3 = this.zipkinExporterEnabled_;
+        if (z3) {
+            codedOutputStream.writeBool(5, z3);
+        }
+        if (!getZipkinUrlBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 6, this.zipkinUrl_);
+        }
+        if (getIncomingTraceContextList().size() > 0) {
+            codedOutputStream.writeUInt32NoTag(66);
+            codedOutputStream.writeUInt32NoTag(this.incomingTraceContextMemoizedSerializedSize);
+        }
+        for (int i = 0; i < this.incomingTraceContext_.size(); i++) {
+            codedOutputStream.writeEnumNoTag(this.incomingTraceContext_.get(i).intValue());
+        }
+        if (getOutgoingTraceContextList().size() > 0) {
+            codedOutputStream.writeUInt32NoTag(74);
+            codedOutputStream.writeUInt32NoTag(this.outgoingTraceContextMemoizedSerializedSize);
+        }
+        for (int i2 = 0; i2 < this.outgoingTraceContext_.size(); i2++) {
+            codedOutputStream.writeEnumNoTag(this.outgoingTraceContext_.get(i2).intValue());
+        }
+        if (!getStackdriverAddressBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 10, this.stackdriverAddress_);
+        }
+        boolean z4 = this.ocagentExporterEnabled_;
+        if (z4) {
+            codedOutputStream.writeBool(11, z4);
+        }
+        if (!getOcagentAddressBytes().isEmpty()) {
+            GeneratedMessageV3.writeString(codedOutputStream, 12, this.ocagentAddress_);
+        }
+        if (this.stackdriverGrpcService_ != null) {
+            codedOutputStream.writeMessage(13, getStackdriverGrpcService());
+        }
+        if (this.ocagentGrpcService_ != null) {
+            codedOutputStream.writeMessage(14, getOcagentGrpcService());
+        }
+        this.unknownFields.writeTo(codedOutputStream);
+    }
+
+    public int getSerializedSize() {
+        int i = this.memoizedSize;
+        if (i != -1) {
+            return i;
+        }
+        int iComputeMessageSize = this.traceConfig_ != null ? CodedOutputStream.computeMessageSize(1, getTraceConfig()) : 0;
+        boolean z = this.stdoutExporterEnabled_;
+        if (z) {
+            iComputeMessageSize += CodedOutputStream.computeBoolSize(2, z);
+        }
+        boolean z2 = this.stackdriverExporterEnabled_;
+        if (z2) {
+            iComputeMessageSize += CodedOutputStream.computeBoolSize(3, z2);
+        }
+        if (!getStackdriverProjectIdBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(4, this.stackdriverProjectId_);
+        }
+        boolean z3 = this.zipkinExporterEnabled_;
+        if (z3) {
+            iComputeMessageSize += CodedOutputStream.computeBoolSize(5, z3);
+        }
+        if (!getZipkinUrlBytes().isEmpty()) {
+            iComputeMessageSize += GeneratedMessageV3.computeStringSize(6, this.zipkinUrl_);
+        }
+        int iComputeEnumSizeNoTag = 0;
+        for (int i2 = 0; i2 < this.incomingTraceContext_.size(); i2++) {
+            iComputeEnumSizeNoTag += CodedOutputStream.computeEnumSizeNoTag(this.incomingTraceContext_.get(i2).intValue());
+        }
+        int iComputeUInt32SizeNoTag = iComputeMessageSize + iComputeEnumSizeNoTag;
+        if (!getIncomingTraceContextList().isEmpty()) {
+            iComputeUInt32SizeNoTag = iComputeUInt32SizeNoTag + 1 + CodedOutputStream.computeUInt32SizeNoTag(iComputeEnumSizeNoTag);
+        }
+        this.incomingTraceContextMemoizedSerializedSize = iComputeEnumSizeNoTag;
+        int iComputeEnumSizeNoTag2 = 0;
+        for (int i3 = 0; i3 < this.outgoingTraceContext_.size(); i3++) {
+            iComputeEnumSizeNoTag2 += CodedOutputStream.computeEnumSizeNoTag(this.outgoingTraceContext_.get(i3).intValue());
+        }
+        int iComputeMessageSize2 = iComputeUInt32SizeNoTag + iComputeEnumSizeNoTag2;
+        if (!getOutgoingTraceContextList().isEmpty()) {
+            iComputeMessageSize2 = iComputeMessageSize2 + 1 + CodedOutputStream.computeUInt32SizeNoTag(iComputeEnumSizeNoTag2);
+        }
+        this.outgoingTraceContextMemoizedSerializedSize = iComputeEnumSizeNoTag2;
+        if (!getStackdriverAddressBytes().isEmpty()) {
+            iComputeMessageSize2 += GeneratedMessageV3.computeStringSize(10, this.stackdriverAddress_);
+        }
+        boolean z4 = this.ocagentExporterEnabled_;
+        if (z4) {
+            iComputeMessageSize2 += CodedOutputStream.computeBoolSize(11, z4);
+        }
+        if (!getOcagentAddressBytes().isEmpty()) {
+            iComputeMessageSize2 += GeneratedMessageV3.computeStringSize(12, this.ocagentAddress_);
+        }
+        if (this.stackdriverGrpcService_ != null) {
+            iComputeMessageSize2 += CodedOutputStream.computeMessageSize(13, getStackdriverGrpcService());
+        }
+        if (this.ocagentGrpcService_ != null) {
+            iComputeMessageSize2 += CodedOutputStream.computeMessageSize(14, getOcagentGrpcService());
+        }
+        int serializedSize = iComputeMessageSize2 + this.unknownFields.getSerializedSize();
+        this.memoizedSize = serializedSize;
+        return serializedSize;
+    }
+
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof OpenCensusConfig)) {
+            return super.equals(obj);
+        }
+        OpenCensusConfig openCensusConfig = (OpenCensusConfig) obj;
+        if (hasTraceConfig() != openCensusConfig.hasTraceConfig()) {
+            return false;
+        }
+        if ((hasTraceConfig() && !getTraceConfig().equals(openCensusConfig.getTraceConfig())) || getStdoutExporterEnabled() != openCensusConfig.getStdoutExporterEnabled() || getStackdriverExporterEnabled() != openCensusConfig.getStackdriverExporterEnabled() || !getStackdriverProjectId().equals(openCensusConfig.getStackdriverProjectId()) || !getStackdriverAddress().equals(openCensusConfig.getStackdriverAddress()) || hasStackdriverGrpcService() != openCensusConfig.hasStackdriverGrpcService()) {
+            return false;
+        }
+        if ((!hasStackdriverGrpcService() || getStackdriverGrpcService().equals(openCensusConfig.getStackdriverGrpcService())) && getZipkinExporterEnabled() == openCensusConfig.getZipkinExporterEnabled() && getZipkinUrl().equals(openCensusConfig.getZipkinUrl()) && getOcagentExporterEnabled() == openCensusConfig.getOcagentExporterEnabled() && getOcagentAddress().equals(openCensusConfig.getOcagentAddress()) && hasOcagentGrpcService() == openCensusConfig.hasOcagentGrpcService()) {
+            return (!hasOcagentGrpcService() || getOcagentGrpcService().equals(openCensusConfig.getOcagentGrpcService())) && this.incomingTraceContext_.equals(openCensusConfig.incomingTraceContext_) && this.outgoingTraceContext_.equals(openCensusConfig.outgoingTraceContext_) && this.unknownFields.equals(openCensusConfig.unknownFields);
+        }
+        return false;
+    }
+
+    public int hashCode() {
+        if (this.memoizedHashCode != 0) {
+            return this.memoizedHashCode;
+        }
+        int iHashCode = 779 + getDescriptor().hashCode();
+        if (hasTraceConfig()) {
+            iHashCode = (((iHashCode * 37) + 1) * 53) + getTraceConfig().hashCode();
+        }
+        int iHashBoolean = (((((((((((((((iHashCode * 37) + 2) * 53) + Internal.hashBoolean(getStdoutExporterEnabled())) * 37) + 3) * 53) + Internal.hashBoolean(getStackdriverExporterEnabled())) * 37) + 4) * 53) + getStackdriverProjectId().hashCode()) * 37) + 10) * 53) + getStackdriverAddress().hashCode();
+        if (hasStackdriverGrpcService()) {
+            iHashBoolean = (((iHashBoolean * 37) + 13) * 53) + getStackdriverGrpcService().hashCode();
+        }
+        int iHashBoolean2 = (((((((((((((((iHashBoolean * 37) + 5) * 53) + Internal.hashBoolean(getZipkinExporterEnabled())) * 37) + 6) * 53) + getZipkinUrl().hashCode()) * 37) + 11) * 53) + Internal.hashBoolean(getOcagentExporterEnabled())) * 37) + 12) * 53) + getOcagentAddress().hashCode();
+        if (hasOcagentGrpcService()) {
+            iHashBoolean2 = (((iHashBoolean2 * 37) + 14) * 53) + getOcagentGrpcService().hashCode();
+        }
+        if (getIncomingTraceContextCount() > 0) {
+            iHashBoolean2 = (((iHashBoolean2 * 37) + 8) * 53) + this.incomingTraceContext_.hashCode();
+        }
+        if (getOutgoingTraceContextCount() > 0) {
+            iHashBoolean2 = (((iHashBoolean2 * 37) + 9) * 53) + this.outgoingTraceContext_.hashCode();
+        }
+        int iHashCode2 = (iHashBoolean2 * 29) + this.unknownFields.hashCode();
+        this.memoizedHashCode = iHashCode2;
+        return iHashCode2;
+    }
+
+    /* renamed from: newBuilderForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m30210newBuilderForType() {
+        return newBuilder();
+    }
+
+    /* renamed from: toBuilder, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+    public Builder m30213toBuilder() {
+        return this == DEFAULT_INSTANCE ? new Builder() : new Builder().mergeFrom(this);
+    }
+
+    /* JADX INFO: Access modifiers changed from: protected */
+    public Builder newBuilderForType(GeneratedMessageV3.BuilderParent builderParent) {
+        return new Builder(builderParent);
+    }
+
+    public enum TraceContext implements ProtocolMessageEnum {
+        NONE(0),
+        TRACE_CONTEXT(1),
+        GRPC_TRACE_BIN(2),
+        CLOUD_TRACE_CONTEXT(3),
+        B3(4),
+        UNRECOGNIZED(-1);
+
+        public static final int B3_VALUE = 4;
+        public static final int CLOUD_TRACE_CONTEXT_VALUE = 3;
+        public static final int GRPC_TRACE_BIN_VALUE = 2;
+        public static final int NONE_VALUE = 0;
+        public static final int TRACE_CONTEXT_VALUE = 1;
+        private static final Internal.EnumLiteMap<TraceContext> internalValueMap = new Internal.EnumLiteMap<TraceContext>() { // from class: io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig.TraceContext.1
+            public TraceContext findValueByNumber(int i) {
+                return TraceContext.forNumber(i);
+            }
+        };
+        private static final TraceContext[] VALUES = values();
+        private final int value;
+
+        TraceContext(int i) {
+            this.value = i;
+        }
+
+        public static TraceContext forNumber(int i) {
+            if (i == 0) {
+                return NONE;
+            }
+            if (i == 1) {
+                return TRACE_CONTEXT;
+            }
+            if (i == 2) {
+                return GRPC_TRACE_BIN;
+            }
+            if (i == 3) {
+                return CLOUD_TRACE_CONTEXT;
+            }
+            if (i != 4) {
+                return null;
+            }
+            return B3;
+        }
+
+        public static Internal.EnumLiteMap<TraceContext> internalGetValueMap() {
+            return internalValueMap;
+        }
+
+        @Deprecated
+        public static TraceContext valueOf(int i) {
+            return forNumber(i);
+        }
+
+        public static final Descriptors.EnumDescriptor getDescriptor() {
+            return (Descriptors.EnumDescriptor) OpenCensusConfig.getDescriptor().getEnumTypes().get(0);
+        }
+
+        public static TraceContext valueOf(Descriptors.EnumValueDescriptor enumValueDescriptor) {
+            if (enumValueDescriptor.getType() == getDescriptor()) {
+                return enumValueDescriptor.getIndex() == -1 ? UNRECOGNIZED : VALUES[enumValueDescriptor.getIndex()];
+            }
+            throw new IllegalArgumentException("EnumValueDescriptor is not for this type.");
+        }
+
+        public final int getNumber() {
+            if (this != UNRECOGNIZED) {
+                return this.value;
+            }
+            throw new IllegalArgumentException("Can't get the number of an unknown enum value.");
+        }
+
+        public final Descriptors.EnumValueDescriptor getValueDescriptor() {
+            if (this == UNRECOGNIZED) {
+                throw new IllegalStateException("Can't get the descriptor of an unrecognized enum value.");
+            }
+            return (Descriptors.EnumValueDescriptor) getDescriptor().getValues().get(ordinal());
+        }
+
+        public final Descriptors.EnumDescriptor getDescriptorForType() {
+            return getDescriptor();
+        }
+    }
+
+    public static final class Builder extends GeneratedMessageV3.Builder<Builder> implements OpenCensusConfigOrBuilder {
+        private int bitField0_;
+        private List<Integer> incomingTraceContext_;
+        private Object ocagentAddress_;
+        private boolean ocagentExporterEnabled_;
+        private SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> ocagentGrpcServiceBuilder_;
+        private GrpcService ocagentGrpcService_;
+        private List<Integer> outgoingTraceContext_;
+        private Object stackdriverAddress_;
+        private boolean stackdriverExporterEnabled_;
+        private SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> stackdriverGrpcServiceBuilder_;
+        private GrpcService stackdriverGrpcService_;
+        private Object stackdriverProjectId_;
+        private boolean stdoutExporterEnabled_;
+        private SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> traceConfigBuilder_;
+        private TraceConfig traceConfig_;
+        private boolean zipkinExporterEnabled_;
+        private Object zipkinUrl_;
+
+        private Builder() {
+            this.stackdriverProjectId_ = "";
+            this.stackdriverAddress_ = "";
+            this.zipkinUrl_ = "";
+            this.ocagentAddress_ = "";
+            this.incomingTraceContext_ = Collections.emptyList();
+            this.outgoingTraceContext_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        private Builder(GeneratedMessageV3.BuilderParent builderParent) {
+            super(builderParent);
+            this.stackdriverProjectId_ = "";
+            this.stackdriverAddress_ = "";
+            this.zipkinUrl_ = "";
+            this.ocagentAddress_ = "";
+            this.incomingTraceContext_ = Collections.emptyList();
+            this.outgoingTraceContext_ = Collections.emptyList();
+            maybeForceBuilderInitialization();
+        }
+
+        public static final Descriptors.Descriptor getDescriptor() {
+            return OpencensusProto.internal_static_envoy_config_trace_v2_OpenCensusConfig_descriptor;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public boolean getOcagentExporterEnabled() {
+            return this.ocagentExporterEnabled_;
+        }
+
+        public Builder setOcagentExporterEnabled(boolean z) {
+            this.ocagentExporterEnabled_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public boolean getStackdriverExporterEnabled() {
+            return this.stackdriverExporterEnabled_;
+        }
+
+        public Builder setStackdriverExporterEnabled(boolean z) {
+            this.stackdriverExporterEnabled_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public boolean getStdoutExporterEnabled() {
+            return this.stdoutExporterEnabled_;
+        }
+
+        public Builder setStdoutExporterEnabled(boolean z) {
+            this.stdoutExporterEnabled_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public boolean getZipkinExporterEnabled() {
+            return this.zipkinExporterEnabled_;
+        }
+
+        public Builder setZipkinExporterEnabled(boolean z) {
+            this.zipkinExporterEnabled_ = z;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public boolean hasOcagentGrpcService() {
+            return (this.ocagentGrpcServiceBuilder_ == null && this.ocagentGrpcService_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public boolean hasStackdriverGrpcService() {
+            return (this.stackdriverGrpcServiceBuilder_ == null && this.stackdriverGrpcService_ == null) ? false : true;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public boolean hasTraceConfig() {
+            return (this.traceConfigBuilder_ == null && this.traceConfig_ == null) ? false : true;
+        }
+
+        public final boolean isInitialized() {
+            return true;
+        }
+
+        protected GeneratedMessageV3.FieldAccessorTable internalGetFieldAccessorTable() {
+            return OpencensusProto.internal_static_envoy_config_trace_v2_OpenCensusConfig_fieldAccessorTable.ensureFieldAccessorsInitialized(OpenCensusConfig.class, Builder.class);
+        }
+
+        private void maybeForceBuilderInitialization() {
+            boolean unused = OpenCensusConfig.alwaysUseFieldBuilders;
+        }
+
+        /* renamed from: clear, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m30224clear() {
+            super.clear();
+            if (this.traceConfigBuilder_ == null) {
+                this.traceConfig_ = null;
+            } else {
+                this.traceConfig_ = null;
+                this.traceConfigBuilder_ = null;
+            }
+            this.stdoutExporterEnabled_ = false;
+            this.stackdriverExporterEnabled_ = false;
+            this.stackdriverProjectId_ = "";
+            this.stackdriverAddress_ = "";
+            if (this.stackdriverGrpcServiceBuilder_ == null) {
+                this.stackdriverGrpcService_ = null;
+            } else {
+                this.stackdriverGrpcService_ = null;
+                this.stackdriverGrpcServiceBuilder_ = null;
+            }
+            this.zipkinExporterEnabled_ = false;
+            this.zipkinUrl_ = "";
+            this.ocagentExporterEnabled_ = false;
+            this.ocagentAddress_ = "";
+            if (this.ocagentGrpcServiceBuilder_ == null) {
+                this.ocagentGrpcService_ = null;
+            } else {
+                this.ocagentGrpcService_ = null;
+                this.ocagentGrpcServiceBuilder_ = null;
+            }
+            this.incomingTraceContext_ = Collections.emptyList();
+            this.bitField0_ &= -2;
+            this.outgoingTraceContext_ = Collections.emptyList();
+            this.bitField0_ &= -3;
+            return this;
+        }
+
+        public Descriptors.Descriptor getDescriptorForType() {
+            return OpencensusProto.internal_static_envoy_config_trace_v2_OpenCensusConfig_descriptor;
+        }
+
+        /* renamed from: getDefaultInstanceForType, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OpenCensusConfig m30237getDefaultInstanceForType() {
+            return OpenCensusConfig.getDefaultInstance();
+        }
+
+        /* JADX INFO: Thrown type has an unknown type hierarchy: com.google.protobuf.UninitializedMessageException */
+        /* renamed from: build, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OpenCensusConfig m30218build() throws UninitializedMessageException {
+            OpenCensusConfig openCensusConfigM30220buildPartial = m30220buildPartial();
+            if (openCensusConfigM30220buildPartial.isInitialized()) {
+                return openCensusConfigM30220buildPartial;
+            }
+            throw newUninitializedMessageException(openCensusConfigM30220buildPartial);
+        }
+
+        /* renamed from: buildPartial, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public OpenCensusConfig m30220buildPartial() {
+            OpenCensusConfig openCensusConfig = new OpenCensusConfig(this);
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.traceConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                openCensusConfig.traceConfig_ = this.traceConfig_;
+            } else {
+                openCensusConfig.traceConfig_ = singleFieldBuilderV3.build();
+            }
+            openCensusConfig.stdoutExporterEnabled_ = this.stdoutExporterEnabled_;
+            openCensusConfig.stackdriverExporterEnabled_ = this.stackdriverExporterEnabled_;
+            openCensusConfig.stackdriverProjectId_ = this.stackdriverProjectId_;
+            openCensusConfig.stackdriverAddress_ = this.stackdriverAddress_;
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV32 = this.stackdriverGrpcServiceBuilder_;
+            if (singleFieldBuilderV32 == null) {
+                openCensusConfig.stackdriverGrpcService_ = this.stackdriverGrpcService_;
+            } else {
+                openCensusConfig.stackdriverGrpcService_ = singleFieldBuilderV32.build();
+            }
+            openCensusConfig.zipkinExporterEnabled_ = this.zipkinExporterEnabled_;
+            openCensusConfig.zipkinUrl_ = this.zipkinUrl_;
+            openCensusConfig.ocagentExporterEnabled_ = this.ocagentExporterEnabled_;
+            openCensusConfig.ocagentAddress_ = this.ocagentAddress_;
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV33 = this.ocagentGrpcServiceBuilder_;
+            if (singleFieldBuilderV33 == null) {
+                openCensusConfig.ocagentGrpcService_ = this.ocagentGrpcService_;
+            } else {
+                openCensusConfig.ocagentGrpcService_ = singleFieldBuilderV33.build();
+            }
+            if ((this.bitField0_ & 1) != 0) {
+                this.incomingTraceContext_ = Collections.unmodifiableList(this.incomingTraceContext_);
+                this.bitField0_ &= -2;
+            }
+            openCensusConfig.incomingTraceContext_ = this.incomingTraceContext_;
+            if ((this.bitField0_ & 2) != 0) {
+                this.outgoingTraceContext_ = Collections.unmodifiableList(this.outgoingTraceContext_);
+                this.bitField0_ &= -3;
+            }
+            openCensusConfig.outgoingTraceContext_ = this.outgoingTraceContext_;
+            onBuilt();
+            return openCensusConfig;
+        }
+
+        /* renamed from: clone, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m30236clone() {
+            return (Builder) super.clone();
+        }
+
+        /* renamed from: setField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m30248setField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.setField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: clearField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m30226clearField(Descriptors.FieldDescriptor fieldDescriptor) {
+            return (Builder) super.clearField(fieldDescriptor);
+        }
+
+        /* renamed from: clearOneof, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m30229clearOneof(Descriptors.OneofDescriptor oneofDescriptor) {
+            return (Builder) super.clearOneof(oneofDescriptor);
+        }
+
+        /* renamed from: setRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m30250setRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, int i, Object obj) {
+            return (Builder) super.setRepeatedField(fieldDescriptor, i, obj);
+        }
+
+        /* renamed from: addRepeatedField, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m30216addRepeatedField(Descriptors.FieldDescriptor fieldDescriptor, Object obj) {
+            return (Builder) super.addRepeatedField(fieldDescriptor, obj);
+        }
+
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public Builder m30241mergeFrom(Message message) {
+            if (message instanceof OpenCensusConfig) {
+                return mergeFrom((OpenCensusConfig) message);
+            }
+            super.mergeFrom(message);
+            return this;
+        }
+
+        public Builder mergeFrom(OpenCensusConfig openCensusConfig) {
+            if (openCensusConfig == OpenCensusConfig.getDefaultInstance()) {
+                return this;
+            }
+            if (openCensusConfig.hasTraceConfig()) {
+                mergeTraceConfig(openCensusConfig.getTraceConfig());
+            }
+            if (openCensusConfig.getStdoutExporterEnabled()) {
+                setStdoutExporterEnabled(openCensusConfig.getStdoutExporterEnabled());
+            }
+            if (openCensusConfig.getStackdriverExporterEnabled()) {
+                setStackdriverExporterEnabled(openCensusConfig.getStackdriverExporterEnabled());
+            }
+            if (!openCensusConfig.getStackdriverProjectId().isEmpty()) {
+                this.stackdriverProjectId_ = openCensusConfig.stackdriverProjectId_;
+                onChanged();
+            }
+            if (!openCensusConfig.getStackdriverAddress().isEmpty()) {
+                this.stackdriverAddress_ = openCensusConfig.stackdriverAddress_;
+                onChanged();
+            }
+            if (openCensusConfig.hasStackdriverGrpcService()) {
+                mergeStackdriverGrpcService(openCensusConfig.getStackdriverGrpcService());
+            }
+            if (openCensusConfig.getZipkinExporterEnabled()) {
+                setZipkinExporterEnabled(openCensusConfig.getZipkinExporterEnabled());
+            }
+            if (!openCensusConfig.getZipkinUrl().isEmpty()) {
+                this.zipkinUrl_ = openCensusConfig.zipkinUrl_;
+                onChanged();
+            }
+            if (openCensusConfig.getOcagentExporterEnabled()) {
+                setOcagentExporterEnabled(openCensusConfig.getOcagentExporterEnabled());
+            }
+            if (!openCensusConfig.getOcagentAddress().isEmpty()) {
+                this.ocagentAddress_ = openCensusConfig.ocagentAddress_;
+                onChanged();
+            }
+            if (openCensusConfig.hasOcagentGrpcService()) {
+                mergeOcagentGrpcService(openCensusConfig.getOcagentGrpcService());
+            }
+            if (!openCensusConfig.incomingTraceContext_.isEmpty()) {
+                if (this.incomingTraceContext_.isEmpty()) {
+                    this.incomingTraceContext_ = openCensusConfig.incomingTraceContext_;
+                    this.bitField0_ &= -2;
+                } else {
+                    ensureIncomingTraceContextIsMutable();
+                    this.incomingTraceContext_.addAll(openCensusConfig.incomingTraceContext_);
+                }
+                onChanged();
+            }
+            if (!openCensusConfig.outgoingTraceContext_.isEmpty()) {
+                if (this.outgoingTraceContext_.isEmpty()) {
+                    this.outgoingTraceContext_ = openCensusConfig.outgoingTraceContext_;
+                    this.bitField0_ &= -3;
+                } else {
+                    ensureOutgoingTraceContextIsMutable();
+                    this.outgoingTraceContext_.addAll(openCensusConfig.outgoingTraceContext_);
+                }
+                onChanged();
+            }
+            m30246mergeUnknownFields(openCensusConfig.unknownFields);
+            onChanged();
+            return this;
+        }
+
+        /* JADX WARN: Removed duplicated region for block: B:16:0x0023  */
+        /* renamed from: mergeFrom, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        /*
+            Code decompiled incorrectly, please refer to instructions dump.
+            To view partially-correct add '--show-bad-code' argument
+        */
+        public io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig.Builder m30242mergeFrom(com.google.protobuf.CodedInputStream r3, com.google.protobuf.ExtensionRegistryLite r4) throws java.lang.Throwable {
+            /*
+                r2 = this;
+                r0 = 0
+                com.google.protobuf.Parser r1 = io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig.access$1800()     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                java.lang.Object r3 = r1.parsePartialFrom(r3, r4)     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig r3 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig) r3     // Catch: java.lang.Throwable -> L11 com.google.protobuf.InvalidProtocolBufferException -> L13
+                if (r3 == 0) goto L10
+                r2.mergeFrom(r3)
+            L10:
+                return r2
+            L11:
+                r3 = move-exception
+                goto L21
+            L13:
+                r3 = move-exception
+                com.google.protobuf.MessageLite r4 = r3.getUnfinishedMessage()     // Catch: java.lang.Throwable -> L11
+                io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig r4 = (io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig) r4     // Catch: java.lang.Throwable -> L11
+                java.io.IOException r3 = r3.unwrapIOException()     // Catch: java.lang.Throwable -> L1f
+                throw r3     // Catch: java.lang.Throwable -> L1f
+            L1f:
+                r3 = move-exception
+                r0 = r4
+            L21:
+                if (r0 == 0) goto L26
+                r2.mergeFrom(r0)
+            L26:
+                throw r3
+            */
+            throw new UnsupportedOperationException("Method not decompiled: io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig.Builder.m30242mergeFrom(com.google.protobuf.CodedInputStream, com.google.protobuf.ExtensionRegistryLite):io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfig$Builder");
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public TraceConfig getTraceConfig() {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.traceConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            TraceConfig traceConfig = this.traceConfig_;
+            return traceConfig == null ? TraceConfig.getDefaultInstance() : traceConfig;
+        }
+
+        public Builder setTraceConfig(TraceConfig traceConfig) {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.traceConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                traceConfig.getClass();
+                this.traceConfig_ = traceConfig;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(traceConfig);
+            }
+            return this;
+        }
+
+        public Builder setTraceConfig(TraceConfig.Builder builder) {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.traceConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.traceConfig_ = builder.m38722build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m38722build());
+            }
+            return this;
+        }
+
+        public Builder mergeTraceConfig(TraceConfig traceConfig) {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.traceConfigBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                TraceConfig traceConfig2 = this.traceConfig_;
+                if (traceConfig2 != null) {
+                    this.traceConfig_ = TraceConfig.newBuilder(traceConfig2).mergeFrom(traceConfig).m38724buildPartial();
+                } else {
+                    this.traceConfig_ = traceConfig;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(traceConfig);
+            }
+            return this;
+        }
+
+        public Builder clearTraceConfig() {
+            if (this.traceConfigBuilder_ == null) {
+                this.traceConfig_ = null;
+                onChanged();
+            } else {
+                this.traceConfig_ = null;
+                this.traceConfigBuilder_ = null;
+            }
+            return this;
+        }
+
+        public TraceConfig.Builder getTraceConfigBuilder() {
+            onChanged();
+            return getTraceConfigFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public TraceConfigOrBuilder getTraceConfigOrBuilder() {
+            SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> singleFieldBuilderV3 = this.traceConfigBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (TraceConfigOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            TraceConfig traceConfig = this.traceConfig_;
+            return traceConfig == null ? TraceConfig.getDefaultInstance() : traceConfig;
+        }
+
+        private SingleFieldBuilderV3<TraceConfig, TraceConfig.Builder, TraceConfigOrBuilder> getTraceConfigFieldBuilder() {
+            if (this.traceConfigBuilder_ == null) {
+                this.traceConfigBuilder_ = new SingleFieldBuilderV3<>(getTraceConfig(), getParentForChildren(), isClean());
+                this.traceConfig_ = null;
+            }
+            return this.traceConfigBuilder_;
+        }
+
+        public Builder clearStdoutExporterEnabled() {
+            this.stdoutExporterEnabled_ = false;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearStackdriverExporterEnabled() {
+            this.stackdriverExporterEnabled_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public String getStackdriverProjectId() {
+            Object obj = this.stackdriverProjectId_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.stackdriverProjectId_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setStackdriverProjectId(String str) {
+            str.getClass();
+            this.stackdriverProjectId_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public ByteString getStackdriverProjectIdBytes() {
+            Object obj = this.stackdriverProjectId_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.stackdriverProjectId_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setStackdriverProjectIdBytes(ByteString byteString) {
+            byteString.getClass();
+            OpenCensusConfig.checkByteStringIsUtf8(byteString);
+            this.stackdriverProjectId_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearStackdriverProjectId() {
+            this.stackdriverProjectId_ = OpenCensusConfig.getDefaultInstance().getStackdriverProjectId();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public String getStackdriverAddress() {
+            Object obj = this.stackdriverAddress_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.stackdriverAddress_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setStackdriverAddress(String str) {
+            str.getClass();
+            this.stackdriverAddress_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public ByteString getStackdriverAddressBytes() {
+            Object obj = this.stackdriverAddress_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.stackdriverAddress_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setStackdriverAddressBytes(ByteString byteString) {
+            byteString.getClass();
+            OpenCensusConfig.checkByteStringIsUtf8(byteString);
+            this.stackdriverAddress_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearStackdriverAddress() {
+            this.stackdriverAddress_ = OpenCensusConfig.getDefaultInstance().getStackdriverAddress();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public GrpcService getStackdriverGrpcService() {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.stackdriverGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            GrpcService grpcService = this.stackdriverGrpcService_;
+            return grpcService == null ? GrpcService.getDefaultInstance() : grpcService;
+        }
+
+        public Builder setStackdriverGrpcService(GrpcService grpcService) {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.stackdriverGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                grpcService.getClass();
+                this.stackdriverGrpcService_ = grpcService;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(grpcService);
+            }
+            return this;
+        }
+
+        public Builder setStackdriverGrpcService(GrpcService.Builder builder) {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.stackdriverGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.stackdriverGrpcService_ = builder.m14909build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m14909build());
+            }
+            return this;
+        }
+
+        public Builder mergeStackdriverGrpcService(GrpcService grpcService) {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.stackdriverGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                GrpcService grpcService2 = this.stackdriverGrpcService_;
+                if (grpcService2 != null) {
+                    this.stackdriverGrpcService_ = GrpcService.newBuilder(grpcService2).mergeFrom(grpcService).m14911buildPartial();
+                } else {
+                    this.stackdriverGrpcService_ = grpcService;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(grpcService);
+            }
+            return this;
+        }
+
+        public Builder clearStackdriverGrpcService() {
+            if (this.stackdriverGrpcServiceBuilder_ == null) {
+                this.stackdriverGrpcService_ = null;
+                onChanged();
+            } else {
+                this.stackdriverGrpcService_ = null;
+                this.stackdriverGrpcServiceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public GrpcService.Builder getStackdriverGrpcServiceBuilder() {
+            onChanged();
+            return getStackdriverGrpcServiceFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public GrpcServiceOrBuilder getStackdriverGrpcServiceOrBuilder() {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.stackdriverGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (GrpcServiceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            GrpcService grpcService = this.stackdriverGrpcService_;
+            return grpcService == null ? GrpcService.getDefaultInstance() : grpcService;
+        }
+
+        private SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> getStackdriverGrpcServiceFieldBuilder() {
+            if (this.stackdriverGrpcServiceBuilder_ == null) {
+                this.stackdriverGrpcServiceBuilder_ = new SingleFieldBuilderV3<>(getStackdriverGrpcService(), getParentForChildren(), isClean());
+                this.stackdriverGrpcService_ = null;
+            }
+            return this.stackdriverGrpcServiceBuilder_;
+        }
+
+        public Builder clearZipkinExporterEnabled() {
+            this.zipkinExporterEnabled_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public String getZipkinUrl() {
+            Object obj = this.zipkinUrl_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.zipkinUrl_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setZipkinUrl(String str) {
+            str.getClass();
+            this.zipkinUrl_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public ByteString getZipkinUrlBytes() {
+            Object obj = this.zipkinUrl_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.zipkinUrl_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setZipkinUrlBytes(ByteString byteString) {
+            byteString.getClass();
+            OpenCensusConfig.checkByteStringIsUtf8(byteString);
+            this.zipkinUrl_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearZipkinUrl() {
+            this.zipkinUrl_ = OpenCensusConfig.getDefaultInstance().getZipkinUrl();
+            onChanged();
+            return this;
+        }
+
+        public Builder clearOcagentExporterEnabled() {
+            this.ocagentExporterEnabled_ = false;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public String getOcagentAddress() {
+            Object obj = this.ocagentAddress_;
+            if (!(obj instanceof String)) {
+                String stringUtf8 = ((ByteString) obj).toStringUtf8();
+                this.ocagentAddress_ = stringUtf8;
+                return stringUtf8;
+            }
+            return (String) obj;
+        }
+
+        public Builder setOcagentAddress(String str) {
+            str.getClass();
+            this.ocagentAddress_ = str;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public ByteString getOcagentAddressBytes() {
+            Object obj = this.ocagentAddress_;
+            if (obj instanceof String) {
+                ByteString byteStringCopyFromUtf8 = ByteString.copyFromUtf8((String) obj);
+                this.ocagentAddress_ = byteStringCopyFromUtf8;
+                return byteStringCopyFromUtf8;
+            }
+            return (ByteString) obj;
+        }
+
+        public Builder setOcagentAddressBytes(ByteString byteString) {
+            byteString.getClass();
+            OpenCensusConfig.checkByteStringIsUtf8(byteString);
+            this.ocagentAddress_ = byteString;
+            onChanged();
+            return this;
+        }
+
+        public Builder clearOcagentAddress() {
+            this.ocagentAddress_ = OpenCensusConfig.getDefaultInstance().getOcagentAddress();
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public GrpcService getOcagentGrpcService() {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.ocagentGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return singleFieldBuilderV3.getMessage();
+            }
+            GrpcService grpcService = this.ocagentGrpcService_;
+            return grpcService == null ? GrpcService.getDefaultInstance() : grpcService;
+        }
+
+        public Builder setOcagentGrpcService(GrpcService grpcService) {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.ocagentGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                grpcService.getClass();
+                this.ocagentGrpcService_ = grpcService;
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(grpcService);
+            }
+            return this;
+        }
+
+        public Builder setOcagentGrpcService(GrpcService.Builder builder) {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.ocagentGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                this.ocagentGrpcService_ = builder.m14909build();
+                onChanged();
+            } else {
+                singleFieldBuilderV3.setMessage(builder.m14909build());
+            }
+            return this;
+        }
+
+        public Builder mergeOcagentGrpcService(GrpcService grpcService) {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.ocagentGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 == null) {
+                GrpcService grpcService2 = this.ocagentGrpcService_;
+                if (grpcService2 != null) {
+                    this.ocagentGrpcService_ = GrpcService.newBuilder(grpcService2).mergeFrom(grpcService).m14911buildPartial();
+                } else {
+                    this.ocagentGrpcService_ = grpcService;
+                }
+                onChanged();
+            } else {
+                singleFieldBuilderV3.mergeFrom(grpcService);
+            }
+            return this;
+        }
+
+        public Builder clearOcagentGrpcService() {
+            if (this.ocagentGrpcServiceBuilder_ == null) {
+                this.ocagentGrpcService_ = null;
+                onChanged();
+            } else {
+                this.ocagentGrpcService_ = null;
+                this.ocagentGrpcServiceBuilder_ = null;
+            }
+            return this;
+        }
+
+        public GrpcService.Builder getOcagentGrpcServiceBuilder() {
+            onChanged();
+            return getOcagentGrpcServiceFieldBuilder().getBuilder();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public GrpcServiceOrBuilder getOcagentGrpcServiceOrBuilder() {
+            SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> singleFieldBuilderV3 = this.ocagentGrpcServiceBuilder_;
+            if (singleFieldBuilderV3 != null) {
+                return (GrpcServiceOrBuilder) singleFieldBuilderV3.getMessageOrBuilder();
+            }
+            GrpcService grpcService = this.ocagentGrpcService_;
+            return grpcService == null ? GrpcService.getDefaultInstance() : grpcService;
+        }
+
+        private SingleFieldBuilderV3<GrpcService, GrpcService.Builder, GrpcServiceOrBuilder> getOcagentGrpcServiceFieldBuilder() {
+            if (this.ocagentGrpcServiceBuilder_ == null) {
+                this.ocagentGrpcServiceBuilder_ = new SingleFieldBuilderV3<>(getOcagentGrpcService(), getParentForChildren(), isClean());
+                this.ocagentGrpcService_ = null;
+            }
+            return this.ocagentGrpcServiceBuilder_;
+        }
+
+        private void ensureIncomingTraceContextIsMutable() {
+            if ((this.bitField0_ & 1) == 0) {
+                this.incomingTraceContext_ = new ArrayList(this.incomingTraceContext_);
+                this.bitField0_ |= 1;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public List<TraceContext> getIncomingTraceContextList() {
+            return new Internal.ListAdapter(this.incomingTraceContext_, OpenCensusConfig.incomingTraceContext_converter_);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public int getIncomingTraceContextCount() {
+            return this.incomingTraceContext_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public TraceContext getIncomingTraceContext(int i) {
+            return (TraceContext) OpenCensusConfig.incomingTraceContext_converter_.convert(this.incomingTraceContext_.get(i));
+        }
+
+        public Builder setIncomingTraceContext(int i, TraceContext traceContext) {
+            traceContext.getClass();
+            ensureIncomingTraceContextIsMutable();
+            this.incomingTraceContext_.set(i, Integer.valueOf(traceContext.getNumber()));
+            onChanged();
+            return this;
+        }
+
+        public Builder addIncomingTraceContext(TraceContext traceContext) {
+            traceContext.getClass();
+            ensureIncomingTraceContextIsMutable();
+            this.incomingTraceContext_.add(Integer.valueOf(traceContext.getNumber()));
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllIncomingTraceContext(Iterable<? extends TraceContext> iterable) {
+            ensureIncomingTraceContextIsMutable();
+            Iterator<? extends TraceContext> it2 = iterable.iterator();
+            while (it2.hasNext()) {
+                this.incomingTraceContext_.add(Integer.valueOf(it2.next().getNumber()));
+            }
+            onChanged();
+            return this;
+        }
+
+        public Builder clearIncomingTraceContext() {
+            this.incomingTraceContext_ = Collections.emptyList();
+            this.bitField0_ &= -2;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public List<Integer> getIncomingTraceContextValueList() {
+            return Collections.unmodifiableList(this.incomingTraceContext_);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public int getIncomingTraceContextValue(int i) {
+            return this.incomingTraceContext_.get(i).intValue();
+        }
+
+        public Builder setIncomingTraceContextValue(int i, int i2) {
+            ensureIncomingTraceContextIsMutable();
+            this.incomingTraceContext_.set(i, Integer.valueOf(i2));
+            onChanged();
+            return this;
+        }
+
+        public Builder addIncomingTraceContextValue(int i) {
+            ensureIncomingTraceContextIsMutable();
+            this.incomingTraceContext_.add(Integer.valueOf(i));
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllIncomingTraceContextValue(Iterable<Integer> iterable) {
+            ensureIncomingTraceContextIsMutable();
+            Iterator<Integer> it2 = iterable.iterator();
+            while (it2.hasNext()) {
+                this.incomingTraceContext_.add(Integer.valueOf(it2.next().intValue()));
+            }
+            onChanged();
+            return this;
+        }
+
+        private void ensureOutgoingTraceContextIsMutable() {
+            if ((this.bitField0_ & 2) == 0) {
+                this.outgoingTraceContext_ = new ArrayList(this.outgoingTraceContext_);
+                this.bitField0_ |= 2;
+            }
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public List<TraceContext> getOutgoingTraceContextList() {
+            return new Internal.ListAdapter(this.outgoingTraceContext_, OpenCensusConfig.outgoingTraceContext_converter_);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public int getOutgoingTraceContextCount() {
+            return this.outgoingTraceContext_.size();
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public TraceContext getOutgoingTraceContext(int i) {
+            return (TraceContext) OpenCensusConfig.outgoingTraceContext_converter_.convert(this.outgoingTraceContext_.get(i));
+        }
+
+        public Builder setOutgoingTraceContext(int i, TraceContext traceContext) {
+            traceContext.getClass();
+            ensureOutgoingTraceContextIsMutable();
+            this.outgoingTraceContext_.set(i, Integer.valueOf(traceContext.getNumber()));
+            onChanged();
+            return this;
+        }
+
+        public Builder addOutgoingTraceContext(TraceContext traceContext) {
+            traceContext.getClass();
+            ensureOutgoingTraceContextIsMutable();
+            this.outgoingTraceContext_.add(Integer.valueOf(traceContext.getNumber()));
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllOutgoingTraceContext(Iterable<? extends TraceContext> iterable) {
+            ensureOutgoingTraceContextIsMutable();
+            Iterator<? extends TraceContext> it2 = iterable.iterator();
+            while (it2.hasNext()) {
+                this.outgoingTraceContext_.add(Integer.valueOf(it2.next().getNumber()));
+            }
+            onChanged();
+            return this;
+        }
+
+        public Builder clearOutgoingTraceContext() {
+            this.outgoingTraceContext_ = Collections.emptyList();
+            this.bitField0_ &= -3;
+            onChanged();
+            return this;
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public List<Integer> getOutgoingTraceContextValueList() {
+            return Collections.unmodifiableList(this.outgoingTraceContext_);
+        }
+
+        @Override // io.grpc.xds.shaded.io.envoyproxy.envoy.config.trace.v2.OpenCensusConfigOrBuilder
+        public int getOutgoingTraceContextValue(int i) {
+            return this.outgoingTraceContext_.get(i).intValue();
+        }
+
+        public Builder setOutgoingTraceContextValue(int i, int i2) {
+            ensureOutgoingTraceContextIsMutable();
+            this.outgoingTraceContext_.set(i, Integer.valueOf(i2));
+            onChanged();
+            return this;
+        }
+
+        public Builder addOutgoingTraceContextValue(int i) {
+            ensureOutgoingTraceContextIsMutable();
+            this.outgoingTraceContext_.add(Integer.valueOf(i));
+            onChanged();
+            return this;
+        }
+
+        public Builder addAllOutgoingTraceContextValue(Iterable<Integer> iterable) {
+            ensureOutgoingTraceContextIsMutable();
+            Iterator<Integer> it2 = iterable.iterator();
+            while (it2.hasNext()) {
+                this.outgoingTraceContext_.add(Integer.valueOf(it2.next().intValue()));
+            }
+            onChanged();
+            return this;
+        }
+
+        /* renamed from: setUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m30252setUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.setUnknownFields(unknownFieldSet);
+        }
+
+        /* renamed from: mergeUnknownFields, reason: collision with other method in class and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] and merged with bridge method [inline-methods] */
+        public final Builder m30246mergeUnknownFields(UnknownFieldSet unknownFieldSet) {
+            return (Builder) super.mergeUnknownFields(unknownFieldSet);
+        }
+    }
+}

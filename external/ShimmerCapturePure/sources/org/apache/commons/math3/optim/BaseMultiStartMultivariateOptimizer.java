@@ -1,0 +1,116 @@
+package org.apache.commons.math3.optim;
+
+import org.apache.commons.math3.exception.MathIllegalStateException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.TooManyEvaluationsException;
+import org.apache.commons.math3.random.RandomVectorGenerator;
+
+/* loaded from: classes5.dex */
+public abstract class BaseMultiStartMultivariateOptimizer<PAIR> extends BaseMultivariateOptimizer<PAIR> {
+    private final BaseMultivariateOptimizer<PAIR> optimizer;
+    private RandomVectorGenerator generator;
+    private int initialGuessIndex;
+    private int maxEvalIndex;
+    private OptimizationData[] optimData;
+    private int starts;
+    private int totalEvaluations;
+
+    public BaseMultiStartMultivariateOptimizer(BaseMultivariateOptimizer<PAIR> baseMultivariateOptimizer, int i, RandomVectorGenerator randomVectorGenerator) {
+        super(baseMultivariateOptimizer.getConvergenceChecker());
+        this.maxEvalIndex = -1;
+        this.initialGuessIndex = -1;
+        if (i < 1) {
+            throw new NotStrictlyPositiveException(Integer.valueOf(i));
+        }
+        this.optimizer = baseMultivariateOptimizer;
+        this.starts = i;
+        this.generator = randomVectorGenerator;
+    }
+
+    protected abstract void clear();
+
+    @Override // org.apache.commons.math3.optim.BaseOptimizer
+    public int getEvaluations() {
+        return this.totalEvaluations;
+    }
+
+    public abstract PAIR[] getOptima();
+
+    protected abstract void store(PAIR pair);
+
+    @Override // org.apache.commons.math3.optim.BaseMultivariateOptimizer, org.apache.commons.math3.optim.BaseOptimizer
+    public PAIR optimize(OptimizationData... optimizationDataArr) {
+        this.optimData = optimizationDataArr;
+        return (PAIR) super.optimize(optimizationDataArr);
+    }
+
+    @Override // org.apache.commons.math3.optim.BaseOptimizer
+    protected PAIR doOptimize() {
+        double[] dArr;
+        int i = 0;
+        while (true) {
+            OptimizationData[] optimizationDataArr = this.optimData;
+            if (i >= optimizationDataArr.length) {
+                break;
+            }
+            if (optimizationDataArr[i] instanceof MaxEval) {
+                optimizationDataArr[i] = null;
+                this.maxEvalIndex = i;
+            }
+            if (optimizationDataArr[i] instanceof InitialGuess) {
+                optimizationDataArr[i] = null;
+                this.initialGuessIndex = i;
+            }
+            i++;
+        }
+        if (this.maxEvalIndex == -1) {
+            throw new MathIllegalStateException();
+        }
+        if (this.initialGuessIndex == -1) {
+            throw new MathIllegalStateException();
+        }
+        this.totalEvaluations = 0;
+        clear();
+        int maxEvaluations = getMaxEvaluations();
+        double[] lowerBound = getLowerBound();
+        double[] upperBound = getUpperBound();
+        double[] startPoint = getStartPoint();
+        RuntimeException e = null;
+        for (int i2 = 0; i2 < this.starts; i2++) {
+            try {
+                this.optimData[this.maxEvalIndex] = new MaxEval(maxEvaluations - this.totalEvaluations);
+                if (i2 == 0) {
+                    dArr = startPoint;
+                } else {
+                    dArr = null;
+                    int i3 = 0;
+                    while (dArr == null) {
+                        int i4 = i3 + 1;
+                        if (i3 >= getMaxEvaluations()) {
+                            throw new TooManyEvaluationsException(Integer.valueOf(getMaxEvaluations()));
+                        }
+                        double[] dArrNextVector = this.generator.nextVector();
+                        for (int i5 = 0; dArrNextVector != null && i5 < dArrNextVector.length; i5++) {
+                            if ((lowerBound != null && dArrNextVector[i5] < lowerBound[i5]) || (upperBound != null && dArrNextVector[i5] > upperBound[i5])) {
+                                dArrNextVector = null;
+                            }
+                        }
+                        double[] dArr2 = dArrNextVector;
+                        i3 = i4;
+                        dArr = dArr2;
+                    }
+                }
+                this.optimData[this.initialGuessIndex] = new InitialGuess(dArr);
+                store(this.optimizer.optimize(this.optimData));
+            } catch (RuntimeException e2) {
+                e = e2;
+            }
+            this.totalEvaluations += this.optimizer.getEvaluations();
+        }
+        PAIR[] optima = getOptima();
+        if (optima.length == 0) {
+            throw e;
+        }
+        return optima[0];
+    }
+}

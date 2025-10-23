@@ -1,0 +1,17 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/androidx/core/content/res/ConfigurationHelper.java
+// Size: 326 bytes
+// Modified: 2025-10-21 16:31:59.980809000 +0100
+
+package androidx.core.content.res;
+
+import android.content.res.Resources;
+
+/* loaded from: classes.dex */
+public final class ConfigurationHelper {
+    private ConfigurationHelper() {
+    }
+
+    public static int getDensityDpi(Resources resources) {
+        return resources.getConfiguration().densityDpi;
+    }
+}

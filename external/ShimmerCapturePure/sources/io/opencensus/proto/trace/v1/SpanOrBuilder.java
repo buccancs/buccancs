@@ -1,0 +1,98 @@
+package io.opencensus.proto.trace.v1;
+
+import com.google.protobuf.BoolValue;
+import com.google.protobuf.BoolValueOrBuilder;
+import com.google.protobuf.ByteString;
+import com.google.protobuf.MessageOrBuilder;
+import com.google.protobuf.Timestamp;
+import com.google.protobuf.TimestampOrBuilder;
+import com.google.protobuf.UInt32Value;
+import com.google.protobuf.UInt32ValueOrBuilder;
+import io.opencensus.proto.resource.v1.Resource;
+import io.opencensus.proto.resource.v1.ResourceOrBuilder;
+import io.opencensus.proto.trace.v1.Span;
+
+/* loaded from: classes4.dex */
+public interface SpanOrBuilder extends MessageOrBuilder {
+    Span.Attributes getAttributes();
+
+    Span.AttributesOrBuilder getAttributesOrBuilder();
+
+    UInt32Value getChildSpanCount();
+
+    UInt32ValueOrBuilder getChildSpanCountOrBuilder();
+
+    Timestamp getEndTime();
+
+    TimestampOrBuilder getEndTimeOrBuilder();
+
+    Span.SpanKind getKind();
+
+    int getKindValue();
+
+    Span.Links getLinks();
+
+    Span.LinksOrBuilder getLinksOrBuilder();
+
+    TruncatableString getName();
+
+    TruncatableStringOrBuilder getNameOrBuilder();
+
+    ByteString getParentSpanId();
+
+    Resource getResource();
+
+    ResourceOrBuilder getResourceOrBuilder();
+
+    BoolValue getSameProcessAsParentSpan();
+
+    BoolValueOrBuilder getSameProcessAsParentSpanOrBuilder();
+
+    ByteString getSpanId();
+
+    StackTrace getStackTrace();
+
+    StackTraceOrBuilder getStackTraceOrBuilder();
+
+    Timestamp getStartTime();
+
+    TimestampOrBuilder getStartTimeOrBuilder();
+
+    Status getStatus();
+
+    StatusOrBuilder getStatusOrBuilder();
+
+    Span.TimeEvents getTimeEvents();
+
+    Span.TimeEventsOrBuilder getTimeEventsOrBuilder();
+
+    ByteString getTraceId();
+
+    Span.Tracestate getTracestate();
+
+    Span.TracestateOrBuilder getTracestateOrBuilder();
+
+    boolean hasAttributes();
+
+    boolean hasChildSpanCount();
+
+    boolean hasEndTime();
+
+    boolean hasLinks();
+
+    boolean hasName();
+
+    boolean hasResource();
+
+    boolean hasSameProcessAsParentSpan();
+
+    boolean hasStackTrace();
+
+    boolean hasStartTime();
+
+    boolean hasStatus();
+
+    boolean hasTimeEvents();
+
+    boolean hasTracestate();
+}

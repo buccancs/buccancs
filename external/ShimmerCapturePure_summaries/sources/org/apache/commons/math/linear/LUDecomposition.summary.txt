@@ -1,0 +1,23 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math/linear/LUDecomposition.java
+// Size: 457 bytes
+// Modified: 2025-10-21 16:32:04.501122700 +0100
+
+package org.apache.commons.math.linear;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/linear/LUDecomposition.class */
+public interface LUDecomposition {
+    RealMatrix getL();
+
+    RealMatrix getU();
+
+    RealMatrix getP();
+
+    int[] getPivot();
+
+    double getDeterminant();
+
+    DecompositionSolver getSolver();
+}

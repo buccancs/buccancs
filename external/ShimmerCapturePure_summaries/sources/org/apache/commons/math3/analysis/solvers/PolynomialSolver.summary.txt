@@ -1,0 +1,11 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/commons/math3/analysis/solvers/PolynomialSolver.java
+// Size: 252 bytes
+// Modified: 2025-10-21 16:32:05.592519900 +0100
+
+package org.apache.commons.math3.analysis.solvers;
+
+import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
+
+/* loaded from: classes5.dex */
+public interface PolynomialSolver extends BaseUnivariateSolver<PolynomialFunction> {
+}

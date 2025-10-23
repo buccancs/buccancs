@@ -1,0 +1,160 @@
+package org.apache.commons.math.analysis.polynomials;
+
+import org.apache.commons.math.DuplicateSampleAbscissaException;
+import org.apache.commons.math.FunctionEvaluationException;
+import org.apache.commons.math.MathRuntimeException;
+import org.apache.commons.math.analysis.UnivariateRealFunction;
+import org.apache.commons.math.exception.util.LocalizedFormats;
+import org.apache.commons.math.util.FastMath;
+
+/* JADX WARN: Classes with same name are omitted:
+  classes5.dex
+ */
+/* loaded from: ShimmerCapture_1.3.1_APKPure.apk:libs/commons-math-2.2.jar:org/apache/commons/math/analysis/polynomials/PolynomialFunctionLagrangeForm.class */
+public class PolynomialFunctionLagrangeForm implements UnivariateRealFunction {
+    private final double[] x;
+    private final double[] y;
+    private double[] coefficients;
+    private boolean coefficientsComputed;
+
+    public PolynomialFunctionLagrangeForm(double[] x, double[] y) throws IllegalArgumentException {
+        verifyInterpolationArray(x, y);
+        this.x = new double[x.length];
+        this.y = new double[y.length];
+        System.arraycopy(x, 0, this.x, 0, x.length);
+        System.arraycopy(y, 0, this.y, 0, y.length);
+        this.coefficientsComputed = false;
+    }
+
+    public static double evaluate(double[] x, double[] y, double z) throws DuplicateSampleAbscissaException, IllegalArgumentException {
+        double d;
+        double d2;
+        verifyInterpolationArray(x, y);
+        int nearest = 0;
+        int n = x.length;
+        double[] c = new double[n];
+        double[] d3 = new double[n];
+        double min_dist = Double.POSITIVE_INFINITY;
+        for (int i = 0; i < n; i++) {
+            c[i] = y[i];
+            d3[i] = y[i];
+            double dist = FastMath.abs(z - x[i]);
+            if (dist < min_dist) {
+                nearest = i;
+                min_dist = dist;
+            }
+        }
+        double value = y[nearest];
+        for (int i2 = 1; i2 < n; i2++) {
+            for (int j = 0; j < n - i2; j++) {
+                double tc = x[j] - z;
+                double td = x[i2 + j] - z;
+                double divider = x[j] - x[i2 + j];
+                if (divider == 0.0d) {
+                    throw new DuplicateSampleAbscissaException(x[i2], i2, i2 + j);
+                }
+                double w = (c[j + 1] - d3[j]) / divider;
+                c[j] = tc * w;
+                d3[j] = td * w;
+            }
+            if (nearest < 0.5d * ((n - i2) + 1)) {
+                d = value;
+                d2 = c[nearest];
+            } else {
+                nearest--;
+                d = value;
+                d2 = d3[nearest];
+            }
+            value = d + d2;
+        }
+        return value;
+    }
+
+    public static void verifyInterpolationArray(double[] x, double[] y) throws IllegalArgumentException {
+        if (x.length != y.length) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.DIMENSIONS_MISMATCH_SIMPLE, Integer.valueOf(x.length), Integer.valueOf(y.length));
+        }
+        if (x.length < 2) {
+            throw MathRuntimeException.createIllegalArgumentException(LocalizedFormats.WRONG_NUMBER_OF_POINTS, 2, Integer.valueOf(x.length));
+        }
+    }
+
+    @Override // org.apache.commons.math.analysis.UnivariateRealFunction
+    public double value(double z) throws FunctionEvaluationException {
+        try {
+            return evaluate(this.x, this.y, z);
+        } catch (DuplicateSampleAbscissaException e) {
+            throw new FunctionEvaluationException(z, e.getSpecificPattern(), e.getGeneralPattern(), e.getArguments());
+        }
+    }
+
+    public int degree() {
+        return this.x.length - 1;
+    }
+
+    public double[] getInterpolatingPoints() {
+        double[] out = new double[this.x.length];
+        System.arraycopy(this.x, 0, out, 0, this.x.length);
+        return out;
+    }
+
+    public double[] getInterpolatingValues() {
+        double[] out = new double[this.y.length];
+        System.arraycopy(this.y, 0, out, 0, this.y.length);
+        return out;
+    }
+
+    public double[] getCoefficients() throws ArithmeticException {
+        if (!this.coefficientsComputed) {
+            computeCoefficients();
+        }
+        double[] out = new double[this.coefficients.length];
+        System.arraycopy(this.coefficients, 0, out, 0, this.coefficients.length);
+        return out;
+    }
+
+    protected void computeCoefficients() throws ArithmeticException {
+        int n = degree() + 1;
+        this.coefficients = new double[n];
+        for (int i = 0; i < n; i++) {
+            this.coefficients[i] = 0.0d;
+        }
+        double[] c = new double[n + 1];
+        c[0] = 1.0d;
+        for (int i2 = 0; i2 < n; i2++) {
+            for (int j = i2; j > 0; j--) {
+                c[j] = c[j - 1] - (c[j] * this.x[i2]);
+            }
+            c[0] = c[0] * (-this.x[i2]);
+            c[i2 + 1] = 1.0d;
+        }
+        double[] tc = new double[n];
+        for (int i3 = 0; i3 < n; i3++) {
+            double d = 1.0d;
+            for (int j2 = 0; j2 < n; j2++) {
+                if (i3 != j2) {
+                    d *= this.x[i3] - this.x[j2];
+                }
+            }
+            if (d == 0.0d) {
+                for (int k = 0; k < n; k++) {
+                    if (i3 != k && this.x[i3] == this.x[k]) {
+                        throw MathRuntimeException.createArithmeticException(LocalizedFormats.IDENTICAL_ABSCISSAS_DIVISION_BY_ZERO, Integer.valueOf(i3), Integer.valueOf(k), Double.valueOf(this.x[i3]));
+                    }
+                }
+            }
+            double t = this.y[i3] / d;
+            tc[n - 1] = c[n];
+            double[] dArr = this.coefficients;
+            int i4 = n - 1;
+            dArr[i4] = dArr[i4] + (t * tc[n - 1]);
+            for (int j3 = n - 2; j3 >= 0; j3--) {
+                tc[j3] = c[j3 + 1] + (tc[j3 + 1] * this.x[i3]);
+                double[] dArr2 = this.coefficients;
+                int i5 = j3;
+                dArr2[i5] = dArr2[i5] + (t * tc[j3]);
+            }
+        }
+        this.coefficientsComputed = true;
+    }
+}

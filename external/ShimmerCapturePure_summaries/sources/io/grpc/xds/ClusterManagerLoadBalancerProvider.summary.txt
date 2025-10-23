@@ -1,0 +1,115 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/xds/ClusterManagerLoadBalancerProvider.java
+// Size: 5068 bytes
+// Modified: 2025-10-21 16:32:12.492463500 +0100
+
+package io.grpc.xds;
+
+import com.google.common.base.MoreObjects;
+import io.grpc.LoadBalancer;
+import io.grpc.LoadBalancerProvider;
+import io.grpc.LoadBalancerRegistry;
+import io.grpc.NameResolver;
+import io.grpc.Status;
+import io.grpc.internal.JsonUtil;
+import io.grpc.internal.ServiceConfigUtil;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+import javax.annotation.Nullable;
+
+/* loaded from: classes3.dex */
+public class ClusterManagerLoadBalancerProvider extends LoadBalancerProvider {
+
+    @Nullable
+    private final LoadBalancerRegistry lbRegistry;
+
+    @Override // io.grpc.LoadBalancerProvider
+    public String getPolicyName() {
+        return "cluster_manager_experimental";
+    }
+
+    @Override // io.grpc.LoadBalancerProvider
+    public int getPriority() {
+        return 5;
+    }
+
+    @Override // io.grpc.LoadBalancerProvider
+    public boolean isAvailable() {
+        return true;
+    }
+
+    public ClusterManagerLoadBalancerProvider() {
+        this(null);
+    }
+
+    ClusterManagerLoadBalancerProvider(@Nullable LoadBalancerRegistry loadBalancerRegistry) {
+        this.lbRegistry = loadBalancerRegistry;
+    }
+
+    @Override // io.grpc.LoadBalancerProvider
+    public NameResolver.ConfigOrError parseLoadBalancingPolicyConfig(Map<String, ?> map) {
+        LinkedHashMap linkedHashMap = new LinkedHashMap();
+        try {
+            Map<String, ?> object = JsonUtil.getObject(map, "childPolicy");
+            if (object != null && !object.isEmpty()) {
+                for (String str : object.keySet()) {
+                    Map<String, ?> object2 = JsonUtil.getObject(object, str);
+                    if (object2 == null) {
+                        return NameResolver.ConfigOrError.fromError(Status.INTERNAL.withDescription("No config for child " + str + " in cluster_manager LB policy: " + map));
+                    }
+                    List<ServiceConfigUtil.LbConfig> listUnwrapLoadBalancingConfigList = ServiceConfigUtil.unwrapLoadBalancingConfigList(JsonUtil.getListOfObjects(object2, "lbPolicy"));
+                    if (listUnwrapLoadBalancingConfigList != null && !listUnwrapLoadBalancingConfigList.isEmpty()) {
+                        LoadBalancerRegistry defaultRegistry = this.lbRegistry;
+                        if (defaultRegistry == null) {
+                            defaultRegistry = LoadBalancerRegistry.getDefaultRegistry();
+                        }
+                        NameResolver.ConfigOrError configOrErrorSelectLbPolicyFromList = ServiceConfigUtil.selectLbPolicyFromList(listUnwrapLoadBalancingConfigList, defaultRegistry);
+                        if (configOrErrorSelectLbPolicyFromList.getError() != null) {
+                            Status error = configOrErrorSelectLbPolicyFromList.getError();
+                            return NameResolver.ConfigOrError.fromError(Status.INTERNAL.withCause(error.getCause()).withDescription(error.getDescription()).augmentDescription("Failed to select config for child " + str));
+                        }
+                        linkedHashMap.put(str, (ServiceConfigUtil.PolicySelection) configOrErrorSelectLbPolicyFromList.getConfig());
+                    }
+                    return NameResolver.ConfigOrError.fromError(Status.INTERNAL.withDescription("No config specified for child " + str + " in cluster_manager Lb policy: " + map));
+                }
+                return NameResolver.ConfigOrError.fromConfig(new ClusterManagerConfig(linkedHashMap));
+            }
+            return NameResolver.ConfigOrError.fromError(Status.INTERNAL.withDescription("No child policy provided for cluster_manager LB policy: " + map));
+        } catch (RuntimeException e) {
+            return NameResolver.ConfigOrError.fromError(Status.fromThrowable(e).withDescription("Failed to parse cluster_manager LB config: " + map));
+        }
+    }
+
+    @Override // io.grpc.LoadBalancer.Factory
+    public LoadBalancer newLoadBalancer(LoadBalancer.Helper helper) {
+        return new ClusterManagerLoadBalancer(helper);
+    }
+
+    static class ClusterManagerConfig {
+        final Map<String, ServiceConfigUtil.PolicySelection> childPolicies;
+
+        ClusterManagerConfig(Map<String, ServiceConfigUtil.PolicySelection> map) {
+            this.childPolicies = Collections.unmodifiableMap(map);
+        }
+
+        public boolean equals(Object obj) {
+            if (this == obj) {
+                return true;
+            }
+            if (obj instanceof ClusterManagerConfig) {
+                return Objects.equals(this.childPolicies, ((ClusterManagerConfig) obj).childPolicies);
+            }
+            return false;
+        }
+
+        public int hashCode() {
+            return Objects.hash(this.childPolicies);
+        }
+
+        public String toString() {
+            return MoreObjects.toStringHelper(this).add("childPolicies", this.childPolicies).toString();
+        }
+    }
+}

@@ -1,0 +1,12 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/com/google/api/client/http/HttpUnsuccessfulResponseHandler.java
+// Size: 268 bytes
+// Modified: 2025-10-21 16:32:10.004905800 +0100
+
+package com.google.api.client.http;
+
+import java.io.IOException;
+
+/* loaded from: classes.dex */
+public interface HttpUnsuccessfulResponseHandler {
+    boolean handleResponse(HttpRequest httpRequest, HttpResponse httpResponse, boolean z) throws IOException;
+}

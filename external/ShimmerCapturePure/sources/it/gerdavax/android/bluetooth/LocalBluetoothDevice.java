@@ -1,0 +1,1010 @@
+package it.gerdavax.android.bluetooth;
+
+import android.R;
+import android.app.NotificationManager;
+import android.bluetooth.IBluetoothDeviceCallback;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.IBinder;
+import android.os.RemoteException;
+import android.util.Log;
+import it.gerdavax.android.bluetooth.util.ReflectionUtils;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Hashtable;
+
+import kotlin.jvm.internal.ShortCompanionObject;
+import org.apache.commons.lang3.StringUtils;
+
+/* loaded from: classes4.dex */
+public final class LocalBluetoothDevice implements BluetoothDevice {
+    public static final int SCAN_MODE_CONNECTABLE = 1;
+    public static final int SCAN_MODE_CONNECTABLE_DISCOVERABLE = 3;
+    public static final int SCAN_MODE_NONE = 0;
+    private static final String METHOD_GET_SCAN_MODE = "getScanMode";
+    private static final String METHOD_SET_SCAN_MODE = "setScanMode";
+    private static final String TAG = "LocalBluetoothDevice";
+    private static int PLATFORM_SCAN_MODE_CONNECTABLE = 0;
+    private static int PLATFORM_SCAN_MODE_CONNECTABLE_DISCOVERABLE = 0;
+    private static int PLATFORM_SCAN_MODE_NONE = 0;
+    private static LocalBluetoothDevice _localDevice;
+    private static BluetoothBroadcastReceiver bluetoothBroadcastReceiver;
+    private static Object bluetoothService;
+    private static Class bluetoothServiceClass;
+    private Context context;
+    private LocalBluetoothDeviceListener listener;
+    private NotificationManager notificationManager;
+    private ArrayList<String> devices = new ArrayList<>();
+    private Hashtable<String, RemoteBluetoothDeviceImpl> remoteDevices = new Hashtable<>();
+    private Hashtable<Integer, BluetoothSocketImpl> serverSockets = new Hashtable<>();
+
+    private LocalBluetoothDevice() {
+    }
+
+    public static LocalBluetoothDevice initLocalDevice(Context context) throws Exception {
+        if (_localDevice == null) {
+            Log.d(TAG, "_localDevice is null");
+            Object systemService = context.getSystemService("bluetooth");
+            bluetoothService = systemService;
+            bluetoothServiceClass = systemService.getClass();
+            collectPlatformConstants();
+            LocalBluetoothDevice localBluetoothDevice = new LocalBluetoothDevice();
+            _localDevice = localBluetoothDevice;
+            localBluetoothDevice.context = context;
+            BluetoothBroadcastReceiver bluetoothBroadcastReceiver2 = bluetoothBroadcastReceiver;
+            if (bluetoothBroadcastReceiver2 != null) {
+                try {
+                    context.unregisterReceiver(bluetoothBroadcastReceiver2);
+                } catch (Exception unused) {
+                }
+            }
+            bluetoothBroadcastReceiver = new BluetoothBroadcastReceiver(context);
+        } else {
+            Log.d(TAG, "_localDevice is NOT null");
+            bluetoothBroadcastReceiver.register(context);
+        }
+        return _localDevice;
+    }
+
+    public static LocalBluetoothDevice getLocalDevice() throws IllegalStateException {
+        LocalBluetoothDevice localBluetoothDevice = _localDevice;
+        if (localBluetoothDevice != null) {
+            return localBluetoothDevice;
+        }
+        throw new IllegalStateException("LocalBluetoothDevice has not been initialized. Call init() with a valid context.");
+    }
+
+    private static void collectPlatformConstants() {
+        try {
+            PLATFORM_SCAN_MODE_NONE = ReflectionUtils.readStaticConstantValue(bluetoothServiceClass, "SCAN_MODE_NONE");
+            PLATFORM_SCAN_MODE_CONNECTABLE = ReflectionUtils.readStaticConstantValue(bluetoothServiceClass, "SCAN_MODE_CONNECTABLE");
+            PLATFORM_SCAN_MODE_CONNECTABLE_DISCOVERABLE = ReflectionUtils.readStaticConstantValue(bluetoothServiceClass, "SCAN_MODE_CONNECTABLE_DISCOVERABLE");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void setListener(LocalBluetoothDeviceListener localBluetoothDeviceListener) {
+        this.listener = localBluetoothDeviceListener;
+    }
+
+    @Override // it.gerdavax.android.bluetooth.BluetoothDevice
+    public String getAddress() throws BluetoothException {
+        try {
+            return bluetoothServiceClass.getMethod("getAddress", new Class[0]).invoke(bluetoothService, new Object[0]).toString();
+        } catch (Throwable th) {
+            throw new BluetoothException(th);
+        }
+    }
+
+    @Override // it.gerdavax.android.bluetooth.BluetoothDevice
+    public String getName() throws BluetoothException {
+        try {
+            return bluetoothServiceClass.getMethod("getName", new Class[0]).invoke(bluetoothService, new Object[0]).toString();
+        } catch (Throwable th) {
+            throw new BluetoothException(th);
+        }
+    }
+
+    public String getManufacturer() throws Exception {
+        return bluetoothServiceClass.getMethod("getManufacturer", new Class[0]).invoke(bluetoothService, new Object[0]).toString();
+    }
+
+    public String getCompany() throws Exception {
+        return bluetoothServiceClass.getMethod("getCompany", new Class[0]).invoke(bluetoothService, new Object[0]).toString();
+    }
+
+    public void scan() throws Exception {
+        bluetoothServiceClass.getMethod("startDiscovery", new Class[0]).invoke(bluetoothService, new Object[0]);
+        bluetoothBroadcastReceiver.didIstartedScan = true;
+        this.devices.clear();
+    }
+
+    public boolean isScanning() throws Exception {
+        return ((Boolean) bluetoothServiceClass.getMethod("isDiscovering", new Class[0]).invoke(bluetoothService, new Object[0])).booleanValue();
+    }
+
+    public void stopScanning() throws Exception {
+        if (isScanning() && bluetoothBroadcastReceiver.didIstartedScan) {
+            bluetoothServiceClass.getMethod("cancelDiscovery", new Class[0]).invoke(bluetoothService, new Object[0]);
+        }
+    }
+
+    private Object getRemoteFeatures(String str) throws Exception {
+        return bluetoothServiceClass.getMethod("getRemoteFeatures", String.class).invoke(bluetoothService, str);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public String getRemoteName(String str) throws Exception {
+        return bluetoothServiceClass.getMethod("getRemoteName", String.class).invoke(bluetoothService, str).toString();
+    }
+
+    public int getRemoteClass(String str) throws Exception {
+        return ((Integer) bluetoothServiceClass.getMethod("getRemoteClass", String.class).invoke(bluetoothService, str)).intValue();
+    }
+
+    public void close() {
+        Enumeration<String> enumerationKeys = this.remoteDevices.keys();
+        while (enumerationKeys.hasMoreElements()) {
+            try {
+                this.remoteDevices.get(enumerationKeys.nextElement()).dispose();
+            } catch (Exception unused) {
+            }
+        }
+        this.remoteDevices.clear();
+        try {
+            stopScanning();
+        } catch (Exception unused2) {
+        }
+        try {
+            bluetoothBroadcastReceiver.close(this.context);
+            bluetoothBroadcastReceiver = null;
+        } catch (Exception unused3) {
+        }
+        _localDevice = null;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean createBond(String str) throws Exception {
+        return ((Boolean) bluetoothServiceClass.getMethod("createBond", String.class).invoke(bluetoothService, str)).booleanValue();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public int getBondState(String str) throws Exception {
+        return ((Integer) bluetoothServiceClass.getMethod("getBondState", String.class).invoke(bluetoothService, str)).intValue();
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean setPin(String str, String str2) throws Exception {
+        return ((Boolean) bluetoothServiceClass.getMethod("setPin", String.class, byte[].class).invoke(bluetoothService, str, str2.getBytes())).booleanValue();
+    }
+
+    private boolean cancelPin(String str) throws BluetoothException {
+        try {
+            return ((Boolean) bluetoothServiceClass.getMethod("cancelPin", String.class).invoke(bluetoothService, str)).booleanValue();
+        } catch (Throwable th) {
+            throw new BluetoothException(th);
+        }
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean removeBond(String str) throws BluetoothException {
+        try {
+            return ((Boolean) bluetoothServiceClass.getMethod("removeBond", String.class).invoke(bluetoothService, str)).booleanValue();
+        } catch (Throwable th) {
+            throw new BluetoothException(th);
+        }
+    }
+
+    public boolean isEnabled() throws Exception {
+        return ((Boolean) bluetoothServiceClass.getMethod("isEnabled", new Class[0]).invoke(bluetoothService, new Object[0])).booleanValue();
+    }
+
+    public boolean setEnabled(boolean z) throws BluetoothException {
+        try {
+            return ((Boolean) bluetoothServiceClass.getMethod(!z ? "disable" : "enable", new Class[0]).invoke(bluetoothService, new Object[0])).booleanValue();
+        } catch (Throwable th) {
+            throw new BluetoothException(th);
+        }
+    }
+
+    public RemoteBluetoothDevice getRemoteBluetoothDevice(String str) {
+        if (this.remoteDevices.containsKey(str)) {
+            return this.remoteDevices.get(str);
+        }
+        RemoteBluetoothDeviceImpl remoteBluetoothDeviceImplCreateRemoteBluetoothDevice = createRemoteBluetoothDevice(str);
+        this.remoteDevices.put(str, remoteBluetoothDeviceImplCreateRemoteBluetoothDevice);
+        return remoteBluetoothDeviceImplCreateRemoteBluetoothDevice;
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public RemoteBluetoothDeviceImpl createRemoteBluetoothDevice(String str, int i, short s) {
+        return new RemoteBluetoothDeviceImpl(str, i, s);
+    }
+
+    private RemoteBluetoothDeviceImpl createRemoteBluetoothDevice(String str) {
+        return new RemoteBluetoothDeviceImpl(this, str);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public boolean getRemoteServiceChannel(String str, int i) throws Exception {
+        return ((Boolean) bluetoothServiceClass.getMethod("getRemoteServiceChannel", String.class, Short.TYPE, IBluetoothDeviceCallback.class).invoke(bluetoothService, str, new Short((short) i), new BluetoothDeviceCallback(this, null))).booleanValue();
+    }
+
+    public int getScanMode() throws Exception {
+        int iIntValue = ((Integer) bluetoothServiceClass.getMethod(METHOD_GET_SCAN_MODE, new Class[0]).invoke(bluetoothService, new Object[0])).intValue();
+        if (iIntValue == PLATFORM_SCAN_MODE_NONE) {
+            return 0;
+        }
+        if (iIntValue == PLATFORM_SCAN_MODE_CONNECTABLE) {
+            return 1;
+        }
+        if (iIntValue == PLATFORM_SCAN_MODE_CONNECTABLE_DISCOVERABLE) {
+            return 3;
+        }
+        throw new Exception("Unknown scan mode");
+    }
+
+    public void setScanMode(int i) throws Exception {
+        int i2;
+        if (i == 0) {
+            i2 = PLATFORM_SCAN_MODE_NONE;
+        } else if (i == 1) {
+            i2 = PLATFORM_SCAN_MODE_CONNECTABLE;
+        } else {
+            if (i != 3) {
+                throw new RuntimeException("Unknown scan mode");
+            }
+            i2 = PLATFORM_SCAN_MODE_CONNECTABLE_DISCOVERABLE;
+        }
+        bluetoothServiceClass.getMethod(METHOD_SET_SCAN_MODE, Integer.TYPE).invoke(bluetoothService, Integer.valueOf(i2));
+    }
+
+    public BluetoothSocket openServerSocket(int i) throws BluetoothException {
+        return new BluetoothSocketImpl(i);
+    }
+
+    /* JADX INFO: Access modifiers changed from: private */
+    public void dispatchDeviceFound(String str) {
+        try {
+            LocalBluetoothDeviceListener localBluetoothDeviceListener = this.listener;
+            if (localBluetoothDeviceListener != null) {
+                localBluetoothDeviceListener.deviceFound(str);
+            }
+        } catch (Throwable unused) {
+        }
+    }
+
+    private String lastSeen(String str) throws Exception {
+        return (String) bluetoothServiceClass.getMethod("lastSeen", String.class).invoke(bluetoothService, str);
+    }
+
+    public void showDefaultPinInputActivity(String str, boolean z) {
+        if (z) {
+            clearSystemNotification();
+        }
+        Intent intent = new Intent(AndroidBluetoothConstants.PAIRING_REQUEST_ACTION);
+        intent.putExtra(AndroidBluetoothConstants.ADDRESS, str);
+        intent.setFlags(268435456);
+        this.context.startActivity(intent);
+    }
+
+    public void clearSystemNotification() {
+        try {
+            if (this.notificationManager == null) {
+                this.notificationManager = (NotificationManager) this.context.getSystemService("notification");
+            }
+            this.notificationManager.cancel(R.drawable.stat_sys_data_bluetooth);
+        } catch (Exception unused) {
+        }
+    }
+
+    private static final class AndroidBluetoothConstants {
+        public static final String ADDRESS = "android.bluetooth.intent.ADDRESS";
+        public static final String ALIAS = "android.bluetooth.intent.ALIAS";
+        public static final String BLUETOOTH_PREVIOUS_STATE = "android.bluetooth.intent.BLUETOOTH_PREVIOUS_STATE";
+        public static final String BLUETOOTH_STATE = "android.bluetooth.intent.BLUETOOTH_STATE";
+        public static final String BLUETOOTH_STATE_CHANGED_ACTION = "android.bluetooth.intent.action.BLUETOOTH_STATE_CHANGED";
+        public static final String BOND_PREVIOUS_STATE = "android.bluetooth.intent.BOND_PREVIOUS_STATE";
+        public static final String BOND_STATE = "android.bluetooth.intent.BOND_STATE";
+        public static final String BOND_STATE_CHANGED_ACTION = "android.bluetooth.intent.action.BOND_STATE_CHANGED_ACTION";
+        public static final String CLASS = "android.bluetooth.intent.CLASS";
+        public static final String DISCOVERY_COMPLETED_ACTION = "android.bluetooth.intent.action.DISCOVERY_COMPLETED";
+        public static final String DISCOVERY_STARTED_ACTION = "android.bluetooth.intent.action.DISCOVERY_STARTED";
+        public static final String HEADSET_AUDIO_STATE = "android.bluetooth.intent.HEADSET_AUDIO_STATE";
+        public static final String HEADSET_AUDIO_STATE_CHANGED_ACTION = "android.bluetooth.intent.action.HEADSET_ADUIO_STATE_CHANGED";
+        public static final String HEADSET_PREVIOUS_STATE = "android.bluetooth.intent.HEADSET_PREVIOUS_STATE";
+        public static final String HEADSET_STATE = "android.bluetooth.intent.HEADSET_STATE";
+        public static final String HEADSET_STATE_CHANGED_ACTION = "android.bluetooth.intent.action.HEADSET_STATE_CHANGED";
+        public static final String NAME = "android.bluetooth.intent.NAME";
+        public static final String NAME_CHANGED_ACTION = "android.bluetooth.intent.action.NAME_CHANGED";
+        public static final String PAIRING_CANCEL_ACTION = "android.bluetooth.intent.action.PAIRING_CANCEL";
+        public static final String PAIRING_REQUEST_ACTION = "android.bluetooth.intent.action.PAIRING_REQUEST";
+        public static final String REASON = "android.bluetooth.intent.REASON";
+        public static final String REMOTE_DEVICE_CLASS_UPDATED_ACTION = "android.bluetooth.intent.action.REMOTE_DEVICE_DISAPPEARED";
+        public static final String REMOTE_DEVICE_CONNECTED_ACTION = "android.bluetooth.intent.action.REMOTE_DEVICE_CONNECTED";
+        public static final String REMOTE_DEVICE_DISAPPEARED_ACTION = "android.bluetooth.intent.action.REMOTE_DEVICE_DISAPPEARED";
+        public static final String REMOTE_DEVICE_DISCONNECTED_ACTION = "android.bluetooth.intent.action.REMOTE_DEVICE_DISCONNECTED";
+        public static final String REMOTE_DEVICE_DISCONNECT_REQUESTED_ACTION = "android.bluetooth.intent.action.REMOTE_DEVICE_DISCONNECT_REQUESTED";
+        public static final String REMOTE_DEVICE_FOUND_ACTION = "android.bluetooth.intent.action.REMOTE_DEVICE_FOUND";
+        public static final String REMOTE_NAME_FAILED_ACTION = "android.bluetooth.intent.action.REMOTE_NAME_FAILED";
+        public static final String REMOTE_NAME_UPDATED_ACTION = "android.bluetooth.intent.action.REMOTE_NAME_UPDATED";
+        public static final String RSSI = "android.bluetooth.intent.RSSI";
+        public static final String SCAN_MODE = "android.bluetooth.intent.SCAN_MODE";
+        public static final String SCAN_MODE_CHANGED_ACTION = "android.bluetooth.intent.action.SCAN_MODE_CHANGED";
+
+        private AndroidBluetoothConstants() {
+        }
+    }
+
+    private static final class BluetoothBroadcastReceiver extends BroadcastReceiver {
+        public static final int BLUETOOTH_STATE_OFF = 0;
+        public static final int BLUETOOTH_STATE_ON = 2;
+        public static final int BLUETOOTH_STATE_TURNING_OFF = 3;
+        public static final int BLUETOOTH_STATE_TURNING_ON = 1;
+        public static final int BOND_BONDED = 1;
+        public static final int BOND_BONDING = 2;
+        public static final int BOND_NOT_BONDED = 0;
+        private static final String TAG_RECEIVER = "BluetoothBroadcastReceiver";
+        boolean didIstartedScan = false;
+        private boolean registered = false;
+
+        BluetoothBroadcastReceiver(Context context) {
+            register(context);
+        }
+
+        @Override // android.content.BroadcastReceiver
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(AndroidBluetoothConstants.DISCOVERY_STARTED_ACTION)) {
+                processDiscoveryStarted();
+                return;
+            }
+            if (action.equals(AndroidBluetoothConstants.REMOTE_DEVICE_FOUND_ACTION)) {
+                processRemoteDeviceFound(intent);
+                return;
+            }
+            if (action.equals(AndroidBluetoothConstants.DISCOVERY_COMPLETED_ACTION)) {
+                processDiscoveryCompleted();
+                return;
+            }
+            if (action.equals(AndroidBluetoothConstants.PAIRING_REQUEST_ACTION)) {
+                processPairingRequested(intent);
+                return;
+            }
+            if (action.equals(AndroidBluetoothConstants.BOND_STATE_CHANGED_ACTION)) {
+                processBondStateChanged(intent);
+            } else if (action.equals(AndroidBluetoothConstants.BLUETOOTH_STATE_CHANGED_ACTION)) {
+                processBluetoothStateChanged(intent);
+            } else if (action.equals(AndroidBluetoothConstants.REMOTE_NAME_UPDATED_ACTION)) {
+                processRemoteNameUpdated(intent);
+            }
+        }
+
+        private void processDiscoveryStarted() {
+            if (!this.didIstartedScan || LocalBluetoothDevice._localDevice.listener == null) {
+                return;
+            }
+            LocalBluetoothDevice._localDevice.listener.scanStarted();
+        }
+
+        private void processPairingRequested(Intent intent) {
+            String stringExtra = intent.getStringExtra(AndroidBluetoothConstants.ADDRESS);
+            Log.d(TAG_RECEIVER, "Pairing requested for " + stringExtra);
+            RemoteBluetoothDeviceImpl remoteBluetoothDeviceImpl = (RemoteBluetoothDeviceImpl) LocalBluetoothDevice._localDevice.remoteDevices.get(stringExtra);
+            if (remoteBluetoothDeviceImpl != null) {
+                remoteBluetoothDeviceImpl.notifyPairingRequested();
+            }
+        }
+
+        private void processRemoteDeviceFound(Intent intent) {
+            if (this.didIstartedScan) {
+                try {
+                    String stringExtra = intent.getStringExtra(AndroidBluetoothConstants.ADDRESS);
+                    short shortExtra = intent.getShortExtra(AndroidBluetoothConstants.RSSI, ShortCompanionObject.MIN_VALUE);
+                    int intExtra = intent.getIntExtra(AndroidBluetoothConstants.CLASS, 0);
+                    System.out.println("Device found with address " + stringExtra + ", class " + intExtra + " and rssi " + ((int) shortExtra));
+                    LocalBluetoothDevice._localDevice.devices.add(stringExtra);
+                    if (LocalBluetoothDevice._localDevice.remoteDevices.containsKey(stringExtra)) {
+                        ((RemoteBluetoothDeviceImpl) LocalBluetoothDevice._localDevice.remoteDevices.get(stringExtra)).setRSSI(shortExtra);
+                    } else {
+                        LocalBluetoothDevice._localDevice.remoteDevices.put(stringExtra, LocalBluetoothDevice._localDevice.createRemoteBluetoothDevice(stringExtra, intExtra, shortExtra));
+                    }
+                    LocalBluetoothDevice._localDevice.dispatchDeviceFound(stringExtra);
+                } catch (Exception unused) {
+                }
+            }
+        }
+
+        private void processRemoteNameUpdated(Intent intent) {
+            try {
+                String stringExtra = intent.getStringExtra(AndroidBluetoothConstants.ADDRESS);
+                String stringExtra2 = intent.getStringExtra(AndroidBluetoothConstants.NAME);
+                System.out.println("processRemoteNameUpdated " + stringExtra + ":" + stringExtra2);
+                if (LocalBluetoothDevice._localDevice.remoteDevices.containsKey(stringExtra)) {
+                    System.out.println("Device found, updating name");
+                    ((RemoteBluetoothDeviceImpl) LocalBluetoothDevice._localDevice.remoteDevices.get(stringExtra)).setName(stringExtra2);
+                } else {
+                    System.out.println("Device unknown");
+                }
+            } catch (Error | Exception unused) {
+            }
+        }
+
+        private void processDiscoveryCompleted() {
+            if (this.didIstartedScan) {
+                try {
+                    if (LocalBluetoothDevice._localDevice.listener != null) {
+                        LocalBluetoothDevice._localDevice.listener.scanCompleted(LocalBluetoothDevice._localDevice.devices);
+                    }
+                } catch (Exception unused) {
+                } catch (Throwable th) {
+                    this.didIstartedScan = false;
+                    throw th;
+                }
+                this.didIstartedScan = false;
+            }
+        }
+
+        private void processBondStateChanged(Intent intent) {
+            String stringExtra = intent.getStringExtra(AndroidBluetoothConstants.ADDRESS);
+            int intExtra = intent.getIntExtra(AndroidBluetoothConstants.BOND_PREVIOUS_STATE, -1);
+            int intExtra2 = intent.getIntExtra(AndroidBluetoothConstants.BOND_STATE, -1);
+            Log.d(TAG_RECEIVER, "processBondStateChanged() for device " + stringExtra + " from " + intExtra + " to " + intExtra2);
+            if (intExtra2 == 1 && LocalBluetoothDevice._localDevice.remoteDevices.containsKey(stringExtra)) {
+                ((RemoteBluetoothDeviceImpl) LocalBluetoothDevice._localDevice.remoteDevices.get(stringExtra)).notifyPaired();
+            }
+        }
+
+        private void processBluetoothStateChanged(Intent intent) {
+            intent.getIntExtra(AndroidBluetoothConstants.BLUETOOTH_PREVIOUS_STATE, -1);
+            int intExtra = intent.getIntExtra(AndroidBluetoothConstants.BLUETOOTH_STATE, -1);
+            Log.d(TAG_RECEIVER, "processBluetoothStateChanged(): " + intExtra);
+            if (LocalBluetoothDevice._localDevice.listener != null) {
+                if (intExtra == 0) {
+                    LocalBluetoothDevice._localDevice.listener.bluetoothDisabled();
+                } else {
+                    if (intExtra != 2) {
+                        return;
+                    }
+                    LocalBluetoothDevice._localDevice.listener.bluetoothEnabled();
+                }
+            }
+        }
+
+        void register(Context context) {
+            if (!this.registered) {
+                Log.d(TAG_RECEIVER, "Registering");
+                IntentFilter intentFilter = new IntentFilter();
+                intentFilter.addAction(AndroidBluetoothConstants.BLUETOOTH_STATE_CHANGED_ACTION);
+                intentFilter.addAction(AndroidBluetoothConstants.REMOTE_DEVICE_FOUND_ACTION);
+                intentFilter.addAction(AndroidBluetoothConstants.DISCOVERY_COMPLETED_ACTION);
+                intentFilter.addAction(AndroidBluetoothConstants.DISCOVERY_STARTED_ACTION);
+                intentFilter.addAction(AndroidBluetoothConstants.PAIRING_REQUEST_ACTION);
+                intentFilter.addAction(AndroidBluetoothConstants.BOND_STATE_CHANGED_ACTION);
+                intentFilter.addAction(AndroidBluetoothConstants.REMOTE_NAME_UPDATED_ACTION);
+                context.registerReceiver(this, intentFilter);
+                this.registered = true;
+                return;
+            }
+            Log.d(TAG_RECEIVER, "Already registered");
+        }
+
+        void close(Context context) {
+            try {
+                try {
+                    Log.d(TAG_RECEIVER, "Unregistering");
+                    context.unregisterReceiver(this);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } finally {
+                this.registered = false;
+            }
+        }
+    }
+
+    private final class BluetoothDeviceCallback implements IBluetoothDeviceCallback {
+        private IBinder binder;
+
+        private BluetoothDeviceCallback() {
+            this.binder = new IBluetoothDeviceCallback.Stub() { // from class: it.gerdavax.android.bluetooth.LocalBluetoothDevice.BluetoothDeviceCallback.1
+                @Override // android.bluetooth.IBluetoothDeviceCallback
+                public void onGetRemoteServiceChannelResult(String str, int i) throws RemoteException {
+                    System.out.println("Channel is: " + i);
+                    RemoteBluetoothDeviceImpl remoteBluetoothDeviceImpl = (RemoteBluetoothDeviceImpl) LocalBluetoothDevice._localDevice.remoteDevices.get(str);
+                    if (remoteBluetoothDeviceImpl != null) {
+                        remoteBluetoothDeviceImpl.notifyServiceChannel(i);
+                    }
+                }
+            };
+        }
+
+        /* synthetic */ BluetoothDeviceCallback(LocalBluetoothDevice localBluetoothDevice, BluetoothDeviceCallback bluetoothDeviceCallback) {
+            this();
+        }
+
+        @Override // android.os.IInterface
+        public IBinder asBinder() {
+            return this.binder;
+        }
+
+        @Override // android.bluetooth.IBluetoothDeviceCallback
+        public void onGetRemoteServiceChannelResult(String str, int i) throws RemoteException {
+            System.out.println("Method onGetRemoteServiceChannelResult: " + str + StringUtils.SPACE + i);
+        }
+    }
+
+    private final class RemoteBluetoothDeviceImpl implements RemoteBluetoothDevice {
+        private static final int MAJOR_DEVICE_CLASS_MASK = 7936;
+        private static final int MAJOR_SERVICE_CLASS_MASK = 16769024;
+        private static final int MINOR_DEVICE_CLASS_MASK = 252;
+        private String address;
+        private int deviceClass;
+        private int lastServiceUUIDqueried;
+        private RemoteBluetoothDeviceListener listener;
+        private String name;
+        private short rssi;
+        private Hashtable<Integer, Integer> services;
+        private Hashtable<Integer, BluetoothSocketImpl> sockets;
+
+        RemoteBluetoothDeviceImpl(String str, int i, short s) {
+            this.sockets = new Hashtable<>();
+            this.services = new Hashtable<>();
+            this.address = str;
+            this.deviceClass = i;
+            this.rssi = s;
+        }
+
+        RemoteBluetoothDeviceImpl(LocalBluetoothDevice localBluetoothDevice, String str) {
+            this(str, 0, ShortCompanionObject.MIN_VALUE);
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice, it.gerdavax.android.bluetooth.BluetoothDevice
+        public String getAddress() {
+            return this.address;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public int getDeviceMajorClass() {
+            return this.deviceClass & 7936;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public int getDeviceMinorClass() {
+            return this.deviceClass & 252;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public short getRSSI() {
+            return this.rssi;
+        }
+
+        void setRSSI(short s) {
+            this.rssi = s;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public int getServiceMajorClass() {
+            return this.deviceClass & MAJOR_SERVICE_CLASS_MASK;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public void setListener(RemoteBluetoothDeviceListener remoteBluetoothDeviceListener) {
+            this.listener = remoteBluetoothDeviceListener;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.BluetoothDevice
+        public String getName() {
+            if (this.name == null) {
+                try {
+                    this.name = LocalBluetoothDevice.this.getRemoteName(this.address);
+                } catch (Exception unused) {
+                }
+            }
+            return this.name;
+        }
+
+        void setName(String str) {
+            this.name = str;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public int getDeviceClass() {
+            if (this.deviceClass == 0) {
+                try {
+                    this.deviceClass = LocalBluetoothDevice.this.getRemoteClass(this.address);
+                } catch (Exception unused) {
+                }
+            }
+            return this.deviceClass;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public void setPin(String str) throws BluetoothException {
+            try {
+                LocalBluetoothDevice.this.setPin(this.address, str);
+            } catch (Exception e) {
+                throw new BluetoothException(e);
+            }
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public void pair() {
+            try {
+                if (isPaired()) {
+                    Log.d(LocalBluetoothDevice.TAG, String.valueOf(this.address) + " is already paired");
+                    notifyPaired();
+                } else {
+                    LocalBluetoothDevice.this.createBond(this.address);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        void notifyPaired() {
+            try {
+                RemoteBluetoothDeviceListener remoteBluetoothDeviceListener = this.listener;
+                if (remoteBluetoothDeviceListener != null) {
+                    remoteBluetoothDeviceListener.paired();
+                }
+            } catch (Exception unused) {
+            }
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public void unpair() {
+            try {
+                LocalBluetoothDevice.this.removeBond(this.address);
+            } catch (BluetoothException unused) {
+            }
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public boolean isPaired() {
+            try {
+                return LocalBluetoothDevice.this.getBondState(this.address) == 1;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public void pair(String str) {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public BluetoothSocket openSocket(int i) throws BluetoothException {
+            Integer num = new Integer(i);
+            if (this.sockets.containsKey(num)) {
+                return this.sockets.get(num);
+            }
+            BluetoothSocketImpl bluetoothSocketImpl = LocalBluetoothDevice.this.new BluetoothSocketImpl(this, i);
+            this.sockets.put(num, bluetoothSocketImpl);
+            return bluetoothSocketImpl;
+        }
+
+        void dispose() {
+            Enumeration<Integer> enumerationKeys = this.sockets.keys();
+            while (enumerationKeys.hasMoreElements()) {
+                try {
+                    this.sockets.get(enumerationKeys.nextElement()).closeSocket();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        void notifyPairingRequested() {
+            RemoteBluetoothDeviceListener remoteBluetoothDeviceListener = this.listener;
+            if (remoteBluetoothDeviceListener != null) {
+                remoteBluetoothDeviceListener.pinRequested();
+            }
+        }
+
+        void notifyServiceChannel(int i) {
+            int i2 = this.lastServiceUUIDqueried;
+            if (i2 != -1) {
+                Integer num = new Integer(i2);
+                this.services.put(num, new Integer(i));
+                RemoteBluetoothDeviceListener remoteBluetoothDeviceListener = this.listener;
+                if (remoteBluetoothDeviceListener != null) {
+                    try {
+                        if (i > 0) {
+                            remoteBluetoothDeviceListener.gotServiceChannel(this.lastServiceUUIDqueried, i);
+                        } else {
+                            remoteBluetoothDeviceListener.serviceChannelNotAvailable(num.intValue());
+                        }
+                    } catch (Exception unused) {
+                    }
+                }
+                this.lastServiceUUIDqueried = -1;
+            }
+        }
+
+        @Override // it.gerdavax.android.bluetooth.RemoteBluetoothDevice
+        public void getRemoteServiceChannel(int i) throws Exception {
+            Integer num = new Integer(i);
+            if (this.services.containsKey(num)) {
+                int iIntValue = this.services.get(num).intValue();
+                this.lastServiceUUIDqueried = i;
+                notifyServiceChannel(iIntValue);
+            } else {
+                LocalBluetoothDevice._localDevice.getRemoteServiceChannel(this.address, i);
+                this.lastServiceUUIDqueried = i;
+            }
+        }
+    }
+
+    private final class BluetoothSocketImpl implements BluetoothSocket {
+        private static final String CLASS_ANDROID_BLUETOOTH_RFCOMMSOCKET = "android.bluetooth.RfcommSocket";
+        private static final String METHOD_ACCEPT = "accept";
+        private static final String METHOD_BIND = "bind";
+        private static final String METHOD_CONNECT = "connect";
+        private static final String METHOD_CREATE = "create";
+        private static final String METHOD_GET_PORT = "getPort";
+        private static final String METHOD_LISTEN = "listen";
+        private static final String METHOD_SHUTDOWN_INPUT = "shutdownInput";
+        private static final String METHOD_SHUTDOWN_OUTPUT = "shutdownOutput";
+        private Class bluetoothSocketClass;
+        private Object bluetoothSocketObject;
+        private BluetoothInputStream inputStream;
+        private BluetoothOutputStream outputStream;
+        private int port;
+        private RemoteBluetoothDeviceImpl remoteBluetoothDevice;
+
+        BluetoothSocketImpl(RemoteBluetoothDeviceImpl remoteBluetoothDeviceImpl, int i) throws BluetoothException {
+            if (i > 0) {
+                Log.d(LocalBluetoothDevice.TAG, "creating new client BluetoothSocket for " + remoteBluetoothDeviceImpl.address + " on port " + i);
+                this.remoteBluetoothDevice = remoteBluetoothDeviceImpl;
+                this.port = i;
+                connect();
+                return;
+            }
+            throw new BluetoothException("Channel must be > 0!");
+        }
+
+        BluetoothSocketImpl() throws BluetoothException {
+        }
+
+        BluetoothSocketImpl(int i) throws BluetoothException {
+            this.port = i;
+            bindAndListen();
+        }
+
+        Object getBluetoothSocketObject() {
+            return this.bluetoothSocketObject;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.BluetoothSocket
+        public int getPort() {
+            return this.port;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.BluetoothSocket
+        public RemoteBluetoothDevice getRemoteBluetoothDevice() {
+            return this.remoteBluetoothDevice;
+        }
+
+        private Object createSocketObject() {
+            try {
+                this.bluetoothSocketObject = this.bluetoothSocketClass.newInstance();
+                this.bluetoothSocketClass.getMethod(METHOD_CREATE, new Class[0]).invoke(this.bluetoothSocketObject, new Object[0]);
+                return this.bluetoothSocketObject;
+            } catch (Throwable th) {
+                Log.e(LocalBluetoothDevice.TAG, "instantiating socket obj!", th);
+                return null;
+            }
+        }
+
+        void init() throws BluetoothException {
+            try {
+                this.bluetoothSocketClass = Class.forName(CLASS_ANDROID_BLUETOOTH_RFCOMMSOCKET);
+                this.bluetoothSocketObject = createSocketObject();
+            } catch (Throwable th) {
+                throw new BluetoothException(th);
+            }
+        }
+
+        void connect() throws BluetoothException {
+            init();
+            try {
+                if (((Boolean) this.bluetoothSocketClass.getMethod(METHOD_CONNECT, String.class, Integer.TYPE).invoke(this.bluetoothSocketObject, this.remoteBluetoothDevice.address, Integer.valueOf(this.port))).booleanValue()) {
+                    return;
+                }
+                throw new BluetoothException("Can't connect to device " + this.remoteBluetoothDevice.address);
+            } catch (Throwable th) {
+                throw new BluetoothException(th);
+            }
+        }
+
+        @Override // it.gerdavax.android.bluetooth.BluetoothSocket
+        public BluetoothSocket accept(int i) throws BluetoothException {
+            try {
+                ReflectionUtils.printMethods(this.bluetoothSocketClass);
+                Class cls = this.bluetoothSocketClass;
+                Method method = cls.getMethod(METHOD_ACCEPT, cls, Integer.TYPE);
+                BluetoothSocketImpl bluetoothSocketImpl = LocalBluetoothDevice.this.new BluetoothSocketImpl();
+                Object objCreateSocketObject = createSocketObject();
+                bluetoothSocketImpl.bluetoothSocketObject = objCreateSocketObject;
+                method.invoke(objCreateSocketObject, this.bluetoothSocketObject, Integer.valueOf(i));
+                return bluetoothSocketImpl;
+            } catch (Throwable th) {
+                throw new BluetoothException(th);
+            }
+        }
+
+        void bindAndListen() throws BluetoothException {
+            init();
+            try {
+                this.bluetoothSocketClass.getMethod(METHOD_BIND, String.class).invoke(this.bluetoothSocketObject, "devicename-tobeignored");
+                this.bluetoothSocketClass.getMethod(METHOD_LISTEN, Integer.TYPE).invoke(this.bluetoothSocketObject, Integer.valueOf(this.port));
+                this.port = ((Integer) this.bluetoothSocketClass.getMethod(METHOD_GET_PORT, new Class[0]).invoke(this.bluetoothSocketObject, new Object[0])).intValue();
+            } catch (Throwable th) {
+                throw new BluetoothException(th);
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void closeInputStream() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            try {
+                this.bluetoothSocketClass.getMethod(METHOD_SHUTDOWN_INPUT, new Class[0]).invoke(this.bluetoothSocketObject, new Object[0]);
+            } catch (Exception unused) {
+            }
+        }
+
+        /* JADX INFO: Access modifiers changed from: private */
+        public void closeOutputStream() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            try {
+                this.bluetoothSocketClass.getMethod(METHOD_SHUTDOWN_OUTPUT, new Class[0]).invoke(this.bluetoothSocketObject, new Object[0]);
+            } catch (Exception unused) {
+            }
+        }
+
+        @Override // it.gerdavax.android.bluetooth.BluetoothSocket
+        public InputStream getInputStream() throws Exception {
+            if (this.inputStream == null) {
+                this.inputStream = new BluetoothInputStream((InputStream) this.bluetoothSocketClass.getMethod("getInputStream", new Class[0]).invoke(this.bluetoothSocketObject, new Object[0]));
+            }
+            return this.inputStream;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.BluetoothSocket
+        public OutputStream getOutputStream() throws Exception {
+            if (this.outputStream == null) {
+                this.outputStream = new BluetoothOutputStream((OutputStream) this.bluetoothSocketClass.getMethod("getOutputStream", new Class[0]).invoke(this.bluetoothSocketObject, new Object[0]));
+            }
+            return this.outputStream;
+        }
+
+        @Override // it.gerdavax.android.bluetooth.BluetoothSocket
+        public void closeSocket() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+            Log.d("BluetoothSocket", "Closing socket to " + this.remoteBluetoothDevice.address + " on port " + this.port);
+            BluetoothInputStream bluetoothInputStream = this.inputStream;
+            if (bluetoothInputStream != null) {
+                try {
+                    bluetoothInputStream.close();
+                } catch (Exception unused) {
+                }
+            }
+            BluetoothOutputStream bluetoothOutputStream = this.outputStream;
+            if (bluetoothOutputStream != null) {
+                try {
+                    bluetoothOutputStream.close();
+                } catch (Exception unused2) {
+                }
+            }
+            try {
+                this.bluetoothSocketClass.getMethod("destroy", new Class[0]).invoke(this.bluetoothSocketObject, new Object[0]);
+                this.remoteBluetoothDevice.sockets.remove(new Integer(this.port));
+            } catch (Exception unused3) {
+            }
+        }
+
+        private class BluetoothInputStream extends InputStream {
+            private InputStream target;
+
+            public BluetoothInputStream(InputStream inputStream) {
+                this.target = inputStream;
+            }
+
+            @Override // java.io.InputStream
+            public int available() throws IOException {
+                return this.target.available();
+            }
+
+            @Override // java.io.InputStream, java.io.Closeable, java.lang.AutoCloseable
+            public void close() throws IOException {
+                try {
+                    BluetoothSocketImpl.this.closeInputStream();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                this.target.close();
+            }
+
+            @Override // java.io.InputStream
+            public void mark(int i) {
+                this.target.mark(i);
+            }
+
+            @Override // java.io.InputStream
+            public boolean markSupported() {
+                return this.target.markSupported();
+            }
+
+            @Override // java.io.InputStream
+            public int read(byte[] bArr, int i, int i2) throws IndexOutOfBoundsException, IOException {
+                return this.target.read(bArr, i, i2);
+            }
+
+            @Override // java.io.InputStream
+            public int read(byte[] bArr) throws IOException {
+                return this.target.read(bArr);
+            }
+
+            @Override // java.io.InputStream
+            public int read() throws IOException {
+                return this.target.read();
+            }
+
+            @Override // java.io.InputStream
+            public synchronized void reset() throws IOException {
+                this.target.reset();
+            }
+
+            @Override // java.io.InputStream
+            public long skip(long j) throws IOException {
+                return this.target.skip(j);
+            }
+        }
+
+        private class BluetoothOutputStream extends OutputStream {
+            private OutputStream target;
+
+            BluetoothOutputStream(OutputStream outputStream) {
+                this.target = outputStream;
+            }
+
+            @Override // java.io.OutputStream, java.io.Closeable, java.lang.AutoCloseable
+            public void close() throws IOException {
+                try {
+                    BluetoothSocketImpl.this.closeOutputStream();
+                } catch (Exception unused) {
+                }
+                this.target.close();
+            }
+
+            @Override // java.io.OutputStream, java.io.Flushable
+            public void flush() throws IOException {
+                this.target.flush();
+            }
+
+            @Override // java.io.OutputStream
+            public void write(byte[] bArr) throws IOException {
+                this.target.write(bArr);
+            }
+
+            @Override // java.io.OutputStream
+            public void write(int i) throws IOException {
+                this.target.write(i);
+            }
+
+            @Override // java.io.OutputStream
+            public void write(byte[] bArr, int i, int i2) throws IndexOutOfBoundsException, IOException {
+                this.target.write(bArr, i, i2);
+            }
+        }
+    }
+}

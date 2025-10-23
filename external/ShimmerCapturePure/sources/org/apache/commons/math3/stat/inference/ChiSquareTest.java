@@ -1,0 +1,191 @@
+package org.apache.commons.math3.stat.inference;
+
+import org.apache.commons.math3.distribution.ChiSquaredDistribution;
+import org.apache.commons.math3.exception.DimensionMismatchException;
+import org.apache.commons.math3.exception.MaxCountExceededException;
+import org.apache.commons.math3.exception.NotPositiveException;
+import org.apache.commons.math3.exception.NotStrictlyPositiveException;
+import org.apache.commons.math3.exception.NullArgumentException;
+import org.apache.commons.math3.exception.OutOfRangeException;
+import org.apache.commons.math3.exception.ZeroException;
+import org.apache.commons.math3.exception.util.LocalizedFormats;
+import org.apache.commons.math3.random.RandomGenerator;
+import org.apache.commons.math3.util.FastMath;
+import org.apache.commons.math3.util.MathArrays;
+
+/* loaded from: classes5.dex */
+public class ChiSquareTest {
+    public double chiSquare(double[] dArr, long[] jArr) throws NotStrictlyPositiveException, NotPositiveException, DimensionMismatchException {
+        double d;
+        boolean z;
+        double d2;
+        double d3;
+        if (dArr.length < 2) {
+            throw new DimensionMismatchException(dArr.length, 2);
+        }
+        if (dArr.length != jArr.length) {
+            throw new DimensionMismatchException(dArr.length, jArr.length);
+        }
+        MathArrays.checkPositive(dArr);
+        MathArrays.checkNonNegative(jArr);
+        double d4 = 0.0d;
+        double d5 = 0.0d;
+        double d6 = 0.0d;
+        for (int i = 0; i < jArr.length; i++) {
+            d5 += dArr[i];
+            d6 += jArr[i];
+        }
+        if (FastMath.abs(d5 - d6) > 1.0E-5d) {
+            d = d6 / d5;
+            z = true;
+        } else {
+            d = 1.0d;
+            z = false;
+        }
+        for (int i2 = 0; i2 < jArr.length; i2++) {
+            if (z) {
+                double d7 = jArr[i2];
+                double d8 = dArr[i2];
+                double d9 = d7 - (d * d8);
+                d3 = d9 * d9;
+                d2 = d8 * d;
+            } else {
+                double d10 = jArr[i2];
+                d2 = dArr[i2];
+                double d11 = d10 - d2;
+                d3 = d11 * d11;
+            }
+            d4 += d3 / d2;
+        }
+        return d4;
+    }
+
+    public double chiSquareTest(double[] dArr, long[] jArr) throws NotStrictlyPositiveException, NotPositiveException, DimensionMismatchException, MaxCountExceededException {
+        return 1.0d - new ChiSquaredDistribution((RandomGenerator) null, dArr.length - 1.0d).cumulativeProbability(chiSquare(dArr, jArr));
+    }
+
+    public boolean chiSquareTest(double[] dArr, long[] jArr, double d) throws OutOfRangeException, NotStrictlyPositiveException, NotPositiveException, DimensionMismatchException, MaxCountExceededException {
+        if (d <= 0.0d || d > 0.5d) {
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, Double.valueOf(d), 0, Double.valueOf(0.5d));
+        }
+        return chiSquareTest(dArr, jArr) < d;
+    }
+
+    public double chiSquare(long[][] jArr) throws NotPositiveException, NullArgumentException, DimensionMismatchException {
+        long[][] jArr2 = jArr;
+        checkArray(jArr);
+        int length = jArr2.length;
+        int length2 = jArr2[0].length;
+        double[] dArr = new double[length];
+        double[] dArr2 = new double[length2];
+        double d = 0.0d;
+        for (int i = 0; i < length; i++) {
+            int i2 = 0;
+            while (i2 < length2) {
+                double d2 = dArr[i];
+                long j = jArr2[i][i2];
+                dArr[i] = d2 + j;
+                dArr2[i2] = dArr2[i2] + j;
+                d += j;
+                i2++;
+                length2 = length2;
+            }
+        }
+        int i3 = length2;
+        int i4 = 0;
+        double d3 = 0.0d;
+        while (i4 < length) {
+            int i5 = i3;
+            int i6 = 0;
+            while (i6 < i5) {
+                double d4 = (dArr[i4] * dArr2[i6]) / d;
+                long j2 = jArr2[i4][i6];
+                d3 += ((j2 - d4) * (j2 - d4)) / d4;
+                i6++;
+                jArr2 = jArr;
+                length = length;
+            }
+            i4++;
+            jArr2 = jArr;
+            i3 = i5;
+        }
+        return d3;
+    }
+
+    public double chiSquareTest(long[][] jArr) throws NotPositiveException, NullArgumentException, DimensionMismatchException, MaxCountExceededException {
+        checkArray(jArr);
+        return 1.0d - new ChiSquaredDistribution((jArr.length - 1.0d) * (jArr[0].length - 1.0d)).cumulativeProbability(chiSquare(jArr));
+    }
+
+    public boolean chiSquareTest(long[][] jArr, double d) throws OutOfRangeException, NotPositiveException, NullArgumentException, DimensionMismatchException, MaxCountExceededException {
+        if (d <= 0.0d || d > 0.5d) {
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, Double.valueOf(d), 0, Double.valueOf(0.5d));
+        }
+        return chiSquareTest(jArr) < d;
+    }
+
+    public double chiSquareDataSetsComparison(long[] jArr, long[] jArr2) throws NotPositiveException, ZeroException, DimensionMismatchException {
+        if (jArr.length < 2) {
+            throw new DimensionMismatchException(jArr.length, 2);
+        }
+        if (jArr.length != jArr2.length) {
+            throw new DimensionMismatchException(jArr.length, jArr2.length);
+        }
+        MathArrays.checkNonNegative(jArr);
+        MathArrays.checkNonNegative(jArr2);
+        char c = 0;
+        long j = 0;
+        long j2 = 0;
+        long j3 = 0;
+        for (int i = 0; i < jArr.length; i++) {
+            j2 += jArr[i];
+            j3 += jArr2[i];
+        }
+        if (j2 == 0 || j3 == 0) {
+            throw new ZeroException();
+        }
+        boolean z = j2 != j3;
+        double d = 0.0d;
+        double dSqrt = z ? FastMath.sqrt(j2 / j3) : 0.0d;
+        int i2 = 0;
+        while (i2 < jArr.length) {
+            long j4 = jArr[i2];
+            if (j4 == j && jArr2[i2] == j) {
+                LocalizedFormats localizedFormats = LocalizedFormats.OBSERVED_COUNTS_BOTTH_ZERO_FOR_ENTRY;
+                Object[] objArr = new Object[1];
+                objArr[c] = Integer.valueOf(i2);
+                throw new ZeroException(localizedFormats, objArr);
+            }
+            double d2 = j4;
+            double d3 = jArr2[i2];
+            double d4 = z ? (d2 / dSqrt) - (d3 * dSqrt) : d2 - d3;
+            d += (d4 * d4) / (d2 + d3);
+            i2++;
+            c = 0;
+            j = 0;
+        }
+        return d;
+    }
+
+    public double chiSquareTestDataSetsComparison(long[] jArr, long[] jArr2) throws NotPositiveException, ZeroException, DimensionMismatchException, MaxCountExceededException {
+        return 1.0d - new ChiSquaredDistribution((RandomGenerator) null, jArr.length - 1.0d).cumulativeProbability(chiSquareDataSetsComparison(jArr, jArr2));
+    }
+
+    public boolean chiSquareTestDataSetsComparison(long[] jArr, long[] jArr2, double d) throws OutOfRangeException, NotPositiveException, ZeroException, DimensionMismatchException, MaxCountExceededException {
+        if (d <= 0.0d || d > 0.5d) {
+            throw new OutOfRangeException(LocalizedFormats.OUT_OF_BOUND_SIGNIFICANCE_LEVEL, Double.valueOf(d), 0, Double.valueOf(0.5d));
+        }
+        return chiSquareTestDataSetsComparison(jArr, jArr2) < d;
+    }
+
+    private void checkArray(long[][] jArr) throws NotPositiveException, NullArgumentException, DimensionMismatchException {
+        if (jArr.length < 2) {
+            throw new DimensionMismatchException(jArr.length, 2);
+        }
+        if (jArr[0].length < 2) {
+            throw new DimensionMismatchException(jArr[0].length, 2);
+        }
+        MathArrays.checkRectangular(jArr);
+        MathArrays.checkNonNegative(jArr);
+    }
+}

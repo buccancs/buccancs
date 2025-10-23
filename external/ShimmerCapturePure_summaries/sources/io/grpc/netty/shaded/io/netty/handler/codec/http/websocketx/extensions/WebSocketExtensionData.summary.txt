@@ -1,0 +1,28 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/handler/codec/http/websocketx/extensions/WebSocketExtensionData.java
+// Size: 777 bytes
+// Modified: 2025-10-21 16:32:00.851718200 +0100
+
+package io.grpc.netty.shaded.io.netty.handler.codec.http.websocketx.extensions;
+
+import io.grpc.netty.shaded.io.netty.util.internal.ObjectUtil;
+import java.util.Collections;
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public final class WebSocketExtensionData {
+    private final String name;
+    private final Map<String, String> parameters;
+
+    public String name() {
+        return this.name;
+    }
+
+    public Map<String, String> parameters() {
+        return this.parameters;
+    }
+
+    public WebSocketExtensionData(String str, Map<String, String> map) {
+        this.name = (String) ObjectUtil.checkNotNull(str, "name");
+        this.parameters = Collections.unmodifiableMap((Map) ObjectUtil.checkNotNull(map, "parameters"));
+    }
+}

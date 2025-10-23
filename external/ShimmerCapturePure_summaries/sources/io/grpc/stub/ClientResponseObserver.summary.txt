@@ -1,0 +1,10 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/stub/ClientResponseObserver.java
+// Size: 227 bytes
+// Modified: 2025-10-21 16:32:03.161389000 +0100
+
+package io.grpc.stub;
+
+/* loaded from: classes3.dex */
+public interface ClientResponseObserver<ReqT, RespT> extends StreamObserver<RespT> {
+    void beforeStart(ClientCallStreamObserver<ReqT> clientCallStreamObserver);
+}

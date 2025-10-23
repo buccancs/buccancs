@@ -1,0 +1,14 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/resolver/HostsFileEntriesResolver.java
+// Size: 346 bytes
+// Modified: 2025-10-21 16:32:04.451927600 +0100
+
+package io.grpc.netty.shaded.io.netty.resolver;
+
+import java.net.InetAddress;
+
+/* loaded from: classes3.dex */
+public interface HostsFileEntriesResolver {
+    public static final HostsFileEntriesResolver DEFAULT = new DefaultHostsFileEntriesResolver();
+
+    InetAddress address(String str, ResolvedAddressTypes resolvedAddressTypes);
+}

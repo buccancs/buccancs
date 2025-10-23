@@ -1,0 +1,29 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/io/grpc/netty/shaded/io/netty/util/collection/CharObjectMap.java
+// Size: 463 bytes
+// Modified: 2025-10-21 16:32:00.258104400 +0100
+
+package io.grpc.netty.shaded.io.netty.util.collection;
+
+import java.util.Map;
+
+/* loaded from: classes3.dex */
+public interface CharObjectMap<V> extends Map<Character, V> {
+
+    public interface PrimitiveEntry<V> {
+        char key();
+
+        void setValue(V v);
+
+        V value();
+    }
+
+    boolean containsKey(char c);
+
+    Iterable<PrimitiveEntry<V>> entries();
+
+    V get(char c);
+
+    V put(char c, V v);
+
+    V remove(char c);
+}

@@ -1,0 +1,51 @@
+// Summary for: /mnt/c/dev/buccancs/external/ShimmerCapturePure/sources/org/apache/http/params/SyncBasicHttpParams.java
+// Size: 1690 bytes
+// Modified: 2025-10-21 16:32:03.296024900 +0100
+
+package org.apache.http.params;
+
+@Deprecated
+/* loaded from: classes5.dex */
+public class SyncBasicHttpParams extends BasicHttpParams {
+    private static final long serialVersionUID = 5387834869062660642L;
+
+    @Override // org.apache.http.params.BasicHttpParams, org.apache.http.params.HttpParams
+    public synchronized boolean removeParameter(String str) {
+        return super.removeParameter(str);
+    }
+
+    @Override // org.apache.http.params.BasicHttpParams, org.apache.http.params.HttpParams
+    public synchronized HttpParams setParameter(String str, Object obj) {
+        return super.setParameter(str, obj);
+    }
+
+    @Override // org.apache.http.params.BasicHttpParams, org.apache.http.params.HttpParams
+    public synchronized Object getParameter(String str) {
+        return super.getParameter(str);
+    }
+
+    @Override // org.apache.http.params.BasicHttpParams
+    public synchronized boolean isParameterSet(String str) {
+        return super.isParameterSet(str);
+    }
+
+    @Override // org.apache.http.params.BasicHttpParams
+    public synchronized boolean isParameterSetLocally(String str) {
+        return super.isParameterSetLocally(str);
+    }
+
+    @Override // org.apache.http.params.BasicHttpParams
+    public synchronized void setParameters(String[] strArr, Object obj) {
+        super.setParameters(strArr, obj);
+    }
+
+    @Override // org.apache.http.params.BasicHttpParams
+    public synchronized void clear() {
+        super.clear();
+    }
+
+    @Override // org.apache.http.params.BasicHttpParams
+    public synchronized Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
