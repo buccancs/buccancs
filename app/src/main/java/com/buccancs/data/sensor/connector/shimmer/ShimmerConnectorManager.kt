@@ -1,11 +1,11 @@
 package com.buccancs.data.sensor.connector.shimmer
 
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.domain.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.shimmer.InMemoryShimmerSettingsRepository
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.di.ApplicationScope
+import com.buccancs.domain.connector.MultiDeviceConnector
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.RecordingSessionAnchor

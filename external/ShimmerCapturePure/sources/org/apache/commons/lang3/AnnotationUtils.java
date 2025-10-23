@@ -34,6 +34,40 @@ public class AnnotationUtils {
             }
         }
         return false;
+    }
+
+    public static int hashCode(Annotation annotation) throws IllegalAccessException, SecurityException, IllegalArgumentException, InvocationTargetException {
+        int iHashMember = 0;
+        for (Method method : annotation.annotationType().getDeclaredMethods()) {
+            try {
+                Object objInvoke = method.invoke(annotation, new Object[0]);
+                if (objInvoke == null) {
+                    throw new IllegalStateException(String.format("Annotation method %s returned null", method));
+                }
+                iHashMember += hashMember(method.getName(), objInvoke);
+            } catch (RuntimeException e) {
+                throw e;
+            } catch (Exception e2) {
+                throw new RuntimeException(e2);
+            }
+        }
+        return iHashMember;
+    }
+
+    public static String toString(Annotation annotation) throws SecurityException {
+        ToStringBuilder toStringBuilder = new ToStringBuilder(annotation, TO_STRING_STYLE);
+        for (Method method : annotation.annotationType().getDeclaredMethods()) {
+            if (method.getParameterTypes().length <= 0) {
+                try {
+                    toStringBuilder.append(method.getName(), method.invoke(annotation, new Object[0]));
+                } catch (RuntimeException e) {
+                    throw e;
+                } catch (Exception e2) {
+                    throw new RuntimeException(e2);
+                }
+            }
+        }
+        return toStringBuilder.build();
     }    private static final ToStringStyle TO_STRING_STYLE = new ToStringStyle() { // from class: org.apache.commons.lang3.AnnotationUtils.1
         private static final long serialVersionUID = 1;
 
@@ -75,40 +109,6 @@ public class AnnotationUtils {
             super.appendDetail(stringBuffer, str, obj);
         }
     };
-
-    public static int hashCode(Annotation annotation) throws IllegalAccessException, SecurityException, IllegalArgumentException, InvocationTargetException {
-        int iHashMember = 0;
-        for (Method method : annotation.annotationType().getDeclaredMethods()) {
-            try {
-                Object objInvoke = method.invoke(annotation, new Object[0]);
-                if (objInvoke == null) {
-                    throw new IllegalStateException(String.format("Annotation method %s returned null", method));
-                }
-                iHashMember += hashMember(method.getName(), objInvoke);
-            } catch (RuntimeException e) {
-                throw e;
-            } catch (Exception e2) {
-                throw new RuntimeException(e2);
-            }
-        }
-        return iHashMember;
-    }
-
-    public static String toString(Annotation annotation) throws SecurityException {
-        ToStringBuilder toStringBuilder = new ToStringBuilder(annotation, TO_STRING_STYLE);
-        for (Method method : annotation.annotationType().getDeclaredMethods()) {
-            if (method.getParameterTypes().length <= 0) {
-                try {
-                    toStringBuilder.append(method.getName(), method.invoke(annotation, new Object[0]));
-                } catch (RuntimeException e) {
-                    throw e;
-                } catch (Exception e2) {
-                    throw new RuntimeException(e2);
-                }
-            }
-        }
-        return toStringBuilder.build();
-    }
 
     public static boolean isValidAnnotationMemberType(Class<?> cls) {
         if (cls == null) {
@@ -219,6 +219,8 @@ public class AnnotationUtils {
         }
         return Arrays.hashCode((Object[]) obj);
     }
+
+
 
 
 }

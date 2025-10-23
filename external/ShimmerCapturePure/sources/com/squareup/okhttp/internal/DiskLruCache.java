@@ -78,6 +78,7 @@ public final class DiskLruCache implements Closeable {
     private int redundantOpCount;
     private long size = 0;
     private long nextSequenceNumber = 0;
+
     DiskLruCache(FileSystem fileSystem, File file, int i, int i2, long j, Executor executor) {
         this.fileSystem = fileSystem;
         this.directory = file;
@@ -88,6 +89,20 @@ public final class DiskLruCache implements Closeable {
         this.valueCount = i2;
         this.maxSize = j;
         this.executor = executor;
+    }
+
+    public static DiskLruCache create(FileSystem fileSystem, File file, int i, int i2, long j) {
+        if (j <= 0) {
+            throw new IllegalArgumentException("maxSize <= 0");
+        }
+        if (i2 <= 0) {
+            throw new IllegalArgumentException("valueCount <= 0");
+        }
+        return new DiskLruCache(fileSystem, file, i, i2, j, new ThreadPoolExecutor(0, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue(), Util.threadFactory("OkHttp DiskLruCache", true)));
+    }
+
+    public File getDirectory() {
+        return this.directory;
     }    private final Runnable cleanupRunnable = new Runnable() { // from class: com.squareup.okhttp.internal.DiskLruCache.1
         @Override // java.lang.Runnable
         public void run() {
@@ -107,20 +122,6 @@ public final class DiskLruCache implements Closeable {
             }
         }
     };
-
-    public static DiskLruCache create(FileSystem fileSystem, File file, int i, int i2, long j) {
-        if (j <= 0) {
-            throw new IllegalArgumentException("maxSize <= 0");
-        }
-        if (i2 <= 0) {
-            throw new IllegalArgumentException("valueCount <= 0");
-        }
-        return new DiskLruCache(fileSystem, file, i, i2, j, new ThreadPoolExecutor(0, 1, 60L, TimeUnit.SECONDS, new LinkedBlockingQueue(), Util.threadFactory("OkHttp DiskLruCache", true)));
-    }
-
-    public File getDirectory() {
-        return this.directory;
-    }
 
     public synchronized void initialize() throws IOException {
         if (this.initialized) {
@@ -766,6 +767,8 @@ public final class DiskLruCache implements Closeable {
             throw new AssertionError();
         }
     }
+
+
 
 
 }

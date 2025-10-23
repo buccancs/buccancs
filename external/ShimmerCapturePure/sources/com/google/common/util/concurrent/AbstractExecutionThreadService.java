@@ -12,7 +12,13 @@ import java.util.logging.Logger;
 /* loaded from: classes.dex */
 public abstract class AbstractExecutionThreadService implements Service {
     private static final Logger logger = Logger.getLogger(AbstractExecutionThreadService.class.getName());
+
     protected AbstractExecutionThreadService() {
+    }
+
+    protected abstract void run() throws Exception;
+
+    protected void shutDown() throws Exception {
     }    private final Service delegate = new AbstractService() { // from class: com.google.common.util.concurrent.AbstractExecutionThreadService.1
         @Override // com.google.common.util.concurrent.AbstractService
         protected final void doStart() {
@@ -59,11 +65,6 @@ public abstract class AbstractExecutionThreadService implements Service {
             return AbstractExecutionThreadService.this.toString();
         }
     };
-
-    protected abstract void run() throws Exception;
-
-    protected void shutDown() throws Exception {
-    }
 
     protected void startUp() throws Exception {
     }
@@ -139,6 +140,8 @@ public abstract class AbstractExecutionThreadService implements Service {
     protected String serviceName() {
         return getClass().getSimpleName();
     }
+
+
 
 
 }

@@ -16,10 +16,7 @@ import android.util.Log
 import android.util.Size
 import android.view.Surface
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.core.result.Error
-import com.buccancs.core.result.Result
 import com.buccancs.core.result.resultOf
-import com.buccancs.core.result.recover
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.storage.RecordingStorage

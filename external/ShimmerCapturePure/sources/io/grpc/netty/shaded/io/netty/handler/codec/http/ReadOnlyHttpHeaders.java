@@ -382,10 +382,11 @@ public final class ReadOnlyHttpHeaders extends HttpHeaders {
     private final class ReadOnlyStringValueIterator implements Iterator<String> {
         private final CharSequence name;
         private final int nameHash;
+
         ReadOnlyStringValueIterator(CharSequence charSequence) {
             this.name = charSequence;
             this.nameHash = AsciiString.hashCode(charSequence);
-        }        private int nextNameIndex = findNextValue();
+        }
 
         @Override // java.util.Iterator
         public boolean hasNext() {
@@ -400,7 +401,7 @@ public final class ReadOnlyHttpHeaders extends HttpHeaders {
                 return string;
             }
             throw new NoSuchElementException();
-        }
+        }        private int nextNameIndex = findNextValue();
 
         @Override // java.util.Iterator
         public void remove() {
@@ -418,15 +419,18 @@ public final class ReadOnlyHttpHeaders extends HttpHeaders {
         }
 
 
+
+
     }
 
     private final class ReadOnlyValueIterator implements Iterator<CharSequence> {
         private final CharSequence name;
         private final int nameHash;
+
         ReadOnlyValueIterator(CharSequence charSequence) {
             this.name = charSequence;
             this.nameHash = AsciiString.hashCode(charSequence);
-        }        private int nextNameIndex = findNextValue();
+        }
 
         @Override // java.util.Iterator
         public boolean hasNext() {
@@ -442,7 +446,7 @@ public final class ReadOnlyHttpHeaders extends HttpHeaders {
                 return charSequence;
             }
             throw new NoSuchElementException();
-        }
+        }        private int nextNameIndex = findNextValue();
 
         @Override // java.util.Iterator
         public void remove() {
@@ -458,6 +462,8 @@ public final class ReadOnlyHttpHeaders extends HttpHeaders {
             }
             return -1;
         }
+
+
 
 
     }

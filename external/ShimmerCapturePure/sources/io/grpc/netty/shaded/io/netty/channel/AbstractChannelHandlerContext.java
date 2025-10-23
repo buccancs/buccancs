@@ -1004,9 +1004,12 @@ abstract class AbstractChannelHandlerContext implements ChannelHandlerContext, R
 
     private static final class Tasks {
         private final AbstractChannelHandlerContext next;
+
         Tasks(AbstractChannelHandlerContext abstractChannelHandlerContext) {
             this.next = abstractChannelHandlerContext;
-        }        private final Runnable invokeChannelReadCompleteTask = new Runnable() { // from class: io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.Tasks.1
+        }
+
+        private final Runnable invokeChannelReadCompleteTask = new Runnable() { // from class: io.grpc.netty.shaded.io.netty.channel.AbstractChannelHandlerContext.Tasks.1
             @Override // java.lang.Runnable
             public void run() {
                 Tasks.this.next.invokeChannelReadComplete();

@@ -83,8 +83,6 @@ public final class SparseBooleanArrayKt {
             @Override // java.util.Iterator
             public boolean hasNext() {
                 return this.index < sparseBooleanArray.size();
-            }            public final void setIndex(int i) {
-                this.index = i;
             }
 
             @Override // kotlin.collections.IntIterator
@@ -93,6 +91,10 @@ public final class SparseBooleanArrayKt {
                 int i = this.index;
                 this.index = i + 1;
                 return sparseBooleanArray2.keyAt(i);
+            }
+
+            public final void setIndex(int i) {
+                this.index = i;
             }
 
 
@@ -110,8 +112,6 @@ public final class SparseBooleanArrayKt {
             @Override // java.util.Iterator
             public boolean hasNext() {
                 return this.index < sparseBooleanArray.size();
-            }            public final void setIndex(int i) {
-                this.index = i;
             }
 
             @Override // kotlin.collections.BooleanIterator
@@ -120,6 +120,10 @@ public final class SparseBooleanArrayKt {
                 int i = this.index;
                 this.index = i + 1;
                 return sparseBooleanArray2.valueAt(i);
+            }
+
+            public final void setIndex(int i) {
+                this.index = i;
             }
 
 

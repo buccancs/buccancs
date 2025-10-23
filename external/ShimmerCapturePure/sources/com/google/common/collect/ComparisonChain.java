@@ -10,7 +10,10 @@ import org.checkerframework.checker.nullness.compatqual.NullableDecl;
 
 /* loaded from: classes.dex */
 public abstract class ComparisonChain {
-    private static final ComparisonChain LESS = new InactiveComparisonChain(-1);    private static final ComparisonChain ACTIVE = new ComparisonChain() { // from class: com.google.common.collect.ComparisonChain.1
+    private static final ComparisonChain LESS = new InactiveComparisonChain(-1);
+    private static final ComparisonChain GREATER = new InactiveComparisonChain(1);
+    private ComparisonChain() {
+    }    private static final ComparisonChain ACTIVE = new ComparisonChain() { // from class: com.google.common.collect.ComparisonChain.1
         @Override // com.google.common.collect.ComparisonChain
         public int result() {
             return 0;
@@ -63,9 +66,6 @@ public abstract class ComparisonChain {
             return i > 0 ? ComparisonChain.GREATER : ComparisonChain.ACTIVE;
         }
     };
-    private static final ComparisonChain GREATER = new InactiveComparisonChain(1);
-    private ComparisonChain() {
-    }
 
     public static ComparisonChain start() {
         return ACTIVE;
@@ -147,6 +147,8 @@ public abstract class ComparisonChain {
             return this.result;
         }
     }
+
+
 
 
 }

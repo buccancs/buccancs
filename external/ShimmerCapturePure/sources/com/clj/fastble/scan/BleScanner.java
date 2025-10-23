@@ -19,6 +19,14 @@ public class BleScanner {
 
     public static BleScanner getInstance() {
         return BleScannerHolder.sBleScanner;
+    }
+
+    public BleScanState getScanState() {
+        return this.mBleScanState;
+    }
+
+    public void scan(UUID[] uuidArr, String[] strArr, String str, boolean z, long j, BleScanCallback bleScanCallback) {
+        startLeScan(uuidArr, strArr, str, z, false, j, bleScanCallback);
     }    private final BleScanPresenter mBleScanPresenter = new BleScanPresenter() { // from class: com.clj.fastble.scan.BleScanner.1
         @Override // com.clj.fastble.scan.BleScanPresenter
         public void onScanStarted(boolean z) {
@@ -82,14 +90,6 @@ public class BleScanner {
         }
     };
 
-    public BleScanState getScanState() {
-        return this.mBleScanState;
-    }
-
-    public void scan(UUID[] uuidArr, String[] strArr, String str, boolean z, long j, BleScanCallback bleScanCallback) {
-        startLeScan(uuidArr, strArr, str, z, false, j, bleScanCallback);
-    }
-
     public void scanAndConnect(UUID[] uuidArr, String[] strArr, String str, boolean z, long j, BleScanAndConnectCallback bleScanAndConnectCallback) {
         startLeScan(uuidArr, strArr, str, z, true, j, bleScanAndConnectCallback);
     }
@@ -120,6 +120,8 @@ public class BleScanner {
         private BleScannerHolder() {
         }
     }
+
+
 
 
 }

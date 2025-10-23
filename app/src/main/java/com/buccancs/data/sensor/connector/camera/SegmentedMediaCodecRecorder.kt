@@ -12,7 +12,6 @@ import android.util.Size
 import android.view.Surface
 import com.buccancs.core.result.codecOperation
 import com.buccancs.core.result.storageOperation
-import com.buccancs.core.result.Error
 import com.buccancs.data.storage.RecordingStorage
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorStreamType

@@ -15,16 +15,16 @@ import java.util.concurrent.atomic.AtomicBoolean;
 class WriteQueue {
     static final int DEQUE_CHUNK_SIZE = 128;
     private final Channel channel;
-    private final AtomicBoolean scheduled = new AtomicBoolean();    private final Runnable later = new Runnable() { // from class: io.grpc.netty.WriteQueue.1
+    private final AtomicBoolean scheduled = new AtomicBoolean();
+    private final Queue<QueuedCommand> queue = new ConcurrentLinkedQueue();
+    public WriteQueue(Channel channel) {
+        this.channel = (Channel) Preconditions.checkNotNull(channel, "channel");
+    }    private final Runnable later = new Runnable() { // from class: io.grpc.netty.WriteQueue.1
         @Override // java.lang.Runnable
         public void run() {
             WriteQueue.this.flush();
         }
     };
-    private final Queue<QueuedCommand> queue = new ConcurrentLinkedQueue();
-    public WriteQueue(Channel channel) {
-        this.channel = (Channel) Preconditions.checkNotNull(channel, "channel");
-    }
 
     void scheduleFlush() {
         if (this.scheduled.compareAndSet(false, true)) {
@@ -167,6 +167,8 @@ class WriteQueue {
             channel.write(this, this.promise);
         }
     }
+
+
 
 
 }

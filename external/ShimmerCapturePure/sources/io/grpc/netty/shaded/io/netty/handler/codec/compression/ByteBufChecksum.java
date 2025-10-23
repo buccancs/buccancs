@@ -15,14 +15,9 @@ import java.util.zip.Checksum;
 abstract class ByteBufChecksum implements Checksum {
     private static final Method ADLER32_UPDATE_METHOD = updateByteBuffer(new Adler32());
     private static final Method CRC32_UPDATE_METHOD = updateByteBuffer(new CRC32());
+
     ByteBufChecksum() {
-    }    private final ByteProcessor updateProcessor = new ByteProcessor() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.compression.ByteBufChecksum.1
-        @Override // io.grpc.netty.shaded.io.netty.util.ByteProcessor
-        public boolean process(byte b) throws Exception {
-            ByteBufChecksum.this.update(b);
-            return true;
-        }
-    };
+    }
 
     private static Method updateByteBuffer(Checksum checksum) {
         if (PlatformDependent.javaVersion() >= 8) {
@@ -50,7 +45,13 @@ abstract class ByteBufChecksum implements Checksum {
             return new ReflectiveByteBufChecksum(checksum, method);
         }
         return new SlowByteBufChecksum(checksum);
-    }
+    }    private final ByteProcessor updateProcessor = new ByteProcessor() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.compression.ByteBufChecksum.1
+        @Override // io.grpc.netty.shaded.io.netty.util.ByteProcessor
+        public boolean process(byte b) throws Exception {
+            ByteBufChecksum.this.update(b);
+            return true;
+        }
+    };
 
     public void update(ByteBuf byteBuf, int i, int i2) {
         if (byteBuf.hasArray()) {
@@ -105,6 +106,8 @@ abstract class ByteBufChecksum implements Checksum {
             this.checksum.reset();
         }
     }
+
+
 
 
 }

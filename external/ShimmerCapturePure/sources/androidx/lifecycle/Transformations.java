@@ -109,7 +109,9 @@ public final class Transformations {
                         }
                     }));
                 }
-            }            public final void setLiveData(LiveData<Y> liveData2) {
+            }
+
+            public final void setLiveData(LiveData<Y> liveData2) {
                 this.liveData = liveData2;
             }
 
@@ -166,7 +168,9 @@ public final class Transformations {
                         }
                     }));
                 }
-            }            public final void setLiveData(LiveData<Y> liveData2) {
+            }
+
+            public final void setLiveData(LiveData<Y> liveData2) {
                 this.liveData = liveData2;
             }
 

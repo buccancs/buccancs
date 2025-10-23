@@ -17,7 +17,6 @@ import com.buccancs.domain.repository.TopdonDeviceRepository
 import com.buccancs.domain.repository.TopdonSettingsRepository
 import com.buccancs.ui.components.topdon.MeasurementMode
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget
-import com.buccancs.ui.topdon.thermal.clampToFrame
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Area
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Line
 import com.buccancs.ui.topdon.thermal.ThermalMeasurementTarget.Spot

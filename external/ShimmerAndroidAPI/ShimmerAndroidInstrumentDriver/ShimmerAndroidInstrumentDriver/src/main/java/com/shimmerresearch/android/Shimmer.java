@@ -719,21 +719,7 @@ public class Shimmer extends ShimmerBluetooth {
         Bundle bundle = new Bundle();
         bundle.putString(TOAST, "Unable to connect device");
         sendMsgToHandlerList(MESSAGE_TOAST, bundle);
-    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                String macAdd = device.getAddress();
-                if (macAdd.equals(mMyBluetoothAddress)) {
-                    connectionLost();
-                }
-            }
-        }
-    };
+    }
 
     protected void connectionLost() {
         if (mIOThread != null) {
@@ -758,7 +744,21 @@ public class Shimmer extends ShimmerBluetooth {
         bundle.putString(TOAST, "Inquiry done for device-> " + mMyBluetoothAddress);
         sendMsgToHandlerList(MESSAGE_TOAST, bundle);
         isReadyForStreaming();
-    }
+    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                BluetoothDevice device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                String macAdd = device.getAddress();
+                if (macAdd.equals(mMyBluetoothAddress)) {
+                    connectionLost();
+                }
+            }
+        }
+    };
 
     @Override
     protected void isReadyForStreaming() {
@@ -877,16 +877,6 @@ public class Shimmer extends ShimmerBluetooth {
         return null;
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     @Override
     protected byte readByte() {
         byte[] tb = new byte[1];
@@ -905,6 +895,16 @@ public class Shimmer extends ShimmerBluetooth {
     protected void dataHandler(ObjectCluster ojc) {
         sendMsgToHandlerListTarget(ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET, ojc);
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     @Override
     protected void sendStatusMSGtoUI(String smsg) {
@@ -1110,28 +1110,6 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-	/*
-	public byte[] readBytes(int numberofBytes){
-		  byte[] b = new byte[numberofBytes];  
-		  try{
-
-			   int timeoutMillis = 500;
-			   int bufferOffset = 0;
-			   long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
-			   while (System.currentTimeMillis() < maxTimeMillis && bufferOffset < b.length && mState!=STATE_NONE) {
-			    int readLength = java.lang.Math.min(mInStream.available(),b.length-bufferOffset);
-			    int readResult = mInStream.read(b, bufferOffset, readLength);
-			    if (readResult == -1) break;
-			    bufferOffset += readResult;
-		   }
-			   return b;
-		  } catch (IOException e) {
-			   connectionLost();
-			   e.printStackTrace();
-			   return b;
-		  }
-	}*/
-
     @Override
     public void readStatusLogAndStream() {
         if (this.isSupportedInStreamCmds()) {
@@ -1153,6 +1131,28 @@ public class Shimmer extends ShimmerBluetooth {
             connected(socket);
         }
     }
+
+	/*
+	public byte[] readBytes(int numberofBytes){
+		  byte[] b = new byte[numberofBytes];  
+		  try{
+
+			   int timeoutMillis = 500;
+			   int bufferOffset = 0;
+			   long maxTimeMillis = System.currentTimeMillis() + timeoutMillis;
+			   while (System.currentTimeMillis() < maxTimeMillis && bufferOffset < b.length && mState!=STATE_NONE) {
+			    int readLength = java.lang.Math.min(mInStream.available(),b.length-bufferOffset);
+			    int readResult = mInStream.read(b, bufferOffset, readLength);
+			    if (readResult == -1) break;
+			    bufferOffset += readResult;
+		   }
+			   return b;
+		  } catch (IOException e) {
+			   connectionLost();
+			   e.printStackTrace();
+			   return b;
+		  }
+	}*/
 
     private void sendMsgToHandlerList(int obtainMessage) {
         for (Handler handler : mHandlerList) {

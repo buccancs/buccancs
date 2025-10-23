@@ -8,7 +8,15 @@ import io.grpc.netty.shaded.io.netty.handler.codec.DecoderResult;
 public interface LastHttpContent extends HttpContent {
     @Override
         // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContent, io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
-    LastHttpContent copy();    public static final LastHttpContent EMPTY_LAST_CONTENT = new LastHttpContent() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.http.LastHttpContent.1
+    LastHttpContent copy();
+
+    @Override
+        // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContent, io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
+    LastHttpContent duplicate();
+
+    @Override
+        // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContent, io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
+    LastHttpContent replace(ByteBuf byteBuf);    public static final LastHttpContent EMPTY_LAST_CONTENT = new LastHttpContent() { // from class: io.grpc.netty.shaded.io.netty.handler.codec.http.LastHttpContent.1
         @Override
         // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContent, io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
         public LastHttpContent duplicate() {
@@ -100,14 +108,6 @@ public interface LastHttpContent extends HttpContent {
     };
 
     @Override
-        // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContent, io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
-    LastHttpContent duplicate();
-
-    @Override
-        // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContent, io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder
-    LastHttpContent replace(ByteBuf byteBuf);
-
-    @Override
         // io.grpc.netty.shaded.io.netty.handler.codec.http.HttpContent, io.grpc.netty.shaded.io.netty.buffer.ByteBufHolder, io.grpc.netty.shaded.io.netty.util.ReferenceCounted
     LastHttpContent retain();
 
@@ -128,6 +128,8 @@ public interface LastHttpContent extends HttpContent {
     LastHttpContent touch(Object obj);
 
     HttpHeaders trailingHeaders();
+
+
 
 
 }

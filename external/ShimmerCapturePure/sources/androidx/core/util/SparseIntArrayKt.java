@@ -82,8 +82,6 @@ public final class SparseIntArrayKt {
             @Override // java.util.Iterator
             public boolean hasNext() {
                 return this.index < sparseIntArray.size();
-            }            public final void setIndex(int i) {
-                this.index = i;
             }
 
             @Override // kotlin.collections.IntIterator
@@ -92,6 +90,10 @@ public final class SparseIntArrayKt {
                 int i = this.index;
                 this.index = i + 1;
                 return sparseIntArray2.keyAt(i);
+            }
+
+            public final void setIndex(int i) {
+                this.index = i;
             }
 
 
@@ -109,8 +111,6 @@ public final class SparseIntArrayKt {
             @Override // java.util.Iterator
             public boolean hasNext() {
                 return this.index < sparseIntArray.size();
-            }            public final void setIndex(int i) {
-                this.index = i;
             }
 
             @Override // kotlin.collections.IntIterator
@@ -119,6 +119,10 @@ public final class SparseIntArrayKt {
                 int i = this.index;
                 this.index = i + 1;
                 return sparseIntArray2.valueAt(i);
+            }
+
+            public final void setIndex(int i) {
+                this.index = i;
             }
 
 

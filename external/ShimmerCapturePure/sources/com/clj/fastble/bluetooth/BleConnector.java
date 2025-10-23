@@ -29,9 +29,26 @@ public class BleConnector {
     private BluetoothGatt mBluetoothGatt;
     private BluetoothGattCharacteristic mCharacteristic;
     private BluetoothGattService mGattService;
+
     BleConnector(BleBluetooth bleBluetooth) {
         this.mBleBluetooth = bleBluetooth;
         this.mBluetoothGatt = bleBluetooth.getBluetoothGatt();
+    }
+
+    private BleConnector withUUID(UUID uuid, UUID uuid2) {
+        BluetoothGatt bluetoothGatt;
+        if (uuid != null && (bluetoothGatt = this.mBluetoothGatt) != null) {
+            this.mGattService = bluetoothGatt.getService(uuid);
+        }
+        BluetoothGattService bluetoothGattService = this.mGattService;
+        if (bluetoothGattService != null && uuid2 != null) {
+            this.mCharacteristic = bluetoothGattService.getCharacteristic(uuid2);
+        }
+        return this;
+    }
+
+    public BleConnector withUUIDString(String str, String str2) {
+        return withUUID(formUUID(str), formUUID(str2));
     }    private Handler mHandler = new Handler(Looper.getMainLooper()) { // from class: com.clj.fastble.bluetooth.BleConnector.1
         @Override // android.os.Handler
         public void handleMessage(Message message) {
@@ -200,22 +217,6 @@ public class BleConnector {
             }
         }
     };
-
-    private BleConnector withUUID(UUID uuid, UUID uuid2) {
-        BluetoothGatt bluetoothGatt;
-        if (uuid != null && (bluetoothGatt = this.mBluetoothGatt) != null) {
-            this.mGattService = bluetoothGatt.getService(uuid);
-        }
-        BluetoothGattService bluetoothGattService = this.mGattService;
-        if (bluetoothGattService != null && uuid2 != null) {
-            this.mCharacteristic = bluetoothGattService.getCharacteristic(uuid2);
-        }
-        return this;
-    }
-
-    public BleConnector withUUIDString(String str, String str2) {
-        return withUUID(formUUID(str), formUUID(str2));
-    }
 
     private UUID formUUID(String str) {
         if (str == null) {
@@ -502,6 +503,8 @@ public class BleConnector {
     public void mtuChangedMsgInit() {
         this.mHandler.removeMessages(97);
     }
+
+
 
 
 }

@@ -18,7 +18,20 @@ import kotlin.jvm.internal.ShortCompanionObject;
 /* loaded from: classes4.dex */
 class LocalDevice2Impl extends LocalDevice {
     private static BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
-    private NotificationManager notificationManager = null;    private final BroadcastReceiver receiver = new BroadcastReceiver() { // from class: it.gerdavax.easybluetooth.LocalDevice2Impl.1
+    private NotificationManager notificationManager = null;
+
+    LocalDevice2Impl() {
+    }
+
+    @Override // it.gerdavax.easybluetooth.LocalDevice
+    public void destroy() {
+        try {
+            this.ctx.unregisterReceiver(this.receiver);
+        } catch (IllegalArgumentException unused) {
+        }
+        this.ctx = null;
+        super.destroy();
+    }    private final BroadcastReceiver receiver = new BroadcastReceiver() { // from class: it.gerdavax.easybluetooth.LocalDevice2Impl.1
         @Override // android.content.BroadcastReceiver
         public void onReceive(Context context, Intent intent) {
             String action = intent.getAction();
@@ -31,18 +44,6 @@ class LocalDevice2Impl extends LocalDevice {
             }
         }
     };
-    LocalDevice2Impl() {
-    }
-
-    @Override // it.gerdavax.easybluetooth.LocalDevice
-    public void destroy() {
-        try {
-            this.ctx.unregisterReceiver(this.receiver);
-        } catch (IllegalArgumentException unused) {
-        }
-        this.ctx = null;
-        super.destroy();
-    }
 
     @Override // it.gerdavax.easybluetooth.LocalDevice
     public void init(Context context, final ReadyListener readyListener) {
@@ -155,6 +156,8 @@ class LocalDevice2Impl extends LocalDevice {
             interrupt();
         }
     }
+
+
 
 
 }

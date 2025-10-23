@@ -32,12 +32,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import com.buccancs.data.sensor.connector.topdon.ThermalNormalizer
 import com.buccancs.data.sensor.connector.topdon.capture.AreaMeasurement
 import com.buccancs.data.sensor.connector.topdon.capture.LineMeasurement
 import com.buccancs.data.sensor.connector.topdon.capture.MaxMinMeasurement
 import com.buccancs.data.sensor.connector.topdon.capture.MeasurementProcessor
 import com.buccancs.data.sensor.connector.topdon.capture.SpotMeasurement
-import com.buccancs.data.sensor.connector.topdon.ThermalNormalizer
 import com.buccancs.domain.model.TopdonDynamicRange
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonPreviewFrame

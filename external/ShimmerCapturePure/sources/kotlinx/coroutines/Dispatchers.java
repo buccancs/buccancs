@@ -12,13 +12,14 @@ import kotlinx.coroutines.scheduling.DefaultScheduler;
 public final class Dispatchers {
     public static final Dispatchers INSTANCE = new Dispatchers();
     private static final CoroutineDispatcher Default = DefaultScheduler.INSTANCE;
-    private static final CoroutineDispatcher IO = DefaultIoScheduler.INSTANCE;    private static final CoroutineDispatcher Unconfined = Unconfined.INSTANCE;
+    private static final CoroutineDispatcher IO = DefaultIoScheduler.INSTANCE;
+
     private Dispatchers() {
     }
 
     public static final CoroutineDispatcher getDefault() {
         return Default;
-    }
+    }    private static final CoroutineDispatcher Unconfined = Unconfined.INSTANCE;
 
     @JvmStatic
     public static /* synthetic */ void getDefault$annotations() {
@@ -52,6 +53,8 @@ public final class Dispatchers {
         DefaultExecutor.INSTANCE.shutdown();
         DefaultScheduler.INSTANCE.shutdown$kotlinx_coroutines_core();
     }
+
+
 
 
 }

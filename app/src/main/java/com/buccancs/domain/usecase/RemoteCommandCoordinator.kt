@@ -3,7 +3,6 @@ package com.buccancs.domain.usecase
 import android.util.Log
 import com.buccancs.application.control.DeviceCommandService
 import com.buccancs.application.time.TimeSyncService
-import com.buccancs.core.result.Result
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.StartRecordingCommandPayload
 import com.buccancs.control.commands.StopRecordingCommandPayload

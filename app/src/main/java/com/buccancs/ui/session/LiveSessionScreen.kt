@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Bookmark
 import androidx.compose.material.icons.filled.CheckCircle
@@ -1322,7 +1321,7 @@ private fun StimulusOverlay(
             style = MaterialTheme.typography.headlineLarge,
             modifier = Modifier
                 .align(
-                    androidx.compose.ui.Alignment.Center
+                    Alignment.Center
                 )
                 .padding(
                     Spacing.Large

@@ -59,6 +59,7 @@ public class ViewDragHelper {
     private int mTrackingEdges;
     private VelocityTracker mVelocityTracker;
     private int mActivePointerId = -1;
+
     private ViewDragHelper(Context context, ViewGroup viewGroup, Callback callback) {
         if (viewGroup == null) {
             throw new IllegalArgumentException("Parent view may not be null");
@@ -74,16 +75,16 @@ public class ViewDragHelper {
         this.mMaxVelocity = viewConfiguration.getScaledMaximumFlingVelocity();
         this.mMinVelocity = viewConfiguration.getScaledMinimumFlingVelocity();
         this.mScroller = new OverScroller(context, sInterpolator);
+    }
+
+    public static ViewDragHelper create(ViewGroup viewGroup, Callback callback) {
+        return new ViewDragHelper(viewGroup.getContext(), viewGroup, callback);
     }    private final Runnable mSetIdleRunnable = new Runnable() { // from class: androidx.customview.widget.ViewDragHelper.2
         @Override // java.lang.Runnable
         public void run() {
             ViewDragHelper.this.setDragState(0);
         }
     };
-
-    public static ViewDragHelper create(ViewGroup viewGroup, Callback callback) {
-        return new ViewDragHelper(viewGroup.getContext(), viewGroup, callback);
-    }
 
     public static ViewDragHelper create(ViewGroup viewGroup, float f, Callback callback) {
         ViewDragHelper viewDragHelperCreate = create(viewGroup, callback);
@@ -783,6 +784,8 @@ public class ViewDragHelper {
 
         public abstract boolean tryCaptureView(View view, int i);
     }
+
+
 
 
 }

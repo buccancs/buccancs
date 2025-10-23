@@ -141,14 +141,14 @@ public abstract class FragmentManager implements FragmentResultOwner {
     private boolean mExecutingActions;
     private boolean mHavePendingDeferredStart;
     private FragmentHostCallback<?> mHost;
-    private boolean mNeedMenuInvalidate;    private final OnBackPressedCallback mOnBackPressedCallback = new OnBackPressedCallback(false) { // from class: androidx.fragment.app.FragmentManager.1
+    private boolean mNeedMenuInvalidate;
+    private FragmentManagerViewModel mNonConfig;
+    private OnBackPressedDispatcher mOnBackPressedDispatcher;    private final OnBackPressedCallback mOnBackPressedCallback = new OnBackPressedCallback(false) { // from class: androidx.fragment.app.FragmentManager.1
         @Override // androidx.activity.OnBackPressedCallback
         public void handleOnBackPressed() {
             FragmentManager.this.handleOnBackPressed();
         }
     };
-    private FragmentManagerViewModel mNonConfig;
-    private OnBackPressedDispatcher mOnBackPressedDispatcher;
     private Fragment mParent;
     private ActivityResultLauncher<String[]> mRequestPermissions;
     private ActivityResultLauncher<Intent> mStartActivityForResult;
@@ -196,12 +196,7 @@ public abstract class FragmentManager implements FragmentResultOwner {
             return 0;
         }
         return FragmentTransaction.TRANSIT_FRAGMENT_MATCH_ACTIVITY_CLOSE;
-    }    private Runnable mExecCommit = new Runnable() { // from class: androidx.fragment.app.FragmentManager.5
-        @Override // java.lang.Runnable
-        public void run() {
-            FragmentManager.this.execPendingActions(true);
-        }
-    };
+    }
 
     public static boolean isLoggingEnabled(int i) {
         return DEBUG || Log.isLoggable(TAG, i);
@@ -233,7 +228,12 @@ public abstract class FragmentManager implements FragmentResultOwner {
             return (Fragment) tag;
         }
         return null;
-    }
+    }    private Runnable mExecCommit = new Runnable() { // from class: androidx.fragment.app.FragmentManager.5
+        @Override // java.lang.Runnable
+        public void run() {
+            FragmentManager.this.execPendingActions(true);
+        }
+    };
 
     static FragmentManager findFragmentManager(View view) {
         FragmentActivity fragmentActivity;
@@ -2442,6 +2442,8 @@ public abstract class FragmentManager implements FragmentResultOwner {
             return FragmentManager.this.clearBackStackState(arrayList, arrayList2, this.mName);
         }
     }
+
+
 
 
 
