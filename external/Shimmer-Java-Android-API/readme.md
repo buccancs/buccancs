@@ -13,11 +13,11 @@ Rev 3.00
 
 - Change to Handler MSGs
 
-| Deprecated | Updated |
-|----------------------------------|----------------------------------------------|
-| ~~Shimmer.MESSAGE_STATE_CHANGE~~ |
-ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE | | ~~Shimmer.MESSAGE_READ~~ |
-ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET |
+| Deprecated                                   | Updated |
+|----------------------------------------------|---------|
+| ~~Shimmer.MESSAGE_STATE_CHANGE~~             |
+ ShimmerBluetooth.MSG_IDENTIFIER_STATE_CHANGE |         | ~~Shimmer.MESSAGE_READ~~ |
+ ShimmerBluetooth.MSG_IDENTIFIER_DATA_PACKET  |
 
 - ~~ Shimmer.MSG_STATE_FULLY_INITIALIZED~~, ~~ Shimmer.STATE_CONNECTING~~, ~~
   Shimmer.STATE_NONE~~, ~~ Shimmer.STATE_CONNECTED~~, is deprecated the

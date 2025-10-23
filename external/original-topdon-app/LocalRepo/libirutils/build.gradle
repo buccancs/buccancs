@@ -1,7 +1,7 @@
 configurations.maybeCreate(
-                "default"
-        )
+        "default"
+)
 artifacts.add(
-                "default",
-                file('libirutils_1.2.0_2409241055.aar')
-        )
+        "default",
+        file('libirutils_1.2.0_2409241055.aar')
+)

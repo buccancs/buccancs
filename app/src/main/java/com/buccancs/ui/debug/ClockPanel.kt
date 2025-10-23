@@ -33,8 +33,7 @@ import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus
 import com.buccancs.ui.theme.Spacing
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 import kotlin.math.abs
 
 @Composable

@@ -1,7 +1,7 @@
 configurations.maybeCreate(
-                "default"
-        )
+        "default"
+)
 artifacts.add(
-                "default",
-                file('libcommon_1.2.0_24052117.aar')
-        )
+        "default",
+        file('libcommon_1.2.0_24052117.aar')
+)

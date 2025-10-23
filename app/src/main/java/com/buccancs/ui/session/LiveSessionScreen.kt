@@ -106,7 +106,7 @@ import com.buccancs.ui.theme.LayoutPadding
 import com.buccancs.ui.theme.MotionTokens
 import com.buccancs.ui.theme.MotionTransitions
 import com.buccancs.ui.theme.Spacing
-import java.util.Locale
+import java.util.*
 import kotlin.time.Duration.Companion.minutes
 import kotlin.time.Duration.Companion.seconds
 import kotlin.time.Instant

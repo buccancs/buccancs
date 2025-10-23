@@ -4,13 +4,13 @@ UI Analyzer for Android Apps
 Converts UI dumps to AI-understandable format and detects layout issues
 """
 
+import base64
 import json
+import re
 import xml.etree.ElementTree as ET
 from dataclasses import dataclass, asdict
-from typing import List, Optional, Dict, Tuple
 from pathlib import Path
-import base64
-import re
+from typing import List, Optional, Dict, Tuple
 
 
 @dataclass
@@ -20,32 +20,32 @@ class Rectangle:
     top: int
     right: int
     bottom: int
-    
+
     @property
     def width(self) -> int:
         return self.right - self.left
-    
+
     @property
     def height(self) -> int:
         return self.bottom - self.top
-    
+
     @property
     def area(self) -> int:
         return self.width * self.height
-    
+
     @property
     def center_x(self) -> int:
         return self.left + self.width // 2
-    
+
     @property
     def center_y(self) -> int:
         return self.top + self.height // 2
-    
+
     def overlaps(self, other: 'Rectangle') -> bool:
         """Check if this rectangle overlaps with another"""
         return not (self.right < other.left or self.left > other.right or
-                   self.bottom < other.top or self.top > other.bottom)
-    
+                    self.bottom < other.top or self.top > other.bottom)
+
     def to_dict(self) -> dict:
         return {
             'left': self.left,
@@ -72,13 +72,13 @@ class UiElement:
     focused: bool
     scrollable: bool
     children: List['UiElement']
-    
+
     # Computed properties
     is_likely_truncated: bool = False
     has_text_wrapping: bool = False
     has_overlapping_elements: bool = False
     touch_target_too_small: bool = False
-    
+
     def to_dict(self) -> dict:
         """Convert to dictionary for JSON export"""
         return {
@@ -110,7 +110,7 @@ class UiIssue:
     description: str
     suggestion: str
     confidence: float = 1.0
-    
+
     def to_dict(self) -> dict:
         return {
             'severity': self.severity,
@@ -129,7 +129,7 @@ class UiIssue:
 
 class UiHierarchyParser:
     """Parse Android UI Automator XML dumps"""
-    
+
     @staticmethod
     def parse_bounds(bounds_str: str) -> Rectangle:
         """Parse bounds string: '[96,600][984,744]'"""
@@ -140,12 +140,12 @@ class UiHierarchyParser:
             int(coords[0]), int(coords[1]),
             int(coords[2]), int(coords[3])
         )
-    
+
     @staticmethod
     def parse_node(node: ET.Element) -> UiElement:
         """Parse XML node to UiElement"""
         bounds = UiHierarchyParser.parse_bounds(node.get('bounds', '[0,0][0,0]'))
-        
+
         element = UiElement(
             element_id=node.get('resource-id', ''),
             element_type=node.get('class', ''),
@@ -158,47 +158,47 @@ class UiHierarchyParser:
             scrollable=node.get('scrollable', 'false') == 'true',
             children=[]
         )
-        
+
         # Parse children
         for child_node in node.findall('node'):
             element.children.append(UiHierarchyParser.parse_node(child_node))
-        
+
         return element
-    
+
     @staticmethod
     def parse_xml_file(xml_path: str) -> UiElement:
         """Parse XML file and return root element"""
         tree = ET.parse(xml_path)
         root = tree.getroot()
-        
+
         # Find first node (root of hierarchy)
         first_node = root.find('node')
         if first_node is None:
             raise ValueError("No nodes found in XML")
-        
+
         return UiHierarchyParser.parse_node(first_node)
 
 
 class UiIssueDetector:
     """Detect UI layout issues"""
-    
+
     # Constants (assuming 3x density ~420dpi)
     MIN_TOUCH_TARGET = 144  # 48dp in pixels
     CHAR_WIDTH_ESTIMATE = 20  # Average character width in pixels
-    
+
     def __init__(self, density: float = 3.0):
         self.density = density
         self.min_touch_target = int(48 * density)  # 48dp to pixels
-    
+
     def analyze_hierarchy(self, root: UiElement) -> List[UiIssue]:
         """Analyze entire hierarchy for issues"""
         issues = []
         self._traverse_and_check(root, issues)
         return issues
-    
+
     def _traverse_and_check(self, element: UiElement, issues: List[UiIssue]):
         """Recursively check element and children"""
-        
+
         # 1. Check text truncation
         if element.text and len(element.text) > 0:
             estimated_width = len(element.text) * self.CHAR_WIDTH_ESTIMATE
@@ -209,29 +209,29 @@ class UiIssueDetector:
                     issue_type='TEXT_TRUNCATED',
                     element=element,
                     description=f"Text '{element.text}' appears truncated. "
-                               f"Available width: {element.bounds.width}px, "
-                               f"estimated need: {estimated_width}px",
+                                f"Available width: {element.bounds.width}px, "
+                                f"estimated need: {estimated_width}px",
                     suggestion="Increase container width or reduce text length",
                     confidence=0.85
                 ))
-        
+
         # 2. Check touch target size
         if element.clickable:
-            if (element.bounds.width < self.min_touch_target or 
-                element.bounds.height < self.min_touch_target):
+            if (element.bounds.width < self.min_touch_target or
+                    element.bounds.height < self.min_touch_target):
                 element.touch_target_too_small = True
                 issues.append(UiIssue(
                     severity='MEDIUM',
                     issue_type='TOUCH_TARGET_TOO_SMALL',
                     element=element,
                     description=f"Clickable element too small: "
-                               f"{element.bounds.width}x{element.bounds.height}px. "
-                               f"Minimum recommended: {self.min_touch_target}px "
-                               f"(48dp at {self.density}x density)",
+                                f"{element.bounds.width}x{element.bounds.height}px. "
+                                f"Minimum recommended: {self.min_touch_target}px "
+                                f"(48dp at {self.density}x density)",
                     suggestion=f"Increase size to at least 48dp ({self.min_touch_target}px)",
                     confidence=1.0
                 ))
-        
+
         # 3. Check button text wrapping
         if 'Button' in element.element_type and element.children:
             text_children = [c for c in element.children if 'TextView' in c.element_type]
@@ -245,13 +245,13 @@ class UiIssueDetector:
                         issue_type='TEXT_WRAPPED',
                         element=element,
                         description=f"Button text appears to wrap to multiple lines. "
-                                   f"Text height ({text_child.bounds.height}px) is "
-                                   f"{(text_child.bounds.height/element.bounds.height*100):.0f}% "
-                                   f"of button height",
+                                    f"Text height ({text_child.bounds.height}px) is "
+                                    f"{(text_child.bounds.height / element.bounds.height * 100):.0f}% "
+                                    f"of button height",
                         suggestion="Use shorter text or increase button width",
                         confidence=0.9
                     ))
-        
+
         # 4. Check for missing accessibility labels
         if element.clickable and not element.content_desc and not element.text:
             issues.append(UiIssue(
@@ -262,7 +262,7 @@ class UiIssueDetector:
                 suggestion="Add contentDescription for accessibility",
                 confidence=1.0
             ))
-        
+
         # 5. Check for overlapping clickable elements
         if element.clickable:
             for sibling in element.children:
@@ -273,11 +273,11 @@ class UiIssueDetector:
                         issue_type='OVERLAPPING_ELEMENTS',
                         element=element,
                         description=f"Clickable element overlaps with another: "
-                                   f"{sibling.text or sibling.element_type}",
+                                    f"{sibling.text or sibling.element_type}",
                         suggestion="Adjust layout to prevent overlapping touch targets",
                         confidence=1.0
                     ))
-        
+
         # Recurse into children
         for child in element.children:
             self._traverse_and_check(child, issues)
@@ -285,13 +285,13 @@ class UiIssueDetector:
 
 class ReportGenerator:
     """Generate analysis reports"""
-    
+
     @staticmethod
     def generate_json_report(
-        root: UiElement,
-        issues: List[UiIssue],
-        output_path: str,
-        metadata: Optional[Dict] = None
+            root: UiElement,
+            issues: List[UiIssue],
+            output_path: str,
+            metadata: Optional[Dict] = None
     ):
         """Generate JSON report"""
         report = {
@@ -306,17 +306,17 @@ class ReportGenerator:
             'issues': [issue.to_dict() for issue in issues],
             'hierarchy': root.to_dict()
         }
-        
+
         with open(output_path, 'w') as f:
             json.dump(report, f, indent=2)
-    
+
     @staticmethod
     def generate_ai_prompt(
-        issues: List[UiIssue],
-        screenshot_path: Optional[str] = None
+            issues: List[UiIssue],
+            screenshot_path: Optional[str] = None
     ) -> str:
         """Generate prompt for AI analysis"""
-        
+
         prompt = f"""# UI Analysis Request
 
 I've detected {len(issues)} potential UI issues in my Android app. 
@@ -337,7 +337,7 @@ Please review and provide additional insights.
 - **Confidence**: {issue.confidence:.0%}
 
 """
-        
+
         prompt += """
 ## Questions for You
 
@@ -347,7 +347,7 @@ Please review and provide additional insights.
 4. Can you suggest specific code changes?
 
 """
-        
+
         if screenshot_path:
             prompt += f"""
 ## Visual Reference
@@ -359,24 +359,24 @@ Please analyze the screenshot to:
 - Identify any visual problems not caught by structural analysis
 - Suggest improvements to visual design
 """
-        
+
         return prompt
-    
+
     @staticmethod
     def generate_html_report(
-        root: UiElement,
-        issues: List[UiIssue],
-        output_path: str,
-        screenshot_path: Optional[str] = None
+            root: UiElement,
+            issues: List[UiIssue],
+            output_path: str,
+            screenshot_path: Optional[str] = None
     ):
         """Generate HTML report with visualization"""
-        
+
         # Read screenshot as base64 if available
         screenshot_data = ""
         if screenshot_path and Path(screenshot_path).exists():
             with open(screenshot_path, 'rb') as f:
                 screenshot_data = base64.b64encode(f.read()).decode()
-        
+
         html = f"""<!DOCTYPE html>
 <html>
 <head>
@@ -414,7 +414,7 @@ Please analyze the screenshot to:
         </p>
     </div>
 """
-        
+
         if screenshot_data:
             html += f"""
     <div>
@@ -422,11 +422,11 @@ Please analyze the screenshot to:
         <img src="data:image/png;base64,{screenshot_data}" class="screenshot" alt="UI Screenshot" />
     </div>
 """
-        
+
         html += """
     <h2>Detected Issues</h2>
 """
-        
+
         for i, issue in enumerate(issues, 1):
             html += f"""
     <div class="issue {issue.severity.lower()}">
@@ -443,12 +443,12 @@ Please analyze the screenshot to:
         </div>
     </div>
 """
-        
+
         html += """
 </body>
 </html>
 """
-        
+
         with open(output_path, 'w') as f:
             f.write(html)
 
@@ -456,30 +456,30 @@ Please analyze the screenshot to:
 def main():
     """Main entry point"""
     import argparse
-    
+
     parser = argparse.ArgumentParser(description='Analyze Android UI dumps for layout issues')
     parser.add_argument('xml_file', help='Path to UI Automator XML dump')
     parser.add_argument('--screenshot', help='Path to screenshot PNG', default=None)
     parser.add_argument('--output', help='Output directory', default='.')
     parser.add_argument('--density', type=float, default=3.0, help='Screen density (default: 3.0)')
-    
+
     args = parser.parse_args()
-    
+
     print(f"📱 Analyzing UI dump: {args.xml_file}")
-    
+
     # Parse hierarchy
     root = UiHierarchyParser.parse_xml_file(args.xml_file)
     print(f"✅ Parsed UI hierarchy")
-    
+
     # Detect issues
     detector = UiIssueDetector(density=args.density)
     issues = detector.analyze_hierarchy(root)
     print(f"🔍 Found {len(issues)} issues")
-    
+
     # Generate reports
     output_dir = Path(args.output)
     output_dir.mkdir(exist_ok=True)
-    
+
     # JSON report
     json_path = output_dir / 'ui-analysis.json'
     ReportGenerator.generate_json_report(
@@ -491,19 +491,19 @@ def main():
         }
     )
     print(f"📄 JSON report: {json_path}")
-    
+
     # HTML report
     html_path = output_dir / 'ui-analysis.html'
     ReportGenerator.generate_html_report(root, issues, str(html_path), args.screenshot)
     print(f"📊 HTML report: {html_path}")
-    
+
     # AI prompt
     prompt_path = output_dir / 'ai-prompt.txt'
     prompt = ReportGenerator.generate_ai_prompt(issues, args.screenshot)
     with open(prompt_path, 'w') as f:
         f.write(prompt)
     print(f"🤖 AI prompt: {prompt_path}")
-    
+
     # Summary
     print(f"\n📋 Summary:")
     print(f"   Total Issues: {len(issues)}")
@@ -511,10 +511,10 @@ def main():
     print(f"   High: {sum(1 for i in issues if i.severity == 'HIGH')}")
     print(f"   Medium: {sum(1 for i in issues if i.severity == 'MEDIUM')}")
     print(f"   Low: {sum(1 for i in issues if i.severity == 'LOW')}")
-    
+
     if issues:
         print(f"\n⚠️  Top Issues:")
-        for issue in sorted(issues, key=lambda i: ('CRITICAL','HIGH','MEDIUM','LOW').index(i.severity))[:5]:
+        for issue in sorted(issues, key=lambda i: ('CRITICAL', 'HIGH', 'MEDIUM', 'LOW').index(i.severity))[:5]:
             print(f"   • [{issue.severity}] {issue.issue_type}: {issue.description[:80]}...")
 
 

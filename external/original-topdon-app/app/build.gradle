@@ -306,66 +306,66 @@ def versionApk(
         defaultConfig
 ) {
     variant.outputs.all {
-                def appName = "TopInfrared.apk"
-                def nameStr = "TopInfrared_" +
-                        defaultConfig.versionName + "." +
-                        dayStr
-                if (variant.name == "devDebug") {
-                    appName =
-                            "TopInfrared-v" +
-                                    defaultConfig.versionName + "-debug.apk"
-                } else if (
-                        variant.name == "devRelease") {
-                    appName =
-                            nameStr + "-release.apk"
-                } else if (
-                        variant.name == "betaDebug") {
-                    appName =
-                            nameStr + "_beta_debug.apk"
-                } else if (
-                        variant.name == "betaRelease") {
-                    appName =
-                            nameStr + "_beta.apk"
-                } else if (
-                        variant.name == "prodDebug") {
-                    appName =
-                            nameStr + "_debug.apk"
-                } else if (
-                        variant.name == "prodRelease") {
-                    appName =
-                            nameStr + ".apk"
-                } else if (
-                        variant.name == "prodTopdonDebug") {
-                    appName =
-                            "TopInfrared_Android10_" +
-                                    defaultConfig.versionName + "." +
-                                    dayStr + "_debug.apk"
-                } else if (
-                        variant.name == "prodTopdonRelease") {
-                    appName =
-                            "TopInfrared_Android10_" +
-                                    defaultConfig.versionName + "." +
-                                    dayStr + ".apk"
-                } else if (
-                        variant.name == "insideChinaDebug") {
-                    appName =
-                            nameStr + "_debug.apk"
-                } else if (
-                        variant.name == "insideChinaRelease") {
-                    appName =
-                            nameStr + ".apk"
-                } else if (
-                        variant.name == "prodTopdonInsideChinaDebug") {
-                    appName =
-                            nameStr + "_debug.apk"
-                } else if (
-                        variant.name == "prodTopdonInsideChinaRelease") {
-                    appName =
-                            nameStr + ".apk"
-                }
-                outputFileName =
-                        appName
-            }
+        def appName = "TopInfrared.apk"
+        def nameStr = "TopInfrared_" +
+                defaultConfig.versionName + "." +
+                dayStr
+        if (variant.name == "devDebug") {
+            appName =
+                    "TopInfrared-v" +
+                            defaultConfig.versionName + "-debug.apk"
+        } else if (
+                variant.name == "devRelease") {
+            appName =
+                    nameStr + "-release.apk"
+        } else if (
+                variant.name == "betaDebug") {
+            appName =
+                    nameStr + "_beta_debug.apk"
+        } else if (
+                variant.name == "betaRelease") {
+            appName =
+                    nameStr + "_beta.apk"
+        } else if (
+                variant.name == "prodDebug") {
+            appName =
+                    nameStr + "_debug.apk"
+        } else if (
+                variant.name == "prodRelease") {
+            appName =
+                    nameStr + ".apk"
+        } else if (
+                variant.name == "prodTopdonDebug") {
+            appName =
+                    "TopInfrared_Android10_" +
+                            defaultConfig.versionName + "." +
+                            dayStr + "_debug.apk"
+        } else if (
+                variant.name == "prodTopdonRelease") {
+            appName =
+                    "TopInfrared_Android10_" +
+                            defaultConfig.versionName + "." +
+                            dayStr + ".apk"
+        } else if (
+                variant.name == "insideChinaDebug") {
+            appName =
+                    nameStr + "_debug.apk"
+        } else if (
+                variant.name == "insideChinaRelease") {
+            appName =
+                    nameStr + ".apk"
+        } else if (
+                variant.name == "prodTopdonInsideChinaDebug") {
+            appName =
+                    nameStr + "_debug.apk"
+        } else if (
+                variant.name == "prodTopdonInsideChinaRelease") {
+            appName =
+                    nameStr + ".apk"
+        }
+        outputFileName =
+                appName
+    }
 }
 
 def copyApk(
@@ -380,22 +380,22 @@ def copyApk(
             String fileName
                 ->
                 if (flavor.contains(
-                                "Topdon"
-                        )) {
+                        "Topdon"
+                )) {
                     fileName.substring(
-                                    0,
-                                    fileName.lastIndexOf(
-                                                    ".apk"
-                                            )
-                            ) + '_build' +
+                            0,
+                            fileName.lastIndexOf(
+                                    ".apk"
+                            )
+                    ) + '_build' +
                             timeStr + '(Topdon).apk'
                 } else {
                     fileName.substring(
-                                    0,
-                                    fileName.lastIndexOf(
-                                                    ".apk"
-                                            )
-                            ) + '_build' +
+                            0,
+                            fileName.lastIndexOf(
+                                    ".apk"
+                            )
+                    ) + '_build' +
                             timeStr + '.apk'
                 }
         }
@@ -413,11 +413,11 @@ def copyAab(
             String fileName
                 ->
                 fileName.substring(
-                                0,
-                                fileName.lastIndexOf(
-                                                ".google"
-                                        )
-                        ) + "." +
+                        0,
+                        fileName.lastIndexOf(
+                                ".google"
+                        )
+                ) + "." +
                         dayStr + "_" +
                         type + '_build' +
                         timeStr + '.aab'
@@ -482,17 +482,17 @@ dependencies {
     implementation project(':component:pseudo')
 
     implementation project(':component:thermal-ir')
-implementation project(':component:thermal-lite')
+    implementation project(':component:thermal-lite')
     //implementation project(':component:thermal04') // Removed - different device (not TC001)
     //implementation project(':component:thermal07') // Removed - different device (not TC001)
-implementation project(':component:transfer')
-implementation project(':component:user')
-implementation project(':libapp')
-implementation project(':libcom')
-implementation project(':libir')
-implementation project(':libmenu')
-implementation project(':libui')
-kapt libs.arouter.compiler
+    implementation project(':component:transfer')
+    implementation project(':component:user')
+    implementation project(':libapp')
+    implementation project(':libcom')
+    implementation project(':libir')
+    implementation project(':libmenu')
+    implementation project(':libui')
+    kapt libs.arouter.compiler
 
     // Compose BOM
     def composeBom =
@@ -512,14 +512,14 @@ kapt libs.arouter.compiler
     implementation 'androidx.compose.foundation:foundation'
 
     implementation 'androidx.compose.ui:ui'
-implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
     debugImplementation 'androidx.compose.ui:ui-tooling'
 
     // Integration with Activities and ViewModels
     implementation 'androidx.activity:activity-compose:1.9.2'
 
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6'
-implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.6'
+    implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.6'
 
     // Navigation
     implementation 'androidx.navigation:navigation-compose:2.8.2'
@@ -531,20 +531,20 @@ implementation 'androidx.lifecycle:lifecycle-runtime-compose:2.8.6'
     implementation 'com.google.accompanist:accompanist-systemuicontroller:0.36.0'
 
     implementation 'com.google.accompanist:accompanist-pager:0.36.0'
-implementation 'com.google.accompanist:accompanist-pager-indicators:0.36.0'
+    implementation 'com.google.accompanist:accompanist-pager-indicators:0.36.0'
 
     // Coil for image loading
     implementation 'io.coil-kt:coil-compose:2.7.0'
 
     //     implementation libs.jsbridge // Web bridge not used
-     implementation libs.fastjson
-implementation libs.ucrop
+    implementation libs.fastjson
+    implementation libs.ucrop
     //     implementation libs.app.update // Update feature removed
-     implementation libs.immersionbar
-implementation libs.xpopup
-implementation libs.smartrefresh.kernel
-implementation libs.smartrefresh.header.classics
-implementation libs.wechat.sdk
+    implementation libs.immersionbar
+    implementation libs.xpopup
+    implementation libs.smartrefresh.kernel
+    implementation libs.smartrefresh.header.classics
+    implementation libs.wechat.sdk
     //     implementation libs.umeng // Analytics removed.apm
     //     implementation libs.mobilisten // Analytics removed
     //implementation platform(libs.firebase.bom) // Firebase removed

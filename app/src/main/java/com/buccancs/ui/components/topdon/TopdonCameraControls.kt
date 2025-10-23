@@ -32,7 +32,7 @@ import com.buccancs.ui.theme.Dimensions
 import com.buccancs.ui.theme.topdon.TopdonColors
 import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.theme.topdon.TopdonTheme
-import java.util.Locale
+import java.util.*
 
 /**
  * Measurement mode selector for thermal imaging

@@ -1,5 +1,7 @@
 package com.buccancs.domain.usecase
 
+import com.buccancs.core.result.Result
+import com.buccancs.core.result.failure
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.SensorDevice
 import com.buccancs.domain.repository.SensorHardwareConfigRepository

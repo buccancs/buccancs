@@ -1,7 +1,5 @@
 package com.shimmerresearch.android.guiUtilities;
 
-import static android.view.KeyEvent.KEYCODE_ENTER;
-
 import android.content.Context;
 import android.graphics.Typeface;
 import android.util.Log;
@@ -13,7 +11,6 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import com.shimmerresearch.androidinstrumentdriver.R;
 import com.shimmerresearch.driver.ShimmerDevice;
 import com.shimmerresearch.driverUtilities.ConfigOptionDetails;
@@ -23,6 +20,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static android.view.KeyEvent.KEYCODE_ENTER;
 
 
 public class DeviceConfigListAdapter extends BaseExpandableListAdapter {

@@ -84,11 +84,15 @@ external/IRCamera/app/build/outputs/apk/debug/app-debug.apk
 5. **Isolated Build** - Uses IRCamera's own dependencies and configuration ##
    Troubleshooting
 
-### Java Version Issues If you see Java version errors, ensure you have Java 21 or earlier installed: - The build system will automatically search for compatible Java installations - Set `externalJavaHome` in `gradle.properties` to override - Or set `EXTERNAL_JAVA_HOME` environment variable
+### Java Version Issues If you see Java version errors, ensure you have Java 21 or earlier installed: - The build system will automatically search for compatible Java installations - Set
+
+`externalJavaHome` in `gradle.properties` to override - Or set `EXTERNAL_JAVA_HOME` environment variable
 
 ### Build Failures - IRCamera uses older Gradle and Android Gradle Plugin versions - It has its own dependency repositories (including some Chinese mirrors) - Build failures in IRCamera don't affect the main project build
 
-### Wrapper Not Found If the task is skipped with "wrapper was not found": - Verify `external/IRCamera/gradlew` (or `gradlew.bat` on Windows) exists - Ensure the file has execute permissions on Unix-like systems
+### Wrapper Not Found If the task is skipped with "wrapper was not found": - Verify `external/IRCamera/gradlew` (or
+
+`gradlew.bat` on Windows) exists - Ensure the file has execute permissions on Unix-like systems
 
 ## Future Enhancements
 

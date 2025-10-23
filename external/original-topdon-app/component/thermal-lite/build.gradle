@@ -84,13 +84,13 @@ dependencies {
 
 
     implementation project(':libcom')
-implementation project(':libir')
-implementation project(':libmenu')
-implementation project(':libui')
-implementation project(':component:pseudo')
-implementation project(':component:thermal-ir')
-kapt libs.arouter.compiler
-api(
+    implementation project(':libir')
+    implementation project(':libmenu')
+    implementation project(':libui')
+    implementation project(':component:pseudo')
+    implementation project(':component:thermal-ir')
+    kapt libs.arouter.compiler
+    api(
             project(
                     ":LocalRepo:libac020"
             )
@@ -106,7 +106,7 @@ api(
             )
     )
     //api(project(":component:CommonComponent")) // Temporarily disabled
-implementation(
+    implementation(
             libs.androidx.multidex
     )
     implementation(

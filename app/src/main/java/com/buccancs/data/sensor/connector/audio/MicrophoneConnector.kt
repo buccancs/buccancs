@@ -9,8 +9,8 @@ import android.os.SystemClock
 import android.util.Log
 import com.buccancs.core.result.DeviceCommandResult
 import com.buccancs.core.result.Result
-import com.buccancs.core.result.recover
 import com.buccancs.core.result.resultOf
+import com.buccancs.core.result.recover
 import com.buccancs.data.sensor.MetadataWriters
 import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory

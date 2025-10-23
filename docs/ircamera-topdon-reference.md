@@ -112,11 +112,11 @@ The application filters for multiple USB vendor/product ID combinations:
 
 1. **IRUVCTC** (`com.infisense.usbir.camera.IRUVCTC`) - Main IR UVC camera
    controller
-   - Handles USB device connection/disconnection
-   - Frame data callback management
-   - Temperature data processing (256x192 resolution)
-   - Auto-gain switching and image enhancement
-   - Supports multiple data flow modes
+    - Handles USB device connection/disconnection
+    - Frame data callback management
+    - Temperature data processing (256x192 resolution)
+    - Auto-gain switching and image enhancement
+    - Supports multiple data flow modes
 
 2. **USBMonitor** - USB device monitoring and permission handling
 
@@ -193,9 +193,9 @@ Camera resolution and data format:
 3. `UVCCamera` opens device connection
 4. `IRCMD` sends configuration commands
 5. Frame callbacks deliver:
-   - Raw infrared image data
-   - Temperature matrix
-   - TNR (Temporal Noise Reduction) enhanced frames
+    - Raw infrared image data
+    - Temperature matrix
+    - TNR (Temporal Noise Reduction) enhanced frames
 6. `LibIRProcess` applies ISP processing
 7. Rendered to `SurfaceView` or `GLSurfaceView`
 

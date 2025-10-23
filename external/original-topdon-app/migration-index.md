@@ -354,11 +354,11 @@ Phase 3 (others):       0% ░░░░░░░░░░░░░░░░░�
 
 ## Version History
 
-| Version | Date | Status | Description |
-|---------|------------|------------------|------------------------------------|
-| 1.0 | 2025-10-16 | Phase 1 Complete | app module (11 activities) | | 2.0 | TBD
-| Phase 2 Planned | thermal-ir Tier 1-2 (9 activities) | | 3.0 | TBD | Future |
-Remaining modules |
+| Version           | Date                               | Status           | Description                |
+|-------------------|------------------------------------|------------------|----------------------------|
+| 1.0               | 2025-10-16                         | Phase 1 Complete | app module (11 activities) | | 2.0 | TBD
+| Phase 2 Planned   | thermal-ir Tier 1-2 (9 activities) |                  | 3.0                        | TBD | Future |
+ Remaining modules |
 
 ---
 

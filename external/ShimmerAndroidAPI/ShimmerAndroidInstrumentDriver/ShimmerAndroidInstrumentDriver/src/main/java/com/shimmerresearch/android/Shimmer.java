@@ -1,7 +1,5 @@
 package com.shimmerresearch.android;
 
-import static android.content.Context.BLUETOOTH_SERVICE;
-
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
@@ -14,7 +12,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
 import com.shimmerresearch.bluetooth.BluetoothProgressReportPerCmd;
 import com.shimmerresearch.bluetooth.ShimmerBluetooth;
 import com.shimmerresearch.driver.CallbackObject;
@@ -26,23 +23,16 @@ import com.shimmerresearch.driver.shimmer2r3.ConfigByteLayoutShimmer3;
 import com.shimmerresearch.driverUtilities.ShimmerBattStatusDetails;
 import com.shimmerresearch.driverUtilities.UtilShimmer;
 import com.shimmerresearch.exceptions.ShimmerException;
+import it.gerdavax.easybluetooth.BtSocket;
+import it.gerdavax.easybluetooth.LocalDevice;
+import it.gerdavax.easybluetooth.RemoteDevice;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-import it.gerdavax.easybluetooth.BtSocket;
-import it.gerdavax.easybluetooth.LocalDevice;
-import it.gerdavax.easybluetooth.RemoteDevice;
+import static android.content.Context.BLUETOOTH_SERVICE;
 
 public class Shimmer extends ShimmerBluetooth {
     @Deprecated
@@ -68,17 +58,17 @@ public class Shimmer extends ShimmerBluetooth {
     public static final int MSG_STATE_STREAMING = 4;
     public static final int MSG_STATE_STOP_STREAMING = 5;
     transient private final BluetoothAdapter mAdapter;
+    private final UUID mSPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private final boolean mDummy = false;
+    private final int mBluetoothLib = 0;
     protected String mClassName = "Shimmer";
     transient List<Handler> mHandlerList = new ArrayList<Handler>();
-    private final UUID mSPP_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     transient private ConnectThread mConnectThread;
     transient private ConnectedThread mConnectedThread;
-    private final boolean mDummy = false;
     transient private LocalDevice localDevice;
     transient private DataInputStream mInStream;
     transient private OutputStream mmOutStream = null;
     transient private Context mContext;
-    private final int mBluetoothLib = 0;
     transient private BluetoothAdapter mBluetoothAdapter = null;
     private boolean mContinuousStateUpdates = true;
 
@@ -687,21 +677,7 @@ public class Shimmer extends ShimmerBluetooth {
             }
             size = newSize;
         }
-    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
-                BluetoothDevice device = intent
-                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-
-                String macAdd = device.getAddress();
-                if (macAdd.equals(mMyBluetoothAddress)) {
-                    connectionLost();
-                }
-            }
-        }
-    };
+    }
 
     @Override
     protected void clearSerialBuffer() {
@@ -743,7 +719,21 @@ public class Shimmer extends ShimmerBluetooth {
         Bundle bundle = new Bundle();
         bundle.putString(TOAST, "Unable to connect device");
         sendMsgToHandlerList(MESSAGE_TOAST, bundle);
-    }
+    }    transient private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (BluetoothDevice.ACTION_ACL_DISCONNECTED.equals(action)) {
+                BluetoothDevice device = intent
+                        .getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+
+                String macAdd = device.getAddress();
+                if (macAdd.equals(mMyBluetoothAddress)) {
+                    connectionLost();
+                }
+            }
+        }
+    };
 
     protected void connectionLost() {
         if (mIOThread != null) {
@@ -851,16 +841,6 @@ public class Shimmer extends ShimmerBluetooth {
         }
     }
 
-    	/*protected synchronized void setState(int state) {
-		mState = state;
-		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
-	}*/
-
-    	/*public synchronized int getShimmerState() {
-		return mState;
-	}
-*/
-
     @Override
     protected int availableBytes() {
         try {
@@ -896,6 +876,16 @@ public class Shimmer extends ShimmerBluetooth {
 
         return null;
     }
+
+    	/*protected synchronized void setState(int state) {
+		mState = state;
+		mHandler.obtainMessage(Shimmer.MESSAGE_STATE_CHANGE, state, -1, new ObjectCluster(mShimmerUserAssignedName,getBluetoothAddress())).sendToTarget();
+	}*/
+
+    	/*public synchronized int getShimmerState() {
+		return mState;
+	}
+*/
 
     @Override
     protected byte readByte() {
@@ -1100,6 +1090,26 @@ public class Shimmer extends ShimmerBluetooth {
 
     }
 
+    @Override
+    public boolean doesSensorKeyExist(int sensorKey) {
+
+        return false;
+    }
+
+    @Override
+    public Set<Integer> getSensorIdsSet() {
+        return super.getSensorIdsSet();
+    }
+
+    @Override
+    public void readBattery() {
+        if (isStreaming()) {
+            writeBytes(new byte[]{GET_VBATT_COMMAND});
+        } else {
+            super.readBattery();
+        }
+    }
+
 	/*
 	public byte[] readBytes(int numberofBytes){
 		  byte[] b = new byte[numberofBytes];  
@@ -1121,26 +1131,6 @@ public class Shimmer extends ShimmerBluetooth {
 			   return b;
 		  }
 	}*/
-
-    @Override
-    public boolean doesSensorKeyExist(int sensorKey) {
-
-        return false;
-    }
-
-    @Override
-    public Set<Integer> getSensorIdsSet() {
-        return super.getSensorIdsSet();
-    }
-
-    @Override
-    public void readBattery() {
-        if (isStreaming()) {
-            writeBytes(new byte[]{GET_VBATT_COMMAND});
-        } else {
-            super.readBattery();
-        }
-    }
 
     @Override
     public void readStatusLogAndStream() {

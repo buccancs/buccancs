@@ -66,6 +66,6 @@ dependencies {
 
 
     implementation libs.utilcode
-implementation project(':libapp')
+    implementation project(':libapp')
     //需要使用 string 资源
 }

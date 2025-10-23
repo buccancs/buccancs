@@ -394,6 +394,7 @@ internal class DefaultTopdonDeviceRepository @Inject constructor(
                 null
         }
     }
+
     override suspend fun triggerManualCalibration() {
         errors.value =
             null

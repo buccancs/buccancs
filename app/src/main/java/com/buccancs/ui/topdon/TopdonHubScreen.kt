@@ -277,8 +277,7 @@ private fun TopdonReportPane(
     Column(
         modifier = modifier
             .padding(
-                horizontal = LayoutPadding.Screen,
-                vertical = Spacing.Large
+                LayoutPadding.Screen
             ),
         verticalArrangement = Arrangement.spacedBy(
             Spacing.Medium
@@ -311,8 +310,7 @@ private fun TopdonMinePane(
     Column(
         modifier = modifier
             .padding(
-                horizontal = LayoutPadding.Screen,
-                vertical = Spacing.Large
+                LayoutPadding.Screen
             ),
         verticalArrangement = Arrangement.spacedBy(
             Spacing.Medium

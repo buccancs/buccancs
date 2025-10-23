@@ -10,7 +10,6 @@ import com.buccancs.data.sensor.connector.simulated.BaseSimulatedConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
 import com.buccancs.data.sensor.connector.topdon.capture.TopdonCaptureManager
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
-import com.buccancs.data.sensor.connector.topdon.RecordingArtifactStorage
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId

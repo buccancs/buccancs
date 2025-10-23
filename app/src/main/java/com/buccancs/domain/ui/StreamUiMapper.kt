@@ -3,7 +3,7 @@ package com.buccancs.domain.ui
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.domain.model.SensorStreamType
 import com.buccancs.ui.StreamUiModel
-import java.util.Locale
+import java.util.*
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.roundToInt
@@ -18,12 +18,13 @@ class StreamUiMapper @Inject constructor() {
     fun toUiModel(
         status: SensorStreamStatus
     ): StreamUiModel {
-        val rate =
-            when {
-                status.sampleRateHz != null -> "${status.sampleRateHz.roundToInt()} Hz"
-                status.frameRateFps != null -> "${status.frameRateFps.roundToInt()} FPS"
-                else -> "n/a"
-            }
+        val sr = status.sampleRateHz
+        val fr = status.frameRateFps
+        val rate = when {
+            sr != null -> "${sr.roundToInt()} Hz"
+            fr != null -> "${fr.roundToInt()} FPS"
+            else -> "n/a"
+        }
         val bufferText =
             status.bufferedDurationSeconds?.let {
                 String.format(

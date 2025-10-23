@@ -6,38 +6,49 @@ param(
 
 $configPath = Join-Path $ConfigDirectory "config.json"
 
-if (-not (Test-Path -Path $ConfigDirectory -PathType Container)) {
+if (-not (Test-Path -Path $ConfigDirectory -PathType Container))
+{
     New-Item -ItemType Directory -Path $ConfigDirectory | Out-Null
 }
 
-$configObject = @{}
+$configObject = @{ }
 
-if (Test-Path -Path $configPath -PathType Leaf) {
-    try {
+if (Test-Path -Path $configPath -PathType Leaf)
+{
+    try
+    {
         $content = Get-Content -Path $configPath -Raw -ErrorAction Stop
-        if ($content.Trim()) {
+        if ( $content.Trim())
+        {
             $configObject = $content | ConvertFrom-Json -ErrorAction Stop
         }
-    } catch {
+    }
+    catch
+    {
         Write-Warning "Existing Copilot CLI config is invalid JSON; starting from a clean configuration."
-        $configObject = @{}
+        $configObject = @{ }
     }
 }
 
-if (-not $configObject.PSObject.Properties.Name.Contains("trustedFolders")) {
+if (-not $configObject.PSObject.Properties.Name.Contains("trustedFolders"))
+{
     $configObject | Add-Member -MemberType NoteProperty -Name "trustedFolders" -Value @()
 }
 
 $trusted = $configObject.trustedFolders
 
-if ($trusted -isnot [System.Collections.IList]) {
+if ($trusted -isnot [System.Collections.IList])
+{
     $trusted = @()
 }
 
-if (-not ($trusted | ForEach-Object { $_.TrimEnd('\') } | Where-Object { $_ -eq $TrustedRoot.TrimEnd('\') })) {
+if (-not ($trusted | ForEach-Object { $_.TrimEnd('\') } | Where-Object { $_ -eq $TrustedRoot.TrimEnd('\') }))
+{
     $trusted += $TrustedRoot
     Write-Host ("Added '{0}' to Copilot CLI trusted folders." -f $TrustedRoot)
-} else {
+}
+else
+{
     Write-Host ("'{0}' already present in Copilot CLI trusted folders." -f $TrustedRoot)
 }
 

@@ -1,7 +1,6 @@
 package com.shimmerresearch.tools;
 
 import android.graphics.Color;
-
 import com.androidplot.ui.SizeLayoutType;
 import com.androidplot.ui.SizeMetrics;
 import com.androidplot.xy.LineAndPointFormatter;
@@ -9,11 +8,10 @@ import com.androidplot.xy.XYPlot;
 import com.shimmerresearch.driver.FormatCluster;
 import com.shimmerresearch.driver.ObjectCluster;
 import com.shimmerresearch.guiUtilities.AbstractPlotManager;
+import pl.flex_it.androidplot.XYSeriesShimmer;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import pl.flex_it.androidplot.XYSeriesShimmer;
 
 public class PlotManagerAndroid extends AbstractPlotManager {
 

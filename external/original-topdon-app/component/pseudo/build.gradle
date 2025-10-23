@@ -69,5 +69,5 @@ dependencies {
     implementation project(':libapp')
 
     implementation project(':libui')
-kapt libs.arouter.compiler
+    kapt libs.arouter.compiler
 }

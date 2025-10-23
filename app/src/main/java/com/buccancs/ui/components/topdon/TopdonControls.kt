@@ -28,7 +28,7 @@ import androidx.compose.ui.unit.dp
 import com.buccancs.ui.theme.topdon.TopdonColors
 import com.buccancs.ui.theme.topdon.TopdonSpacing
 import com.buccancs.ui.theme.topdon.TopdonTheme
-import java.util.Locale
+import java.util.*
 import kotlin.math.roundToInt
 
 /**

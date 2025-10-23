@@ -12,7 +12,7 @@ import com.buccancs.desktop.domain.model.SessionStatus
 import kotlinx.coroutines.flow.Flow
 import org.slf4j.LoggerFactory
 import java.time.Instant
-import java.util.Locale
+import java.util.*
 import kotlin.math.max
 
 class PreviewServiceImpl(

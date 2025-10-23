@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.buccancs.core.result.exceptionOrNull
 
 /**
  * ViewModel responsible for Shimmer device configuration.

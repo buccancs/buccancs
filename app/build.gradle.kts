@@ -334,3 +334,14 @@ kapt {
     correctErrorTypes =
         true
 }
+
+// Task aliases for external build scripts expecting Java plugin tasks in Android module
+// Map ':app:compileJava' to the debug variant Java compile
+tasks.register("compileJava") {
+    dependsOn("compileDebugJavaWithJavac")
+}
+
+// Map ':app:testClasses' to compile the debug unit test sources
+tasks.register("testClasses") {
+    dependsOn("compileDebugUnitTestJavaWithJavac")
+}

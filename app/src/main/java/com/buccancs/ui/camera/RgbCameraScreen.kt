@@ -316,7 +316,12 @@ private fun CameraPreviewCard(
                 },
                 colors = AssistChipDefaults.assistChipColors(
                     containerColor = if (state.previewActive) MaterialTheme.colorScheme.primaryContainer else MaterialTheme.colorScheme.surfaceVariant,
-                    labelColor = if (state.previewActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant
+                    labelColor = if (state.previewActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                    leadingIconContentColor = if (state.previewActive) MaterialTheme.colorScheme.onPrimaryContainer else MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                    disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledLeadingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant,
+                    disabledTrailingIconContentColor = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             )
         }

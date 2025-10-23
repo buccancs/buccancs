@@ -1,7 +1,5 @@
 package com.shimmerresearch.android.shimmerService;
 
-import static com.shimmerresearch.bluetooth.ShimmerBluetooth.MSG_IDENTIFIER_NOTIFICATION_MESSAGE;
-
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.content.ContentResolver;
@@ -15,7 +13,6 @@ import android.os.IBinder;
 import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
-
 import com.shimmerresearch.algorithms.Filter;
 import com.shimmerresearch.android.Shimmer;
 import com.shimmerresearch.android.manager.ShimmerBluetoothManagerAndroid;
@@ -23,11 +20,6 @@ import com.shimmerresearch.biophysicalprocessing.ECGtoHRAdaptive;
 import com.shimmerresearch.biophysicalprocessing.PPGtoHRAlgorithm;
 import com.shimmerresearch.bluetooth.ShimmerBluetooth;
 import com.shimmerresearch.bluetooth.ShimmerBluetooth.BT_STATE;
-import com.shimmerresearch.driver.CallbackObject;
-import com.shimmerresearch.driver.Configuration;
-import com.shimmerresearch.driver.FormatCluster;
-import com.shimmerresearch.driver.ObjectCluster;
-import com.shimmerresearch.driver.ShimmerDevice;
 import com.shimmerresearch.driverUtilities.BluetoothDeviceDetails;
 import com.shimmerresearch.driverUtilities.ChannelDetails.CHANNEL_TYPE;
 import com.shimmerresearch.tools.Logging;
@@ -35,12 +27,8 @@ import com.shimmerresearch.tools.PlotManagerAndroid;
 import com.shimmerresearch.verisense.VerisenseDevice;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
+
+import static com.shimmerresearch.bluetooth.ShimmerBluetooth.MSG_IDENTIFIER_NOTIFICATION_MESSAGE;
 
 public class ShimmerService extends Service {
     private static final String TAG = "ShimmerService";

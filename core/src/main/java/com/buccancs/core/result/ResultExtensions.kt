@@ -202,3 +202,18 @@ fun <T> kotlin.Result<T>.toResult(): Result<T> =
             )
         }
     )
+
+/**
+ * Compatibility: returns the exception (wrapped) if this is a failure, otherwise null.
+ */
+fun <T> Result<T>.exceptionOrNull(): Throwable? =
+    when (this) {
+        is Result.Success -> null
+        is Result.Failure -> error.toException()
+    }
+
+/**
+ * Compatibility: create a failure from Throwable directly.
+ */
+fun Result.Companion.failure(t: Throwable): Result<Nothing> =
+    Result.Failure(t.toError())

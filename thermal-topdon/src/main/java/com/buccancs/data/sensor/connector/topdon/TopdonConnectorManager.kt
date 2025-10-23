@@ -3,13 +3,11 @@ package com.buccancs.data.sensor.connector.topdon
 import android.content.Context
 import android.util.Log
 import com.buccancs.core.result.DeviceCommandResult
-import com.buccancs.data.sensor.connector.MultiDeviceConnector
 import com.buccancs.data.sensor.connector.simulated.SimulatedArtifactFactory
-import com.buccancs.data.sensor.connector.topdon.ThermalNormalizer
 import com.buccancs.data.sensor.connector.topdon.capture.TopdonCaptureManager
 import com.buccancs.data.sensor.topdon.InMemoryTopdonSettingsRepository
-import com.buccancs.data.sensor.connector.topdon.RecordingArtifactStorage
 import com.buccancs.di.ApplicationScope
+import com.buccancs.domain.connector.MultiDeviceConnector
 import com.buccancs.domain.model.ConnectionStatus
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.RecordingSessionAnchor
@@ -42,7 +40,7 @@ import kotlin.time.Instant
 import kotlin.time.Instant.Companion.fromEpochMilliseconds
 
 @Singleton
-internal class TopdonConnectorManager @Inject constructor(
+class TopdonConnectorManager @Inject constructor(
     @ApplicationScope private val scope: CoroutineScope,
     @ApplicationContext private val context: Context,
     private val recordingStorage: RecordingArtifactStorage,

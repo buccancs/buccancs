@@ -38,7 +38,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.withContext
-import java.util.Locale
+import java.util.*
 import java.util.concurrent.atomic.AtomicBoolean
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -448,7 +448,7 @@ class DefaultTopdonThermalClient @Inject constructor(
                     4
                 )
         }
-        
+
         // Apply hardware settings via IRCMD
         commandMutex.withLock {
             val command =
@@ -513,13 +513,13 @@ class DefaultTopdonThermalClient @Inject constructor(
                 )
             }
         }
-        
+
         // Update local palette tracking
         settings.palette?.let {
             currentPalette = it
         }
     }
-    
+
     private suspend fun applyPalette(
         command: CommandLayer,
         palette: Palette
@@ -562,7 +562,7 @@ class DefaultTopdonThermalClient @Inject constructor(
                 )
             }
     }
-    
+
     private suspend fun applyEmissivity(
         command: CommandLayer,
         emissivity: Double
@@ -599,7 +599,7 @@ class DefaultTopdonThermalClient @Inject constructor(
                 )
             }
     }
-    
+
     private suspend fun applyDistance(
         command: CommandLayer,
         distanceMeters: Double
@@ -628,7 +628,7 @@ class DefaultTopdonThermalClient @Inject constructor(
                 )
             }
     }
-    
+
     private suspend fun applyGainMode(
         command: CommandLayer,
         mode: GainMode
@@ -665,7 +665,7 @@ class DefaultTopdonThermalClient @Inject constructor(
                 )
             }
     }
-    
+
     private suspend fun applyAutoShutter(
         command: CommandLayer,
         auto: Boolean

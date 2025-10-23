@@ -140,6 +140,7 @@ private fun PaletteOption(
                     TopdonPalette.GRAYSCALE -> "Black and white thermal display"
                     TopdonPalette.IRONBOW -> "Classic thermal imaging colours"
                     TopdonPalette.RAINBOW -> "Full spectrum colour range"
+                    TopdonPalette.ARCTIC -> "Cool arctic palette"
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
@@ -174,57 +175,35 @@ private fun PalettePreview(
         val colours =
             when (palette) {
                 TopdonPalette.GRAYSCALE -> listOf(
-                    Color(
-                        0xFF000000
-                    ),
-                    Color(
-                        0xFF404040
-                    ),
-                    Color(
-                        0xFF808080
-                    ),
-                    Color(
-                        0xFFC0C0C0
-                    ),
-                    Color(
-                        0xFFFFFFFF
-                    )
+                    Color(0xFF000000),
+                    Color(0xFF404040),
+                    Color(0xFF808080),
+                    Color(0xFFC0C0C0),
+                    Color(0xFFFFFFFF)
                 )
 
                 TopdonPalette.IRONBOW -> listOf(
-                    Color(
-                        0xFF000000
-                    ),
-                    Color(
-                        0xFF800080
-                    ),
-                    Color(
-                        0xFFFF0000
-                    ),
-                    Color(
-                        0xFFFFFF00
-                    ),
-                    Color(
-                        0xFFFFFFFF
-                    )
+                    Color(0xFF000000),
+                    Color(0xFF800080),
+                    Color(0xFFFF0000),
+                    Color(0xFFFFFF00),
+                    Color(0xFFFFFFFF)
                 )
 
                 TopdonPalette.RAINBOW -> listOf(
-                    Color(
-                        0xFF0000FF
-                    ),
-                    Color(
-                        0xFF00FFFF
-                    ),
-                    Color(
-                        0xFF00FF00
-                    ),
-                    Color(
-                        0xFFFFFF00
-                    ),
-                    Color(
-                        0xFFFF0000
-                    )
+                    Color(0xFF0000FF),
+                    Color(0xFF00FFFF),
+                    Color(0xFF00FF00),
+                    Color(0xFFFFFF00),
+                    Color(0xFFFF0000)
+                )
+
+                TopdonPalette.ARCTIC -> listOf(
+                    Color(0xFF001F3F),
+                    Color(0xFF0074D9),
+                    Color(0xFF7FDBFF),
+                    Color(0xFF39CCCC),
+                    Color(0xFFB0E0E6)
                 )
             }
 

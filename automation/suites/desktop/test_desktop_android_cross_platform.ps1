@@ -23,7 +23,8 @@ $screenshot = Join-Path $artifactsDir "test_android_screen.png"
 $connectedScreenshot = Join-Path $artifactsDir "test_android_connected.png"
 
 # Colors
-function Write-ColorOutput {
+function Write-ColorOutput
+{
     param([string]$Color, [string]$Message)
     $colors = @{
         "Red" = [ConsoleColor]::Red
@@ -35,17 +36,20 @@ function Write-ColorOutput {
     Write-Host $Message -ForegroundColor $colors[$Color]
 }
 
-function Write-Step {
+function Write-Step
+{
     param([string]$Message)
     Write-ColorOutput "Yellow" "`n$Message"
 }
 
-function Write-Success {
+function Write-Success
+{
     param([string]$Message)
     Write-ColorOutput "Green" "[OK] $Message"
 }
 
-function Write-Error-Custom {
+function Write-Error-Custom
+{
     param([string]$Message)
     Write-ColorOutput "Red" "[ERROR] $Message"
 }
@@ -57,10 +61,22 @@ Write-ColorOutput "Blue" "========================================"
 Write-Host ""
 
 # Detect OS
-$OS = if ($IsWindows -or $env:OS -match "Windows") { "Windows" }
-      elseif ($IsLinux) { "Linux" }
-      elseif ($IsMacOS) { "macOS" }
-      else { "Unknown" }
+$OS = if ($IsWindows -or $env:OS -match "Windows")
+{
+    "Windows"
+}
+elseif ($IsLinux)
+{
+    "Linux"
+}
+elseif ($IsMacOS)
+{
+    "macOS"
+}
+else
+{
+    "Unknown"
+}
 
 Write-ColorOutput "Cyan" "Operating System: $OS"
 
@@ -72,18 +88,22 @@ $MainActivity = "$PackageName/.ui.MainActivity"
 Write-Step "[1/6] Locating Android SDK..."
 
 $AndroidSdk = $null
-if ($env:ANDROID_HOME) {
+if ($env:ANDROID_HOME)
+{
     $AndroidSdk = $env:ANDROID_HOME
     Write-Host "Found via ANDROID_HOME: $AndroidSdk"
 }
-elseif ($env:ANDROID_SDK_ROOT) {
+elseif ($env:ANDROID_SDK_ROOT)
+{
     $AndroidSdk = $env:ANDROID_SDK_ROOT
     Write-Host "Found via ANDROID_SDK_ROOT: $AndroidSdk"
 }
-else {
+else
+{
     # Check default locations
-    $DefaultPaths = switch ($OS) {
-        "Windows" { 
+    $DefaultPaths = switch ($OS)
+    {
+        "Windows" {
             "$env:LOCALAPPDATA\Android\Sdk",
             "$env:USERPROFILE\AppData\Local\Android\Sdk"
         }
@@ -95,9 +115,11 @@ else {
             "$env:HOME/Library/Android/sdk"
         }
     }
-    
-    foreach ($path in $DefaultPaths) {
-        if (Test-Path $path) {
+
+    foreach ($path in $DefaultPaths)
+    {
+        if (Test-Path $path)
+        {
             $AndroidSdk = $path
             Write-Host "Found at default location: $AndroidSdk"
             break
@@ -105,25 +127,42 @@ else {
     }
 }
 
-if (-not $AndroidSdk) {
+if (-not $AndroidSdk)
+{
     Write-Error-Custom "Android SDK not found"
     Write-ColorOutput "Yellow" "Please set ANDROID_HOME environment variable"
     exit 1
 }
 
 # Set up paths
-$EmulatorExe = if ($OS -eq "Windows") { "emulator.exe" } else { "emulator" }
-$AdbExe = if ($OS -eq "Windows") { "adb.exe" } else { "adb" }
+$EmulatorExe = if ($OS -eq "Windows")
+{
+    "emulator.exe"
+}
+else
+{
+    "emulator"
+}
+$AdbExe = if ($OS -eq "Windows")
+{
+    "adb.exe"
+}
+else
+{
+    "adb"
+}
 
 $Emulator = Join-Path $AndroidSdk "emulator" $EmulatorExe
 $Adb = Join-Path $AndroidSdk "platform-tools" $AdbExe
 
-if (-not (Test-Path $Emulator)) {
+if (-not (Test-Path $Emulator))
+{
     Write-Error-Custom "Emulator not found at: $Emulator"
     exit 1
 }
 
-if (-not (Test-Path $Adb)) {
+if (-not (Test-Path $Adb))
+{
     Write-Error-Custom "ADB not found at: $Adb"
     exit 1
 }
@@ -137,16 +176,18 @@ Write-ColorOutput "Cyan" "Artefacts: $artifactsDir"
 # Step 2: Cleanup
 Write-Step "[2/6] Cleaning up previous sessions..."
 
-if ($OS -eq "Windows") {
+if ($OS -eq "Windows")
+{
     Stop-Process -Name "emulator" -Force -ErrorAction SilentlyContinue
     Stop-Process -Name "qemu-system-x86_64" -Force -ErrorAction SilentlyContinue
 }
-else {
-    & pkill -9 -f "emulator.*$AvdName" 2>$null
-    & pkill -9 -f qemu 2>$null
+else
+{
+    & pkill -9 -f "emulator.*$AvdName" 2> $null
+    & pkill -9 -f qemu 2> $null
 }
 
-& $Adb kill-server 2>$null
+& $Adb kill-server 2> $null
 Start-Sleep -Seconds 2
 Write-Success "Cleanup complete"
 
@@ -154,7 +195,7 @@ Write-Success "Cleanup complete"
 Write-Step "[3/6] Starting Android emulator..."
 
 $EmulatorProcess = Start-Process -FilePath $Emulator -ArgumentList "-avd", $AvdName, "-no-snapshot-load" -PassThru -WindowStyle Hidden
-Write-Host "Emulator PID: $($EmulatorProcess.Id)"
+Write-Host "Emulator PID: $( $EmulatorProcess.Id )"
 
 # Wait for device
 Write-Host "Waiting for device..."
@@ -162,11 +203,13 @@ Write-Host "Waiting for device..."
 
 Write-Host "Waiting for boot completion..."
 $bootWait = 0
-do {
+do
+{
     Start-Sleep -Seconds 1
-    $bootStatus = & $Adb shell getprop sys.boot_completed 2>$null
+    $bootStatus = & $Adb shell getprop sys.boot_completed 2> $null
     $bootWait++
-    if ($bootWait -gt 60) {
+    if ($bootWait -gt 60)
+    {
         Write-Error-Custom "Boot timeout"
         exit 1
     }
@@ -197,14 +240,17 @@ $Permissions = @(
 )
 
 $grantedCount = 0
-foreach ($perm in $Permissions) {
+foreach ($perm in $Permissions)
+{
     Write-Host "  Granting $perm... " -NoNewline
-    $result = & $Adb shell pm grant $PackageName $perm 2>$null
-    if ($LASTEXITCODE -eq 0) {
+    $result = & $Adb shell pm grant $PackageName $perm 2> $null
+    if ($LASTEXITCODE -eq 0)
+    {
         Write-ColorOutput "Green" "✓"
         $grantedCount++
     }
-    else {
+    else
+    {
         Write-ColorOutput "Yellow" "⚠"
     }
 }
@@ -218,34 +264,41 @@ Start-Sleep -Seconds 2
 Write-Success "Android app started"
 
 # Screenshot
-& $Adb exec-out screencap -p > $screenshot 2>$null
-if (Test-Path $screenshot) {
+& $Adb exec-out screencap -p > $screenshot 2> $null
+if (Test-Path $screenshot)
+{
     Write-Host "Screenshot saved: $screenshot"
 }
 
 # Step 6: Start desktop app
 Write-Step "[6/6] Starting desktop app..."
 
-$Gradlew = if ($OS -eq "Windows") {
+$Gradlew = if ($OS -eq "Windows")
+{
     Join-Path $repoRoot "gradlew.bat"
-} else {
+}
+else
+{
     Join-Path $repoRoot "gradlew"
 }
 
-if (-not (Test-Path $Gradlew)) {
+if (-not (Test-Path $Gradlew))
+{
     Write-Error-Custom "Gradle wrapper not found"
     exit 1
 }
 $DesktopProcess = Start-Process -FilePath $Gradlew -ArgumentList ":desktop:run" -RedirectStandardOutput $DesktopLog -RedirectStandardError $DesktopLog -PassThru -WindowStyle Hidden -WorkingDirectory $repoRoot
-Write-Host "Desktop app PID: $($DesktopProcess.Id)"
+Write-Host "Desktop app PID: $( $DesktopProcess.Id )"
 
 # Wait for desktop
 Write-Host "Waiting for desktop app..."
 $desktopWait = 0
-do {
+do
+{
     Start-Sleep -Seconds 1
     $desktopWait++
-    if ($desktopWait -gt 30) {
+    if ($desktopWait -gt 30)
+    {
         Write-Error-Custom "Desktop startup timeout"
         exit 1
     }
@@ -257,11 +310,13 @@ Write-Success "Desktop app ready"
 Write-Host ""
 Write-ColorOutput "Cyan" "Monitoring for connection..."
 $connWait = 0
-do {
+do
+{
     Write-Host "." -NoNewline
     Start-Sleep -Seconds 2
     $connWait++
-    if ($connWait -gt 30) {
+    if ($connWait -gt 30)
+    {
         Write-Host ""
         Write-Error-Custom "Connection timeout"
         exit 1
@@ -279,7 +334,7 @@ $deviceLine = Select-String -Path $DesktopLog -Pattern "Registered device" | Sel
 Write-Host $deviceLine.Line
 
 # Final screenshot
-& $Adb exec-out screencap -p > $connectedScreenshot 2>$null
+& $Adb exec-out screencap -p > $connectedScreenshot 2> $null
 
 Write-Host ""
 Write-Success "Test completed successfully!"

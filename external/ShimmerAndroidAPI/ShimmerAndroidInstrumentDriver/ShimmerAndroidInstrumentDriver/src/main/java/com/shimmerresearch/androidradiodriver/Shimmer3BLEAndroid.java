@@ -1,7 +1,5 @@
 package com.shimmerresearch.androidradiodriver;
 
-import static com.shimmerresearch.android.Shimmer.MESSAGE_TOAST;
-
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothGatt;
 import android.bluetooth.BluetoothGattCharacteristic;
@@ -10,7 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-
+import bolts.TaskCompletionSource;
 import com.clj.fastble.BleManager;
 import com.clj.fastble.callback.BleGattCallback;
 import com.clj.fastble.callback.BleMtuChangedCallback;
@@ -21,15 +19,6 @@ import com.clj.fastble.exception.BleException;
 import com.shimmerresearch.android.Shimmer;
 import com.shimmerresearch.bluetooth.BluetoothProgressReportPerCmd;
 import com.shimmerresearch.bluetooth.ShimmerBluetooth;
-import com.shimmerresearch.driver.BasicProcessWithCallBack;
-import com.shimmerresearch.driver.CallbackObject;
-import com.shimmerresearch.driver.Configuration;
-import com.shimmerresearch.driver.FormatCluster;
-import com.shimmerresearch.driver.ObjectCluster;
-import com.shimmerresearch.driver.ShimmerDevice;
-import com.shimmerresearch.driver.ShimmerDeviceCallbackAdapter;
-import com.shimmerresearch.driver.ShimmerMsg;
-import com.shimmerresearch.driver.ThreadSafeByteFifoBuffer;
 import com.shimmerresearch.driver.shimmer2r3.ConfigByteLayoutShimmer3;
 import com.shimmerresearch.driverUtilities.ChannelDetails;
 import com.shimmerresearch.driverUtilities.SensorDetails;
@@ -38,18 +27,12 @@ import com.shimmerresearch.driverUtilities.UtilShimmer;
 import com.shimmerresearch.exceptions.ShimmerException;
 import com.shimmerresearch.sensors.kionix.SensorKionixAccel;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
-import bolts.TaskCompletionSource;
+import static com.shimmerresearch.android.Shimmer.MESSAGE_TOAST;
 
 public class Shimmer3BLEAndroid extends ShimmerBluetooth implements Serializable {
     public static final String TOAST = "toast";

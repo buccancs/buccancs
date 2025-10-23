@@ -4,6 +4,10 @@ import android.bluetooth.BluetoothAdapter
 import android.content.Context
 import android.hardware.camera2.CameraManager
 import android.hardware.usb.UsbManager
+import com.buccancs.hardware.AndroidBluetoothService
+import com.buccancs.hardware.AndroidUsbService
+import com.buccancs.hardware.BluetoothService
+import com.buccancs.hardware.UsbService
 import com.buccancs.hardware.shimmer.DefaultShimmerHardwareClient
 import com.buccancs.hardware.shimmer.ShimmerHardwareClient
 import dagger.Module
@@ -48,4 +52,15 @@ object HardwareModule {
     ): ShimmerHardwareClient =
         impl
 
+    @Provides
+    @Singleton
+    fun provideBluetoothService(
+        adapter: BluetoothAdapter?
+    ): BluetoothService = AndroidBluetoothService(adapter)
+
+    @Provides
+    @Singleton
+    fun provideUsbService(
+        usbManager: UsbManager
+    ): UsbService = AndroidUsbService(usbManager)
 }

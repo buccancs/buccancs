@@ -29,8 +29,7 @@ import androidx.compose.ui.unit.dp
 import com.buccancs.domain.model.SensorStreamStatus
 import com.buccancs.ui.theme.Spacing
 import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 @Composable
 fun EncoderPanel(

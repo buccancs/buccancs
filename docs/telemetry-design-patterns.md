@@ -16,7 +16,10 @@
 └─────────────────────────┘
 ```
 
-### Implementation - **Background:** Tinted container (primary/error based on status) - **Typography: - Label: `labelSmall`, onSurfaceVariant - Value: `headlineSmall`, Bold, Monospace, themed color - Unit: `bodySmall`, onSurfaceVariant - **Spacing:** 12dp padding, 4dp gaps - **Shape:\*\* Medium rounded corners
+### Implementation - **Background:** Tinted container (primary/error based on status) - **Typography: - Label:
+
+`labelSmall`, onSurfaceVariant - Value: `headlineSmall`, Bold, Monospace, themed color - Unit:
+`bodySmall`, onSurfaceVariant - **Spacing:** 12dp padding, 4dp gaps - **Shape:\*\* Medium rounded corners
 
 ### Industry Examples - **Grafana:** "Stat" panel - **Datadog:** Metrics widget - **AWS CloudWatch:** Number widget
 
@@ -30,11 +33,17 @@
 └────────────────────┘
 ```
 
-### Color Mapping - **GOOD:** Primary (blue) + CheckCircle icon - **FAIR:** Tertiary (amber) + Warning icon - **POOR:** Error (red) + Error icon - **UNKNOWN:** Outline (gray) + Help icon
+### Color Mapping - **GOOD:** Primary (blue) + CheckCircle icon - **FAIR:** Tertiary (amber) + Warning icon - **POOR:
 
-### Implementation - **Container:** Small surface with 15% alpha tint - **Padding:** 12dp horizontal, 6dp vertical - **Typography:** `labelMedium`, SemiBold - **Icon Size:** 16dp
+** Error (red) + Error icon - **UNKNOWN:** Outline (gray) + Help icon
 
-### Industry Standard - **Google Cloud:** Service health indicators - **Azure:** Resource status badges - **Kubernetes Dashboard:** Pod status
+### Implementation - **Container:** Small surface with 15% alpha tint - **Padding:** 12dp horizontal, 6dp vertical - *
+
+*Typography:** `labelMedium`, SemiBold - **Icon Size:** 16dp
+
+### Industry Standard - **Google Cloud:** Service health indicators - **Azure:** Resource status badges - **Kubernetes
+
+Dashboard:** Pod status
 
 ## 3. Progress Bar Health Indicator
 
@@ -45,7 +54,9 @@ Buffer Health              78%
 ━━━━━━━━━━━━━━━━░░░░        ← Filled progress bar
 ```
 
-### Color Thresholds - **≥70%:** Primary (green) - Healthy - **30-69%:** Tertiary (amber) - Warning - **<30%:** Error (red) - Critical
+### Color Thresholds - **≥70%:** Primary (green) - Healthy - **30-69%:** Tertiary (amber) - Warning - **<30%:
+
+** Error (red) - Critical
 
 ### Implementation
 
@@ -61,7 +72,9 @@ LinearProgressIndicator(
 )
 ```
 
-### Industry Standard - **New Relic:** Transaction performance - **Datadog:** Host metrics - **Prometheus/Grafana:** Gauge displays
+### Industry Standard - **New Relic:** Transaction performance - **Datadog:** Host metrics - **Prometheus/Grafana:
+
+** Gauge displays
 
 ## 4. History Table Pattern
 
@@ -77,7 +90,9 @@ LinearProgressIndicator(
 └────────────────────────────────────────┘
 ```
 
-### Formatting Rules - **Timestamp:** HH:mm:ss (no date if recent) - **Offset:** Show sign (+/-), 1 decimal place - **RTT:** 1 decimal place - **Font:** Monospace for alignment - **Color:** Primary for offset, variant for RTT
+### Formatting Rules - **Timestamp:** HH:mm:ss (no date if recent) - **Offset:** Show sign (+/-), 1 decimal place - *
+
+*RTT:** 1 decimal place - **Font:** Monospace for alignment - **Color:** Primary for offset, variant for RTT
 
 ### Implementation
 
@@ -112,9 +127,13 @@ Row(horizontalArrangement = SpaceBetween) {
 └─────────────────────────────────┘
 ```
 
-### Color States - **Streaming:** Primary container background - **Idle:** Surface variant background - **Error:** Error container background (if disconnected)
+### Color States - **Streaming:** Primary container background - **Idle:** Surface variant background - **Error:
 
-### Industry Standard - **Kubernetes Dashboard:** Pod cards - **Docker Desktop:** Container cards - **Jenkins:** Build job cards
+** Error container background (if disconnected)
+
+### Industry Standard - **Kubernetes Dashboard:** Pod cards - **Docker Desktop:** Container cards - **Jenkins:
+
+** Build job cards
 
 ## 6. Relative Time Display Pattern
 
@@ -156,7 +175,9 @@ val ageText = when {
 └──────────┘
 ```
 
-### Styling - **Background:** Surface with 60% alpha - **Shape:** Small rounded corners - **Padding:** 8dp - **Value:** `titleMedium`, Bold, Monospace
+### Styling - **Background:** Surface with 60% alpha - **Shape:** Small rounded corners - **Padding:** 8dp - **Value:**
+
+`titleMedium`, Bold, Monospace
 
 ### Use Cases - Compact metric display - Grid layouts - Quick-scan information
 
@@ -178,7 +199,9 @@ if (status.regressionSlope.isFinite() && status.sampleCount > 3) {
    value?.let { formatDouble(it) } ?: "n/a"
    ```
 
-### Industry Standard - **Grafana:** Panel visibility rules - **Datadog:** Conditional formatting - **New Relic:** Alert thresholds
+### Industry Standard - **Grafana:** Panel visibility rules - **Datadog:** Conditional formatting - **New Relic:
+
+** Alert thresholds
 
 ## 9. Typography Scale
 
@@ -194,7 +217,9 @@ Secondary: bodySmall (12sp), Regular
 
 ### Font Families - **Monospace:** For numeric data (alignment, precision) - **Default:** For labels, descriptions
 
-### Industry Standard - **Material Design 3:** Type scale - **IBM Carbon:** Type tokens - **Atlassian Design:** Typography
+### Industry Standard - **Material Design 3:** Type scale - **IBM Carbon:** Type tokens - **Atlassian Design:
+
+** Typography
 
 ## 10. Color Semantics
 
@@ -207,9 +232,13 @@ ERROR/POOR      → error (red)
 NEUTRAL/UNKNOWN → outline (gray)
 ```
 
-### Usage - **Background tints:** 15-40% alpha - **Text colors:** Full opacity - **Icons:** Match text color - **Borders:** Not used (prefer elevation)
+### Usage - **Background tints:** 15-40% alpha - **Text colors:** Full opacity - **Icons:** Match text color - *
 
-### Industry Standard - **Material Design:** Color system - **Bootstrap:** Contextual colors - **Tailwind:** Color palette
+*Borders:** Not used (prefer elevation)
+
+### Industry Standard - **Material Design:** Color system - **Bootstrap:** Contextual colors - **Tailwind:
+
+** Color palette
 
 ## 11. Spacing & Density
 
@@ -223,9 +252,13 @@ Medium:      16dp  - Card padding, gaps
 Large:       24dp  - Section spacing
 ```
 
-### Density Levels - **High:** Mobile, limited space - **Medium:** Tablet, standard (current) - **Low:** Desktop, ample space
+### Density Levels - **High:** Mobile, limited space - **Medium:** Tablet, standard (current) - **Low:
 
-### Industry Standard - **Material Design:** Spacing - **iOS HIG:** Layout margins - \*\*Web Content Accessibility Guidelines (WCAG)
+** Desktop, ample space
+
+### Industry Standard - **Material Design:** Spacing - **iOS HIG:
+
+** Layout margins - \*\*Web Content Accessibility Guidelines (WCAG)
 
 ## 12. Accessibility Patterns
 
