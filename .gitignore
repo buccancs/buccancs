@@ -104,6 +104,8 @@ var/
 wheels/
 venv/
 android-sdk/
+toolchains/*
+!toolchains/README.md
 
 # =============================================================================
 # Logs, Backups & Temporary Files
@@ -144,3 +146,4 @@ gha-creds-*.json
 /artifacts/
 /docs/archive/
 /.gradle-home/
+gradle/os-paths.properties

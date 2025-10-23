@@ -37,8 +37,11 @@ the platform during day-to-day development.
    git submodule update --init --recursive
    ```
 
-3. Copy or create `local.properties` with `sdk.dir` pointing at your Android SDK
-   location (already tracked for the canonical Windows path).
+3. Windows: run `scripts\bootstrap-toolchains.ps1` to download the Android SDK,
+   JDK, and seed `toolchains/`. On macOS/Linux, populate
+   `<repo>/toolchains/android-sdk` (and optional `android-ndk`, `java`,
+   `gradle-user-home`) or symlink those directories to your existing installs.
+   The Gradle init script keeps `local.properties` in sync automatically.
 
 4. Open the project in Android Studio or IntelliJ; allow the IDE to import
    Gradle settings.
@@ -73,8 +76,8 @@ gradlew.bat :app:ktlintCheck
 ```
 
 On macOS/Linux use `./gradlew` with the same tasks. If Gradle fails to locate
-the Android SDK, revisit `local.properties` or the `ANDROID_HOME` environment
-variable.
+the Android SDK, ensure `toolchains/android-sdk` exists or override the paths
+via `gradle/os-paths.properties` / environment variables.
 
 ## Running the Platform
 
