@@ -15,7 +15,7 @@ host integrations that react to hardware intents in real time.
 
 ## Service Responsibilities (`DeviceScannerService`)
 
-Located at `app/src/main/java/com/buccancs/hardware/DeviceScannerService.kt`.
+Located at `apps/android/src/main/java/com/buccancs/hardware/DeviceScannerService.kt`.
 
 - Manual scans: kicks off Bluetooth discovery (12 s window) and enumerates USB
   devices on demand.
@@ -44,7 +44,7 @@ Dependencies are injected with Hilt (`BluetoothService`, `UsbService`,
 
 ## UI Components (`DeviceScannerDialog`)
 
-Located at `app/src/main/java/com/buccancs/ui/components/scanner/DeviceScannerDialog.kt`.
+Located at `apps/android/src/main/java/com/buccancs/ui/components/scanner/DeviceScannerDialog.kt`.
 
 - Material 3 dialog with USB and Bluetooth tabs.
 - Displays device name, vendor/product (USB) or address + RSSI (Bluetooth).
@@ -69,7 +69,7 @@ Reusable composables:
 - **`DevicesScreen`** exposes the search icon that opens the dialog.
 - **`DeviceScannerViewModel`** provides the service to Compose via Hilt.
 
-Topdon vendor/product IDs are listed in `app/src/main/res/xml/device_filter.xml`
+Topdon vendor/product IDs are listed in `apps/android/src/main/res/xml/device_filter.xml`
 and include 11261, 1003, 3034, and 1240.
 
 ---
@@ -100,7 +100,7 @@ user interaction is required.
 - Bluetooth: `BLUETOOTH`, `BLUETOOTH_ADMIN` (API ≤30) or `BLUETOOTH_SCAN`,
   `BLUETOOTH_CONNECT`, `BLUETOOTH_ADVERTISE` (API 31+), plus coarse/fine
   location.
-- USB: device filters declared in `app/src/main/res/xml/device_filter.xml`;
+- USB: device filters declared in `apps/android/src/main/res/xml/device_filter.xml`;
   permission intent wired via `UsbManager`.
 - The scanner is registered as a `@Singleton` and leverages `@ApplicationScope`
   coroutines for predictable lifecycle management.

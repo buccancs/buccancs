@@ -1,3 +1,4 @@
+import java.io.File
 import java.io.FileInputStream
 import java.util.*
 
@@ -294,25 +295,75 @@ if (detectedSdkDir != null) {
     )
 }
 
-val localModules =
-    rootDir
-        .listFiles { candidate ->
-            candidate.isDirectory &&
-                    (candidate.resolve(
-                        "build.gradle.kts"
-                    ).isFile || candidate.resolve(
-                        "build.gradle"
-                    ).isFile)
-        }
-        ?.sortedBy { it.name }
-        ?: emptyList()
+val registeredModules =
+    mutableSetOf<String>()
 
-localModules.forEach { moduleDir ->
-    include(
-        ":${moduleDir.name}"
-    )
-    project(
-        ":${moduleDir.name}"
-    ).projectDir =
-        moduleDir
+fun File.isGradleModuleDir(): Boolean =
+    isDirectory &&
+            (resolve("build.gradle.kts").isFile ||
+                    resolve("build.gradle").isFile)
+
+fun registerModule(moduleDir: File) {
+    val relativePath =
+        moduleDir.relativeTo(
+            rootDir
+        )
+            .invariantSeparatorsPath
+    val gradlePath =
+        ":${relativePath.replace('/', ':')}"
+    if (registeredModules.add(gradlePath)) {
+        include(
+            gradlePath
+        )
+        project(
+            gradlePath
+        ).projectDir =
+            moduleDir
+    }
 }
+
+val nestedModuleRoots =
+    listOf(
+        "apps",
+        "shared",
+        "infra",
+        "hardware",
+        "simulations",
+        "integrations",
+        "legacy"
+    )
+        .map {
+            rootDir.resolve(
+                it
+            )
+        }
+        .filter(File::exists)
+
+val skipDirectories =
+    setOf(
+        "build",
+        "out",
+        "tmp",
+        "bin",
+        ".git",
+        ".gradle",
+        ".idea",
+        "generated",
+        "captures"
+    )
+
+nestedModuleRoots.forEach { root ->
+    root.walkTopDown()
+        .onEnter { dir ->
+            dir.name !in skipDirectories
+        }
+        .filter(File::isGradleModuleDir)
+        .forEach(::registerModule)
+}
+
+rootDir
+    .listFiles { candidate ->
+        candidate.isGradleModuleDir()
+    }
+    ?.sortedBy { it.name }
+    ?.forEach(::registerModule)

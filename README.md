@@ -28,14 +28,17 @@ Key prerequisites (full detail in `docs/development/environment.md`):
 
 ## Repository Layout
 
-- `app/` – Jetpack Compose Android agent controlling hardware connectors and
-  simulations.
-- `desktop/` – Compose Desktop orchestrator (session control, telemetry, media).
-- `core/`, `domain/`, `protocol/` – Shared business logic, data contracts, and
-  protobuf definitions.
-- `shimmer/`, `thermal-*`, `topdon-*` – Hardware-specific adapters and samples.
-- `scripts/`, `toolchain/` – Bootstrap and local toolchain helpers (git-ignored
-  payloads).
+- `apps/android/` – Jetpack Compose Android agent (UI, orchestrator client, DI).
+- `apps/desktop/` – Compose Desktop orchestrator and telemetry console.
+- `shared/foundation`, `shared/domain`, `shared/data`, `shared/protocol` – Platform-neutral
+  utilities, business logic, and protobuf/gRPC contracts.
+- `infra/storage/` – Storage adapters and persistence scaffolding.
+- `hardware/` – Device-specific connectors (Topdon thermal, Shimmer GSR, etc.).
+- `simulations/thermal/` – Simulation pipelines used in lieu of physical
+  sensors.
+- `legacy/external/` – Vendor SDK drops and archival samples (read-only).
+- `scripts/`, `toolchains/` – Bootstrap and local toolchain helpers
+  (git-ignored payloads).
 
 ## Documentation Map
 

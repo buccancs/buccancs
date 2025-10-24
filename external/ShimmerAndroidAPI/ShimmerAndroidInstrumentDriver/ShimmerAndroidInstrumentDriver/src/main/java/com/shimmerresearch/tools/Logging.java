@@ -10,6 +10,12 @@ import com.shimmerresearch.android.shimmerService.ShimmerService;
 import com.shimmerresearch.driver.FormatCluster;
 import com.shimmerresearch.driver.ObjectCluster;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -237,5 +243,4 @@ public class Logging {
     }
 
 }
-
 
