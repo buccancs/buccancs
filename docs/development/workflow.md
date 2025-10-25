@@ -62,16 +62,16 @@ gradlew.bat build
 gradlew.bat clean build
 
 # assemble Android debug APK
-gradlew.bat :app:assembleDebug
+gradlew.bat :apps:android-agent:assembleDebug
 
 # package Android instrumentation tests
-gradlew.bat :app:compileDebugAndroidTestKotlin
+gradlew.bat :apps:android-agent:compileDebugAndroidTestKotlin
 
 # run desktop orchestrator locally
-gradlew.bat :desktop:run
+gradlew.bat :apps:desktop-orchestrator:run
 
 # lint / formatting checks
-gradlew.bat :app:ktlintCheck
+gradlew.bat :apps:android-agent:ktlintCheck
 ```
 
 On macOS/Linux use `./gradlew` with the same tasks. If Gradle fails to locate
@@ -85,7 +85,7 @@ via `gradle/os-paths.properties` / environment variables.
   TC001 via USB-C, Shimmer3 via Bluetooth). Simulation toggles are available in
   the app settings when hardware is absent.
 
-- Desktop orchestrator: Execute `gradlew.bat:desktop:run`. The app discovers
+- Desktop orchestrator: Execute `gradlew.bat :apps:desktop-orchestrator:run`. The app discovers
   agents via mDNS, displays status panels, and exposes session controls. Use
   matching protobuf versions to avoid gRPC negotiation issues.
 

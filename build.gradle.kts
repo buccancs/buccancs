@@ -374,9 +374,22 @@ fun Project.existingModuleTasks(names: List<String>, task: String = "build"): Li
 // Core libraries and shared components
 val bundleCore = tasks.register("bundleCore") {
     group = "bundles"
-    description = "Builds core/shared modules (protocol, domain, core, storage, common-ui, sdk) if present."
+    description = "Builds shared and infrastructure modules (shared/*, infra/*) if present."
     dependsOn(
-        existingModuleTasks(listOf("protocol", "domain", "core", "storage", "common-ui", "sdk"))
+        existingModuleTasks(
+            listOf(
+                "shared:protocol",
+                "shared:domain",
+                "shared:data",
+                "shared:foundation",
+                "infra:storage",
+                "infra:transfer",
+                "infra:orchestration",
+                "infra:events",
+                "infra:calibration",
+                "infra:sensor"
+            )
+        )
     )
 }
 
@@ -386,7 +399,7 @@ val bundleDesktop = tasks.register("bundleDesktop") {
     description = "Builds the desktop application and prerequisites."
     dependsOn(bundleCore)
     // Build desktop module if present
-    findProject(":desktop")?.let { dependsOn("$it:build") }
+    findProject(":apps:desktop-orchestrator")?.let { dependsOn("$it:build") }
 }
 
 // Android application (assembleDebug/installDebug)
@@ -394,7 +407,7 @@ val bundleAndroid = tasks.register("bundleAndroid") {
     group = "bundles"
     description = "Builds the Android application (assembleDebug)."
     dependsOn(bundleCore)
-    findProject(":app")?.let { dependsOn("$it:assembleDebug") }
+    findProject(":apps:android-agent")?.let { dependsOn("$it:assembleDebug") }
 }
 
 // Thermal-related modules (e.g., thermal-simulated, thermal-topdon)
@@ -429,7 +442,6 @@ tasks.register("bundleAll") {
 // Run the Compose Desktop app
 tasks.register("runDesktop") {
     group = "application"
-    description = "Runs the desktop application (:desktop:run)."
-    findProject(":desktop")?.let { dependsOn("$it:run") }
+    description = "Runs the desktop application (:apps:desktop-orchestrator:run)."
+    findProject(":apps:desktop-orchestrator")?.let { dependsOn("$it:run") }
 }
-

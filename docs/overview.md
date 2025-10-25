@@ -19,8 +19,8 @@ auditable.
 
 | Layer | Responsibilities | Key Modules |
 |-------|------------------|--------------|
-| Android agent | Compose UI, orchestrator bridge, capture + upload pipeline | `apps/android`, `shared/foundation`, `shared/domain`, `shared/data`, `infra/*`, `hardware/**`, `simulations/thermal` |
-| Desktop orchestrator | Session coordination, telemetry dashboards, gRPC surface, media aggregation | `apps/desktop`, `shared/protocol`, `shared/domain` |
+| Android agent | Compose UI, orchestrator bridge, capture + upload pipeline | `apps/android-agent`, `shared/foundation`, `shared/domain`, `shared/data`, `infra/*`, `hardware/**`, `simulations/thermal` |
+| Desktop orchestrator | Session coordination, telemetry dashboards, gRPC surface, media aggregation | `apps/desktop-orchestrator`, `shared/protocol`, `shared/domain` |
 | Shared services | Protobuf contracts, infrastructure adapters, vendor SDK bridges | `shared/protocol`, `shared/foundation`, `infra/*`, `hardware/**`, `legacy/external`, `scripts/` |
 
 ### Typical Session Flow

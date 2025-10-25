@@ -10,17 +10,17 @@ stress scenarios, and capture the right artefacts for debugging.
 
 ## Automated Tests
 
-- Unit tests: `gradlew.bat:app:testDebugUnitTest` and
-  `gradlew.bat:desktop:test`. These cover Result-pattern helpers, DI modules,
+- Unit tests: `gradlew.bat :apps:android-agent:testDebugUnitTest` and
+  `gradlew.bat :apps:desktop-orchestrator:test`. These cover Result-pattern helpers, DI modules,
   repositories, and protocol utilities. The desktop suite exercises ~ 50 UI and
   data-layer tests; two mDNS integration cases remain timing-sensitive and may
   flare up on congested networks.
 
-- Instrumentation tests: `gradlew.bat:app:connectedDebugAndroidTest` drives
+- Instrumentation tests: `gradlew.bat :apps:android-agent:connectedDebugAndroidTest` drives
   device-level validation for sensor connectors and UI state machines. Requires
   attached hardware or simulator with the relevant toggles.
 
-- Static analysis: `gradlew.bat:app:ktlintCheck` and `./gradlew:app:lintDebug`
+- Static analysis: `gradlew.bat :apps:android-agent:ktlintCheck` and `./gradlew :apps:android-agent:lintDebug`
   enforce formatting and Android lint baselines.
 
 - Continuous integration: Build pipelines are blocked on Android SDK Platform 36

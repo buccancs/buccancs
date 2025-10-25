@@ -37,7 +37,7 @@ dependencies {
     implementation(project(":shared:data"))
     implementation(project(":infra:storage"))
     implementation(project(":simulations:thermal"))
-    implementation(project(":hardware:shimmer:android"))
+    implementation(project(":hardware:shimmer-android"))
 
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)

@@ -2,3 +2,18 @@
 	path = external/IRCamera
 	url = https://github.com/CoderCaiSL/IRCamera.git
 	branch = github-main_ircamera
+
+[submodule "external/original-topdon-app"]
+	path = external/original-topdon-app
+	url = https://github.com/CoderCaiSL/IRCamera.git
+	branch = github-main_ircamera
+
+[submodule "external/IRCamera"]
+	path = external/Shimmer-Java-Android-API
+	url = https://github.com/ShimmerEngineering/Shimmer-Java-Android-API.git
+	branch = master
+
+[submodule "external/IRCamera"]
+	path = external/ShimmerAndroidAPI
+	url = https://github.com/ShimmerEngineering/ShimmerAndroidAPI.git
+	branch = master

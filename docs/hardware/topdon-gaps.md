@@ -10,13 +10,7 @@ implemented in BuccanCS.
 
 | Capability | BuccanCS Status | IRCamera Baseline | Notes |
 |------------|-----------------|-------------------|-------|
-| Distance compensation | Not exposed in `TopdonSettings`; connector pushes `distanceMeters = null`. | Distance slider and persistence via `ConfigRepository` & reporting forms. | Align storage schema and UI so hardware receives calibrated distance values. |
-| Emissivity tuning | Repository/API support exists, but UI lacks controls and view model setters. | Dedicated dialog with presets, tips, and saved defaults. | Expose emissivity controls and plumb through to `TopdonThermalConnector.applyHardwareSettings`. |
-| Gain mode & HDR toggles | No Compose affordances; defaults remain AUTO. | High/low gain switches, auto gain, HDR toggles surfaced in quick settings. | Wire `TopdonSettingsRepository.setGainMode` and dynamic-range selectors into the UI. |
-| Auto shutter control | Hardware client honors the flag, but there is no user-facing toggle. | Toggled in quick settings; defaults reset during profile changes. | Add toggle alongside preview controls. |
-| Environmental metadata (ambient temp, humidity) | Not modelled in domain or UI. | Captured in report configuration with exported manifests. | Required for compliant measurement reports. |
-| Manual calibration trigger (NUC) | View model exposes `triggerManualCalibration()` but no UI entry point. | Explicit calibration buttons with progress feedback. | Surface calibration controls and status so operators can force a shutter cycle. |
-| Temperature unit selection | Settings screen shows static “Celsius (°C)” copy. | Unit toggles and persistence via `SaveSettingUtil`. | Extend settings repository and UI to support Fahrenheit/other targets. |
+| Environmental metadata (ambient temp, humidity) | ✅ Available (settings + capture metadata). | Captured in report configuration with exported manifests. | Keep extending reporting surfaces to capture materials/notes. |
 
 ## 2. Imaging & UX Tooling
 

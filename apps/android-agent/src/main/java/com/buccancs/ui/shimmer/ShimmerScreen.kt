@@ -1,0 +1,205 @@
+package com.buccancs.ui.shimmer
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import com.buccancs.ui.components.shimmer.ShimmerConfigCard
+import com.buccancs.ui.components.shimmer.ShimmerConnectionCard
+import com.buccancs.ui.components.shimmer.ShimmerDataCard
+import com.buccancs.ui.components.shimmer.ShimmerDevice
+import com.buccancs.ui.components.shimmer.ShimmerDeviceSelectorDialog
+import com.buccancs.ui.components.shimmer.ShimmerStreamingCard
+import com.buccancs.ui.theme.LayoutPadding
+import com.buccancs.ui.theme.Spacing
+
+@OptIn(
+    ExperimentalMaterial3Api::class
+)
+@Composable
+fun ShimmerScreen(
+    onNavigateBack: () -> Unit,
+    viewModel: ShimmerScreenViewModel = hiltViewModel()
+) {
+    val uiState by viewModel.uiState.collectAsState()
+    val snackbarHostState =
+        remember { SnackbarHostState() }
+    var showDeviceSelector by remember {
+        mutableStateOf(
+            false
+        )
+    }
+    val selectedDeviceMac =
+        uiState.selectedDeviceMac
+    val deviceEntries =
+        uiState.deviceOptions.map { option ->
+            val fallbackName =
+                option.mac.takeLast(
+                    5
+                )
+            ShimmerDevice(
+                name = option.name ?: "Shimmer $fallbackName",
+                address = option.mac,
+                isPaired = option.mac.equals(
+                    selectedDeviceMac,
+                    ignoreCase = true
+                )
+            )
+        }
+    LaunchedEffect(
+        showDeviceSelector
+    ) {
+        if (showDeviceSelector && deviceEntries.isEmpty()) {
+            viewModel.scanForDevices()
+        }
+    }
+    val pairedDevices =
+        deviceEntries.filter { it.isPaired }
+    val availableDevices =
+        deviceEntries.filterNot { it.isPaired }
+
+    LaunchedEffect(
+        uiState.errorMessage
+    ) {
+        uiState.errorMessage?.let { message ->
+            snackbarHostState.showSnackbar(
+                message
+            )
+            viewModel.clearError()
+        }
+    }
+
+    Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+        topBar = {
+            TopAppBar(
+                title = {
+                    Text(
+                        "Shimmer Device"
+                    )
+                },
+                navigationIcon = {
+                    IconButton(
+                        onClick = onNavigateBack
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "Back"
+                        )
+                    }
+                }
+            )
+        },
+        snackbarHost = {
+            SnackbarHost(
+                snackbarHostState
+            )
+        },
+        contentWindowInsets = WindowInsets(
+            0,
+            0,
+            0,
+            0
+        )
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(
+                    padding
+                )
+                .padding(
+                    LayoutPadding.ScreenCompact
+                )
+                .verticalScroll(
+                    rememberScrollState()
+                ),
+            verticalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
+        ) {
+            ShimmerConnectionCard(
+                isConnected = uiState.isConnected,
+                isConnecting = uiState.isConnecting,
+                deviceName = uiState.deviceName,
+                deviceAddress = uiState.deviceAddress,
+                selectedDeviceName = uiState.selectedDeviceName,
+                selectedDeviceMac = uiState.selectedDeviceMac,
+                onConnect = viewModel::connectDevice,
+                onDisconnect = viewModel::disconnectDevice,
+                onOpenDeviceSelector = {
+                    showDeviceSelector =
+                        true
+                }
+            )
+
+            if (uiState.isConnected) {
+                ShimmerStreamingCard(
+                    isStreaming = uiState.isStreaming,
+                    isConnected = uiState.isConnected
+                )
+
+                ShimmerConfigCard(
+                    gsrRange = uiState.gsrRangeLabel,
+                    gsrRangeOptions = uiState.gsrRangeOptions,
+                    sampleRate = uiState.sampleRate,
+                    sampleRateOptions = uiState.sampleRateOptions,
+                    onGsrRangeChange = viewModel::updateGsrRange,
+                    onSampleRateChange = viewModel::updateSampleRate,
+                    enabled = !uiState.isStreaming
+                )
+
+                ShimmerDataCard(
+                    timestamp = uiState.timestamp,
+                    accelX = uiState.accelX,
+                    accelY = uiState.accelY,
+                    accelZ = uiState.accelZ,
+                    gsrData = uiState.gsrData
+                )
+            }
+        }
+
+        if (showDeviceSelector) {
+            ShimmerDeviceSelectorDialog(
+                pairedDevices = pairedDevices,
+                availableDevices = availableDevices,
+                isScanning = uiState.isScanning,
+                onDeviceSelected = { device ->
+                    showDeviceSelector =
+                        false
+                    viewModel.selectDevice(
+                        device.address
+                    )
+                },
+                onScanForDevices = viewModel::scanForDevices,
+                onDismiss = {
+                    showDeviceSelector =
+                        false
+                }
+            )
+        }
+    }
+}

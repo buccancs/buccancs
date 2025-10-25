@@ -15,8 +15,8 @@ git clone <repo-url> && cd buccancs
 ./scripts/bootstrap-toolchains.sh         # Linux / WSL
 pwsh -File scripts/bootstrap-toolchains.ps1  # Windows PowerShell
 
-# assemble the Android app and desktop orchestrator
-./gradlew :app:assembleDebug :desktop:run
+# assemble the Android agent and desktop orchestrator
+./gradlew :apps:android-agent:assembleDebug :apps:desktop-orchestrator:run
 ```
 
 Key prerequisites (full detail in `docs/development/environment.md`):
@@ -28,13 +28,14 @@ Key prerequisites (full detail in `docs/development/environment.md`):
 
 ## Repository Layout
 
-- `apps/android/` – Jetpack Compose Android agent (UI, orchestrator client, DI).
-- `apps/desktop/` – Compose Desktop orchestrator and telemetry console.
+- `apps/android-agent/` – Jetpack Compose Android agent (UI, orchestrator client, DI).
+- `apps/desktop-orchestrator/` – Compose Desktop orchestrator and telemetry console.
 - `shared/foundation`, `shared/domain`, `shared/data`, `shared/protocol` – Platform-neutral
   utilities, business logic, and protobuf/gRPC contracts.
 - `infra/` – Android infrastructure modules (`calibration`, `events`, `orchestration`,
   `sensor`, `storage`, `transfer`) housing repositories, connectors, and background workers.
-- `hardware/` – Device-specific connectors (Topdon thermal, Shimmer GSR, etc.).
+- `hardware/shimmer-android/`, `hardware/topdon-android/`, `hardware/topdon-runtime/`,
+  `hardware/topdon-sdk/` – Device-specific connectors and vendor bridge layers.
 - `simulations/thermal/` – Simulation pipelines used in lieu of physical
   sensors.
 - `legacy/external/` – Vendor SDK drops and archival samples (read-only).

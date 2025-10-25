@@ -5,6 +5,7 @@ import com.buccancs.domain.model.TopdonGainMode
 import com.buccancs.domain.model.TopdonPalette
 import com.buccancs.domain.model.TopdonSettings
 import com.buccancs.domain.model.TopdonSuperSamplingFactor
+import com.buccancs.domain.model.TopdonTemperatureUnit
 import kotlinx.coroutines.flow.StateFlow
 
 interface TopdonSettingsRepository {
@@ -40,5 +41,21 @@ interface TopdonSettingsRepository {
 
     suspend fun setDynamicRange(
         range: TopdonDynamicRange
+    )
+
+    suspend fun setDistanceMeters(
+        distance: Double
+    )
+
+    suspend fun setTemperatureUnit(
+        unit: TopdonTemperatureUnit
+    )
+
+    suspend fun setAmbientTemperatureCelsius(
+        temperatureCelsius: Double
+    )
+
+    suspend fun setAmbientHumidityPercent(
+        humidityPercent: Double
     )
 }

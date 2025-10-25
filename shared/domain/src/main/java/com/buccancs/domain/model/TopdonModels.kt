@@ -48,6 +48,11 @@ enum class TopdonSuperSamplingFactor(
     }
 }
 
+enum class TopdonTemperatureUnit {
+    CELSIUS,
+    FAHRENHEIT
+}
+
 data class TopdonSettings(
     val autoConnectOnAttach: Boolean = true,
     val palette: TopdonPalette = TopdonPalette.GRAYSCALE,
@@ -56,11 +61,18 @@ data class TopdonSettings(
     val emissivity: Double = DEFAULT_EMISSIVITY,
     val gainMode: TopdonGainMode = TopdonGainMode.AUTO,
     val autoShutterEnabled: Boolean = true,
-    val dynamicRange: TopdonDynamicRange = TopdonDynamicRange.STANDARD
+    val dynamicRange: TopdonDynamicRange = TopdonDynamicRange.STANDARD,
+    val distanceMeters: Double = DEFAULT_DISTANCE_METERS,
+    val temperatureUnit: TopdonTemperatureUnit = TopdonTemperatureUnit.CELSIUS,
+    val ambientTemperatureCelsius: Double = DEFAULT_AMBIENT_TEMPERATURE_C,
+    val ambientHumidityPercent: Double = DEFAULT_AMBIENT_HUMIDITY_PERCENT
 ) {
     companion object {
         const val DEFAULT_PREVIEW_FPS_LIMIT = 12
         const val DEFAULT_EMISSIVITY = 0.95  // Typical for human skin
+        const val DEFAULT_DISTANCE_METERS = 1.0
+        const val DEFAULT_AMBIENT_TEMPERATURE_C = 25.0
+        const val DEFAULT_AMBIENT_HUMIDITY_PERCENT = 45.0
     }
 }
 

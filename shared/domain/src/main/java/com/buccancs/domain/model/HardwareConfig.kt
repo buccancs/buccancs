@@ -27,5 +27,13 @@ data class TopdonDeviceConfig(
     val autoConnectOnAttach: Boolean? = null,
     val palette: TopdonPalette? = null,
     val superSampling: TopdonSuperSamplingFactor? = null,
-    val previewFpsLimit: Int? = null
+    val previewFpsLimit: Int? = null,
+    val emissivity: Double? = null,
+    val gainMode: TopdonGainMode? = null,
+    val autoShutterEnabled: Boolean? = null,
+    val dynamicRange: TopdonDynamicRange? = null,
+    val distanceMeters: Double? = null,
+    val temperatureUnit: TopdonTemperatureUnit? = null,
+    val ambientTemperatureCelsius: Double? = null,
+    val ambientHumidityPercent: Double? = null
 )
