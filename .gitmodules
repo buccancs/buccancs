@@ -8,12 +8,12 @@
 	url = https://github.com/CoderCaiSL/IRCamera.git
 	branch = github-main_ircamera
 
-[submodule "external/IRCamera"]
+[submodule "external/Shimmer-Java-Android-API"]
 	path = external/Shimmer-Java-Android-API
 	url = https://github.com/ShimmerEngineering/Shimmer-Java-Android-API.git
 	branch = master
 
-[submodule "external/IRCamera"]
+[submodule "external/ShimmerAndroidAPI"]
 	path = external/ShimmerAndroidAPI
 	url = https://github.com/ShimmerEngineering/ShimmerAndroidAPI.git
 	branch = master
