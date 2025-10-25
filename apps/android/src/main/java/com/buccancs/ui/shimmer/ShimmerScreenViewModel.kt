@@ -94,7 +94,7 @@ class ShimmerScreenViewModel @Inject constructor(
                 deviceManagement.connectDevice(
                     deviceId
                 )
-            if (result.isFailure()) {
+            if (result.isFailure) {
                 _uiState.value =
                     _uiState.value.copy(
                         errorMessage = result.exceptionOrNull()?.message
@@ -117,7 +117,7 @@ class ShimmerScreenViewModel @Inject constructor(
                 deviceManagement.disconnectDevice(
                     deviceId
                 )
-            if (result.isFailure()) {
+            if (result.isFailure) {
                 _uiState.value =
                     _uiState.value.copy(
                         errorMessage = result.exceptionOrNull()?.message
@@ -151,7 +151,7 @@ class ShimmerScreenViewModel @Inject constructor(
                 _uiState.value.copy(
                     isScanning = false
                 )
-            if (result.isFailure()) {
+            if (result.isFailure) {
                 _uiState.value =
                     _uiState.value.copy(
                         errorMessage = result.exceptionOrNull()?.message
@@ -174,7 +174,7 @@ class ShimmerScreenViewModel @Inject constructor(
                     deviceId,
                     rangeIndex
                 )
-            if (result.isSuccess()) {
+            if (result.isSuccess) {
                 _uiState.value =
                     _uiState.value.copy(
                         gsrRangeIndex = rangeIndex
@@ -202,7 +202,7 @@ class ShimmerScreenViewModel @Inject constructor(
                     deviceId,
                     sampleRate
                 )
-            if (result.isSuccess()) {
+            if (result.isSuccess) {
                 _uiState.value =
                     _uiState.value.copy(
                         sampleRate = sampleRate

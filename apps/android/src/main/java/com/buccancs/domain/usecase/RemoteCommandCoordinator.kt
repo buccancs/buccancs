@@ -2,10 +2,11 @@ package com.buccancs.domain.usecase
 
 import android.util.Log
 import com.buccancs.application.control.DeviceCommandService
-import com.buccancs.application.time.TimeSyncService
+import com.buccancs.domain.time.TimeSyncService
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.StartRecordingCommandPayload
 import com.buccancs.control.commands.StopRecordingCommandPayload
+import com.buccancs.domain.session.SessionCoordinator
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.StateFlow
@@ -109,7 +110,7 @@ class RemoteCommandCoordinatorImpl @Inject constructor(
                         payload.sessionId,
                         anchorInstant
                     )
-                result.isSuccess()
+                result.isSuccess
             } catch (cancellation: CancellationException) {
                 throw cancellation
             } catch (t: Throwable) {
@@ -171,7 +172,7 @@ class RemoteCommandCoordinatorImpl @Inject constructor(
 
                 val result =
                     sessionCoordinator.stopSession()
-                result.isSuccess()
+                result.isSuccess
             } catch (cancellation: CancellationException) {
                 throw cancellation
             } catch (t: Throwable) {

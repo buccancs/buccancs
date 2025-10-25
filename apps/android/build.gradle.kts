@@ -182,6 +182,31 @@ dependencies {
         )
     )
     implementation(
+        project(
+            ":infra:orchestration"
+        )
+    )
+    implementation(
+        project(
+            ":infra:transfer"
+        )
+    )
+    implementation(
+        project(
+            ":infra:events"
+        )
+    )
+    implementation(
+        project(
+            ":infra:calibration"
+        )
+    )
+    implementation(
+        project(
+            ":infra:sensor"
+        )
+    )
+    implementation(
         composeBom
     )
     androidTestImplementation(

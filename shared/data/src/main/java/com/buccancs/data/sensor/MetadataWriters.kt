@@ -3,7 +3,7 @@ package com.buccancs.data.sensor
 import java.io.File
 import java.nio.charset.StandardCharsets
 
-internal object MetadataWriters {
+object MetadataWriters {
     fun writeMetadata(
         target: File,
         entries: List<Pair<String, String>>
@@ -71,4 +71,3 @@ internal object MetadataWriters {
         return builder.toString()
     }
 }
-

@@ -3,7 +3,7 @@ package com.buccancs.application.control
 import android.util.Log
 import com.buccancs.BuildConfig
 import com.buccancs.application.stimulus.StimulusPresentationManager
-import com.buccancs.application.time.TimeSyncService
+import com.buccancs.domain.time.TimeSyncService
 import com.buccancs.control.commands.CommandSerialization
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload

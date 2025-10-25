@@ -1,6 +1,6 @@
 package com.buccancs.application.monitoring
 
-import com.buccancs.application.time.TimeSyncService
+import com.buccancs.domain.time.TimeSyncService
 import com.buccancs.di.ApplicationScope
 import com.buccancs.domain.model.TimeSyncQuality
 import com.buccancs.domain.model.TimeSyncStatus

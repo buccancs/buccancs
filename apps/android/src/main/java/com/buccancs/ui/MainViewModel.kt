@@ -9,11 +9,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buccancs.application.control.DeviceCommandService
 import com.buccancs.application.monitoring.SystemHealthMonitor
-import com.buccancs.application.time.TimeSyncService
+import com.buccancs.domain.time.TimeSyncService
 import com.buccancs.control.commands.*
-import com.buccancs.data.sensor.exercise.DeviceExerciseResult
-import com.buccancs.data.sensor.exercise.MultiDeviceRecordingExercise
-import com.buccancs.data.sensor.exercise.RecordingExerciseResult
+import com.buccancs.domain.usecase.exercise.DeviceExerciseResult
+import com.buccancs.domain.usecase.exercise.MultiDeviceRecordingExercise
+import com.buccancs.domain.usecase.exercise.RecordingExerciseResult
 import com.buccancs.domain.model.*
 import com.buccancs.domain.repository.*
 import com.buccancs.domain.usecase.DeviceManagementUseCase

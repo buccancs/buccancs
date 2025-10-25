@@ -3,7 +3,7 @@ package com.buccancs.ui.telemetry
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.buccancs.application.control.DeviceCommandService
-import com.buccancs.application.time.TimeSyncService
+import com.buccancs.domain.time.TimeSyncService
 import com.buccancs.control.commands.DeviceCommandPayload
 import com.buccancs.control.commands.EventMarkerCommandPayload
 import com.buccancs.control.commands.StartRecordingCommandPayload

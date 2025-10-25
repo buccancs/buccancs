@@ -1,7 +1,7 @@
 package com.buccancs.domain.usecase
 
 import com.buccancs.application.recording.RecordingService
-import com.buccancs.application.time.TimeSyncService
+import com.buccancs.domain.time.TimeSyncService
 import com.buccancs.domain.repository.SensorRepository
 import com.buccancs.domain.session.SessionCoordinator
 import com.buccancs.domain.session.SessionState

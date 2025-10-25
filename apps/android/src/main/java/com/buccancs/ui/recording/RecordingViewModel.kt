@@ -7,9 +7,9 @@ package com.buccancs.ui.recording
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.buccancs.data.sensor.exercise.DeviceExerciseResult
-import com.buccancs.data.sensor.exercise.MultiDeviceRecordingExercise
-import com.buccancs.data.sensor.exercise.RecordingExerciseResult
+import com.buccancs.domain.usecase.exercise.DeviceExerciseResult
+import com.buccancs.domain.usecase.exercise.MultiDeviceRecordingExercise
+import com.buccancs.domain.usecase.exercise.RecordingExerciseResult
 import com.buccancs.domain.model.DeviceId
 import com.buccancs.domain.model.RecordingLifecycleState
 import com.buccancs.domain.repository.SensorRepository

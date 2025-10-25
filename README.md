@@ -32,7 +32,8 @@ Key prerequisites (full detail in `docs/development/environment.md`):
 - `apps/desktop/` – Compose Desktop orchestrator and telemetry console.
 - `shared/foundation`, `shared/domain`, `shared/data`, `shared/protocol` – Platform-neutral
   utilities, business logic, and protobuf/gRPC contracts.
-- `infra/storage/` – Storage adapters and persistence scaffolding.
+- `infra/` – Android infrastructure modules (`calibration`, `events`, `orchestration`,
+  `sensor`, `storage`, `transfer`) housing repositories, connectors, and background workers.
 - `hardware/` – Device-specific connectors (Topdon thermal, Shimmer GSR, etc.).
 - `simulations/thermal/` – Simulation pipelines used in lieu of physical
   sensors.

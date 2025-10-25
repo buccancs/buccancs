@@ -4,8 +4,8 @@ import com.buccancs.application.control.DefaultDeviceCommandService
 import com.buccancs.application.control.DeviceCommandService
 import com.buccancs.application.recording.DefaultRecordingService
 import com.buccancs.application.recording.RecordingService
-import com.buccancs.application.time.DefaultTimeSyncService
-import com.buccancs.application.time.TimeSyncService
+import com.buccancs.data.orchestration.DefaultTimeSyncService
+import com.buccancs.domain.time.TimeSyncService
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -35,4 +35,3 @@ abstract class ServiceModule {
         impl: DefaultTimeSyncService
     ): TimeSyncService
 }
-

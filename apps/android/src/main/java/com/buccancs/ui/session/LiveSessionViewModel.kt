@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.buccancs.application.monitoring.SystemHealthMonitor
 import com.buccancs.application.stimulus.StimulusPresentationManager
 import com.buccancs.application.stimulus.StimulusState
-import com.buccancs.application.time.TimeSyncService
+import com.buccancs.domain.time.TimeSyncService
 import com.buccancs.data.storage.SpaceMonitor
 import com.buccancs.data.storage.SpaceState
 import com.buccancs.domain.model.DeviceEvent

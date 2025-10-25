@@ -95,6 +95,8 @@ dependencies {
     // Javax annotation
     implementation("javax.annotation:javax.annotation-api:1.3.2")
 
+    implementation(project(":shared:foundation"))
+
     // Core dependencies from original Shimmer build - use API so they're exported
     api("com.google.guava:guava:33.5.0-android")
     api("java3d:vecmath:1.3.1")
@@ -142,4 +144,8 @@ dependencies {
             "../../../sdk/libs/shimmerdriverpc-0.11.5_beta.jar"
         )
     )
+
+    implementation(libs.coroutines.core)
+    implementation(libs.coroutines.android)
+    implementation(libs.hilt.android)
 }
