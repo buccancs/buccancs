@@ -323,13 +323,83 @@ class DefaultShimmerHardwareClient @Inject constructor(
     override suspend fun applySettings(
         settings: ShimmerHardwareSettings
     ) {
-        applicationScope.launch {
-            noticesSharedFlow.emit(
-                ShimmerNotice(
-                    "Hardware configuration updates are not yet supported via the vendor SDK.",
-                    ShimmerNotice.Category.Warning
+        val service = shimmerService
+        if (service == null) {
+            applicationScope.launch {
+                noticesSharedFlow.emit(
+                    ShimmerNotice(
+                        "Cannot configure Shimmer: service is not bound",
+                        ShimmerNotice.Category.Error
+                    )
                 )
-            )
+            }
+            bindToService()
+            return
+        }
+
+        val macAddress = when (val state = statusState.value) {
+            is ShimmerStatus.Streaming -> state.macAddress
+            is ShimmerStatus.Connected -> state.macAddress
+            else -> null
+        }
+
+        if (macAddress == null) {
+            applicationScope.launch {
+                noticesSharedFlow.emit(
+                    ShimmerNotice(
+                        "Connect to a Shimmer device before applying settings.",
+                        ShimmerNotice.Category.Warning
+                    )
+                )
+            }
+            return
+        }
+
+        runCatching {
+            withContext(Dispatchers.Main) {
+                settings.sampleRateHz?.let { rate ->
+                    service.writeSamplingRate(macAddress, rate)
+                }
+                settings.gsrRangeIndex?.let { rangeIndex ->
+                    service.writeGSRRange(macAddress, rangeIndex)
+                }
+            }
+        }.onSuccess {
+            applicationScope.launch {
+                noticesSharedFlow.emit(
+                    ShimmerNotice(
+                        "Updated Shimmer configuration",
+                        ShimmerNotice.Category.Info
+                    )
+                )
+            }
+            settings.sampleRateHz?.let { rate ->
+                val currentStatus = statusState.value
+                if (currentStatus is ShimmerStatus.Streaming) {
+                    statusState.value =
+                        ShimmerStatus.Streaming(
+                            macAddress = currentStatus.macAddress,
+                            sinceEpochMs = currentStatus.sinceEpochMs,
+                            samplesPerSecond = rate
+                        )
+                }
+            }
+        }.onFailure { error ->
+            Log.e(logTag, "Failed to apply Shimmer settings", error)
+            statusState.value =
+                ShimmerStatus.Error(
+                    macAddress = macAddress,
+                    message = error.message ?: "Failed to apply settings",
+                    recoverable = true
+                )
+            applicationScope.launch {
+                noticesSharedFlow.emit(
+                    ShimmerNotice(
+                        "Failed to apply settings: ${error.message}",
+                        ShimmerNotice.Category.Error
+                    )
+                )
+            }
         }
     }
 
@@ -556,7 +626,7 @@ class DefaultShimmerHardwareClient @Inject constructor(
                 connected.forEach { shimmerDevice ->
                     val hardware =
                         toHardwareDevice(
-                            macAddress = shimmerDevice.getBluetoothAddress(),
+                            macAddress = shimmerDevice.macId,
                             shimmerName = shimmerDevice.shimmerUserAssignedName,
                             shimmerDevice = shimmerDevice
                         )
@@ -579,7 +649,7 @@ class DefaultShimmerHardwareClient @Inject constructor(
                 shimmerDevice?.shimmerUserAssignedName,
                 shimmerDevice?.alternativeName,
                 shimmerName,
-                shimmerDevice?.getBluetoothAddress()
+                shimmerDevice?.macId
             )
         val displayName =
             nameCandidates.firstOrNull { value ->

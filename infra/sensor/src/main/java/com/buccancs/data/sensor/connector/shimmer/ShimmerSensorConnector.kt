@@ -404,6 +404,28 @@ internal class ShimmerSensorConnector(
                 }
             }
         }
+
+        val conductanceString =
+            conductance?.toString()
+        val resistanceString =
+            resistance?.toString()
+        deviceState.update { current ->
+            val attributes =
+                current.attributes.toMutableMap()
+            attributes[ATTR_LAST_SAMPLE_TIMESTAMP] =
+                timestamp.toString()
+            conductanceString?.let {
+                attributes[ATTR_LAST_CONDUCTANCE] =
+                    it
+            }
+            resistanceString?.let {
+                attributes[ATTR_LAST_RESISTANCE] =
+                    it
+            }
+            current.copy(
+                attributes = attributes.toMap()
+            )
+        }
     }
 
     private fun applySettingsToConnectedDevice() {
@@ -967,5 +989,11 @@ internal class ShimmerSensorConnector(
             true
         private val DEFAULT_SCAN_DURATION =
             5.seconds
+        private const val ATTR_LAST_SAMPLE_TIMESTAMP =
+            "shimmer.last_sample_timestamp_ms"
+        private const val ATTR_LAST_CONDUCTANCE =
+            "shimmer.last_conductance_microsiemens"
+        private const val ATTR_LAST_RESISTANCE =
+            "shimmer.last_resistance_ohms"
     }
 }

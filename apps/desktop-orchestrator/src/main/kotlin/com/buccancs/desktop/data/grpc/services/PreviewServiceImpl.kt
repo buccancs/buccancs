@@ -68,7 +68,11 @@ class PreviewServiceImpl(
                 width = frame.width.toInt(),
                 height = frame.height.toInt(),
                 latencyMs = latency,
-                modality = kind.toModality()
+                modality = kind.toModality(),
+                averageFps = cadence.averageFps,
+                dropCount = cadence.dropCount,
+                maxGapMs = cadence.maxGapMs,
+                totalFrames = cadence.totalFrames
             )
             deviceRepository.updatePreviewLatency(
                 frame.deviceId,

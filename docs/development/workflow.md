@@ -93,6 +93,18 @@ via `gradle/os-paths.properties` / environment variables.
   for the removed `tools/` helpers can be recovered from the repository history
   if you need the original automation scripts.
 
+### RGB Capture Controls
+
+- Open the agent menu (`⋮` → *RGB camera*) to configure the phone camera.
+- Toggle *RAW capture* to emit periodic DNG files alongside the H.264 stream.
+- Enter manual values (exposure in nanoseconds, ISO, focus distance in metres)
+  to disable auto-exposure and drive the sensor explicitly; leave fields blank
+  to revert to auto.
+- Pick a white balance preset when colour constancy matters (for example,
+  `daylight`, `cloudy`, `off`).
+- Tap *Apply* to restart the capture session with the new parameters, or *Reset*
+  to restore the persisted defaults.
+
 ## Troubleshooting
 
 - WSL Gradle failures: Run builds from Windows PowerShell or Command Prompt. WSL

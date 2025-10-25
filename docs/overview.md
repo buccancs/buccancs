@@ -52,7 +52,7 @@ auditable.
 | FR2 | Unified recording control | ✅ Complete | Shared session anchors; desktop triggers orchestrated start/stop. |
 | FR3 | Time synchronisation | ✅ Complete | Clock service maintains <5 ms offsets across agents. |
 | FR4 | Session lifecycle management | ✅ Complete | Manifests, duration markers, and bookmark logging stable. |
-| FR5 | High-fidelity recording | ✅ Complete | Concurrent 128 Hz GSR, 30 fps RGB/thermal, audio backed by stress drills. |
+| FR5 | High-fidelity recording | ✅ Complete | Concurrent 128 Hz GSR, 30 fps RGB/thermal, audio, plus periodic RAW DNG frames for post-session grading. |
 | FR6 | Monitoring UI | ✅ Complete | Compose Desktop dashboards with alerts and live previews. |
 | FR7 | Stimulus broadcasting | ✅ Complete | Flash/audio cues and markers logged against shared timeline. |
 | FR8 | Fault tolerance | ✅ Complete | Heartbeats, reconnect flows, and command replay validated. |

@@ -424,6 +424,17 @@ private fun PreviewOverlay(
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.primary
                 )
+                Text(
+                    "FPS ${
+                        String.format(
+                            Locale.US,
+                            "%.1f",
+                            preview.averageFps
+                        )
+                    } • Drops ${preview.dropCount} • Max gap ${preview.maxGapMs} ms",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                )
             }
         }
     }

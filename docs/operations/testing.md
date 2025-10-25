@@ -55,15 +55,20 @@ demonstrations.
    device list, and confirm time synchronisation offsets remain below 5 ms
    (alerts trigger at 10 ms).
 
-3. Start a short (5–10 minute) session with every modality enabled. Observe live
+3. In the RGB camera settings sheet, enable RAW capture and (optionally) enter
+   manual exposure/ISO values so both H.264 and DNG pipelines run with known
+   parameters.
+
+4. Start a short (5–10 minute) session with every modality enabled. Observe live
    previews and double-check that GSR sample counts and thermal frame cadence
    track expectations.
 
-4. Stop the session and confirm uploads reconcile without retries. The resulting
-   manifest should list GSR CSV, RGB MP4, thermal frame sequence, and audio
-   artefacts alongside storage usage.
+5. Stop the session and confirm uploads reconcile without retries. The resulting
+   manifest should list GSR CSV, RGB MP4, RAW DNG files, thermal frame sequence,
+   and audio artefacts alongside storage usage. Spot-check one MP4 and one DNG
+   to verify timestamps and exposure metadata match the manual settings.
 
-5. Record any anomalies (for example, Bluetooth reconnects, USB driver hiccups,
+6. Record any anomalies (for example, Bluetooth reconnects, USB driver hiccups,
    upload retries) together with log paths in the sprint notes or defect
    tracker.
 

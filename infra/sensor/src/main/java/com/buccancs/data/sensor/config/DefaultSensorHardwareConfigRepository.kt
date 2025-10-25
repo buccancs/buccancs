@@ -6,6 +6,7 @@ import com.buccancs.core.serialization.StandardJson
 import com.buccancs.core.storage.WriteResult
 import com.buccancs.data.storage.AtomicFileWriter
 import com.buccancs.di.ApplicationScope
+import com.buccancs.domain.model.RgbCameraConfig
 import com.buccancs.domain.model.SensorHardwareConfig
 import com.buccancs.domain.model.ShimmerDeviceConfig
 import com.buccancs.domain.model.TopdonDeviceConfig
@@ -90,6 +91,21 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
                 device
             current.copy(
                 topdon = next.values.sortedBy { it.id })
+        }
+    }
+
+    override suspend fun upsertRgbCamera(
+        config: RgbCameraConfig
+    ) {
+        updateConfig { current ->
+            val next =
+                current.rgb.associateBy { it.id }
+                    .toMutableMap()
+            next[config.id] =
+                config
+            current.copy(
+                rgb = next.values.sortedBy { it.id }
+            )
         }
     }
 
@@ -226,6 +242,12 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
                     id = "topdon-tc001",
                     displayName = "Topdon TC001"
                 )
+            ),
+            rgb = listOf(
+                RgbCameraConfig(
+                    id = "android-rgb",
+                    displayName = "Phone RGB Camera"
+                )
             )
         )
 
@@ -238,9 +260,14 @@ class DefaultSensorHardwareConfigRepository @Inject constructor(
             topdon
                 .filter { it.id.isNotBlank() }
                 .ifEmpty { defaultConfig().topdon }
+        val rgbSanitized =
+            rgb
+                .filter { it.id.isNotBlank() }
+                .ifEmpty { defaultConfig().rgb }
         return SensorHardwareConfig(
             shimmer = shimmerSanitized.distinctBy { it.id },
-            topdon = topdonSanitized.distinctBy { it.id }
+            topdon = topdonSanitized.distinctBy { it.id },
+            rgb = rgbSanitized.distinctBy { it.id }
         )
     }
 

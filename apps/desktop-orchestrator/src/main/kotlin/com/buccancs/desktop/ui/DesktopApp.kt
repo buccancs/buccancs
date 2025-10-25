@@ -1,5 +1,6 @@
 package com.buccancs.desktop.ui
 
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -25,6 +26,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.graphics.StrokeCap
+import androidx.compose.ui.graphics.StrokeJoin
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import com.buccancs.desktop.domain.model.SessionStatus
@@ -316,7 +321,35 @@ private fun CaptureStreamCard(
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
+                text = "FPS ${
+                    stream.fps?.let { "%.1f".format(it) } ?: "–"
+                }",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "Drops ${stream.dropCount}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "Max gap ${stream.maxGapMs} ms",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        }
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(
+                Spacing.Medium
+            )
+        ) {
+            Text(
                 text = "Recording: ${if (stream.recording) "Yes" else "No"}",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = "Frames ${stream.totalFrames}",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurface
             )
@@ -342,6 +375,8 @@ private fun ShimmerSummary(
             else -> "Offline"
         }
     ) {
+        val waveformColour =
+            MaterialTheme.colorScheme.primary
         Text(
             text = "Sample rate: ${
                 shimmer.sampleRateHz?.let { "${"%.1f".format(it)} Hz" } ?: "–"
@@ -363,6 +398,58 @@ private fun ShimmerSummary(
         shimmer.updatedAt?.let {
             Text(
                 text = "Updated ${formatter.format(it)}",
+                style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
+        if (shimmer.waveform.isNotEmpty()) {
+            Canvas(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(
+                        120.dp
+                    )
+            ) {
+                val path =
+                    Path()
+                val stepX =
+                    if (shimmer.waveform.size <= 1) 0f else size.width / (shimmer.waveform.size - 1)
+                shimmer.waveform.forEachIndexed { index, value ->
+                    val normalised =
+                        value.coerceIn(
+                            0.0,
+                            1.0
+                        )
+                            .toFloat()
+                    val x =
+                        index * stepX
+                    val y =
+                        (1f - normalised) * size.height
+                    if (index == 0) {
+                        path.moveTo(
+                            x,
+                            y
+                        )
+                    } else {
+                        path.lineTo(
+                            x,
+                            y
+                        )
+                    }
+                }
+                drawPath(
+                    path = path,
+                    color = waveformColour,
+                    style = Stroke(
+                        width = 2.dp.toPx(),
+                        cap = StrokeCap.Round,
+                        join = StrokeJoin.Round
+                    )
+                )
+            }
+        } else {
+            Text(
+                text = "Waveform unavailable",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant
             )

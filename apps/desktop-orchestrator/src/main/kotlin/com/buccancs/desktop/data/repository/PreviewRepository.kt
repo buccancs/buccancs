@@ -24,7 +24,11 @@ class PreviewRepository {
         width: Int,
         height: Int,
         latencyMs: Double,
-        modality: PreviewModality
+        modality: PreviewModality,
+        averageFps: Double,
+        dropCount: Long,
+        maxGapMs: Long,
+        totalFrames: Long
     ) {
         val key =
             PreviewKey(
@@ -44,7 +48,11 @@ class PreviewRepository {
                 height = height,
                 payload = encodedFrame,
                 latencyMs = latencyMs,
-                modality = modality
+                modality = modality,
+                averageFps = averageFps,
+                dropCount = dropCount,
+                maxGapMs = maxGapMs,
+                totalFrames = totalFrames
             )
         previews.value =
             previews.value.toMutableMap()
@@ -71,6 +79,10 @@ class PreviewRepository {
         val height: Int,
         val payload: ByteArray,
         val latencyMs: Double,
-        val modality: PreviewModality
+        val modality: PreviewModality,
+        val averageFps: Double,
+        val dropCount: Long,
+        val maxGapMs: Long,
+        val totalFrames: Long
     )
 }

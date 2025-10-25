@@ -37,6 +37,9 @@ class ShimmerScreenViewModel @Inject constructor(
             com.buccancs.domain.model.ShimmerDeviceCandidate.serializer()
         )
 
+    private val liveDataCache =
+        ArrayDeque<SampleEntry>()
+
     private val _uiState =
         MutableStateFlow(
             ShimmerScreenUiState.initial()
@@ -110,6 +113,22 @@ class ShimmerScreenViewModel @Inject constructor(
                             ignoreCase = true
                         )
                     }?.name
+                val lastSampleTimestamp =
+                    attributes[ATTR_LAST_SAMPLE_TIMESTAMP]?.toDoubleOrNull()
+                        ?: _uiState.value.timestamp
+                val lastResistanceOhms =
+                    attributes[ATTR_LAST_RESISTANCE]?.toDoubleOrNull()
+                val lastConductanceMicrosiemens =
+                    attributes[ATTR_LAST_CONDUCTANCE]?.toDoubleOrNull()
+                val resistanceKOhm =
+                    lastResistanceOhms?.div(
+                        1000.0
+                    )
+                updateLiveDataCache(
+                    timestampEpochMs = lastSampleTimestamp,
+                    conductanceMicrosiemens = lastConductanceMicrosiemens,
+                    resistanceKOhm = resistanceKOhm
+                )
                 _uiState.value =
                     _uiState.value.copy(
                         isConnected = isConnected,
@@ -122,7 +141,11 @@ class ShimmerScreenViewModel @Inject constructor(
                         } else null,
                         deviceOptions = deviceOptions,
                         selectedDeviceMac = selectedMac,
-                        selectedDeviceName = selectedName
+                        selectedDeviceName = selectedName,
+                        timestamp = lastSampleTimestamp,
+                        gsrData = resistanceKOhm,
+                        gsrConductance = lastConductanceMicrosiemens,
+                        history = liveDataCache.toList()
                     )
             }
         }
@@ -334,6 +357,8 @@ data class ShimmerScreenUiState(
     val accelY: Double?,
     val accelZ: Double?,
     val gsrData: Double?,
+    val gsrConductance: Double?,
+    val history: List<SampleEntry>,
     val errorMessage: String?
 ) {
     val gsrRangeLabel: String
@@ -376,6 +401,8 @@ data class ShimmerScreenUiState(
                 accelY = null,
                 accelZ = null,
                 gsrData = null,
+                gsrConductance = null,
+                history = emptyList(),
                 errorMessage = null
             )
     }
@@ -386,3 +413,19 @@ data class ShimmerDeviceOption(
     val name: String?,
     val rssi: Int?
 )
+
+data class SampleEntry(
+    val timestampMillis: Long,
+    val conductanceMicrosiemens: Double?,
+    val resistanceKOhm: Double?
+)
+
+private const val ATTR_LAST_SAMPLE_TIMESTAMP =
+    "shimmer.last_sample_timestamp_ms"
+private const val ATTR_LAST_CONDUCTANCE =
+    "shimmer.last_conductance_microsiemens"
+private const val ATTR_LAST_RESISTANCE =
+    "shimmer.last_resistance_ohms"
+
+private const val LIVE_HISTORY_WINDOW_MS =
+    30_000L

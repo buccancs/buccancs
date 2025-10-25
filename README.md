@@ -56,6 +56,25 @@ The curated documentation set lives under `docs/`:
 Refer to `AGENTS.md` before automating edits or dispatching unattended CLI
 sessions; it remains the ground-truth contributor playbook.
 
+## RGB Camera Controls
+
+The Android agent now captures RGB in two parallel streams:
+
+- **Video:** Continuous H.264 segments written via MediaCodec for live preview
+  and telemetry.
+- **RAW:** Optional DNG stills on a configurable interval (defaults to 1 s)
+  when the handset reports `RAW_SENSOR` support.
+
+Open the in-app RGB settings panel to:
+
+- Enable/disable RAW capture.
+- Override exposure (nanoseconds), ISO, focus distance (metres), and white
+  balance mode. Leaving a field blank hands control back to the camera’s auto
+  pipeline.
+
+Applied changes restart the capture session so the H.264 and RAW pipelines share
+identical parameters.
+
 ## Contributing
 
 1. Read `AGENTS.md` to align with the workspace guardrails and automation rules.

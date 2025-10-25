@@ -1514,6 +1514,50 @@ internal fun TopdonDeviceConfig.toInventoryDeviceUiModel(
     )
 }
 
+internal fun com.buccancs.domain.model.RgbCameraConfig.toInventoryDeviceUiModel(
+    devices: List<SensorDevice>
+): InventoryDeviceUi {
+    val deviceId =
+        DeviceId(
+            id
+        )
+    val device =
+        devices.firstOrNull { it.id == deviceId }
+    val label =
+        displayName.ifBlank {
+            device?.displayName
+                ?: id
+        }
+    val detailParts =
+        mutableListOf<String>()
+    videoFps?.takeIf { it > 0 }?.let {
+        detailParts += "$it fps"
+    }
+    videoBitRate?.takeIf { it > 0 }?.let {
+        detailParts += "${it / 1_000_000} Mbps"
+    }
+    rawEnabled?.let {
+        detailParts += if (it) "RAW on" else "RAW off"
+    }
+    val detail =
+        if (detailParts.isEmpty()) {
+            "Defaults applied"
+        } else {
+            detailParts.joinToString(
+                " | "
+            )
+        }
+    val connected =
+        device?.connectionStatus is ConnectionStatus.Connected
+    return InventoryDeviceUi(
+        id = deviceId,
+        label = label,
+        detail = detail,
+        connected = connected,
+        isActive = false
+    )
+}
+
 
 private fun RecordingExerciseResult.toUiModel(): RecordingExerciseUi =
     RecordingExerciseUi(
@@ -1549,11 +1593,13 @@ private fun DeviceExerciseResult.toUiModel(): DeviceExerciseUi {
 data class InventoryUiModel(
     val shimmer: List<InventoryDeviceUi>,
     val topdon: List<InventoryDeviceUi>,
+    val rgb: List<InventoryDeviceUi>,
     val activeTopdonId: DeviceId?
 ) {
     companion object {
         fun empty(): InventoryUiModel =
             InventoryUiModel(
+                emptyList(),
                 emptyList(),
                 emptyList(),
                 null
@@ -1778,6 +1824,11 @@ internal fun com.buccancs.domain.model.SensorHardwareConfig.toInventoryUiModel(
             it.toInventoryDeviceUiModel(
                 devices,
                 activeTopdon
+            )
+        },
+        rgb = this.rgb.map {
+            it.toInventoryDeviceUiModel(
+                devices
             )
         },
         activeTopdonId = activeTopdon

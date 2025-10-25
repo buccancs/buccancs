@@ -1,5 +1,6 @@
 package com.buccancs.domain.repository
 
+import com.buccancs.domain.model.RgbCameraConfig
 import com.buccancs.domain.model.SensorHardwareConfig
 import com.buccancs.domain.model.ShimmerDeviceConfig
 import com.buccancs.domain.model.TopdonDeviceConfig
@@ -14,6 +15,10 @@ interface SensorHardwareConfigRepository {
 
     suspend fun upsertTopdonDevice(
         device: TopdonDeviceConfig
+    )
+
+    suspend fun upsertRgbCamera(
+        config: RgbCameraConfig
     )
 
     suspend fun updateConfig(

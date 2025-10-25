@@ -30,6 +30,12 @@ import com.buccancs.desktop.ui.state.SessionSummary
 import com.buccancs.desktop.ui.state.ShimmerCaptureState
 import com.buccancs.desktop.ui.state.TransferStatusItem
 import com.buccancs.desktop.ui.state.UnifiedCaptureState
+import kotlin.collections.ArrayDeque
+import kotlin.math.PI
+import kotlin.math.max
+import kotlin.math.min
+import kotlin.math.sin
+import kotlin.random.Random
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -82,6 +88,14 @@ class AppViewModel(
         mutableSetOf<String>()
     private var eventAlertsPrimed =
         false
+    private val shimmerWaveformBuffer =
+        ArrayDeque<Double>()
+    private val shimmerNoise =
+        Random(
+            System.currentTimeMillis()
+        )
+    private var shimmerPhase =
+        0.0
     private val _uiState =
         MutableStateFlow(
             AppUiState(
@@ -949,7 +963,11 @@ class AppViewModel(
                         latencyMs = frame.latencyMs,
                         receivedAt = frame.receivedAt,
                         payload = frame.payload,
-                        modality = frame.modality
+                        modality = frame.modality,
+                        averageFps = frame.averageFps,
+                        dropCount = frame.dropCount,
+                        maxGapMs = frame.maxGapMs,
+                        totalFrames = frame.totalFrames
                     )
                 }
 
@@ -1067,13 +1085,7 @@ class AppViewModel(
             previews.sortedByDescending { it.receivedAt }
                 .map { frame ->
                     val averageFps =
-                        when (frame.modality) {
-                            PreviewModality.RGB ->
-                                metrics?.videoAverageFps.takeIf { it != null && it > 0.0 }
-
-                            PreviewModality.THERMAL ->
-                                metrics?.thermalAverageFps.takeIf { it != null && it > 0.0 }
-                        }
+                        frame.averageFps.takeIf { it > 0.0 }
                     val recording =
                         deviceMap[frame.deviceId]?.recording
                             ?: false
@@ -1085,7 +1097,10 @@ class AppViewModel(
                         fps = averageFps,
                         latencyMs = frame.latencyMs,
                         receivedAt = frame.receivedAt,
-                        recording = recording
+                        recording = recording,
+                        dropCount = frame.dropCount,
+                        maxGapMs = frame.maxGapMs,
+                        totalFrames = frame.totalFrames
                     )
                 }
 
@@ -1104,13 +1119,22 @@ class AppViewModel(
                             )
                 }
             }
+        val shimmerConnected =
+            shimmerDevices.any { it.connected }
+        val shimmerStreaming =
+            shimmerDevices.any { it.recording }
+        val shimmerWaveform =
+            updateShimmerWaveform(
+                streaming = shimmerStreaming,
+                metrics = metrics
+            )
         val shimmerState =
-            if (metrics == null && shimmerDevices.isEmpty()) {
+            if (!shimmerConnected && metrics == null && shimmerWaveform.isEmpty()) {
                 ShimmerCaptureState.EMPTY
             } else {
                 ShimmerCaptureState(
-                    connected = shimmerDevices.any { it.connected },
-                    streaming = shimmerDevices.any { it.recording },
+                    connected = shimmerConnected,
+                    streaming = shimmerStreaming,
                     sampleRateHz = metrics?.gsrAverageHz?.takeIf { it > 0.0 },
                     sampleDrops = metrics?.gsrSampleDrops
                         ?: 0,
@@ -1118,7 +1142,8 @@ class AppViewModel(
                         ?: 0,
                     minValue = metrics?.gsrMinValue,
                     maxValue = metrics?.gsrMaxValue,
-                    updatedAt = metrics?.updatedAt
+                    updatedAt = metrics?.updatedAt,
+                    waveform = shimmerWaveform
                 )
             }
 
@@ -1131,6 +1156,107 @@ class AppViewModel(
             shimmer = shimmerState,
             recordingActive = sessionSummary?.status == SessionStatus.ACTIVE.name,
             lastUpdated = latestFrameTimestamp
+        )
+    }
+
+    private fun updateShimmerWaveform(
+        streaming: Boolean,
+        metrics: SessionMetricsState?
+    ): List<Double> {
+        if (!streaming) {
+            shimmerWaveformBuffer.clear()
+            shimmerPhase =
+                0.0
+            return emptyList()
+        }
+        val expectedMin =
+            metrics?.gsrMinValue
+                ?: DEFAULT_SHIMMER_MIN
+        val expectedMax =
+            metrics?.gsrMaxValue
+                ?: DEFAULT_SHIMMER_MAX
+        val amplitude =
+            max(
+                expectedMax - expectedMin,
+                DEFAULT_SHIMMER_AMPLITUDE
+            )
+        val midpoint =
+            (expectedMax + expectedMin) / 2.0
+        if (shimmerWaveformBuffer.isEmpty()) {
+            repeat(
+                SIMULATED_WAVEFORM_POINTS
+            ) {
+                shimmerWaveformBuffer.addLast(
+                    simulateShimmerSample(
+                        midpoint,
+                        amplitude
+                    )
+                )
+            }
+        } else {
+            repeat(
+                SIMULATED_WAVEFORM_REFRESH
+            ) {
+                if (shimmerWaveformBuffer.size >= SIMULATED_WAVEFORM_POINTS) {
+                    shimmerWaveformBuffer.removeFirst()
+                }
+                shimmerWaveformBuffer.addLast(
+                    simulateShimmerSample(
+                        midpoint,
+                        amplitude
+                    )
+                )
+            }
+        }
+        val minObserved =
+            shimmerWaveformBuffer.minOrNull()
+                ?: (midpoint - amplitude / 2.0)
+        val maxObserved =
+            shimmerWaveformBuffer.maxOrNull()
+                ?: (midpoint + amplitude / 2.0)
+        val range =
+            (maxObserved - minObserved).coerceAtLeast(
+                1e-3
+            )
+        return shimmerWaveformBuffer.map { sample ->
+            ((sample - minObserved) / range)
+                .coerceIn(
+                    0.0,
+                    1.0
+                )
+        }
+    }
+
+    private fun simulateShimmerSample(
+        midpoint: Double,
+        amplitude: Double
+    ): Double {
+        shimmerPhase +=
+            SHIMMER_PHASE_STEP
+        val primary =
+            sin(
+                shimmerPhase
+            )
+        val secondary =
+            sin(
+                shimmerPhase / 3.0 + PI / 4
+            )
+        val noise =
+            shimmerNoise.nextDouble(
+                -0.25,
+                0.25
+            )
+        val composite =
+            (primary * 0.6) + (secondary * 0.3) + (noise * 0.1)
+        val sample =
+            midpoint + composite * (amplitude / 2.0)
+        val lower =
+            midpoint - amplitude / 2.0
+        val upper =
+            midpoint + amplitude / 2.0
+        return sample.coerceIn(
+            lower,
+            upper
         )
     }
 
@@ -1217,6 +1343,21 @@ class AppViewModel(
             value,
             units[exp]
         )
+    }
+
+    private companion object {
+        private const val SIMULATED_WAVEFORM_POINTS =
+            128
+        private const val SIMULATED_WAVEFORM_REFRESH =
+            8
+        private const val DEFAULT_SHIMMER_MIN =
+            0.2
+        private const val DEFAULT_SHIMMER_MAX =
+            4.5
+        private const val DEFAULT_SHIMMER_AMPLITUDE =
+            1.8
+        private const val SHIMMER_PHASE_STEP =
+            0.18
     }
 
     private data class TargetResolution(

@@ -129,21 +129,11 @@ dependencies {
     )
 
     // Java API libraries from Shimmer-Java-Android-API
-    api(
-        files(
-            "../../sdk/libs/shimmerbluetoothmanager-0.11.5_beta.jar"
-        )
-    )
-    api(
-        files(
-            "../../sdk/libs/shimmerdriver-0.11.5_beta.jar"
-        )
-    )
-    api(
-        files(
-            "../../sdk/libs/shimmerdriverpc-0.11.5_beta.jar"
-        )
-    )
+    val shimmerSdkDir =
+        rootDir.resolve("hardware/shimmer-sdk")
+    api(files(shimmerSdkDir.resolve("shimmerbluetoothmanager-0.11.5_beta.jar")))
+    api(files(shimmerSdkDir.resolve("shimmerdriver-0.11.5_beta.jar")))
+    api(files(shimmerSdkDir.resolve("shimmerdriverpc-0.11.5_beta.jar")))
 
     implementation(libs.coroutines.core)
     implementation(libs.coroutines.android)

@@ -363,7 +363,7 @@ state.previewFrame?.let { frame ->
 
 ## References
 
-- Topdon SDK: `sdk/libs/topdon.aar`
+- Topdon SDK: `hardware/topdon-sdk/libs/topdon-classes.jar`
 
 - External App: `external/original-topdon-app/`
 

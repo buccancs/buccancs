@@ -177,7 +177,8 @@ fun ShimmerScreen(
                     accelX = uiState.accelX,
                     accelY = uiState.accelY,
                     accelZ = uiState.accelZ,
-                    gsrData = uiState.gsrData
+                    gsrData = uiState.gsrData,
+                    gsrConductance = uiState.gsrConductance
                 )
             }
         }

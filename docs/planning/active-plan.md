@@ -30,8 +30,8 @@ Phase 1 & 2 work documented in `docs/hardware/topdon.md`.
   notes below and produce final layouts with navigation + empty states.
 - [ ] ViewModel architecture: define shared session state, recording control
   actions, and error surfaces.
-- [ ] RGB enhancements: extend camera connector with manual exposure/zoom plus
-  preview overlays.
+- [x] RGB enhancements: extend camera connector with manual exposure / ISO /
+  RAW capture controls and keep preview overlays aligned.
 - [ ] Shimmer telemetry: add waveform rendering and richer status indicators in
   `ShimmerConnectorManager`.
 - [ ] Capture pipeline: persist synchronized metadata and verify storage format

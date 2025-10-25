@@ -58,7 +58,11 @@ data class PreviewStreamState(
     val latencyMs: Double,
     val receivedAt: Instant,
     val payload: ByteArray,
-    val modality: PreviewModality
+    val modality: PreviewModality,
+    val averageFps: Double,
+    val dropCount: Long,
+    val maxGapMs: Long,
+    val totalFrames: Long
 )
 
 data class TransferStatusItem(
@@ -156,7 +160,10 @@ data class CaptureStreamState(
     val fps: Double?,
     val latencyMs: Double,
     val receivedAt: Instant,
-    val recording: Boolean
+    val recording: Boolean,
+    val dropCount: Long,
+    val maxGapMs: Long,
+    val totalFrames: Long
 )
 
 data class ShimmerCaptureState(
@@ -167,7 +174,8 @@ data class ShimmerCaptureState(
     val maxGapMs: Long,
     val minValue: Double?,
     val maxValue: Double?,
-    val updatedAt: Instant?
+    val updatedAt: Instant?,
+    val waveform: List<Double>
 ) {
     companion object {
         val EMPTY =
@@ -179,7 +187,8 @@ data class ShimmerCaptureState(
                 maxGapMs = 0,
                 minValue = null,
                 maxValue = null,
-                updatedAt = null
+                updatedAt = null,
+                waveform = emptyList()
             )
     }
 }
