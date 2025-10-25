@@ -391,8 +391,8 @@ class DefaultShimmerHardwareClient @Inject constructor(
             message.obj
         val (state, mac, shimmerName) =
             when (payload) {
-                is ObjectCluster -> Triple(payload.mState, payload.bluetoothAddress, payload.shimmerName)
-                is CallbackObject -> Triple(payload.mState, payload.mBluetoothAddress, payload.mMyString)
+                is ObjectCluster -> Triple(payload.mState, payload.macAddress, payload.shimmerName)
+                is CallbackObject -> Triple(payload.mState, payload.mBluetoothAddress, payload.mMyObject as? String)
                 else -> Triple(null, null, null)
             }
 
@@ -460,7 +460,7 @@ class DefaultShimmerHardwareClient @Inject constructor(
         val cluster =
             message.obj as? ObjectCluster ?: return
         val mac =
-            cluster.bluetoothAddress ?: return
+            cluster.macAddress ?: return
         val conductanceMicroSiemens =
             cluster.readCalibrated(
                 Configuration.Shimmer3.ObjectClusterSensorName.GSR_CONDUCTANCE
@@ -545,18 +545,18 @@ class DefaultShimmerHardwareClient @Inject constructor(
         val service =
             shimmerService ?: return
         applicationScope.launch(Dispatchers.IO) {
-        val connected =
-            runCatching { service.listOfConnectedDevices }
-                .onFailure {
-                    Log.w(logTag, "Unable to read connected devices", it)
-                }
-                .getOrDefault(emptyList())
+            val connected: List<ShimmerDevice> =
+                runCatching { service.listOfConnectedDevices ?: emptyList() }
+                    .onFailure {
+                        Log.w(logTag, "Unable to read connected devices", it)
+                    }
+                    .getOrElse { emptyList() }
             synchronized(deviceLock) {
                 connectedDevices.clear()
                 connected.forEach { shimmerDevice ->
                     val hardware =
                         toHardwareDevice(
-                            macAddress = shimmerDevice.bluetoothAddress,
+                            macAddress = shimmerDevice.getBluetoothAddress(),
                             shimmerName = shimmerDevice.shimmerUserAssignedName,
                             shimmerDevice = shimmerDevice
                         )
@@ -579,7 +579,7 @@ class DefaultShimmerHardwareClient @Inject constructor(
                 shimmerDevice?.shimmerUserAssignedName,
                 shimmerDevice?.alternativeName,
                 shimmerName,
-                shimmerDevice?.bluetoothAddress
+                shimmerDevice?.getBluetoothAddress()
             )
         val displayName =
             nameCandidates.firstOrNull { value ->
